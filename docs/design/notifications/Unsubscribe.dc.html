@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Unsubscribe — US-NTF-04</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--ink:#1c1a17;--ink-muted:#5c574f;--border:#e5e1d8;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.h1{font-family:var(--font-display);font-weight:600;font-size:20px;margin:0 0 10px}
+.muted{color:var(--ink-muted)}
+.small{font-size:12.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-muted)}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:30px}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:14px;padding:10px 18px;border-radius:6px;border:none;cursor:pointer;width:100%;margin-top:6px}
+.btn-primary{background:var(--accent);color:#fff}
+.check{width:44px;height:44px;border-radius:50%;background:var(--accent-soft);color:var(--accent-ink);display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.warn{width:44px;height:44px;border-radius:50%;background:var(--danger-bg);color:var(--danger-ink);display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.link{color:var(--accent-ink);font-weight:600;font-size:13px}
+</style>
+</helmet>
+<div style="width:1280px;height:640px;background:var(--surface-page);display:flex;justify-content:center;align-items:center;gap:24px">
+  <div class="card" style="width:360px">
+    <div class="small" style="margin-bottom:10px">On open — token read from the URL fragment, nothing sent yet</div>
+    <h1 class="h1">Stop marketing messages?</h1>
+    <p class="muted" style="line-height:1.5;margin:0 0 18px">You'll still receive important messages about your account, your cats and your orders.</p>
+    <button type="button" class="btn btn-primary">Unsubscribe</button>
+  </div>
+
+  <div class="card" style="width:360px">
+    <div class="check"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+    <h1 class="h1">Done</h1>
+    <p class="muted" style="line-height:1.5;margin:0 0 12px">You won't receive marketing emails from us any more.</p>
+    <a class="link" href="#">Manage all your preferences →</a>
+  </div>
+
+  <div class="card" style="width:360px">
+    <div class="warn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 17h.01"/></svg></div>
+    <h1 class="h1">This link isn't valid any more</h1>
+    <p class="muted" style="line-height:1.5;margin:0 0 12px">You can manage your preferences after signing in.</p>
+    <a class="link" href="#">Sign in →</a>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":640}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

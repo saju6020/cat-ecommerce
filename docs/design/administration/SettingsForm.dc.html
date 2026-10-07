@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Settings — US-ADM-05</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px}
+.main{padding:26px 32px;max-width:760px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+.scope{display:flex;align-items:center;gap:8px;margin:14px 0 22px;font-size:13px}
+.scope select{font:inherit;font-size:13px;padding:6px 10px;border:1px solid var(--border-strong);border-radius:6px}
+.grp{margin-bottom:26px}
+.grptitle{font-weight:700;font-size:15px;margin-bottom:10px}
+.setrow{display:flex;align-items:center;gap:16px;padding:10px 0;border-bottom:1px solid var(--border)}
+.setrow .lbl{flex:1;font-size:13.5px}
+.setrow .lbl .name{font-weight:600}
+.setrow .lbl .hint{color:var(--ink-muted);font-size:12px;margin-top:2px}
+.setrow .val{width:140px;font:inherit;font-size:13.5px;padding:7px 10px;border:1px solid var(--border);border-radius:6px}
+.global{width:120px;font-size:12px;color:var(--ink-muted)}
+.usebtn{background:none;border:none;color:var(--accent-ink);font-weight:600;font-size:12px;cursor:pointer;white-space:nowrap}
+.readonly{color:var(--ink-faint);font-size:12px}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:9px 16px;border-radius:var(--radius-sm);border:none;cursor:pointer;background:var(--accent);color:#fff;margin-top:10px}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page);overflow:auto">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who">Rezwan Ahmed · Administrator</div></div>
+  <div class="main">
+    <h1 class="h1">Settings</h1>
+    <div class="scope">Scope: <select><option>Global</option><option>Uttara</option><option>Banani</option></select><span style="color:var(--ink-muted)">Editing Uttara — overrides shown beside the global value</span></div>
+
+    <div class="grp">
+      <div class="grptitle">Appointments</div>
+      <div class="setrow">
+        <div class="lbl"><div class="name">Booking lead time</div><div class="hint">How far ahead a customer can book online</div></div>
+        <input class="val" value="30 days">
+        <span class="global">Global: 30 days</span>
+        <button class="usebtn">Use global value</button>
+      </div>
+      <div class="setrow">
+        <div class="lbl"><div class="name">Reminder lead time</div><div class="hint">Not overridable per branch</div></div>
+        <span class="readonly">24 hours (global)</span>
+      </div>
+    </div>
+
+    <div class="grp">
+      <div class="grptitle">Boarding</div>
+      <div class="setrow">
+        <div class="lbl"><div class="name">Isolation ward required for new arrivals</div></div>
+        <button role="switch" aria-checked="true" style="width:40px;height:22px;border-radius:999px;background:var(--accent);position:relative;border:none;cursor:pointer"><span style="position:absolute;top:2px;left:20px;width:18px;height:18px;border-radius:50%;background:#fff"></span></button>
+      </div>
+    </div>
+
+    <button type="button" class="btn">Save changes</button>
+    <p style="font-size:12.5px;color:var(--ink-muted);margin-top:8px">Only changed keys are sent. The confirmation lists each: "Booking lead time: 30 days → 21 days".</p>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

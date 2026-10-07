@@ -1,0 +1,24 @@
+# HO-FIL-001 §13: this slice's own scope is limited to the `clamav` service. Development does not
+# need it at all (LocalFileStore + DevelopmentNoOpScanner need no container), and the automated
+# test suite does not need it either (Testing uses EicarTestScanner, a deterministic in-process
+# stand-in -- see HO-FIL-001 §8.5 / §1 Amended). This container is for exercising the real
+# ClamAvScanner (ADR-319) against a genuine clamd, outside the automated suite.
+#
+# Usage: `docker compose up -d clamav`, then point FileStorage:ClamAvHost / FileStorage:ClamAvPort
+# at localhost:3310 to exercise ClamAvScanner for real (e.g. the EICAR string, V3).
+services:
+  clamav:
+    image: clamav/clamav:1.3
+    ports:
+      - "3310:3310"
+    volumes:
+      - clamav-data:/var/lib/clamav
+    healthcheck:
+      test: ["CMD", "clamdcheck.sh"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 180s # the first run downloads virus definitions before clamd is ready
+
+volumes:
+  clamav-data:

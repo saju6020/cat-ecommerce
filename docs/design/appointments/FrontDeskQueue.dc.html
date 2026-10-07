@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Front desk — Queue and walk-in — US-CLN-05, 10</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px;display:flex;align-items:center;gap:16px}
+select.branchpick{font:inherit;font-size:13px;padding:5px 8px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.main{padding:22px 28px}
+.titlerow{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+.muted{color:var(--ink-muted)}
+.tabnav{display:flex;border-bottom:1px solid var(--border);margin:12px 0 12px}
+.tabnav a{padding:10px 4px;margin-right:24px;font-size:13.5px;font-weight:600;color:var(--ink-muted);border-bottom:2px solid transparent;text-decoration:none}
+.tabnav a.active{color:var(--ink);border-bottom-color:var(--accent)}
+.layout{display:flex;gap:18px;align-items:flex-start}
+.qcol{flex:1;min-width:0}
+.qhead{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;color:var(--ink-muted);margin-bottom:8px}
+.grp{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);font-weight:700;margin:10px 0 6px}
+.qcard{display:flex;gap:12px;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:11px 13px;margin-bottom:8px}
+.qcard.new{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+.pos{width:26px;height:26px;border-radius:50%;background:var(--surface-sunken);font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;flex:none}
+.body{flex:1;min-width:0}
+.line1{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.prio{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;text-transform:uppercase;letter-spacing:.03em}
+.pr-em{background:var(--danger-ink);color:#fff}
+.pr-ur{background:var(--warning-bg);color:var(--warning-ink);border:1px solid #e3c68d}
+.pr-ro{background:var(--surface-sunken);color:var(--ink-muted)}
+.cat{display:flex;align-items:center;gap:8px}
+.av{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);color:#fff;font-size:14px;flex:none}
+.cname{font-weight:700;font-size:14px}
+.cfacts{font-size:12px;color:var(--ink-muted)}
+.tag{font-size:11px;font-weight:600;padding:1px 7px;border-radius:5px}
+.tag-al{background:var(--warning-bg);color:var(--warning-ink);border:1px solid #ebd9b4}
+.tag-risk{background:var(--danger-ink);color:#fff}
+.line2{font-size:12.5px;color:var(--ink-muted);margin-top:5px}
+.line2 b{color:var(--ink);font-weight:600}
+.side{width:170px;flex:none;text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.wait{font-size:14px;font-weight:700}
+.how{font-size:11.5px;color:var(--accent-ink);font-weight:600}
+.explain{font-size:12px;line-height:1.45;background:var(--surface-sunken);border-radius:6px;padding:8px 10px;margin-top:7px;color:var(--ink)}
+.acts{display:flex;gap:6px;align-items:center}
+.acts select{font:inherit;font-size:12px;padding:4px 5px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:12.5px;padding:6px 12px;border-radius:var(--radius-sm);border:none;background:var(--accent);color:#fff;cursor:pointer;white-space:nowrap}
+.btn-ghost{background:#fff;border:1px solid var(--border-strong);color:var(--ink)}
+.status{font-size:11.5px;font-weight:600;color:var(--ink-muted)}
+.panel{width:390px;flex:none;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:16px 18px}
+.panel h2{font-family:var(--font-display);font-weight:600;font-size:17px;margin:0 0 2px}
+.f{margin-top:12px}
+.f label,.f .lbl{display:block;font-size:12.5px;font-weight:600;margin-bottom:5px}
+.f input,.f select,.f textarea{width:100%;font:inherit;font-size:13.5px;padding:7px 10px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.chosen{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--accent);background:var(--accent-soft);border-radius:6px;padding:7px 10px;font-size:13px}
+.nsbadge{display:inline-flex;align-items:center;gap:4px;background:var(--warning-bg);color:var(--warning-ink);font-size:11px;font-weight:700;padding:1px 7px;border-radius:999px}
+.radios{display:flex;gap:6px}
+.radios label{flex:1;display:flex;align-items:center;gap:6px;border:1px solid var(--border-strong);border-radius:6px;padding:6px 8px;font-size:12.5px;font-weight:600;margin:0}
+.radios label.on{border-color:var(--accent);background:var(--accent-soft)}
+.kbd{font-size:11.5px;color:var(--ink-muted);margin-top:10px;line-height:1.45}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page);overflow:auto">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who"><select class="branchpick" aria-label="Active branch"><option>Uttara (primary)</option><option>Banani</option></select>Shormi Akter · Reception</div></div>
+  <div class="main">
+    <div class="titlerow">
+      <h1 class="h1">Front desk</h1>
+    </div>
+    <nav class="tabnav" aria-label="Front desk">
+      <a href="FrontDeskToday.dc.html">Today (8)</a>
+      <a href="#" class="active" aria-current="page">Queue (4)</a>
+    </nav>
+
+    <div class="layout">
+      <section class="qcol" aria-label="Clinic queue">
+        <div class="qhead"><span><strong style="color:var(--ink)">2 vets on shift</strong> · updated 10:42 (Asia/Dhaka) · refreshes every 30 s</span><span>Vets also see a "My queue" switch here</span></div>
+
+        <div class="grp">In consultation</div>
+        <div class="qcard">
+          <div class="pos" aria-label="In consultation">—</div>
+          <div class="body">
+            <div class="line1"><span class="prio pr-ro">Routine</span>
+              <span class="cat"><span class="av" style="background:#8a6d3b">T</span><span><span class="cname">Tiger</span> <span class="cfacts">6 y · M neutered · 5.6 kg · Allergies: None recorded</span></span></span></div>
+            <div class="line2"><b>Imran Chowdhury</b> · Wound check · Booked 09:30 · checked in 09:22 · with <b>Dr Jahan</b>, Consult 2, since 10:05</div>
+          </div>
+          <div class="side"><span class="status">In consultation</span><div class="acts"><button class="btn" type="button">Complete</button></div></div>
+        </div>
+
+        <div class="grp">Waiting — in the order they will be seen</div>
+        <div class="qcard new">
+          <div class="pos">1</div>
+          <div class="body">
+            <div class="line1"><span class="prio pr-em"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" aria-hidden="true"><path d="M12 9v5M12 17.4v.6"/><path d="M10.3 3.9 2.6 17.2A2 2 0 0 0 4.3 20h15.4a2 2 0 0 0 1.7-2.8L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>Emergency</span>
+              <span class="cat"><span class="av" style="background:#5c574f">J</span><span><span class="cname">Joy</span> <span class="cfacts">~1 y · F · No weight recorded · Allergies: None recorded</span></span></span>
+              <span class="tag" style="background:var(--accent);color:#fff">Just added</span></div>
+            <div class="line2"><b>Mahmud Hasan</b> · Emergency consultation · Walk-in · checked in 10:41 · "Hit by a motorbike, breathing fast"</div>
+          </div>
+          <div class="side"><span class="wait">About 5 min</span><div class="acts"><select aria-label="Priority for Joy"><option>Emergency</option><option>Urgent</option><option>Routine</option></select><button class="btn" type="button">Start…</button></div></div>
+        </div>
+
+        <div class="qcard">
+          <div class="pos">2</div>
+          <div class="body">
+            <div class="line1"><span class="prio pr-ur"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" aria-hidden="true"><path d="M12 5v8M12 17v.5"/></svg>Urgent</span>
+              <span class="cat"><span class="av" style="background:#15605a">M</span><span><span class="cname">Momo</span> <span class="cfacts">9 y · F neutered · 3.9 kg</span></span></span>
+              <span class="tag tag-al">Allergy: Penicillin</span></div>
+            <div class="line2"><b>Tania Akhter</b> · Standard consultation · Walk-in · checked in 10:20 · "Vomiting since this morning"</div>
+          </div>
+          <div class="side"><span class="wait">About 20 min</span><div class="acts"><select aria-label="Priority for Momo"><option>Urgent</option><option>Emergency</option><option>Routine</option></select><button class="btn" type="button">Start…</button></div></div>
+        </div>
+
+        <div class="qcard">
+          <div class="pos">3</div>
+          <div class="body">
+            <div class="line1"><span class="prio pr-ro">Routine</span>
+              <span class="cat"><span class="av" style="background:#8f1d1d">S</span><span><span class="cname">Simba</span> <span class="cfacts">4 y · M neutered · 6.1 kg</span></span></span>
+              <span class="tag tag-risk">⚠ High risk — bites when restrained</span></div>
+            <div class="line2"><b>Arif Hossain</b> · Standard consultation · Booked 10:15 · checked in 10:08 · Dr Rahman</div>
+            <div class="explain"><strong>How is this worked out?</strong> We add up the time of everyone ahead of Simba (70 min, including what's left of consultations already in progress) and share it across the 2 vets on shift, rounded up to 5 minutes. It changes when someone more urgent arrives.</div>
+          </div>
+          <div class="side"><span class="wait">About 35 min</span><span class="how">How is this worked out? ▴</span><div class="acts"><select aria-label="Priority for Simba"><option>Routine</option><option>Urgent</option><option>Emergency</option></select><button class="btn" type="button">Start</button></div></div>
+        </div>
+      </section>
+
+      <aside class="panel" aria-labelledby="wi-h">
+        <h2 id="wi-h">Register a walk-in</h2>
+        <p class="muted" style="font-size:12px;margin:0">Keyboard first — Tab moves on, Enter adds.</p>
+        <div class="f">
+          <span class="lbl">Customer</span>
+          <div class="chosen"><span><strong>Kamrul Hasan</strong> · 01712 900112 <span class="nsbadge">2 no-shows</span></span><a href="#" style="font-size:12px;color:var(--accent-ink);font-weight:600">Change</a></div>
+          <div style="font-size:11.5px;color:var(--ink-muted);margin-top:4px">Not found? <a href="#" style="color:var(--accent-ink);font-weight:600">New customer</a> opens the short form here, without leaving the panel.</div>
+        </div>
+        <div class="f">
+          <label for="wi-cat">Cat</label>
+          <select id="wi-cat"><option>Pumpkin — 3 y · M neutered · 5.0 kg</option><option>Rani — 7 y · F neutered</option><option>+ Add a new cat…</option></select>
+        </div>
+        <div class="f">
+          <label for="wi-svc">Service</label>
+          <select id="wi-svc"><option>Standard consultation · 30 min · ৳800</option></select>
+        </div>
+        <div class="f">
+          <span class="lbl" id="wi-pr">Priority</span>
+          <div class="radios" role="radiogroup" aria-labelledby="wi-pr">
+            <label class="on"><input type="radio" name="pr" checked> Routine</label>
+            <label><input type="radio" name="pr"> Urgent</label>
+            <label><input type="radio" name="pr"> Emergency</label>
+          </div>
+        </div>
+        <div class="f">
+          <label for="wi-cc">Presenting complaint</label>
+          <textarea id="wi-cc" rows="2">Not eating for two days</textarea>
+        </div>
+        <button class="btn" type="button" style="width:100%;margin-top:14px;font-size:14px;padding:10px">Add to queue</button>
+        <p class="kbd">After adding, the panel clears, focus goes back to Customer, and the new card is highlighted in the queue (like Joy's).</p>
+      </aside>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

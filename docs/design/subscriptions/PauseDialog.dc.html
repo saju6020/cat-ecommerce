@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Pause — US-SUB-02</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#fbf6ef;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:14px;--warm:#e8894a;--warm-ink:#8a3f14;--warm-soft:#fdeee2}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+a{color:var(--accent-ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:14px 32px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:18px;color:var(--accent-ink)}
+.pnav{display:flex;gap:22px;font-size:14px;font-weight:600;margin-right:auto;margin-left:28px;flex-wrap:wrap}
+.pnav a{color:var(--ink-muted);text-decoration:none;padding:4px 0;border-bottom:2px solid transparent}
+.pnav a.active{color:var(--ink);border-bottom-color:var(--accent)}
+.who{display:flex;align-items:center;gap:10px;font-size:13.5px}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.h1{font-family:var(--font-display);font-weight:600;font-size:24px;margin:0}
+.h2{font-family:var(--font-display);font-weight:600;font-size:17px;margin:0 0 10px}
+.muted{color:var(--ink-muted)}
+.small{font-size:12.5px}
+.wrap{max-width:1080px;margin:0 auto;padding:24px 32px}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:20px;margin-bottom:14px}
+.scrim{position:absolute;inset:0;background:rgba(28,26,23,.42);display:flex;align-items:flex-start;justify-content:center;gap:20px;padding:90px 24px 40px;flex-wrap:wrap}
+.dcol{flex:0 1 390px;min-width:0}
+.cap{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#fff;margin-bottom:8px;display:inline-block;background:rgba(28,26,23,.82);padding:4px 9px;border-radius:5px}
+.dialog{background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(20,18,10,.25);padding:22px}
+.dialog h2{font-family:var(--font-display);font-weight:600;font-size:19px;margin:0 0 10px;line-height:1.3}
+.dialog p{font-size:14px;line-height:1.55;margin:0 0 10px}
+.note{display:flex;gap:9px;align-items:flex-start;border-radius:var(--radius-sm);padding:10px 12px;font-size:13.5px;line-height:1.5;background:var(--surface-sunken)}
+.note svg{flex:none;margin-top:2px}
+.n-warn{background:var(--warning-bg);color:var(--warning-ink)}
+.n-ok{background:var(--accent-soft);border:1px solid var(--accent);color:var(--accent-ink)}
+.dactions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px;flex-wrap:wrap}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:8px 14px;min-height:36px;border-radius:var(--radius-sm);border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer}
+.btn2{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:8px 14px;min-height:36px;border-radius:var(--radius-sm);border:1px solid var(--border-strong);background:#fff;color:var(--ink);cursor:pointer}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+.b-neutral{background:var(--surface-sunken);color:var(--ink-muted)}
+.panel{background:#fff;border-radius:12px;padding:18px}
+</style>
+</helmet>
+<div style="width:1280px;height:780px;background:var(--surface-page);position:relative">
+  <div class="topnav">
+    <div class="brand">PurrCare</div>
+    <nav class="pnav" aria-label="Portal"><a href="#">My cats</a><a href="#">Appointments</a><a href="#">Shop</a><a href="#">Orders</a><a class="active" aria-current="page" href="MySubscriptions.dc.html">Subscriptions</a><a href="#">Inbox</a></nav>
+    <div class="who"><div class="avatar">FY</div>Farhana Yasmin</div>
+  </div>
+  <div class="wrap">
+    <h1 class="h1">Adult Indoor dry food</h1>
+    <div class="card" style="margin-top:16px">Next order on Tue 20 Oct</div>
+    <div class="card">Terms</div>
+  </div>
+
+  <div class="scrim">
+    <div class="dcol">
+      <div class="cap">Before the cut-off</div>
+      <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="p1">
+        <h2 id="p1">Pause Adult Indoor dry food?</h2>
+        <p>Nothing will be ordered from Tue 20 Oct until you resume. When you resume, you choose the date of your next order.</p>
+        <div class="dactions"><button type="button" class="btn2">Keep it running</button><button type="button" class="btn">Pause subscription</button></div>
+      </div>
+    </div>
+
+    <div class="dcol">
+      <div class="cap">After the cut-off (server says locked)</div>
+      <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="p2">
+        <h2 id="p2">Pause Clumping cat litter?</h2>
+        <div class="note n-warn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span>Your order on Thu 24 Sep is already being prepared and will still be placed. Nothing after it will be ordered until you resume.</span></div>
+        <div class="dactions"><button type="button" class="btn2">Keep it running</button><button type="button" class="btn">Pause after Thu 24 Sep</button></div>
+      </div>
+    </div>
+
+    <div class="dcol">
+      <div class="cap">Then, on the page</div>
+      <div class="panel">
+        <div class="note n-ok" role="status" style="margin-bottom:14px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>Paused. Nothing will be ordered until you resume.</span></div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px"><strong style="font-size:15px">Adult Indoor dry food</strong><span class="badge b-neutral"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M9 5v14M15 5v14"/></svg>Paused</span></div>
+        <div class="muted small" style="font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-top:12px">Next order</div>
+        <p style="font-size:15px;margin:4px 0 14px">Paused — no orders until you resume.</p>
+        <button type="button" class="btn">Resume</button>
+        <p class="muted small" style="margin:12px 0 0">Only Resume and Cancel are offered while paused — the server lists which actions apply.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":780}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

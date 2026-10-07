@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Uploader idle, focus and drag-over — US-XCT-07</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px;display:flex;align-items:center;gap:16px}
+.main{padding:26px 32px;position:relative}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+.titlerow{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.sub{color:var(--ink-muted);font-size:13.5px;margin:4px 0 20px}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:24px;align-items:start}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:20px}
+.card h2{font-size:14.5px;font-weight:700;margin:0 0 4px}
+.card .lead{font-size:12.5px;color:var(--ink-muted);margin:0 0 12px}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:9px 16px;border-radius:var(--radius-sm);border:1px solid var(--accent);cursor:pointer;background:var(--accent);color:#fff}
+.btn-sec{background:#fff;color:var(--ink);border:1px solid var(--border-strong)}
+.drop{display:flex;flex-direction:column;align-items:center;gap:5px;width:100%;padding:22px 16px;background:var(--surface);border:1.5px dashed var(--border-strong);border-radius:var(--radius-md);font:inherit;color:var(--ink);cursor:pointer;text-align:center}
+.drop svg{color:var(--accent-ink)}
+.drop .dt{font-weight:700;font-size:14px;color:var(--accent-ink)}
+.drop .dh{font-size:12.5px;color:var(--ink-muted)}
+.drop.focus{outline:3px solid var(--accent);outline-offset:3px}
+.drop.over{background:var(--accent-soft);border:1.5px solid var(--accent)}
+.empty{font-size:13px;color:var(--ink-muted);margin-top:12px}
+.states{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}
+.state h3{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);margin:0 0 8px}
+.state p{font-size:12px;color:var(--ink-muted);margin:8px 0 0;line-height:1.45}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.field input{width:100%;font:inherit;font-size:14px;padding:8px 11px;border:1px solid var(--border);border-radius:var(--radius-sm)}
+.anno{background:var(--surface-sunken);border-radius:var(--radius-md);padding:16px 18px;font-size:12.5px;line-height:1.5;color:var(--ink-muted)}
+.anno h3{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink);margin:0 0 8px}
+.anno ul{margin:0 0 12px;padding-left:18px}
+.live{font-family:ui-monospace,Consolas,monospace;font-size:11.5px;background:#fff;border:1px solid var(--border);border-radius:6px;padding:8px 10px;color:var(--ink);line-height:1.5}
+@media (max-width:1100px){.grid,.cols,.wrap{grid-template-columns:minmax(0,1fr) !important}}
+@media (max-width:700px){.drop{flex-wrap:wrap}.frow,.flist li,.titlerow{flex-wrap:wrap}.frow .fbody,.flist li .fbody{flex-basis:calc(100% - 52px)}.two,.states{grid-template-columns:1fr !important}.sheet{grid-template-columns:repeat(auto-fill,200px) !important}}
+.viewer,.dialog,.legend,.side{max-width:calc(100vw - 24px)}.scrim{flex-wrap:wrap;overflow:auto}.stage svg,.page{max-width:100%}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page);overflow:auto;position:relative">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who"><select class="branchpick" aria-label="Active branch"><option>Uttara (primary)</option><option>Banani</option></select>Rezwan Ahmed · Administrator</div></div>
+  <div class="main">
+    <div class="titlerow"><h1 class="h1">Edit product — Grain-free salmon pâté, 85 g</h1><button type="button" class="btn">Save product</button></div>
+    <p class="sub">Host page is illustrative (HO-SHP-002 owns it). The uploader below is the shared <code>&lt;FileUploader purpose="ProductImage"&gt;</code>.</p>
+    <div class="grid">
+      <div>
+        <div class="card">
+          <h2>Product photos</h2>
+          <p class="lead">Shown on the storefront in the order listed. The first photo is the main one.</p>
+          <button type="button" class="drop" aria-describedby="up-hint">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>
+            <span class="dt">Choose files or drop them here</span>
+            <span class="dh" id="up-hint">JPEG, PNG or WebP · up to 5 MB each · several at once is fine</span>
+          </button>
+          <p class="empty">No photos yet. A product without a photo shows a plain placeholder on the storefront.</p>
+
+          <div class="states">
+            <div class="state">
+              <h3>Keyboard focus</h3>
+              <button type="button" class="drop focus">
+                <span class="dt">Choose files or drop them here</span>
+                <span class="dh">JPEG, PNG or WebP · up to 5 MB each</span>
+              </button>
+              <p>Tab lands on a real button. Enter or Space opens the system file picker — no pointer needed (C1).</p>
+            </div>
+            <div class="state">
+              <h3>Files dragged over it</h3>
+              <button type="button" class="drop over">
+                <span class="dt">Drop to add 2 files</span>
+                <span class="dh">They upload one at a time</span>
+              </button>
+              <p>Drag-and-drop is an enhancement. Everything it does, the button does too.</p>
+            </div>
+          </div>
+        </div>
+        <div class="card" style="margin-top:16px">
+          <div class="field" style="margin-bottom:0;max-width:360px"><label for="p-name">Name</label><input id="p-name" value="Grain-free salmon pâté, 85 g"></div>
+        </div>
+      </div>
+      <aside class="anno" aria-label="Design notes">
+        <h3>What this board shows</h3>
+        <ul>
+          <li>One control for every area: product photos, lab results, diary media, exports.</li>
+          <li>The hint line comes from the purpose's rules (<code>fileRules.ts</code>), so it always matches what the server accepts.</li>
+          <li>A hidden <code>&lt;input type="file" multiple&gt;</code> sits inside the button (ADR-FE-152).</li>
+        </ul>
+        <h3>Screen reader hears</h3>
+        <div class="live">"Choose files or drop them here, button. JPEG, PNG or WebP, up to 5 MB each, several at once is fine."</div>
+      </aside>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

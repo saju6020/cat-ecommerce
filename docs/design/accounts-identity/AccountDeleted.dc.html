@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Account deleted — US-ACC-13</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--ink:#1c1a17;--ink-muted:#5c574f;--border:#e5e1d8;--accent:#15605a;--accent-ink:#0e4a45;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.h1{font-family:var(--font-display);font-weight:600;font-size:22px;margin:0 0 12px}
+.muted{color:var(--ink-muted)}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:36px;text-align:center}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:14px;padding:10px 18px;border-radius:6px;border:1px solid var(--border);background:#fff;cursor:pointer;margin-top:16px}
+</style>
+</helmet>
+<div style="width:900px;height:500px;background:var(--surface-page);display:flex;justify-content:center;align-items:center">
+  <div class="card" style="width:380px">
+    <div class="muted" style="font-size:12.5px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px">PurrCare</div>
+    <h1 class="h1" tabindex="-1">Your account has been deleted</h1>
+    <p class="muted" style="line-height:1.55;margin:0">Your personal details, contact details and addresses have been removed. Clinical and billing records are kept for the legally required period, with your name replaced.</p>
+    <a href="SignIn.dc.html" class="btn" style="display:inline-block;text-decoration:none;color:var(--ink)">Return to sign-in</a>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":900,"height":500}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

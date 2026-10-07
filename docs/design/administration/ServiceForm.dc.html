@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Service editor — US-ADM-04</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px}
+.shell{display:flex}
+.sidebar{width:210px;flex:none;background:#fff;border-right:1px solid var(--border);min-height:900px;padding:18px 0}
+.sidebar a{display:block;padding:9px 22px;font-size:13.5px;color:var(--ink-muted);text-decoration:none;font-weight:600}
+.sidebar a.active{color:var(--accent-ink);background:var(--accent-soft);border-right:2px solid var(--accent)}
+.main{flex:1;padding:26px 32px;max-width:520px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0 0 18px}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.field input,.field select,.field textarea{width:100%;font:inherit;font-size:15px;padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius-sm)}
+fieldset{border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;margin:0 0 16px}
+legend{font-size:13px;font-weight:600;padding:0 4px}
+.rolerow{display:flex;align-items:center;gap:8px;padding:5px 0;font-size:13.5px}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:9px 16px;border-radius:var(--radius-sm);border:none;cursor:pointer;background:var(--accent);color:#fff}
+</style>
+</helmet>
+<div style="width:1280px;height:1000px;background:var(--surface-page);overflow:auto">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who">Rezwan Ahmed · Administrator</div></div>
+  <div class="shell">
+    <div class="sidebar"><a>Branches</a><a class="active" aria-current="page">Services &amp; pricing</a><a>Rosters &amp; leave</a><a>Settings</a><a>Content</a><a>Policies</a><a>Audit log</a><a>System</a></div>
+    <div class="main">
+      <h1 class="h1">Add service</h1>
+      <div class="field"><label>Name</label><input value="Standard consultation"></div>
+      <div class="field"><label>Code</label><input value="CONS-STD"></div>
+      <div class="field"><label>Category</label><select><option>Consultation</option><option>Surgery</option><option>Boarding</option><option>Grooming</option></select></div>
+      <div class="field"><label>Description</label><textarea rows="2">A general health check and consultation with a vet.</textarea></div>
+      <div class="field"><label>Duration</label><select><option>15 min</option><option selected>20 min</option><option>30 min</option></select></div>
+      <fieldset>
+        <legend>Qualified roles <span style="font-weight:400">(at least one)</span></legend>
+        <div class="rolerow"><input type="checkbox" checked id="qr1"><label for="qr1">Vet</label></div>
+        <div class="rolerow"><input type="checkbox" id="qr2"><label for="qr2">Nurse</label></div>
+      </fieldset>
+      <div class="field"><label>Required room kind</label><select><option>Consultation</option><option>Surgery</option><option>Boarding — isolation</option></select></div>
+      <div class="field"><label>Tax class</label><select><option>Standard rate</option><option>Zero-rated (medicine)</option></select></div>
+      <div class="rolerow" style="margin-bottom:16px"><input type="checkbox" checked id="ob"><label for="ob">Bookable online by customers</label></div>
+      <button type="button" class="btn">Save service</button>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1000}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

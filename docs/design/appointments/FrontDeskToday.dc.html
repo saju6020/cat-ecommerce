@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Front desk — Today — US-CLN-08, 10</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--overlay:rgba(28,26,23,.4);--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px;display:flex;align-items:center;gap:16px}
+select.branchpick{font:inherit;font-size:13px;padding:5px 8px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.main{padding:24px 30px}
+.titlerow{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+.muted{color:var(--ink-muted)}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13px;padding:7px 13px;border-radius:var(--radius-sm);border:none;background:var(--accent);color:#fff;cursor:pointer;white-space:nowrap}
+.btn-ghost{background:#fff;border:1px solid var(--border-strong);color:var(--ink)}
+.btn-danger-o{background:#fff;border:1px solid var(--danger-ink);color:var(--danger-ink)}
+.btn-danger{background:var(--danger-ink)}
+.tabnav{display:flex;border-bottom:1px solid var(--border);margin:14px 0 12px}
+.tabnav a{padding:10px 4px;margin-right:24px;font-size:13.5px;font-weight:600;color:var(--ink-muted);border-bottom:2px solid transparent;text-decoration:none}
+.tabnav a.active{color:var(--ink);border-bottom-color:var(--accent)}
+.meta{font-size:12.5px;color:var(--ink-muted);margin-bottom:10px;display:flex;gap:14px}
+table{border-collapse:collapse;width:100%;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden}
+th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle}
+th{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);font-weight:700;background:var(--surface-sunken)}
+tr:last-child td{border-bottom:none}
+.t{font-weight:700;font-variant-numeric:tabular-nums}
+.pill{display:inline-flex;align-items:center;gap:5px;padding:2px 9px;border-radius:999px;font-size:11.5px;font-weight:600;white-space:nowrap}
+.p-booked{background:var(--accent-soft);color:var(--accent-ink)}
+.p-in{background:var(--accent);color:#fff}
+.p-done{background:var(--surface-sunken);color:var(--ink-muted)}
+.p-cx{background:var(--surface-sunken);color:var(--ink-muted)}
+.risk{display:inline-flex;align-items:center;gap:4px;background:var(--danger-ink);color:#fff;font-size:10.5px;font-weight:700;padding:1px 7px;border-radius:4px;margin-left:6px}
+.acts{display:flex;gap:6px;align-items:center}
+.acts select{font:inherit;font-size:12.5px;padding:5px 6px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.dimrow td{color:var(--ink-muted)}
+.hint{font-size:11.5px;color:var(--ink-muted)}
+.scrim{position:absolute;inset:0;background:var(--overlay);display:flex;align-items:center;justify-content:center}
+.dialog{background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(20,18,10,.25);width:460px;padding:26px}
+.dialog h2{font-family:var(--font-display);font-weight:600;font-size:19px;margin:0 0 10px}
+.dialog p{font-size:14px;line-height:1.55;margin:0 0 12px}
+.warn{display:flex;gap:8px;background:var(--warning-bg);color:var(--warning-ink);border-radius:var(--radius-sm);padding:10px 12px;font-size:13.5px;line-height:1.45;margin-bottom:18px}
+.dactions{display:flex;justify-content:flex-end;gap:8px}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page);overflow:hidden;position:relative">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who"><select class="branchpick" aria-label="Active branch"><option>Uttara (primary)</option><option>Banani</option></select>Shormi Akter · Reception</div></div>
+  <div class="main">
+    <div class="titlerow">
+      <h1 class="h1">Front desk</h1>
+      <div style="display:flex;gap:8px"><a class="btn btn-ghost" href="StaffBooking.dc.html" style="text-decoration:none">Book by phone</a><a class="btn" href="FrontDeskQueue.dc.html" style="text-decoration:none">+ Register walk-in</a></div>
+    </div>
+    <nav class="tabnav" aria-label="Front desk">
+      <a href="#" class="active" aria-current="page">Today (8)</a>
+      <a href="FrontDeskQueue.dc.html">Queue (4)</a>
+    </nav>
+    <div class="meta"><span>Wednesday 23 September · Uttara · times in Asia/Dhaka</span><span>Updated 10:42 · refreshes every 30 s</span></div>
+    <table>
+      <thead><tr><th>Time</th><th>Cat</th><th>Customer</th><th>Service</th><th>Vet / nurse</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody>
+        <tr class="dimrow"><td class="t">09:00</td><td>Luna</td><td>Sadia Rahman</td><td>Standard consultation</td><td>Dr Rahman</td><td><span class="pill p-done"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="m5 12 5 5L20 7"/></svg>Completed</span></td><td class="hint">No actions</td></tr>
+        <tr><td class="t">09:30</td><td>Tiger</td><td>Imran Chowdhury</td><td>Wound check</td><td>Dr Jahan</td><td><span class="pill p-in"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>In consultation</span></td><td class="hint">On the queue tab</td></tr>
+        <tr><td class="t">10:00</td><td>Snowy</td><td>Rahim Uddin</td><td>FVRCP booster</td><td>Tanvir Islam</td><td><span class="pill p-booked"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Booked · 42 min late</span></td><td><div class="acts"><select aria-label="Triage for Snowy"><option>Routine</option><option>Urgent</option><option>Emergency</option></select><button class="btn" type="button">Check in</button><button class="btn btn-danger-o" type="button">No-show</button></div></td></tr>
+        <tr><td class="t">10:15</td><td>Simba <span class="risk"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M12 9v5M12 17.4v.6"/><path d="M10.3 3.9 2.6 17.2A2 2 0 0 0 4.3 20h15.4a2 2 0 0 0 1.7-2.8L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>High risk</span></td><td>Arif Hossain</td><td>Standard consultation</td><td>Dr Rahman</td><td><span class="pill p-in"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Checked in 10:08</span></td><td class="hint">Waiting · 3rd in queue</td></tr>
+        <tr><td class="t">10:30</td><td>Kitty <span class="risk"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M12 9v5M12 17.4v.6"/><path d="M10.3 3.9 2.6 17.2A2 2 0 0 0 4.3 20h15.4a2 2 0 0 0 1.7-2.8L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>High risk</span></td><td>Nabila Karim</td><td>Standard consultation</td><td>Dr Rahman</td><td><span class="pill p-booked"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Booked</span></td><td><div class="acts"><select aria-label="Triage for Kitty"><option>Routine</option><option>Urgent</option><option>Emergency</option></select><button class="btn" type="button">Check in</button><span class="hint">No-show from 10:45</span></div></td></tr>
+        <tr><td class="t">11:15</td><td>Pixel</td><td>Nasrin Sultana</td><td>Rabies vaccination</td><td>Tanvir Islam</td><td><span class="pill p-booked"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Booked</span></td><td><div class="acts"><select aria-label="Triage for Pixel"><option>Routine</option><option>Urgent</option><option>Emergency</option></select><button class="btn" type="button">Check in</button></div></td></tr>
+        <tr class="dimrow"><td class="t">12:00</td><td>Mishti</td><td>Tania Akhter</td><td>Standard consultation</td><td>Dr Jahan</td><td><span class="pill p-cx"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 8 8 8"/></svg>Cancelled by customer</span></td><td class="hint">No actions</td></tr>
+        <tr><td class="t">13:15</td><td>Bagha</td><td>Farhana Yasmin</td><td>Dental check</td><td>Dr Jahan</td><td><span class="pill p-booked"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Booked</span></td><td><div class="acts"><select aria-label="Triage for Bagha"><option>Routine</option><option>Urgent</option><option>Emergency</option></select><button class="btn" type="button">Check in</button></div></td></tr>
+      </tbody>
+    </table>
+    <p class="hint" style="margin-top:10px">Buttons come only from what the server allows for each appointment. No-show appears 15 minutes after the start time; before that the row says when it will.</p>
+  </div>
+
+  <div class="scrim">
+    <div class="dialog" role="alertdialog" aria-modal="true" aria-labelledby="ns-h">
+      <h2 id="ns-h">Record Snowy as a no-show?</h2>
+      <p>Rahim Uddin's 10:00 FVRCP booster with Tanvir Islam, today (Asia/Dhaka).</p>
+      <div class="warn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true" style="flex:none;margin-top:2px"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg><span><strong>This counts against Rahim Uddin.</strong> It will be their first no-show, shown to staff whenever someone books for them. It can't be changed back to Booked.</span></div>
+      <div class="dactions">
+        <button class="btn btn-ghost" type="button" style="font-size:14px;padding:10px 16px">Keep as booked</button>
+        <button class="btn btn-danger" type="button" style="font-size:14px;padding:10px 16px">Record no-show</button>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Offline list — US-XCT-01</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+:root{--overlay:rgba(28,26,23,.4);--radius-lg:16px;--radius-pill:999px;--offline-ink:#2b2823}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+a{color:var(--accent-ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px}
+.main{padding:24px 32px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:22px;margin:0 0 4px}
+.sub{color:var(--ink-muted);font-size:13.5px;margin:0 0 18px;line-height:1.5}
+.h2{font-size:15px;font-weight:700;margin:0 0 10px}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:20px}
+.muted{color:var(--ink-muted)}
+.small{font-size:12.5px;line-height:1.5}
+.mono{font-family:ui-monospace,Consolas,monospace;font-size:12px}
+.eyebrow{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;color:var(--ink-muted);margin:0 0 6px}
+.ic{width:14px;height:14px;flex:none}
+.ic18{width:18px;height:18px;flex:none}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:9px 16px;border-radius:var(--radius-sm);border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;display:inline-flex;align-items:center;gap:6px;text-decoration:none;white-space:nowrap}
+.btn-sm{font-size:12.5px;padding:6px 12px}
+.btn-secondary{background:#fff;color:var(--ink);border-color:var(--border-strong)}
+.btn-danger{background:var(--danger-ink);border-color:var(--danger-ink);color:#fff}
+.btn[disabled]{background:var(--surface-sunken);color:var(--ink-faint);border-color:var(--border);cursor:not-allowed}
+.reason{font-size:11.5px;color:var(--ink-muted);margin-top:5px;display:flex;gap:4px;align-items:center}
+td .reason{white-space:nowrap}
+.linkbtn{background:none;border:none;padding:0;font:inherit;font-size:12.5px;font-weight:600;color:var(--accent-ink);cursor:pointer;text-decoration:underline}
+table{border-collapse:collapse;width:100%;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--border);font-size:12.5px;vertical-align:top;line-height:1.45}
+th{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);background:var(--surface-sunken);font-weight:700;vertical-align:bottom}
+tr:last-child td{border-bottom:none}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+.strong{font-weight:600}
+.pill{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:var(--radius-pill);font-size:11.5px;font-weight:600;white-space:nowrap}
+.pill-ok{background:var(--accent-soft);color:var(--accent-ink)}
+.pill-warn{background:var(--warning-bg);color:var(--warning-ink)}
+.pill-bad{background:var(--danger-bg);color:var(--danger-ink)}
+.pill-neutral{background:var(--surface-sunken);color:var(--ink-muted)}
+.risk{display:inline-flex;align-items:center;gap:4px;background:var(--danger-ink);color:#fff;font-size:11px;font-weight:700;padding:2px 7px;border-radius:5px;white-space:nowrap}
+.banner{display:flex;gap:10px;align-items:flex-start;border-radius:8px;padding:12px 14px;font-size:13.5px;line-height:1.5}
+.banner .ic18{margin-top:1px}
+.banner-warn{background:var(--warning-bg);color:var(--warning-ink)}
+.banner-bad{background:var(--danger-bg);color:var(--danger-ink)}
+.banner-ok{background:var(--accent-soft);color:var(--accent-ink)}
+.banner-info{background:var(--surface-sunken);color:var(--ink)}
+.obanner{display:flex;gap:12px;align-items:center;background:var(--offline-ink);color:#fff;border-radius:8px;padding:12px 16px;font-size:13.5px;line-height:1.5;position:sticky;top:0;z-index:3;margin-bottom:18px}
+.obanner-text{flex:1;min-width:0}
+.obanner-actions{display:flex;gap:8px;flex-wrap:wrap}
+.obanner .btn{background:#fff;color:var(--offline-ink);border-color:#fff}
+.obanner .btn-secondary{background:transparent;color:#fff;border-color:rgba(255,255,255,.55)}
+.field{margin-bottom:14px}
+.field label,.lbl{display:block;font-size:12.5px;font-weight:600;margin-bottom:5px}
+.field input,.field select,.field textarea{width:100%;font:inherit;font-size:13.5px;padding:8px 11px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:#fff;color:var(--ink)}
+.field textarea{resize:vertical;line-height:1.45}
+.field textarea.mono,.field input.mono{font-family:ui-monospace,Consolas,monospace;font-size:12px}
+.req{color:var(--danger-ink)}
+.hint{font-size:12px;color:var(--ink-muted);margin-top:4px;line-height:1.45}
+.err{font-size:12px;color:var(--danger-ink);margin-top:5px;display:flex;gap:5px;align-items:flex-start;font-weight:600;line-height:1.45}
+.field.invalid input,.field.invalid textarea{border-color:var(--danger-ink);box-shadow:0 0 0 1px var(--danger-ink)}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px;font-size:12.5px}
+.toolbar select,.toolbar input{font:inherit;font-size:12.5px;padding:7px 9px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.pager{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:12.5px;color:var(--ink-muted);margin-top:10px}
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--border);margin:0 0 18px;flex-wrap:wrap}
+.tabs a{padding:9px 14px;font-size:13.5px;font-weight:600;color:var(--ink-muted);text-decoration:none;border-bottom:2px solid transparent;margin-bottom:-1px}
+.tabs a[aria-current]{color:var(--accent-ink);border-bottom-color:var(--accent)}
+.crumbs{font-size:12.5px;color:var(--ink-muted);margin:0 0 8px}
+.crumbs a{color:var(--accent-ink);text-decoration:none;font-weight:600}
+.scrim{position:absolute;inset:0;background:var(--overlay);display:flex;align-items:center;justify-content:center;gap:24px;z-index:5;padding:24px;flex-wrap:wrap}
+.dialog{background:#fff;border-radius:var(--radius-lg);box-shadow:0 20px 60px rgba(20,18,10,.25);width:520px;max-width:100%;padding:26px}
+.dialog h2{margin:0 0 10px;font-size:19px;font-family:var(--font-display);font-weight:600}
+.dialog p{font-size:13.5px;line-height:1.55;margin:0 0 10px}
+.dactions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px;flex-wrap:wrap}
+.list{margin:4px 0 10px;padding-left:18px;font-size:13px;line-height:1.6}
+.kv{display:grid;grid-template-columns:180px minmax(0,1fr);gap:7px 14px;font-size:13.5px;margin:0}
+.kv dt{color:var(--ink-muted)}
+.kv dd{margin:0}
+.switch{width:40px;height:22px;border-radius:999px;background:var(--border-strong);position:relative;border:none;cursor:pointer;flex:none;padding:0}
+.switch span{position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff}
+.switch[aria-checked="true"]{background:var(--accent)}
+.switch[aria-checked="true"] span{left:20px}
+.cols-2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+.cols-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.cols-main{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:20px;align-items:start}
+.cols-side{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:16px;align-items:start}
+.stack{display:flex;flex-direction:column;gap:14px}
+.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.spacer{flex:1}
+pre{background:var(--surface-sunken);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;font-family:ui-monospace,Consolas,monospace;font-size:11.5px;line-height:1.5;overflow:auto;margin:0;white-space:pre}
+.obar{display:flex;align-items:center;gap:14px;padding:12px 28px;background:#fff;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.obar .logo{font-family:var(--font-display);font-weight:600;font-size:19px;color:var(--accent-ink)}
+.obar .meta{font-size:13px;color:var(--ink-muted)}
+.chip-off{display:inline-flex;align-items:center;gap:6px;background:var(--offline-ink);color:#fff;font-size:12.5px;font-weight:700;padding:5px 11px;border-radius:999px;white-space:nowrap}
+.omain{padding:22px 28px}
+.section-h{display:flex;align-items:baseline;gap:10px;margin:0 0 10px}
+.section-h h2{font-family:var(--font-display);font-weight:600;font-size:19px;margin:0}
+.caption{color:#fff;font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin:0 0 8px}
+@media (max-width:900px){.cols-2,.cols-3,.cols-main,.cols-side{grid-template-columns:minmax(0,1fr)}.kv{grid-template-columns:minmax(0,1fr)}.kv dt{margin-top:6px}}
+</style>
+</helmet>
+<div style="width:1280px;height:1000px;background:var(--surface-page);position:relative;overflow:hidden">
+  <header class="obar">
+    <span class="logo">PurrCare</span>
+    <span class="chip-off"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 2l20 20"/><path d="M8.5 16.5a5 5 0 0 1 7 0"/><path d="M5 12.9a10 10 0 0 1 5.2-2.8"/><path d="M19 12.9a10 10 0 0 0-2.3-1.7"/><path d="M2 8.8a15 15 0 0 1 4.2-2.7"/><path d="M10.7 5.1A15 15 0 0 1 22 8.8"/><path d="M12 20h.01"/></svg> Offline · read-only</span>
+    <span class="meta"><strong style="color:var(--ink)">Uttara</strong> · Wednesday 23 September 2026</span>
+    <span class="spacer"></span>
+    <span class="meta">Saved at 10:42 (Asia/Dhaka) · 18 minutes ago</span>
+  </header>
+  <main class="omain">
+    <div class="banner banner-info" role="status" aria-live="polite" style="margin-bottom:20px">
+      <svg class="ic18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 2l20 20"/><path d="M8.5 16.5a5 5 0 0 1 7 0"/><path d="M5 12.9a10 10 0 0 1 5.2-2.8"/><path d="M19 12.9a10 10 0 0 0-2.3-1.7"/><path d="M2 8.8a15 15 0 0 1 4.2-2.7"/><path d="M10.7 5.1A15 15 0 0 1 22 8.8"/><path d="M12 20h.01"/></svg>
+      <div style="flex:1"><strong>You're offline.</strong> This list was last updated at 10:42. Changes are switched off until the connection returns. This page checks the connection by itself and takes you back to the front desk as soon as it's back.</div>
+    </div>
+
+    <section aria-labelledby="h-appt" style="margin-bottom:26px">
+      <div class="section-h"><h2 id="h-appt">Today's appointments</h2><span class="muted small">6 · sorted by start time</span></div>
+      <table>
+        <thead><tr><th>Time</th><th>Cat</th><th>Customer</th><th>Service</th><th>Vet</th><th>Room</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td class="strong">09:30–09:50</td><td>Luna</td><td>Farhana Yasmin<br><a href="tel:+8801711223344"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2Z"/></svg> 01711 223344</a></td><td>Vaccination</td><td>Dr. Nusrat Jahan</td><td>Consult 1</td><td>Completed</td></tr>
+          <tr><td class="strong">10:00–10:30</td><td>Mittens<div style="margin-top:4px"><span class="risk"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 9v5M12 17.4v.6"/><path d="M10.3 3.9 2.6 17.2A2 2 0 0 0 4.3 20h15.4a2 2 0 0 0 1.7-2.8L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg> High risk</span></div><div class="small" style="color:var(--danger-ink);font-weight:600;margin-top:3px">Bites when restrained. Two handlers and a towel wrap.</div></td><td>Kamrul Hasan<br><a href="tel:+8801712900112"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2Z"/></svg> 01712 900112</a></td><td>Dental check</td><td>Dr. Nusrat Jahan</td><td>Consult 1</td><td>In consultation</td></tr>
+          <tr><td class="strong">10:45–11:05</td><td>Biscuit</td><td>Nafisa Rahman<br><a href="tel:+8801818552233"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2Z"/></svg> 01818 552233</a></td><td>Consultation</td><td>Dr. Nusrat Jahan</td><td>Consult 2</td><td>Booked</td></tr>
+          <tr><td class="strong">11:15</td><td>Pumpkin<div class="small muted">Walk-in · triage: Urgent</div></td><td>Tahmina Akter<br><span class="small muted">No phone on file</span></td><td>Triage</td><td>Not yet assigned</td><td>Not yet assigned</td><td>Waiting</td></tr>
+          <tr><td class="strong">11:30–11:50</td><td>Tom</td><td>Arif Hossain<br><a href="tel:+8801911445566"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2Z"/></svg> 01911 445566</a></td><td>Follow-up</td><td>Dr. Nusrat Jahan</td><td>Consult 2</td><td>Booked</td></tr>
+          <tr><td class="strong">12:00–12:15</td><td>Kitty</td><td>Farhana Yasmin<br><a href="tel:+8801711223344"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2Z"/></svg> 01711 223344</a></td><td>Nail trim</td><td>Tanvir Islam</td><td>Treatment</td><td>Cancelled</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section aria-labelledby="h-brd">
+      <div class="section-h"><h2 id="h-brd">Today's boarding tasks</h2><span class="muted small">4 · sorted by due time</span></div>
+      <table>
+        <thead><tr><th>Due</th><th>Task</th><th>Unit</th><th>Cat</th><th>Instructions</th><th>Status</th><th>Assigned to</th></tr></thead>
+        <tbody>
+          <tr><td class="strong">08:00</td><td>Feeding · Breakfast</td><td>Suite 2</td><td>Snowy</td><td>Renal diet, 40 g. Fresh water.</td><td>Done at 08:12</td><td>Tanvir Islam</td></tr>
+          <tr><td class="strong">12:00</td><td>Medication · Midday medication</td><td>Suite 3</td><td>Mittens <span class="risk"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 9v5M12 17.4v.6"/><path d="M10.3 3.9 2.6 17.2A2 2 0 0 0 4.3 20h15.4a2 2 0 0 0 1.7-2.8L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg> High risk</span><div class="small" style="color:var(--danger-ink);font-weight:600;margin-top:3px">Bites when restrained. Two handlers and a towel wrap.</div></td><td>½ tablet with food</td><td>Open</td><td>Tanvir Islam</td></tr>
+          <tr><td class="strong">14:00</td><td>Litter · Clean and check</td><td>Suite 2</td><td>Snowy</td><td>Note urine clumps — owner asked for a count.</td><td>Open</td><td>Not assigned</td></tr>
+          <tr><td class="strong">18:00</td><td>Feeding · Dinner</td><td>Suite 5</td><td>Oreo</td><td>Own food from the owner's bag, half a pouch.</td><td>Open</td><td>Tanvir Islam</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <p class="small muted" style="margin:14px 0 0">Read-only copy for this device. Nothing on this page can be changed. It locks after 15 minutes without use, and the copy is wiped at sign-out and expires at 02:00 on 24 Sep 2026 (Asia/Dhaka).</p>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1000}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

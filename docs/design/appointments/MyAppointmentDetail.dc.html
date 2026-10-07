@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Appointment detail — cancel — US-CLN-04</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#fbf6ef;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--overlay:rgba(28,26,23,.4);--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:14px;--warm:#e8894a;--warm-ink:#8a3f14;--warm-soft:#fdeee2}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:18px;color:var(--accent-ink)}
+.pnav{display:flex;gap:24px;font-size:13.5px;font-weight:600}
+.pnav a{color:var(--ink-muted);text-decoration:none}
+.pnav a[aria-current]{color:var(--ink)}
+.who{display:flex;align-items:center;gap:12px;font-size:13.5px}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.wrap{max-width:760px;margin:0 auto;padding:28px 32px}
+.back{font-size:13px;color:var(--accent-ink);font-weight:600;text-decoration:none}
+.h1{font-family:var(--font-display);font-weight:600;font-size:23px;margin:10px 0 4px;display:flex;align-items:center;gap:12px}
+.muted{color:var(--ink-muted)}
+.status{display:inline-flex;align-items:center;gap:5px;font-family:var(--font-sans);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent-ink)}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:20px 22px;margin-top:16px}
+.kv{display:grid;grid-template-columns:130px 1fr;gap:9px 14px;font-size:14.5px;margin:0}
+.kv dt{color:var(--ink-muted)}
+.kv dd{margin:0}
+.actions{display:flex;gap:10px;align-items:center;margin-top:18px;flex-wrap:wrap}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:14px;padding:10px 18px;border-radius:var(--radius-sm);border:none;background:var(--accent);color:#fff;cursor:pointer;text-decoration:none}
+.btn-ghost{background:#fff;border:1px solid var(--border-strong);color:var(--ink)}
+.btn-danger-o{background:#fff;border:1px solid var(--danger-ink);color:var(--danger-ink)}
+.btn-danger{background:var(--danger-ink)}
+.scrim{position:absolute;inset:0;background:var(--overlay);display:flex;align-items:center;justify-content:center}
+.dialog{background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(20,18,10,.25);width:460px;padding:26px}
+.dialog h2{font-family:var(--font-display);font-weight:600;font-size:19px;margin:0 0 10px}
+.dialog p{font-size:14px;line-height:1.55;margin:0 0 12px}
+.consq{list-style:none;padding:12px 14px;margin:0 0 18px;background:var(--surface-sunken);border-radius:var(--radius-sm);font-size:13.5px;line-height:1.6}
+.dactions{display:flex;justify-content:flex-end;gap:8px}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page);overflow:hidden;position:relative">
+  <div class="topnav">
+    <div class="brand">PurrCare</div>
+    <nav class="pnav" aria-label="Portal"><a href="#">My cats</a><a href="MyAppointments.dc.html" aria-current="page">Appointments</a><a href="#">Inbox</a></nav>
+    <div class="who"><div class="avatar">FY</div>Farhana Yasmin</div>
+  </div>
+  <div class="wrap">
+    <a class="back" href="MyAppointments.dc.html">‹ My appointments</a>
+    <h1 class="h1">Mitu · FVRCP booster <span class="status"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="m5 12 5 5L20 7"/></svg>Booked</span></h1>
+    <p class="muted" style="margin:0;font-size:13.5px">Reference APT-2026-004812 · booked online 23 Sep</p>
+    <div class="card">
+      <dl class="kv">
+        <dt>When</dt><dd><strong>Thursday 24 September, 10:30–10:50</strong> (Asia/Dhaka)</dd>
+        <dt>With</dt><dd>Dr Anisur Rahman</dd>
+        <dt>Room</dt><dd>Consult 1</dd>
+        <dt>Branch</dt><dd>Uttara · Sector 7, Uttara, Dhaka</dd>
+        <dt>Price</dt><dd>৳1,200 — pay at the clinic</dd>
+        <dt>Reason for visit</dt><dd>Yearly booster. She has been sneezing a little this week.</dd>
+      </dl>
+      <div class="actions">
+        <a class="btn" href="MyAppointmentReschedule.dc.html">Reschedule</a>
+        <button class="btn btn-danger-o" type="button">Cancel appointment</button>
+        <span class="muted" style="font-size:12.5px">You can change this online until Thu 24 Sep, 06:30 (Asia/Dhaka) — 4 hours before.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="scrim">
+    <div class="dialog" role="alertdialog" aria-modal="true" aria-labelledby="cx-h" aria-describedby="cx-d">
+      <h2 id="cx-h">Cancel Mitu's FVRCP booster?</h2>
+      <p id="cx-d">Thursday 24 September, 10:30 with Dr Rahman at Uttara.</p>
+      <ul class="consq">
+        <li>• The time is released and may be offered to someone on the waitlist.</li>
+        <li>• To come later you will need to book again.</li>
+        <li>• There is nothing to refund — nothing was paid online.</li>
+      </ul>
+      <div class="dactions">
+        <button class="btn btn-ghost" type="button">Keep appointment</button>
+        <button class="btn btn-danger" type="button">Cancel appointment</button>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

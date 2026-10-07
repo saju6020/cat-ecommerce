@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Subscription detail at 360px — UI-1</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#fbf6ef;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:14px;--warm:#e8894a;--warm-ink:#8a3f14;--warm-soft:#fdeee2}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+a{color:var(--accent-ink)}
+.mbar{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:18px;color:var(--accent-ink)}
+.menu{border:1px solid var(--border-strong);background:#fff;border-radius:6px;width:36px;height:36px;display:flex;align-items:center;justify-content:center}
+.body{padding:16px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:10px 0 4px}
+.h2{font-family:var(--font-display);font-weight:600;font-size:16px;margin:0 0 10px}
+.muted{color:var(--ink-muted)}
+.small{font-size:12.5px}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:14px;margin-bottom:12px}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700}
+.b-active{background:var(--accent-soft);color:var(--accent-ink)}
+.note{display:flex;gap:8px;align-items:flex-start;border-radius:var(--radius-sm);padding:10px 12px;font-size:13px;line-height:1.5;margin:12px 0}
+.note svg{flex:none;margin-top:2px}
+.n-ok{background:var(--accent-soft);border:1px solid var(--accent);color:var(--accent-ink)}
+.big{font-family:var(--font-display);font-weight:600;font-size:21px;margin:2px 0 6px}
+.btn2{font-family:var(--font-sans);font-weight:600;font-size:14px;padding:10px 14px;min-height:44px;border-radius:var(--radius-sm);border:1px solid var(--border-strong);background:#fff;color:var(--ink);width:100%;margin-bottom:8px}
+.btn-dg{color:var(--danger-ink)}
+.kv dt{font-size:12px;color:var(--ink-muted);margin-top:8px}
+.kv dd{margin:1px 0 0;font-size:14px}
+.kv{margin:0}
+.hcard{border:1px solid var(--border);border-radius:8px;padding:11px 12px;margin-bottom:8px;font-size:13.5px}
+.hrow{display:flex;justify-content:space-between;gap:8px;margin-bottom:4px}
+.st{display:inline-flex;align-items:center;gap:5px;font-weight:600}
+.st-ok{color:var(--accent-ink)}
+.st-warn{color:var(--warning-ink)}
+.st-bad{color:var(--danger-ink)}
+</style>
+</helmet>
+<div style="width:360px;height:1560px;background:var(--surface-page)">
+  <div class="mbar">
+    <div class="brand">PurrCare</div>
+    <button type="button" class="menu" aria-label="Open menu"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5c574f" stroke-width="2.2" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+  </div>
+  <div class="body">
+    <a href="MySubscriptions.dc.html" style="font-size:13px;font-weight:600;text-decoration:none">← My subscriptions</a>
+    <h1 class="h1">Adult Indoor dry food</h1>
+    <span class="badge b-active"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Active</span>
+
+    <div class="note n-ok" role="status"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>Quantity changed to 3. This starts with your order on Tue 20 Oct.</span></div>
+
+    <section class="card">
+      <div class="muted small" style="font-weight:700;text-transform:uppercase;letter-spacing:.05em">Next order</div>
+      <div class="big">Next order on Tue 20 Oct</div>
+      <p style="font-size:13.5px;line-height:1.5;margin:0">Changes made before <strong>Sun 18 Oct, 00:00 (Asia/Dhaka)</strong> apply to this delivery. After that, they start with the next one.</p>
+    </section>
+
+    <section class="card">
+      <h2 class="h2">Manage</h2>
+      <button type="button" class="btn2">Skip next delivery</button>
+      <button type="button" class="btn2">Pause</button>
+      <button type="button" class="btn2 btn-dg" style="margin-bottom:0">Cancel subscription</button>
+    </section>
+
+    <section class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center"><h2 class="h2" style="margin:0">Terms</h2><button type="button" class="btn2" style="width:auto;margin:0;min-height:38px">Change</button></div>
+      <dl class="kv">
+        <dt>Per delivery</dt><dd>3 bags</dd>
+        <dt>How often</dt><dd>Every 4 weeks</dd>
+        <dt>Delivery</dt><dd>Home — House 12, Road 7, Sector 4, Uttara, Dhaka 1230</dd>
+        <dt>Payment</dt><dd>Bank transfer, for each order</dd>
+        <dt>Estimate</dt><dd><strong>৳3,915.00 per delivery</strong><div class="muted small">Delivery and tax are added when each order is placed, at the price on that day.</div></dd>
+      </dl>
+    </section>
+
+    <section class="card">
+      <h2 class="h2">Order history</h2>
+      <p class="muted small" style="margin:-4px 0 10px">Below 768px the table becomes cards — same fields, no sideways scroll.</p>
+      <div class="hcard"><div class="hrow"><strong>Tue 22 Sep 2026</strong><a href="#">ORD-10482</a></div><div class="muted small">Ordered</div><span class="st st-warn"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Awaiting transfer</span><div class="muted small">pay by Fri 25 Sep, 23:59 (Asia/Dhaka)</div></div>
+      <div class="hcard"><div class="hrow"><strong>Tue 25 Aug 2026</strong><a href="#">ORD-10217</a></div><div class="muted small">Ordered</div><span class="st st-ok"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Delivered</span></div>
+      <div class="hcard"><div class="hrow"><strong>Tue 28 Jul 2026</strong><span class="muted">No order</span></div><div class="muted small">Not ordered</div><span class="st st-bad"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>Out of stock — nothing was ordered</span></div>
+      <div class="hcard"><div class="hrow"><strong>Tue 30 Jun 2026</strong><span class="muted">No order</span></div><div class="muted small">Skipped — you skipped this delivery</div></div>
+    </section>
+
+    <section class="card">
+      <h2 class="h2">How paying works</h2>
+      <p style="font-size:13.5px;line-height:1.5;margin:0">No card needed. Each delivery creates an order that you pay for by bank transfer.</p>
+    </section>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":360,"height":1560}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

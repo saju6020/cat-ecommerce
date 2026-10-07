@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Staff appointment detail — US-CLN-07, 10</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px;display:flex;align-items:center;gap:16px}
+select.branchpick{font:inherit;font-size:13px;padding:5px 8px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.main{padding:20px 28px}
+.titlerow{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0;display:flex;align-items:center;gap:10px}
+.muted{color:var(--ink-muted)}
+.st{display:inline-flex;align-items:center;gap:5px;font-family:var(--font-sans);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent-ink)}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:8px 15px;border-radius:var(--radius-sm);border:none;background:var(--accent);color:#fff;cursor:pointer;white-space:nowrap}
+.btn-ghost{background:#fff;border:1px solid var(--border-strong);color:var(--ink)}
+.btn-danger-o{background:#fff;border:1px solid var(--danger-ink);color:var(--danger-ink)}
+.btn-danger{background:var(--danger-ink)}
+.flag{display:flex;gap:10px;align-items:center;background:var(--warning-bg);color:var(--warning-ink);border:1px solid #e3c68d;border-radius:var(--radius-md);padding:11px 14px;font-size:13.5px;margin:14px 0}
+.flag .btn{margin-left:auto}
+.layout{display:flex;gap:18px;align-items:flex-start}
+.col{flex:1;min-width:0}
+.cathead{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;margin-bottom:14px}
+.catbody{display:flex;gap:14px;padding:12px 14px}
+.photo{width:56px;height:56px;border-radius:10px;background:#6b5b95;color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:24px;flex:none}
+.facts{display:flex;gap:22px;flex-wrap:wrap;margin:6px 0 0}
+.facts dt{font-size:10.5px;font-weight:700;color:var(--ink-muted);text-transform:uppercase;letter-spacing:.05em}
+.facts dd{margin:2px 0 0;font-size:13.5px}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:16px 18px;margin-bottom:14px}
+.card h2{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);margin:0 0 10px}
+.kv{display:grid;grid-template-columns:130px 1fr;gap:8px 12px;font-size:13.5px;margin:0}
+.kv dt{color:var(--ink-muted)}
+.kv dd{margin:0}
+.hist{list-style:none;padding:0;margin:0;font-size:13px}
+.hist li{display:flex;gap:10px;padding:6px 0;border-bottom:1px solid var(--border)}
+.hist li:last-child{border-bottom:none}
+.hist time{width:150px;flex:none;color:var(--ink-muted);font-variant-numeric:tabular-nums}
+.dlg{width:380px;flex:none;background:#fff;border:1px solid var(--border-strong);border-radius:16px;box-shadow:0 14px 40px rgba(20,18,10,.18);padding:20px}
+.dlg h3{font-family:var(--font-display);font-weight:600;font-size:18px;margin:0 0 8px}
+.dlg p{font-size:13.5px;line-height:1.5;margin:0 0 12px}
+.f label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.f textarea,.f select{width:100%;font:inherit;font-size:14px;padding:8px 10px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.f textarea.err{border-color:var(--danger-ink);box-shadow:0 0 0 1px var(--danger-ink)}
+.ferr{display:flex;gap:6px;font-size:12.5px;color:var(--danger-ink);margin-top:6px}
+.cap{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-faint);font-weight:700;margin-bottom:8px}
+.dactions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
+</style>
+</helmet>
+<div style="width:1280px;height:960px;background:var(--surface-page);overflow:auto">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who"><select class="branchpick" aria-label="Active branch"><option>Uttara (primary)</option><option>Banani</option></select>Shormi Akter · Reception</div></div>
+  <div class="main">
+    <div class="titlerow">
+      <h1 class="h1">Mishti · Rabies vaccination <span class="st"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Booked</span></h1>
+      <div style="display:flex;gap:8px"><a class="btn" href="MoveDialog.dc.html" style="text-decoration:none">Move…</a><button class="btn btn-danger-o" type="button">Cancel appointment…</button></div>
+    </div>
+    <div class="flag" role="status"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3v18h2v-7h9l-1.5-3.5L16 7H7V3z"/></svg><span><strong>Needs rescheduling</strong> — Dr Nusrat Jahan is on leave that day (10:00–12:00, approved 22 Sep). Nothing has been sent to the customer yet.</span><a class="btn" href="MoveDialog.dc.html" style="text-decoration:none">Reschedule…</a></div>
+
+    <div class="layout">
+      <div class="col">
+        <section class="cathead" aria-label="Mishti">
+          <div class="catbody">
+            <div class="photo" aria-hidden="true">M</div>
+            <div>
+              <div><strong style="font-family:var(--font-display);font-size:18px">Mishti</strong> <span class="muted" style="font-size:12.5px">Persian cross · Cream</span></div>
+              <dl class="facts">
+                <div><dt>Age</dt><dd>~5 years <span class="muted" style="font-size:12px">(estimated)</span></dd></div>
+                <div><dt>Sex / neuter</dt><dd>Female · Neutered</dd></div>
+                <div><dt>Latest weight</dt><dd>3.6 kg <span class="muted" style="font-size:12px">· 10 Jul 2026</span></dd></div>
+                <div><dt>Allergies</dt><dd class="muted">None recorded</dd></div>
+                <div><dt>Chronic conditions</dt><dd><span style="background:#f3f1eb;border:1px solid var(--border);font-size:12px;font-weight:600;padding:2px 8px;border-radius:6px">Hyperthyroidism</span></dd></div>
+                <div><dt>Alerts</dt><dd class="muted">None recorded</dd></div>
+              </dl>
+            </div>
+          </div>
+        </section>
+
+        <div class="card">
+          <h2>Appointment</h2>
+          <dl class="kv">
+            <dt>Customer</dt><dd><a href="CustomerAppointmentsPanel.dc.html" style="color:var(--accent-ink);font-weight:600">Tania Akhter</a> · 01819 445566 · No no-shows</dd>
+            <dt>When</dt><dd><strong>Thursday 24 September, 10:00–10:20</strong> (Asia/Dhaka)</dd>
+            <dt>Vet</dt><dd>Dr Nusrat Jahan</dd>
+            <dt>Room</dt><dd>Consult 2</dd>
+            <dt>Service</dt><dd>Rabies vaccination · 20 min · ৳900 <span class="muted">(price when booked)</span></dd>
+            <dt>Reason for visit</dt><dd>Yearly rabies shot.</dd>
+            <dt>Booked</dt><dd>Online by the customer, 12 Sep</dd>
+          </dl>
+          <p class="muted" style="font-size:12px;margin:12px 0 0">Check in, Start and No-show are not offered: the server allows only Move and Cancel for a booking on a future day.</p>
+        </div>
+
+        <div class="card">
+          <h2>Status history</h2>
+          <ul class="hist">
+            <li><time>12 Sep 2026, 21:14</time><span>Held → <strong>Booked</strong> · by Tania Akhter (online)</span></li>
+            <li><time>22 Sep 2026, 16:02</time><span>Flagged: needs rescheduling · Dr Jahan's leave approved by Rezwan Ahmed</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div>
+        <div class="cap">Cancel dialog — reason required</div>
+        <div class="dlg" role="dialog" aria-labelledby="cx-h">
+          <h3 id="cx-h">Cancel Mishti's rabies vaccination?</h3>
+          <p>Thursday 24 September, 10:00 with Dr Jahan. The time is released and Tania Akhter is sent a cancellation message with a link to book again.</p>
+          <div class="f">
+            <label for="cx-r">Reason <span style="color:var(--danger-ink)">*</span></label>
+            <textarea id="cx-r" rows="3" class="err" aria-invalid="true" aria-describedby="cx-e"></textarea>
+            <div class="ferr" id="cx-e"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true" style="flex:none;margin-top:1px"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>Enter a reason — it goes on the appointment's history.</div>
+          </div>
+          <div class="dactions">
+            <button class="btn btn-ghost" type="button">Keep appointment</button>
+            <button class="btn btn-danger" type="button">Cancel appointment</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":960}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Account — Your data — US-ACC-13</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:18px;color:var(--accent-ink)}
+.who{display:flex;align-items:center;gap:14px;font-size:13.5px}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.tabnav{display:flex;border-bottom:1px solid var(--border);padding:0 32px;background:#fff}
+.tab{padding:14px 4px;margin-right:26px;font-size:14px;font-weight:600;color:var(--ink-muted);border-bottom:2px solid transparent}
+.tab.active{color:var(--ink);border-bottom-color:var(--accent)}
+.h1{font-family:var(--font-display);font-weight:600;font-size:22px;margin:0}
+.h2{font-family:var(--font-display);font-weight:600;font-size:17px;margin:0 0 6px}
+.muted{color:var(--ink-muted)}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:22px 24px;margin-bottom:24px}
+.card.danger{border-color:#e8c3bd}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:14px;padding:10px 18px;border-radius:var(--radius-sm);border:none;cursor:pointer;min-height:40px}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-danger{background:#fff;color:var(--danger-ink);border:1px solid var(--danger-ink)}
+ul.consq{margin:14px 0;padding-left:20px;font-size:14px;line-height:1.6}
+.field{margin:18px 0;max-width:380px}
+.field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.field input[type=password]{width:100%;font:inherit;font-size:15px;padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius-sm)}
+.checkline{display:flex;gap:9px;align-items:flex-start;font-size:14px;margin:16px 0;max-width:440px}
+</style>
+</helmet>
+<div style="width:1280px;height:1000px;background:var(--surface-page);overflow:auto">
+  <div class="topnav"><div class="brand">PurrCare</div><div class="who"><div class="avatar">FY</div>Farhana Yasmin <a href="#" style="color:var(--accent-ink);font-weight:600;margin-left:8px">Sign out</a></div></div>
+  <div class="tabnav">
+    <div class="tab">Profile</div><div class="tab">Addresses</div><div class="tab">Notifications</div>
+    <div class="tab active" aria-current="page">Your data</div>
+  </div>
+  <div style="max-width:680px;margin:0 auto;padding:36px 32px">
+    <h1 class="h1" style="margin-bottom:22px">Your data</h1>
+
+    <div class="card">
+      <div class="h2">Download your data</div>
+      <p class="muted" style="margin:0 0 14px;line-height:1.5">A file with your profile, addresses, cats and their records, and notification preferences — everything we hold about you.</p>
+      <button type="button" class="btn btn-primary">Download my data</button>
+    </div>
+
+    <div class="card danger">
+      <div class="h2" style="color:var(--danger-ink)">Delete my account</div>
+      <p style="margin:0 0 4px;line-height:1.55">This cannot be undone. When you delete your account:</p>
+      <ul class="consq">
+        <li>Your personal details, contact details and addresses are removed.</li>
+        <li>You'll be signed out immediately and won't be able to sign in again.</li>
+        <li>Clinical and billing records are kept for the legally required period, with your name replaced by "Anonymised customer".</li>
+      </ul>
+      <p class="muted" style="margin:0 0 8px;font-size:13.5px">Consider downloading your data first — it isn't included in a deletion.</p>
+
+      <div class="field">
+        <label for="del-pass">Current password</label>
+        <input id="del-pass" type="password" autocomplete="current-password">
+      </div>
+      <label class="checkline"><input type="checkbox" style="margin-top:2px"> I understand this cannot be undone.</label>
+      <button type="button" class="btn btn-danger">Delete my account</button>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1000}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

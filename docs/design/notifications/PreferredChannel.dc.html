@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Preferred channel — US-NTF-01</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:18px;color:var(--accent-ink)}
+.tabnav{display:flex;border-bottom:1px solid var(--border);padding:0 32px;background:#fff}
+.tab{padding:14px 4px;margin-right:26px;font-size:14px;font-weight:600;color:var(--ink-muted);border-bottom:2px solid transparent}
+.tab.active{color:var(--ink);border-bottom-color:var(--accent)}
+.h1{font-family:var(--font-display);font-weight:600;font-size:22px;margin:0}
+.main{max-width:660px;margin:0 auto;padding:32px}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:22px;margin-bottom:20px}
+.legend{font-weight:700;font-size:14px;margin-bottom:4px}
+.help{color:var(--ink-muted);font-size:12.5px;margin-bottom:14px;line-height:1.5}
+.radiorow{display:flex;align-items:flex-start;gap:10px;padding:9px 0;font-size:14px}
+.radiorow.disabled{color:var(--ink-faint)}
+.radiorow .sub{font-size:12px;color:var(--ink-muted);margin-top:2px}
+.radiorow.disabled .sub{color:var(--ink-faint)}
+.radiorow a{color:var(--accent-ink);font-weight:600}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{padding:8px 10px;border-bottom:1px solid var(--border);text-align:left}
+th{color:var(--ink-muted);font-weight:600;font-size:11px;text-transform:uppercase}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:9px 16px;border-radius:6px;border:none;cursor:pointer;background:var(--accent);color:#fff;margin-top:10px}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page);overflow:auto">
+  <div class="topnav"><div class="brand">PurrCare</div><div style="font-size:13.5px">Farhana Yasmin</div></div>
+  <div class="tabnav"><div class="tab">Profile</div><div class="tab">Addresses</div><div class="tab active" aria-current="page">Notifications</div><div class="tab">Your data</div></div>
+  <div class="main">
+    <h1 class="h1" style="margin-bottom:20px">Notification preferences</h1>
+
+    <div class="card">
+      <div class="legend">Send important messages by</div>
+      <div class="help">Password resets, reminders and updates are sent this way, and a copy always appears in your inbox.</div>
+      <div class="radiorow"><input type="radio" name="ch" checked id="ch1"><label for="ch1" style="flex:1">Text message (SMS)<div class="sub">to 01712 345678</div></label></div>
+      <div class="radiorow disabled"><input type="radio" name="ch" disabled id="ch2"><label for="ch2" style="flex:1">Email<div class="sub">Add an email address to your profile to choose email — <a href="#">go to Profile</a></div></label></div>
+    </div>
+
+    <div class="card">
+      <div class="legend" style="margin-bottom:10px">Everything else</div>
+      <table>
+        <thead><tr><th>Category</th><th>SMS</th><th>Email</th><th>In-app</th></tr></thead>
+        <tbody>
+          <tr><td>Appointment reminders</td><td><input type="checkbox" checked></td><td><input type="checkbox" checked></td><td style="color:var(--ink-faint)">Always on</td></tr>
+          <tr><td>Offers and news</td><td><input type="checkbox"></td><td><input type="checkbox"></td><td><input type="checkbox" checked></td></tr>
+        </tbody>
+      </table>
+      <button type="button" class="btn">Save changes</button>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

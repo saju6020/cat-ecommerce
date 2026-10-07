@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Controlled-drug register — FR-PHM-7</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink);font-size:14px}
+a{color:var(--accent-ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px;display:flex;align-items:center;gap:16px}
+select.branchpick{font:inherit;font-size:13px;padding:5px 8px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.main{padding:26px 32px;position:relative}
+.titlerow{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:16px;flex-wrap:wrap}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+.h2{font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-muted);margin:0 0 10px}
+.muted{color:var(--ink-muted)}.faint{color:var(--ink-faint)}.small{font-size:12.5px}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:8px 15px;border-radius:var(--radius-sm);border:1px solid var(--accent);cursor:pointer;background:var(--accent);color:#fff;display:inline-flex;align-items:center;gap:7px;text-decoration:none;white-space:nowrap}
+.btn-sec{background:#fff;color:var(--ink);border-color:var(--border-strong)}
+.btn-danger{background:#fff;color:var(--danger-ink);border-color:var(--danger-ink)}
+.btn-danger-solid{background:var(--danger-ink);border-color:var(--danger-ink);color:#fff}
+.btn[disabled]{background:var(--surface-sunken);border-color:var(--border);color:var(--ink-faint);cursor:not-allowed}
+.btn-sm{font-size:12.5px;padding:5px 10px}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:18px}
+table.t{border-collapse:collapse;width:100%;background:#fff;border:1px solid var(--border)}
+.t th,.t td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--border);font-size:13px;vertical-align:top}
+.t th{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);font-weight:700;background:var(--surface-sunken);white-space:nowrap}
+.t tr.off td{color:var(--ink-faint);background:#fbfaf7}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;font-size:11.5px;font-weight:600;white-space:nowrap}
+.b-ok{background:var(--accent-soft);color:var(--accent-ink)}.b-warn{background:var(--warning-bg);color:var(--warning-ink)}.b-danger{background:var(--danger-bg);color:var(--danger-ink)}.b-neutral{background:var(--surface-sunken);color:var(--ink-muted)}
+.ic{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.field{margin-bottom:14px}
+.field label,.lab{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.field input,.field select,.field textarea{width:100%;font:inherit;font-size:14px;padding:8px 11px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:#fff;color:var(--ink)}
+.field input[readonly]{background:var(--surface-sunken);color:var(--ink-muted)}
+.field textarea{min-height:60px;resize:vertical}
+.hint{font-size:12px;color:var(--ink-muted);margin-top:4px;line-height:1.4}
+.field.bad input,.field.bad textarea,.field.bad select{border-color:var(--danger-ink);border-width:1.5px}
+.err{display:flex;gap:6px;align-items:flex-start;font-size:12.5px;color:var(--danger-ink);font-weight:600;margin-top:5px}
+.err .ic{margin-top:1px}
+.qi{display:flex}.qi input{border-radius:6px 0 0 6px;min-width:0}.qi select{width:auto;border-radius:0 6px 6px 0;border-left:none;background:var(--surface-sunken)}
+.fixedunit{display:flex;align-items:center;padding:0 12px;border:1px solid var(--border-strong);border-left:none;border-radius:0 6px 6px 0;background:var(--surface-sunken);font-size:14px;color:var(--ink-muted);white-space:nowrap}
+.note{display:flex;gap:10px;align-items:flex-start;padding:11px 14px;border-radius:8px;font-size:13px;line-height:1.45;border:1px solid}
+.note .ic{margin-top:2px}
+.n-info{background:var(--accent-soft);border-color:#c6dcd9;color:var(--accent-ink)}
+.n-warn{background:var(--warning-bg);border-color:#ebd9b4;color:var(--warning-ink)}
+.n-block{background:var(--danger-bg);border-color:#f0ccc8;color:var(--danger-ink)}
+.n-neutral{background:var(--surface-sunken);border-color:var(--border);color:var(--ink)}
+.scrim{position:absolute;inset:0;background:rgba(28,26,23,.4);display:flex;align-items:center;justify-content:center;z-index:5}
+.dialog{background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(20,18,10,.25);width:460px;padding:24px}
+.dialog h2{margin:0 0 10px;font-family:var(--font-display);font-weight:600;font-size:18px}
+.confirm{font-size:13px;background:var(--surface-sunken);border-radius:6px;padding:10px 12px;margin:12px 0;line-height:1.45}
+.dactions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
+.tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:16px}
+.tabs a{padding:10px 2px;margin-right:22px;font-size:13.5px;font-weight:600;color:var(--ink-muted);text-decoration:none;border-bottom:2px solid transparent}
+.tabs a.on{color:var(--ink);border-bottom-color:var(--accent)}
+.q,.nw{white-space:nowrap}
+.mono{font-family:ui-monospace,Consolas,monospace;font-size:12px}
+.kv{display:grid;grid-template-columns:170px 1fr;gap:7px 14px;font-size:13.5px;margin:0}
+.kv dt{color:var(--ink-muted)}.kv dd{margin:0}
+.panel-label{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 8px}
+.cathead{background:#fff;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:18px}
+.risk{display:flex;gap:10px;align-items:center;background:var(--danger-ink);color:#fff;padding:8px 18px;font-size:13px}
+.catrow{display:flex;gap:26px;align-items:center;padding:12px 18px;flex-wrap:wrap}
+.cav{width:44px;height:44px;border-radius:10px;background:var(--danger-ink);color:#fff;font-family:var(--font-display);font-size:22px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cname{font-family:var(--font-display);font-size:21px;font-weight:600}
+.lbl{font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:3px}
+.chip{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:2px 8px;border-radius:7px;border:1px solid;white-space:nowrap}
+.c-warn{background:var(--warning-bg);border-color:#ebd9b4;color:var(--warning-ink)}.c-danger{background:var(--danger-bg);border-color:#f0ccc8;color:var(--danger-ink)}.c-plain{background:var(--surface-sunken);border-color:var(--border);color:var(--ink)}
+.cattabs{display:flex;gap:2px;padding:0 18px;border-top:1px solid #efece4;background:#fcfbf8}
+.cattabs a{padding:10px 11px;font-size:13.5px;color:var(--ink-muted);text-decoration:none;border-bottom:2.5px solid transparent}
+.cattabs a.on{color:var(--accent-ink);font-weight:600;border-bottom-color:var(--accent)}
+.catc{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:#fff;border:1px solid var(--border);border-left:4px solid var(--danger-ink);border-radius:10px;padding:10px 14px;margin-bottom:16px;font-size:13px}
+/* page */
+.filters{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-bottom:14px}
+.filters .field{margin:0}
+.filters select{width:250px}
+.filters input{width:140px}
+.rt th,.rt td{padding:8px 8px;font-size:12.5px}
+.rt th{letter-spacing:.02em}
+.sub{display:block;font-size:11.5px;color:var(--ink-muted)}
+.neg{color:var(--danger-ink);font-weight:700}
+.pos{color:var(--accent-ink);font-weight:700}
+.kind{font-weight:600}
+.intact{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--accent-ink);margin-bottom:12px}
+</style>
+</helmet>
+<div style="width:1280px;height:940px;background:var(--surface-page);position:relative">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who">Tanvir Islam · Nurse</div></div>
+  <div class="main">
+    <div class="titlerow"><h1 class="h1">Controlled drugs</h1><a class="btn btn-sec" href="#" download><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 11l5 5 5-5M4 20h16"/></svg>Export CSV</a></div>
+    <nav class="tabs" aria-label="Register views"><a href="#" class="on" aria-current="page">Entries</a><a href="RegisterBalancesIntegrity.dc.html">Balances</a><a href="RegisterBalancesIntegrity.dc.html">Integrity</a></nav>
+    <div class="filters" role="search">
+      <div class="field"><label for="r-m">Medicine</label><select id="r-m"><option>Buprenorphine 0.3 mg per 1 ml</option></select></div>
+      <div class="field"><label for="r-b">Batch</label><select id="r-b" style="width:120px"><option>L7720</option></select></div>
+      <div class="field"><label for="r-k">Kind</label><select id="r-k" style="width:130px"><option>All kinds</option></select></div>
+      <div class="field"><label for="r-f">From</label><input id="r-f" value="20 Sep 2026"></div>
+      <div class="field"><label for="r-t">To</label><input id="r-t" value="23 Sep 2026"></div>
+      <span class="small muted" style="padding-bottom:9px">Dates in Asia/Dhaka</span>
+    </div>
+    <div class="intact" role="status"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>Register intact</b> — 1,204 entries checked 10:40 (Asia/Dhaka). 1 entry awaiting seal.</span></div>
+
+    <table class="t rt">
+      <thead><tr><th>#</th><th>Recorded</th><th>Kind</th><th>Medicine · lot</th><th>Quantity</th><th>Balance</th><th>Dose · wastage</th><th>Cat · customer</th><th>By · witness</th><th>Source · links</th><th>Seal</th></tr></thead>
+      <tbody>
+        <tr><td><a href="RegisterEntryDetail.dc.html">1198</a></td><td class="nw">20 Sep, 09:12</td><td class="kind">Received</td><td>Buprenorphine<span class="sub"><span class="q">0.3 mg/ml</span> · L7720</span><span class="sub">exp 31 Jan 2027</span></td><td class="q pos">+10 ml</td><td class="q">10 ml</td><td class="muted">—</td><td class="muted">—</td><td>Tanvir Islam<span class="sub">Dr. Nusrat Jahan</span></td><td>Goods receipt<span class="sub">GR-2026-0412</span></td><td><span class="badge b-ok"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Sealed</span></td></tr>
+        <tr><td><a href="RegisterEntryDetail.dc.html">1199</a></td><td class="nw">21 Sep, 14:30</td><td class="kind">Administered</td><td>Buprenorphine<span class="sub"><span class="q">0.3 mg/ml</span> · L7720</span></td><td class="q neg">−0.4 ml</td><td class="q">9.6 ml</td><td>0.4 ml SC at induction</td><td>Biscuit<span class="sub">Farhana Yasmin</span></td><td>Dr. Nusrat Jahan<span class="sub">Tanvir Islam</span></td><td>Anaesthesia log<a class="sub" href="RegisterEntryDetail.dc.html">Corrected by #1203</a></td><td><span class="badge b-ok"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Sealed</span></td></tr>
+        <tr><td><a href="RegisterEntryDetail.dc.html">1200</a></td><td class="nw">21 Sep, 14:31</td><td class="kind">Wasted</td><td>Buprenorphine<span class="sub"><span class="q">0.3 mg/ml</span> · L7720</span></td><td class="q neg">−0.1 ml</td><td class="q">9.5 ml</td><td>Wastage <span class="q">0.1 ml</span><span class="sub">Drawn up, not used</span></td><td>Biscuit<span class="sub">Farhana Yasmin</span></td><td>Dr. Nusrat Jahan<span class="sub">Tanvir Islam</span></td><td>Anaesthesia log</td><td><span class="badge b-ok"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Sealed</span></td></tr>
+        <tr><td><a href="RegisterEntryDetail.dc.html">1201</a></td><td class="nw">22 Sep, 11:40</td><td class="kind">Dispensed</td><td>Buprenorphine<span class="sub"><span class="q">0.3 mg/ml</span> · L7720</span></td><td class="q neg">−1.5 ml</td><td class="q">8 ml</td><td>0.1 ml every 8 hours</td><td>Pepper<span class="sub">Kamrul Hasan</span></td><td>Shormi Akter<span class="sub">Tanvir Islam</span></td><td><a href="DispensingDetail.dc.html">DSP-2026-000301</a><span class="sub">Reversed by #1202</span></td><td><span class="badge b-ok"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Sealed</span></td></tr>
+        <tr><td><a href="RegisterEntryDetail.dc.html">1202</a></td><td class="nw">22 Sep, 16:05</td><td class="kind">Reversal</td><td>Buprenorphine<span class="sub"><span class="q">0.3 mg/ml</span> · L7720</span></td><td class="q pos">+1.5 ml</td><td class="q">9.5 ml</td><td class="muted">—</td><td>Pepper<span class="sub">Kamrul Hasan</span></td><td>Shormi Akter<span class="sub">Dr. Nusrat Jahan</span></td><td><a href="DispensingDetail.dc.html">DSP-2026-000301</a><span class="sub">Reverses #1201</span></td><td><span class="badge b-ok"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Sealed</span></td></tr>
+        <tr><td><a href="RegisterEntryDetail.dc.html">1203</a></td><td class="nw">22 Sep, 17:20</td><td class="kind">Correction</td><td>Buprenorphine<span class="sub"><span class="q">0.3 mg/ml</span> · L7720</span></td><td class="q neg">−0.1 ml</td><td class="q">9.4 ml</td><td>0.5 ml SC at induction</td><td>Biscuit<span class="sub">Farhana Yasmin</span></td><td>Dr. Nusrat Jahan<span class="sub">Tanvir Islam</span></td><td><a class="sub" href="RegisterEntryDetail.dc.html" style="font-size:12.5px">Corrects #1199</a></td><td><span class="badge b-ok"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Sealed</span></td></tr>
+        <tr><td><a href="RegisterEntryDetail.dc.html">1204</a></td><td class="nw">23 Sep, 10:49</td><td class="kind">Dispensed</td><td>Buprenorphine<span class="sub"><span class="q">0.3 mg/ml</span> · L7720</span></td><td class="q neg">−1.5 ml</td><td class="q">7.9 ml</td><td>0.1 ml every 8 hours</td><td>Noodle<span class="sub">Sadia Rahman</span></td><td>Shormi Akter<span class="sub">Tanvir Islam</span></td><td><a href="DispensingDetail.dc.html">DSP-2026-000318</a></td><td><span class="badge b-warn"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Awaiting seal</span></td></tr>
+      </tbody>
+    </table>
+    <p class="small muted" style="margin-top:10px">Entries are in register order. There is no edit or delete control anywhere — a mistake is fixed by adding a correction entry from the entry's page. 7 entries · page 1 of 1.</p>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":940}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

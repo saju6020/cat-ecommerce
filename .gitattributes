@@ -1,0 +1,6 @@
+# Store and check out text files with LF so Prettier and other LF-only tools agree on every OS.
+# Every tracked text file was already stored as LF; this only stops Windows checkouts turning it into CRLF.
+* text=auto eol=lf
+*.cmd text eol=crlf
+*.bat text eol=crlf
+*.ps1 text eol=crlf

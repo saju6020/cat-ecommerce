@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Appointment detail — after the cut-off — US-CLN-04 AC2</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#fbf6ef;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:14px;--warm:#e8894a;--warm-ink:#8a3f14;--warm-soft:#fdeee2}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:18px;color:var(--accent-ink)}
+.pnav{display:flex;gap:24px;font-size:13.5px;font-weight:600}
+.pnav a{color:var(--ink-muted);text-decoration:none}
+.pnav a[aria-current]{color:var(--ink)}
+.who{display:flex;align-items:center;gap:12px;font-size:13.5px}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.wrap{max-width:760px;margin:0 auto;padding:28px 32px}
+.back{font-size:13px;color:var(--accent-ink);font-weight:600;text-decoration:none}
+.h1{font-family:var(--font-display);font-weight:600;font-size:23px;margin:10px 0 4px;display:flex;align-items:center;gap:12px}
+.muted{color:var(--ink-muted)}
+.status{display:inline-flex;align-items:center;gap:5px;font-family:var(--font-sans);font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent-ink)}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:20px 22px;margin-top:16px}
+.kv{display:grid;grid-template-columns:130px 1fr;gap:9px 14px;font-size:14.5px;margin:0}
+.kv dt{color:var(--ink-muted)}
+.kv dd{margin:0}
+.contact{border:1px solid var(--warning-ink);background:var(--warning-bg);color:var(--warning-ink);border-radius:var(--radius-md);padding:18px 20px;margin-top:16px}
+.contact h2{font-size:15.5px;margin:0 0 6px;display:flex;gap:8px;align-items:center}
+.contact p{font-size:14px;line-height:1.55;margin:0 0 14px;color:var(--ink)}
+.links{display:flex;gap:10px;flex-wrap:wrap}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:14px;padding:10px 18px;border-radius:var(--radius-sm);border:none;background:var(--accent);color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+.btn-ghost{background:#fff;border:1px solid var(--border-strong);color:var(--ink)}
+.note{font-size:12.5px;color:var(--ink-muted);margin-top:14px;line-height:1.5}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page);overflow:auto">
+  <div class="topnav">
+    <div class="brand">PurrCare</div>
+    <nav class="pnav" aria-label="Portal"><a href="#">My cats</a><a href="MyAppointments.dc.html" aria-current="page">Appointments</a><a href="#">Inbox</a></nav>
+    <div class="who"><div class="avatar">FY</div>Farhana Yasmin</div>
+  </div>
+  <div class="wrap">
+    <a class="back" href="MyAppointments.dc.html">‹ My appointments</a>
+    <h1 class="h1">Bagha · Dental check <span class="status"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="m5 12 5 5L20 7"/></svg>Booked</span></h1>
+    <p class="muted" style="margin:0;font-size:13.5px">Reference APT-2026-004655 · booked by phone 18 Sep</p>
+    <div class="card">
+      <dl class="kv">
+        <dt>When</dt><dd><strong>Today, Wednesday 23 September, 13:15–13:45</strong> (Asia/Dhaka)</dd>
+        <dt>With</dt><dd>Dr Nusrat Jahan</dd>
+        <dt>Room</dt><dd>Consult 2</dd>
+        <dt>Branch</dt><dd>Uttara · Sector 7, Uttara, Dhaka</dd>
+        <dt>Price</dt><dd>৳1,000 — pay at the clinic</dd>
+        <dt>Reason for visit</dt><dd>None recorded</dd>
+      </dl>
+    </div>
+
+    <section class="contact" aria-labelledby="cc-h">
+      <h2 id="cc-h"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>This can't be changed online any more</h2>
+      <p>It's less than 4 hours until your appointment, so it can't be changed online. Please call <strong>Uttara</strong> on <strong>09611 223344</strong> and the reception team will help.</p>
+      <div class="links">
+        <a class="btn" href="tel:+8809611223344"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2Z"/></svg>Call 09611 223344</a>
+        <a class="btn btn-ghost" href="mailto:uttara@purrcare.example">Email uttara@purrcare.example</a>
+      </div>
+    </section>
+    <p class="note">Reschedule and Cancel are not shown at all here — the server says this appointment can no longer be changed by you (canChange is false), so the page offers the way that still works instead of a dead button.</p>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

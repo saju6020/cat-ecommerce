@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>My prescription — request a repeat — US-PHM-06 AC1</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink);font-size:14px}
+a{color:var(--accent-ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px;display:flex;align-items:center;gap:16px}
+select.branchpick{font:inherit;font-size:13px;padding:5px 8px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.main{padding:26px 32px;position:relative}
+.titlerow{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:16px;flex-wrap:wrap}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+.h2{font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-muted);margin:0 0 10px}
+.muted{color:var(--ink-muted)}.faint{color:var(--ink-faint)}.small{font-size:12.5px}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:8px 15px;border-radius:var(--radius-sm);border:1px solid var(--accent);cursor:pointer;background:var(--accent);color:#fff;display:inline-flex;align-items:center;gap:7px;text-decoration:none;white-space:nowrap}
+.btn-sec{background:#fff;color:var(--ink);border-color:var(--border-strong)}
+.btn-danger{background:#fff;color:var(--danger-ink);border-color:var(--danger-ink)}
+.btn-danger-solid{background:var(--danger-ink);border-color:var(--danger-ink);color:#fff}
+.btn[disabled]{background:var(--surface-sunken);border-color:var(--border);color:var(--ink-faint);cursor:not-allowed}
+.btn-sm{font-size:12.5px;padding:5px 10px}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:18px}
+table.t{border-collapse:collapse;width:100%;background:#fff;border:1px solid var(--border)}
+.t th,.t td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--border);font-size:13px;vertical-align:top}
+.t th{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);font-weight:700;background:var(--surface-sunken);white-space:nowrap}
+.t tr.off td{color:var(--ink-faint);background:#fbfaf7}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;font-size:11.5px;font-weight:600;white-space:nowrap}
+.b-ok{background:var(--accent-soft);color:var(--accent-ink)}.b-warn{background:var(--warning-bg);color:var(--warning-ink)}.b-danger{background:var(--danger-bg);color:var(--danger-ink)}.b-neutral{background:var(--surface-sunken);color:var(--ink-muted)}
+.ic{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.field{margin-bottom:14px}
+.field label,.lab{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.field input,.field select,.field textarea{width:100%;font:inherit;font-size:14px;padding:8px 11px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:#fff;color:var(--ink)}
+.field input[readonly]{background:var(--surface-sunken);color:var(--ink-muted)}
+.field textarea{min-height:60px;resize:vertical}
+.hint{font-size:12px;color:var(--ink-muted);margin-top:4px;line-height:1.4}
+.field.bad input,.field.bad textarea,.field.bad select{border-color:var(--danger-ink);border-width:1.5px}
+.err{display:flex;gap:6px;align-items:flex-start;font-size:12.5px;color:var(--danger-ink);font-weight:600;margin-top:5px}
+.err .ic{margin-top:1px}
+.qi{display:flex}.qi input{border-radius:6px 0 0 6px;min-width:0}.qi select{width:auto;border-radius:0 6px 6px 0;border-left:none;background:var(--surface-sunken)}
+.fixedunit{display:flex;align-items:center;padding:0 12px;border:1px solid var(--border-strong);border-left:none;border-radius:0 6px 6px 0;background:var(--surface-sunken);font-size:14px;color:var(--ink-muted);white-space:nowrap}
+.note{display:flex;gap:10px;align-items:flex-start;padding:11px 14px;border-radius:8px;font-size:13px;line-height:1.45;border:1px solid}
+.note .ic{margin-top:2px}
+.n-info{background:var(--accent-soft);border-color:#c6dcd9;color:var(--accent-ink)}
+.n-warn{background:var(--warning-bg);border-color:#ebd9b4;color:var(--warning-ink)}
+.n-block{background:var(--danger-bg);border-color:#f0ccc8;color:var(--danger-ink)}
+.n-neutral{background:var(--surface-sunken);border-color:var(--border);color:var(--ink)}
+.scrim{position:absolute;inset:0;background:rgba(28,26,23,.4);display:flex;align-items:center;justify-content:center;z-index:5}
+.dialog{background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(20,18,10,.25);width:460px;padding:24px}
+.dialog h2{margin:0 0 10px;font-family:var(--font-display);font-weight:600;font-size:18px}
+.confirm{font-size:13px;background:var(--surface-sunken);border-radius:6px;padding:10px 12px;margin:12px 0;line-height:1.45}
+.dactions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
+.tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:16px}
+.tabs a{padding:10px 2px;margin-right:22px;font-size:13.5px;font-weight:600;color:var(--ink-muted);text-decoration:none;border-bottom:2px solid transparent}
+.tabs a.on{color:var(--ink);border-bottom-color:var(--accent)}
+.q,.nw{white-space:nowrap}
+.mono{font-family:ui-monospace,Consolas,monospace;font-size:12px}
+.kv{display:grid;grid-template-columns:170px 1fr;gap:7px 14px;font-size:13.5px;margin:0}
+.kv dt{color:var(--ink-muted)}.kv dd{margin:0}
+.panel-label{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 8px}
+.cathead{background:#fff;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:18px}
+.risk{display:flex;gap:10px;align-items:center;background:var(--danger-ink);color:#fff;padding:8px 18px;font-size:13px}
+.catrow{display:flex;gap:26px;align-items:center;padding:12px 18px;flex-wrap:wrap}
+.cav{width:44px;height:44px;border-radius:10px;background:var(--danger-ink);color:#fff;font-family:var(--font-display);font-size:22px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cname{font-family:var(--font-display);font-size:21px;font-weight:600}
+.lbl{font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:3px}
+.chip{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:2px 8px;border-radius:7px;border:1px solid;white-space:nowrap}
+.c-warn{background:var(--warning-bg);border-color:#ebd9b4;color:var(--warning-ink)}.c-danger{background:var(--danger-bg);border-color:#f0ccc8;color:var(--danger-ink)}.c-plain{background:var(--surface-sunken);border-color:var(--border);color:var(--ink)}
+.cattabs{display:flex;gap:2px;padding:0 18px;border-top:1px solid #efece4;background:#fcfbf8}
+.cattabs a{padding:10px 11px;font-size:13.5px;color:var(--ink-muted);text-decoration:none;border-bottom:2.5px solid transparent}
+.cattabs a.on{color:var(--accent-ink);font-weight:600;border-bottom-color:var(--accent)}
+.catc{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:#fff;border:1px solid var(--border);border-left:4px solid var(--danger-ink);border-radius:10px;padding:10px 14px;margin-bottom:16px;font-size:13px}
+/* page */
+.ptop{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;border-bottom:1px solid var(--border);background:#fff}
+.pbrand{font-family:var(--font-display);font-weight:600;font-size:18px;color:var(--accent-ink)}
+.pwho{display:flex;align-items:center;gap:14px;font-size:13.5px}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.pnav{display:flex;gap:26px;padding:0 32px;background:#fff;border-bottom:1px solid var(--border)}
+.pnav a{padding:13px 0;font-size:14px;font-weight:600;color:var(--ink-muted);text-decoration:none;border-bottom:2px solid transparent}
+.pnav a.on{color:var(--ink);border-bottom-color:var(--accent)}
+.pwrap{max-width:1000px;margin:0 auto;padding:30px 32px}
+.pgrid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:20px;align-items:start}
+.radio{display:flex;gap:9px;align-items:flex-start;border:1px solid var(--border-strong);border-radius:8px;padding:10px 12px;margin-bottom:8px;font-size:13.5px}
+.radio.on{border-color:var(--accent);background:var(--accent-soft)}
+.radio input{margin-top:3px;accent-color:var(--accent);width:auto !important}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page);position:relative">
+  <div class="ptop"><div class="pbrand">PurrCare</div><div class="pwho"><div class="avatar">FY</div>Farhana Yasmin <a href="#" style="font-weight:600;margin-left:8px">Sign out</a></div></div>
+  <nav class="pnav" aria-label="Account"><a href="#">My cats</a><a href="MyPrescriptions.dc.html" class="on" aria-current="page">Prescriptions</a><a href="../notifications/InboxAndBadge.dc.html">Messages</a><a href="../accounts-identity/Profile.dc.html">Account</a></nav>
+  <div class="pwrap">
+    <a href="MyPrescriptions.dc.html" class="small">← Prescriptions</a>
+    <div class="titlerow" style="margin-top:8px"><div><h1 class="h1" style="font-size:24px">Meloxicam <span class="q">1.5 mg per 1 ml</span> for Mittens</h1><div class="small muted" style="margin-top:4px">RX-2026-000123 · prescribed by Dr. Nusrat Jahan on 22 Sep 2026</div></div></div>
+    <div class="pgrid">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <section class="card">
+          <dl class="kv" style="grid-template-columns:140px 1fr">
+            <dt>How much</dt><dd><b class="q">0.4 ml</b> by mouth, once daily</dd>
+            <dt>Instructions</dt><dd>Give 0.4 ml by mouth once daily, with or after food. Shake well before use.</dd>
+            <dt>Remaining</dt><dd>5 days left</dd>
+            <dt>Repeats</dt><dd>2 repeats left, until 31 Dec 2026</dd>
+          </dl>
+        </section>
+        <section class="card">
+          <h2 class="h2">Collected</h2>
+          <table class="t"><thead><tr><th>Date</th><th>Branch</th><th>Quantity</th></tr></thead>
+            <tbody><tr><td>22 Sep 2026</td><td>Uttara</td><td class="q">10 ml</td></tr></tbody></table>
+        </section>
+      </div>
+      <section class="card">
+        <h2 class="h2">Repeat</h2>
+        <p class="small" style="margin:0 0 12px;line-height:1.5">You can ask for a repeat without booking a consultation.</p>
+        <button type="button" class="btn">Request a repeat</button>
+      </section>
+    </div>
+  </div>
+
+  <div class="scrim">
+    <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="rq-t">
+      <h2 id="rq-t">Request a repeat</h2>
+      <p class="small muted" style="margin:0 0 12px">Meloxicam <span class="q">1.5 mg per 1 ml</span> for Mittens · <span class="q">10 ml</span></p>
+      <fieldset style="border:none;padding:0;margin:0 0 10px"><legend class="lab">Collect from</legend>
+        <label class="radio on"><input type="radio" name="br" checked><span><b>Uttara</b><br><span class="small muted">Sector 7, Uttara, Dhaka</span></span></label>
+        <label class="radio"><input type="radio" name="br"><span><b>Banani</b><br><span class="small muted">Road 11, Banani, Dhaka</span></span></label>
+      </fieldset>
+      <div class="field"><label for="rq-n">Note for the clinic <span class="muted" style="font-weight:400">(optional)</span></label><textarea id="rq-n">Running low — she takes it well with her food.</textarea></div>
+      <div class="confirm">We'll prepare it and send you a message when it's ready to collect. You pay at collection — nothing is charged now.</div>
+      <div class="dactions"><button type="button" class="btn btn-sec">Cancel</button><button type="button" class="btn">Request repeat</button></div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Staff booking — US-CLN-07, 08</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px;display:flex;align-items:center;gap:16px}
+select.branchpick{font:inherit;font-size:13px;padding:5px 8px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.main{padding:22px 28px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0 0 2px}
+.muted{color:var(--ink-muted)}
+.layout{display:flex;gap:18px;align-items:flex-start;margin-top:14px}
+.form{flex:1;min-width:0;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:18px 20px}
+.f{margin-bottom:14px}
+.f label,.f .lbl{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.f input,.f select,.f textarea{width:100%;font:inherit;font-size:14px;padding:8px 10px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.req{color:var(--danger-ink)}
+.cust{display:flex;align-items:center;gap:10px;border:1px solid var(--accent);background:var(--accent-soft);border-radius:6px;padding:8px 12px;font-size:14px}
+.ns{display:inline-flex;align-items:center;gap:5px;background:var(--warning-bg);color:var(--warning-ink);border:1px solid #e3c68d;font-size:12px;font-weight:700;padding:2px 9px;border-radius:999px}
+.cathead{border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;margin-top:8px}
+.catbody{display:flex;gap:14px;padding:12px 14px}
+.photo{width:56px;height:56px;border-radius:10px;background:#b8742a;color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:24px;flex:none}
+.facts{display:flex;gap:22px;flex-wrap:wrap;margin-top:6px}
+.facts dt{font-size:10.5px;font-weight:700;color:var(--ink-muted);text-transform:uppercase;letter-spacing:.05em}
+.facts dd{margin:2px 0 0;font-size:13.5px}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:2px 8px;border-radius:6px;margin-right:4px}
+.chip-al{background:var(--warning-bg);color:var(--warning-ink);border:1px solid #ebd9b4}
+.chip-cc{background:#f3f1eb;border:1px solid var(--border);color:#3d3932}
+.row{display:flex;gap:12px}
+.row .f{flex:1}
+.slots{display:flex;flex-wrap:wrap;gap:7px}
+.slot{font:inherit;font-size:13px;font-weight:600;border:1px solid var(--accent);color:var(--accent-ink);background:#fff;border-radius:6px;padding:7px 11px;text-align:left}
+.slot.on{background:var(--accent);color:#fff}
+.slot.ooh{border-style:dashed}
+.slot small{display:block;font-size:10.5px;color:var(--warning-ink)}
+.sum{width:330px;flex:none;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:18px}
+.sum h2{font-size:15px;margin:0 0 10px}
+.kv{display:grid;grid-template-columns:78px 1fr;gap:7px 10px;font-size:13px;margin:0 0 14px}
+.kv dt{color:var(--ink-muted)}
+.kv dd{margin:0}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:14px;padding:10px 18px;border-radius:var(--radius-sm);border:none;background:var(--accent);color:#fff;cursor:pointer;width:100%}
+.note{font-size:12px;color:var(--ink-muted);line-height:1.45;margin-top:10px}
+</style>
+</helmet>
+<div style="width:1280px;height:1000px;background:var(--surface-page);overflow:auto">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who"><select class="branchpick" aria-label="Active branch"><option>Uttara (primary)</option><option>Banani</option></select>Shormi Akter · Reception</div></div>
+  <div class="main">
+    <h1 class="h1">New appointment</h1>
+    <p class="muted" style="margin:0;font-size:13px">Booking by phone · Uttara · all times Asia/Dhaka</p>
+    <div class="layout">
+      <div class="form">
+        <div class="f">
+          <span class="lbl">Customer <span class="req">*</span></span>
+          <div class="cust"><strong>Kamrul Hasan</strong><span class="muted">01712 900112</span><span class="ns"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>2 no-shows</span><a href="CustomerAppointmentsPanel.dc.html" style="font-size:12.5px;color:var(--accent-ink);font-weight:600">History</a><a href="#" style="margin-left:auto;font-size:12.5px;color:var(--accent-ink);font-weight:600">Change</a></div>
+        </div>
+        <div class="f">
+          <label for="sb-cat">Cat <span class="req">*</span></label>
+          <select id="sb-cat"><option>Pumpkin</option><option>Rani</option><option>+ Add a new cat…</option></select>
+          <section class="cathead" aria-label="Pumpkin">
+            <div class="catbody">
+              <div class="photo" aria-hidden="true">P</div>
+              <div>
+                <div><strong style="font-family:var(--font-display);font-size:18px">Pumpkin</strong> <span class="muted" style="font-size:12.5px">Domestic shorthair · Orange tabby</span></div>
+                <dl class="facts">
+                  <div><dt>Age</dt><dd>3 years</dd></div>
+                  <div><dt>Sex / neuter</dt><dd>Male · Neutered</dd></div>
+                  <div><dt>Latest weight</dt><dd>5.0 kg <span class="muted" style="font-size:12px">· 2 Aug 2026</span></dd></div>
+                  <div><dt>Allergies</dt><dd><span class="chip chip-al">Chicken protein</span></dd></div>
+                  <div><dt>Chronic conditions</dt><dd class="muted">None recorded</dd></div>
+                  <div><dt>Alerts</dt><dd class="muted">None recorded</dd></div>
+                </dl>
+              </div>
+            </div>
+          </section>
+        </div>
+        <div class="row">
+          <div class="f"><label for="sb-svc">Service <span class="req">*</span></label><select id="sb-svc"><option>Standard consultation · 30 min · ৳800</option></select></div>
+          <div class="f"><label for="sb-date">Date <span class="req">*</span></label><input id="sb-date" value="2026-09-26"></div>
+          <div class="f"><label for="sb-vet">Vet <span class="req">*</span></label><select id="sb-vet"><option>Dr Nusrat Jahan</option><option>Dr Anisur Rahman</option></select></div>
+        </div>
+        <div class="f">
+          <span class="lbl" id="sb-times">Free times — Dr Jahan, Saturday 26 September</span>
+          <div class="slots" role="group" aria-labelledby="sb-times">
+            <button class="slot" type="button">16:00</button>
+            <button class="slot" type="button">16:30</button>
+            <button class="slot" type="button">18:15</button>
+            <button class="slot" type="button">19:30</button>
+            <button class="slot ooh on" type="button" aria-pressed="true">20:00<small style="color:#fbe7c0">Outside opening hours</small></button>
+            <button class="slot ooh" type="button">20:30<small>Outside opening hours</small></button>
+          </div>
+          <div class="note" style="margin-top:6px">Uttara closes at 20:00 on Saturdays; Dr Jahan's shift runs to 21:00. Staff may book inside a shift; online customers never see these times.</div>
+        </div>
+        <div class="row">
+          <div class="f"><label for="sb-room">Room <span class="muted" style="font-weight:400">(optional)</span></label><select id="sb-room"><option>Automatic — Consult 1</option><option>Consult 2</option></select></div>
+          <div class="f" style="flex:2"><label for="sb-reason">Reason for visit <span class="muted" style="font-weight:400">(optional)</span></label><input id="sb-reason" value="Limping on the back left leg since Monday"></div>
+        </div>
+      </div>
+
+      <aside class="sum" aria-labelledby="sum-h">
+        <h2 id="sum-h">Booking</h2>
+        <dl class="kv">
+          <dt>Customer</dt><dd>Kamrul Hasan <span class="ns" style="font-size:11px">2 no-shows</span></dd>
+          <dt>Cat</dt><dd>Pumpkin</dd>
+          <dt>Service</dt><dd>Standard consultation</dd>
+          <dt>When</dt><dd><strong>Sat 26 Sep, 20:00–20:30</strong> (Asia/Dhaka) · outside opening hours</dd>
+          <dt>With</dt><dd>Dr Nusrat Jahan · Consult 1</dd>
+          <dt>Price</dt><dd>৳800 — paid at the clinic</dd>
+        </dl>
+        <button class="btn" type="button">Book…</button>
+        <p class="note">Book asks once more, naming the time and customer, then opens the new appointment. Kamrul Hasan gets a confirmation by his preferred channel. Opened from a cat's page, the customer and cat arrive filled in.</p>
+      </aside>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1000}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

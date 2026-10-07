@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Book — choose a service — US-CLN-02</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#fbf6ef;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:14px;--warm:#e8894a;--warm-ink:#8a3f14;--warm-soft:#fdeee2}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:18px;color:var(--accent-ink)}
+.pnav{display:flex;gap:24px;font-size:13.5px;font-weight:600}
+.pnav a{color:var(--ink-muted);text-decoration:none}
+.pnav a[aria-current]{color:var(--ink)}
+.who{display:flex;align-items:center;gap:12px;font-size:13.5px}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.wrap{max-width:860px;margin:0 auto;padding:30px 32px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:22px;margin:0 0 4px}
+.muted{color:var(--ink-muted)}
+.stepper{display:flex;gap:0;list-style:none;padding:0;margin:18px 0 24px;border:1px solid var(--border);border-radius:var(--radius-md);background:#fff;overflow:hidden}
+.stepper li{flex:1;padding:10px 12px;font-size:12.5px;border-right:1px solid var(--border);color:var(--ink-muted);line-height:1.35}
+.stepper li:last-child{border-right:none}
+.stepper b{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+.stepper .done{color:var(--ink)}
+.stepper .cur{background:var(--accent-soft);color:var(--accent-ink);font-weight:600;box-shadow:inset 0 -2px 0 var(--accent)}
+.stepper .skip{color:var(--ink-faint)}
+.filter{display:flex;align-items:center;gap:10px;font-size:13px;background:var(--surface-sunken);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:14px}
+.chip{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid var(--border-strong);border-radius:999px;padding:3px 10px;font-weight:600}
+.svc{display:flex;gap:16px;align-items:flex-start;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:16px 18px;margin-bottom:10px}
+.svc input{margin-top:4px;width:18px;height:18px;accent-color:var(--accent)}
+.svc.sel{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.svc .nm{font-weight:700;font-size:15px}
+.svc .meta{font-size:13px;color:var(--ink-muted);margin-top:3px}
+.svc .desc{font-size:13.5px;margin-top:6px;line-height:1.45}
+.price{margin-left:auto;text-align:right;white-space:nowrap}
+.price b{font-size:16px}
+.price span{display:block;font-size:12px;color:var(--ink-muted)}
+.actions{display:flex;justify-content:space-between;align-items:center;margin-top:18px}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:14px;padding:10px 20px;border-radius:var(--radius-sm);border:none;background:var(--accent);color:#fff;cursor:pointer}
+.btn-ghost{background:#fff;border:1px solid var(--border-strong);color:var(--ink)}
+.note{font-size:12.5px;color:var(--ink-muted);margin-top:22px;border-top:1px solid var(--border);padding-top:12px;line-height:1.5}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page);overflow:auto">
+  <div class="topnav">
+    <div class="brand">PurrCare</div>
+    <nav class="pnav" aria-label="Portal"><a href="#">My cats</a><a href="MyAppointments.dc.html" aria-current="page">Appointments</a><a href="#">Inbox</a></nav>
+    <div class="who"><div class="avatar">FY</div>Farhana Yasmin</div>
+  </div>
+  <div class="wrap">
+    <h1 class="h1">Book an appointment</h1>
+    <p class="muted" style="margin:0;font-size:14px">For Mitu · from your vaccination reminder</p>
+
+    <ol class="stepper" aria-label="Booking steps">
+      <li class="done"><b>1 · Cat</b>Mitu <span class="muted">(from your link)</span></li>
+      <li class="cur" aria-current="step"><b>2 · Service</b>Choose one</li>
+      <li><b>3 · Branch</b>Not chosen yet</li>
+      <li><b>4 · Date &amp; time</b>Not chosen yet</li>
+      <li><b>5 · Confirm</b>&nbsp;</li>
+    </ol>
+
+    <div class="filter" role="status">
+      Showing <span class="chip">Vaccination <button type="button" aria-label="Show all services" style="border:none;background:none;padding:0;cursor:pointer;color:var(--ink-muted)">&#x2715;</button></span> services, because you came from a vaccination reminder.
+      <a href="#" style="margin-left:auto;color:var(--accent-ink);font-weight:600">Show all services</a>
+    </div>
+
+    <fieldset style="border:none;padding:0;margin:0">
+      <legend class="muted" style="font-size:13px;margin-bottom:10px">Service for Mitu</legend>
+      <label class="svc sel">
+        <input type="radio" name="svc" checked>
+        <div>
+          <div class="nm">FVRCP booster</div>
+          <div class="meta">20 min · Vet or nurse</div>
+          <div class="desc">Yearly booster against feline herpesvirus, calicivirus and panleukopenia. Includes a short health check.</div>
+        </div>
+        <div class="price"><b>৳1,200</b><span>Pay at the clinic</span></div>
+      </label>
+      <label class="svc">
+        <input type="radio" name="svc">
+        <div>
+          <div class="nm">Rabies vaccination</div>
+          <div class="meta">20 min · Vet or nurse</div>
+          <div class="desc">Required yearly in Bangladesh. Bring the previous certificate if Mitu was vaccinated elsewhere.</div>
+        </div>
+        <div class="price"><b>৳900</b><span>Pay at the clinic</span></div>
+      </label>
+      <label class="svc">
+        <input type="radio" name="svc">
+        <div>
+          <div class="nm">Kitten vaccination course — first visit</div>
+          <div class="meta">30 min · Vet only</div>
+          <div class="desc">For kittens from 8 weeks. The vet plans the follow-up doses with you.</div>
+        </div>
+        <div class="price"><b>৳1,500</b><span>Pay at the clinic</span></div>
+      </label>
+    </fieldset>
+
+    <div class="actions">
+      <a href="MyAppointments.dc.html" class="btn btn-ghost" style="text-decoration:none">Back to my appointments</a>
+      <a href="BookSlots.dc.html" class="btn" style="text-decoration:none">Continue</a>
+    </div>
+
+    <p class="note">Prices are for information. There is nothing to pay online — you pay at the clinic by cash, card or bank transfer after the visit. Step 1 was skipped because the link named your cat; the branch step is skipped automatically when a clinic has one branch.</p>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

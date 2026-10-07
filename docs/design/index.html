@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PurrCare — design review</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="./_shared/index.css">
+<style>
+.group-title{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-muted);margin:30px 0 10px}
+.areas{grid-template-columns:repeat(3,1fr)}
+@media (max-width:900px){.areas{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.areas{grid-template-columns:1fr}}
+.count{float:right;font-size:12px;font-weight:600;color:var(--ink-muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">Cat clinic SRS · clickable design review</div>
+  <h1>PurrCare</h1>
+  <p class="lede">18 areas, 427 screens. Every staff screen shares one collapsible sidebar and header; customer screens keep the customer portal’s own header and add a warmer customer layer (apricot highlights, round cat avatars, a line-art cat in empty states). Pick an area to browse its screens.</p>
+
+  <div class="group-title">Clinic</div>
+  <div class="areas">
+    <a class="area-card" href="cat-profile/index.html"><h3>Cat Profile <span class="count">14</span></h3><p>Cat list, registration, medical profile, vaccinations, cage card.</p></a>
+    <a class="area-card" href="appointments/index.html"><h3>Appointments <span class="count">24</span></h3><p>Online booking, waitlist, front desk, calendar, moves and clashes.</p></a>
+    <a class="area-card" href="consultation/index.html"><h3>Consultation <span class="count">28</span></h3><p>Visit workspace, vitals, diagnostics, treatments, consent, discharge.</p></a>
+    <a class="area-card" href="pharmacy/index.html"><h3>Pharmacy <span class="count">26</span></h3><p>Prescribing, formulary, dispensary, controlled-drug register, diets.</p></a>
+    <a class="area-card" href="surgery/index.html"><h3>Surgery <span class="count">26</span></h3><p>Theatre list, pre-op and consent, anaesthesia log, report, recovery.</p></a>
+    <a class="area-card" href="boarding/index.html"><h3>Boarding <span class="count">33</span></h3><p>Booking a stay, check-in holds, care tasks, occupancy, incidents.</p></a>
+  </div>
+
+  <div class="group-title">Customers &amp; commerce</div>
+  <div class="areas">
+    <a class="area-card" href="portal/index.html"><h3>Customer Portal <span class="count">14</span></h3><p>Owner dashboard, tiles and their states, re-order.</p></a>
+    <a class="area-card" href="shop/index.html"><h3>Shop <span class="count">28</span></h3><p>Storefront, product pages, wishlist and reviews, catalogue editor.</p></a>
+    <a class="area-card" href="orders/index.html"><h3>Orders <span class="count">40</span></h3><p>Cart, checkout, my orders, fulfilment, returns, point of sale.</p></a>
+    <a class="area-card" href="subscriptions/index.html"><h3>Subscriptions <span class="count">22</span></h3><p>Subscribe, skip, pause, cancel; staff unpaid and suspended queues.</p></a>
+    <a class="area-card" href="billing/index.html"><h3>Billing <span class="count">30</span></h3><p>Invoices, payments, credit notes, cash-up, reconciliation, export.</p></a>
+    <a class="area-card" href="accounts-identity/index.html"><h3>Accounts &amp; Identity <span class="count">20</span></h3><p>Register and sign-in, customer account, staff accounts, merge.</p></a>
+  </div>
+
+  <div class="group-title">Operations &amp; platform</div>
+  <div class="areas">
+    <a class="area-card" href="imports-inventory/index.html"><h3>Imports &amp; Inventory <span class="count">33</span></h3><p>Suppliers, purchase orders, consignments, stock, receipts, recalls.</p></a>
+    <a class="area-card" href="reporting/index.html"><h3>Reporting <span class="count">19</span></h3><p>Role dashboards, report catalogue and viewer, exports, schedules.</p></a>
+    <a class="area-card" href="notifications/index.html"><h3>Notifications <span class="count">9</span></h3><p>Inbox, preferred channel, templates, unsubscribe, log and resend.</p></a>
+    <a class="area-card" href="administration/index.html"><h3>Administration <span class="count">22</span></h3><p>Branches, pricing and tax, rosters, settings, content, audit.</p></a>
+    <a class="area-card" href="file-storage/index.html"><h3>File Storage <span class="count">15</span></h3><p>Shared uploader, file list, thumbnails and media viewer states.</p></a>
+    <a class="area-card" href="cross-cutting/index.html"><h3>Cross-cutting <span class="count">24</span></h3><p>Offline front desk, retention and erasure, backups, performance.</p></a>
+  </div>
+
+  <p class="note">
+    The <code>.dc.html</code> files are the committed design source. <code>support.js</code> in each folder (copied from
+    <code>_shared/</code>) renders them locally, makes them fluid, and rebuilds every staff screen into the shared
+    shell. Serve this folder with any static server, e.g. <code>python -m http.server 8080</code>, and open
+    <code>http://127.0.0.1:8080/</code>.
+  </p>
+</div>
+</body>
+</html>

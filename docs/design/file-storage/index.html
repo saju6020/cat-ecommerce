@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>File Storage — screens</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="./index.css">
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../index.html">&larr; All areas</a>
+  <div class="eyebrow">PurrCare · backlog &sect;17 · US-XCT-07</div>
+  <h1>File Storage</h1>
+  <p class="lede">Three rows, fifteen artboards. This area has no page of its own: it is the one uploader, file list, thumbnail and viewer that Shop, Clinical records, Boarding and Reports all import. Each board shows the shared component inside an illustrative host page. No live interaction; every state is its own artboard.</p>
+
+  <div class="row-group">
+    <h2>Uploader — FileUploader, useFileUpload</h2>
+    <a class="screen-row" href="UploaderIdle.dc.html"><span class="screen-name">Idle, focus &amp; drag-over<span class="screen-file">UploaderIdle.dc.html</span></span><span class="screen-desc">The drop zone as a real button, the purpose's type/size hint, keyboard focus and the drag-over state side by side</span></a>
+    <a class="screen-row" href="UploaderQueue.dc.html"><span class="screen-name">⭐ Queue &amp; progress<span class="screen-file">UploaderQueue.dc.html</span></span><span class="screen-desc">Three lab files: Uploaded, Uploading with bytes and %, Waiting — sequential; the host's disabled submit with its reason; what the live region does and doesn't announce</span></a>
+    <a class="screen-row" href="UploaderRefusedClientSide.dc.html"><span class="screen-name">Refused before sending<span class="screen-file">UploaderRefusedClientSide.dc.html</span></span><span class="screen-desc">FileTooLarge and FileTypeNotAllowed in their exact §8.2 wording, with the network panel proving no request was sent (C2)</span></a>
+    <a class="screen-row" href="UploaderServerRefused.dc.html"><span class="screen-name">Refused by the server<span class="screen-file">UploaderServerRefused.dc.html</span></span><span class="screen-desc">FileContentMismatch (row kept, Remove) beside FileRejected in two steps — the message, then the row gone (OQ-1)</span></a>
+    <a class="screen-row" href="UploaderScanUnavailable.dc.html"><span class="screen-name">⭐ Scanner unavailable<span class="screen-file">UploaderScanUnavailable.dc.html</span></span><span class="screen-desc">A service state in amber, not an error: files stay queued, manual Retry, the rest of the form still usable (C4, A4)</span></a>
+    <a class="screen-row" href="UploaderInterrupted.dc.html"><span class="screen-name">Interrupted &amp; cancelled<span class="screen-file">UploaderInterrupted.dc.html</span></span><span class="screen-desc">"did not finish uploading" with Retry while the next file carries on; Cancel before and after — row removed, focus moved, one announcement (C5)</span></a>
+    <a class="screen-row" href="UploaderInForm.dc.html"><span class="screen-name">Uploads survive a failed save<span class="screen-file">UploaderInForm.dc.html</span></span><span class="screen-desc">E1: the product form refuses to save over a missing price; the two photos already uploaded are still there</span></a>
+    <a class="screen-row" href="Mobile360.dc.html"><span class="screen-name">Uploader at 360px<span class="screen-file">Mobile360.dc.html</span></span><span class="screen-desc">A nurse uploading diary media on a phone: stacked rows, full-width buttons, long camera names truncated, no sideways scroll (C10)</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>File list &amp; thumbnails — FileList, FileThumb</h2>
+    <a class="screen-row" href="FileList.dc.html"><span class="screen-name">⭐ File list<span class="screen-file">FileList.dc.html</span></span><span class="screen-desc">Open vs download-only (DICOM), a finalised visit's Remove disabled with its reason, and the written-out empty state</span></a>
+    <a class="screen-row" href="FileRemoveConfirm.dc.html"><span class="screen-name">Remove confirmation<span class="screen-file">FileRemoveConfirm.dc.html</span></span><span class="screen-desc">Names the file and what stops happening — off the order, out of the owner's portal — with Keep file focused first</span></a>
+    <a class="screen-row" href="FileThumbStates.dc.html"><span class="screen-name">Thumbnail states<span class="screen-file">FileThumbStates.dc.html</span></span><span class="screen-desc">Loaded, loading, video, PDF, download-only, unsafe type never rendered, could-not-load, missing caption — never a broken-image icon</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Viewer &amp; signed URLs — MediaViewer</h2>
+    <a class="screen-row" href="MediaViewerImage.dc.html"><span class="screen-name">Viewer — image<span class="screen-file">MediaViewerImage.dc.html</span></span><span class="screen-desc">Modal over a vet's photos panel: caption as alt text, focus on Close, Esc hint, focus returns to the opening thumb (C7)</span></a>
+    <a class="screen-row" href="MediaViewerPdf.dc.html"><span class="screen-name">Viewer — PDF<span class="screen-file">MediaViewerPdf.dc.html</span></span><span class="screen-desc">Lab PDF paged in the browser's own viewer inside the dialog, with the no-inline-PDF fallback beside it</span></a>
+    <a class="screen-row" href="MediaViewerVideo.dc.html"><span class="screen-name">Viewer — video, portal<span class="screen-file">MediaViewerVideo.dc.html</span></span><span class="screen-desc">Farhana watching Luna's diary video: native controls, paused until she presses play</span></a>
+    <a class="screen-row" href="ExpiredUrl.dc.html"><span class="screen-name">⭐ Expired links, portal<span class="screen-file">ExpiredUrl.dc.html</span></span><span class="screen-desc">A diary left open past its 5-minute links: one silent re-fetch, then "This file could not be loaded — refresh the page." and nothing more (C8)</span></a>
+  </div>
+
+  <p class="note">Rendered locally by <code>support.js</code> in this folder, a from-scratch reimplementation of the hosted canvas runtime (not the original, which isn't distributed). See <a href="README.md">README.md</a> for the design system, encoded rules and known gaps.</p>
+</div>
+</body>
+</html>

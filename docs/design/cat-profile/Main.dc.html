@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Cats — list</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&amp;family=Public+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:'Public Sans',system-ui,sans-serif;background:#FAF9F6;color:#1C1A17;-webkit-font-smoothing:antialiased}
+a{color:#15605A}a:hover{color:#0E4742}
+button{font-family:inherit;cursor:pointer}
+input,select{font-family:inherit}
+.row:hover{background:#F6F4EE}
+</style>
+</helmet>
+<div style="width: 1280px; height: 900px; display: flex; background: #FAF9F6;">
+
+  <aside style="width: 240px; flex-shrink: 0; background: #F3F1EB; border-right: 1px solid #E5E1D8; padding: 22px 14px; display: flex; flex-direction: column; gap: 26px;">
+    <a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #1C1A17;">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#15605A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5c-3.3 0-6 2.5-6 5.6 0 2.2 1.2 3.4 1.2 5.2 0 1.2-.6 1.7-.6 2.4 0 .6.5 1 1.2 1h8.4c.7 0 1.2-.4 1.2-1 0-.7-.6-1.2-.6-2.4 0-1.8 1.2-3 1.2-5.2C18 7.5 15.3 5 12 5Z"/><path d="M7 7 5.5 4.2 8.4 5.1"/><path d="m17 7 1.5-2.8-2.9.9"/></svg>
+      <span style="font-family: 'Newsreader', Georgia, serif; font-size: 21px; font-weight: 600; letter-spacing: -0.01em;">PurrCare</span>
+    </a>
+    <nav aria-label="Main" style="display: flex; flex-direction: column; gap: 2px;">
+      <a href="Main.dc.html" aria-current="page" style="display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 8px; text-decoration: none; background: #E6F0EE; color: #0E4742; font-size: 14px; font-weight: 600;">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>Cats</a>
+      <a href="Vaccines.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 8px; text-decoration: none; color: #5C574F; font-size: 14px;">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m18 2 4 4M17 7 7 17l-4 4M14 4l6 6M9 11l4 4"/></svg>Vaccines</a>
+      <span style="display: flex; align-items: center; gap: 10px; padding: 9px 12px; color: #A09A8D; font-size: 14px;">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 11h18"/></svg>Appointments
+        <span style="margin-left: auto; font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; border: 1px solid #DDD8CD; border-radius: 4px; padding: 1px 5px;">Later</span></span>
+      <span style="display: flex; align-items: center; gap: 10px; padding: 9px 12px; color: #A09A8D; font-size: 14px;">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9h18v11H3zM3 9l2-5h14l2 5M12 9v11"/></svg>Boarding
+        <span style="margin-left: auto; font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; border: 1px solid #DDD8CD; border-radius: 4px; padding: 1px 5px;">Later</span></span>
+      <a href="Portal.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 8px; text-decoration: none; color: #5C574F; font-size: 14px;">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20v-1a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v1"/><circle cx="12" cy="7" r="3.5"/></svg>Owner portal</a>
+      <a href="Mobile360.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 8px; text-decoration: none; color: #5C574F; font-size: 14px;">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg>Narrow width</a>
+    </nav>
+    <div style="margin-top: auto; border-top: 1px solid #E5E1D8; padding-top: 14px;">
+      <div style="font-size: 13px; font-weight: 600;">Dr. A. Rahman</div>
+      <div style="font-size: 12px; color: #5C574F;">Veterinarian</div>
+      <div style="margin-top: 8px; font-size: 11px; line-height: 1.45; color: #6E4700; background: #FBF0DC; border: 1px solid #EBD9B4; border-radius: 6px; padding: 6px 8px;">Fixed dev identity — no sign-in yet</div>
+    </div>
+  </aside>
+
+  <div style="flex-grow: 1; display: flex; flex-direction: column; min-width: 0;">
+    <header style="height: 62px; flex-shrink: 0; border-bottom: 1px solid #E5E1D8; background: #FFFFFF; display: flex; align-items: center; justify-content: space-between; padding: 0 26px;">
+      <h1 style="margin: 0; font-family: 'Newsreader', Georgia, serif; font-size: 25px; font-weight: 600;">Cats</h1>
+      <a href="CatRegister.dc.html" style="display: inline-flex; align-items: center; gap: 7px; background: #15605A; color: #FFFFFF; text-decoration: none; font-size: 14px; font-weight: 600; padding: 10px 16px; border-radius: 8px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Register a cat</a>
+    </header>
+
+    <div style="flex-grow: 1; padding: 22px 26px; display: flex; flex-direction: column; gap: 16px; min-height: 0;">
+
+      <div style="display: flex; align-items: flex-end; gap: 14px; flex-wrap: wrap;">
+        <div style="display: flex; flex-direction: column; gap: 5px; flex-grow: 1; max-width: 340px;">
+          <label for="q" style="font-size: 12px; font-weight: 600; color: #5C574F;">Search by name or owner</label>
+          <input id="q" type="search" placeholder="e.g. Mittens" style="height: 38px; border: 1px solid #D8D3C7; border-radius: 8px; padding: 0 11px; font-size: 14px; background: #FFFFFF;">
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 5px;">
+          <label for="sort" style="font-size: 12px; font-weight: 600; color: #5C574F;">Sort</label>
+          <select id="sort" style="height: 38px; border: 1px solid #D8D3C7; border-radius: 8px; padding: 0 9px; font-size: 14px; background: #FFFFFF;">
+            <option>Name A–Z</option>
+            <option>Recently updated</option>
+            <option>Vaccination status</option>
+          </select>
+        </div>
+        <label for="dec" style="display: flex; align-items: center; gap: 8px; font-size: 14px; height: 38px; cursor: pointer;">
+          <input id="dec" type="checkbox" checked="{{showDeceased}}" onChange="{{toggleDeceased}}" style="width: 17px; height: 17px; accent-color: #15605A;">Include deceased
+        </label>
+      </div>
+
+      <div style="background: #FFFFFF; border: 1px solid #E5E1D8; border-radius: 12px; overflow: hidden; flex-grow: 1; display: flex; flex-direction: column;">
+        <div style="display: grid; grid-template-columns: 244px 164px 116px 146px 1fr 118px; gap: 14px; padding: 11px 18px; background: #F6F4EE; border-bottom: 1px solid #E5E1D8; font-size: 11px; font-weight: 700; color: #5C574F; letter-spacing: 0.05em; text-transform: uppercase;">
+          <span>Cat</span><span>Owner</span><span>Age</span><span>Sex / neuter</span><span>Alerts</span><span>Vaccination</span>
+        </div>
+        <sc-for list="{{cats}}" as="c" hint-placeholder-count="5">
+          <a class="row" href="{{c.href}}" style="display: grid; grid-template-columns: 244px 164px 116px 146px 1fr 118px; gap: 14px; padding: 13px 18px; border-bottom: 1px solid #EFECE4; text-decoration: none; color: #1C1A17; align-items: center;">
+            <span style="display: flex; align-items: center; gap: 11px; min-width: 0;">
+              <span style="width: 36px; height: 36px; border-radius: 9px; background: {{c.swatch}}; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-family: 'Newsreader', Georgia, serif; font-size: 16px; color: #FFFFFF;">{{c.initial}}</span>
+              <span style="min-width: 0;">
+                <span style="display: block; font-size: 14px; font-weight: 600;">{{c.name}}</span>
+                <span style="display: block; font-size: 12px; color: #5C574F;">{{c.breed}}</span>
+              </span>
+            </span>
+            <span style="font-size: 14px; color: #3D3932;">{{c.owner}}</span>
+            <span style="font-size: 14px; color: #3D3932;">{{c.age}}</span>
+            <span style="font-size: 14px; color: #3D3932;">{{c.sex}}</span>
+            <span style="display: flex; gap: 6px; flex-wrap: wrap;">
+              <sc-if value="{{c.highRisk}}" hint-placeholder-val="{{true}}">
+                <span style="display: inline-flex; align-items: center; gap: 5px; background: #8F1D1D; color: #FFFFFF; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 999px;">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 9v5M12 17.4v.6"/><path d="M10.3 3.9 2.6 17.2A2 2 0 0 0 4.3 20h15.4a2 2 0 0 0 1.7-2.8L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>High risk</span>
+              </sc-if>
+              <sc-if value="{{c.deceased}}" hint-placeholder-val="{{true}}">
+                <span style="display: inline-flex; align-items: center; gap: 5px; background: #EFECE4; color: #45413A; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 999px;">Deceased</span>
+              </sc-if>
+              <sc-if value="{{c.allergy}}" hint-placeholder-val="{{true}}">
+                <span style="display: inline-flex; align-items: center; gap: 5px; background: #FBF0DC; color: #6E4700; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 999px; border: 1px solid #EBD9B4;">Allergies</span>
+              </sc-if>
+            </span>
+            <span style="display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 700; color: {{c.vaxInk}}; background: {{c.vaxBg}}; padding: 4px 9px; border-radius: 999px; justify-self: start;">{{c.vaxIcon}} {{c.vax}}</span>
+          </a>
+        </sc-for>
+        <div style="margin-top: auto; display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; font-size: 13px; color: #5C574F;">
+          <span>Showing {{count}} of {{count}} cats</span>
+          <span style="display: flex; gap: 7px;">
+            <button type="button" style="border: 1px solid #E5E1D8; background: #FFFFFF; color: #A09A8D; border-radius: 7px; padding: 6px 12px; font-size: 13px;">Previous</button>
+            <button type="button" style="border: 1px solid #D8D3C7; background: #FFFFFF; color: #1C1A17; border-radius: 7px; padding: 6px 12px; font-size: 13px;">Next</button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { showDeceased: true };
+  }
+  renderVals() {
+    const all = [
+      { name: 'Mittens', breed: 'Domestic shorthair · Tabby', owner: 'Nusrat Jahan', age: '~3 yrs (est.)', sex: 'Female · Neutered', initial: 'M', swatch: '#8F1D1D', highRisk: true, allergy: true, deceased: false, vax: 'Overdue', vaxInk: '#8F1D1D', vaxBg: '#FBE9E7', vaxIcon: '⛔', href: 'CatOverview.dc.html' },
+      { name: 'Biscuit', breed: 'Persian · Cream', owner: 'Rakib Hasan', age: '5 yrs 2 mo', sex: 'Male · Neutered', initial: 'B', swatch: '#15605A', highRisk: false, allergy: false, deceased: false, vax: 'Current', vaxInk: '#0E4742', vaxBg: '#E6F0EE', vaxIcon: '✓', href: 'CatHealthy.dc.html' },
+      { name: 'Noodle', breed: 'Bengal · Spotted', owner: 'Farhana Akter', age: '1 yr 8 mo', sex: 'Male · Intact', initial: 'N', swatch: '#6E4700', highRisk: false, allergy: true, deceased: false, vax: 'Due soon', vaxInk: '#6E4700', vaxBg: '#FBF0DC', vaxIcon: '⚠', href: 'CatHealthy.dc.html' },
+      { name: 'Pepper', breed: 'Domestic longhair · Black', owner: 'Imran Chowdhury', age: '7 yrs 4 mo', sex: 'Female · Neutered', initial: 'P', swatch: '#3D3932', highRisk: false, allergy: false, deceased: false, vax: 'Current', vaxInk: '#0E4742', vaxBg: '#E6F0EE', vaxIcon: '✓', href: 'CatHealthy.dc.html' },
+      { name: 'Ash', breed: 'Russian blue · Grey', owner: 'Shirin Akhtar', age: '12 yrs', sex: 'Male · Neutered', initial: 'A', swatch: '#6B6559', highRisk: false, allergy: false, deceased: true, vax: 'Current', vaxInk: '#0E4742', vaxBg: '#E6F0EE', vaxIcon: '✓', href: 'CatDeceased.dc.html' }
+    ];
+    const cats = this.state.showDeceased ? all : all.filter(function (c) { return !c.deceased; });
+    const self = this;
+    return {
+      cats: cats,
+      count: cats.length,
+      showDeceased: this.state.showDeceased,
+      toggleDeceased: function () { self.setState({ showDeceased: !self.state.showDeceased }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

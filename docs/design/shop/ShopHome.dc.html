@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Storefront home — US-ADM-07</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#fbf6ef;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:14px;--warm:#e8894a;--warm-ink:#8a3f14;--warm-soft:#fdeee2}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink);font-size:14px}
+a{color:var(--accent-ink)}
+.ic{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.topnav{background:#fff;border-bottom:1px solid var(--border)}
+.topnav .bar{display:flex;align-items:center;gap:28px;padding:14px 32px}
+.brand{font-family:var(--font-display);font-weight:600;font-size:22px;color:var(--accent-ink);text-decoration:none}
+.search{flex:1;max-width:560px;display:flex}
+.search input{flex:1;min-width:0;font:inherit;font-size:14px;padding:9px 12px;border:1px solid var(--border-strong);border-right:none;border-radius:6px 0 0 6px;background:#fff}
+.search button{border:1px solid var(--accent);background:var(--accent);color:#fff;border-radius:0 6px 6px 0;padding:0 14px;font:inherit;font-weight:600;font-size:13.5px;display:flex;align-items:center;gap:6px}
+.acct{margin-left:auto;display:flex;align-items:center;gap:20px;font-size:13.5px;font-weight:600}
+.acct a{color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:6px}
+.count{background:var(--accent);color:#fff;border-radius:999px;font-size:11px;padding:1px 7px}
+.catnav{display:flex;align-items:center;gap:26px;padding:0 32px;border-top:1px solid var(--border)}
+.catnav a{padding:11px 0;font-size:13.5px;font-weight:600;color:var(--ink-muted);text-decoration:none;border-bottom:2px solid transparent}
+.lang{margin-left:auto;font-size:12.5px;color:var(--ink-muted);display:flex;align-items:center;gap:6px}
+.lang select{font:inherit;font-size:12.5px;padding:4px 6px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.wrap{max-width:1216px;margin:0 auto;padding:22px 32px 40px}
+.h2{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+.sechead{display:flex;align-items:baseline;justify-content:space-between;margin:30px 0 12px}
+.sechead a{font-size:13px;font-weight:600}
+.muted{color:var(--ink-muted)}
+.banner{display:flex;gap:22px;align-items:center;flex-wrap:wrap;background:var(--warm-soft);color:var(--ink);border-radius:var(--radius-md);padding:26px 30px}
+.banner-cat{width:92px;height:92px;border-radius:50%;background:#fff;color:var(--warm-ink);display:flex;align-items:center;justify-content:center;flex:none}
+.banner > div:not(.banner-cat){flex:1 1 300px;min-width:0}
+.banner h2{font-family:var(--font-display);font-weight:600;font-size:26px;margin:0 0 6px}
+.banner p{margin:0;font-size:14.5px;line-height:1.5;max-width:620px}
+.banner p b{color:var(--warm-ink)}
+.banner a{margin-left:auto;background:var(--accent);color:#fff;font-weight:700;font-size:13.5px;padding:10px 16px;border-radius:6px;text-decoration:none;white-space:nowrap}
+.banner2{display:flex;gap:10px;align-items:center;background:var(--warning-bg);color:var(--warning-ink);border-radius:var(--radius-sm);padding:10px 14px;font-size:13.5px;margin-top:10px}
+.cats{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
+.cat{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:16px 14px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:8px;font-weight:600;font-size:14px}
+.cat svg{width:26px;height:26px;color:var(--warm-ink)}
+.cat span{font-weight:400;font-size:12px;color:var(--ink-muted)}
+.origins{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.origin{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:14px 16px;text-decoration:none;color:var(--ink);display:flex;align-items:center;gap:12px}
+.origin b{display:block;font-size:14.5px}
+.origin span{font-size:12.5px;color:var(--ink-muted)}
+.flag{width:30px;height:20px;border-radius:2px;box-shadow:0 0 0 1px rgba(0,0,0,.14);flex:none;display:block}
+.flag.sm{width:20px;height:14px}
+.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:10px 10px 12px;display:flex;flex-direction:column;gap:5px}
+.card h3{font-size:14px;margin:4px 0 0;line-height:1.3}
+.card h3 a{color:var(--ink);text-decoration:none}
+.meta{font-size:12px;color:var(--ink-muted);display:flex;align-items:center;gap:6px}
+.price{font-weight:700;font-size:15px}
+.tax{font-weight:400;font-size:11.5px;color:var(--ink-muted)}
+.avail{font-size:12.5px;font-weight:600;display:inline-flex;align-items:center;gap:5px}
+.avail.in{color:var(--accent-ink)}
+.avail.out{color:var(--danger-ink)}
+.stars{color:#b7862b;letter-spacing:1px;font-size:12px}
+.pimg{aspect-ratio:4/3;border-radius:8px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.pimg svg{height:62%}
+.c1{background:#e6efe9;color:#2f6f5f}.c2{background:#f3e9dc;color:#a0622d}.c3{background:#e8ecf4;color:#3d5a8a}.c4{background:#f4e6e6;color:#9a3b3b}
+.foot{border-top:1px solid var(--border);background:#fff;padding:18px 32px;font-size:12.5px;color:var(--ink-muted);display:flex;gap:22px}
+.foot a{color:var(--ink-muted)}
+</style>
+</helmet>
+<div style="width:1280px;height:1240px;background:var(--surface-page)">
+  <header class="topnav">
+    <div class="bar">
+      <a class="brand" href="ShopHome.dc.html">PurrCare</a>
+      <form class="search" role="search" aria-label="Search products"><input aria-label="Search products" placeholder="Search food, litter, brands, ingredients"><button type="submit"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>Search</button></form>
+      <div class="acct">
+        <a href="#"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/><path d="M2 3h3l2.5 12h12L22 7H6"/></svg>Cart <span class="count">0</span></a>
+        <a href="#"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg>Sign in</a>
+      </div>
+    </div>
+    <nav class="catnav" aria-label="Categories">
+      <a href="Catalogue.dc.html">Cat food</a><a href="#">Litter</a><a href="#">Litter pots &amp; accessories</a><a href="#">Bags &amp; carriers</a><a href="#">Health &amp; grooming</a><a href="#">Toys &amp; furniture</a><a href="ShopByCountry.dc.html">Shop by country</a>
+      <label class="lang">Product language <select aria-label="Product content language"><option selected>English</option><option>বাংলা (Bangla)</option></select></label>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <section aria-label="Announcements">
+      <div class="banner">
+        <div class="banner-cat"><svg width="56" height="56" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 23 17 9l10 7M45 23l2-14-10 7"/><path d="M18 26c0-7 6-11 14-11s14 4 14 11-6 11-14 11-14-4-14-11Z"/><path d="M26 25v1.5M38 25v1.5M30 30.5l2 1.5 2-1.5"/><path d="M22 36c-4 6-5 13-3 21h26c2-8 1-15-3-21"/><path d="M45 55c6 0 9-4 7.5-9"/></svg></div>
+        <div>
+          <h2>Kitten season at PurrCare</h2>
+          <p>Everything a new kitten needs, from starter kits to first-vaccination bookings. <b>Free delivery</b> inside Dhaka on orders over ৳3,000.00 until 31 Oct.</p>
+        </div>
+        <a href="Catalogue.dc.html">Shop kitten food</a>
+      </div>
+      <div class="banner2"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5h.01"/></svg><span><b>Puja holiday:</b> orders placed from 9 Oct to 13 Oct are delivered from 14 Oct.</span></div>
+    </section>
+
+    <div class="sechead"><h2 class="h2">Shop by category</h2></div>
+    <div class="cats">
+      <a class="cat" href="Catalogue.dc.html"><svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="M6 4h12l2 4v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8Z"/><path d="M4 8h16"/></svg>Cat food<span>Dry, wet, treats, kitten, adult, senior, therapeutic</span></a>
+      <a class="cat" href="#"><svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="M3 10h18l-2 10H5Z"/><path d="M8 10V6h8v4"/></svg>Litter<span>Clumping, silica, tofu, bentonite</span></a>
+      <a class="cat" href="#"><svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><rect x="3" y="9" width="18" height="10" rx="2"/><path d="M6 9a6 6 0 0 1 12 0"/></svg>Litter pots &amp; accessories<span>Trays, hooded boxes, scoops, mats, liners</span></a>
+      <a class="cat" href="#"><svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M9 8V5h6v3M4 13h16"/></svg>Bags &amp; carriers<span>Carriers, backpacks, travel bags, storage bags</span></a>
+      <a class="cat" href="#"><svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6Z"/><path d="M12 9v6M9 12h6"/></svg>Health &amp; grooming<span>Brushes, shampoos, flea care</span></a>
+      <a class="cat" href="#"><svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4c3 3 3 13 0 16"/></svg>Toys &amp; furniture<span>Scratchers, beds, wands, balls</span></a>
+    </div>
+
+    <div class="sechead"><h2 class="h2">Featured origins</h2><a href="ShopByCountry.dc.html">All countries →</a></div>
+    <div class="origins">
+      <a class="origin" href="OriginPage.dc.html"><svg class="flag" viewBox="0 0 9 6" aria-hidden="true"><rect width="9" height="6" fill="#A51931"/><rect y="1" width="9" height="4" fill="#F4F5F8"/><rect y="2" width="9" height="2" fill="#2D2A4A"/></svg><div><b>Thailand</b><span>18 products</span></div></a>
+      <a class="origin" href="#"><svg class="flag" viewBox="0 0 3 2" aria-hidden="true"><rect width="3" height="2" fill="#000"/><rect y=".667" width="3" height=".667" fill="#D00"/><rect y="1.333" width="3" height=".667" fill="#FFCE00"/></svg><div><b>Germany</b><span>13 products</span></div></a>
+      <a class="origin" href="#"><svg class="flag" viewBox="0 0 30 20" aria-hidden="true"><rect width="30" height="20" fill="#E30A17"/><circle cx="11" cy="10" r="5" fill="#fff"/><circle cx="12.3" cy="10" r="4" fill="#E30A17"/><path d="m17 10 3.6-1.2-2.2 3.1V8.1l2.2 3.1Z" fill="#fff"/></svg><div><b>Türkiye</b><span>9 products</span></div></a>
+      <a class="origin" href="#"><svg class="flag" viewBox="0 0 30 20" aria-hidden="true"><rect width="30" height="20" fill="#fff"/><path d="M10 10a5 5 0 0 1 10 0Z" fill="#CD2E3A"/><path d="M10 10a5 5 0 0 0 10 0Z" fill="#0047A0"/><path d="M4 5h4M4 6.5h4M4 8h4M22 12h4M22 13.5h4M22 15h4" stroke="#000" stroke-width=".8"/></svg><div><b>South Korea</b><span>5 products</span></div></a>
+    </div>
+
+    <div class="sechead"><h2 class="h2">New arrivals</h2><a href="Catalogue.dc.html">See all →</a></div>
+    <div class="grid4">
+      <article class="card">
+        <div class="pimg c1"><svg viewBox="0 0 80 100" aria-hidden="true"><path d="M18 12h44l6 12v64a4 4 0 0 1-4 4H16a4 4 0 0 1-4-4V24Z" fill="currentColor"/><rect x="22" y="40" width="36" height="22" rx="3" fill="#fff" opacity=".85"/></svg></div>
+        <h3><a href="ProductPage.dc.html">Royal Canin Kitten</a></h3>
+        <div class="meta"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width:14px"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>France</div>
+        <div class="price">From ৳650.00 <span class="tax">+ VAT</span></div>
+        <div class="meta"><span class="stars" aria-hidden="true">★★★★½</span>4.5 out of 5 (23 reviews)</div>
+        <div class="avail in"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>In stock</div>
+      </article>
+      <article class="card">
+        <div class="pimg c3"><svg viewBox="0 0 80 100" aria-hidden="true"><path d="M18 12h44l6 12v64a4 4 0 0 1-4 4H16a4 4 0 0 1-4-4V24Z" fill="currentColor"/><rect x="22" y="40" width="36" height="22" rx="3" fill="#fff" opacity=".85"/></svg></div>
+        <h3><a href="#">Anatolia Adult Lamb</a></h3>
+        <div class="meta"><svg class="flag sm" viewBox="0 0 30 20" aria-hidden="true"><rect width="30" height="20" fill="#E30A17"/><circle cx="11" cy="10" r="5" fill="#fff"/><circle cx="12.3" cy="10" r="4" fill="#E30A17"/><path d="m17 10 3.6-1.2-2.2 3.1V8.1l2.2 3.1Z" fill="#fff"/></svg>Türkiye</div>
+        <div class="price">৳1,980.00 <span class="tax">+ VAT</span></div>
+        <div class="meta">No reviews yet</div>
+        <div class="avail in"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>In stock</div>
+      </article>
+      <article class="card">
+        <div class="pimg c2"><svg viewBox="0 0 80 100" aria-hidden="true"><rect x="10" y="36" width="60" height="44" rx="6" fill="currentColor"/><path d="M22 36V26h36v10" stroke="currentColor" stroke-width="6" fill="none"/></svg></div>
+        <h3><a href="#">Tofu Clumping Litter, Green Tea</a></h3>
+        <div class="meta"><svg class="flag sm" viewBox="0 0 30 20" aria-hidden="true"><rect width="30" height="20" fill="#fff"/><path d="M10 10a5 5 0 0 1 10 0Z" fill="#CD2E3A"/><path d="M10 10a5 5 0 0 0 10 0Z" fill="#0047A0"/><path d="M4 5h4M4 6.5h4M4 8h4M22 12h4M22 13.5h4M22 15h4" stroke="#000" stroke-width=".8"/></svg>South Korea</div>
+        <div class="price">From ৳890.00 <span class="tax">+ VAT</span></div>
+        <div class="meta"><span class="stars" aria-hidden="true">★★★★</span>4.2 out of 5 (31 reviews)</div>
+        <div class="avail out"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m15 9-6 6M9 9l6 6"/></svg>Out of stock</div>
+      </article>
+      <article class="card">
+        <div class="pimg c4"><svg viewBox="0 0 80 100" aria-hidden="true"><rect x="12" y="28" width="56" height="50" rx="10" fill="currentColor"/><path d="M28 28a12 12 0 0 1 24 0" stroke="currentColor" stroke-width="6" fill="none"/></svg></div>
+        <h3><a href="#">Airline Carrier, Medium</a></h3>
+        <div class="meta"><svg class="flag sm" viewBox="0 0 19 10" aria-hidden="true"><rect width="19" height="10" fill="#fff"/><path d="M0 0h19v.77H0zm0 1.54h19v.77H0zm0 1.54h19v.77H0zm0 1.54h19v.77H0zm0 1.54h19v.77H0zm0 1.54h19v.77H0zm0 1.54h19v.77H0z" fill="#B22234"/><rect width="7.6" height="5.4" fill="#3C3B6E"/></svg>United States</div>
+        <div class="price">৳4,250.00 <span class="tax">+ VAT</span></div>
+        <div class="meta"><span class="stars" aria-hidden="true">★★★★★</span>5.0 out of 5 (2 reviews)</div>
+        <div class="avail in"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>In stock</div>
+      </article>
+    </div>
+  </main>
+  <footer class="foot"><a href="#">Delivery &amp; returns</a><a href="#">Privacy policy</a><a href="#">Terms of sale</a><a href="#">FAQs</a></footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1240}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

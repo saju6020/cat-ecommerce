@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Notification detail &amp; resend — US-NTF-06</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--overlay:rgba(28,26,23,.4);--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px;--radius-lg:16px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.main{padding:22px 28px;position:relative;max-width:900px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:20px;margin:0 0 4px}
+.muted{color:var(--ink-muted)}
+.kv{display:grid;grid-template-columns:140px 1fr;gap:6px;font-size:13.5px;line-height:1.8;margin:14px 0}
+.kv dt{color:var(--ink-muted)}
+.kv dd{margin:0}
+.redact{background:var(--surface-sunken);border-radius:8px;padding:10px 12px;font-size:13px;color:var(--ink-muted);font-style:italic;margin:10px 0}
+.h2{font-weight:700;font-size:13.5px;margin:22px 0 10px}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+th,td{padding:7px 10px;border-bottom:1px solid var(--border);text-align:left}
+th{color:var(--ink-muted);font-weight:600;font-size:10.5px;text-transform:uppercase}
+.chain a{color:var(--accent-ink);font-weight:600;font-size:13px;display:block;margin-bottom:6px}
+.customerlink{background:#fff;border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:12.5px;margin-top:16px;display:inline-block}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:9px 16px;border-radius:6px;border:none;cursor:pointer;background:var(--accent);color:#fff;margin-top:14px}
+.scrim{position:absolute;inset:0;background:var(--overlay);display:flex;align-items:center;justify-content:center}
+.dialog{background:#fff;border-radius:var(--radius-lg);box-shadow:0 20px 60px rgba(20,18,10,.25);width:400px;padding:26px}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:12.5px;font-weight:600;margin-bottom:5px}
+.field select{width:100%;font:inherit;font-size:13.5px;padding:8px 10px;border:1px solid var(--border);border-radius:6px}
+.confirm{font-size:12.5px;color:var(--ink-muted);background:var(--surface-sunken);border-radius:6px;padding:10px 12px;margin-bottom:14px}
+.dactions{display:flex;justify-content:flex-end;gap:8px}
+.dg-cancel{background:#fff;border:1px solid var(--border-strong);color:var(--ink);font-weight:600;font-size:13px;padding:8px 14px;border-radius:6px;cursor:pointer}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page);overflow:auto;position:relative">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div style="font-size:13px">Rezwan Ahmed · Administrator</div></div>
+  <div class="main">
+    <h1 class="h1">Password reset link</h1>
+    <p class="muted">To Nafisa Rahman · n••••@example.com · Email</p>
+    <div class="kv">
+      <dt>Template</dt><dd>auth.password-reset · v3</dd>
+      <dt>Category</dt><dd>Transactional · Ignores quiet hours</dd>
+      <dt>Recipient</dt><dd><a href="#" style="color:var(--accent-ink);font-weight:600">Nafisa Rahman →</a></dd>
+    </div>
+    <div class="redact">Content removed — it contained a password-reset link.</div>
+
+    <div class="h2">Attempts</div>
+    <table>
+      <thead><tr><th>Time</th><th>Outcome</th><th>Provider</th><th>Provider message id</th><th>Response</th></tr></thead>
+      <tbody>
+        <tr><td>22 Sep 16:02</td><td>Failed</td><td>—</td><td>—</td><td class="muted">No email provider configured</td></tr>
+        <tr><td>22 Sep 16:10</td><td>Failed</td><td>—</td><td>—</td><td class="muted">No email provider configured</td></tr>
+        <tr><td>22 Sep 16:40</td><td>Failed</td><td>—</td><td>—</td><td class="muted">No email provider configured</td></tr>
+      </tbody>
+    </table>
+
+    <div class="h2">Chain</div>
+    <div class="chain">
+      <a href="#">← Original request: password reset requested 22 Sep 15:58</a>
+      <a href="#">Fallback: SMS attempt, same request →</a>
+    </div>
+
+    <div class="customerlink"><strong>Messages</strong> — visible from Nafisa Rahman's customer page (shown to roles the presentation map allows; the server still decides).</div>
+    <br>
+    <button type="button" class="btn" disabled style="background:var(--border-strong);cursor:not-allowed">Resend</button>
+    <p class="muted" style="font-size:12.5px;margin-top:6px">This message contained a password-reset link and can't be resent. Ask the customer to request a new one.</p>
+  </div>
+
+  <div class="scrim">
+    <div class="dialog">
+      <h2 style="margin:0 0 12px;font-size:16px;font-family:var(--font-display);font-weight:600">Resend — Order shipped</h2>
+      <div class="field"><label>Channel</label><select><option>In-app (original)</option><option>SMS</option></select></div>
+      <div class="confirm">Send this message again by SMS to 017••••5678?</div>
+      <div class="dactions"><button class="dg-cancel" type="button">Cancel</button><button class="btn" type="button" style="margin:0">Resend</button></div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

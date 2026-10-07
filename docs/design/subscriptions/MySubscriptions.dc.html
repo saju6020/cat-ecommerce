@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>My subscriptions — US-SUB-01, 02, 05, 06</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#fbf6ef;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:14px;--warm:#e8894a;--warm-ink:#8a3f14;--warm-soft:#fdeee2}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+a{color:var(--accent-ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:14px 32px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:18px;color:var(--accent-ink)}
+.pnav{display:flex;gap:22px;font-size:14px;font-weight:600;margin-right:auto;margin-left:28px;flex-wrap:wrap}
+.pnav a{color:var(--ink-muted);text-decoration:none;padding:4px 0;border-bottom:2px solid transparent}
+.pnav a.active{color:var(--ink);border-bottom-color:var(--accent)}
+.who{display:flex;align-items:center;gap:10px;font-size:13.5px}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.h1{font-family:var(--font-display);font-weight:600;font-size:24px;margin:0}
+.muted{color:var(--ink-muted)}
+.small{font-size:12.5px}
+.wrap{max-width:1080px;margin:0 auto;padding:28px 32px 48px}
+.tabs{display:flex;gap:26px;border-bottom:1px solid var(--border);margin:18px 0 18px}
+.tab{padding:10px 2px;font-size:14px;font-weight:600;color:var(--ink-muted);border-bottom:2px solid transparent;text-decoration:none}
+.tab.active{color:var(--ink);border-bottom-color:var(--accent)}
+.grid{display:flex;flex-wrap:wrap;gap:14px}
+.scard{flex:1 1 440px;min-width:0;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:18px 20px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:8px}
+.scard:hover{border-color:var(--accent)}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.pname{font-weight:700;font-size:15.5px}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+.b-active{background:var(--accent-soft);color:var(--accent-ink)}
+.b-neutral{background:var(--surface-sunken);color:var(--ink-muted)}
+.b-warn{background:var(--warning-bg);color:var(--warning-ink)}
+.next{font-size:14px}
+.warn{display:flex;gap:8px;align-items:flex-start;font-size:13px;font-weight:600;line-height:1.45;padding:8px 10px;border-radius:6px;background:var(--warning-bg);color:var(--warning-ink)}
+.warn.info{background:var(--accent-soft);color:var(--accent-ink)}
+.warn svg{flex:none;margin-top:2px}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:14px;padding:9px 16px;min-height:38px;border-radius:var(--radius-sm);border:1px solid var(--border-strong);background:#fff;color:var(--ink);text-decoration:none}
+.forcat{display:inline-flex;align-items:center;gap:5px;align-self:flex-start;background:var(--warm-soft);color:var(--warm-ink);font-size:12px;font-weight:700;padding:3px 9px 3px 5px;border-radius:999px}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page)">
+  <div class="topnav">
+    <div class="brand">PurrCare</div>
+    <nav class="pnav" aria-label="Portal"><a href="#">My cats</a><a href="#">Appointments</a><a href="#">Shop</a><a href="#">Orders</a><a class="active" aria-current="page" href="MySubscriptions.dc.html">Subscriptions</a><a href="#">Inbox</a></nav>
+    <div class="who"><div class="avatar">FY</div>Farhana Yasmin</div>
+  </div>
+  <div class="wrap">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:16px">
+      <h1 class="h1">My subscriptions</h1>
+      <a class="btn" href="#">Browse food &amp; litter</a>
+    </div>
+    <nav class="tabs" aria-label="Subscription status">
+      <a class="tab active" aria-current="page" href="#">Active &amp; paused (6)</a>
+      <a class="tab" href="MySubscriptionsEmpty.dc.html">Cancelled (1)</a>
+    </nav>
+
+    <div class="grid">
+      <a class="scard" href="SubscriptionDetail.dc.html">
+        <div class="top"><span class="pname">Adult Indoor dry food</span><span class="badge b-active"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Active</span></div>
+        <div class="muted small">2 kg bag · 3 per delivery · every 4 weeks · bank transfer</div>
+        <div class="next">Next order on <strong>Tue 20 Oct</strong></div>
+        <div class="warn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Waiting for your transfer — pay by Fri 25 Sep, 23:59 (Asia/Dhaka)</div>
+      </a>
+
+      <a class="scard" href="SubscriptionDetailLocked.dc.html">
+        <div class="top"><span class="pname">Clumping cat litter</span><span class="badge b-active"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Active</span></div>
+        <div class="muted small">10 L bag · 2 per delivery · every 2 weeks · cash on delivery</div>
+        <div class="next">Next order on <strong>Thu 24 Sep</strong></div>
+        <div class="warn info"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4M12 8h.01"/></svg>Changes scheduled from Thu 8 Oct</div>
+      </a>
+
+      <a class="scard" href="ChangeTermsDialog.dc.html">
+        <div class="top"><span class="pname">Senior wet food</span><span class="badge b-active"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Active</span></div>
+        <div class="muted small">12 × 85 g · 1 per delivery · every 2 weeks · cash on delivery</div>
+        <div class="next">Next order on <strong>Tue 29 Sep</strong></div>
+        <div class="warn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>Delivery address removed — choose another</div>
+      </a>
+
+      <a class="scard" href="SuspensionBanners.dc.html">
+        <div class="top"><span class="pname">Renal Support dry food</span><span class="badge b-warn"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>Suspended</span></div>
+        <span class="forcat"><svg width="16" height="16" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 23 17 9l10 7M45 23l2-14-10 7"/><path d="M18 26c0-7 6-11 14-11s14 4 14 11-6 11-14 11-14-4-14-11Z"/><path d="M26 25v1.5M38 25v1.5M30 30.5l2 1.5 2-1.5"/><path d="M22 36c-4 6-5 13-3 21h26c2-8 1-15-3-21"/><path d="M45 55c6 0 9-4 7.5-9"/></svg>For Mittens</span>
+        <div class="muted small">1.5 kg bag · 1 per delivery · every 4 weeks · bank transfer</div>
+        <div class="next muted">No next order while suspended</div>
+        <div class="warn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>Paused: Mittens' food authorisation has ended</div>
+      </a>
+
+      <a class="scard" href="SuspensionBanners.dc.html">
+        <div class="top"><span class="pname">Kitten dry food</span><span class="badge b-warn"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>Suspended</span></div>
+        <div class="muted small">1 kg bag · 2 per delivery · every 2 weeks · bank transfer</div>
+        <div class="next muted">No next order while suspended</div>
+        <div class="warn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>Paused after unpaid orders</div>
+      </a>
+
+      <a class="scard" href="PauseDialog.dc.html">
+        <div class="top"><span class="pname">Lamb wet food pouches</span><span class="badge b-neutral"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M9 5v14M15 5v14"/></svg>Paused</span></div>
+        <div class="muted small">12 × 85 g · 2 per delivery · every 4 weeks · collect from Uttara, pay at the counter</div>
+        <div class="next muted">Paused — no orders until you resume</div>
+      </a>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

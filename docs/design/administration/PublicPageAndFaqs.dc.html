@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Public page &amp; FAQs — US-ADM-07</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--border:#e5e1d8;--accent:#15605a;--accent-ink:#0e4a45;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.pubtop{padding:16px 32px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:18px;color:var(--accent-ink)}
+.wrap{max-width:1280px;display:flex;gap:0}
+.col{flex:1;padding:32px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:28px;margin:0 0 16px}
+.col p{font-size:15px;line-height:1.7;margin:0 0 14px}
+.col ul{font-size:15px;line-height:1.7}
+details{background:#fff;border:1px solid var(--border);border-radius:8px;padding:12px 16px;margin-bottom:8px}
+summary{font-weight:600;cursor:pointer;font-size:14px}
+details p{margin-top:10px;font-size:13.5px}
+.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);font-weight:700;margin-bottom:14px}
+</style>
+</helmet>
+<div style="width:1280px;height:820px;background:var(--surface-page)">
+  <div class="pubtop"><span class="brand">PurrCare</span></div>
+  <div class="wrap">
+    <div class="col" style="border-right:1px solid var(--border)">
+      <div class="eyebrow">/pages/about-us — public, no sign-in</div>
+      <h1 class="h1">Who we are</h1>
+      <p>PurrCare is a cat clinic, care centre and shop serving Dhaka since 2019.</p>
+      <ul><li>Licensed veterinary clinic</li><li>Long-term and short-term boarding</li><li>Cat food and supplies, sourced internationally</li></ul>
+      <p>Read more on our <a href="#" style="color:var(--accent-ink);font-weight:600">services page</a>.</p>
+    </div>
+    <div class="col">
+      <div class="eyebrow">/faqs</div>
+      <h1 class="h1">Frequently asked questions</h1>
+      <details open><summary>Can I bring my own cat carrier?</summary><p>Yes — we're happy for your cat to travel in a carrier you're familiar with. We disinfect our own between uses too.</p></details>
+      <details><summary>Do you offer emergency appointments?</summary><p>Call the branch directly for same-day urgent care; online booking covers routine visits.</p></details>
+      <details><summary>What payment methods do you accept?</summary><p>Cash, card in person, and bank transfer. Online orders can be paid on delivery.</p></details>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":820}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

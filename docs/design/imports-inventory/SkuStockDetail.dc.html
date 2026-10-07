@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SKU stock — US-IMP-06, 07, 08, 09</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+:root{--overlay:rgba(28,26,23,.4);--radius-lg:16px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px;display:flex;align-items:center;gap:16px}
+select.branchpick{font:inherit;font-size:13px;padding:5px 8px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.main{padding:22px 32px 32px;position:relative}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+.h2{font-family:var(--font-display);font-weight:600;font-size:17px;margin:0 0 10px}
+.h3{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);font-weight:700;margin:0 0 8px}
+.titlerow{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.sub{color:var(--ink-muted);font-size:13px;margin:4px 0 14px;line-height:1.5}
+.muted{color:var(--ink-muted)}
+.faint{color:var(--ink-faint)}
+.small{font-size:12px}
+.strong{font-weight:700}
+a.link{color:var(--accent-ink);font-weight:600;text-decoration:none}
+.secnav{display:flex;flex-wrap:wrap;gap:2px;border-bottom:1px solid var(--border);margin:0 0 18px}
+.secnav a{padding:9px 12px;font-size:13px;font-weight:600;color:var(--ink-muted);text-decoration:none;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap}
+.secnav a.active{color:var(--ink);border-bottom-color:var(--accent)}
+.secnav .count{display:inline-block;margin-left:4px;padding:0 6px;border-radius:999px;background:var(--warning-bg);color:var(--warning-ink);font-size:11px;font-weight:700}
+.tabnav{display:flex;border-bottom:1px solid var(--border);margin:14px 0 18px}
+.tabnav a{padding:10px 2px;margin-right:22px;font-size:13.5px;font-weight:600;color:var(--ink-muted);border-bottom:2px solid transparent;text-decoration:none;margin-bottom:-1px}
+.tabnav a.active{color:var(--ink);border-bottom-color:var(--accent)}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13px;padding:8px 14px;border-radius:var(--radius-sm);border:1px solid var(--accent);cursor:pointer;background:var(--accent);color:#fff;white-space:nowrap}
+.btn-sec{background:#fff;color:var(--ink);border:1px solid var(--border-strong)}
+.btn-danger{background:var(--danger-ink);border-color:var(--danger-ink);color:#fff}
+.btn-danger-o{background:#fff;border:1px solid var(--danger-ink);color:var(--danger-ink)}
+.btn[disabled]{background:var(--surface-sunken);border-color:var(--border);color:var(--ink-faint);cursor:not-allowed}
+.why{font-size:12px;color:var(--ink-muted);margin-top:4px;line-height:1.45}
+.b{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;font-size:11.5px;font-weight:600;white-space:nowrap;line-height:1.5}
+.b i{font-style:normal;font-weight:700}
+.b-ok{background:var(--accent-soft);color:var(--accent-ink)}
+.b-warn{background:var(--warning-bg);color:var(--warning-ink)}
+.b-danger{background:var(--danger-bg);color:var(--danger-ink)}
+.b-neutral{background:var(--surface-sunken);color:var(--ink-muted)}
+.b-out{background:#fff;border:1px solid var(--border-strong);color:var(--ink-muted)}
+.banner{display:flex;gap:10px;align-items:flex-start;border-radius:8px;padding:10px 14px;font-size:13px;line-height:1.5;margin-bottom:14px}
+.banner i{font-style:normal;font-weight:700}
+.banner-warn{background:var(--warning-bg);color:var(--warning-ink)}
+.banner-danger{background:var(--danger-bg);color:var(--danger-ink)}
+.banner-info{background:var(--accent-soft);color:var(--accent-ink)}
+.banner-neutral{background:var(--surface-sunken);color:var(--ink-muted)}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px;font-size:12.5px}
+.toolbar input,.toolbar select{font:inherit;font-size:12.5px;padding:7px 9px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.toolbar label{display:inline-flex;align-items:center;gap:5px}
+table{border-collapse:collapse;width:100%;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden}
+th,td{padding:9px 11px;text-align:left;border-bottom:1px solid var(--border);font-size:12.5px;vertical-align:top}
+th{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);font-weight:700;background:var(--surface-sunken)}
+tbody tr:last-child td{border-bottom:none}
+tfoot td{background:var(--surface-sunken);font-weight:700}
+.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.dim td{color:var(--ink-faint)}
+tr.unusable td{background:#fdfbf8}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:16px 18px}
+.grid2{display:flex;gap:18px;align-items:flex-start}
+.grid2 > *{flex:1;min-width:0}
+.field{margin-bottom:12px}
+.field label,.flabel{display:block;font-size:12.5px;font-weight:600;margin-bottom:5px}
+.field input,.field select,.field textarea{width:100%;font:inherit;font-size:13.5px;padding:8px 10px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:#fff}
+.field textarea{min-height:60px;resize:vertical}
+.field input[readonly]{background:var(--surface-sunken);color:var(--ink-muted)}
+.req{color:var(--danger-ink);font-weight:700}
+.hint{font-size:11.5px;color:var(--ink-muted);margin-top:4px;line-height:1.45}
+.field.error input,.field.error select,.field.error textarea,input.error,select.error{border-color:var(--danger-ink);box-shadow:0 0 0 1px var(--danger-ink)}
+.err{font-size:11.5px;color:var(--danger-ink);font-weight:600;margin-top:4px;line-height:1.4}
+.unitin{display:flex;align-items:stretch}
+.unitin input{border-top-right-radius:0;border-bottom-right-radius:0;min-width:0}
+.unitin span{display:flex;align-items:center;padding:0 9px;border:1px solid var(--border-strong);border-left:none;border-radius:0 var(--radius-sm) var(--radius-sm) 0;background:var(--surface-sunken);font-size:12px;color:var(--ink-muted);white-space:nowrap}
+.kv{display:grid;grid-template-columns:170px 1fr;gap:4px 14px;font-size:13px;line-height:1.7;margin:0}
+.kv dt{color:var(--ink-muted)}
+.kv dd{margin:0}
+.scrim{position:absolute;inset:0;background:var(--overlay);display:flex;align-items:center;justify-content:center;z-index:5}
+.dialog{background:#fff;border-radius:var(--radius-lg);box-shadow:0 20px 60px rgba(20,18,10,.25);width:460px;max-width:100%;padding:24px}
+.dialog h2{margin:0 0 12px;font-size:17px;font-family:var(--font-display);font-weight:600}
+.confirm{font-size:13px;color:var(--ink);background:var(--surface-sunken);border-radius:6px;padding:10px 12px;margin:12px 0 14px;line-height:1.5}
+.dactions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+.note{font-size:12px;color:var(--ink-muted);margin-top:10px;line-height:1.5}
+.pillnote{display:inline-block;font-size:11px;border:1px dashed var(--border-strong);border-radius:6px;padding:2px 7px;color:var(--ink-muted)}
+.stor{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:600;color:var(--accent-ink);background:var(--accent-soft);border-radius:6px;padding:2px 7px;white-space:nowrap}
+.statelabel{font-size:11px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;color:var(--ink-faint);margin:0 0 8px}
+.field input[type=checkbox],.field input[type=radio]{width:auto;padding:0}
+.figs{display:flex;flex-wrap:wrap;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;margin:4px 0 6px}
+.figs div{background:#fff;flex:1;min-width:120px;padding:10px 14px}
+.figs dt{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);font-weight:700}
+.figs dd{margin:2px 0 0;font-size:17px;font-weight:700}
+.matrix th[scope=row]{background:#fff;text-transform:none;letter-spacing:0;font-size:12.5px;color:var(--ink);font-weight:600}
+.matrix td,.matrix th{border-right:1px solid var(--border)}
+.why-unusable{font-size:11.5px;color:var(--danger-ink);font-weight:600;margin-top:3px}
+.fefo{display:flex;gap:18px;margin-top:20px;align-items:flex-start}
+.fefo > .card{flex:1;min-width:0}
+.fefo ol{margin:8px 0 0;padding-left:20px;font-size:13px;line-height:1.8}
+.inrow{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
+.inrow .field{margin:0;min-width:130px;flex:1}
+</style>
+</helmet>
+<div style="width:1280px;height:1180px;background:var(--surface-page);overflow:auto;position:relative">
+<div class="topnav"><div class="brand">PurrCare · staff</div><div class="who"><select class="branchpick" aria-label="Active branch"><option>Uttara (primary)</option><option>Banani</option></select>Rezwan Ahmed · Administrator</div></div>
+<div class="main">
+  <nav class="secnav" aria-label="Inventory"><a href="StockOverview.dc.html" class="active" aria-current="page">Stock</a><a href="GoodsReceipt.dc.html">Receipts</a><a href="TransferForm.dc.html">Transfers</a><a href="AdjustmentForm.dc.html">Adjustments</a><a href="ApprovalQueue.dc.html">Approvals</a><a href="CountSheet.dc.html">Counts</a><a href="Ledger.dc.html">Ledger</a><a href="Alerts.dc.html">Alerts <span class="count">7 open</span></a><a href="NearExpiryReport.dc.html">Reports</a><a href="RecallList.dc.html">Recalls</a><a href="StorageBreach.dc.html">Storage</a><a href="StockSettings.dc.html">Locations &amp; settings</a></nav>
+  <div class="titlerow"><div><h1 class="h1">FD-KDC-2KG · Kitten dry food, chicken 2 kg</h1><p class="sub" style="margin:4px 0 0">Food · stock unit: bags (whole only) · expiry required · <span class="stor">Room temperature, dry</span></p></div><a class="link" href="Ledger.dc.html">Ledger for this SKU →</a></div>
+  <dl class="figs" aria-label="Stock figures">
+    <div><dt>On hand</dt><dd>50 bags</dd></div><div><dt>Reserved</dt><dd>5 bags</dd></div><div><dt>Usable</dt><dd>42 bags</dd></div><div><dt>Sellable</dt><dd>37 bags</dd></div><div><dt>Held</dt><dd>5 bags</dd></div><div><dt>Expired</dt><dd>3 bags</dd></div>
+  </dl>
+  <p class="small muted" style="margin:0 0 16px">Sellable excludes expired, quarantined, damaged and reserved stock.</p>
+  <h2 class="h2">Batches by location</h2>
+  <table class="matrix">
+    <caption class="small muted" style="caption-side:bottom;text-align:left;padding-top:6px">Cells show on hand, with reserved beneath. A dash means none at that location.</caption>
+    <thead><tr><th scope="col">Batch</th><th scope="col">Expiry</th><th scope="col">State</th><th scope="col" class="num">UTR-WH<br>Warehouse</th><th scope="col" class="num">UTR-SHOP<br>Sales floor</th><th scope="col" class="num">UTR-QUAR<br>Quarantine</th><th scope="col" class="num">Total</th></tr></thead>
+    <tbody>
+      <tr><th scope="row"><a class="link" href="BatchDetail.dc.html">L2405C</a></th><td><span class="b b-warn"><i aria-hidden="true">⚠</i> 23 Sep 2026 · expires today</span></td><td><span class="b b-ok"><i aria-hidden="true">✓</i> Available</span></td><td class="num">—</td><td class="num">4 bags<div class="small muted">0 bags reserved</div></td><td class="num">—</td><td class="num">4 bags</td></tr>
+      <tr><th scope="row"><a class="link" href="BatchDetail.dc.html">L2407B</a></th><td>7 Nov 2026 · 45 days</td><td><span class="b b-ok"><i aria-hidden="true">✓</i> Available</span></td><td class="num">2 bags<div class="small muted">0 bags reserved</div></td><td class="num">8 bags<div class="small muted">3 bags reserved</div></td><td class="num">—</td><td class="num">10 bags</td></tr>
+      <tr><th scope="row"><a class="link" href="BatchDetail.dc.html">L2406A</a></th><td>21 Jan 2027 · 120 days</td><td><span class="b b-ok"><i aria-hidden="true">✓</i> Available</span></td><td class="num">16 bags<div class="small muted">0 bags reserved</div></td><td class="num">12 bags<div class="small muted">2 bags reserved</div></td><td class="num">—</td><td class="num">28 bags</td></tr>
+      <tr class="unusable"><th scope="row"><a class="link" href="BatchDetail.dc.html">L2404D</a></th><td><span class="b b-danger"><i aria-hidden="true">✕</i> 20 Sep 2026 · expired 3 days ago</span><div class="why-unusable">Expired — cannot be sold, dispensed or fed</div></td><td><span class="b b-danger"><i aria-hidden="true">✕</i> Expired</span></td><td class="num">—</td><td class="num">3 bags<div class="small muted">0 bags reserved</div></td><td class="num">—</td><td class="num">3 bags</td></tr>
+      <tr class="unusable"><th scope="row"><a class="link" href="BatchDetail.dc.html">L2403Q</a></th><td>15 Dec 2026 · 83 days</td><td><span class="b b-warn"><i aria-hidden="true">⏸</i> Quarantined</span><div class="why-unusable">Quarantined — damaged packaging, awaiting a decision</div></td><td class="num">—</td><td class="num">—</td><td class="num">5 bags<div class="small muted">In quarantine location</div></td><td class="num">5 bags</td></tr>
+    </tbody>
+    <tfoot><tr><th scope="row" style="background:var(--surface-sunken)">Total</th><td></td><td></td><td class="num">18 bags</td><td class="num">27 bags</td><td class="num">5 bags</td><td class="num">50 bags</td></tr></tfoot>
+  </table>
+
+  <div class="fefo">
+    <div class="card" aria-labelledby="fefo-h">
+      <h2 class="h2" id="fefo-h">What would be picked next</h2>
+      <div class="inrow">
+        <div class="field"><label for="f-q">Quantity</label><div class="unitin"><input id="f-q" value="10"><span>bags</span></div></div>
+        <div class="field"><label for="f-p">Purpose</label><select id="f-p"><option>Sale</option><option>Dispense</option><option>Clinical use</option><option>Boarding use</option></select></div>
+        <div class="field"><label for="f-l">Location</label><select id="f-l"><option>UTR-SHOP · Sales floor</option><option>Any location</option></select></div>
+        <button class="btn btn-sec" type="button">Preview</button>
+      </div>
+      <p class="small muted" style="margin:12px 0 0">This is what would be picked next — soonest expiry first, exactly as the server plans it. Nothing is reserved by previewing.</p>
+      <ol>
+        <li><strong>L2405C</strong> · 4 bags · expires today (23 Sep 2026)</li>
+        <li><strong>L2407B</strong> · 5 bags · 7 Nov 2026 · 45 days <span class="small muted">(3 bags of it are reserved)</span></li>
+        <li><strong>L2406A</strong> · 1 bag · 21 Jan 2027 · 120 days</li>
+      </ol>
+      <p class="small muted" style="margin:8px 0 0">L2404D (expired) and L2403Q (quarantined) are never picked.</p>
+    </div>
+    <div class="card" aria-label="Preview with a shortfall">
+      <p class="statelabel">Same panel · a request larger than stock</p>
+      <div class="inrow"><div class="field"><label for="f-q2">Quantity</label><div class="unitin"><input id="f-q2" value="60"><span>bags</span></div></div><div class="field"><label for="f-l2">Location</label><select id="f-l2"><option>Any location</option></select></div></div>
+      <ol>
+        <li><strong>L2405C</strong> · 4 bags · expires today</li>
+        <li><strong>L2407B</strong> · 7 bags · 45 days</li>
+        <li><strong>L2406A</strong> · 26 bags · 120 days</li>
+      </ol>
+      <div class="banner banner-warn" style="margin:12px 0 0"><i aria-hidden="true">⚠</i><span><strong>Short by 23 bags.</strong> Only 37 bags are sellable across Uttara.</span></div>
+    </div>
+  </div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1180}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

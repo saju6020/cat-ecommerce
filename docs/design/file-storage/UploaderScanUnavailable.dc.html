@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Scanner unavailable — US-XCT-07</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px;display:flex;align-items:center;gap:16px}
+.main{padding:26px 32px;position:relative}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+.sub{color:var(--ink-muted);font-size:13.5px;margin:4px 0 20px}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:24px;align-items:start}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:20px}
+.card h2{font-size:14.5px;font-weight:700;margin:0 0 12px}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:8px 14px;border-radius:var(--radius-sm);border:1px solid var(--accent);cursor:pointer;background:var(--accent);color:#fff;flex:none}
+.btn-sm{font-family:var(--font-sans);font-weight:600;font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:#fff;color:var(--ink);border:1px solid var(--border-strong);cursor:pointer;flex:none}
+.drop{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:14px 16px;background:var(--surface);border:1.5px dashed var(--border-strong);border-radius:var(--radius-md);font:inherit;cursor:pointer}
+.drop .dt{font-weight:700;font-size:14px;color:var(--accent-ink)}
+.drop .dh{font-size:12.5px;color:var(--ink-muted)}
+.svc{display:flex;gap:12px;align-items:flex-start;background:var(--warning-bg);color:var(--warning-ink);border-radius:var(--radius-sm);padding:12px 14px;margin-top:12px;font-size:13.5px;line-height:1.45}
+.svc p{margin:0;flex:1}
+.svc strong{display:block;margin-bottom:2px}
+.queue{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}
+.frow{display:flex;align-items:center;gap:12px;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);background:#fff}
+.ftype{width:38px;height:38px;flex:none;border-radius:6px;background:var(--surface-sunken);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;letter-spacing:.04em;color:var(--ink-muted)}
+.fbody{flex:1;min-width:0}
+.fname{font-weight:600;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fmeta{font-size:12px;color:var(--ink-muted);margin-top:2px;display:flex;align-items:center;gap:6px}
+.st-q{color:var(--warning-ink);font-weight:600;display:inline-flex;align-items:center;gap:4px}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.field textarea{width:100%;font:inherit;font-size:14px;padding:8px 11px;border:1px solid var(--border);border-radius:var(--radius-sm);height:64px;resize:none}
+.anno{background:var(--surface-sunken);border-radius:var(--radius-md);padding:16px 18px;font-size:12.5px;line-height:1.5;color:var(--ink-muted)}
+.anno h3{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink);margin:0 0 8px}
+.anno ul{margin:0 0 14px;padding-left:18px}
+.live{font-family:ui-monospace,Consolas,monospace;font-size:11.5px;background:#fff;border:1px solid var(--border);border-radius:6px;padding:8px 10px;color:var(--ink);line-height:1.6;margin-bottom:14px}
+@media (max-width:1100px){.grid,.cols,.wrap{grid-template-columns:minmax(0,1fr) !important}}
+@media (max-width:700px){.drop{flex-wrap:wrap}.frow,.flist li,.titlerow{flex-wrap:wrap}.frow .fbody,.flist li .fbody{flex-basis:calc(100% - 52px)}.two,.states{grid-template-columns:1fr !important}.sheet{grid-template-columns:repeat(auto-fill,200px) !important}}
+.viewer,.dialog,.legend,.side{max-width:calc(100vw - 24px)}.scrim{flex-wrap:wrap;overflow:auto}.stage svg,.page{max-width:100%}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page);overflow:auto;position:relative">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who"><select class="branchpick" aria-label="Active branch"><option>Uttara (primary)</option><option>Banani</option></select>Tanvir Islam · Nurse</div></div>
+  <div class="main">
+    <h1 class="h1">Luna — boarding diary, 23 Sep 2026</h1>
+    <p class="sub">Stay BRD-0192, Uttara · host page is illustrative (HO-BRD-002). The scanner is down: this is a service state, not the nurse's mistake (C4, A4).</p>
+    <div class="grid">
+      <div class="card">
+        <div class="field"><label for="d-note">Today's note</label><textarea id="d-note">Ate all breakfast, played with the feather wand for 10 minutes, napped in the sun spot.</textarea></div>
+        <h2>Photos and video</h2>
+        <button type="button" class="drop"><span class="dt">Choose files or drop them here</span><span class="dh">· JPEG, PNG, WebP or MP4 · up to 50 MB each</span></button>
+        <div class="svc" role="status">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none;margin-top:1px"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          <p><strong>Uploads paused</strong>The virus scanner is unavailable, so files cannot be uploaded right now. Please try again shortly. Your 2 files are kept below.</p>
+          <button type="button" class="btn">Retry uploads</button>
+        </div>
+        <ul class="queue" aria-label="Files">
+          <li class="frow">
+            <div class="ftype" aria-hidden="true">JPG</div>
+            <div class="fbody"><div class="fname">luna-sunspot.jpg</div><div class="fmeta">4.1 MB · <span class="st-q"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Queued — waiting for the scanner</span></div></div>
+            <button type="button" class="btn-sm" aria-label="Retry luna-sunspot.jpg">Retry</button>
+            <button type="button" class="btn-sm" aria-label="Remove luna-sunspot.jpg from the queue">Remove</button>
+          </li>
+          <li class="frow">
+            <div class="ftype" aria-hidden="true">MP4</div>
+            <div class="fbody"><div class="fname">luna-feather-wand.mp4</div><div class="fmeta">31.7 MB · <span class="st-q"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Queued — waiting for the scanner</span></div></div>
+            <button type="button" class="btn-sm" aria-label="Retry luna-feather-wand.mp4">Retry</button>
+            <button type="button" class="btn-sm" aria-label="Remove luna-feather-wand.mp4 from the queue">Remove</button>
+          </li>
+        </ul>
+        <p style="font-size:12.5px;color:var(--ink-muted);margin:12px 0 0">The note can still be saved on its own; the photos join the diary once they upload.</p>
+      </div>
+      <aside class="anno" aria-label="Design notes">
+        <h3>Live region (polite)</h3>
+        <div class="live">"Uploads paused. The virus scanner is unavailable, so files cannot be uploaded right now."</div>
+        <h3>What this board shows</h3>
+        <ul>
+          <li>Amber, a clock icon and the word "Queued" — not red, not "error". Nobody did anything wrong (ADR-FE-151).</li>
+          <li>Files stay in the queue; nothing is lost and nothing retries by itself (OQ-2: manual retry only).</li>
+          <li>One banner for the batch, not one error per file.</li>
+          <li><code>FileScanUnavailable</code> is a shared MSW fixture, because every consuming area's tests lean on it.</li>
+        </ul>
+      </aside>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

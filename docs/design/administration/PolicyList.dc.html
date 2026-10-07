@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Policies — US-ADM-07</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--overlay:rgba(28,26,23,.4);--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px;--radius-lg:16px;--radius-pill:999px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px}
+.main{padding:26px 32px;position:relative;max-width:640px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0 0 16px}
+.pcard{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:16px 18px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+.badge{display:inline-flex;padding:3px 9px;border-radius:var(--radius-pill);font-size:11.5px;font-weight:600;background:var(--accent-soft);color:var(--accent-ink)}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13px;padding:7px 13px;border-radius:6px;border:none;cursor:pointer;background:var(--accent);color:#fff}
+.scrim{position:absolute;inset:0;background:var(--overlay);display:flex;align-items:center;justify-content:center;border-radius:var(--radius-md)}
+.dialog{background:#fff;border-radius:var(--radius-lg);box-shadow:0 20px 60px rgba(20,18,10,.25);width:420px;padding:26px}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:12.5px;font-weight:600;margin-bottom:5px}
+.field textarea,.field input{width:100%;font:inherit;font-size:13.5px;padding:8px 10px;border:1px solid var(--border);border-radius:6px}
+.confirm{font-size:12px;color:var(--ink-muted);background:var(--surface-sunken);border-radius:6px;padding:10px 12px;margin:12px 0}
+.dactions{display:flex;justify-content:flex-end;gap:8px}
+.dg-cancel{background:#fff;border:1px solid var(--border-strong);color:var(--ink);font-weight:600;font-size:13px;padding:7px 13px;border-radius:6px;cursor:pointer}
+</style>
+</helmet>
+<div style="width:1280px;height:820px;background:var(--surface-page);overflow:auto;position:relative">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who">Rezwan Ahmed · Administrator</div></div>
+  <div class="main">
+    <h1 class="h1">Policies</h1>
+    <div class="pcard"><span><strong>Privacy Policy</strong> <span class="badge" style="margin-left:8px">v3</span><br><span style="font-size:12.5px;color:var(--ink-muted)">Published 4 Aug 2026</span></span><button class="btn">Publish new version</button></div>
+    <div class="pcard"><span><strong>Terms of Service</strong> <span class="badge" style="margin-left:8px">v2</span><br><span style="font-size:12.5px;color:var(--ink-muted)">Published 19 Feb 2026</span></span><button class="btn">Publish new version</button></div>
+  </div>
+
+  <div class="scrim">
+    <div class="dialog">
+      <h2 style="margin:0 0 14px;font-size:16px;font-family:var(--font-display);font-weight:600">Publish new version — Privacy Policy</h2>
+      <div class="field"><label>Body</label><textarea rows="3">We collect your name, contact details and your cats' medical records to run the clinic…</textarea></div>
+      <div class="field"><label>Change summary</label><input value="Clarified how long clinical records are kept after account deletion."></div>
+      <div class="confirm">Signed-in customers will be asked to accept this version before they can continue using their account.</div>
+      <div class="dactions"><button class="dg-cancel" type="button">Cancel</button><button class="btn" type="button">Publish version</button></div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":820}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

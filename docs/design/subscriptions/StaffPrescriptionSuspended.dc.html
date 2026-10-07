@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Prescription suspended — US-SUB-05</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+a{color:var(--accent-ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px}
+.titlerow{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+.muted{color:var(--ink-muted)}
+.faint{color:var(--ink-faint)}
+.small{font-size:12.5px}
+.btn2{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:8px 14px;border-radius:var(--radius-sm);border:1px solid var(--border-strong);background:#fff;color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:6px;text-decoration:none}
+.tabs{display:flex;gap:24px;border-bottom:1px solid var(--border);margin:16px 0 14px;flex-wrap:wrap}
+.tab{padding:9px 2px;font-size:14px;font-weight:600;color:var(--ink-muted);border-bottom:2px solid transparent;text-decoration:none}
+.tab.active{color:var(--ink);border-bottom-color:var(--accent)}
+.count{display:inline-block;margin-left:6px;font-size:12px;background:var(--surface-sunken);border-radius:999px;padding:1px 7px;color:var(--ink-muted)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px;font-size:13px}
+.chip{background:var(--accent-soft);color:var(--accent-ink);border-radius:999px;padding:4px 11px;font-weight:600}
+.info{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;line-height:1.5;background:var(--surface-sunken);border-radius:6px;padding:10px 13px;margin-bottom:14px}
+.info svg{flex:none;margin-top:2px}
+table{border-collapse:collapse;width:100%;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden}
+th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--border);font-size:13px;vertical-align:top}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);font-weight:700;background:var(--surface-sunken);white-space:nowrap}
+tr:last-child td{border-bottom:none}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;font-size:11.5px;font-weight:700;white-space:nowrap}
+.b-warn{background:var(--warning-bg);color:var(--warning-ink)}
+.nowrap{white-space:nowrap}
+</style>
+</helmet>
+<div style="width:1280px;height:760px;background:var(--surface-page)">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who">Dr. Nusrat Jahan · Vet</div></div>
+  <div class="main" style="padding:26px 32px">
+    <div class="titlerow">
+      <h1 class="h1">Subscriptions</h1>
+      <a class="btn2" href="#"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Export CSV</a>
+    </div>
+    <nav class="tabs" aria-label="Subscription lists">
+      <a class="tab" href="StaffSubscriptions.dc.html">All<span class="count">1,284</span></a>
+      <a class="tab" href="StaffUnpaid.dc.html">Unpaid<span class="count">5</span></a>
+      <a class="tab active" aria-current="page" href="StaffPrescriptionSuspended.dc.html">Prescription suspended<span class="count">2</span></a>
+    </nav>
+    <div class="chips"><span class="muted">This tab is the list filtered to</span><span class="chip">Status: Suspended</span><span class="chip">Reason: Authorisation ended</span><span class="muted">— the export carries the same filters.</span></div>
+    <div class="info"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4M12 8h.01"/></svg><span>These restart on their own as soon as a vet renews the cat's authorisation for the food — no one needs to reinstate them. The customer and the vet who issued the authorisation were both told when it lapsed.</span></div>
+
+    <table>
+      <thead><tr><th>Customer</th><th>Mobile</th><th>Product</th><th>Cat</th><th>Status</th><th>Reason</th><th>Next order</th><th>Payment</th><th>Unpaid in a row</th></tr></thead>
+      <tbody>
+        <tr><td><a href="#">Tahmid Chowdhury</a></td><td class="nowrap">01911 553377</td><td><a href="#">Renal Support dry food</a><div class="muted small">1 × 1.5 kg · every 4 weeks</div></td><td>Luna</td><td><span class="badge b-warn">! Suspended</span></td><td>Authorisation ended<div class="muted small">since Mon 14 Sep 2026</div></td><td class="faint">None while suspended</td><td>Bank transfer</td><td>0</td></tr>
+        <tr><td><a href="CustomerSubscriptionsPanel.dc.html">Farhana Yasmin</a></td><td class="nowrap">01712 345678</td><td><a href="#">Renal Support dry food</a><div class="muted small">1 × 1.5 kg · every 4 weeks</div></td><td>Mittens</td><td><span class="badge b-warn">! Suspended</span></td><td>Authorisation ended<div class="muted small">since Sat 19 Sep 2026</div></td><td class="faint">None while suspended</td><td>Bank transfer</td><td>0</td></tr>
+      </tbody>
+    </table>
+    <p class="muted small" style="margin-top:12px">Showing 2 of 2.</p>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":760}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

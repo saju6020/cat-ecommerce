@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Subscription — staff detail — US-SUB-05, 06</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+a{color:var(--accent-ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px}
+.titlerow{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.h2{font-family:var(--font-display);font-weight:600;font-size:16px;margin:0 0 12px}
+.muted{color:var(--ink-muted)}
+.faint{color:var(--ink-faint)}
+.small{font-size:12.5px}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:8px 14px;border-radius:var(--radius-sm);border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer}
+.btn-dg{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:8px 14px;border-radius:var(--radius-sm);border:1px solid var(--border-strong);background:#fff;color:var(--danger-ink);cursor:pointer}
+.acts{display:flex;gap:8px}
+.cols{display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap;margin-top:18px}
+.colmain{flex:1 1 600px;min-width:0}
+.colside{flex:0 1 320px;min-width:0}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:18px;margin-bottom:14px}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap;font-family:var(--font-sans)}
+.b-warn{background:var(--warning-bg);color:var(--warning-ink)}
+.banner{display:flex;gap:10px;align-items:flex-start;background:var(--warning-bg);color:var(--warning-ink);border-radius:var(--radius-md);padding:13px 15px;font-size:14px;line-height:1.5;margin-bottom:14px}
+.banner svg{flex:none;margin-top:3px}
+.kv{display:grid;grid-template-columns:130px 1fr;gap:7px 14px;font-size:13.5px;line-height:1.5;margin:0}
+.kv dt{color:var(--ink-muted)}
+.kv dd{margin:0}
+table{border-collapse:collapse;width:100%}
+th,td{padding:9px 11px;text-align:left;border-bottom:1px solid var(--border);font-size:13px;vertical-align:top}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);font-weight:700;background:var(--surface-sunken)}
+tr:last-child td{border-bottom:none}
+.st{display:inline-flex;align-items:center;gap:5px;font-weight:600}
+.st-ok{color:var(--accent-ink)}
+.st-bad{color:var(--danger-ink)}
+.pager{display:flex;justify-content:space-between;font-size:12.5px;margin-top:10px}
+</style>
+</helmet>
+<div style="width:1280px;height:960px;background:var(--surface-page)">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who">Rezwan Ahmed · Administrator</div></div>
+  <div class="main" style="padding:26px 32px">
+    <a href="StaffUnpaid.dc.html" style="font-size:13px;font-weight:600;text-decoration:none">← Unpaid subscriptions</a>
+    <div class="titlerow" style="margin-top:10px">
+      <div>
+        <h1 class="h1">Kitten dry food <span class="badge b-warn">! Suspended</span></h1>
+        <div class="muted" style="font-size:13.5px;margin-top:4px">Farhana Yasmin · subscribed online on Tue 4 Aug 2026</div>
+      </div>
+      <div class="acts"><button type="button" class="btn">Reinstate</button><button type="button" class="btn-dg">Cancel subscription</button></div>
+    </div>
+
+    <div class="cols">
+      <div class="colmain">
+        <div class="banner"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg><span><strong>Suspended on Sat 19 Sep 2026 after 2 unpaid orders.</strong> No orders are placed until staff reinstate it. The customer was told, and is asked to contact the shop.</span></div>
+
+        <section class="card">
+          <h2 class="h2">Terms</h2>
+          <dl class="kv">
+            <dt>Per delivery</dt><dd>2 bags (1 kg)</dd>
+            <dt>How often</dt><dd>Every 2 weeks</dd>
+            <dt>Delivery</dt><dd>Home — House 12, Road 7, Sector 4, Uttara, Dhaka 1230</dd>
+            <dt>Payment</dt><dd>Bank transfer, for each order</dd>
+            <dt>Cat</dt><dd class="faint">Not needed for this food</dd>
+            <dt>Next order</dt><dd class="faint">None while suspended</dd>
+            <dt>Scheduled changes</dt><dd class="faint">None</dd>
+          </dl>
+        </section>
+
+        <section class="card">
+          <h2 class="h2">Order history</h2>
+          <table>
+            <thead><tr><th>Order date</th><th>Outcome</th><th>Order</th><th>Payment</th></tr></thead>
+            <tbody>
+              <tr><td>Tue 15 Sep 2026</td><td>Ordered</td><td><a href="#">ORD-10433</a></td><td><span class="st st-bad">✕ Expired unpaid</span><div class="muted small">pay-by was Fri 18 Sep, 23:59 (Asia/Dhaka)</div></td></tr>
+              <tr><td>Tue 1 Sep 2026</td><td>Ordered</td><td><a href="#">ORD-10301</a></td><td><span class="st st-bad">✕ Expired unpaid</span><div class="muted small">pay-by was Fri 4 Sep, 23:59 (Asia/Dhaka)</div></td></tr>
+              <tr><td>Tue 18 Aug 2026</td><td>Ordered</td><td><a href="#">ORD-10180</a></td><td><span class="st st-ok">✓ Delivered</span></td></tr>
+              <tr><td>Tue 4 Aug 2026</td><td>Ordered</td><td><a href="#">ORD-10052</a></td><td><span class="st st-ok">✓ Delivered</span></td></tr>
+            </tbody>
+          </table>
+          <div class="pager muted"><span>All 4 orders shown</span><span>Order numbers open the staff order page.</span></div>
+        </section>
+      </div>
+
+      <div class="colside">
+        <section class="card">
+          <h2 class="h2">Customer</h2>
+          <dl class="kv" style="grid-template-columns:70px 1fr">
+            <dt>Name</dt><dd><a href="CustomerSubscriptionsPanel.dc.html">Farhana Yasmin</a></dd>
+            <dt>Mobile</dt><dd>01712 345678</dd>
+            <dt>Email</dt><dd>farhana@example.com</dd>
+          </dl>
+        </section>
+        <section class="card">
+          <h2 class="h2">Records</h2>
+          <dl class="kv" style="grid-template-columns:110px 1fr">
+            <dt>Reinstated</dt><dd class="faint">Never — none recorded</dd>
+            <dt>Cancelled</dt><dd class="faint">Not cancelled</dd>
+            <dt>Discount</dt><dd>10 % subscription discount, applied at each order</dd>
+          </dl>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":960}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Customer detail — US-ACC-10 / 11</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--border:#e5e1d8;--accent:#15605a;--accent-ink:#0e4a45;--warning-bg:#fbf0dc;--warning-ink:#6e4700;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px;--radius-pill:999px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:18px;color:var(--accent-ink)}
+.who{font-size:13.5px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:22px;margin:0 0 6px;display:flex;align-items:center;gap:10px}
+.muted{color:var(--ink-muted)}
+.badge-incomplete{display:inline-flex;align-items:center;gap:5px;background:var(--warning-bg);color:var(--warning-ink);font-size:12px;font-weight:700;padding:3px 10px;border-radius:var(--radius-pill)}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:22px;max-width:760px;margin-bottom:16px}
+.kv{display:grid;grid-template-columns:160px 1fr;gap:8px;font-size:14px;line-height:1.7}
+.kv dt{color:var(--ink-muted)}
+.kv dd{margin:0}
+.notice{background:var(--warning-bg);color:var(--warning-ink);border-radius:var(--radius-sm);padding:14px 16px;font-size:13.5px;line-height:1.5;margin-top:6px}
+</style>
+</helmet>
+<div style="width:1280px;height:820px;background:var(--surface-page);overflow:auto">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who">Shormi Akter · Reception</div></div>
+  <div style="padding:28px 32px">
+    <h1 class="h1">Kamrul Hasan <span class="badge-incomplete"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>Incomplete</span></h1>
+    <p class="muted" style="margin:0 0 20px">Walk-in · registered 22 Sep 2026 · 2 cats</p>
+
+    <div class="card">
+      <dl class="kv">
+        <dt>Mobile</dt><dd>01712 900112</dd>
+        <dt>Email</dt><dd>— not on file</dd>
+        <dt>Password</dt><dd>Not set</dd>
+      </dl>
+      <div class="notice">
+        <strong>This customer can't sign in online yet.</strong> Ask them to set a password from the sign-in page.
+        Online password setup isn't available yet; the customer can be served in the clinic.
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":820}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

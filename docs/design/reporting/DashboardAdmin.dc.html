@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Home dashboard, administrator — US-RPT-05</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px;display:flex;align-items:center;gap:10px}
+.main{padding:26px 32px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+.h2{font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-muted);margin:0 0 10px}
+.titlerow{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+.titlerow .acts{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.sub{font-size:13px;color:var(--ink-muted);margin:5px 0 0;line-height:1.5}
+.muted{color:var(--ink-muted)}
+.small{font-size:12px}
+.back{display:inline-block;font-size:13px;font-weight:600;color:var(--accent);text-decoration:none;margin-bottom:10px}
+.ic{flex-shrink:0;vertical-align:-2px}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13px;padding:8px 14px;border-radius:var(--radius-sm);border:1px solid var(--border-strong);background:#fff;color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:6px;text-decoration:none;white-space:nowrap}
+.btn-primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn-danger{background:var(--danger-ink);border-color:var(--danger-ink);color:#fff}
+.btn-danger-outline{color:var(--danger-ink);border-color:var(--danger-ink)}
+.btn[disabled]{opacity:.55;cursor:not-allowed}
+.btn-sm{font-size:12px;padding:6px 10px}
+.link{color:var(--accent);font-weight:600;font-size:13px;text-decoration:none}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:16px 18px}
+.grid{display:grid;gap:14px}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g21{grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);align-items:start}
+@media (max-width:1023px){.g3{grid-template-columns:repeat(2,minmax(0,1fr))}.g21{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:767px){.g3,.g2{grid-template-columns:minmax(0,1fr)}.main{padding:18px 16px !important}}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.tile{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:16px 18px;display:flex;flex-direction:column;gap:12px}
+.tile h2{font-size:14.5px;font-weight:700;margin:0}
+.figs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 16px;margin:0}
+.fig dt{font-size:12px;color:var(--ink-muted);margin-bottom:2px}
+.fig dd{margin:0;font-size:22px;font-weight:700;font-variant-numeric:tabular-nums;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.fig dd .unit{font-size:12.5px;font-weight:600;color:var(--ink-muted)}
+.fig dd.money{font-size:19px}
+.nr{font-size:12px;font-weight:600;color:var(--ink-muted)}
+.tile .note{font-size:12px;color:var(--ink-muted);margin:0;line-height:1.45}
+.drill{margin-top:auto;font-size:13px;font-weight:600;color:var(--accent);text-decoration:none}
+.flag{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:700;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.flag-warn{background:var(--warning-bg);color:var(--warning-ink)}
+.flag-danger{background:var(--danger-bg);color:var(--danger-ink)}
+.flag-ok{background:var(--accent-soft);color:var(--accent-ink)}
+.flag-neutral{background:var(--surface-sunken);color:var(--ink-muted)}
+.updated{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink-muted)}
+.filters{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:14px 16px;display:flex;flex-wrap:wrap;gap:12px 18px;align-items:flex-start;margin-bottom:14px}
+.f{min-width:0}
+.f > label,.f .lab{display:block;font-size:12px;font-weight:600;margin-bottom:5px}
+.f input,.f select{font:inherit;font-size:13px;padding:7px 9px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:#fff;max-width:100%}
+.f .hint{font-size:11.5px;color:var(--ink-muted);margin-top:4px}
+.f.err input,.f.err select{border-color:var(--danger-ink);box-shadow:0 0 0 1px var(--danger-ink)}
+.errtext{font-size:12px;color:var(--danger-ink);margin-top:5px;display:flex;gap:5px;align-items:flex-start;line-height:1.4}
+.presets{display:flex;flex-wrap:wrap;gap:4px}
+.chip{font:inherit;font-size:12px;padding:5px 10px;border:1px solid var(--border-strong);border-radius:999px;background:#fff;color:var(--ink);cursor:pointer}
+.chip[aria-pressed=true]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-ink);font-weight:700}
+.check{display:flex;align-items:center;gap:7px;font-size:13px;padding:7px 0}
+.fbtns{display:flex;gap:8px;margin-left:auto;align-self:flex-end}
+table.rt{border-collapse:separate;border-spacing:0;width:100%;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md)}
+.rt caption{text-align:left;font-size:13px;padding:0 0 8px;color:var(--ink-muted);caption-side:top}
+.rt caption b{color:var(--ink)}
+.rt th,.rt td{padding:8px 11px;text-align:left;border-bottom:1px solid var(--border);font-size:12.5px;white-space:nowrap}
+.rt thead th{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);background:var(--surface-sunken);font-weight:700}
+.rt thead th:first-child{border-top-left-radius:var(--radius-md)}
+.rt thead th:last-child{border-top-right-radius:var(--radius-md)}
+.rt .num{text-align:right;font-variant-numeric:tabular-nums}
+.rt tbody th{font-weight:600}
+.rt tbody th,.rt tbody td:first-child{position:sticky;left:0;background:#fff;z-index:1}
+.rt thead th:first-child{position:sticky;left:0;z-index:2}
+.rt tfoot th,.rt tfoot td{font-weight:700;background:var(--surface-sunken);border-bottom:none}
+.rt tfoot th{position:sticky;left:0}
+.rt tr.sub td{background:var(--surface-sunken);white-space:normal}
+.sortbtn{font:inherit;text-transform:inherit;letter-spacing:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;display:inline-flex;gap:4px;align-items:center;font-weight:700}
+.sortbtn.on{color:var(--accent-ink)}
+.pager{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;color:var(--ink-muted);margin-top:10px;flex-wrap:wrap;gap:8px}
+.pager .pg{display:flex;gap:6px;align-items:center}
+.pager select{font:inherit;font-size:12.5px;padding:4px 6px;border:1px solid var(--border-strong);border-radius:6px}
+.notes{margin:0 0 12px;display:flex;flex-direction:column;gap:6px}
+.notes p{margin:0;font-size:12.5px;line-height:1.5;background:var(--surface-sunken);border-left:3px solid var(--border-strong);padding:8px 12px;border-radius:0 6px 6px 0}
+.banner{display:flex;gap:10px;align-items:flex-start;border-radius:8px;padding:11px 14px;font-size:13px;line-height:1.5;margin-bottom:14px}
+.banner .ic{margin-top:3px}
+.banner-warn{background:var(--warning-bg);color:var(--warning-ink)}
+.banner-danger{background:var(--danger-bg);color:var(--danger-ink)}
+.banner-info{background:var(--accent-soft);color:var(--accent-ink)}
+.state{border:1px dashed var(--border-strong);border-radius:var(--radius-md);padding:14px 16px;background:var(--surface-page);min-width:0}
+.statelabel{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-faint);margin-bottom:10px}
+.annot{font-size:12px;color:var(--ink-muted);line-height:1.5;margin:16px 0 0;padding-top:12px;border-top:1px dashed var(--border-strong)}
+.annot b{color:var(--ink)}
+.scrim{position:absolute;inset:0;background:rgba(28,26,23,.4);display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap;padding:24px;z-index:40}
+.dialog{background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(20,18,10,.25);width:360px;max-width:100%;padding:22px}
+.dialog h2{font-family:var(--font-display);font-weight:600;font-size:18px;margin:0 0 10px}
+.dialog p{font-size:13.5px;line-height:1.5;margin:0 0 10px}
+.dactions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px;flex-wrap:wrap}
+.sk{background:linear-gradient(90deg,var(--surface-sunken),#ebe7dd);border-radius:4px;height:10px}
+.rcard{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:12px 14px;margin-bottom:10px}
+.rcard h3{font-size:14px;margin:0 0 8px}
+.rcard dl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:5px 12px;margin:0;font-size:12.5px}
+.rcard dt{color:var(--ink-muted)}
+.rcard dd{margin:0;text-align:right;font-variant-numeric:tabular-nums}
+.badge{font-family:var(--font-sans);display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:999px;font-size:11.5px;font-weight:700;white-space:nowrap}
+.b-active{background:var(--accent-soft);color:var(--accent-ink)}
+.b-paused{background:var(--warning-bg);color:var(--warning-ink)}
+.b-cancelled{background:var(--surface-sunken);color:var(--ink-muted)}
+.b-failed{background:var(--danger-bg);color:var(--danger-ink)}
+.toast{position:absolute;right:24px;bottom:24px;background:var(--ink);color:#fff;border-radius:10px;padding:12px 16px;font-size:13px;display:flex;gap:8px;align-items:center;z-index:50;box-shadow:0 10px 30px rgba(20,18,10,.25)}
+.form .row{margin-bottom:16px}
+.form .lab{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.form input[type=text],.form input[type=time],.form select{font:inherit;font-size:14px;padding:8px 10px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:#fff;width:100%;max-width:420px}
+.form .hint{font-size:12px;color:var(--ink-muted);margin-top:5px}
+.radios{display:flex;gap:16px;flex-wrap:wrap;font-size:13.5px}
+.radios label{display:flex;gap:6px;align-items:center}
+.recip{border:1px solid var(--border);border-radius:var(--radius-sm);background:#fff;max-width:560px}
+.recip label{display:flex;gap:10px;align-items:flex-start;padding:9px 12px;border-bottom:1px solid var(--border);font-size:13.5px}
+.recip label:last-child{border-bottom:none}
+.recip .roles{font-size:12px;color:var(--ink-muted)}
+.recip label.dis{background:var(--surface-sunken);color:var(--ink-muted)}
+.cat-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:13px 15px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:5px}
+.cat-card b{font-size:14px;color:var(--accent-ink)}
+.cat-card span{font-size:12.5px;color:var(--ink-muted);line-height:1.45}
+.cat-card em{font-style:normal;font-size:11.5px;color:var(--ink-faint);font-weight:600}
+
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page);position:relative">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who"><select class="branchpick" aria-label="Active branch"><option>Uttara (primary)</option><option>Banani</option></select>Rezwan Ahmed · Administrator</div></div>
+  <div class="main" style="padding:26px 32px">
+    <div class="titlerow">
+      <div>
+        <h1 class="h1">Today — Wed 23 Sep 2026 · Uttara</h1>
+        <p class="sub">Figures for the active branch, in Asia/Dhaka. Money in BDT.</p>
+      </div>
+      <div class="acts"><span class="updated"><svg class="ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 5v6h-6"/></svg> Updated 09:42 (Asia/Dhaka) · refreshes every 60 s</span></div>
+    </div>
+    <p class="vh" role="status" aria-live="polite">Dashboard updated 09:42</p>
+
+    <div class="grid g3">
+      <section class="tile" aria-labelledby="a1">
+        <h2 id="a1">Net revenue today, by line</h2>
+        <dl class="figs">
+          <div class="fig"><dt>Clinic</dt><dd class="money">৳64,200</dd></div>
+          <div class="fig"><dt>Shop</dt><dd class="money">৳31,850</dd></div>
+          <div class="fig"><dt>Boarding</dt><dd class="money">৳22,000</dd></div>
+        </dl>
+        <p class="note">After discounts, excluding tax. Invoices issued since 00:00 (Asia/Dhaka).</p>
+        <a class="drill" href="ReportRevenueChart.dc.html">View report →</a>
+      </section>
+
+      <section class="tile" aria-labelledby="a2">
+        <h2 id="a2">Payments recorded today</h2>
+        <dl class="figs">
+          <div class="fig"><dt>Cash on delivery</dt><dd class="money">৳18,400</dd></div>
+          <div class="fig"><dt>Cash in store</dt><dd class="money">৳42,150</dd></div>
+          <div class="fig"><dt>Card in store</dt><dd class="money">৳27,900</dd></div>
+          <div class="fig"><dt>Bank transfer</dt><dd class="money">৳9,600</dd></div>
+        </dl>
+        <a class="drill" href="ReportViewer.dc.html">View report →</a>
+      </section>
+
+      <section class="tile" aria-labelledby="a3">
+        <h2 id="a3">Receivables</h2>
+        <dl class="figs">
+          <div class="fig"><dt>Outstanding</dt><dd class="money">৳1,86,300</dd></div>
+          <div class="fig"><dt>Over 90 days</dt><dd class="money">৳24,500</dd></div>
+        </dl>
+        <a class="drill" href="ReportViewer.dc.html">View report →</a>
+      </section>
+
+      <section class="tile" aria-labelledby="a4">
+        <h2 id="a4">Appointments today</h2>
+        <dl class="figs">
+          <div class="fig"><dt>Booked</dt><dd>38</dd></div>
+          <div class="fig"><dt>Checked in</dt><dd>21</dd></div>
+          <div class="fig"><dt>Completed</dt><dd>14</dd></div>
+          <div class="fig"><dt>No-show</dt><dd>2</dd></div>
+        </dl>
+        <a class="drill" href="ReportViewer.dc.html">View report →</a>
+      </section>
+
+      <section class="tile" aria-labelledby="a5">
+        <h2 id="a5">Stock expiring soon</h2>
+        <dl class="figs">
+          <div class="fig"><dt>Batches expiring in ≤ 30 days</dt><dd>9 <span class="unit">batches</span></dd></div>
+          <div class="fig"><dt>Value at risk (cost)</dt><dd>— <span class="nr">Not recorded</span></dd></div>
+        </dl>
+        <p class="note">No landed cost has been recorded for these batches yet, so their value can't be stated.</p>
+        <a class="drill" href="ReportViewer.dc.html">View report →</a>
+      </section>
+
+      <section class="tile" aria-labelledby="a6">
+        <h2 id="a6">Shop orders today</h2>
+        <dl class="figs">
+          <div class="fig"><dt>Placed</dt><dd>26</dd></div>
+          <div class="fig"><dt>To pack</dt><dd>8</dd></div>
+          <div class="fig"><dt>Dispatched</dt><dd>15</dd></div>
+        </dl>
+        <a class="drill" href="ReportViewer.dc.html">View report →</a>
+      </section>
+
+      <section class="tile" aria-labelledby="a7">
+        <h2 id="a7">Boarding occupancy</h2>
+        <dl class="figs">
+          <div class="fig"><dt>Occupied units</dt><dd>14 <span class="unit">of 20</span></dd></div>
+          <div class="fig"><dt>Available units</dt><dd>6</dd></div>
+          <div class="fig"><dt>Cats in</dt><dd>17 <span class="unit">cats</span></dd></div>
+        </dl>
+        <a class="drill" href="ReportViewer.dc.html">View report →</a>
+      </section>
+    </div>
+
+    <p class="annot"><b>An administrator's tiles.</b> Money is shown exactly as the server sent it — the page never adds the three lines together or works out a share. "Value at risk" is <b>— Not recorded</b>, never ৳0: the batches exist but have no landed cost. Payments list the four v1 methods only (no online payment gateway in v1).</p>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

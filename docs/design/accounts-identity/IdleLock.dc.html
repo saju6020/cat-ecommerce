@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Idle lock — US-ACC-08</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--ink:#1c1a17;--ink-muted:#5c574f;--border:#e5e1d8;--accent:#15605a;--accent-ink:#0e4a45;--warning-bg:#fbf0dc;--warning-ink:#6e4700;--overlay:rgba(28,26,23,.4);--focus-ring:#15605a;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:18px;color:var(--accent-ink)}
+.who{font-size:13.5px}
+.warnbar{display:flex;gap:10px;align-items:center;background:var(--warning-bg);color:var(--warning-ink);padding:10px 32px;font-size:13.5px;font-weight:600}
+.h1{font-family:var(--font-display);font-weight:600;font-size:22px;margin:0 0 20px}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:24px;max-width:640px}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.field input,.field textarea{width:100%;font:inherit;font-size:15px;padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius-sm)}
+.dot{background:#e07a2c;width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px}
+.modal-scrim{position:absolute;inset:0;background:var(--overlay);display:flex;align-items:center;justify-content:center}
+.modal{background:#fff;border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,.25);width:420px;padding:32px}
+.mh{font-family:var(--font-display);font-weight:600;font-size:19px;margin:0 0 10px}
+.mbtn{width:100%;font-family:var(--font-sans);font-weight:600;font-size:14px;padding:10px 16px;border-radius:8px;border:none;background:var(--accent);color:#fff;cursor:pointer;margin-top:14px}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;position:relative;overflow:hidden">
+  <div style="filter:blur(1px);opacity:.6" aria-hidden="true" inert="">
+    <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who">Rezwan Ahmed · Vet</div></div>
+    <div class="warnbar">⏱ You'll be signed out for inactivity in 2 minutes — this appears before the lock, with a "Stay signed in" button</div>
+    <div style="padding:32px">
+      <h1 class="h1">Edit cat — Mittens</h1>
+      <div class="card">
+        <div class="field"><label>Weight (kg)</label><input value="4.6"></div>
+        <div class="field"><label>Care notes</label><textarea rows="3">Prefers wet food in the mornin</textarea></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-scrim">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="lock-h">
+      <div style="width:40px;height:40px;border-radius:50%;background:var(--warning-bg);color:var(--warning-ink);display:flex;align-items:center;justify-content:center;margin-bottom:14px">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+      </div>
+      <h2 id="lock-h" class="mh">You were signed out after 15 minutes of inactivity</h2>
+      <p class="muted" style="margin:0 0 14px;color:var(--ink-muted);line-height:1.5">Sign in again to continue — your unsaved work is still here.</p>
+      <label style="display:block;font-size:13px;font-weight:600;margin-bottom:6px">Password</label>
+      <input type="password" style="width:100%;font:inherit;font-size:15px;padding:9px 12px;border:1px solid var(--border);border-radius:6px">
+      <button type="button" class="mbtn">Sign in and continue</button>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

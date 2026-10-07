@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Duplicate customers — US-ACC-11</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px;--radius-pill:999px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:18px;color:var(--accent-ink)}
+.who{font-size:13.5px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:22px;margin:0 0 18px}
+.muted{color:var(--ink-muted)}
+.group{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:20px 22px;margin-bottom:16px;max-width:920px}
+.grouphd{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--border)}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted)}
+tr:last-child td{border-bottom:none}
+.dead{display:inline-block;font-size:11px;background:var(--surface-sunken);color:var(--ink-muted);padding:2px 7px;border-radius:var(--radius-pill);margin-left:6px}
+.notrecorded{font-size:12px;color:var(--ink-muted);margin-top:10px;font-style:italic}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:8px 16px;border-radius:var(--radius-sm);border:none;cursor:pointer;background:var(--accent);color:#fff}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page);overflow:auto">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who">Rezwan Ahmed · Administrator</div></div>
+  <div style="padding:28px 32px">
+    <h1 class="h1">Possible duplicate customers</h1>
+
+    <div class="group">
+      <div class="grouphd">
+        <div><strong>Nafisa Rahman</strong> <span class="muted">— 2 matching records</span></div>
+        <button type="button" class="btn">Review merge</button>
+      </div>
+      <table>
+        <thead><tr><th>Record</th><th>Identifiers</th><th>Channel</th><th>Status</th><th>Cats</th></tr></thead>
+        <tbody>
+          <tr><td>Nafisa Rahman</td><td>nafisa@example.com</td><td>Online</td><td>Complete</td><td>Luna</td></tr>
+          <tr><td>Nafisa Rahman</td><td>01911 223344</td><td>Walk-in</td><td>Incomplete</td><td>Coco<span class="dead">Deceased</span></td></tr>
+        </tbody>
+      </table>
+      <p class="notrecorded">Orders, invoices and balances aren't recorded in the system yet, so they can't be shown or moved.</p>
+    </div>
+
+    <div class="group">
+      <div class="grouphd">
+        <div><strong>Md. Sohel Rana</strong> <span class="muted">— 2 matching records</span></div>
+        <button type="button" class="btn">Review merge</button>
+      </div>
+      <table>
+        <thead><tr><th>Record</th><th>Identifiers</th><th>Channel</th><th>Status</th><th>Cats</th></tr></thead>
+        <tbody>
+          <tr><td>Sohel Rana</td><td>01677 889900</td><td>Walk-in</td><td>Complete</td><td>Tiger</td></tr>
+          <tr><td>Md Sohel Rana</td><td>sohel.rana@example.com</td><td>Online</td><td>Complete</td><td>—</td></tr>
+        </tbody>
+      </table>
+      <p class="notrecorded">Orders, invoices and balances aren't recorded in the system yet, so they can't be shown or moved.</p>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

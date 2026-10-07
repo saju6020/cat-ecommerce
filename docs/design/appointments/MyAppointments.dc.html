@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>My appointments — US-CLN-04, 09</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#fbf6ef;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:14px;--warm:#e8894a;--warm-ink:#8a3f14;--warm-soft:#fdeee2}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:18px;color:var(--accent-ink)}
+.pnav{display:flex;gap:24px;font-size:13.5px;font-weight:600}
+.pnav a{color:var(--ink-muted);text-decoration:none}
+.pnav a[aria-current]{color:var(--ink)}
+.who{display:flex;align-items:center;gap:12px;font-size:13.5px}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.wrap{max-width:1000px;margin:0 auto;padding:28px 32px}
+.titlerow{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:22px;margin:0}
+.muted{color:var(--ink-muted)}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:9px 16px;border-radius:var(--radius-sm);border:none;background:var(--accent);color:#fff;cursor:pointer;text-decoration:none}
+.btn-ghost{background:#fff;border:1px solid var(--border-strong);color:var(--ink);font-size:12.5px;padding:6px 12px}
+.tabnav{display:flex;border-bottom:1px solid var(--border);margin-bottom:12px}
+.tabnav a{padding:10px 4px;margin-right:24px;font-size:13.5px;font-weight:600;color:var(--ink-muted);border-bottom:2px solid transparent;text-decoration:none}
+.tabnav a.active{color:var(--ink);border-bottom-color:var(--accent)}
+.appt{display:flex;align-items:center;gap:18px;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:14px 18px;margin-bottom:8px;text-decoration:none;color:inherit}
+.when{width:170px;flex:none}
+.when b{display:block;font-size:14.5px}
+.when span{font-size:12px;color:var(--ink-muted)}
+.what{flex:1;font-size:14px;line-height:1.45}
+.what .sub{font-size:12.5px;color:var(--ink-muted)}
+.status{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;white-space:nowrap}
+.st-booked{background:var(--accent-soft);color:var(--accent-ink)}
+.st-lock{background:var(--surface-sunken);color:var(--ink-muted)}
+.chev{color:var(--ink-faint)}
+h2.sec{font-family:var(--font-display);font-weight:600;font-size:18px;margin:26px 0 4px}
+.wl{display:flex;align-items:center;gap:16px;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:12px 18px;margin-bottom:8px;font-size:14px}
+.wl.offer{border-color:var(--accent);background:var(--accent-soft)}
+.wl .grow{flex:1;line-height:1.45}
+.wl .sub{font-size:12.5px;color:var(--ink-muted)}
+.st-wait{background:var(--surface-sunken);color:var(--ink)}
+.st-offer{background:var(--accent);color:#fff}
+.st-lapsed{background:var(--surface-sunken);color:var(--ink-muted)}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page);overflow:auto">
+  <div class="topnav">
+    <div class="brand">PurrCare</div>
+    <nav class="pnav" aria-label="Portal"><a href="#">My cats</a><a href="MyAppointments.dc.html" aria-current="page">Appointments</a><a href="#">Inbox</a></nav>
+    <div class="who"><div class="avatar">FY</div>Farhana Yasmin</div>
+  </div>
+  <div class="wrap">
+    <div class="titlerow">
+      <h1 class="h1">My appointments</h1>
+      <a class="btn" href="BookService.dc.html">Book another</a>
+    </div>
+    <nav class="tabnav" aria-label="Appointments">
+      <a href="#" class="active" aria-current="page">Upcoming (3)</a>
+      <a href="#">Past</a>
+    </nav>
+    <p class="muted" style="font-size:12.5px;margin:0 0 10px">All times are the clinic's time (Asia/Dhaka).</p>
+
+    <a class="appt" href="MyAppointmentLocked.dc.html">
+      <div class="when"><b>Today, 13:15</b><span>Wed 23 Sep · 30 min</span></div>
+      <div class="what"><strong>Bagha</strong> · Dental check<div class="sub">Dr Nusrat Jahan · Uttara</div></div>
+      <span class="status st-lock"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Booked · call to change</span>
+      <span class="chev" aria-hidden="true">›</span>
+    </a>
+    <a class="appt" href="MyAppointmentDetail.dc.html">
+      <div class="when"><b>Thu 24 Sep, 10:30</b><span>20 min</span></div>
+      <div class="what"><strong>Mitu</strong> · FVRCP booster<div class="sub">Dr Anisur Rahman · Uttara</div></div>
+      <span class="status st-booked"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="m5 12 5 5L20 7"/></svg>Booked</span>
+      <span class="chev" aria-hidden="true">›</span>
+    </a>
+    <a class="appt" href="MyAppointmentDetail.dc.html">
+      <div class="when"><b>Tue 29 Sep, 17:00</b><span>30 min</span></div>
+      <div class="what"><strong>Mitu</strong> · Standard consultation<div class="sub">Dr Nusrat Jahan · Banani</div></div>
+      <span class="status st-booked"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="m5 12 5 5L20 7"/></svg>Booked</span>
+      <span class="chev" aria-hidden="true">›</span>
+    </a>
+
+    <h2 class="sec">Waitlist</h2>
+    <p class="muted" style="font-size:12.5px;margin:0 0 10px">When a time frees up we message you, and you have 30 minutes to claim it.</p>
+
+    <div class="wl offer">
+      <span class="status st-offer"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/></svg>Offered</span>
+      <div class="grow"><strong>A time is available — claim by 10:45</strong> (Asia/Dhaka)<div class="sub">Mitu · Standard consultation · Sat 26 Sep, 11:00 with Dr Jahan · Uttara</div></div>
+      <a class="btn" href="ClaimOffer.dc.html" style="font-size:12.5px;padding:7px 14px">Claim this time</a>
+      <button class="btn btn-ghost" type="button">Withdraw</button>
+    </div>
+    <div class="wl">
+      <span class="status st-wait"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Waiting</span>
+      <div class="grow">Bagha · Dental check · Sat 3 Oct<div class="sub">Uttara · any vet · joined 21 Sep</div></div>
+      <button class="btn btn-ghost" type="button">Withdraw</button>
+    </div>
+    <div class="wl">
+      <span class="status st-lapsed"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 8 8 8"/></svg>Lapsed</span>
+      <div class="grow" style="color:var(--ink-muted)">Mitu · Standard consultation · Mon 14 Sep<div class="sub">An offer wasn't claimed within 30 minutes and went to the next person. You can join again.</div></div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

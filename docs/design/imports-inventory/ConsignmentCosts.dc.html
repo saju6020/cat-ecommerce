@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Costs, rates &amp; landed cost — US-IMP-03, US-IMP-05</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+:root{--overlay:rgba(28,26,23,.4);--radius-lg:16px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px;display:flex;align-items:center;gap:16px}
+select.branchpick{font:inherit;font-size:13px;padding:5px 8px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.main{padding:22px 32px 32px;position:relative}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+.h2{font-family:var(--font-display);font-weight:600;font-size:17px;margin:0 0 10px}
+.h3{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);font-weight:700;margin:0 0 8px}
+.titlerow{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.sub{color:var(--ink-muted);font-size:13px;margin:4px 0 14px;line-height:1.5}
+.muted{color:var(--ink-muted)}
+.faint{color:var(--ink-faint)}
+.small{font-size:12px}
+.strong{font-weight:700}
+a.link{color:var(--accent-ink);font-weight:600;text-decoration:none}
+.secnav{display:flex;flex-wrap:wrap;gap:2px;border-bottom:1px solid var(--border);margin:0 0 18px}
+.secnav a{padding:9px 12px;font-size:13px;font-weight:600;color:var(--ink-muted);text-decoration:none;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap}
+.secnav a.active{color:var(--ink);border-bottom-color:var(--accent)}
+.secnav .count{display:inline-block;margin-left:4px;padding:0 6px;border-radius:999px;background:var(--warning-bg);color:var(--warning-ink);font-size:11px;font-weight:700}
+.tabnav{display:flex;border-bottom:1px solid var(--border);margin:14px 0 18px}
+.tabnav a{padding:10px 2px;margin-right:22px;font-size:13.5px;font-weight:600;color:var(--ink-muted);border-bottom:2px solid transparent;text-decoration:none;margin-bottom:-1px}
+.tabnav a.active{color:var(--ink);border-bottom-color:var(--accent)}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13px;padding:8px 14px;border-radius:var(--radius-sm);border:1px solid var(--accent);cursor:pointer;background:var(--accent);color:#fff;white-space:nowrap}
+.btn-sec{background:#fff;color:var(--ink);border:1px solid var(--border-strong)}
+.btn-danger{background:var(--danger-ink);border-color:var(--danger-ink);color:#fff}
+.btn-danger-o{background:#fff;border:1px solid var(--danger-ink);color:var(--danger-ink)}
+.btn[disabled]{background:var(--surface-sunken);border-color:var(--border);color:var(--ink-faint);cursor:not-allowed}
+.why{font-size:12px;color:var(--ink-muted);margin-top:4px;line-height:1.45}
+.b{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;font-size:11.5px;font-weight:600;white-space:nowrap;line-height:1.5}
+.b i{font-style:normal;font-weight:700}
+.b-ok{background:var(--accent-soft);color:var(--accent-ink)}
+.b-warn{background:var(--warning-bg);color:var(--warning-ink)}
+.b-danger{background:var(--danger-bg);color:var(--danger-ink)}
+.b-neutral{background:var(--surface-sunken);color:var(--ink-muted)}
+.b-out{background:#fff;border:1px solid var(--border-strong);color:var(--ink-muted)}
+.banner{display:flex;gap:10px;align-items:flex-start;border-radius:8px;padding:10px 14px;font-size:13px;line-height:1.5;margin-bottom:14px}
+.banner i{font-style:normal;font-weight:700}
+.banner-warn{background:var(--warning-bg);color:var(--warning-ink)}
+.banner-danger{background:var(--danger-bg);color:var(--danger-ink)}
+.banner-info{background:var(--accent-soft);color:var(--accent-ink)}
+.banner-neutral{background:var(--surface-sunken);color:var(--ink-muted)}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px;font-size:12.5px}
+.toolbar input,.toolbar select{font:inherit;font-size:12.5px;padding:7px 9px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.toolbar label{display:inline-flex;align-items:center;gap:5px}
+table{border-collapse:collapse;width:100%;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden}
+th,td{padding:9px 11px;text-align:left;border-bottom:1px solid var(--border);font-size:12.5px;vertical-align:top}
+th{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);font-weight:700;background:var(--surface-sunken)}
+tbody tr:last-child td{border-bottom:none}
+tfoot td{background:var(--surface-sunken);font-weight:700}
+.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.dim td{color:var(--ink-faint)}
+tr.unusable td{background:#fdfbf8}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:16px 18px}
+.grid2{display:flex;gap:18px;align-items:flex-start}
+.grid2 > *{flex:1;min-width:0}
+.field{margin-bottom:12px}
+.field label,.flabel{display:block;font-size:12.5px;font-weight:600;margin-bottom:5px}
+.field input,.field select,.field textarea{width:100%;font:inherit;font-size:13.5px;padding:8px 10px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:#fff}
+.field textarea{min-height:60px;resize:vertical}
+.field input[readonly]{background:var(--surface-sunken);color:var(--ink-muted)}
+.req{color:var(--danger-ink);font-weight:700}
+.hint{font-size:11.5px;color:var(--ink-muted);margin-top:4px;line-height:1.45}
+.field.error input,.field.error select,.field.error textarea,input.error,select.error{border-color:var(--danger-ink);box-shadow:0 0 0 1px var(--danger-ink)}
+.err{font-size:11.5px;color:var(--danger-ink);font-weight:600;margin-top:4px;line-height:1.4}
+.unitin{display:flex;align-items:stretch}
+.unitin input{border-top-right-radius:0;border-bottom-right-radius:0;min-width:0}
+.unitin span{display:flex;align-items:center;padding:0 9px;border:1px solid var(--border-strong);border-left:none;border-radius:0 var(--radius-sm) var(--radius-sm) 0;background:var(--surface-sunken);font-size:12px;color:var(--ink-muted);white-space:nowrap}
+.kv{display:grid;grid-template-columns:170px 1fr;gap:4px 14px;font-size:13px;line-height:1.7;margin:0}
+.kv dt{color:var(--ink-muted)}
+.kv dd{margin:0}
+.scrim{position:absolute;inset:0;background:var(--overlay);display:flex;align-items:center;justify-content:center;z-index:5}
+.dialog{background:#fff;border-radius:var(--radius-lg);box-shadow:0 20px 60px rgba(20,18,10,.25);width:460px;max-width:100%;padding:24px}
+.dialog h2{margin:0 0 12px;font-size:17px;font-family:var(--font-display);font-weight:600}
+.confirm{font-size:13px;color:var(--ink);background:var(--surface-sunken);border-radius:6px;padding:10px 12px;margin:12px 0 14px;line-height:1.5}
+.dactions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+.note{font-size:12px;color:var(--ink-muted);margin-top:10px;line-height:1.5}
+.pillnote{display:inline-block;font-size:11px;border:1px dashed var(--border-strong);border-radius:6px;padding:2px 7px;color:var(--ink-muted)}
+.stor{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:600;color:var(--accent-ink);background:var(--accent-soft);border-radius:6px;padding:2px 7px;white-space:nowrap}
+.statelabel{font-size:11px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;color:var(--ink-faint);margin:0 0 8px}
+.field input[type=checkbox],.field input[type=radio]{width:auto;padding:0}
+.split{display:flex;gap:20px;align-items:flex-start}
+.split > .left{flex:1.45;min-width:0}
+.split > .right{flex:1;min-width:0}
+.ed td input,.ed td select{font:inherit;font-size:12.5px;padding:6px 8px;border:1px solid var(--border-strong);border-radius:6px;width:100%;background:#fff}
+.side-dialog{border:1px solid var(--border-strong);border-radius:var(--radius-lg);background:#fff;box-shadow:0 20px 60px rgba(20,18,10,.18);padding:20px}
+.side-dialog h2{margin:0 0 10px;font-size:16px;font-family:var(--font-display);font-weight:600}
+</style>
+</helmet>
+<div style="width:1280px;height:1180px;background:var(--surface-page);overflow:auto;position:relative">
+<div class="topnav"><div class="brand">PurrCare · staff</div><div class="who"><select class="branchpick" aria-label="Active branch"><option>Uttara (primary)</option><option>Banani</option></select>Rezwan Ahmed · Administrator</div></div>
+<div class="main">
+  <nav class="secnav" aria-label="Procurement"><a href="Suppliers.dc.html">Suppliers</a><a href="PurchaseOrderList.dc.html">Purchase orders</a><a href="ConsignmentList.dc.html" class="active" aria-current="page">Consignments</a><a href="ReorderSuggestions.dc.html">Reorder</a></nav>
+  <div class="titlerow"><div><h1 class="h1">CN-UTR-2026-011</h1><p class="sub" style="margin:4px 0 0">Kanto Veterinary Trading · from Thailand · <span class="b b-ok"><i aria-hidden="true">✓</i> Cleared</span> · base currency BDT</p></div><a class="btn btn-sec" style="text-decoration:none" href="InspectionPack.dc.html">Inspection pack</a></div>
+  <nav class="tabnav" aria-label="Consignment sections"><a href="ConsignmentDetails.dc.html">Details</a><a href="ConsignmentDocuments.dc.html">Documents</a><a href="#" class="active" aria-current="page">Costs &amp; rates</a><a href="#batches">Batches</a></nav>
+  <div class="split">
+    <div class="left">
+      <div class="banner banner-danger" role="alert"><i aria-hidden="true">✕</i><span><strong>Not saved.</strong> Someone else changed these costs — reload. Your edits are still in the form below; reloading replaces them with the latest saved version. <button class="btn btn-sec" type="button" style="margin-left:6px;padding:4px 10px">Reload</button></span></div>
+      <h2 class="h2">Cost components</h2>
+      <table class="ed">
+        <thead><tr><th>Kind</th><th style="width:130px">Amount</th><th style="width:90px">Currency</th><th>Note</th></tr></thead>
+        <tbody>
+          <tr><td><select aria-label="Kind"><option>Goods (supplier invoice)</option></select></td><td><input value="1,180.00" aria-label="Amount"></td><td><select aria-label="Currency"><option>USD</option></select></td><td><input value="Invoice KVT-2026-0412" aria-label="Note"></td></tr>
+          <tr><td><select aria-label="Kind"><option>Freight</option></select></td><td><input value="210.00" aria-label="Amount"></td><td><select aria-label="Currency"><option>USD</option></select></td><td><input value="Sea freight, reefer" aria-label="Note"></td></tr>
+          <tr><td><select aria-label="Kind"><option>Insurance</option></select></td><td><input value="18.50" aria-label="Amount"></td><td><select aria-label="Currency"><option>USD</option></select></td><td><input value="" aria-label="Note"></td></tr>
+          <tr><td><select aria-label="Kind"><option>Customs duty</option></select></td><td><input value="26,150.00" aria-label="Amount" style="border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)"></td><td><select aria-label="Currency"><option>BDT</option></select></td><td><input value="Revised assessment 20 Sep" aria-label="Note"></td></tr>
+          <tr><td><select aria-label="Kind"><option>Clearing agent fee</option></select></td><td><input value="6,500.00" aria-label="Amount"></td><td><select aria-label="Currency"><option>BDT</option></select></td><td><input value="" aria-label="Note"></td></tr>
+          <tr><td><select aria-label="Kind"><option>Cold-chain handling</option></select></td><td><input value="3,200.00" aria-label="Amount"></td><td><select aria-label="Currency"><option>BDT</option></select></td><td><input value="" aria-label="Note"></td></tr>
+        </tbody>
+      </table>
+      <button class="btn btn-sec" type="button" style="margin-top:8px">+ Add cost</button>
+      <h2 class="h2" style="margin-top:18px">Exchange rates</h2>
+      <table class="ed">
+        <thead><tr><th>Currency</th><th>Rate to BDT</th><th>Meaning</th></tr></thead>
+        <tbody><tr><td>USD</td><td style="width:160px"><input value="121.4500" aria-label="USD rate to BDT"></td><td class="muted">1 USD = ৳121.4500</td></tr></tbody>
+      </table>
+      <div class="actions" style="margin-top:12px"><button class="btn" type="button">Save costs and rates</button><span class="small muted">Costs and rates are saved together.</span></div>
+    </div>
+    <div class="right">
+      <div class="side-dialog" role="dialog" aria-label="Allocate landed cost">
+        <p class="statelabel">When "Allocate landed cost" is pressed</p>
+        <h2>Allocate landed cost?</h2>
+        <div class="confirm">This recalculates the landed unit cost of <strong>3 batches</strong>. Stock already sold keeps the cost it was sold at.</div>
+        <div class="dactions"><button class="btn btn-sec" type="button">Cancel</button><button class="btn" type="button">Allocate</button></div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="h2" id="batches" style="margin-top:26px">Landed cost by batch</h2>
+  <div class="banner banner-warn" role="status"><i aria-hidden="true">⚠</i><span><strong>Stale.</strong> Costs or batches changed since the last allocation (16 Sep 2026, 12:30, Asia/Dhaka). The figures below are from that allocation. <button class="btn" type="button" style="margin-left:6px;padding:4px 10px">Allocate landed cost</button></span></div>
+  <p class="small muted" style="margin:0 0 10px">Extra costs are shared across batches in proportion to the quantity received.</p>
+  <table>
+    <thead><tr><th>Batch · lot</th><th>SKU</th><th>Expiry</th><th>Location</th><th class="num">Quantity</th><th class="num">Purchase cost</th><th class="num">Allocated cost</th><th class="num">Landed unit cost</th></tr></thead>
+    <tbody>
+      <tr><td><a class="link" href="BatchDetail.dc.html">AMX-5521</a> <span class="b b-danger"><i aria-hidden="true">⊘</i> Recalled — held</span></td><td>MED-AMX-50 · Amoxicillin oral suspension 50 mg/ml</td><td>31 Mar 2027</td><td>UTR-DISP, UTR-QUAR</td><td class="num">1,500 ml</td><td class="num">৳69,226.50</td><td class="num">৳36,358.20</td><td class="num strong">৳70.3898 / ml</td></tr>
+      <tr><td><a class="link" href="BatchDetail.dc.html">AMX-5530</a> <span class="b b-ok"><i aria-hidden="true">✓</i> Available</span></td><td>MED-AMX-50 · Amoxicillin oral suspension 50 mg/ml</td><td>30 Apr 2027</td><td>UTR-FRIDGE</td><td class="num">1,000 ml</td><td class="num">৳46,151.00</td><td class="num">৳24,238.80</td><td class="num strong">৳70.3898 / ml</td></tr>
+      <tr><td><a class="link" href="BatchDetail.dc.html">FVX-2291</a> <span class="b b-warn"><i aria-hidden="true">⏸</i> Quarantined</span></td><td>MED-FVX-TRI · Feline tricat vaccine</td><td>12 Jan 2027</td><td>UTR-QUAR</td><td class="num">60 doses</td><td class="num">৳27,933.50</td><td class="num">৳1,454.33</td><td class="num strong">৳489.7972 / dose</td></tr>
+    </tbody>
+    <tfoot><tr><td colspan="5">Totals (from the server)</td><td class="num">৳143,311.00</td><td class="num">৳62,051.33</td><td></td></tr></tfoot>
+  </table>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1180}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

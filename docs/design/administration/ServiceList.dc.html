@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Services — US-ADM-04</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px;--radius-pill:999px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px}
+.shell{display:flex}
+.sidebar{width:210px;flex:none;background:#fff;border-right:1px solid var(--border);min-height:820px;padding:18px 0}
+.sidebar a{display:block;padding:9px 22px;font-size:13.5px;color:var(--ink-muted);text-decoration:none;font-weight:600}
+.sidebar a.active{color:var(--accent-ink);background:var(--accent-soft);border-right:2px solid var(--accent)}
+.main{flex:1;padding:26px 32px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+table{border-collapse:collapse;width:100%;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;margin-top:16px}
+th,td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--border);font-size:13.5px}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);background:var(--surface-sunken)}
+tr:last-child td{border-bottom:none}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:var(--radius-pill);font-size:11.5px;font-weight:600;background:var(--warning-bg);color:var(--warning-ink)}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:8px 16px;border-radius:var(--radius-sm);border:none;cursor:pointer;background:var(--accent);color:#fff}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page);overflow:auto">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who">Rezwan Ahmed · Administrator</div></div>
+  <div class="shell">
+    <div class="sidebar"><a>Branches</a><a class="active" aria-current="page">Services &amp; pricing</a><a>Rosters &amp; leave</a><a>Settings</a><a>Content</a><a>Policies</a><a>Audit log</a><a>System</a></div>
+    <div class="main">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h1 class="h1">Services</h1>
+        <a href="ServiceForm.dc.html" class="btn" style="text-decoration:none">+ Add service</a>
+      </div>
+      <table>
+        <thead><tr><th>Code</th><th>Name</th><th>Category</th><th>Duration</th><th>Current price</th><th>Online</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>CONS-STD</td><td class="body-strong">Standard consultation</td><td>Consultation</td><td>20 min</td><td><a href="EffectiveDatedHistory.dc.html" style="color:var(--accent-ink);font-weight:600">৳800</a></td><td>Yes</td><td>Active</td></tr>
+          <tr><td>SPAY-F</td><td class="body-strong">Spay — female</td><td>Surgery</td><td>90 min</td><td><a href="EffectiveDatedHistory.dc.html" style="color:var(--accent-ink);font-weight:600">৳4,500</a></td><td>Yes</td><td>Active</td></tr>
+          <tr><td>BOARD-STD</td><td class="body-strong">Boarding — standard</td><td>Boarding</td><td>—</td><td><span class="badge">Not priced</span></td><td>No</td><td>Active</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:12.5px;color:var(--ink-muted);margin-top:10px">A service marked <strong>Not priced</strong> can't be booked until a price is scheduled for it.</p>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

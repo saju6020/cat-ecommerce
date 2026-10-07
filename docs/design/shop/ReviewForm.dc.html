@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Write a review — US-SHP-09</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#fbf6ef;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:14px;--warm:#e8894a;--warm-ink:#8a3f14;--warm-soft:#fdeee2}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink);font-size:14px}
+a{color:var(--accent-ink)}
+.ic{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:18px;color:var(--accent-ink)}
+.who{display:flex;align-items:center;gap:12px;font-size:13.5px}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.tabnav{display:flex;border-bottom:1px solid var(--border);padding:0 32px;background:#fff}
+.tab{padding:14px 4px;margin-right:26px;font-size:14px;font-weight:600;color:var(--ink-muted);border-bottom:2px solid transparent;text-decoration:none}
+.tab.active{color:var(--ink);border-bottom-color:var(--accent)}
+.page{max-width:1120px;margin:0 auto;padding:28px 32px 40px;display:flex;gap:32px;align-items:flex-start}
+.formcol{flex:1;min-width:0}
+.side{width:340px;flex:none}
+.h1{font-family:var(--font-display);font-weight:600;font-size:24px;margin:0 0 4px}
+.muted{color:var(--ink-muted)}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:24px;margin-top:16px}
+.prod{display:flex;gap:12px;align-items:center;padding-bottom:16px;border-bottom:1px solid var(--border);margin-bottom:18px}
+.pimg{width:52px;height:52px;border-radius:6px;background:#e6efe9;color:#2f6f5f;display:flex;align-items:center;justify-content:center}
+.pimg svg{height:62%}
+.field{margin-bottom:18px}
+.field label,.lbl{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.field input,.field select,.field textarea{width:100%;font:inherit;font-size:14.5px;padding:9px 12px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:#fff}
+.field textarea{height:150px;resize:vertical;line-height:1.5}
+fieldset{border:none;margin:0 0 18px;padding:0}
+legend{font-size:13px;font-weight:600;margin-bottom:8px;padding:0}
+.rating{display:flex;gap:8px;flex-wrap:wrap}
+.rating label{display:flex;align-items:center;gap:7px;border:1px solid var(--danger-ink);border-radius:6px;padding:8px 12px;font-size:13.5px;background:#fff}
+.rating input{margin:0;accent-color:var(--accent)}
+.err{display:flex;gap:6px;align-items:flex-start;color:var(--danger-ink);font-size:12.5px;font-weight:600;margin-top:6px}
+.hint{font-size:12.5px;color:var(--ink-muted);margin-top:5px}
+.counter{font-size:12.5px;font-weight:600;color:var(--warning-ink);margin-top:5px;text-align:right}
+.banner{display:flex;gap:10px;align-items:flex-start;background:var(--danger-bg);color:var(--danger-ink);border-radius:8px;padding:12px 14px;font-size:13.5px;margin-top:16px;line-height:1.5}
+.info{display:flex;gap:8px;align-items:center;background:var(--surface-sunken);border-radius:6px;padding:10px 12px;font-size:13px;color:var(--ink-muted);margin-bottom:16px}
+.actions{display:flex;gap:10px}
+.btn{font:inherit;font-weight:600;font-size:14px;padding:10px 18px;border-radius:6px;border:none;background:var(--accent);color:#fff}
+.btn2{font:inherit;font-weight:600;font-size:14px;padding:9px 16px;border-radius:6px;border:1px solid var(--border-strong);background:#fff;color:var(--ink)}
+.statelabel{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-faint);margin:0 0 6px}
+.state{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:14px 16px;margin-bottom:16px;font-size:13.5px;line-height:1.5}
+</style>
+</helmet>
+<div style="width:1280px;height:1020px;background:var(--surface-page)">
+  <div class="topnav">
+    <div class="brand">PurrCare</div>
+    <div class="who"><div class="avatar">FY</div>Farhana Yasmin <a href="#" style="font-weight:600;margin-left:8px">Sign out</a></div>
+  </div>
+  <nav class="tabnav" aria-label="Your account">
+    <a class="tab" href="#">My cats</a><a class="tab" href="../notifications/InboxAndBadge.dc.html">Inbox</a><a class="tab" href="Wishlist.dc.html">Wishlist</a><a class="tab active" href="MyReviews.dc.html" aria-current="page">My reviews</a><a class="tab" href="../accounts-identity/Profile.dc.html">Account</a><a class="tab" href="ShopHome.dc.html">Shop →</a>
+  </nav>
+  <main class="page">
+    <div class="formcol">
+      <h1 class="h1">Write a review</h1>
+      <p class="muted" style="margin:0">Tell other cat owners what you thought.</p>
+
+      <div class="banner" role="alert"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="margin-top:2px"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5h.01"/></svg><span><b>Please fix 1 thing before sending:</b> <a href="#rating" style="color:inherit">choose a rating</a>.</span></div>
+
+      <form class="card">
+        <div class="prod"><div class="pimg"><svg viewBox="0 0 80 100" aria-hidden="true"><path d="M18 12h44l6 12v64a4 4 0 0 1-4 4H16a4 4 0 0 1-4-4V24Z" fill="currentColor"/></svg></div><div><b>Royal Canin Kitten</b><div class="muted" style="font-size:13px">Royal Canin</div></div></div>
+        <div class="info"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5h.01"/></svg>Reviews are checked before they appear.</div>
+
+        <div class="field">
+          <label for="rv-sku">Which size did you buy?</label>
+          <select id="rv-sku"><option selected>2 kg</option><option>400 g</option></select>
+          <div class="hint">Only sizes you bought are listed.</div>
+        </div>
+
+        <fieldset id="rating" aria-invalid="true" aria-describedby="rv-rating-err">
+          <legend>Your rating</legend>
+          <div class="rating" role="radiogroup" aria-label="Your rating">
+            <label><input type="radio" name="r">1 — Poor</label>
+            <label><input type="radio" name="r">2 — Fair</label>
+            <label><input type="radio" name="r">3 — Good</label>
+            <label><input type="radio" name="r">4 — Very good</label>
+            <label><input type="radio" name="r">5 — Excellent</label>
+          </div>
+          <div class="err" id="rv-rating-err"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5h.01"/></svg>Choose a rating from 1 to 5.</div>
+        </fieldset>
+
+        <div class="field">
+          <label for="rv-title">Title <span class="muted" style="font-weight:400">(optional)</span></label>
+          <input id="rv-title" value="Small kibble, fussy eater approves">
+        </div>
+
+        <div class="field">
+          <label for="rv-body">Your review</label>
+          <textarea id="rv-body" aria-describedby="rv-count">Our 11-week-old rescue refused two other brands, but she eats this happily. The kibble is small enough for her. We mix it with a little warm water in the morning. The bag reseals well and lasts about a month for one kitten. Only gripe: the 4 kg bag has been out of stock for weeks, which would be better value for us. Will update after the next bag.</textarea>
+          <div class="counter" id="rv-count" aria-live="polite">98 characters left</div>
+          <div class="hint">Plain text only, up to 2,000 characters. Your values stay as typed if anything goes wrong.</div>
+        </div>
+
+        <div class="actions"><button class="btn" type="submit">Send review</button><button class="btn2" type="button">Cancel</button></div>
+      </form>
+    </div>
+
+    <div class="side">
+      <div class="statelabel">If the server refuses · not bought</div>
+      <div class="state" style="background:var(--danger-bg);color:var(--danger-ink);border-color:transparent">You can only review products you've bought from us. Your review hasn't been sent, and what you typed is still here.</div>
+      <div class="statelabel">If the server refuses · already reviewed</div>
+      <div class="state" style="background:var(--danger-bg);color:var(--danger-ink);border-color:transparent">You've already reviewed this product. <a href="MyReviews.dc.html" style="color:inherit;font-weight:700">Edit your review</a> instead.</div>
+      <div class="statelabel">Leaving with unsaved text</div>
+      <div class="state">“Leave this page? Your review hasn't been sent and what you typed will be lost.” <div style="margin-top:10px;display:flex;gap:8px"><button class="btn2" type="button" style="font-size:13px;padding:6px 12px">Stay</button><button class="btn2" type="button" style="font-size:13px;padding:6px 12px;color:var(--danger-ink);border-color:var(--danger-ink)">Leave and discard</button></div></div>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1020}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

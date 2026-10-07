@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Unpaid subscriptions — US-SUB-06</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+a{color:var(--accent-ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px}
+.titlerow{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+.muted{color:var(--ink-muted)}
+.small{font-size:12.5px}
+.btn2{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:8px 14px;border-radius:var(--radius-sm);border:1px solid var(--border-strong);background:#fff;color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:6px;text-decoration:none}
+.tabs{display:flex;gap:24px;border-bottom:1px solid var(--border);margin:16px 0 14px;flex-wrap:wrap}
+.tab{padding:9px 2px;font-size:14px;font-weight:600;color:var(--ink-muted);border-bottom:2px solid transparent;text-decoration:none}
+.tab.active{color:var(--ink);border-bottom-color:var(--accent)}
+.count{display:inline-block;margin-left:6px;font-size:12px;background:var(--surface-sunken);border-radius:999px;padding:1px 7px;color:var(--ink-muted)}
+.grp{margin-top:18px}
+.grphead{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.grphead h2{font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;margin:0}
+.row{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:14px 16px;margin-bottom:8px;display:flex;gap:18px;flex-wrap:wrap;align-items:flex-start}
+.who2{flex:0 1 250px;min-width:0}
+.orders{flex:1 1 520px;min-width:0}
+.go{flex:0 0 auto;align-self:center}
+.name{font-weight:700;font-size:14px}
+.olist{border-collapse:collapse;width:100%}
+.olist td{font-size:13px;padding:5px 10px 5px 0;border-bottom:1px dashed var(--border);vertical-align:top}
+.olist tr:last-child td{border-bottom:none}
+.st{display:inline-flex;align-items:center;gap:5px;font-weight:600}
+.st-bad{color:var(--danger-ink)}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;font-size:11.5px;font-weight:700;white-space:nowrap}
+.b-risk{background:#fff;color:var(--warning-ink);border:1px solid var(--warning-ink)}
+.b-warn{background:var(--warning-bg);color:var(--warning-ink)}
+.info{font-size:13px;color:var(--ink-muted);background:var(--surface-sunken);border-radius:6px;padding:9px 12px}
+</style>
+</helmet>
+<div style="width:1280px;height:1000px;background:var(--surface-page)">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who">Rezwan Ahmed · Administrator</div></div>
+  <div class="main" style="padding:26px 32px">
+    <div class="titlerow">
+      <h1 class="h1">Subscriptions</h1>
+      <a class="btn2" href="#"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Export CSV</a>
+    </div>
+    <nav class="tabs" aria-label="Subscription lists">
+      <a class="tab" href="StaffSubscriptions.dc.html">All<span class="count">1,284</span></a>
+      <a class="tab active" aria-current="page" href="StaffUnpaid.dc.html">Unpaid<span class="count">5</span></a>
+      <a class="tab" href="StaffPrescriptionSuspended.dc.html">Prescription suspended<span class="count">2</span></a>
+    </nav>
+    <div class="info">A subscription is suspended after 2 unpaid orders in a row. Only staff can restart one — open it to reinstate. Pay-by times are Asia/Dhaka.</div>
+
+    <section class="grp" aria-labelledby="g1">
+      <div class="grphead"><span class="badge b-warn">! Suspended</span><h2 id="g1">Suspended — 2</h2></div>
+      <div class="row">
+        <div class="who2"><a class="name" href="CustomerSubscriptionsPanel.dc.html">Farhana Yasmin</a><div class="muted small">01712 345678</div><div style="font-size:13px;margin-top:6px">Kitten dry food · 2 × 1 kg · every 2 weeks</div><div class="muted small">Bank transfer · suspended Sat 19 Sep 2026</div></div>
+        <div class="orders"><table class="olist" aria-label="Unpaid orders for Farhana Yasmin"><tbody>
+          <tr><td>Tue 15 Sep 2026</td><td><a href="#">ORD-10433</a></td><td class="muted">pay by Fri 18 Sep, 23:59</td><td><span class="st st-bad">✕ Expired unpaid</span></td></tr>
+          <tr><td>Tue 1 Sep 2026</td><td><a href="#">ORD-10301</a></td><td class="muted">pay by Fri 4 Sep, 23:59</td><td><span class="st st-bad">✕ Expired unpaid</span></td></tr>
+        </tbody></table></div>
+        <div class="go"><a class="btn2" href="StaffSubscriptionDetail.dc.html">Open</a></div>
+      </div>
+      <div class="row">
+        <div class="who2"><a class="name" href="#">Arif Hossain</a><div class="muted small">01673 440022</div><div style="font-size:13px;margin-top:6px">Adult Indoor dry food · 2 × 2 kg · every 2 weeks</div><div class="muted small">Cash on delivery · suspended Wed 16 Sep 2026</div></div>
+        <div class="orders"><table class="olist" aria-label="Unpaid orders for Arif Hossain"><tbody>
+          <tr><td>Sat 12 Sep 2026</td><td><a href="#">ORD-10410</a></td><td class="muted">cash on delivery — no pay-by date</td><td><span class="st st-bad">✕ Refused on delivery</span></td></tr>
+          <tr><td>Sat 29 Aug 2026</td><td><a href="#">ORD-10280</a></td><td class="muted">cash on delivery — no pay-by date</td><td><span class="st st-bad">✕ Refused on delivery</span></td></tr>
+        </tbody></table></div>
+        <div class="go"><a class="btn2" href="StaffSubscriptionDetail.dc.html">Open</a></div>
+      </div>
+    </section>
+
+    <section class="grp" aria-labelledby="g2">
+      <div class="grphead"><span class="badge b-risk">◔ At risk</span><h2 id="g2">At risk — 3</h2><span class="muted small">one more unpaid order suspends these</span></div>
+      <div class="row">
+        <div class="who2"><a class="name" href="#">Mahmud Karim</a><div class="muted small">01815 667788</div><div style="font-size:13px;margin-top:6px">Senior wet food · 1 × 12 pouches · every 2 weeks</div><div class="muted small">Bank transfer · next order Fri 2 Oct 2026</div></div>
+        <div class="orders"><table class="olist" aria-label="Unpaid orders for Mahmud Karim"><tbody>
+          <tr><td>Fri 18 Sep 2026</td><td><a href="#">ORD-10455</a></td><td class="muted">pay by Mon 21 Sep, 23:59</td><td><span class="st st-bad">✕ Expired unpaid</span></td></tr>
+        </tbody></table></div>
+        <div class="go"><a class="btn2" href="#">Open</a></div>
+      </div>
+      <div class="row">
+        <div class="who2"><a class="name" href="#">Kamrul Hasan</a><div class="muted small">01712 900112</div><div style="font-size:13px;margin-top:6px">Clumping cat litter · 1 × 10 L · every 2 weeks</div><div class="muted small">Cash on delivery · next order Mon 28 Sep 2026</div></div>
+        <div class="orders"><table class="olist" aria-label="Unpaid orders for Kamrul Hasan"><tbody>
+          <tr><td>Mon 14 Sep 2026</td><td><a href="#">ORD-10420</a></td><td class="muted">cash on delivery — no pay-by date</td><td><span class="st st-bad">✕ Refused on delivery</span></td></tr>
+        </tbody></table></div>
+        <div class="go"><a class="btn2" href="#">Open</a></div>
+      </div>
+      <div class="row">
+        <div class="who2"><a class="name" href="#">Nafisa Rahman</a><div class="muted small">01819 224466</div><div style="font-size:13px;margin-top:6px">Adult Indoor dry food · 1 × 2 kg · every 4 weeks</div><div class="muted small">Bank transfer · next order Sat 26 Sep 2026</div></div>
+        <div class="orders"><table class="olist" aria-label="Unpaid orders for Nafisa Rahman"><tbody>
+          <tr><td>Sat 29 Aug 2026</td><td><a href="#">ORD-10279</a></td><td class="muted">pay by Tue 1 Sep, 23:59</td><td><span class="st st-bad">✕ Expired unpaid</span></td></tr>
+        </tbody></table></div>
+        <div class="go"><a class="btn2" href="#">Open</a></div>
+      </div>
+    </section>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1000}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Book a stay — review and reserve — US-BRD-02, 06</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink);font-size:14px;-webkit-font-smoothing:antialiased}
+a{color:var(--accent-ink)}
+p{margin:0}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px;display:flex;align-items:center;gap:12px}
+.ctop{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;border-bottom:1px solid var(--border);background:#fff}
+.ctop .cbrand{font-family:var(--font-display);font-weight:600;font-size:19px;color:var(--accent-ink)}
+.ctop nav{display:flex;gap:22px;font-size:14px;font-weight:600}
+.ctop nav a{color:var(--ink-muted);text-decoration:none}
+.ctop nav a.on{color:var(--ink)}
+.ctop .cwho{display:flex;align-items:center;gap:10px;font-size:13.5px}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.main{padding:26px 32px;position:relative}
+.cmain{max-width:960px;margin:0 auto;padding:30px 32px 40px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+.h2{font-family:var(--font-display);font-weight:600;font-size:17px;margin:0 0 10px}
+.titlerow{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:18px}
+.sub{color:var(--ink-muted);font-size:13px;margin-top:4px}
+.muted{color:var(--ink-muted)}
+.faint{color:var(--ink-faint)}
+.small{font-size:12.5px}
+.tiny{font-size:11.5px}
+.strong{font-weight:700}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:18px}
+.cardh{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);margin:0 0 10px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.cardh a{text-transform:none;letter-spacing:0;font-size:12.5px}
+.btn{font:inherit;font-weight:600;font-size:13.5px;padding:8px 15px;border-radius:var(--radius-sm);border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;min-height:38px;display:inline-flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;white-space:nowrap}
+.btn-2{background:#fff;color:var(--ink);border-color:var(--border-strong)}
+.btn-danger{background:var(--danger-ink);border-color:var(--danger-ink);color:#fff}
+.btn-danger-2{background:#fff;border-color:#e4c4c0;color:var(--danger-ink)}
+.btn-sm{font-size:12.5px;padding:5px 11px;min-height:32px}
+.btn-link{background:none;border:none;color:var(--accent-ink);padding:0;min-height:0;font-weight:600}
+.btn[disabled]{background:var(--surface-sunken);color:var(--ink-faint);border-color:var(--border);cursor:not-allowed}
+.why{font-size:12px;color:var(--ink-muted);margin-top:6px;line-height:1.45}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:2px 9px;border-radius:999px;font-size:11.5px;font-weight:700;white-space:nowrap}
+.b-ok{background:#e6f0ee;color:var(--accent-ink)}
+.b-warn{background:var(--warning-bg);color:var(--warning-ink)}
+.b-bad{background:var(--danger-bg);color:var(--danger-ink)}
+.b-hr{background:var(--danger-ink);color:#fff}
+.b-neutral{background:var(--surface-sunken);color:var(--ink-muted)}
+.b-info{background:var(--accent-soft);color:var(--accent-ink);border:1px solid rgba(21,96,90,.25)}
+.alert{display:flex;gap:10px;border-radius:8px;padding:12px 14px;font-size:13.5px;line-height:1.5}
+.alert b.t{display:block}
+.alert-warn{background:var(--warning-bg);color:var(--warning-ink);border:1px solid #ebd9b4}
+.alert-bad{background:var(--danger-bg);color:var(--danger-ink);border:1px solid #f0ccc8}
+.alert-info{background:var(--accent-soft);color:var(--accent-ink);border:1px solid rgba(21,96,90,.25)}
+.alert-neutral{background:var(--surface-sunken);color:var(--ink-muted);border:1px solid var(--border)}
+.field{margin-bottom:14px}
+.lbl{display:block;font-size:13px;font-weight:600;margin-bottom:5px}
+.inp{width:100%;font:inherit;font-size:14px;padding:8px 11px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:#fff;color:var(--ink)}
+.inp.err{border-color:var(--danger-ink);box-shadow:0 0 0 1px var(--danger-ink)}
+textarea.inp{resize:vertical}
+.ferr{font-size:12.5px;color:var(--danger-ink);margin-top:4px;font-weight:600}
+.hint{font-size:12px;color:var(--ink-muted);margin-top:4px;line-height:1.45}
+.unit{display:flex;align-items:center;gap:6px}
+.unit span{font-size:13px;color:var(--ink-muted);font-weight:600}
+table{border-collapse:collapse;width:100%;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--border);font-size:13px;vertical-align:top}
+th{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);background:var(--surface-sunken)}
+tr:last-child td{border-bottom:none}
+.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tabnav{display:flex;border-bottom:1px solid var(--border);margin-bottom:18px;gap:22px;flex-wrap:wrap}
+.tabnav a{padding:10px 2px;font-size:13.5px;font-weight:600;color:var(--ink-muted);border-bottom:2px solid transparent;text-decoration:none}
+.tabnav a.active{color:var(--ink);border-bottom-color:var(--accent)}
+.stepper{display:flex;gap:6px;margin-bottom:22px;flex-wrap:wrap}
+.step{font-size:12.5px;padding:5px 11px;border-radius:999px;background:var(--surface-sunken);color:var(--ink-muted);font-weight:600}
+.step.done{background:#e6f0ee;color:var(--accent-ink)}
+.step.cur{background:var(--accent);color:#fff}
+.step.blocked{background:var(--danger-bg);color:var(--danger-ink)}
+.scrim{position:absolute;inset:0;background:rgba(28,26,23,.4);display:flex;align-items:center;justify-content:center;gap:24px;z-index:5;padding:24px}
+.dialog{background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(20,18,10,.25);width:460px;max-width:100%;padding:24px}
+.dialog h2{font-family:var(--font-display);font-weight:600;font-size:18px;margin:0 0 12px}
+.consequence{font-size:13.5px;background:var(--surface-sunken);border-radius:8px;padding:11px 13px;margin:12px 0;line-height:1.55}
+.dactions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px;flex-wrap:wrap}
+.panel-label{font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 7px}
+.zone{font-size:11.5px;color:var(--ink-muted);font-weight:400}
+.qline{display:flex;justify-content:space-between;gap:12px;font-size:13px;padding:4px 0}
+.qline .num{font-weight:600}
+.qdisc{color:var(--accent-ink)}
+.qtotal{border-top:1px solid var(--border);font-weight:700;margin-top:6px;padding-top:9px;font-size:14px}
+.kv{display:grid;grid-template-columns:150px 1fr;gap:7px 14px;font-size:13.5px;margin:0}
+.kv dt{color:var(--ink-muted);font-size:12.5px;font-weight:600}
+.kv dd{margin:0}
+.cph{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--border);border-radius:8px;padding:9px 11px;background:#fff;min-width:0}
+.cph .av{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--font-display);font-size:17px;flex:none}
+.cph-b{min-width:0;flex:1}
+.cph-n{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:14px}
+.cph-h{font-size:12.5px;color:var(--danger-ink);font-weight:600;margin-top:3px;line-height:1.4}
+.cph-a{display:flex;gap:5px;margin-top:5px;flex-wrap:wrap}
+.al{font-size:11.5px;font-weight:600;padding:2px 7px;border-radius:6px;background:var(--warning-bg);border:1px solid #ebd9b4;color:var(--warning-ink)}
+.al-sev{background:var(--danger-bg);border-color:#f0ccc8;color:var(--danger-ink)}
+.al-none{background:var(--surface-sunken);border-color:var(--border);color:var(--ink-muted)}
+.row{display:flex;gap:16px}
+.col{display:flex;flex-direction:column;gap:14px}
+.live{font-size:12px;color:var(--ink-muted);display:inline-flex;align-items:center;gap:6px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--accent);display:inline-block}
+.seg{display:inline-flex;border:1px solid var(--border-strong);border-radius:var(--radius-sm);overflow:hidden}
+.seg button{font:inherit;font-size:13px;font-weight:600;padding:7px 12px;border:none;border-right:1px solid var(--border-strong);background:#fff;color:var(--ink);cursor:pointer;min-height:36px}
+.seg button:last-child{border-right:none}
+.seg button.on{background:var(--accent);color:#fff}
+.note-dev{font-size:12px;color:var(--ink-muted);background:var(--surface-sunken);border:1px dashed var(--border-strong);border-radius:6px;padding:8px 10px;line-height:1.45}
+.grid{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;align-items:start}
+</style>
+</helmet>
+<div style="width:1280px;height:1000px;background:var(--surface-page);overflow:auto;position:relative">
+<header class="ctop"><div class="cbrand">PurrCare</div><nav aria-label="Main"><a href="#">My cats</a><a href="#">Appointments</a><a href="#" class="on" aria-current="page">Book a stay</a><a href="#">My stays</a><a href="#">Inbox</a></nav><div class="cwho"><div class="avatar" aria-hidden="true">FY</div>Farhana Yasmin <a href="#" style="font-weight:600;margin-left:6px">Sign out</a></div></header>
+<div class="cmain" style="max-width:960px">
+  <div class="stepper" aria-label="Booking steps">
+    <span class="step done">✓ 1 Dates</span><span class="step done">✓ 2 Unit type</span><span class="step done">✓ 3 Cats</span><span class="step done">✓ 4 Vaccinations</span><span class="step done">✓ 5 Care profiles</span><span class="step cur" aria-current="step">6 Review</span>
+  </div>
+  <h1 class="h1" style="font-size:26px">Review and reserve</h1>
+  <p class="sub" style="margin-bottom:18px">Resumed from your saved booking — nothing was re-entered.</p>
+  <div class="grid">
+    <div class="col">
+      <section class="card"><div class="cardh">Stay <a href="#">Change</a></div>
+        <dl class="kv"><dt>Dates</dt><dd>Fri 9 Oct – Fri 23 Oct 2026 · 14 nights</dd><dt>Check-in</dt><dd>14:00–19:00 on 9 Oct <span class="zone">Asia/Dhaka</span></dd><dt>Check-out</dt><dd>08:00–12:00 on 23 Oct <span class="zone">Asia/Dhaka</span></dd><dt>Unit type</dt><dd>Family · Uttara</dd></dl>
+      </section>
+      <section class="card"><div class="cardh">Cats and care <a href="#">Edit profiles</a></div>
+        <div class="col" style="gap:10px">
+          <div class="cph"><div class="av" style="background:#8f1d1d" aria-hidden="true">M</div><div class="cph-b"><div class="cph-n"><b>Mittens</b><span class="badge b-hr">⚠ High risk</span></div><div class="cph-h">Bites when restrained — two handlers, towel wrap, do not scruff.</div><div class="cph-a"><span class="al">Allergy · Chicken protein</span><span class="al al-sev">Allergy · Penicillin — severe</span></div></div></div>
+          <p class="small muted" style="margin:-4px 0 0 4px">2 feeds · Benazepril 2.5 mg at 08:00 · vet may treat, limit ৳2,000 · vaccinations clear (rabies given 2 Oct 2026)</p>
+          <div class="cph"><div class="av" style="background:#15605a" aria-hidden="true">B</div><div class="cph-b"><div class="cph-n"><b>Biscuit</b><span class="small muted">No handling warnings</span></div><div class="cph-a"><span class="al al-none">No allergies recorded</span></div></div></div>
+          <p class="small muted" style="margin:-4px 0 0 4px">3 feeds · no medication · vet may treat, limit ৳3,000 · vaccinations clear</p>
+        </div>
+      </section>
+    </div>
+    <section class="card"><div class="cardh">Price</div>
+      <div class="panel-label">Weekly rate</div>
+      <div class="qline"><span>2 weeks × ৳12,600 / week</span><span class="num">৳25,200</span></div>
+      <div class="qline"><span>Additional cat · 14 nights × ৳600</span><span class="num">৳8,400</span></div>
+      <div class="qline qdisc"><span>Long-stay discount · 10%</span><span class="num">−৳3,360</span></div>
+      <div class="qline qtotal"><span>Total</span><span class="num">৳30,240</span></div>
+      <div class="qline" style="margin-top:10px"><span><b>Deposit</b> · due by Sun 4 Oct, 18:00 <span class="zone">Asia/Dhaka</span></span><span class="num">৳9,072</span></div>
+      <div class="qline"><span>Balance · due at check-out</span><span class="num">৳21,168</span></div>
+      <p class="small muted" style="margin-top:12px;line-height:1.5">Pay the deposit at the clinic (cash or card at the front desk) or by bank transfer. You'll see how after reserving — there's no online payment.</p>
+      <label class="small" style="display:flex;gap:8px;margin-top:12px"><input type="checkbox" checked> I've read the <a href="#">boarding terms</a>, including cancellation</label>
+      <button class="btn" type="button" style="width:100%;margin-top:14px">Reserve</button>
+    </section>
+  </div>
+</div>
+<div class="scrim">
+  <div class="dialog" role="alertdialog" aria-modal="true" aria-labelledby="rh" style="width:500px">
+    <h2 id="rh">Reserve this stay?</h2>
+    <div class="consequence">Reserve a <b>Family</b> unit for <b>Mittens and Biscuit</b>, <b>9–23 Oct</b>, <b>৳30,240</b> — deposit <b>৳9,072 due by Sun 4 Oct, 18:00</b> (Asia/Dhaka).</div>
+    <p class="small muted" style="line-height:1.5">The stay is <b>reserved, not confirmed</b>, until the clinic records your deposit. If it isn't paid by then, the reservation lapses and the unit is released.</p>
+    <div class="dactions"><button class="btn btn-2" type="button">Go back</button><button class="btn" type="button">Reserve for ৳30,240</button></div>
+  </div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1000}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

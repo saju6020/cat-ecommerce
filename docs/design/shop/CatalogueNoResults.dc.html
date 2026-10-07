@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>No results and filter errors — US-SHP-06</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#fbf6ef;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:14px;--warm:#e8894a;--warm-ink:#8a3f14;--warm-soft:#fdeee2}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink);font-size:14px}
+a{color:var(--accent-ink)}
+.ic{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.topnav{background:#fff;border-bottom:1px solid var(--border)}
+.topnav .bar{display:flex;align-items:center;gap:28px;padding:14px 32px}
+.brand{font-family:var(--font-display);font-weight:600;font-size:22px;color:var(--accent-ink);text-decoration:none}
+.search{flex:1;max-width:560px;display:flex}
+.search input{flex:1;min-width:0;font:inherit;font-size:14px;padding:9px 12px;border:1px solid var(--border-strong);border-right:none;border-radius:6px 0 0 6px;background:#fff}
+.search button{border:1px solid var(--accent);background:var(--accent);color:#fff;border-radius:0 6px 6px 0;padding:0 14px;font:inherit;font-weight:600;font-size:13.5px;display:flex;align-items:center;gap:6px}
+.acct{margin-left:auto;display:flex;align-items:center;gap:20px;font-size:13.5px;font-weight:600}
+.acct a{color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:6px}
+.count{background:var(--accent);color:#fff;border-radius:999px;font-size:11px;padding:1px 7px}
+.catnav{display:flex;align-items:center;gap:26px;padding:0 32px;border-top:1px solid var(--border)}
+.catnav a{padding:11px 0;font-size:13.5px;font-weight:600;color:var(--ink-muted);text-decoration:none;border-bottom:2px solid transparent}
+.wrap{max-width:1216px;margin:0 auto;padding:22px 32px 40px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:26px;margin:0}
+.h2{font-family:var(--font-display);font-weight:600;font-size:19px;margin:0 0 12px}
+.muted{color:var(--ink-muted)}
+.empty{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:26px 28px;margin-top:16px}
+.empty p{margin:0 0 10px;font-size:15px}
+.empty{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+.empty > div{flex:1 1 280px;min-width:0}
+.empty-cat{width:72px;height:72px;border-radius:50%;background:var(--warm-soft);color:var(--warm-ink);display:flex;align-items:center;justify-content:center;flex:none}
+.dym{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:14px}
+.dym a{font-weight:700;background:var(--accent-soft);padding:5px 12px;border-radius:999px;text-decoration:none}
+.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:10px 10px 12px;display:flex;flex-direction:column;gap:5px}
+.card h3{font-size:14px;margin:4px 0 0;line-height:1.3}
+.card h3 a{color:var(--ink);text-decoration:none}
+.meta{font-size:12px;color:var(--ink-muted);display:flex;align-items:center;gap:6px}
+.price{font-weight:700;font-size:15px}
+.tax{font-weight:400;font-size:11.5px;color:var(--ink-muted)}
+.avail{font-size:12.5px;font-weight:600;display:inline-flex;align-items:center;gap:5px;color:var(--accent-ink)}
+.stars{color:#b7862b;letter-spacing:1px;font-size:12px}
+.pimg{aspect-ratio:4/3;border-radius:8px;display:flex;align-items:center;justify-content:center}
+.pimg svg{height:62%}
+.c1{background:#e6efe9;color:#2f6f5f}.c2{background:#f3e9dc;color:#a0622d}.c3{background:#e8ecf4;color:#3d5a8a}.c4{background:#f4e6e6;color:#9a3b3b}
+.flag{width:20px;height:14px;border-radius:2px;box-shadow:0 0 0 1px rgba(0,0,0,.14);flex:none;display:block}
+.states{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin-top:30px}
+.statelabel{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-faint);margin-bottom:8px}
+.panel{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:20px 22px}
+.btn{font:inherit;font-weight:600;font-size:13.5px;padding:9px 16px;border-radius:6px;border:none;background:var(--accent);color:#fff}
+.btn2{font:inherit;font-weight:600;font-size:13px;padding:7px 12px;border-radius:6px;border:1px solid var(--accent);background:#fff;color:var(--accent-ink);margin-top:10px}
+fieldset{border:none;margin:0;padding:0}
+legend{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);padding:0;margin-bottom:8px}
+.pricebox{display:flex;gap:10px;max-width:320px}
+.pricebox label{font-size:12px;font-weight:600;display:block;margin-bottom:4px}
+.pricebox input{width:100%;font:inherit;font-size:13.5px;padding:7px 9px;border:1px solid var(--border-strong);border-radius:6px}
+.pricebox input.bad{border-color:var(--danger-ink);box-shadow:0 0 0 1px var(--danger-ink)}
+.err{display:flex;gap:6px;align-items:flex-start;color:var(--danger-ink);font-size:12.5px;font-weight:600;margin-top:8px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;padding:5px 8px 5px 11px;border-radius:999px;background:var(--accent-soft);color:var(--accent-ink);border:1px solid rgba(21,96,90,.25);margin:0 6px 6px 0}
+.note{font-size:12px;color:var(--ink-faint);margin-top:10px}
+</style>
+</helmet>
+<div style="width:1280px;height:1260px;background:var(--surface-page)">
+  <header class="topnav">
+    <div class="bar">
+      <a class="brand" href="ShopHome.dc.html">PurrCare</a>
+      <form class="search" role="search" aria-label="Search products"><input aria-label="Search products" value="royl canan"><button type="submit"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>Search</button></form>
+      <div class="acct">
+        <a href="#"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/><path d="M2 3h3l2.5 12h12L22 7H6"/></svg>Cart <span class="count">0</span></a>
+        <a href="#"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg>Sign in</a>
+      </div>
+    </div>
+    <nav class="catnav" aria-label="Categories">
+      <a href="Catalogue.dc.html">Cat food</a><a href="#">Litter</a><a href="#">Litter pots &amp; accessories</a><a href="#">Bags &amp; carriers</a><a href="#">Health &amp; grooming</a><a href="#">Toys &amp; furniture</a><a href="ShopByCountry.dc.html">Shop by country</a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <h1 class="h1">Search results</h1>
+    <div class="empty" role="status" aria-live="polite">
+      <span class="empty-cat"><svg width="42" height="42" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 23 17 9l10 7M45 23l2-14-10 7"/><path d="M18 26c0-7 6-11 14-11s14 4 14 11-6 11-14 11-14-4-14-11Z"/><path d="M26 25v1.5M38 25v1.5M30 30.5l2 1.5 2-1.5"/><path d="M22 36c-4 6-5 13-3 21h26c2-8 1-15-3-21"/><path d="M45 55c6 0 9-4 7.5-9"/></svg></span><div>
+      <p><b>No products match “royl canan”.</b></p>
+      <div class="dym">Did you mean <a href="Catalogue.dc.html">Royal Canin</a><a href="Catalogue.dc.html">Royal Canin Kitten</a><span class="muted" style="font-size:12.5px">— each link searches again and keeps any filters you set</span></div>
+    </div></div>
+
+    <h2 class="h2" style="margin-top:26px">Popular right now</h2>
+    <div class="grid4">
+      <article class="card">
+        <div class="pimg c1"><svg viewBox="0 0 80 100" aria-hidden="true"><path d="M18 12h44l6 12v64a4 4 0 0 1-4 4H16a4 4 0 0 1-4-4V24Z" fill="currentColor"/><rect x="22" y="40" width="36" height="22" rx="3" fill="#fff" opacity=".85"/></svg></div>
+        <h3><a href="ProductPage.dc.html">Siam Harvest Kitten Salmon</a></h3>
+        <div class="meta"><svg class="flag" viewBox="0 0 9 6" aria-hidden="true"><rect width="9" height="6" fill="#A51931"/><rect y="1" width="9" height="4" fill="#F4F5F8"/><rect y="2" width="9" height="2" fill="#2D2A4A"/></svg>Thailand</div>
+        <div class="price">From ৳1,200.00 <span class="tax">+ VAT</span></div>
+        <div class="meta"><span class="stars" aria-hidden="true">★★★★½</span>4.5 out of 5 (23 reviews)</div>
+        <div class="avail"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>In stock</div>
+      </article>
+      <article class="card">
+        <div class="pimg c3"><svg viewBox="0 0 80 100" aria-hidden="true"><path d="M18 12h44l6 12v64a4 4 0 0 1-4 4H16a4 4 0 0 1-4-4V24Z" fill="currentColor"/><rect x="22" y="40" width="36" height="22" rx="3" fill="#fff" opacity=".85"/></svg></div>
+        <h3><a href="#">Nordwald Adult Salmon &amp; Rice</a></h3>
+        <div class="meta"><svg class="flag" viewBox="0 0 3 2" aria-hidden="true"><rect width="3" height="2" fill="#000"/><rect y=".667" width="3" height=".667" fill="#D00"/><rect y="1.333" width="3" height=".667" fill="#FFCE00"/></svg>Germany</div>
+        <div class="price">৳2,450.00 <span class="tax">+ VAT</span></div>
+        <div class="meta"><span class="stars" aria-hidden="true">★★★★</span>4.0 out of 5 (8 reviews)</div>
+        <div class="avail"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>In stock</div>
+      </article>
+      <article class="card">
+        <div class="pimg c2"><svg viewBox="0 0 80 100" aria-hidden="true"><rect x="10" y="36" width="60" height="44" rx="6" fill="currentColor"/><path d="M22 36V26h36v10" stroke="currentColor" stroke-width="6" fill="none"/></svg></div>
+        <h3><a href="#">Bentonite Clumping Litter, Unscented</a></h3>
+        <div class="meta"><svg class="flag" viewBox="0 0 30 20" aria-hidden="true"><rect width="30" height="20" fill="#E30A17"/><circle cx="11" cy="10" r="5" fill="#fff"/><circle cx="12.3" cy="10" r="4" fill="#E30A17"/><path d="m17 10 3.6-1.2-2.2 3.1V8.1l2.2 3.1Z" fill="#fff"/></svg>Türkiye</div>
+        <div class="price">From ৳540.00 <span class="tax">+ VAT</span></div>
+        <div class="meta"><span class="stars" aria-hidden="true">★★★★</span>4.3 out of 5 (41 reviews)</div>
+        <div class="avail"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>In stock</div>
+      </article>
+      <article class="card">
+        <div class="pimg c4"><svg viewBox="0 0 80 100" aria-hidden="true"><rect x="12" y="28" width="56" height="50" rx="10" fill="currentColor"/><path d="M28 28a12 12 0 0 1 24 0" stroke="currentColor" stroke-width="6" fill="none"/></svg></div>
+        <h3><a href="#">Airline Carrier, Medium</a></h3>
+        <div class="meta"><svg class="flag" viewBox="0 0 19 10" aria-hidden="true"><rect width="19" height="10" fill="#fff"/><path d="M0 0h19v.77H0zm0 1.54h19v.77H0zm0 1.54h19v.77H0zm0 1.54h19v.77H0zm0 1.54h19v.77H0zm0 1.54h19v.77H0zm0 1.54h19v.77H0z" fill="#B22234"/><rect width="7.6" height="5.4" fill="#3C3B6E"/></svg>United States</div>
+        <div class="price">৳4,250.00 <span class="tax">+ VAT</span></div>
+        <div class="meta"><span class="stars" aria-hidden="true">★★★★★</span>5.0 out of 5 (2 reviews)</div>
+        <div class="avail"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>In stock</div>
+      </article>
+    </div>
+
+    <div class="states">
+      <div>
+        <div class="statelabel">State · filters only, no search</div>
+        <div class="panel" role="status">
+          <div><span class="chip">Country: South Korea</span><span class="chip">Life stage: Senior</span><span class="chip">Rating: 4 and up</span></div>
+          <p style="margin:8px 0 4px;font-size:15px"><b>Nothing matches these filters.</b></p>
+          <p class="muted" style="margin:0 0 12px;font-size:13.5px">Try removing one, or start again.</p>
+          <button class="btn" type="button">Clear filters</button>
+        </div>
+      </div>
+      <div>
+        <div class="statelabel">State · price range entered the wrong way round</div>
+        <div class="panel">
+          <fieldset>
+            <legend>Price (৳)</legend>
+            <div class="pricebox">
+              <div><label for="pmin">Min ৳</label><input id="pmin" class="bad" value="500" aria-invalid="true" aria-describedby="perr"></div>
+              <div><label for="pmax">Max ৳</label><input id="pmax" class="bad" value="200" aria-invalid="true" aria-describedby="perr"></div>
+            </div>
+            <div class="err" id="perr"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5h.01"/></svg>The minimum price (৳500) is higher than the maximum (৳200). Swap them or change one.</div>
+            <button class="btn2" type="button">Apply price</button>
+          </fieldset>
+          <div class="note">Checked before navigating — the results and the URL are unchanged until the range is valid.</div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1260}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

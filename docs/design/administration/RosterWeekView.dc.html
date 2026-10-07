@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Roster week view — US-ADM-03</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px}
+.main{padding:26px 32px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+.weeknav{display:flex;align-items:center;gap:10px;margin:14px 0 16px;font-size:13.5px}
+.weeknav button{background:#fff;border:1px solid var(--border-strong);border-radius:6px;padding:5px 10px;cursor:pointer;font-weight:600}
+table.roster{border-collapse:collapse;width:100%;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden}
+.roster th,.roster td{border:1px solid var(--border);padding:8px;vertical-align:top;font-size:12.5px}
+.roster th{background:var(--surface-sunken);color:var(--ink-muted);font-size:11px;text-transform:uppercase}
+.roster th:first-child,.roster td:first-child{text-align:left;font-weight:700;font-size:13px;background:#fff;color:var(--ink)}
+.shift{background:var(--accent-soft);color:var(--accent-ink);border-radius:5px;padding:3px 6px;margin-bottom:3px;font-weight:600}
+.leave{background:var(--surface-sunken);color:var(--ink-muted);border-radius:5px;padding:3px 6px;margin-bottom:3px;font-style:italic}
+.extra{background:var(--warning-bg);color:var(--warning-ink);border-radius:5px;padding:3px 6px;margin-bottom:3px;font-weight:600}
+.outside{background:var(--danger-bg);color:var(--danger-ink);border-radius:5px;padding:3px 6px;margin-bottom:3px;font-size:11px}
+.h2{font-weight:700;font-size:13.5px;margin:26px 0 10px}
+.daycard{background:#fff;border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;margin-bottom:8px}
+.daycard .d{font-weight:700;font-size:13px;margin-bottom:4px}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page);overflow:auto">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who">Rezwan Ahmed · Administrator</div></div>
+  <div class="main">
+    <h1 class="h1">Roster — Uttara</h1>
+    <div class="weeknav"><button>‹ Previous</button><strong>22–28 Sep 2026 (this week)</strong><button>Next ›</button></div>
+
+    <table class="roster">
+      <thead><tr><th>Staff</th><th>Mon 22</th><th>Tue 23</th><th>Wed 24</th><th>Thu 25</th><th>Fri 26</th><th>Sat 27</th><th>Sun 28</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Dr. Nusrat Jahan</td>
+          <td><div class="shift">09:00–17:00</div></td>
+          <td><div class="shift">09:00–17:00</div></td>
+          <td><div class="leave">On leave</div></td>
+          <td><div class="shift">09:00–17:00</div></td>
+          <td><div class="outside">Outside opening hours</div></td>
+          <td><div class="extra">Extra shift</div></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Tanvir Islam</td>
+          <td><div class="shift">10:00–18:00</div></td>
+          <td><div class="shift">10:00–18:00</div></td>
+          <td><div class="shift">10:00–18:00</div></td>
+          <td><div class="shift">10:00–18:00</div></td>
+          <td><div class="shift">10:00–18:00</div></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Shormi Akter</td>
+          <td><div class="shift">09:00–13:00</div></td>
+          <td><div class="shift">09:00–13:00</div></td>
+          <td><div class="shift">09:00–13:00</div></td>
+          <td></td>
+          <td><div class="shift">09:00–13:00</div></td>
+          <td><div class="shift">10:00–14:00</div></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="h2">Below 768px — the same week as a day-by-day list, never a scrolling grid</div>
+    <div style="max-width:380px">
+      <div class="daycard"><div class="d">Wednesday 24 Sep</div>
+        <div class="leave">Dr. Nusrat Jahan — On leave</div>
+        <div class="shift">Tanvir Islam — 10:00–18:00</div>
+        <div class="shift">Shormi Akter — 09:00–13:00</div>
+      </div>
+      <div class="daycard"><div class="d">Friday 26 Sep</div>
+        <div class="outside">Dr. Nusrat Jahan — Outside opening hours</div>
+        <div class="shift">Tanvir Islam — 10:00–18:00</div>
+        <div class="shift">Shormi Akter — 09:00–13:00</div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

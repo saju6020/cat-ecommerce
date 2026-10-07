@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Product editor: Related, and status confirmations — US-SHP-08, 01</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--overlay:rgba(28,26,23,.4);--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px;--radius-lg:16px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink);font-size:14px}
+a{color:var(--accent-ink)}
+.ic{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px}
+.main{padding:20px 32px 32px}
+.back{font-size:13px;font-weight:600;text-decoration:none}
+.edhead{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-top:8px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0 0 6px}
+.meta{font-size:13px;color:var(--ink-muted);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:999px;font-size:11.5px;font-weight:600}
+.b-draft{background:var(--warning-bg);color:var(--warning-ink)}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:8px 16px;border-radius:var(--radius-sm);border:none;background:var(--accent);color:#fff;display:inline-flex;align-items:center;gap:6px}
+.btn2{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:7px 14px;border-radius:var(--radius-sm);border:1px solid var(--border-strong);background:#fff;color:var(--ink)}
+.btn-danger{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:8px 16px;border-radius:var(--radius-sm);border:none;background:var(--danger-ink);color:#fff}
+.icbtn{width:28px;height:28px;border:1px solid var(--border-strong);border-radius:6px;background:#fff;display:flex;align-items:center;justify-content:center;color:var(--ink-muted)}
+.checkline{display:flex;gap:8px;align-items:center;font-size:13px;background:#fff;border:1px solid var(--border);border-radius:8px;padding:9px 14px;margin-top:12px}
+.tabnav{display:flex;border-bottom:1px solid var(--border);margin:16px 0 16px}
+.tabnav a{padding:10px 2px;margin-right:24px;font-size:13.5px;font-weight:600;color:var(--ink-muted);border-bottom:2px solid transparent;text-decoration:none}
+.tabnav a.active{color:var(--ink);border-bottom-color:var(--accent)}
+.lists{display:flex;gap:24px}
+.list{flex:1;min-width:0;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:14px 16px}
+.list h2{font-size:14.5px;margin:0 0 2px}
+.list .sub{font-size:12.5px;color:var(--ink-muted);margin-bottom:10px}
+.li{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--border);font-size:13.5px}
+.li .n{width:18px;color:var(--ink-faint);font-weight:700}
+.li .g{flex:1}
+.empty{font-size:13px;color:var(--ink-muted);border-top:1px solid var(--border);padding:12px 0}
+.picker{display:flex;gap:8px;margin-top:10px}
+.picker input{flex:1;font:inherit;font-size:13.5px;padding:7px 10px;border:1px solid var(--border-strong);border-radius:6px}
+.scrim{position:absolute;inset:0;background:var(--overlay);display:flex;align-items:flex-end;justify-content:center;padding:0 32px 34px}
+.dgrid{display:grid;grid-template-columns:repeat(2,minmax(0,420px));gap:20px}
+.dialog{background:#fff;border-radius:var(--radius-lg);box-shadow:0 20px 60px rgba(20,18,10,.25);padding:22px}
+.dialog h2{font-family:var(--font-display);font-weight:600;font-size:18px;margin:0 0 8px}
+.dialog p{margin:0 0 16px;font-size:13.5px;line-height:1.55;color:var(--ink-muted)}
+.dlabel{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-faint);margin-bottom:6px}
+.dactions{display:flex;justify-content:flex-end;gap:8px}
+</style>
+</helmet>
+<div style="width:1280px;height:1320px;background:var(--surface-page);position:relative">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who">Rezwan Ahmed · Administrator</div></div>
+  <div class="main">
+    <a class="back" href="StaffProductList.dc.html">← Products</a>
+    <div class="edhead">
+      <div>
+        <h1 class="h1">Royal Canin Kitten</h1>
+        <div class="meta"><span class="badge b-draft">Draft</span>Standard product · Cat food › Kitten · never published</div>
+      </div>
+      <button class="btn" type="button">Publish</button>
+    </div>
+    <div class="checkline"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--accent)"><path d="M20 6 9 17l-5-5"/></svg><span>Publish checklist: <b>all required items met</b> · 1 warning (storage instructions)</span><a href="EditorDetails.dc.html" style="margin-left:auto;font-weight:600">Show checklist</a></div>
+    <nav class="tabnav" aria-label="Product sections">
+      <a href="EditorDetails.dc.html">Details</a><a href="EditorFood.dc.html">Food &amp; labelling</a><a href="EditorVariants.dc.html">Variants &amp; prices</a><a href="EditorImages.dc.html">Images</a><a class="active" href="#" aria-current="page">Related</a><a href="EditorTranslations.dc.html">Translations</a>
+    </nav>
+
+    <div class="lists">
+      <section class="list" aria-labelledby="fbt">
+        <h2 id="fbt">Frequently bought together</h2>
+        <div class="sub">3 of 12 · shown in this order on the product page</div>
+        <div class="li"><span class="n">1</span><span class="g">Royal Canin Kitten Loaf, 12 × 85 g</span><button class="icbtn" aria-label="Move Kitten Loaf down"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><button class="icbtn" aria-label="Remove Kitten Loaf"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+        <div class="li"><span class="n">2</span><span class="g">Stainless Kitten Bowl, Shallow</span><button class="icbtn" aria-label="Move Kitten Bowl up"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m18 15-6-6-6 6"/></svg></button><button class="icbtn" aria-label="Move Kitten Bowl down"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><button class="icbtn" aria-label="Remove Kitten Bowl"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+        <div class="li"><span class="n">3</span><span class="g">Feather Wand Toy</span><button class="icbtn" aria-label="Move Feather Wand Toy up"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m18 15-6-6-6 6"/></svg></button><button class="icbtn" aria-label="Remove Feather Wand Toy"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+        <div class="picker"><input aria-label="Find a product to add" placeholder="Find a product to add"><button class="btn2" type="button">Add</button></div>
+      </section>
+      <section class="list" aria-labelledby="up">
+        <h2 id="up">Up-sell — “You might also like”</h2>
+        <div class="sub">0 of 12</div>
+        <div class="empty">None yet. The block is left off the product page until you add one.</div>
+        <div class="picker"><input aria-label="Find a product to add as an up-sell" placeholder="Find a product to add"><button class="btn2" type="button">Add</button></div>
+      </section>
+    </div>
+    <div style="display:flex;justify-content:flex-end;margin-top:12px"><button class="btn" type="button">Save related products</button></div>
+  </div>
+
+  <div class="scrim">
+    <div class="dgrid">
+      <div class="dialog" role="alertdialog" aria-labelledby="c1">
+        <div class="dlabel">Publish</div>
+        <h2 id="c1">Publish Royal Canin Kitten?</h2>
+        <p>It will appear in the shop. Its web address, <b>/shop/products/royal-canin-kitten</b>, is fixed from now on.</p>
+        <div class="dactions"><button class="btn2" type="button">Cancel</button><button class="btn" type="button">Publish</button></div>
+      </div>
+      <div class="dialog" role="alertdialog" aria-labelledby="c2">
+        <div class="dlabel">Unpublish (active product)</div>
+        <h2 id="c2">Unpublish New Kitten Starter Kit?</h2>
+        <p>It will leave the shop and go back to draft. Customers' wishlists keep it, shown as not on sale.</p>
+        <div class="dactions"><button class="btn2" type="button">Cancel</button><button class="btn" type="button">Unpublish</button></div>
+      </div>
+      <div class="dialog" role="alertdialog" aria-labelledby="c3">
+        <div class="dlabel">Archive (active product)</div>
+        <h2 id="c3">Archive New Kitten Starter Kit?</h2>
+        <p>It will leave the shop and its page will stop working. Any waiting stock alerts for it will close. You can publish it again later.</p>
+        <div class="dactions"><button class="btn2" type="button">Cancel</button><button class="btn-danger" type="button">Archive</button></div>
+      </div>
+      <div class="dialog" role="alertdialog" aria-labelledby="c4">
+        <div class="dlabel">Discontinue a SKU (Variants tab)</div>
+        <h2 id="c4">Discontinue RC-K-4KG (4 kg)?</h2>
+        <p>The 4 kg size will no longer be sold, and any waiting stock alerts for it will close. Its price history is kept.</p>
+        <div class="dactions"><button class="btn2" type="button">Cancel</button><button class="btn-danger" type="button">Discontinue</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1320}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

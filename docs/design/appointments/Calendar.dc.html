@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Appointments calendar — day by vet — US-CLN-07</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px;display:flex;align-items:center;gap:16px}
+select.branchpick{font:inherit;font-size:13px;padding:5px 8px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.main{padding:20px 28px}
+.titlerow{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:12px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+.muted{color:var(--ink-muted)}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13px;padding:8px 14px;border-radius:var(--radius-sm);border:none;background:var(--accent);color:#fff;cursor:pointer;text-decoration:none;white-space:nowrap}
+.btn-ghost{background:#fff;border:1px solid var(--border-strong);color:var(--ink)}
+.toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.seg{display:inline-flex;border:1px solid var(--border-strong);border-radius:6px;overflow:hidden}
+.seg button{font:inherit;font-size:12.5px;font-weight:600;border:none;background:#fff;padding:6px 11px;color:var(--ink-muted);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--accent);color:#fff}
+.toolbar select{font:inherit;font-size:12.5px;padding:6px 8px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.datelbl{font-weight:700;font-size:14px}
+.flagged{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:var(--warning-ink);background:var(--warning-bg);border-radius:999px;padding:4px 11px;text-decoration:none}
+.cal{display:grid;grid-template-columns:60px repeat(3,1fr);grid-template-rows:44px repeat(156,5px);background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden}
+.colh{grid-row:1;padding:6px 10px;border-bottom:1px solid var(--border-strong);border-left:1px solid var(--border);font-size:12.5px;background:var(--surface-sunken)}
+.colh b{display:block;font-size:13px}
+.colh span{font-size:11px;color:var(--ink-muted)}
+.hr{grid-column:1/-1;border-top:1px solid var(--border);pointer-events:none}
+.tl{grid-column:1;font-size:11px;color:var(--ink-muted);padding:1px 8px 0;font-variant-numeric:tabular-nums}
+.vl{grid-row:2/158;border-left:1px solid var(--border)}
+.off{background:repeating-linear-gradient(135deg,#efebe2 0 6px,#e4dfd3 6px 8px);font-size:10.5px;color:var(--ink-muted);font-weight:600;padding:3px 7px;border-left:1px solid var(--border)}
+.leave{background:repeating-linear-gradient(45deg,#f6ecd8 0 6px,#ecdcbc 6px 8px);font-size:10.5px;color:var(--warning-ink);font-weight:700;padding:3px 7px;border-left:1px solid var(--border)}
+.closed{grid-column:2/5;background:repeating-linear-gradient(90deg,#ece8df 0 2px,#f4f1ea 2px 10px);border-top:1px dashed var(--border-strong);border-bottom:1px dashed var(--border-strong);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--ink-muted);z-index:1}
+.ap{margin:0 5px 1px 4px;border-radius:5px;background:var(--accent-soft);border-left:3px solid var(--accent);padding:2px 7px;font-size:11px;line-height:1.3;overflow:hidden;z-index:2;color:var(--ink);cursor:grab}
+.ap b{font-weight:700}
+.ap .s{color:var(--ink-muted)}
+.ap.flag{background:var(--warning-bg);border-left-color:var(--warning-ink)}
+.ico{display:inline-flex;align-items:center;gap:2px;font-weight:700;font-size:10px;padding:0 4px;border-radius:3px;margin-left:3px;vertical-align:1px}
+.ico-risk{background:var(--danger-ink);color:#fff}
+.ico-flag{background:var(--warning-ink);color:#fff}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:12px;color:var(--ink-muted);margin-top:10px;align-items:center}
+.sw{display:inline-block;width:22px;height:12px;border-radius:3px;vertical-align:-2px;margin-right:5px;border:1px solid var(--border)}
+</style>
+</helmet>
+<div style="width:1280px;height:1040px;background:var(--surface-page);overflow:auto">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who"><select class="branchpick" aria-label="Active branch"><option>Uttara (primary)</option><option>Banani</option></select>Shormi Akter · Reception</div></div>
+  <div class="main">
+    <div class="titlerow">
+      <h1 class="h1">Appointments</h1>
+      <a class="btn" href="StaffBooking.dc.html">+ New appointment</a>
+    </div>
+    <div class="toolbar" role="toolbar" aria-label="Calendar view">
+      <div class="seg" role="group" aria-label="Range"><button type="button" aria-pressed="true">Day</button><button type="button" aria-pressed="false">Week</button></div>
+      <div class="seg" role="group" aria-label="Columns"><button type="button" aria-pressed="true">By vet</button><button type="button" aria-pressed="false">By room</button></div>
+      <select aria-label="Vets shown"><option>All 3 vets &amp; nurses</option></select>
+      <div class="seg" role="group" aria-label="Date"><button type="button" aria-label="Previous day">‹</button><button type="button">Today</button><button type="button" aria-label="Next day">›</button></div>
+      <span class="datelbl">Thursday 24 September 2026 <span class="muted" style="font-weight:400;font-size:12.5px">· Uttara · Asia/Dhaka</span></span>
+      <a class="flagged" href="FlaggedAppointments.dc.html" style="margin-left:auto">⚑ Flagged (2)</a>
+    </div>
+
+    <div class="cal" role="grid" aria-label="Thursday 24 September, by vet, 08:00 to 21:00 Asia/Dhaka">
+      <div class="colh" style="grid-column:1;border-left:none;padding:6px 8px"><span>Time<br>GMT+6</span></div>
+      <div class="colh" style="grid-column:2"><b>Dr Anisur Rahman</b><span>Vet · on shift 09:00–17:00</span></div>
+      <div class="colh" style="grid-column:3"><b>Dr Nusrat Jahan</b><span>Vet · on leave until 12:00 · shift to 20:00</span></div>
+      <div class="colh" style="grid-column:4"><b>Tanvir Islam</b><span>Nurse · on shift 09:00–15:00</span></div>
+
+      <div class="vl" style="grid-column:2"></div><div class="vl" style="grid-column:3"></div><div class="vl" style="grid-column:4"></div>
+
+      <div class="hr" style="grid-row:2"></div><div class="tl" style="grid-row:2/14">08:00</div>
+      <div class="hr" style="grid-row:14"></div><div class="tl" style="grid-row:14/26">09:00</div>
+      <div class="hr" style="grid-row:26"></div><div class="tl" style="grid-row:26/38">10:00</div>
+      <div class="hr" style="grid-row:38"></div><div class="tl" style="grid-row:38/50">11:00</div>
+      <div class="hr" style="grid-row:50"></div><div class="tl" style="grid-row:50/62">12:00</div>
+      <div class="hr" style="grid-row:62"></div><div class="tl" style="grid-row:62/74">13:00</div>
+      <div class="hr" style="grid-row:74"></div><div class="tl" style="grid-row:74/86">14:00</div>
+      <div class="hr" style="grid-row:86"></div><div class="tl" style="grid-row:86/98">15:00</div>
+      <div class="hr" style="grid-row:98"></div><div class="tl" style="grid-row:98/110">16:00</div>
+      <div class="hr" style="grid-row:110"></div><div class="tl" style="grid-row:110/122">17:00</div>
+      <div class="hr" style="grid-row:122"></div><div class="tl" style="grid-row:122/134">18:00</div>
+      <div class="hr" style="grid-row:134"></div><div class="tl" style="grid-row:134/146">19:00</div>
+      <div class="hr" style="grid-row:146"></div><div class="tl" style="grid-row:146/158">20:00</div>
+
+      <div class="off" style="grid-column:2;grid-row:2/14">Off shift</div>
+      <div class="off" style="grid-column:2;grid-row:110/158">Off shift from 17:00</div>
+      <div class="off" style="grid-column:3;grid-row:2/26">Off shift</div>
+      <div class="leave" style="grid-column:3;grid-row:26/50;display:flex;align-items:flex-end">On leave 10:00–12:00 (approved)</div>
+      <div class="off" style="grid-column:3;grid-row:146/158">Off shift</div>
+      <div class="off" style="grid-column:4;grid-row:2/14">Off shift</div>
+      <div class="off" style="grid-column:4;grid-row:86/158">Off shift from 15:00</div>
+
+      <div class="closed" style="grid-row:62/74">Closed 13:00–14:00 · staff training</div>
+
+      <div class="ap" style="grid-column:2;grid-row:14/20"><b>09:00 Kitty</b><span class="ico ico-risk" title="High risk">⚠ High risk</span><br><span class="s">Standard consultation · Booked</span></div>
+      <div class="ap" style="grid-column:2;grid-row:32/36"><b>10:30 Mitu</b> <span class="s">· FVRCP booster · Booked</span></div>
+      <div class="ap" style="grid-column:2;grid-row:38/44"><b>11:00 Pixel</b><br><span class="s">Standard consultation · Booked</span></div>
+      <div class="ap" style="grid-column:2;grid-row:74/83"><b>14:00 Simba</b><span class="ico ico-risk">⚠ High risk</span><br><span class="s">Dental check · Booked</span></div>
+      <div class="ap" style="grid-column:2;grid-row:92/98"><b>15:30 Tiger</b><br><span class="s">Wound re-check · Booked</span></div>
+
+      <div class="ap flag" style="grid-column:3;grid-row:26/32"><b>10:00 Mishti</b><span class="ico ico-flag">⚑ Needs rescheduling</span><br><span class="s">Rabies vaccination · Booked</span></div>
+      <div class="ap" style="grid-column:3;grid-row:50/56"><b>12:00 Rani</b><br><span class="s">Standard consultation · Booked</span></div>
+      <div class="ap" style="grid-column:3;grid-row:80/86"><b>14:30 Luna</b><br><span class="s">Standard consultation · Booked</span></div>
+      <div class="ap" style="grid-column:3;grid-row:98/104"><b>16:00 Momo</b><br><span class="s">Follow-up · Booked</span></div>
+
+      <div class="ap" style="grid-column:4;grid-row:20/24"><b>09:30 Snowy</b> <span class="s">· FVRCP booster</span></div>
+      <div class="ap" style="grid-column:4;grid-row:26/30"><b>10:00 Pumpkin</b> <span class="s">· Rabies</span></div>
+      <div class="ap" style="grid-column:4;grid-row:44/48"><b>11:30 Bella</b> <span class="s">· FVRCP booster</span></div>
+    </div>
+
+    <div class="legend">
+      <span><span class="sw" style="background:repeating-linear-gradient(135deg,#efebe2 0 6px,#e4dfd3 6px 8px)"></span>Off shift (labelled, striped)</span>
+      <span><span class="sw" style="background:repeating-linear-gradient(45deg,#f6ecd8 0 6px,#ecdcbc 6px 8px)"></span>On leave (labelled)</span>
+      <span><span class="sw" style="background:repeating-linear-gradient(90deg,#ece8df 0 2px,#f4f1ea 2px 10px)"></span>Branch closed (labelled band)</span>
+      <span>Drag a block to move it, or open it and use <strong>Move…</strong> · Click or press Enter on an empty time to book it · Refreshes every 30 s</span>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1040}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

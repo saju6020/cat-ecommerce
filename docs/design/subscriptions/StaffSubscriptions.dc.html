@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Subscriptions — US-SUB-05, 06</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+a{color:var(--accent-ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px}
+.titlerow{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+.muted{color:var(--ink-muted)}
+.faint{color:var(--ink-faint)}
+.small{font-size:12.5px}
+.btn2{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:8px 14px;border-radius:var(--radius-sm);border:1px solid var(--border-strong);background:#fff;color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:6px;text-decoration:none}
+.tabs{display:flex;gap:24px;border-bottom:1px solid var(--border);margin:16px 0 14px;flex-wrap:wrap}
+.tab{padding:9px 2px;font-size:14px;font-weight:600;color:var(--ink-muted);border-bottom:2px solid transparent;text-decoration:none}
+.tab.active{color:var(--ink);border-bottom-color:var(--accent)}
+.count{display:inline-block;margin-left:6px;font-size:12px;background:var(--surface-sunken);border-radius:999px;padding:1px 7px;color:var(--ink-muted)}
+.filters{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;margin-bottom:12px}
+.f{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:700;color:var(--ink-muted)}
+.f select,.f input{font:inherit;font-size:13.5px;font-weight:400;color:var(--ink);padding:7px 10px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.alert{display:flex;gap:10px;align-items:flex-start;background:var(--danger-bg);color:var(--danger-ink);border-radius:var(--radius-sm);padding:10px 13px;font-size:13.5px;margin:14px 0 0}
+.alert svg{flex:none;margin-top:2px}
+table{border-collapse:collapse;width:100%;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden}
+th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--border);font-size:13px;vertical-align:top}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);font-weight:700;background:var(--surface-sunken);white-space:nowrap}
+th[aria-sort]{color:var(--ink)}
+tr:last-child td{border-bottom:none}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;font-size:11.5px;font-weight:700;white-space:nowrap}
+.b-active{background:var(--accent-soft);color:var(--accent-ink)}
+.b-neutral{background:var(--surface-sunken);color:var(--ink-muted)}
+.b-warn{background:var(--warning-bg);color:var(--warning-ink)}
+.pager{display:flex;justify-content:space-between;align-items:center;font-size:13px;margin-top:12px;flex-wrap:wrap;gap:10px}
+.pbtns{display:flex;gap:6px;align-items:center}
+.nowrap{white-space:nowrap}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page)">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who">Rezwan Ahmed · Administrator</div></div>
+  <div class="main" style="padding:26px 32px">
+    <div class="titlerow">
+      <h1 class="h1">Subscriptions</h1>
+      <a class="btn2" href="#"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Export CSV</a>
+    </div>
+    <div class="alert" role="alert"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg><span><strong>Too many rows — narrow the filters.</strong> The export uses the filters below; with none set it covers all 1,284 subscriptions.</span></div>
+
+    <nav class="tabs" aria-label="Subscription lists">
+      <a class="tab active" aria-current="page" href="StaffSubscriptions.dc.html">All<span class="count">1,284</span></a>
+      <a class="tab" href="StaffUnpaid.dc.html">Unpaid<span class="count">5</span></a>
+      <a class="tab" href="StaffPrescriptionSuspended.dc.html">Prescription suspended<span class="count">2</span></a>
+    </nav>
+
+    <div class="filters">
+      <label class="f">Status<select><option>Any status</option><option>Active</option><option>Paused</option><option>Suspended</option><option>Cancelled</option></select></label>
+      <label class="f">Suspension reason<select><option>Any reason</option><option>Unpaid orders</option><option>Authorisation ended</option><option>Product withdrawn</option></select></label>
+      <label class="f">Payment method<select><option>Any method</option><option>Cash on delivery</option><option>Bank transfer</option><option>Pay at the counter</option></select></label>
+      <label class="f" style="flex:1 1 220px">Customer<input type="search" placeholder="Name or mobile"></label>
+      <span class="muted small" style="padding-bottom:8px">Filters are kept in the address, so the view can be shared or reloaded.</span>
+    </div>
+
+    <table>
+      <thead><tr><th>Customer</th><th>Mobile</th><th>Product</th><th>Cat</th><th>Status</th><th>Reason</th><th aria-sort="ascending">Next order ↑</th><th>Payment</th><th>Unpaid in a row</th></tr></thead>
+      <tbody>
+        <tr><td><a href="CustomerSubscriptionsPanel.dc.html">Farhana Yasmin</a></td><td class="nowrap">01712 345678</td><td><a href="#">Clumping cat litter</a><div class="muted small">2 × 10 L · every 2 weeks</div></td><td class="faint">Not needed</td><td><span class="badge b-active">✓ Active</span></td><td class="faint">None</td><td class="nowrap">Thu 24 Sep 2026</td><td>Cash on delivery</td><td>0</td></tr>
+        <tr><td><a href="#">Nafisa Rahman</a></td><td class="nowrap">01819 224466</td><td><a href="#">Adult Indoor dry food</a><div class="muted small">1 × 2 kg · every 4 weeks</div></td><td class="faint">Not needed</td><td><span class="badge b-active">✓ Active</span></td><td class="faint">None</td><td class="nowrap">Sat 26 Sep 2026</td><td>Bank transfer</td><td><strong>1</strong> · at risk</td></tr>
+        <tr><td><a href="CustomerSubscriptionsPanel.dc.html">Farhana Yasmin</a></td><td class="nowrap">01712 345678</td><td><a href="#">Senior wet food</a><div class="muted small">1 × 12 pouches · every 2 weeks</div></td><td class="faint">Not needed</td><td><span class="badge b-active">✓ Active</span></td><td class="faint">None</td><td class="nowrap">Tue 29 Sep 2026</td><td>Cash on delivery</td><td>0</td></tr>
+        <tr><td><a href="CustomerSubscriptionsPanel.dc.html">Farhana Yasmin</a></td><td class="nowrap">01712 345678</td><td><a href="#">Adult Indoor dry food</a><div class="muted small">3 × 2 kg · every 4 weeks</div></td><td class="faint">Not needed</td><td><span class="badge b-active">✓ Active</span></td><td class="faint">None</td><td class="nowrap">Tue 20 Oct 2026</td><td>Bank transfer</td><td>0</td></tr>
+        <tr><td><a href="#">Sadia Islam</a></td><td class="nowrap">01552 118899</td><td><a href="#">Clumping cat litter</a><div class="muted small">1 × 10 L · every 4 weeks</div></td><td class="faint">Not needed</td><td><span class="badge b-neutral">❙❙ Paused</span></td><td class="faint">None</td><td class="faint">None while paused</td><td>Pay at the counter</td><td>0</td></tr>
+        <tr><td><a href="#">Tahmid Chowdhury</a></td><td class="nowrap">01911 553377</td><td><a href="#">Renal Support dry food</a><div class="muted small">1 × 1.5 kg · every 4 weeks</div></td><td>Luna</td><td><span class="badge b-warn">! Suspended</span></td><td>Authorisation ended</td><td class="faint">None while suspended</td><td>Bank transfer</td><td>0</td></tr>
+        <tr><td><a href="CustomerSubscriptionsPanel.dc.html">Farhana Yasmin</a></td><td class="nowrap">01712 345678</td><td><a href="#">Renal Support dry food</a><div class="muted small">1 × 1.5 kg · every 4 weeks</div></td><td>Mittens</td><td><span class="badge b-warn">! Suspended</span></td><td>Authorisation ended</td><td class="faint">None while suspended</td><td>Bank transfer</td><td>0</td></tr>
+        <tr><td><a href="CustomerSubscriptionsPanel.dc.html">Farhana Yasmin</a></td><td class="nowrap">01712 345678</td><td><a href="StaffSubscriptionDetail.dc.html">Kitten dry food</a><div class="muted small">2 × 1 kg · every 2 weeks</div></td><td class="faint">Not needed</td><td><span class="badge b-warn">! Suspended</span></td><td>Unpaid orders</td><td class="faint">None while suspended</td><td>Bank transfer</td><td><strong>2</strong> · suspended</td></tr>
+        <tr><td><a href="#">Arif Hossain</a></td><td class="nowrap">01673 440022</td><td><a href="#">Chicken wet food</a><div class="muted small">1 × 12 pouches · every 2 weeks</div></td><td class="faint">Not needed</td><td><span class="badge b-neutral">✕ Cancelled</span></td><td class="faint">None</td><td class="faint">None — cancelled</td><td>Cash on delivery</td><td>0</td></tr>
+      </tbody>
+    </table>
+    <div class="pager"><span class="muted">Showing 1–9 of 1,284 · sorted by next order, soonest first</span><div class="pbtns"><button class="btn2" type="button" disabled title="You're on the first page">Previous</button><span class="muted">Page 1 of 143</span><button class="btn2" type="button">Next</button></div></div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

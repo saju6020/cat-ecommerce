@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Consultation &amp; medical records — screens</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="./index.css">
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../index.html">&larr; All areas</a>
+  <div class="eyebrow">PurrCare · backlog &sect;4 · US-CLN-11 … 22</div>
+  <h1>Consultation &amp; medical records</h1>
+  <p class="lede">Nine rows, twenty-eight artboards &mdash; a large area, because HO-EMR-002 covers twelve stories, eleven routes and the owner's portal. No live interaction; every state is its own artboard or a labelled side-by-side panel.</p>
+
+  <div class="row-group">
+    <h2>Visits &amp; vitals — US-CLN-11</h2>
+    <a class="screen-row" href="OpenVisits.dc.html"><span class="screen-name">Open visits<span class="screen-file">OpenVisits.dc.html</span></span><span class="screen-desc">The branch's open visits: vitals and note as a tick or dash with a word, high risk as icon and text, 30-second refresh, and the empty state</span></a>
+    <a class="screen-row" href="QuickVitals.dc.html"><span class="screen-name">⭐ Quick vitals from the queue<span class="screen-file">QuickVitals.dc.html</span></span><span class="screen-desc">The nurse's one-dialog path: compact cat header, six unit-suffixed inputs, the early "outside the usual range" hint, and a queue card showing "Vitals recorded 09:05"</span></a>
+    <a class="screen-row" href="VitalsConfirm.dc.html"><span class="screen-name">Vitals — confirm, refuse, record<span class="screen-file">VitalsConfirm.dc.html</span></span><span class="screen-desc">Side by side: the server's out-of-range confirm listing each value with its range, the impossible-value field error with no confirm, and the saved entry marked "confirmed outside usual range"</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Consultation workspace — US-CLN-12, 20, 22</h2>
+    <a class="screen-row" href="Workspace.dc.html"><span class="screen-name">⭐ Consultation workspace<span class="screen-file">Workspace.dc.html</span></span><span class="screen-desc">Note on the left, panels on the right; auto-save status, History, Save note, Finalise; the template pre-fill notice; coded problems with certainty as icon and word</span></a>
+    <a class="screen-row" href="DraftRecovery.dc.html"><span class="screen-name">Restored draft<span class="screen-file">DraftRecovery.dc.html</span></span><span class="screen-desc">"Unsaved changes from 10:42 were restored" and the Revert confirmation naming exactly what is removed</span></a>
+    <a class="screen-row" href="SaveConflict.dc.html"><span class="screen-name">Save conflict &amp; auto-save status<span class="screen-file">SaveConflict.dc.html</span></span><span class="screen-desc">The 409 message, their saved note beside your read-only text for copying, and all four auto-save states (only failure is announced)</span></a>
+    <a class="screen-row" href="ProblemList.dc.html"><span class="screen-name">Problem list editor<span class="screen-file">ProblemList.dc.html</span></span><span class="screen-desc">Keyboard listbox of active codes with the duplicate disabled in place, certainty radio, and each refusal: duplicate, retired code, twenty-problem limit, no match</span></a>
+    <a class="screen-row" href="WorkspaceRoles.dc.html"><span class="screen-name">Same visit, other roles<span class="screen-file">WorkspaceRoles.dc.html</span></span><span class="screen-desc">Nurse (vitals writable, note as text), administrator (read-only, no buttons drawn), reception (permission-denied state)</span></a>
+    <a class="screen-row" href="WorkspaceMobile360.dc.html"><span class="screen-name">Workspace at 360px<span class="screen-file">WorkspaceMobile360.dc.html</span></span><span class="screen-desc">One column, panels stacked in the desktop order, Save note and Finalise in a bottom bar (UI-1)</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Finalise &amp; addenda — US-CLN-17, 22</h2>
+    <a class="screen-row" href="FinaliseDialog.dc.html"><span class="screen-name">⭐ Finalise visit<span class="screen-file">FinaliseDialog.dc.html</span></span><span class="screen-desc">Two dialogs: the checklist blocking on a blank Plan (disabled button with its reason), and the ready state with pending-order warning, save-first notice and the consequence sentence</span></a>
+    <a class="screen-row" href="VisitRecord.dc.html"><span class="screen-name">⭐ Finalised record &amp; addenda<span class="screen-file">VisitRecord.dc.html</span></span><span class="screen-desc">The record as text, not disabled inputs; who finalised it and when; Complete appointment; addenda list, form, and "Addenda cannot be edited or removed."</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Clinical history — US-CLN-13</h2>
+    <a class="screen-row" href="HistoryDrawer.dc.html"><span class="screen-name">⭐ History drawer<span class="screen-file">HistoryDrawer.dc.html</span></span><span class="screen-desc">A sheet over the workspace, the note still mounted beneath; Overview with problems, last visits, vitals, weight chart plus its table, vaccination status, pending labs</span></a>
+    <a class="screen-row" href="ClinicalHistoryPage.dc.html"><span class="screen-name">Cat &rarr; History page<span class="screen-file">ClinicalHistoryPage.dc.html</span></span><span class="screen-desc">The full cat header with the new History and Consents tabs; lab results with text-and-icon flags, Load more, and the "not yet available" section</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Diagnostics — US-CLN-14</h2>
+    <a class="screen-row" href="OrderDiagnostic.dc.html"><span class="screen-name">Order a test<span class="screen-file">OrderDiagnostic.dc.html</span></span><span class="screen-desc">Laboratory with analytes from the catalogue, beside Imaging with its required description refused</span></a>
+    <a class="screen-row" href="PendingDiagnostics.dc.html"><span class="screen-name">Pending diagnostics<span class="screen-file">PendingDiagnostics.dc.html</span></span><span class="screen-desc">Orders awaiting results, 30-second refresh, and the empty state</span></a>
+    <a class="screen-row" href="ResultEntry.dc.html"><span class="screen-name">⭐ Enter results<span class="screen-file">ResultEntry.dc.html</span></span><span class="screen-desc">Numeric and qualitative rows with live preview flags (every flag kind), reported-on date and the Supersedes selector</span></a>
+    <a class="screen-row" href="DiagnosticOrderDetail.dc.html"><span class="screen-name">Order detail &amp; attachments<span class="screen-file">DiagnosticOrderDetail.dc.html</span></span><span class="screen-desc">Server-flagged results, a superseded set collapsed, PDF Open vs DICOM Download, and every upload state including "uploads aren't available yet"</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Treatments, photos &amp; follow-up — US-CLN-15, 18, 19</h2>
+    <a class="screen-row" href="RecordTreatment.dc.html"><span class="screen-name">⭐ Record a treatment<span class="screen-file">RecordTreatment.dc.html</span></span><span class="screen-desc">Dispensary search with the controlled item disabled and its reason, FEFO "Use first" batch, the required reason for overriding it, quantity and dose with units</span></a>
+    <a class="screen-row" href="TreatmentStates.dc.html"><span class="screen-name">Shortfall, stock change, reversal<span class="screen-file">TreatmentStates.dc.html</span></span><span class="screen-desc">"Only 3 ml in the dispensary" with Record anyway; the stock-changed refetch; the panel's shortfall and Reversed lines; the reverse confirm naming quantity, item and lot</span></a>
+    <a class="screen-row" href="PhotosAndFollowUp.dc.html"><span class="screen-name">⭐ Photos &amp; follow-up<span class="screen-file">PhotosAndFollowUp.dc.html</span></span><span class="screen-desc">Dated, noted photos and the add form; both follow-up kinds set; the reminder date refusal; the slot picker booking inside a dialog</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Discharge summary &amp; portal — US-CLN-16</h2>
+    <a class="screen-row" href="DischargeSummary.dc.html"><span class="screen-name">Discharge summary (staff)<span class="screen-file">DischargeSummary.dc.html</span></span><span class="screen-desc">Letterhead print view, Print and Download PDF, corrections included, the server's prescription-labels sentence, no prices</span></a>
+    <a class="screen-row" href="PortalVisits.dc.html"><span class="screen-name">Portal — visits &amp; results<span class="screen-file">PortalVisits.dc.html</span></span><span class="screen-desc">The owner's finalised visits and lab results with units, ranges and text flags; attachments Open / Download</span></a>
+    <a class="screen-row" href="PortalVisitSummary.dc.html"><span class="screen-name">Portal — visit summary<span class="screen-file">PortalVisitSummary.dc.html</span></span><span class="screen-desc">The same summary with PDF download, beside the neutral "We couldn't find this visit summary."</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Consent — US-CLN-21</h2>
+    <a class="screen-row" href="ConsentCapture.dc.html"><span class="screen-name">⭐ Record consent — sign on screen<span class="screen-file">ConsentCapture.dc.html</span></span><span class="screen-desc">Form text with its version, procedure, signer and relationship, witness, the signature pad with Sign here, Undo stroke, Clear and the upload alternative; stacks for tablet portrait</span></a>
+    <a class="screen-row" href="ConsentStates.dc.html"><span class="screen-name">Consent — other states<span class="screen-file">ConsentStates.dc.html</span></span><span class="screen-desc">Upload signed form, signature too short, the submit confirmation, form not published, and a newer form version</span></a>
+    <a class="screen-row" href="ConsentListAndDetail.dc.html"><span class="screen-name">Cat &rarr; Consents &amp; withdrawal<span class="screen-file">ConsentListAndDetail.dc.html</span></span><span class="screen-desc">Consent list with status as icon and word, the detail with the stored signature, and the withdraw confirm naming what stops</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Clinical catalogues — administrators and vets</h2>
+    <a class="screen-row" href="DiagnosisCodes.dc.html"><span class="screen-name">Diagnosis codes<span class="screen-file">DiagnosisCodes.dc.html</span></span><span class="screen-desc">Search, status filter, paging; the editor with the code locked and why; the upper-case code rule</span></a>
+    <a class="screen-row" href="CatalogueEditors.dc.html"><span class="screen-name">Lab analytes &amp; note templates<span class="screen-file">CatalogueEditors.dc.html</span></span><span class="screen-desc">Analyte editor with the low &le; high refusal; template editor offering only services without an active template, five plain-text fields</span></a>
+  </div>
+
+  <p class="note">Rendered locally by <code>support.js</code> in this folder, a from-scratch reimplementation of the hosted canvas runtime (not the original, which isn't distributed). See <a href="README.md">README.md</a> for the design system, encoded rules and known gaps.</p>
+</div>
+</body>
+</html>

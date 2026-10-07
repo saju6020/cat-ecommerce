@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Domain\CatEcommerce.Domain\CatEcommerce.Domain.csproj" />
+    <ProjectReference Include="..\..\Shared\CatEcommerce.Shared\CatEcommerce.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="8.5.1" />
+    <PackageReference Include="Platform.Infrastructure.Common" Version="1.0.8" />
+    <PackageReference Include="Platform.Infrastructure.Core" Version="1.0.34" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

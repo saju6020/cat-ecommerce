@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Closures — US-ADM-01</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px}
+.shell{display:flex}
+.sidebar{width:210px;flex:none;background:#fff;border-right:1px solid var(--border);min-height:820px;padding:18px 0}
+.sidebar a{display:block;padding:9px 22px;font-size:13.5px;color:var(--ink-muted);text-decoration:none;font-weight:600}
+.sidebar a.active{color:var(--accent-ink);background:var(--accent-soft);border-right:2px solid var(--accent)}
+.main{flex:1;padding:26px 32px;display:flex;gap:28px}
+.col{flex:1;max-width:420px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0 0 16px}
+.tabnav{display:flex;border-bottom:1px solid var(--border);margin-bottom:22px}
+.tabnav a{padding:11px 4px;margin-right:24px;font-size:13.5px;font-weight:600;color:var(--ink-muted);border-bottom:2px solid transparent;text-decoration:none}
+.tabnav a.active{color:var(--ink);border-bottom-color:var(--accent)}
+.h2{font-weight:700;font-size:14px;margin:0 0 10px}
+.clcard{background:#fff;border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.clcard.past{opacity:.6}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.field input,.field select{width:100%;font:inherit;font-size:14px;padding:8px 11px;border:1px solid var(--border);border-radius:var(--radius-sm)}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:9px 16px;border-radius:var(--radius-sm);border:none;cursor:pointer;background:var(--accent);color:#fff}
+.linkbtn{background:none;border:none;color:#8f1d1d;font-weight:600;font-size:12.5px;cursor:pointer}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page);overflow:auto">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who">Rezwan Ahmed · Administrator</div></div>
+  <div class="shell">
+    <div class="sidebar"><a class="active" aria-current="page">Branches</a><a>Services &amp; pricing</a><a>Rosters &amp; leave</a><a>Settings</a><a>Content</a><a>Policies</a><a>Audit log</a><a>System</a></div>
+    <div class="main">
+      <div class="col">
+        <h1 class="h1">Uttara</h1>
+        <nav class="tabnav" aria-label="Branch sections">
+          <a href="BranchDetails.dc.html">Details</a><a href="WeeklyHoursEditor.dc.html">Opening hours</a>
+          <a href="#" class="active" aria-current="page">Closures</a><a href="Rooms.dc.html">Rooms</a>
+        </nav>
+        <div class="h2">Upcoming</div>
+        <div class="clcard"><span>National holiday — Eid<br><span style="font-size:12.5px;color:var(--ink-muted)">3–4 Nov 2026, all day</span></span><button class="linkbtn">Cancel</button></div>
+        <div class="clcard"><span>Staff training<br><span style="font-size:12.5px;color:var(--ink-muted)">18 Oct 2026, 09:00–13:00</span></span><button class="linkbtn">Cancel</button></div>
+        <div class="h2" style="margin-top:20px">Past</div>
+        <div class="clcard past"><span>National holiday — Independence Day<br><span style="font-size:12.5px;color:var(--ink-muted)">26 Mar 2026, all day</span></span></div>
+      </div>
+      <div class="col">
+        <div class="h2" style="margin-top:38px">Add a closure</div>
+        <div class="field"><label>Kind</label><select><option>Holiday</option><option>Staff training</option><option>Emergency</option></select></div>
+        <div class="field"><label>Dates</label><input placeholder="dd/mm/yyyy – dd/mm/yyyy" value="20/12/2026"></div>
+        <div class="field"><label>Half-day times <span style="font-weight:400;color:var(--ink-muted)">(single date only)</span></label><input placeholder="Leave blank for the whole day"></div>
+        <div class="field"><label>Reason</label><input value="Year-end branch closure"></div>
+        <button type="button" class="btn">Add closure</button>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

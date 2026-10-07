@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Resume and withdraw — US-SUB-02, 05</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#fbf6ef;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:14px;--warm:#e8894a;--warm-ink:#8a3f14;--warm-soft:#fdeee2}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+a{color:var(--accent-ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:14px 32px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:18px;color:var(--accent-ink)}
+.pnav{display:flex;gap:22px;font-size:14px;font-weight:600;margin-right:auto;margin-left:28px;flex-wrap:wrap}
+.pnav a{color:var(--ink-muted);text-decoration:none;padding:4px 0;border-bottom:2px solid transparent}
+.pnav a.active{color:var(--ink);border-bottom-color:var(--accent)}
+.who{display:flex;align-items:center;gap:10px;font-size:13.5px}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.h1{font-family:var(--font-display);font-weight:600;font-size:24px;margin:0}
+.muted{color:var(--ink-muted)}
+.small{font-size:12.5px}
+.wrap{max-width:1080px;margin:0 auto;padding:24px 32px}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:20px;margin-bottom:14px}
+.scrim{position:absolute;inset:0;background:rgba(28,26,23,.42);display:flex;align-items:flex-start;justify-content:center;gap:20px;padding:90px 24px 40px;flex-wrap:wrap}
+.dcol{flex:0 1 390px;min-width:0}
+.cap{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#fff;margin-bottom:8px;display:inline-block;background:rgba(28,26,23,.82);padding:4px 9px;border-radius:5px}
+.dialog{background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(20,18,10,.25);padding:22px}
+.dialog h2{font-family:var(--font-display);font-weight:600;font-size:19px;margin:0 0 10px;line-height:1.3}
+.dialog p{font-size:14px;line-height:1.55;margin:0 0 10px}
+.note{display:flex;gap:9px;align-items:flex-start;border-radius:var(--radius-sm);padding:10px 12px;font-size:13.5px;line-height:1.5;background:var(--surface-sunken)}
+.note svg{flex:none;margin-top:2px}
+.n-warn{background:var(--warning-bg);color:var(--warning-ink)}
+.n-err{background:var(--danger-bg);color:var(--danger-ink)}
+.lbl{display:block;font-size:13px;font-weight:700;margin:14px 0 6px}
+.inp{font:inherit;font-size:14.5px;padding:8px 11px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:#fff}
+.hint{font-size:12px;color:var(--ink-muted);margin-top:5px;line-height:1.45}
+.plist{list-style:none;margin:6px 0 10px;padding:0;font-size:13.5px}
+.plist li{padding:7px 0;border-bottom:1px solid var(--border)}
+.plist li:last-child{border-bottom:none}
+.dactions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px;flex-wrap:wrap}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:8px 14px;min-height:36px;border-radius:var(--radius-sm);border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+.btn2{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:8px 14px;min-height:36px;border-radius:var(--radius-sm);border:1px solid var(--border-strong);background:#fff;color:var(--ink);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+</style>
+</helmet>
+<div style="width:1280px;height:800px;background:var(--surface-page);position:relative">
+  <div class="topnav">
+    <div class="brand">PurrCare</div>
+    <nav class="pnav" aria-label="Portal"><a href="#">My cats</a><a href="#">Appointments</a><a href="#">Shop</a><a href="#">Orders</a><a class="active" aria-current="page" href="MySubscriptions.dc.html">Subscriptions</a><a href="#">Inbox</a></nav>
+    <div class="who"><div class="avatar">FY</div>Farhana Yasmin</div>
+  </div>
+  <div class="wrap">
+    <h1 class="h1">Adult Indoor dry food</h1>
+    <div class="card" style="margin-top:16px">Paused — no orders until you resume.</div>
+    <div class="card">Terms</div>
+  </div>
+
+  <div class="scrim">
+    <div class="dcol">
+      <div class="cap">Resume — choose the first order</div>
+      <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="r1">
+        <h2 id="r1">Resume Adult Indoor dry food?</h2>
+        <p>Orders start again from the date below, then every 4 weeks, paid by bank transfer.</p>
+        <label class="lbl" for="rd">First order after resuming <span class="muted" style="font-weight:400">(optional)</span></label>
+        <input id="rd" class="inp" type="date" value="2026-09-26" min="2026-09-26" max="2026-10-26" aria-describedby="rd-h">
+        <div class="hint" id="rd-h">Any date from Sat 26 Sep to Mon 26 Oct 2026. Leave it as it is for the earliest. We'll remind you 3 days before.</div>
+        <div class="dactions"><button type="button" class="btn2">Stay paused</button><button type="button" class="btn">Resume subscription</button></div>
+      </div>
+    </div>
+
+    <div class="dcol">
+      <div class="cap">Resume refused — paused prescription food</div>
+      <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="r2">
+        <h2 id="r2">Resume Urinary care dry food?</h2>
+        <div class="note n-err" role="alert"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg><span>Mittens' authorisation for this food ended on Sat 19 Sep. A vet needs to renew it before orders can start again.</span></div>
+        <p class="muted small" style="margin:10px 0 0">Still paused. Nothing was changed.</p>
+        <div class="dactions"><button type="button" class="btn2">Close</button><a href="#" class="btn">Book a consultation</a></div>
+      </div>
+    </div>
+
+    <div class="dcol">
+      <div class="cap">Withdraw scheduled changes</div>
+      <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="r3">
+        <h2 id="r3">Withdraw the scheduled changes?</h2>
+        <p>These won't happen:</p>
+        <ul class="plist">
+          <li>Per delivery: 3 bags, from Thu 8 Oct</li>
+          <li>Payment: bank transfer, from Thu 8 Oct</li>
+        </ul>
+        <p>Clumping cat litter carries on at 2 bags every 2 weeks, cash on delivery.</p>
+        <div class="dactions"><button type="button" class="btn2">Keep them</button><button type="button" class="btn">Withdraw changes</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":800}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Catalogue at 360px — UI-1</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#fbf6ef;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:14px;--warm:#e8894a;--warm-ink:#8a3f14;--warm-soft:#fdeee2}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink);font-size:14px}
+a{color:var(--accent-ink)}
+.ic{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.topnav{background:#fff;border-bottom:1px solid var(--border);padding:10px 16px}
+.row{display:flex;align-items:center;gap:14px}
+.brand{font-family:var(--font-display);font-weight:600;font-size:20px;color:var(--accent-ink);text-decoration:none;margin-right:auto}
+.iconbtn{border:none;background:none;padding:4px;color:var(--ink);display:flex;align-items:center;gap:4px;font:inherit;font-weight:600;font-size:12px}
+.count{background:var(--accent);color:#fff;border-radius:999px;font-size:10.5px;padding:1px 6px}
+.search{display:flex;margin-top:10px}
+.search input{flex:1;min-width:0;font:inherit;font-size:14px;padding:8px 10px;border:1px solid var(--border-strong);border-right:none;border-radius:6px 0 0 6px}
+.search button{border:1px solid var(--accent);background:var(--accent);color:#fff;border-radius:0 6px 6px 0;padding:0 12px;display:flex;align-items:center}
+.body{padding:14px 16px}
+.bar{display:flex;gap:8px;margin:8px 0 12px}
+.fbtn{flex:1;font:inherit;font-weight:600;font-size:13.5px;padding:9px;border:1px solid var(--accent);background:#fff;color:var(--accent-ink);border-radius:6px;display:flex;align-items:center;justify-content:center;gap:6px}
+.sort{flex:1;font:inherit;font-size:13px;padding:8px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.summary{font-weight:600;font-size:14px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:8px;display:flex;flex-direction:column;gap:3px;font-size:12px}
+.card h3{font-size:13px;margin:4px 0 0;line-height:1.3}
+.pimg{aspect-ratio:1/1;border-radius:6px;display:flex;align-items:center;justify-content:center}
+.pimg svg{height:58%}
+.c1{background:#e6efe9;color:#2f6f5f}.c3{background:#e8ecf4;color:#3d5a8a}
+.price{font-weight:700;font-size:13.5px}
+.muted{color:var(--ink-muted)}
+.scrim{position:absolute;inset:0;background:rgba(28,26,23,.4)}
+.sheet{position:absolute;left:0;right:0;bottom:0;top:196px;background:#fff;border-radius:16px 16px 0 0;display:flex;flex-direction:column}
+.sheethead{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border)}
+.sheethead h2{font-family:var(--font-display);font-weight:600;font-size:18px;margin:0}
+.sheetbody{flex:1;overflow:auto;padding:4px 16px}
+fieldset{border:none;border-bottom:1px solid var(--border);margin:0;padding:12px 0}
+legend{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);padding:0;margin-bottom:6px;float:left;width:100%}
+.opt{display:flex;align-items:center;gap:10px;font-size:14px;padding:7px 0;clear:both;min-height:40px}
+.opt input{width:18px;height:18px;margin:0;accent-color:var(--accent)}
+.opt .n{margin-left:auto;color:var(--ink-faint);font-size:12px}
+.flag{width:22px;height:15px;border-radius:2px;box-shadow:0 0 0 1px rgba(0,0,0,.14);flex:none;display:block}
+.sheetfoot{display:flex;gap:10px;padding:12px 16px;border-top:1px solid var(--border)}
+.btn{flex:1;font:inherit;font-weight:700;font-size:14px;padding:11px;border-radius:6px;border:none;background:var(--accent);color:#fff}
+.btn2{font:inherit;font-weight:600;font-size:14px;padding:11px 14px;border-radius:6px;border:1px solid var(--border-strong);background:#fff;color:var(--ink)}
+</style>
+</helmet>
+<div style="width:360px;height:760px;background:var(--surface-page);position:relative;overflow:hidden">
+  <header class="topnav">
+    <div class="row">
+      <button class="iconbtn" aria-label="Categories menu" aria-expanded="false"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+      <a class="brand" href="ShopHome.dc.html">PurrCare</a>
+      <a class="iconbtn" href="#" aria-label="Cart, 2 items"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/><path d="M2 3h3l2.5 12h12L22 7H6"/></svg><span class="count">2</span></a>
+      <a class="iconbtn" href="#" aria-label="Your account, Farhana"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg></a>
+    </div>
+    <form class="search" role="search" aria-label="Search products"><input aria-label="Search products" value="salmon"><button type="submit" aria-label="Search"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width:16px"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></button></form>
+  </header>
+  <div class="body">
+    <div class="summary">31 products for “salmon”</div>
+    <div class="bar">
+      <button class="fbtn" aria-haspopup="dialog" aria-expanded="true"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width:15px"><path d="M4 6h16M7 12h10M10 18h4"/></svg>Filters (2)</button>
+      <select class="sort" aria-label="Sort by"><option>Price low–high</option></select>
+    </div>
+    <div class="grid2">
+      <article class="card"><div class="pimg c1"><svg viewBox="0 0 80 100" aria-hidden="true"><path d="M18 12h44l6 12v64a4 4 0 0 1-4 4H16a4 4 0 0 1-4-4V24Z" fill="currentColor"/></svg></div><h3>Siam Harvest Kitten Salmon</h3><div class="price">From ৳1,200.00</div><div class="muted">In stock</div></article>
+      <article class="card"><div class="pimg c3"><svg viewBox="0 0 80 100" aria-hidden="true"><path d="M18 12h44l6 12v64a4 4 0 0 1-4 4H16a4 4 0 0 1-4-4V24Z" fill="currentColor"/></svg></div><h3>Nordwald Adult Salmon &amp; Rice</h3><div class="price">৳2,450.00</div><div class="muted">In stock</div></article>
+    </div>
+  </div>
+
+  <div class="scrim"></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="fs-title">
+    <div class="sheethead"><h2 id="fs-title">Filters</h2><button class="iconbtn" aria-label="Close filters"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+    <div class="sheetbody">
+      <fieldset>
+        <legend>Country of origin</legend>
+        <label class="opt"><input type="checkbox" checked><svg class="flag" viewBox="0 0 9 6" aria-hidden="true"><rect width="9" height="6" fill="#A51931"/><rect y="1" width="9" height="4" fill="#F4F5F8"/><rect y="2" width="9" height="2" fill="#2D2A4A"/></svg>Thailand<span class="n">18</span></label>
+        <label class="opt"><input type="checkbox" checked><svg class="flag" viewBox="0 0 3 2" aria-hidden="true"><rect width="3" height="2" fill="#000"/><rect y=".667" width="3" height=".667" fill="#D00"/><rect y="1.333" width="3" height=".667" fill="#FFCE00"/></svg>Germany<span class="n">13</span></label>
+        <label class="opt"><input type="checkbox"><svg class="flag" viewBox="0 0 30 20" aria-hidden="true"><rect width="30" height="20" fill="#E30A17"/><circle cx="11" cy="10" r="5" fill="#fff"/><circle cx="12.3" cy="10" r="4" fill="#E30A17"/><path d="m17 10 3.6-1.2-2.2 3.1V8.1l2.2 3.1Z" fill="#fff"/></svg>Türkiye<span class="n">9</span></label>
+      </fieldset>
+      <fieldset>
+        <legend>Life stage</legend>
+        <label class="opt"><input type="checkbox">Kitten<span class="n">12</span></label>
+        <label class="opt"><input type="checkbox">Adult<span class="n">30</span></label>
+        <label class="opt"><input type="checkbox">Senior<span class="n">9</span></label>
+      </fieldset>
+      <fieldset>
+        <legend>Availability</legend>
+        <label class="opt"><input type="checkbox">In stock only</label>
+      </fieldset>
+    </div>
+    <div class="sheetfoot"><button class="btn2" type="button">Clear all</button><button class="btn" type="button">Show results</button></div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":360,"height":760}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

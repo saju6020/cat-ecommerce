@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Content — US-ADM-07</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px;--radius-pill:999px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px}
+.shell{display:flex}
+.sidebar{width:210px;flex:none;background:#fff;border-right:1px solid var(--border);min-height:820px;padding:18px 0}
+.sidebar a{display:block;padding:9px 22px;font-size:13.5px;color:var(--ink-muted);text-decoration:none;font-weight:600}
+.sidebar a.active{color:var(--accent-ink);background:var(--accent-soft);border-right:2px solid var(--accent)}
+.main{flex:1;padding:26px 32px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+.toolbar{display:flex;gap:10px;margin:14px 0}
+.toolbar select{font:inherit;font-size:13px;padding:6px 10px;border:1px solid var(--border);border-radius:6px}
+table{border-collapse:collapse;width:100%;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden}
+th,td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--border);font-size:13.5px}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);background:var(--surface-sunken)}
+tr:last-child td{border-bottom:none}
+.badge{display:inline-flex;padding:3px 9px;border-radius:var(--radius-pill);font-size:11.5px;font-weight:600;background:var(--accent-soft);color:var(--accent-ink)}
+.badge-draft{background:var(--surface-sunken);color:var(--ink-muted)}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:8px 16px;border-radius:var(--radius-sm);border:none;cursor:pointer;background:var(--accent);color:#fff}
+</style>
+</helmet>
+<div style="width:1280px;height:820px;background:var(--surface-page);overflow:auto">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who">Rezwan Ahmed · Administrator</div></div>
+  <div class="shell">
+    <div class="sidebar"><a>Branches</a><a>Services &amp; pricing</a><a>Rosters &amp; leave</a><a>Settings</a><a class="active" aria-current="page">Content</a><a>Policies</a><a>Audit log</a><a>System</a></div>
+    <div class="main">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h1 class="h1">Content</h1>
+        <a href="ContentEditor.dc.html" class="btn" style="text-decoration:none">+ New</a>
+      </div>
+      <div class="toolbar"><select aria-label="Filter by kind"><option>All kinds</option><option>Page</option><option>FAQ</option><option>Banner</option></select><select aria-label="Filter by status"><option>All statuses</option><option>Published</option><option>Draft</option></select></div>
+      <table>
+        <thead><tr><th>Kind</th><th>Title</th><th>Slug</th><th>Status</th><th>Last published</th></tr></thead>
+        <tbody>
+          <tr><td>Page</td><td class="body-strong">About Us</td><td>/pages/about-us</td><td><span class="badge">Published</span></td><td>12 Aug 2026</td></tr>
+          <tr><td>FAQ</td><td class="body-strong">Can I bring my own cat carrier?</td><td>—</td><td><span class="badge">Published</span></td><td>3 Sep 2026</td></tr>
+          <tr><td>Banner</td><td class="body-strong">Holiday hours notice</td><td>—</td><td><span class="badge badge-draft">Draft</span></td><td>— never published</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":820}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

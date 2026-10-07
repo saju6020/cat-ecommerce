@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Accounts &amp; Identity — screens</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="./index.css">
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../index.html">&larr; All areas</a>
+  <div class="eyebrow">PurrCare · backlog &sect;1</div>
+  <h1>Accounts &amp; Identity</h1>
+  <p class="lede">Five rows, twenty artboards. No live interaction &mdash; every state shown is a separate artboard, not a wired-up toggle.</p>
+
+  <div class="row-group">
+    <h2>Register &amp; sign in</h2>
+    <a class="screen-row" href="Register.dc.html"><span class="screen-name">Registration<span class="screen-file">Register.dc.html</span></span><span class="screen-desc">US-ACC-01: mobile/email both-optional line, password requirements before typing, the CAPTCHA with its reception alternative</span></a>
+    <a class="screen-row" href="RegisterSuccess.dc.html"><span class="screen-name">Success<span class="screen-file">RegisterSuccess.dc.html</span></span><span class="screen-desc">"Your account is ready" — no mention of verification, codes, or checking email</span></a>
+    <a class="screen-row" href="SignIn.dc.html"><span class="screen-name">Customer sign-in<span class="screen-file">SignIn.dc.html</span></span><span class="screen-desc">US-ACC-04: the one non-disclosing error, identical for every failure</span></a>
+    <a class="screen-row" href="ForgotPassword.dc.html"><span class="screen-name">Forgot password<span class="screen-file">ForgotPassword.dc.html</span></span><span class="screen-desc">US-ACC-05: the client-owned confirmation, rendered the same whether or not an account matches</span></a>
+    <a class="screen-row" href="ResetPassword.dc.html"><span class="screen-name">Reset password<span class="screen-file">ResetPassword.dc.html</span></span><span class="screen-desc">Valid-link form and the invalid/expired-link state, side by side</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Customer account</h2>
+    <a class="screen-row" href="Profile.dc.html"><span class="screen-name">Account &rarr; Profile<span class="screen-file">Profile.dc.html</span></span><span class="screen-desc">US-ACC-06: read-only email/mobile with the reason stated, additional numbers</span></a>
+    <a class="screen-row" href="Addresses.dc.html"><span class="screen-name">Account &rarr; Addresses<span class="screen-file">Addresses.dc.html</span></span><span class="screen-desc">Default badge; removing the default while others exist shows the server's reason</span></a>
+    <a class="screen-row" href="Notifications.dc.html"><span class="screen-name">⭐ Account &rarr; Notifications<span class="screen-file">Notifications.dc.html</span></span><span class="screen-desc">The preference matrix — a real &lt;table&gt;, "Always on" cells disabled with text, never colour alone</span></a>
+    <a class="screen-row" href="DataAndDelete.dc.html"><span class="screen-name">Your data / Delete<span class="screen-file">DataAndDelete.dc.html</span></span><span class="screen-desc">US-ACC-13: export card, and the deletion confirmation stating exactly what happens and what is kept</span></a>
+    <a class="screen-row" href="AccountDeleted.dc.html"><span class="screen-name">Deleted confirmation<span class="screen-file">AccountDeleted.dc.html</span></span><span class="screen-desc">The (auth) page after deletion, no identity</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Staff sign-in &amp; idle lock</h2>
+    <a class="screen-row" href="StaffSignIn.dc.html"><span class="screen-name">Staff sign-in<span class="screen-file">StaffSignIn.dc.html</span></span><span class="screen-desc">US-ACC-14, with "Set or reset password" for a new staff member's first password</span></a>
+    <a class="screen-row" href="IdleLock.dc.html"><span class="screen-name">⭐ Idle lock<span class="screen-file">IdleLock.dc.html</span></span><span class="screen-desc">US-ACC-08: the modal over an unsaved form still visible behind it, plus the 2-minute warning state</span></a>
+    <a class="screen-row" href="StaffAccountsList.dc.html"><span class="screen-name">Staff accounts<span class="screen-file">StaffAccountsList.dc.html</span></span><span class="screen-desc">US-ACC-07: paginated, searchable, "Password set" column</span></a>
+    <a class="screen-row" href="StaffAccountCreate.dc.html"><span class="screen-name">⭐ Add staff account<span class="screen-file">StaffAccountCreate.dc.html</span></span><span class="screen-desc">Role checkboxes + the capability preview, captioned "Indicative — from SRS Appendix D"</span></a>
+    <a class="screen-row" href="StaffAccountDetail.dc.html"><span class="screen-name">Staff account detail<span class="screen-file">StaffAccountDetail.dc.html</span></span><span class="screen-desc">Removing a role confirms and names the consequence (signed out)</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Staff — customers &amp; duplicates</h2>
+    <a class="screen-row" href="WalkIn.dc.html"><span class="screen-name">Walk-in registration<span class="screen-file">WalkIn.dc.html</span></span><span class="screen-desc">US-ACC-10: the existing-customer notice on a duplicate mobile number</span></a>
+    <a class="screen-row" href="CustomerDetail.dc.html"><span class="screen-name">Customer detail<span class="screen-file">CustomerDetail.dc.html</span></span><span class="screen-desc">The Incomplete badge (icon + word) and the online-setup-unavailable note</span></a>
+    <a class="screen-row" href="Duplicates.dc.html"><span class="screen-name">Duplicates report<span class="screen-file">Duplicates.dc.html</span></span><span class="screen-desc">US-ACC-11: each group's cats, deceased included, the not-yet-recorded notice</span></a>
+    <a class="screen-row" href="MergeReview.dc.html"><span class="screen-name">⭐ Merge review<span class="screen-file">MergeReview.dc.html</span></span><span class="screen-desc">Nothing pre-selected, every cat that will move named, "This cannot be undone"</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>360px floor check</h2>
+    <a class="screen-row" href="RegisterMobile360.dc.html"><span class="screen-name">Register at 360px<span class="screen-file">RegisterMobile360.dc.html</span></span><span class="screen-desc">UI-1 — the busiest form in the area, no horizontal scroll</span></a>
+  </div>
+
+  <p class="note">Rendered locally by <code>support.js</code> in this folder, a from-scratch reimplementation of the hosted canvas runtime (not the original, which isn't distributed). See <a href="README.md">README.md</a> for the design system, encoded rules and known gaps.</p>
+</div>
+</body>
+</html>

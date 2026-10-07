@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Notifications — screens</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="./index.css">
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../index.html">&larr; All areas</a>
+  <div class="eyebrow">PurrCare · backlog &sect;13</div>
+  <h1>Notifications</h1>
+  <p class="lede">Four rows, nine artboards &mdash; the smallest area, proportionate to the backlog.</p>
+
+  <div class="row-group">
+    <h2>Inbox &amp; preferred channel — US-NTF-01</h2>
+    <a class="screen-row" href="InboxAndBadge.dc.html"><span class="screen-name">⭐ Portal inbox<span class="screen-file">InboxAndBadge.dc.html</span></span><span class="screen-desc">The unread Badge Count variant in the header, unread/read rows, one item expanded to its plain-text body</span></a>
+    <a class="screen-row" href="PreferredChannel.dc.html"><span class="screen-name">⭐ Account &rarr; Notifications<span class="screen-file">PreferredChannel.dc.html</span></span><span class="screen-desc">The channel radio group above HO-ACC-002's preference matrix, in the same form and Save — a channel with no destination shown disabled with a reason</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Message templates — US-NTF-02</h2>
+    <a class="screen-row" href="TemplateList.dc.html"><span class="screen-name">Template list<span class="screen-file">TemplateList.dc.html</span></span><span class="screen-desc">Transactional vs Marketing, Customised vs Default</span></a>
+    <a class="screen-row" href="TemplateEditor.dc.html"><span class="screen-name">⭐ Template editor<span class="screen-file">TemplateEditor.dc.html</span></span><span class="screen-desc">Channel tabs, the variable palette, the sandboxed email preview, the save confirmation's exact wording — the literal {{catName}}-style tokens here are the point (ADR-FE-023), not live bindings</span></a>
+    <a class="screen-row" href="TemplatePreviewStates.dc.html"><span class="screen-name">Preview states<span class="screen-file">TemplatePreviewStates.dc.html</span></span><span class="screen-desc">The SMS segment/Unicode counter, the in-app preview mirroring InboxItem, the inline named-variable error shown without blocking typing</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Unsubscribe — US-NTF-04</h2>
+    <a class="screen-row" href="Unsubscribe.dc.html"><span class="screen-name">Public unsubscribe<span class="screen-file">Unsubscribe.dc.html</span></span><span class="screen-desc">Three states side by side: the confirm (nothing sent on load), success, and the invalid-link state</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Notification log &amp; resend — US-NTF-06</h2>
+    <a class="screen-row" href="NotificationLog.dc.html"><span class="screen-name">⭐ Staff notifications<span class="screen-file">NotificationLog.dc.html</span></span><span class="screen-desc">The queue summary tiles and the "SMS not connected" warning as a status banner, not an interrupting alert; the required date-range filter</span></a>
+    <a class="screen-row" href="NotificationLogMobile.dc.html"><span class="screen-name">Log at 360px<span class="screen-file">NotificationLogMobile.dc.html</span></span><span class="screen-desc">The same rows as cards below 768px (UI-1)</span></a>
+    <a class="screen-row" href="NotificationDetail.dc.html"><span class="screen-name">⭐ Detail &amp; resend<span class="screen-file">NotificationDetail.dc.html</span></span><span class="screen-desc">The redaction notice, the attempts table, the chain links, and the resend dialog — shown alongside the disabled Resend button and its reason</span></a>
+  </div>
+
+  <p class="note">Rendered locally by <code>support.js</code> in this folder, a from-scratch reimplementation of the hosted canvas runtime (not the original, which isn't distributed). See <a href="README.md">README.md</a> for the design system, encoded rules and known gaps.</p>
+</div>
+</body>
+</html>

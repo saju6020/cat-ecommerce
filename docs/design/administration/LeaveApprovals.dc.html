@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Leave approvals — US-ADM-03</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px;--radius-pill:999px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px}
+.main{padding:26px 32px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0 0 16px}
+.toolbar{display:flex;gap:10px;margin-bottom:14px}
+.toolbar select,.toolbar input{font:inherit;font-size:13px;padding:7px 10px;border:1px solid var(--border);border-radius:6px}
+table{border-collapse:collapse;width:100%;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden}
+th,td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--border);font-size:13.5px}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);background:var(--surface-sunken)}
+tr:last-child td{border-bottom:none}
+.badge{display:inline-flex;padding:3px 9px;border-radius:var(--radius-pill);font-size:11.5px;font-weight:600;background:var(--warning-bg);color:var(--warning-ink)}
+.actions button{font-size:12.5px;font-weight:600;border:none;background:none;cursor:pointer;margin-right:10px}
+.approve{color:var(--accent-ink)}
+.reject{color:#8f1d1d}
+.note{background:var(--surface-sunken);border-radius:8px;padding:10px 12px;font-size:12.5px;color:var(--ink-muted);margin-top:14px;max-width:600px}
+</style>
+</helmet>
+<div style="width:1280px;height:820px;background:var(--surface-page);overflow:auto">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who">Rezwan Ahmed · Administrator</div></div>
+  <div class="main">
+    <h1 class="h1">Leave approvals</h1>
+    <div class="toolbar">
+      <select aria-label="Filter by status"><option>Requested</option><option>Approved</option><option>All</option></select>
+      <input type="date" aria-label="From">
+      <input type="date" aria-label="To">
+    </div>
+    <table>
+      <thead><tr><th>Person</th><th>Kind</th><th>Dates</th><th>Status</th><th></th></tr></thead>
+      <tbody>
+        <tr><td class="body-strong">Shormi Akter</td><td>Annual leave</td><td>4–6 Nov 2026</td><td><span class="badge">Requested</span></td>
+          <td class="actions"><button class="approve">Approve</button><button class="reject">Reject</button></td></tr>
+        <tr><td class="body-strong">Dr. Imran Kabir</td><td>Sick leave</td><td>1 Oct 2026</td><td><span class="badge">Requested</span></td>
+          <td class="actions"><button class="approve">Approve</button><button class="reject">Reject</button></td></tr>
+      </tbody>
+    </table>
+    <div class="note">Rezwan Ahmed is the sole Administrator — his own leave requests are approved by the server's dedicated rule, shown here as a note rather than an Approve button on his own row.</div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":820}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

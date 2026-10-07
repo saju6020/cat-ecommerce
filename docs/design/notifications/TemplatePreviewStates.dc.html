@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Template preview states — US-NTF-02</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--border:#e5e1d8;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.main{padding:24px 28px;display:flex;gap:20px}
+.col{flex:1;max-width:280px}
+.h2{font-weight:700;font-size:13px;margin:0 0 10px}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:16px;font-size:13px}
+.smsbubble{background:var(--surface-sunken);border-radius:12px;padding:10px 12px;font-size:13.5px;line-height:1.5;margin-bottom:8px}
+.smsmeta{color:var(--ink-muted);font-size:12px}
+.appcard{border:1px solid var(--border);border-radius:8px;padding:10px 12px}
+.appcard .t{font-weight:700;font-size:13px}
+.appcard .b{color:var(--ink-muted);font-size:12.5px;margin-top:3px}
+.errbox{background:var(--danger-bg);color:var(--danger-ink);border-radius:6px;padding:10px 12px;font-size:12.5px;margin-top:10px;line-height:1.5}
+.field{margin-top:10px}
+.field label{display:block;font-size:12px;font-weight:600;margin-bottom:4px}
+.field input{width:100%;font:inherit;font-size:13px;padding:7px 9px;border:1px solid var(--danger-ink);border-radius:6px}
+</style>
+</helmet>
+<div style="width:1280px;height:640px;background:var(--surface-page);overflow:auto">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div style="font-size:13px">Rezwan Ahmed · Administrator</div></div>
+  <div class="main">
+    <div class="col">
+      <div class="h2">SMS preview — segment counter</div>
+      <div class="card">
+        <div class="smsbubble">Mittens' Rabies booster is due 2 Oct. Book: purr.care/b/x7q</div>
+        <div class="smsmeta">61 characters · 1 SMS · GSM-7</div>
+      </div>
+      <p style="font-size:12px;color:var(--ink-muted);margin-top:8px">A Bangla or emoji character switches the whole message to Unicode, which shortens each segment to 70 characters — this note appears only then.</p>
+    </div>
+
+    <div class="col">
+      <div class="h2">In-app preview — mirrors InboxItem</div>
+      <div class="card">
+        <div class="appcard"><div class="t">Mittens' Rabies booster is due soon</div><div class="b">Book before your next boarding stay to avoid a hold at check-in.</div></div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="h2">Inline preview error — the AC's exact wording</div>
+      <div class="card">
+        <div class="errbox">The preview couldn't be generated: {{vaccineName}} is required but has no sample value.</div>
+        <div class="field"><label>Subject</label><input value="{{catName}}'s {{vaccineName}} is due soon"></div>
+        <p style="font-size:11.5px;color:var(--ink-muted);margin-top:8px">Shown inline in the panel <em>and</em> on the offending field — typing is never blocked while this shows.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":640}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

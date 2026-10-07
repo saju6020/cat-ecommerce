@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Appointments — screens</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="./index.css">
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../index.html">&larr; All areas</a>
+  <div class="eyebrow">PurrCare · backlog &sect;3</div>
+  <h1>Appointments</h1>
+  <p class="lede">Five rows, twenty-four artboards &mdash; customers booking online, and reception running the day. No live interaction; every state is its own artboard or a side-by-side panel.</p>
+
+  <div class="row-group">
+    <h2>Online booking — US-CLN-02, 03, 09</h2>
+    <a class="screen-row" href="BookService.dc.html"><span class="screen-name">Service step<span class="screen-file">BookService.dc.html</span></span><span class="screen-desc">Arrived from a vaccination reminder: cat step skipped, services filtered to Vaccination, every price marked "Pay at the clinic"</span></a>
+    <a class="screen-row" href="BookSlots.dc.html"><span class="screen-name">⭐ Date &amp; time step<span class="screen-file">BookSlots.dc.html</span></span><span class="screen-desc">14-day strip with closed days written out, vet filter, slots as buttons grouped morning/afternoon/evening, the branch zone stated</span></a>
+    <a class="screen-row" href="BookSlotStates.dc.html"><span class="screen-name">Slot step — what can go wrong<span class="screen-file">BookSlotStates.dc.html</span></span><span class="screen-desc">Four panels: lost race (409), hold ended, full day with the next free day and Join the waitlist, and the leave-and-release confirmation</span></a>
+    <a class="screen-row" href="WaitlistJoin.dc.html"><span class="screen-name">Join the waitlist<span class="screen-file">WaitlistJoin.dc.html</span></span><span class="screen-desc">Prefilled dialog, optional preferred vet, the 30-minute claim window explained; beside it, the "times have just become available" outcome</span></a>
+    <a class="screen-row" href="BookConfirm.dc.html"><span class="screen-name">⭐ Confirm with hold countdown<span class="screen-file">BookConfirm.dc.html</span></span><span class="screen-desc">Summary, optional reason for visit, the server-clock countdown and when it is announced — no payment control anywhere</span></a>
+    <a class="screen-row" href="BookDone.dc.html"><span class="screen-name">Booked<span class="screen-file">BookDone.dc.html</span></span><span class="screen-desc">Details, where the confirmation went, View appointment and Add to calendar (.ics)</span></a>
+    <a class="screen-row" href="BookMobile360.dc.html"><span class="screen-name">Booking at 360px<span class="screen-file">BookMobile360.dc.html</span></span><span class="screen-desc">The same step single-column: a 7-day grid, full-width slot buttons, no sideways scroll</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>My appointments &amp; waitlist — US-CLN-04, 06, 09</h2>
+    <a class="screen-row" href="MyAppointments.dc.html"><span class="screen-name">My appointments<span class="screen-file">MyAppointments.dc.html</span></span><span class="screen-desc">Upcoming with status in words, and the waitlist section: Offered (claim by 10:45), Waiting, Lapsed</span></a>
+    <a class="screen-row" href="MyAppointmentDetail.dc.html"><span class="screen-name">Detail — cancel<span class="screen-file">MyAppointmentDetail.dc.html</span></span><span class="screen-desc">Reschedule and Cancel before the cut-off; the cancel confirmation lists what happens</span></a>
+    <a class="screen-row" href="MyAppointmentReschedule.dc.html"><span class="screen-name">Reschedule<span class="screen-file">MyAppointmentReschedule.dc.html</span></span><span class="screen-desc">Slot picker with the vet preselected, "Move to…? Your current time will be released.", and the 409 path that leaves the old time untouched</span></a>
+    <a class="screen-row" href="MyAppointmentLocked.dc.html"><span class="screen-name">⭐ Detail — after the cut-off<span class="screen-file">MyAppointmentLocked.dc.html</span></span><span class="screen-desc">No change buttons; the clinic contact card with call and email links instead (US-CLN-04 AC2)</span></a>
+    <a class="screen-row" href="ClaimOffer.dc.html"><span class="screen-name">Claim an offered time<span class="screen-file">ClaimOffer.dc.html</span></span><span class="screen-desc">The offer with its countdown and Confirm booking, beside "This offer has ended."</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Front desk — US-CLN-05, 08, 10</h2>
+    <a class="screen-row" href="FrontDeskToday.dc.html"><span class="screen-name">Today<span class="screen-file">FrontDeskToday.dc.html</span></span><span class="screen-desc">The day's bookings with Check in (+ triage) and No-show only where the server allows; the no-show confirmation naming the customer</span></a>
+    <a class="screen-row" href="FrontDeskQueue.dc.html"><span class="screen-name">⭐ Queue &amp; walk-in<span class="screen-file">FrontDeskQueue.dc.html</span></span><span class="screen-desc">Triaged cards with priority in words, compact cat header, "About 35 min" and how it is worked out; the keyboard-first walk-in panel</span></a>
+    <a class="screen-row" href="FrontDeskStart.dc.html"><span class="screen-name">Start a walk-in<span class="screen-file">FrontDeskStart.dc.html</span></span><span class="screen-desc">Vet and room chosen at Start; the server's refusal shown in the dialog, values kept across the 30-second refresh</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Calendar — US-CLN-07</h2>
+    <a class="screen-row" href="Calendar.dc.html"><span class="screen-name">⭐ Day by vet<span class="screen-file">Calendar.dc.html</span></span><span class="screen-desc">In-repo CSS grid: off-shift and leave striped and labelled, the closure as a labelled band, flag and high-risk markers in words</span></a>
+    <a class="screen-row" href="CalendarMoveConfirm.dc.html"><span class="screen-name">Drop and confirm<span class="screen-file">CalendarMoveConfirm.dc.html</span></span><span class="screen-desc">The dropped block at its target and the confirmation stating old and new; the "Moving…" pending state explained</span></a>
+    <a class="screen-row" href="CalendarMoveRefused.dc.html"><span class="screen-name">⭐ Move refused, by room<span class="screen-file">CalendarMoveRefused.dc.html</span></span><span class="screen-desc">The block snapped back, the server's specific reason in a toast (US-CLN-07 AC2), the stale-version 409, other reasons</span></a>
+    <a class="screen-row" href="MoveDialog.dc.html"><span class="screen-name">Move… dialog<span class="screen-file">MoveDialog.dc.html</span></span><span class="screen-desc">The keyboard and small-screen path: date, vet, room, then free times from the server</span></a>
+    <a class="screen-row" href="CalendarAgenda360.dc.html"><span class="screen-name">Agenda at 360px<span class="screen-file">CalendarAgenda360.dc.html</span></span><span class="screen-desc">The grid as a list by time below 768px, closures as text rows, Move… on every item</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Staff booking, detail &amp; flags — US-CLN-07, 08 · ADM-03</h2>
+    <a class="screen-row" href="StaffBooking.dc.html"><span class="screen-name">⭐ Staff booking<span class="screen-file">StaffBooking.dc.html</span></span><span class="screen-desc">"2 no-shows" beside the customer, the full cat header, vet required, out-of-hours times marked in words</span></a>
+    <a class="screen-row" href="StaffAppointmentDetail.dc.html"><span class="screen-name">Appointment detail<span class="screen-file">StaffAppointmentDetail.dc.html</span></span><span class="screen-desc">Needs-rescheduling banner with its reason, status history, only the allowed actions, the cancel dialog's required reason</span></a>
+    <a class="screen-row" href="FlaggedAppointments.dc.html"><span class="screen-name">Flagged for rescheduling<span class="screen-file">FlaggedAppointments.dc.html</span></span><span class="screen-desc">Future flagged appointments with phone and reason, Reschedule opens Move…, and the empty state</span></a>
+    <a class="screen-row" href="CustomerAppointmentsPanel.dc.html"><span class="screen-name">Customer page panel<span class="screen-file">CustomerAppointmentsPanel.dc.html</span></span><span class="screen-desc">The Appointments panel added to Accounts &amp; Identity's customer page: no-show count, upcoming, last visit, Book appointment</span></a>
+  </div>
+
+  <p class="note">Rendered locally by <code>support.js</code> in this folder, a from-scratch reimplementation of the hosted canvas runtime (not the original, which isn't distributed). See <a href="README.md">README.md</a> for the design system, encoded rules and known gaps.</p>
+</div>
+</body>
+</html>

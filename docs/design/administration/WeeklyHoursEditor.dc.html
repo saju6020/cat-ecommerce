@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Opening hours — US-ADM-01</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px;display:flex;align-items:center;gap:16px}
+.shell{display:flex}
+.sidebar{width:210px;flex:none;background:#fff;border-right:1px solid var(--border);min-height:820px;padding:18px 0}
+.sidebar a{display:block;padding:9px 22px;font-size:13.5px;color:var(--ink-muted);text-decoration:none;font-weight:600}
+.sidebar a.active{color:var(--accent-ink);background:var(--accent-soft);border-right:2px solid var(--accent)}
+.main{flex:1;padding:26px 32px;max-width:760px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0 0 16px}
+.tabnav{display:flex;border-bottom:1px solid var(--border);margin-bottom:22px}
+.tabnav a{padding:11px 4px;margin-right:24px;font-size:13.5px;font-weight:600;color:var(--ink-muted);border-bottom:2px solid transparent;text-decoration:none}
+.tabnav a.active{color:var(--ink);border-bottom-color:var(--accent)}
+.dayrow{display:flex;align-items:center;gap:14px;padding:11px 0;border-bottom:1px solid var(--border)}
+.dayname{width:100px;font-weight:700;font-size:13.5px}
+.interval{display:flex;align-items:center;gap:6px;background:var(--surface-sunken);border-radius:var(--radius-sm);padding:6px 10px;font-size:13px}
+.interval input[type=time]{border:none;background:none;font:inherit;width:74px}
+.iconbtn{background:none;border:none;color:var(--ink-faint);cursor:pointer}
+.addbtn{background:none;border:1px dashed var(--border-strong);border-radius:var(--radius-sm);color:var(--accent-ink);font-size:12.5px;font-weight:600;padding:6px 10px;cursor:pointer}
+.closedtext{color:var(--ink-faint);font-size:13.5px;font-style:italic}
+.copyhelper{font-size:12.5px;color:var(--accent-ink);font-weight:600;background:none;border:none;cursor:pointer;padding:0}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:9px 16px;border-radius:var(--radius-sm);border:none;cursor:pointer;background:var(--accent);color:#fff;margin-top:20px}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page);overflow:auto">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who">Rezwan Ahmed · Administrator</div></div>
+  <div class="shell">
+    <div class="sidebar"><a class="active" aria-current="page">Branches</a><a>Services &amp; pricing</a><a>Rosters &amp; leave</a><a>Settings</a><a>Content</a><a>Policies</a><a>Audit log</a><a>System</a></div>
+    <div class="main">
+      <h1 class="h1">Uttara</h1>
+      <nav class="tabnav" aria-label="Branch sections">
+        <a href="BranchDetails.dc.html">Details</a>
+        <a href="#" class="active" aria-current="page">Opening hours</a>
+        <a href="Closures.dc.html">Closures</a>
+        <a href="Rooms.dc.html">Rooms</a>
+      </nav>
+
+      <div class="dayrow">
+        <div class="dayname">Monday</div>
+        <div class="interval"><input type="time" value="09:00" aria-label="Monday opens (Asia/Dhaka)"> – <input type="time" value="20:00" aria-label="Monday closes (Asia/Dhaka)"><button class="iconbtn" aria-label="Remove this interval">✕</button></div>
+        <button class="addbtn">+ Add interval</button>
+        <button class="copyhelper" style="margin-left:auto">Copy to weekdays →</button>
+      </div>
+      <div class="dayrow"><div class="dayname">Tuesday</div><div class="interval"><input type="time" value="09:00" aria-label="Tuesday opens (Asia/Dhaka)"> – <input type="time" value="20:00" aria-label="Tuesday closes (Asia/Dhaka)"><button class="iconbtn" aria-label="Remove">✕</button></div></div>
+      <div class="dayrow"><div class="dayname">Wednesday</div><div class="interval"><input type="time" value="09:00" aria-label="Wednesday opens"> – <input type="time" value="20:00" aria-label="Wednesday closes"><button class="iconbtn">✕</button></div></div>
+      <div class="dayrow"><div class="dayname">Thursday</div><div class="interval"><input type="time" value="09:00" aria-label="Thursday opens"> – <input type="time" value="20:00" aria-label="Thursday closes"><button class="iconbtn">✕</button></div></div>
+      <div class="dayrow"><div class="dayname">Friday</div><span class="closedtext">Closed</span><button class="addbtn">+ Add interval</button></div>
+      <div class="dayrow">
+        <div class="dayname">Saturday</div>
+        <div class="interval"><input type="time" value="10:00" aria-label="Saturday morning opens"> – <input type="time" value="13:00" aria-label="Saturday morning closes"><button class="iconbtn">✕</button></div>
+        <div class="interval"><input type="time" value="16:00" aria-label="Saturday evening opens"> – <input type="time" value="20:00" aria-label="Saturday evening closes"><button class="iconbtn">✕</button></div>
+      </div>
+      <div class="dayrow"><div class="dayname">Sunday</div><div class="interval"><input type="time" value="09:00" aria-label="Sunday opens"> – <input type="time" value="20:00" aria-label="Sunday closes"><button class="iconbtn">✕</button></div></div>
+
+      <button type="button" class="btn">Save opening hours</button>
+      <p style="font-size:12.5px;color:var(--ink-muted);margin-top:10px">All times are Asia/Dhaka. Saving checks for overlapping or out-of-order intervals before it submits — an error appears on the offending day.</p>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

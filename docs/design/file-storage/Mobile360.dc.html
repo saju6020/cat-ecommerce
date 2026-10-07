@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Uploader at 360px — US-XCT-07</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.h1{font-family:var(--font-display);font-weight:600;font-size:18px;margin:0 0 4px}
+.muted{color:var(--ink-muted)}
+.drop{display:flex;flex-direction:column;align-items:center;gap:4px;width:100%;min-height:44px;padding:14px 12px;background:#fff;border:1.5px dashed var(--border-strong);border-radius:var(--radius-md);font:inherit;cursor:pointer;text-align:center}
+.drop .dt{font-weight:700;font-size:14px;color:var(--accent-ink)}
+.drop .dh{font-size:12px;color:var(--ink-muted)}
+.queue{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}
+.frow{padding:10px;border:1px solid var(--border);border-radius:var(--radius-sm);background:#fff}
+.frow.bad{border-color:var(--danger-ink);border-left-width:4px}
+.top{display:flex;gap:10px;align-items:center}
+.ftype{width:34px;height:34px;flex:none;border-radius:6px;background:var(--surface-sunken);display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:700;color:var(--ink-muted)}
+.fbody{flex:1;min-width:0}
+.fname{font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fmeta{font-size:11.5px;color:var(--ink-muted);margin-top:2px}
+.st-ok{color:var(--accent-ink);font-weight:600}
+.st-err{color:var(--danger-ink);font-weight:600}
+progress{display:block;width:100%;height:6px;margin-top:8px;-webkit-appearance:none;appearance:none;border:none;border-radius:3px;background:var(--surface-sunken)}
+progress::-webkit-progress-bar{background:var(--surface-sunken);border-radius:3px}
+progress::-webkit-progress-value{background:var(--accent);border-radius:3px}
+.acts{display:flex;gap:6px;margin-top:8px}
+.btn-sm{font-family:var(--font-sans);font-weight:600;font-size:13px;min-height:36px;padding:6px 12px;border-radius:var(--radius-sm);background:#fff;color:var(--ink);border:1px solid var(--border-strong);cursor:pointer;flex:1}
+.btn-pri{background:var(--accent);border-color:var(--accent);color:#fff}
+.msg{font-size:12.5px;line-height:1.45;padding:7px 9px;border-radius:6px;margin-top:8px;background:var(--danger-bg);color:var(--danger-ink)}
+.note{font-size:11.5px;color:var(--ink-muted);background:var(--surface-sunken);border-radius:6px;padding:8px 10px;margin-top:12px;line-height:1.45}
+</style>
+</helmet>
+<div style="width:360px;height:760px;background:var(--surface-page);padding:18px 14px;overflow:auto">
+  <h1 class="h1">Luna — diary, 23 Sep</h1>
+  <p class="muted" style="font-size:12px;margin:0 0 14px">Tanvir Islam · Nurse · on a phone in the cattery. Below 768px the uploader stacks; checked down to 320px (C10).</p>
+
+  <button type="button" class="drop">
+    <span class="dt">Choose photos or video</span>
+    <span class="dh">JPEG, PNG, WebP or MP4 · up to 50 MB each</span>
+  </button>
+  <ul class="queue" aria-label="Files">
+    <li class="frow">
+      <div class="top"><div class="ftype" aria-hidden="true">JPG</div><div class="fbody"><div class="fname">IMG_20260923_151204_sunspot.jpg</div><div class="fmeta">4.1 MB · <span class="st-ok">✓ Uploaded</span></div></div></div>
+      <div class="acts"><button type="button" class="btn-sm" aria-label="Remove IMG_20260923_151204_sunspot.jpg">Remove</button></div>
+    </li>
+    <li class="frow">
+      <div class="top"><div class="ftype" aria-hidden="true">MP4</div><div class="fbody"><div class="fname">VID_20260923_151640.mp4</div><div class="fmeta">31.7 MB · Uploading — 12.1 MB (38%)</div></div></div>
+      <progress max="100" value="38" aria-label="Uploading VID_20260923_151640.mp4"></progress>
+      <div class="acts"><button type="button" class="btn-sm" aria-label="Cancel uploading VID_20260923_151640.mp4">Cancel</button></div>
+    </li>
+    <li class="frow bad">
+      <div class="top"><div class="ftype" aria-hidden="true">JPG</div><div class="fbody"><div class="fname">IMG_20260923_152010.jpg</div><div class="fmeta">5.2 MB · <span class="st-err">⚠ Stopped</span></div></div></div>
+      <div class="msg">IMG_20260923_152010.jpg did not finish uploading.</div>
+      <div class="acts"><button type="button" class="btn-sm btn-pri">Retry</button><button type="button" class="btn-sm">Remove</button></div>
+    </li>
+  </ul>
+  <div class="note">Long camera file names truncate with an ellipsis; the full name is still the button's accessible name. Buttons are at least 36 px tall and sit under the name, never beside it. No horizontal scroll.</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":360,"height":760}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

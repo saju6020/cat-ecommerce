@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Administration — screens</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="./index.css">
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../index.html">&larr; All areas</a>
+  <div class="eyebrow">PurrCare · backlog &sect;14</div>
+  <h1>Administration</h1>
+  <p class="lede">Six rows, twenty-two artboards &mdash; the largest area so far. No live interaction; every state is its own artboard.</p>
+
+  <div class="row-group">
+    <h2>Branches — US-ADM-01</h2>
+    <a class="screen-row" href="BranchList.dc.html"><span class="screen-name">Branch list<span class="screen-file">BranchList.dc.html</span></span><span class="screen-desc">The admin section shell (sidebar nav, active-branch picker) established here and reused everywhere below</span></a>
+    <a class="screen-row" href="BranchDetails.dc.html"><span class="screen-name">Branch &rarr; Details<span class="screen-file">BranchDetails.dc.html</span></span><span class="screen-desc">The Tabs component in its route-based form: Details · Opening hours · Closures · Rooms</span></a>
+    <a class="screen-row" href="WeeklyHoursEditor.dc.html"><span class="screen-name">⭐ Branch &rarr; Opening hours<span class="screen-file">WeeklyHoursEditor.dc.html</span></span><span class="screen-desc">Seven day rows, "Closed" written out for a day with none, "Copy Monday to weekdays"</span></a>
+    <a class="screen-row" href="Closures.dc.html"><span class="screen-name">Branch &rarr; Closures<span class="screen-file">Closures.dc.html</span></span><span class="screen-desc">Upcoming (cancellable) vs past (read-only), the add form beside it</span></a>
+    <a class="screen-row" href="Rooms.dc.html"><span class="screen-name">Branch &rarr; Rooms<span class="screen-file">Rooms.dc.html</span></span><span class="screen-desc">Name, kind, active — deliberately plain, nothing more is specified</span></a>
+    <a class="screen-row" href="BranchPickerAndAssignment.dc.html"><span class="screen-name">Two supporting pieces<span class="screen-file">BranchPickerAndAssignment.dc.html</span></span><span class="screen-desc">The header's active-branch picker (hidden with one branch) and the staff-account Branches panel with its primary radio</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Services, prices &amp; tax — US-ADM-04</h2>
+    <a class="screen-row" href="ServiceList.dc.html"><span class="screen-name">Service catalogue<span class="screen-file">ServiceList.dc.html</span></span><span class="screen-desc">The "Not priced" badge — such a service cannot be booked</span></a>
+    <a class="screen-row" href="ServiceForm.dc.html"><span class="screen-name">Service editor<span class="screen-file">ServiceForm.dc.html</span></span><span class="screen-desc">Qualified roles (&ge;1 required), required room kind, tax class</span></a>
+    <a class="screen-row" href="EffectiveDatedHistory.dc.html"><span class="screen-name">⭐ Price history<span class="screen-file">EffectiveDatedHistory.dc.html</span></span><span class="screen-desc">Scheduled / Current / Past, no edit control anywhere, the schedule-change dialog with its exact confirmation sentence</span></a>
+    <a class="screen-row" href="TaxClasses.dc.html"><span class="screen-name">Tax classes<span class="screen-file">TaxClasses.dc.html</span></span><span class="screen-desc">The same EffectiveDatedHistory pattern applied to a rate instead of a price</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Rosters &amp; leave — US-ADM-03</h2>
+    <a class="screen-row" href="RosterWeekView.dc.html"><span class="screen-name">⭐ Roster week view<span class="screen-file">RosterWeekView.dc.html</span></span><span class="screen-desc">A real &lt;table&gt;, shifts/leave/exceptions/"Outside opening hours" all in text, and the below-768px day list beside it</span></a>
+    <a class="screen-row" href="RosterPatternEditor.dc.html"><span class="screen-name">Roster pattern<span class="screen-file">RosterPatternEditor.dc.html</span></span><span class="screen-desc">Current pattern vs a scheduled next one with its effective date</span></a>
+    <a class="screen-row" href="MyLeave.dc.html"><span class="screen-name">My leave<span class="screen-file">MyLeave.dc.html</span></span><span class="screen-desc">Every staff member's own request/list/cancel</span></a>
+    <a class="screen-row" href="LeaveApprovals.dc.html"><span class="screen-name">Leave approvals<span class="screen-file">LeaveApprovals.dc.html</span></span><span class="screen-desc">Admin-only; the sole-administrator self-approval case shown as a note, not a missing button</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Settings — US-ADM-05</h2>
+    <a class="screen-row" href="SettingsForm.dc.html"><span class="screen-name">Settings<span class="screen-file">SettingsForm.dc.html</span></span><span class="screen-desc">Global value beside a branch override, "Use global value" to clear one, a non-overridable setting read-only with a reason</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Content, policies &amp; acceptance — US-ADM-07</h2>
+    <a class="screen-row" href="ContentList.dc.html"><span class="screen-name">Content list<span class="screen-file">ContentList.dc.html</span></span><span class="screen-desc">Filterable by kind/status</span></a>
+    <a class="screen-row" href="ContentEditor.dc.html"><span class="screen-name">⭐ Content editor<span class="screen-file">ContentEditor.dc.html</span></span><span class="screen-desc">The markup help panel and a live preview using the same renderer the public page uses</span></a>
+    <a class="screen-row" href="PolicyList.dc.html"><span class="screen-name">Policies<span class="screen-file">PolicyList.dc.html</span></span><span class="screen-desc">"Publish new version" dialog, its confirmation naming that customers will be asked to accept</span></a>
+    <a class="screen-row" href="PublicPageAndFaqs.dc.html"><span class="screen-name">Public page &amp; FAQs<span class="screen-file">PublicPageAndFaqs.dc.html</span></span><span class="screen-desc">/pages/[slug] and /faqs, no identity, the same LimitedMarkup rendering as the editor's preview</span></a>
+    <a class="screen-row" href="PolicyAcceptancePrompt.dc.html"><span class="screen-name">⭐ Policy acceptance<span class="screen-file">PolicyAcceptancePrompt.dc.html</span></span><span class="screen-desc">Blocking modal in the portal — no dismiss, sign-out is the only other path, nothing pre-ticked</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Audit log &amp; system — US-ADM-06, 08</h2>
+    <a class="screen-row" href="AuditLog.dc.html"><span class="screen-name">Audit log<span class="screen-file">AuditLog.dc.html</span></span><span class="screen-desc">Filters incl. the required date range, a row expanded into a key-by-key diff, CSV export</span></a>
+    <a class="screen-row" href="MaintenanceSwitch.dc.html"><span class="screen-name">System<span class="screen-file">MaintenanceSwitch.dc.html</span></span><span class="screen-desc">The one-switch page that still confirms (UI-3), because its consequence is product-wide</span></a>
+  </div>
+
+  <p class="note">Rendered locally by <code>support.js</code> in this folder, a from-scratch reimplementation of the hosted canvas runtime (not the original, which isn't distributed). See <a href="README.md">README.md</a> for the design system, encoded rules and known gaps.</p>
+</div>
+</body>
+</html>

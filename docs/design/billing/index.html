@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Billing — screens</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="./index.css">
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../index.html">&larr; All areas</a>
+  <div class="eyebrow">PurrCare · backlog &sect;12</div>
+  <h1>Billing &amp; Payments</h1>
+  <p class="lede">Seven rows, thirty artboards &mdash; the largest area so far, because HO-BIL-002 covers twenty-one routes across two apps. No live interaction; every state is its own artboard. No payment gateway: cash, card on the terminal, bank transfer and cash on delivery only.</p>
+
+  <div class="row-group">
+    <h2>Billing home &amp; customer account — US-BIL-03, 08</h2>
+    <a class="screen-row" href="BillingHome.dc.html"><span class="screen-name">Billing home<span class="screen-file">BillingHome.dc.html</span></span><span class="screen-desc">Pending approvals, drafts, today's payments and uncaptured charges, with the result of Capture: captured vs skipped with its reason</span></a>
+    <a class="screen-row" href="CustomerAccount.dc.html"><span class="screen-name">⭐ Customer billing account<span class="screen-file">CustomerAccount.dc.html</span></span><span class="screen-desc">Outstanding, overdue with its date, free credit, earmarked deposit, unbilled and loyalty; the Unbilled charges tab with Void only where it is allowed</span></a>
+    <a class="screen-row" href="ApplyCreditAndVoid.dc.html"><span class="screen-name">Apply credit &amp; void<span class="screen-file">ApplyCreditAndVoid.dc.html</span></span><span class="screen-desc">Apply-credit form, its result with the free credit remaining, and the void confirmation with its required reason</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Invoices — US-BIL-01, 02, 07, 10</h2>
+    <a class="screen-row" href="InvoiceComposer.dc.html"><span class="screen-name">⭐ Invoice composer<span class="screen-file">InvoiceComposer.dc.html</span></span><span class="screen-desc">Charges grouped Clinic / Shop / Boarding, a row marked "Already on another invoice", the server preview with a rate per line and the estimate banner, loyalty redemption</span></a>
+    <a class="screen-row" href="ComposerDialogs.dc.html"><span class="screen-name">Composer dialogs<span class="screen-file">ComposerDialogs.dc.html</span></span><span class="screen-desc">Manual charge, the issue confirmation naming customer and total, the in-flight state, and discard naming the charges that go back</span></a>
+    <a class="screen-row" href="ComposerErrors.dc.html"><span class="screen-name">Composer states<span class="screen-file">ComposerErrors.dc.html</span></span><span class="screen-desc">Draft changed elsewhere (409), no tax rate for a class, branch without a billing profile, and nothing to invoice</span></a>
+    <a class="screen-row" href="InvoiceList.dc.html"><span class="screen-name">Invoice list<span class="screen-file">InvoiceList.dc.html</span></span><span class="screen-desc">Filters, sort, CSV and pages; every status in words; the corrected pair linked both ways</span></a>
+    <a class="screen-row" href="InvoiceDetail.dc.html"><span class="screen-name">⭐ Invoice detail<span class="screen-file">InvoiceDetail.dc.html</span></span><span class="screen-desc">Seller and bill-to as printed, three business lines, rate, net, tax and gross per line, loyalty share, payments, and no edit anywhere</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Payments &amp; approvals — US-BIL-11, 04, 03</h2>
+    <a class="screen-row" href="RecordPayment.dc.html"><span class="screen-name">⭐ Record payment<span class="screen-file">RecordPayment.dc.html</span></span><span class="screen-desc">Card on the terminal: the slip-number field refusing a card number before anything is sent; "Pay the rest"; apply to invoices</span></a>
+    <a class="screen-row" href="PaymentMethodVariants.dc.html"><span class="screen-name">Form by method<span class="screen-file">PaymentMethodVariants.dc.html</span></span><span class="screen-desc">Cash, bank transfer, cash on delivery and a deposit, each drawn from the method's flags, with the validation and server errors each one can hit</span></a>
+    <a class="screen-row" href="SplitTender.dc.html"><span class="screen-name">⭐ Split tender<span class="screen-file">SplitTender.dc.html</span></span><span class="screen-desc">৳1,000.00 paid 400 → 350 → 250 with three receipts until "Invoice paid", and a pending-approval result that ends the loop</span></a>
+    <a class="screen-row" href="PaymentList.dc.html"><span class="screen-name">Payment list<span class="screen-file">PaymentList.dc.html</span></span><span class="screen-desc">Accepted, pending approval, reversed and rejected, each with its reason in words</span></a>
+    <a class="screen-row" href="PaymentDetail.dc.html"><span class="screen-name">Payment detail &amp; reversal<span class="screen-file">PaymentDetail.dc.html</span></span><span class="screen-desc">The allocation trail, and the reverse confirmation naming the receipt, amount, invoice and the cash-up</span></a>
+    <a class="screen-row" href="ApprovalsQueue.dc.html"><span class="screen-name">⭐ Approvals queue<span class="screen-file">ApprovalsQueue.dc.html</span></span><span class="screen-desc">Approve disabled with "You recorded this payment"; the approve result with applied and unallocated amounts; reject with a required reason</span></a>
+    <a class="screen-row" href="ReceiptPrint.dc.html"><span class="screen-name">Receipt print view<span class="screen-file">ReceiptPrint.dc.html</span></span><span class="screen-desc">The printed page, no app shell: A4 and 80 mm side by side, text only</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Corrections — US-BIL-05</h2>
+    <a class="screen-row" href="CreditNoteWizard.dc.html"><span class="screen-name">⭐ Credit note wizard<span class="screen-file">CreditNoteWizard.dc.html</span></span><span class="screen-desc">Step 2: full or per line, with the server's remaining limits under each input and the invoice's frozen rates</span></a>
+    <a class="screen-row" href="CreditNoteResult.dc.html"><span class="screen-name">Issue, result &amp; refund<span class="screen-file">CreditNoteResult.dc.html</span></span><span class="screen-desc">Issue confirmation, released-to-credit result with "Keep as customer credit" as the default, and the refund dialog refusing too large an amount</span></a>
+    <a class="screen-row" href="CreditNoteDetail.dc.html"><span class="screen-name">Credit note detail<span class="screen-file">CreditNoteDetail.dc.html</span></span><span class="screen-desc">Lines at the rates on the original invoice, the amount released to credit, refunds, and whether a corrected invoice followed</span></a>
+    <a class="screen-row" href="CorrectedReissue.dc.html"><span class="screen-name">Corrected re-issue<span class="screen-file">CorrectedReissue.dc.html</span></span><span class="screen-desc">Copied lines edited in place, the original → credit note → draft chain, and a fresh estimate</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Close &amp; reconcile — US-BIL-03 AC2, 12, 06, 09</h2>
+    <a class="screen-row" href="Receivables.dc.html"><span class="screen-name">Receivables ageing<span class="screen-file">Receivables.dc.html</span></span><span class="screen-desc">Current / 1–30 / 31–60 / 61–90 / 90+ totals and one row per customer, sorted by oldest due</span></a>
+    <a class="screen-row" href="CashUp.dc.html"><span class="screen-name">⭐ Daily cash-up<span class="screen-file">CashUp.dc.html</span></span><span class="screen-desc">Expected cash itemised incl. a carried-in item, "Short ৳10.00", the explanation made required, and the pending-approvals banner blocking close</span></a>
+    <a class="screen-row" href="CashUpClosed.dc.html"><span class="screen-name">Close &amp; closed day<span class="screen-file">CashUpClosed.dc.html</span></span><span class="screen-desc">The close confirmation, reception's no-permission state, and a closed day read-only with who and when</span></a>
+    <a class="screen-row" href="CodReconciliation.dc.html"><span class="screen-name">COD reconciliation<span class="screen-file">CodReconciliation.dc.html</span></span><span class="screen-desc">Per-courier totals, the overdue flag in words, a remittance with the server's shortfall result</span></a>
+    <a class="screen-row" href="BankStatements.dc.html"><span class="screen-name">Bank statements<span class="screen-file">BankStatements.dc.html</span></span><span class="screen-desc">Imports list, the file refused in the browser (.txt, over 1 MiB), bad rows listed by row number, and the duplicate-file refusal</span></a>
+    <a class="screen-row" href="BankMatch.dc.html"><span class="screen-name">⭐ Bank match view<span class="screen-file">BankMatch.dc.html</span></span><span class="screen-desc">Unmatched lines and unmatched payments both shown, Select buttons for the keyboard path, the selection announced, unmatch with a reason</span></a>
+    <a class="screen-row" href="AccountingExport.dc.html"><span class="screen-name">Accounting export<span class="screen-file">AccountingExport.dc.html</span></span><span class="screen-desc">Range and download, the 366-day refusal, the no-permission state, and run history with matching fingerprints</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Billing profile (admin) — US-BIL-02</h2>
+    <a class="screen-row" href="BillingProfile.dc.html"><span class="screen-name">Billing profile<span class="screen-file">BillingProfile.dc.html</span></span><span class="screen-desc">Per branch legal name, BIN, address, footer and up to 5 bank accounts; the "applies from now on" notice</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Customer portal — US-BIL-03, 08, 10</h2>
+    <a class="screen-row" href="MyBilling.dc.html"><span class="screen-name">My billing<span class="screen-file">MyBilling.dc.html</span></span><span class="screen-desc">What she owes, overdue, credit and points; invoices and payments; no pay-online button</span></a>
+    <a class="screen-row" href="MyInvoice.dc.html"><span class="screen-name">⭐ My invoice &amp; how to pay<span class="screen-file">MyInvoice.dc.html</span></span><span class="screen-desc">The same invoice read-only, bank accounts with the invoice number as reference, and the not-found state for someone else's link</span></a>
+    <a class="screen-row" href="MyBillingMobile.dc.html"><span class="screen-name">My billing at 360px<span class="screen-file">MyBillingMobile.dc.html</span></span><span class="screen-desc">Tables become cards below 768px (UI-1); how to pay stays on screen</span></a>
+  </div>
+
+  <p class="note">Rendered locally by <code>support.js</code> in this folder, a from-scratch reimplementation of the hosted canvas runtime (not the original, which isn't distributed). See <a href="README.md">README.md</a> for the design system, encoded rules and known gaps.</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Extend refused, relocate — US-BRD-15</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink);font-size:14px;-webkit-font-smoothing:antialiased}
+a{color:var(--accent-ink)}
+p{margin:0}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px;display:flex;align-items:center;gap:12px}
+.ctop{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;border-bottom:1px solid var(--border);background:#fff}
+.ctop .cbrand{font-family:var(--font-display);font-weight:600;font-size:19px;color:var(--accent-ink)}
+.ctop nav{display:flex;gap:22px;font-size:14px;font-weight:600}
+.ctop nav a{color:var(--ink-muted);text-decoration:none}
+.ctop nav a.on{color:var(--ink)}
+.ctop .cwho{display:flex;align-items:center;gap:10px;font-size:13.5px}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.main{padding:26px 32px;position:relative}
+.cmain{max-width:960px;margin:0 auto;padding:30px 32px 40px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+.h2{font-family:var(--font-display);font-weight:600;font-size:17px;margin:0 0 10px}
+.titlerow{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:18px}
+.sub{color:var(--ink-muted);font-size:13px;margin-top:4px}
+.muted{color:var(--ink-muted)}
+.faint{color:var(--ink-faint)}
+.small{font-size:12.5px}
+.tiny{font-size:11.5px}
+.strong{font-weight:700}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:18px}
+.cardh{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);margin:0 0 10px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.cardh a{text-transform:none;letter-spacing:0;font-size:12.5px}
+.btn{font:inherit;font-weight:600;font-size:13.5px;padding:8px 15px;border-radius:var(--radius-sm);border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;min-height:38px;display:inline-flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;white-space:nowrap}
+.btn-2{background:#fff;color:var(--ink);border-color:var(--border-strong)}
+.btn-danger{background:var(--danger-ink);border-color:var(--danger-ink);color:#fff}
+.btn-danger-2{background:#fff;border-color:#e4c4c0;color:var(--danger-ink)}
+.btn-sm{font-size:12.5px;padding:5px 11px;min-height:32px}
+.btn-link{background:none;border:none;color:var(--accent-ink);padding:0;min-height:0;font-weight:600}
+.btn[disabled]{background:var(--surface-sunken);color:var(--ink-faint);border-color:var(--border);cursor:not-allowed}
+.why{font-size:12px;color:var(--ink-muted);margin-top:6px;line-height:1.45}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:2px 9px;border-radius:999px;font-size:11.5px;font-weight:700;white-space:nowrap}
+.b-ok{background:#e6f0ee;color:var(--accent-ink)}
+.b-warn{background:var(--warning-bg);color:var(--warning-ink)}
+.b-bad{background:var(--danger-bg);color:var(--danger-ink)}
+.b-hr{background:var(--danger-ink);color:#fff}
+.b-neutral{background:var(--surface-sunken);color:var(--ink-muted)}
+.b-info{background:var(--accent-soft);color:var(--accent-ink);border:1px solid rgba(21,96,90,.25)}
+.alert{display:flex;gap:10px;border-radius:8px;padding:12px 14px;font-size:13.5px;line-height:1.5}
+.alert b.t{display:block}
+.alert-warn{background:var(--warning-bg);color:var(--warning-ink);border:1px solid #ebd9b4}
+.alert-bad{background:var(--danger-bg);color:var(--danger-ink);border:1px solid #f0ccc8}
+.alert-info{background:var(--accent-soft);color:var(--accent-ink);border:1px solid rgba(21,96,90,.25)}
+.alert-neutral{background:var(--surface-sunken);color:var(--ink-muted);border:1px solid var(--border)}
+.field{margin-bottom:14px}
+.lbl{display:block;font-size:13px;font-weight:600;margin-bottom:5px}
+.inp{width:100%;font:inherit;font-size:14px;padding:8px 11px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:#fff;color:var(--ink)}
+.inp.err{border-color:var(--danger-ink);box-shadow:0 0 0 1px var(--danger-ink)}
+textarea.inp{resize:vertical}
+.ferr{font-size:12.5px;color:var(--danger-ink);margin-top:4px;font-weight:600}
+.hint{font-size:12px;color:var(--ink-muted);margin-top:4px;line-height:1.45}
+.unit{display:flex;align-items:center;gap:6px}
+.unit span{font-size:13px;color:var(--ink-muted);font-weight:600}
+table{border-collapse:collapse;width:100%;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--border);font-size:13px;vertical-align:top}
+th{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);background:var(--surface-sunken)}
+tr:last-child td{border-bottom:none}
+.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tabnav{display:flex;border-bottom:1px solid var(--border);margin-bottom:18px;gap:22px;flex-wrap:wrap}
+.tabnav a{padding:10px 2px;font-size:13.5px;font-weight:600;color:var(--ink-muted);border-bottom:2px solid transparent;text-decoration:none}
+.tabnav a.active{color:var(--ink);border-bottom-color:var(--accent)}
+.stepper{display:flex;gap:6px;margin-bottom:22px;flex-wrap:wrap}
+.step{font-size:12.5px;padding:5px 11px;border-radius:999px;background:var(--surface-sunken);color:var(--ink-muted);font-weight:600}
+.step.done{background:#e6f0ee;color:var(--accent-ink)}
+.step.cur{background:var(--accent);color:#fff}
+.step.blocked{background:var(--danger-bg);color:var(--danger-ink)}
+.scrim{position:absolute;inset:0;background:rgba(28,26,23,.4);display:flex;align-items:center;justify-content:center;gap:24px;z-index:5;padding:24px}
+.dialog{background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(20,18,10,.25);width:460px;max-width:100%;padding:24px}
+.dialog h2{font-family:var(--font-display);font-weight:600;font-size:18px;margin:0 0 12px}
+.consequence{font-size:13.5px;background:var(--surface-sunken);border-radius:8px;padding:11px 13px;margin:12px 0;line-height:1.55}
+.dactions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px;flex-wrap:wrap}
+.panel-label{font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 7px}
+.zone{font-size:11.5px;color:var(--ink-muted);font-weight:400}
+.qline{display:flex;justify-content:space-between;gap:12px;font-size:13px;padding:4px 0}
+.qline .num{font-weight:600}
+.qdisc{color:var(--accent-ink)}
+.qtotal{border-top:1px solid var(--border);font-weight:700;margin-top:6px;padding-top:9px;font-size:14px}
+.kv{display:grid;grid-template-columns:150px 1fr;gap:7px 14px;font-size:13.5px;margin:0}
+.kv dt{color:var(--ink-muted);font-size:12.5px;font-weight:600}
+.kv dd{margin:0}
+.cph{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--border);border-radius:8px;padding:9px 11px;background:#fff;min-width:0}
+.cph .av{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--font-display);font-size:17px;flex:none}
+.cph-b{min-width:0;flex:1}
+.cph-n{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:14px}
+.cph-h{font-size:12.5px;color:var(--danger-ink);font-weight:600;margin-top:3px;line-height:1.4}
+.cph-a{display:flex;gap:5px;margin-top:5px;flex-wrap:wrap}
+.al{font-size:11.5px;font-weight:600;padding:2px 7px;border-radius:6px;background:var(--warning-bg);border:1px solid #ebd9b4;color:var(--warning-ink)}
+.al-sev{background:var(--danger-bg);border-color:#f0ccc8;color:var(--danger-ink)}
+.al-none{background:var(--surface-sunken);border-color:var(--border);color:var(--ink-muted)}
+.row{display:flex;gap:16px}
+.col{display:flex;flex-direction:column;gap:14px}
+.live{font-size:12px;color:var(--ink-muted);display:inline-flex;align-items:center;gap:6px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--accent);display:inline-block}
+.seg{display:inline-flex;border:1px solid var(--border-strong);border-radius:var(--radius-sm);overflow:hidden}
+.seg button{font:inherit;font-size:13px;font-weight:600;padding:7px 12px;border:none;border-right:1px solid var(--border-strong);background:#fff;color:var(--ink);cursor:pointer;min-height:36px}
+.seg button:last-child{border-right:none}
+.seg button.on{background:var(--accent);color:#fff}
+.note-dev{font-size:12px;color:var(--ink-muted);background:var(--surface-sunken);border:1px dashed var(--border-strong);border-radius:6px;padding:8px 10px;line-height:1.45}
+.scrim{align-items:flex-start;padding-top:250px}
+.opt{display:flex;justify-content:space-between;align-items:center;gap:10px;border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:8px;font-size:13px}
+.lab{display:inline-block;background:rgba(28,26,23,.8);border-radius:6px;padding:4px 9px;color:#fff;font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin-bottom:8px}
+</style>
+</helmet>
+<div style="width:1280px;height:960px;background:var(--surface-page);overflow:auto;position:relative">
+<div class="topnav"><div class="brand">PurrCare · staff</div><div class="who"><select class="branchpick" aria-label="Active branch"><option>Uttara (primary)</option><option>Banani</option></select>Shormi Akter · Reception</div></div>
+<div class="main">
+  <style>.sh{background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:0}.sh-top{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}.sh-facts{display:flex;gap:22px;flex-wrap:wrap;font-size:13px;margin-top:10px}.sh-facts dt{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted)}.sh-facts dd{margin:2px 0 0}.sh-cats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}</style><section class="sh" aria-label="Stay BRD-0187"><div class="sh-top"><div><h1 class="h1">BRD-0187 · Mittens and Biscuit</h1><p class="sub">Farhana Yasmin · 01712 345678</p></div><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="badge b-ok">✓ In house · night 4 of 14</span><a class="btn btn-2 btn-sm" href="ExtendRelocate.dc.html">Extend</a><a class="btn btn-2 btn-sm" href="ExtendRelocate.dc.html">Relocate</a><a class="btn btn-sm" href="CheckOutEarly.dc.html">Check out</a></div></div><dl class="sh-facts" style="margin-bottom:0"><div><dt>Unit</dt><dd>F-2 · Family 2 · Garden wing</dd></div><div><dt>Dates</dt><dd>9–23 Oct 2026 · 14 nights</dd></div><div><dt>Deposit</dt><dd><span class="badge b-ok">✓ Received</span> ৳9,072</dd></div><div><dt>Balance</dt><dd>৳4,700 · extras</dd></div><div><dt>Vaccination gate</dt><dd><span class="badge b-ok">✓ Passed</span> Mittens' rabies given 2 Oct</dd></div></dl><div class="sh-cats"><div class="cph"><div class="av" style="background:#8f1d1d" aria-hidden="true">M</div><div class="cph-b"><div class="cph-n"><b>Mittens</b><span class="badge b-hr">⚠ High risk</span></div><div class="cph-h">Bites when restrained — two handlers, towel wrap, do not scruff.</div><div class="cph-a"><span class="al">Allergy · Chicken protein</span><span class="al al-sev">Allergy · Penicillin — severe</span></div></div></div><div class="cph"><div class="av" style="background:#15605a" aria-hidden="true">B</div><div class="cph-b"><div class="cph-n"><b>Biscuit</b><span class="small muted">No handling warnings</span></div><div class="cph-a"><span class="al al-none">No allergies recorded</span></div></div></div></div></section><nav class="tabnav" aria-label="Stay sections" style="margin-top:6px"><a href="#" class="active" aria-current="page">Overview</a><a href="#">Care</a><a href="#">Tasks</a><a href="#">Diary</a><a href="#">Incidents</a><a href="#">Isolation</a><a href="#">Charges</a><a href="#">History</a></nav>
+  <p class="muted">Overview content sits behind the dialogs.</p>
+</div>
+<div class="scrim">
+  <div style="width:470px">
+    <div class="lab">1 · Extend — the unit isn't free</div>
+    <div class="dialog" role="dialog" aria-labelledby="ex" style="width:auto">
+      <h2 id="ex">Extend the stay</h2>
+      <div class="row"><div class="field" style="flex:1"><label class="lbl">Current departure</label><input class="inp" value="Fri 23 Oct 2026" readonly style="background:var(--surface-sunken)"></div><div class="field" style="flex:1"><label class="lbl">New departure</label><input class="inp" value="Mon 26 Oct 2026"></div></div>
+      <div class="alert alert-warn" role="alert"><span aria-hidden="true">⚠</span><div><b class="t">F-2 isn't free after 23 Oct.</b>Another stay arrives in F-2 on Fri 23 Oct. Mittens and Biscuit can stay until 26 Oct if they move for the extra nights:</div></div>
+      <div style="margin-top:10px">
+        <div class="opt"><div><b>F-4 · Family 4</b> · Garden wing<div class="small muted">move on Fri 23 Oct · +৳7,800 for 3 nights</div></div><button class="btn btn-sm" type="button">Relocate and extend</button></div>
+        <div class="opt"><div><b>SU-2 · Suite 2</b> · Suites<div class="small muted">move on Fri 23 Oct · +৳10,500 for 3 nights</div></div><button class="btn btn-2 btn-sm" type="button">Relocate and extend</button></div>
+      </div>
+      <p class="small muted">Options and prices come from the clinic's system. Mittens is high risk — plan two handlers for the move.</p>
+      <div class="dactions"><button class="btn btn-2" type="button">Cancel</button></div>
+    </div>
+  </div>
+  <div style="width:470px">
+    <div class="lab">2 · Relocate — reason required</div>
+    <div class="dialog" role="dialog" aria-labelledby="rl" style="width:auto">
+      <h2 id="rl">Relocate Mittens and Biscuit</h2><div class="col" style="gap:8px;margin-bottom:12px"><div class="cph"><div class="av" style="background:#8f1d1d" aria-hidden="true">M</div><div class="cph-b"><div class="cph-n"><b>Mittens</b><span class="badge b-hr">⚠ High risk</span></div><div class="cph-h">Bites when restrained — two handlers, towel wrap, do not scruff.</div><div class="cph-a"><span class="al">Allergy · Chicken protein</span><span class="al al-sev">Allergy · Penicillin — severe</span></div></div></div><div class="cph"><div class="av" style="background:#15605a" aria-hidden="true">B</div><div class="cph-b"><div class="cph-n"><b>Biscuit</b><span class="small muted">No handling warnings</span></div><div class="cph-a"><span class="al al-none">No allergies recorded</span></div></div></div></div>
+      <div class="row"><div class="field" style="flex:1"><label class="lbl">Move to</label><select class="inp"><option>F-4 · Family 4 (free 23–26 Oct)</option><option>SU-2 · Suite 2</option></select></div><div class="field" style="flex:1"><label class="lbl">From</label><input class="inp" value="Fri 23 Oct 2026"></div></div>
+      <div class="field"><label class="lbl" for="rr">Reason</label><textarea id="rr" class="inp err" rows="2" aria-invalid="true" aria-describedby="rre"></textarea><div class="ferr" id="rre">Give a reason — it's kept on the stay's history.</div></div>
+      <div class="consequence">Mittens and Biscuit move from <b>F-2 · Family 2</b> to <b>F-4 · Family 4</b> on <b>Fri 23 Oct</b>. Their care tasks move with them; the owner is told.</div>
+      <div class="dactions"><button class="btn btn-2" type="button">Cancel</button><button class="btn" type="button" disabled>Relocate to F-4</button></div>
+      <p class="why" style="text-align:right">Relocate unlocks once a reason is given.</p>
+    </div>
+  </div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":960}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

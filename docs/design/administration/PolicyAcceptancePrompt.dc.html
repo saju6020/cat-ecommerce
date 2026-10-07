@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Policy acceptance — US-ADM-07</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--ink:#1c1a17;--ink-muted:#5c574f;--border:#e5e1d8;--accent:#15605a;--accent-ink:#0e4a45;--overlay:rgba(28,26,23,.4);--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-lg:16px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:18px;color:var(--accent-ink)}
+.h1{font-family:var(--font-display);font-weight:600;font-size:22px;margin:0 0 16px}
+.scrim{position:absolute;inset:0;background:var(--overlay);display:flex;align-items:center;justify-content:center}
+.dialog{background:#fff;border-radius:var(--radius-lg);box-shadow:0 20px 60px rgba(20,18,10,.25);width:440px;padding:30px}
+.dh{font-family:var(--font-display);font-weight:600;font-size:18px;margin:0 0 10px}
+.db{font-size:13.5px;color:var(--ink-muted);line-height:1.55;margin:0 0 16px}
+.pline{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-top:1px solid var(--border);font-size:13.5px}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:14px;padding:10px 18px;border-radius:8px;border:none;cursor:pointer;background:var(--accent);color:#fff;width:100%;margin-top:6px}
+.signout{text-align:center;margin-top:14px;font-size:12.5px}
+</style>
+</helmet>
+<div style="width:1280px;height:760px;background:var(--surface-page);position:relative;overflow:hidden">
+  <div style="filter:blur(1px);opacity:.5" inert="">
+    <div class="topnav"><div class="brand">PurrCare</div><div style="font-size:13px">Farhana Yasmin</div></div>
+    <div style="padding:32px"><h1 class="h1">Your cats</h1></div>
+  </div>
+
+  <div class="scrim">
+    <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="pp-h">
+      <h2 id="pp-h" class="dh">We've updated our policies</h2>
+      <p class="db">Please review and accept to continue using your account.</p>
+      <div class="pline"><span>Privacy Policy <span style="color:var(--ink-muted)">v3</span></span><a href="#" style="color:var(--accent-ink);font-weight:600;font-size:12.5px">Read →</a></div>
+      <div class="pline"><span>Terms of Service <span style="color:var(--ink-muted)">v2</span></span><a href="#" style="color:var(--accent-ink);font-weight:600;font-size:12.5px">Read →</a></div>
+      <button type="button" class="btn">Accept and continue</button>
+      <div class="signout"><a href="#" style="color:var(--ink-muted)">Sign out instead</a></div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":760}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

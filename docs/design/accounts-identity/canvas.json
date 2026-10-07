@@ -1,0 +1,48 @@
+{
+  "v": 3,
+  "createdOnFiles": { "v": 1, "at": "2026-09-23T00:00:00Z" },
+  "title": "Accounts & Identity",
+  "launch": { "view": "canvas" },
+  "pages": [],
+  "boards": {
+    "Register.dc.html":            { "x": 0,    "y": 0,    "w": 1280, "h": 900 },
+    "RegisterSuccess.dc.html":     { "x": 1360, "y": 0,    "w": 1280, "h": 640 },
+    "SignIn.dc.html":              { "x": 2720, "y": 0,    "w": 1280, "h": 760 },
+    "ForgotPassword.dc.html":      { "x": 4080, "y": 0,    "w": 1280, "h": 760 },
+    "ResetPassword.dc.html":       { "x": 5440, "y": 0,    "w": 1280, "h": 900 },
+
+    "Profile.dc.html":             { "x": 0,    "y": 1020, "w": 1280, "h": 900 },
+    "Addresses.dc.html":           { "x": 1360, "y": 1020, "w": 1280, "h": 900 },
+    "Notifications.dc.html":       { "x": 2720, "y": 1020, "w": 1280, "h": 900 },
+    "DataAndDelete.dc.html":       { "x": 4080, "y": 1020, "w": 1280, "h": 1000 },
+    "AccountDeleted.dc.html":      { "x": 5440, "y": 1020, "w": 900,  "h": 500 },
+
+    "StaffSignIn.dc.html":         { "x": 0,    "y": 2140, "w": 1280, "h": 760 },
+    "IdleLock.dc.html":            { "x": 1360, "y": 2140, "w": 1280, "h": 900 },
+    "StaffAccountsList.dc.html":   { "x": 2720, "y": 2140, "w": 1280, "h": 900 },
+    "StaffAccountCreate.dc.html":  { "x": 4080, "y": 2140, "w": 1280, "h": 1000 },
+    "StaffAccountDetail.dc.html":  { "x": 5440, "y": 2140, "w": 1280, "h": 900 },
+
+    "WalkIn.dc.html":              { "x": 0,    "y": 3260, "w": 1280, "h": 820 },
+    "CustomerDetail.dc.html":      { "x": 1360, "y": 3260, "w": 1280, "h": 820 },
+    "Duplicates.dc.html":          { "x": 2720, "y": 3260, "w": 1280, "h": 900 },
+    "MergeReview.dc.html":         { "x": 4080, "y": 3260, "w": 1280, "h": 1000 },
+
+    "RegisterMobile360.dc.html":   { "x": 0,    "y": 4380, "w": 360,  "h": 820 }
+  },
+  "order": [
+    "Register.dc.html", "RegisterSuccess.dc.html", "SignIn.dc.html", "ForgotPassword.dc.html", "ResetPassword.dc.html",
+    "Profile.dc.html", "Addresses.dc.html", "Notifications.dc.html", "DataAndDelete.dc.html", "AccountDeleted.dc.html",
+    "StaffSignIn.dc.html", "IdleLock.dc.html", "StaffAccountsList.dc.html", "StaffAccountCreate.dc.html", "StaffAccountDetail.dc.html",
+    "WalkIn.dc.html", "CustomerDetail.dc.html", "Duplicates.dc.html", "MergeReview.dc.html",
+    "RegisterMobile360.dc.html"
+  ],
+  "notes": {
+    "row1": { "x": 0,    "y": -280, "text": "Register & sign in — US-ACC-01, 04, 05", "kind": "title1", "maxW": 1840 },
+    "row2": { "x": 0,    "y": 740,  "text": "Customer account — US-ACC-06, 13", "kind": "title1", "maxW": 1840 },
+    "row3": { "x": 0,    "y": 1860, "text": "Staff sign-in & idle lock — US-ACC-14, 08, 07", "kind": "title1", "maxW": 1840 },
+    "row4": { "x": 0,    "y": 2980, "text": "Staff — customers & duplicates — US-ACC-10, 11", "kind": "title1", "maxW": 1840 },
+    "row5": { "x": 0,    "y": 4100, "text": "360px floor check — UI-1", "kind": "title1", "maxW": 900 }
+  },
+  "designSystems": []
+}

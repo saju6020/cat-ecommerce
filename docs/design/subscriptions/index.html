@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Subscriptions — screens</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="./index.css">
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../index.html">&larr; All areas</a>
+  <div class="eyebrow">PurrCare · backlog &sect;11</div>
+  <h1>Subscriptions</h1>
+  <p class="lede">Five rows, twenty-two artboards, built against HO-SUB-002. Fifteen customer screens and seven staff screens. There is no live interaction, so every state has its own artboard or sits beside the others in one. There is no payment step anywhere: each delivery creates an order that is paid by cash on delivery, bank transfer or at the counter.</p>
+
+  <div class="row-group">
+    <h2>Subscribe — US-SUB-01, 04</h2>
+    <a class="screen-row" href="Subscribe.dc.html"><span class="screen-name">⭐ Subscribe<span class="screen-file">Subscribe.dc.html</span></span><span class="screen-desc">A one-column form: quantity, interval, delivery address, how you'll pay (COD disabled, with Orders' reason), a native date field with its range written out, and the estimate with the −10 % line</span></a>
+    <a class="screen-row" href="SubscribePickup.dc.html"><span class="screen-name">Prescription diet, pickup, errors<span class="screen-file">SubscribePickup.dc.html</span></span><span class="screen-desc">The cat picker ("authorised until …"), pickup branches, Pay at the counter, and the server's errors mapped to their fields under an error summary, with every value kept</span></a>
+    <a class="screen-row" href="SubscribeUnavailable.dc.html"><span class="screen-name">Explained, not offered<span class="screen-file">SubscribeUnavailable.dc.html</span></span><span class="screen-desc">Not subscribable, already subscribed, a prescription diet with no authorised cat (Book a consultation, no Start button), an unknown product, and the product page's Subscribe button in its three states</span></a>
+    <a class="screen-row" href="SubscribeMobile.dc.html"><span class="screen-name">Subscribe at 360px<span class="screen-file">SubscribeMobile.dc.html</span></span><span class="screen-desc">The same form at the 360px floor: one column, stacked options, 44px targets</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>My subscriptions — US-SUB-01, 02, 05, 06</h2>
+    <a class="screen-row" href="MySubscriptions.dc.html"><span class="screen-name">⭐ My subscriptions<span class="screen-file">MySubscriptions.dc.html</span></span><span class="screen-desc">Six cards, each with its status as a word and an icon, "Next order on …" or why there isn't one, and one warning line per case: awaiting transfer, changes scheduled, address removed, authorisation ended, unpaid orders</span></a>
+    <a class="screen-row" href="MySubscriptionsEmpty.dc.html"><span class="screen-name">Empty and cancelled<span class="screen-file">MySubscriptionsEmpty.dc.html</span></span><span class="screen-desc">The empty state that points to Subscribe in the shop, and the Cancelled tab with its end date and reason</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Detail and control — US-SUB-02, 03</h2>
+    <a class="screen-row" href="SubscriptionDetail.dc.html"><span class="screen-name">⭐ Subscription detail<span class="screen-file">SubscriptionDetail.dc.html</span></span><span class="screen-desc">Next order with the cut-off in Asia/Dhaka, the server's change message in a status region, terms, actions from the server's list only, and order history with every payment state written out</span></a>
+    <a class="screen-row" href="SubscriptionDetailLocked.dc.html"><span class="screen-name">⭐ After the cut-off<span class="screen-file">SubscriptionDetailLocked.dc.html</span></span><span class="screen-desc">"Being prepared", the message naming the following delivery, and the Scheduled changes panel with Withdraw</span></a>
+    <a class="screen-row" href="ChangeTermsDialog.dc.html"><span class="screen-name">Change terms<span class="screen-file">ChangeTermsDialog.dc.html</span></span><span class="screen-desc">The dialog while editing, after a stale save (409, values kept), and opened from the "address removed" warning with the address field focused</span></a>
+    <a class="screen-row" href="SkipDialogs.dc.html"><span class="screen-name">⭐ Skip, and the reminder's link<span class="screen-file">SkipDialogs.dc.html</span></span><span class="screen-desc">A skip link that matches opens a confirmation (nothing happens on load). A stale link explains itself and offers "Skip that one". A skip confirmed after the cut-off is refused and names the next date</span></a>
+    <a class="screen-row" href="PauseDialog.dc.html"><span class="screen-name">Pause<span class="screen-file">PauseDialog.dc.html</span></span><span class="screen-desc">The confirmation before and after the cut-off (the order already being prepared is still placed), then the paused state on the page</span></a>
+    <a class="screen-row" href="CancelDialog.dc.html"><span class="screen-name">Cancel<span class="screen-file">CancelDialog.dc.html</span></span><span class="screen-desc">Reason required (the field error when none is chosen), an optional plain-text note, and the wording used after the cut-off</span></a>
+    <a class="screen-row" href="ResumeAndWithdraw.dc.html"><span class="screen-name">Resume and withdraw<span class="screen-file">ResumeAndWithdraw.dc.html</span></span><span class="screen-desc">Resume with an optional first-order date, a resume refused because an authorisation ended (Book a consultation), and withdrawing scheduled changes</span></a>
+    <a class="screen-row" href="SubscriptionDetailMobile.dc.html"><span class="screen-name">Detail at 360px<span class="screen-file">SubscriptionDetailMobile.dc.html</span></span><span class="screen-desc">Panels stacked, and the order history as cards with no sideways scroll</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Suspended subscriptions — US-SUB-05, 06</h2>
+    <a class="screen-row" href="SuspensionBanners.dc.html"><span class="screen-name">⭐ Suspended<span class="screen-file">SuspensionBanners.dc.html</span></span><span class="screen-desc">Suspended after unpaid orders (the branch phone, two "Expired unpaid" orders). The banner for each other reason sits beside it: authorisation ended, product withdrawn, cat died, cat moved to another owner</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Staff — US-SUB-05, 06</h2>
+    <a class="screen-row" href="StaffSubscriptions.dc.html"><span class="screen-name">⭐ Subscriptions — All<span class="screen-file">StaffSubscriptions.dc.html</span></span><span class="screen-desc">Tabs, filters kept in the address, sorting, paging, Export CSV, and the "Too many rows — narrow the filters" refusal</span></a>
+    <a class="screen-row" href="StaffUnpaid.dc.html"><span class="screen-name">⭐ Unpaid<span class="screen-file">StaffUnpaid.dc.html</span></span><span class="screen-desc">Suspended and At risk in separate groups. Each row lists its unpaid orders with date, order number, pay-by and state</span></a>
+    <a class="screen-row" href="StaffPrescriptionSuspended.dc.html"><span class="screen-name">Prescription suspended<span class="screen-file">StaffPrescriptionSuspended.dc.html</span></span><span class="screen-desc">The tab's fixed filters shown as chips, and a note that these restart by themselves once a vet renews the authorisation</span></a>
+    <a class="screen-row" href="StaffSubscriptionDetail.dc.html"><span class="screen-name">Staff subscription detail<span class="screen-file">StaffSubscriptionDetail.dc.html</span></span><span class="screen-desc">Read-only panels, customer, reinstatement and cancellation records ("none recorded" written out), full history, and Reinstate or Cancel from the server's list</span></a>
+    <a class="screen-row" href="StaffDialogs.dc.html"><span class="screen-name">Reinstate and cancel<span class="screen-file">StaffDialogs.dc.html</span></span><span class="screen-desc">Reinstate names the customer and the restart date, and shows the error when no reason is given. A second reinstate is refused for a prescription food. Staff cancel needs a note</span></a>
+    <a class="screen-row" href="StaffDetailReadOnly.dc.html"><span class="screen-name">Reception view and 403<span class="screen-file">StaffDetailReadOnly.dc.html</span></span><span class="screen-desc">No actions for Reception, with a sentence saying who can act. If the server refuses an action, "permission denied" replaces it</span></a>
+    <a class="screen-row" href="CustomerSubscriptionsPanel.dc.html"><span class="screen-name">Customer page panel<span class="screen-file">CustomerSubscriptionsPanel.dc.html</span></span><span class="screen-desc">The panel added to the staff customer page: live subscriptions, plus counts of suspended and cancelled ones</span></a>
+  </div>
+
+  <p class="note">Rendered locally by <code>support.js</code> in this folder, a from-scratch reimplementation of the hosted canvas runtime (not the original, which isn't distributed). See <a href="README.md">README.md</a> for the design system, encoded rules and known gaps.</p>
+</div>
+</body>
+</html>

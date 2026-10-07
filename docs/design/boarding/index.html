@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Boarding — screens</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="./index.css">
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../index.html">&larr; All areas</a>
+  <div class="eyebrow">PurrCare · backlog &sect;7 · HO-BRD-002</div>
+  <h1>Boarding</h1>
+  <p class="lede">Seven rows, thirty-three artboards &mdash; the largest area so far, because this handover is two products over one API: the owner's booking and stay pages, and the care centre's tablet task board, wizards and boards. No live interaction; every state is its own artboard.</p>
+
+  <div class="row-group">
+    <h2>Booking flow (owner) — US-BRD-02, 03, 04, 05, 06, 07</h2>
+    <a class="screen-row" href="BookingResults.dc.html"><span class="screen-name">⭐ Dates and unit types<span class="screen-file">BookingResults.dc.html</span></span><span class="screen-desc">Stay search with check-in/out windows and nights; one card per type with an itemised quote — basis label, rate lines, additional cat, the long-stay discount as its own line; a too-small type disabled with the reason</span></a>
+    <a class="screen-row" href="BookingFullWaitlist.dc.html"><span class="screen-name">No units free<span class="screen-file">BookingFullWaitlist.dc.html</span></span><span class="screen-desc">"No units free for those dates", three nearest alternatives as one-tap re-searches, and the waitlist dialog saying a message isn't a reservation</span></a>
+    <a class="screen-row" href="BookingCats.dc.html"><span class="screen-name">Choose cats — over capacity<span class="screen-file">BookingCats.dc.html</span></span><span class="screen-desc">Three cats ticked for a unit that holds two: the capacity stated, Continue disabled with why</span></a>
+    <a class="screen-row" href="BookingVaccinationBlock.dc.html"><span class="screen-name">⭐ Vaccination block<span class="screen-file">BookingVaccinationBlock.dc.html</span></span><span class="screen-desc">Per-cat gate: Mittens blocked (rabies overdue since 02 Aug 2026) with Book a vaccination; Biscuit clear; "We've kept your booking — press Resume"</span></a>
+    <a class="screen-row" href="BookingCareProfile.dc.html"><span class="screen-name">⭐ Care profiles, with errors<span class="screen-file">BookingCareProfile.dc.html</span></span><span class="screen-desc">One tab per cat with a completeness badge; feeding, medication (missing time), litter, vet authorisation spelled out, spending limit (missing), prefilled from the cat's profile; values kept</span></a>
+    <a class="screen-row" href="BookingReviewConfirm.dc.html"><span class="screen-name">Review and reserve<span class="screen-file">BookingReviewConfirm.dc.html</span></span><span class="screen-desc">Resumed enquiry; price, deposit and pay-by; the confirm naming unit, cats, dates, total and deposit deadline — no payment control</span></a>
+    <a class="screen-row" href="BookingReserved.dc.html"><span class="screen-name">⭐ Reserved — not yet confirmed<span class="screen-file">BookingReserved.dc.html</span></span><span class="screen-desc">Deposit amount, pay-by countdown from the clinic's clock, how to pay offline (cash, in-store card, bank transfer), what happens next</span></a>
+    <a class="screen-row" href="BookingMobile360.dc.html"><span class="screen-name">Vaccination block at 360px<span class="screen-file">BookingMobile360.dc.html</span></span><span class="screen-desc">The same gate, single column, 44px targets, no horizontal scroll (UI-1)</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>My stays (owner) — US-BRD-04, 06, 12, 13, 14, 17</h2>
+    <a class="screen-row" href="MyStays.dc.html"><span class="screen-name">My stays<span class="screen-file">MyStays.dc.html</span></span><span class="screen-desc">A blocked enquiry with Resume, empty Upcoming tab written out, waitlist entry with Withdraw</span></a>
+    <a class="screen-row" href="PortalStayOverview.dc.html"><span class="screen-name">Stay overview<span class="screen-file">PortalStayOverview.dc.html</span></span><span class="screen-desc">Status with what happens next, the three deposit-state wordings side by side, and the cancel confirm stating the deposit outcome</span></a>
+    <a class="screen-row" href="PortalDiary.dc.html"><span class="screen-name">⭐ Stay diary<span class="screen-file">PortalDiary.dc.html</span></span><span class="screen-desc">Days newest first; observations as text; a photo entry with the honest "storage isn't available yet" placeholder; an empty day written out</span></a>
+    <a class="screen-row" href="PortalIncidentApproval.dc.html"><span class="screen-name">Incident and vet approval<span class="screen-file">PortalIncidentApproval.dc.html</span></span><span class="screen-desc">"I've seen this" and its acknowledged state; the vet request with limit, used and remaining, and the Approve confirm naming the charge</span></a>
+    <a class="screen-row" href="PortalSummary.dc.html"><span class="screen-name">Stay summary and charges<span class="screen-file">PortalSummary.dc.html</span></span><span class="screen-desc">Per cat: weight change, logs, incidents, meds, vet visits, belongings; recalculated charges ending in a credit; signature record; printable</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Front desk (staff) — US-BRD-04, 06, 19</h2>
+    <a class="screen-row" href="BoardingDashboard.dc.html"><span class="screen-name">⭐ Boarding dashboard<span class="screen-file">BoardingDashboard.dc.html</span></span><span class="screen-desc">All eleven sections with counts, links and an empty state; a new high incident announced; "updated 10:42" with a 30-second refresh</span></a>
+    <a class="screen-row" href="StayList.dc.html"><span class="screen-name">Stays<span class="screen-file">StayList.dc.html</span></span><span class="screen-desc">Status tabs; every flag in words — needs attention, not eating, isolation, away in surgery</span></a>
+    <a class="screen-row" href="StaffBookingOverride.dc.html"><span class="screen-name">New stay — override<span class="screen-file">StaffBookingOverride.dc.html</span></span><span class="screen-desc">Staff booking with per-unit availability; the administrator's override dialog with a mandatory reason and "This will be recorded against you"</span></a>
+    <a class="screen-row" href="StayWorkspace.dc.html"><span class="screen-name">⭐ Deposit and confirm<span class="screen-file">StayWorkspace.dc.html</span></span><span class="screen-desc">Record the payment in Billing (link and reference until Billing's dialog exists), Confirm stay refused with "Billing shows ৳0 received", the pending-approval and confirmed variants</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Check-in and check-out (staff) — US-BRD-08, 16</h2>
+    <a class="screen-row" href="CheckInVaccinationHold.dc.html"><span class="screen-name">⭐ Check-in — vaccination hold<span class="screen-file">CheckInVaccinationHold.dc.html</span></span><span class="screen-desc">Pepper's rabies expired before arrival: check-in held despite the booking override, three ways forward, Next disabled with the reason</span></a>
+    <a class="screen-row" href="CheckInBelongingsSignature.dc.html"><span class="screen-name">Belongings and signature<span class="screen-file">CheckInBelongingsSignature.dc.html</span></span><span class="screen-desc">Per-cat steps; belongings rows with the no-upload note; the signature pad beside the always-visible typed-name path</span></a>
+    <a class="screen-row" href="CheckInIncomplete.dc.html"><span class="screen-name">Check-in incomplete<span class="screen-file">CheckInIncomplete.dc.html</span></span><span class="screen-desc">The single submit refused; each missing item mapped back to its cat and step; nothing half-saved</span></a>
+    <a class="screen-row" href="CheckOutEarly.dc.html"><span class="screen-name">⭐ Early check-out<span class="screen-file">CheckOutEarly.dc.html</span></span><span class="screen-desc">Weights with the change, a belonging not returned needing a note, and the recalculation and credit shown before submitting</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Care (staff) — US-BRD-09, 10, 11, 13</h2>
+    <a class="screen-row" href="TaskBoard.dc.html"><span class="screen-name">⭐ Task board (tablet)<span class="screen-file">TaskBoard.dc.html</span></span><span class="screen-desc">Per-unit groups with cat headers first; one-tap 48px Done; overdue "27 min late"; a completion in flight with Undo; a failed tap rolled back with the server's reason</span></a>
+    <a class="screen-row" href="ObservationSheet.dc.html"><span class="screen-name">Observation sheet and skip<span class="screen-file">ObservationSheet.dc.html</span></span><span class="screen-desc">Labelled portion buttons, "Not eating — flagged" from the server, the skip dialog with a required reason, the photo-note placeholder</span></a>
+    <a class="screen-row" href="IncidentQueue.dc.html"><span class="screen-name">Incident queue and call owner<span class="screen-file">IncidentQueue.dc.html</span></span><span class="screen-desc">Open first by severity; escalated chip; "No acknowledgement after 30 minutes — call …"; Record call keeping its text through a refresh</span></a>
+    <a class="screen-row" href="IncidentFormResolve.dc.html"><span class="screen-name">Record and resolve an incident<span class="screen-file">IncidentFormResolve.dc.html</span></span><span class="screen-desc">Severity with "medium and high message the owner immediately"; field errors; resolve dialog requiring a resolution</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Board and stay changes (staff) — US-BRD-02, 14, 15, 18, 20</h2>
+    <a class="screen-row" href="OccupancyBoard.dc.html"><span class="screen-name">⭐ Occupancy board<span class="screen-file">OccupancyBoard.dc.html</span></span><span class="screen-desc">Units × 14 nights; stay bars with status words, patterned maintenance and turnaround; and the below-768px day list beside it</span></a>
+    <a class="screen-row" href="ExtendRelocate.dc.html"><span class="screen-name">Extend refused, relocate<span class="screen-file">ExtendRelocate.dc.html</span></span><span class="screen-desc">Extension refused with the server's relocation options; relocate blocked without a reason, confirm naming both units</span></a>
+    <a class="screen-row" href="IsolationPanel.dc.html"><span class="screen-name">Isolation<span class="screen-file">IsolationPanel.dc.html</span></span><span class="screen-desc">Flag confirm naming the move to ISO-2; the entry log with Record exit; "No isolation unit is free" as a blocking problem</span></a>
+    <a class="screen-row" href="ReferralCharges.dc.html"><span class="screen-name">Referral, vet headroom, charges<span class="screen-file">ReferralCharges.dc.html</span></span><span class="screen-desc">Referral with the not-yet-built consultation noted; limit/used/remaining as text; charge lines; final invoice disabled until check-out; a cycle invoice example</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Admin and daycare — US-BRD-01, 03, 09, 21</h2>
+    <a class="screen-row" href="AdminUnits.dc.html"><span class="screen-name">Units and maintenance<span class="screen-file">AdminUnits.dc.html</span></span><span class="screen-desc">Unit table and form with the nightly rate read-only from the rate card; maintenance refused because it overlaps a stay</span></a>
+    <a class="screen-row" href="AdminRateCards.dc.html"><span class="screen-name">Rate cards and care routine<span class="screen-file">AdminRateCards.dc.html</span></span><span class="screen-desc">Scheduled / Current / Past with no edit control, a backdated card refused, the daycare card, routine times</span></a>
+    <a class="screen-row" href="DaycareBooking.dc.html"><span class="screen-name">Book daycare (owner)<span class="screen-file">DaycareBooking.dc.html</span></span><span class="screen-desc">Hourly and full-day prices side by side; not offered at this branch, day full, and vaccination-blocked states</span></a>
+    <a class="screen-row" href="DaycareDayList.dc.html"><span class="screen-name">Daycare day list<span class="screen-file">DaycareDayList.dc.html</span></span><span class="screen-desc">Check in, check out, no-show and cancel; the charge shown only after check-out; capacity reached</span></a>
+  </div>
+
+  <p class="note">Rendered locally by <code>support.js</code> in this folder, a from-scratch reimplementation of the hosted canvas runtime (not the original, which isn't distributed). See <a href="README.md">README.md</a> for the design system, encoded rules and known gaps.</p>
+</div>
+</body>
+</html>

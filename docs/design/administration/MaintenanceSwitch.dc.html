@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Maintenance — US-ADM-08</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--overlay:rgba(28,26,23,.4);--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px;--radius-lg:16px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px}
+.shell{display:flex}
+.sidebar{width:210px;flex:none;background:#fff;border-right:1px solid var(--border);min-height:820px;padding:18px 0}
+.sidebar a{display:block;padding:9px 22px;font-size:13.5px;color:var(--ink-muted);text-decoration:none;font-weight:600}
+.sidebar a.active{color:var(--accent-ink);background:rgba(21,96,90,.08);border-right:2px solid var(--accent)}
+.main{flex:1;padding:26px 32px;position:relative}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0 0 20px}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:22px;max-width:480px}
+.row{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.track{width:40px;height:22px;border-radius:999px;background:var(--border-strong);position:relative;border:none;cursor:pointer}
+.track .thumb{position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:12.5px;font-weight:600;margin-bottom:5px}
+.field textarea{width:100%;font:inherit;font-size:14px;padding:9px 12px;border:1px solid var(--border);border-radius:6px}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:9px 16px;border-radius:6px;border:none;cursor:pointer;background:var(--accent);color:#fff}
+.scrim{position:absolute;inset:0;background:var(--overlay);display:flex;align-items:center;justify-content:center;border-radius:var(--radius-md)}
+.dialog{background:#fff;border-radius:var(--radius-lg);box-shadow:0 20px 60px rgba(20,18,10,.25);width:400px;padding:26px}
+.confirm{font-size:13px;color:var(--ink-muted);line-height:1.55;margin:0 0 16px}
+.dactions{display:flex;justify-content:flex-end;gap:8px}
+.dg-cancel{background:#fff;border:1px solid var(--border-strong);color:var(--ink);font-weight:600;font-size:13px;padding:8px 14px;border-radius:6px;cursor:pointer}
+</style>
+</helmet>
+<div style="width:1280px;height:760px;background:var(--surface-page);overflow:auto;position:relative">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who">Rezwan Ahmed · Administrator</div></div>
+  <div class="shell">
+    <div class="sidebar"><a>Branches</a><a>Services &amp; pricing</a><a>Rosters &amp; leave</a><a>Settings</a><a>Content</a><a>Policies</a><a>Audit log</a><a class="active" aria-current="page">System</a></div>
+    <div class="main">
+      <h1 class="h1">System</h1>
+      <div class="card">
+        <div style="font-weight:700;margin-bottom:6px">Online shop maintenance mode</div>
+        <p style="font-size:12.5px;color:var(--ink-muted);margin:0 0 14px">Currently off — the shop is live.</p>
+        <div class="row"><button class="track" role="switch" aria-checked="false"><span class="thumb"></span></button><span>Turn maintenance mode on</span></div>
+        <div class="field"><label>Message shown to customers</label><textarea rows="2">We're doing some maintenance and will be back shortly. Thanks for your patience!</textarea></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scrim">
+    <div class="dialog" role="alertdialog" aria-modal="true">
+      <h2 style="margin:0 0 10px;font-size:16px;font-family:var(--font-display);font-weight:600">Turn on maintenance mode?</h2>
+      <p class="confirm">The online shop will show this message. The back office and sign-in are not affected.</p>
+      <div class="dactions"><button class="dg-cancel" type="button">Cancel</button><button class="btn" type="button">Turn on</button></div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":760}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

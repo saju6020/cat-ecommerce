@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Product editor: Images — US-SHP-01, 02</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink);font-size:14px}
+a{color:var(--accent-ink)}
+.ic{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px}
+.main{padding:20px 32px 32px}
+.back{font-size:13px;font-weight:600;text-decoration:none}
+.edhead{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-top:8px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0 0 6px}
+.meta{font-size:13px;color:var(--ink-muted);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:999px;font-size:11.5px;font-weight:600}
+.b-draft{background:var(--warning-bg);color:var(--warning-ink)}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:8px 16px;border-radius:var(--radius-sm);border:none;background:var(--accent);color:#fff;display:inline-flex;align-items:center;gap:6px}
+.btn2{font-family:var(--font-sans);font-weight:600;font-size:13px;padding:6px 12px;border-radius:var(--radius-sm);border:1px solid var(--border-strong);background:#fff;color:var(--ink)}
+.icbtn{width:30px;height:30px;border:1px solid var(--border-strong);border-radius:6px;background:#fff;display:flex;align-items:center;justify-content:center;color:var(--ink-muted)}
+.checkline{display:flex;gap:8px;align-items:center;font-size:13px;background:#fff;border:1px solid var(--border);border-radius:8px;padding:9px 14px;margin-top:12px}
+.tabnav{display:flex;border-bottom:1px solid var(--border);margin:16px 0 16px}
+.tabnav a{padding:10px 2px;margin-right:24px;font-size:13.5px;font-weight:600;color:var(--ink-muted);border-bottom:2px solid transparent;text-decoration:none}
+.tabnav a.active{color:var(--ink);border-bottom-color:var(--accent)}
+.note{display:flex;gap:9px;align-items:center;background:var(--surface-sunken);border-radius:8px;padding:10px 14px;font-size:13.5px;color:var(--ink-muted);margin-bottom:14px}
+.img{display:flex;gap:16px;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:14px 16px;margin-bottom:10px;align-items:flex-start}
+.img.bad{border-color:var(--danger-ink)}
+.order{display:flex;flex-direction:column;gap:6px;align-items:center}
+.order span{font-weight:700;font-size:13px;color:var(--ink-muted)}
+.thumb{width:84px;height:84px;border-radius:8px;flex:none;display:flex;align-items:center;justify-content:center;background:#e6efe9;color:#2f6f5f}
+.thumb svg{height:60%}
+.thumb.ph{background:var(--surface-sunken);color:var(--ink-faint);flex-direction:column;font-size:10.5px;text-align:center;gap:2px}
+.fields{flex:1;min-width:0;display:grid;grid-template-columns:2fr 1.3fr 1fr 1fr;gap:10px 12px}
+.f label{display:block;font-size:12px;font-weight:600;margin-bottom:4px}
+.f input,.f select{width:100%;font:inherit;font-size:13px;padding:7px 9px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.f input.mono{font-family:ui-monospace,Consolas,monospace;font-size:12px}
+.f input.bad{border-color:var(--danger-ink);box-shadow:0 0 0 1px var(--danger-ink)}
+.wide{grid-column:1 / span 3}
+.err{display:flex;gap:6px;align-items:flex-start;color:var(--danger-ink);font-size:12.5px;font-weight:600;margin-top:5px}
+.prim{display:flex;gap:6px;align-items:center;font-size:13px;font-weight:600;padding-top:20px}
+.prim input{accent-color:var(--accent)}
+.foot{display:flex;gap:10px;align-items:center;margin-top:6px}
+</style>
+</helmet>
+<div style="width:1280px;height:1060px;background:var(--surface-page)">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who">Rezwan Ahmed · Administrator</div></div>
+  <div class="main">
+    <a class="back" href="StaffProductList.dc.html">← Products</a>
+    <div class="edhead">
+      <div>
+        <h1 class="h1">Royal Canin Kitten</h1>
+        <div class="meta"><span class="badge b-draft">Draft</span>Standard product · Cat food › Kitten · never published</div>
+      </div>
+      <button class="btn" type="button">Publish</button>
+    </div>
+    <div class="checkline"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--danger-ink)"><path d="M18 6 6 18M6 6l12 12"/></svg><span>Publish checklist: <b>1 required item missing</b> (country of origin) · 2 warnings</span><a href="EditorDetails.dc.html" style="margin-left:auto;font-weight:600">Show checklist</a></div>
+    <nav class="tabnav" aria-label="Product sections">
+      <a href="EditorDetails.dc.html">Details</a><a href="EditorFood.dc.html">Food &amp; labelling</a><a href="EditorVariants.dc.html">Variants &amp; prices</a><a class="active" href="#" aria-current="page">Images</a><a href="EditorRelated.dc.html">Related</a><a href="EditorTranslations.dc.html">Translations</a>
+    </nav>
+
+    <div class="note"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width:16px;height:16px"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5h.01"/></svg>Image upload isn't available yet — enter the stored file's key.</div>
+
+    <div class="img">
+      <div class="order"><span>1</span><button class="icbtn" aria-label="Move image 1 up" disabled><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m18 15-6-6-6 6"/></svg></button><button class="icbtn" aria-label="Move image 1 down"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button></div>
+      <div class="thumb"><svg viewBox="0 0 80 100" aria-hidden="true"><path d="M18 12h44l6 12v64a4 4 0 0 1-4 4H16a4 4 0 0 1-4-4V24Z" fill="currentColor"/></svg></div>
+      <div class="fields">
+        <div class="f"><label>Storage key</label><input class="mono" value="products/royal-canin-kitten/front.webp"></div><div class="f"><label>File name</label><input value="rck-front.webp"></div>
+        <div class="f"><label>Type</label><select><option>image/webp</option></select></div>
+        <div class="f"><label>Size (bytes)</label><input value="184,220"></div>
+        <div class="f wide"><label>Alt text</label><input value="Royal Canin Kitten bag, front"></div>
+        <div class="f"><label>Shows for</label><select><option>Whole product</option></select></div>
+      </div>
+      <label class="prim"><input type="radio" name="p" checked>Main photo</label>
+      <button class="icbtn" aria-label="Remove image 1"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
+
+    <div class="img">
+      <div class="order"><span>2</span><button class="icbtn" aria-label="Move image 2 up"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m18 15-6-6-6 6"/></svg></button><button class="icbtn" aria-label="Move image 2 down"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button></div>
+      <div class="thumb" style="background:#dfe9e3"><svg viewBox="0 0 80 100" aria-hidden="true"><path d="M18 12h44l6 12v64a4 4 0 0 1-4 4H16a4 4 0 0 1-4-4V24Z" fill="currentColor" opacity=".6"/></svg></div>
+      <div class="fields">
+        <div class="f"><label>Storage key</label><input class="mono" value="products/royal-canin-kitten/2kg-back.webp"></div><div class="f"><label>File name</label><input value="rck-2kg-back.webp"></div>
+        <div class="f"><label>Type</label><select><option>image/webp</option></select></div>
+        <div class="f"><label>Size (bytes)</label><input value="201,904"></div>
+        <div class="f wide"><label>Alt text</label><input value="2 kg bag, back with the feeding table"></div>
+        <div class="f"><label>Shows for</label><select><option>2 kg (RC-K-2KG)</option></select></div>
+      </div>
+      <label class="prim" style="flex-direction:column;align-items:flex-start;gap:2px;width:120px"><span style="display:flex;gap:6px;align-items:center;color:var(--ink-faint)"><input type="radio" name="p" disabled>Main photo</span><small style="font-weight:400;font-size:11.5px;color:var(--ink-muted)">Only whole-product images can be the main photo.</small></label>
+      <button class="icbtn" aria-label="Remove image 2"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
+
+    <div class="img bad">
+      <div class="order"><span>3</span><button class="icbtn" aria-label="Move image 3 up"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m18 15-6-6-6 6"/></svg></button><button class="icbtn" aria-label="Move image 3 down" disabled><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button></div>
+      <div class="thumb ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" style="height:40%"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-9 9"/></svg>No preview — file not served yet</div>
+      <div class="fields">
+        <div class="f"><label>Storage key</label><input class="mono" value="products/royal-canin-kitten/kibble.jpg"></div><div class="f"><label>File name</label><input value="kibble-closeup.jpg"></div>
+        <div class="f"><label>Type</label><select><option>image/jpeg</option></select></div>
+        <div class="f"><label>Size (bytes)</label><input value="96,310"></div>
+        <div class="f wide"><label for="alt3">Alt text</label><input id="alt3" class="bad" value="" aria-invalid="true" aria-describedby="alt3e"><div class="err" id="alt3e"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5h.01"/></svg>Describe the image for customers who can't see it — for example “Kibble close-up next to a coin for size”.</div></div>
+        <div class="f"><label>Shows for</label><select><option>Whole product</option></select></div>
+      </div>
+      <label class="prim"><input type="radio" name="p">Main photo</label>
+      <button class="icbtn" aria-label="Remove image 3"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
+
+    <div class="foot"><button class="btn2" type="button">+ Add image</button><span style="flex:1"></span><span style="font-size:12.5px;color:var(--ink-muted)">Saving replaces the whole set, in this order. Up to 40 images.</span><button class="btn" type="button">Save images</button></div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1060}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

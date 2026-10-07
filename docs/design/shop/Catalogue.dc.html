@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Catalogue — US-SHP-04</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#fbf6ef;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:14px;--warm:#e8894a;--warm-ink:#8a3f14;--warm-soft:#fdeee2}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink);font-size:14px}
+a{color:var(--accent-ink)}
+.ic{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.topnav{background:#fff;border-bottom:1px solid var(--border)}
+.topnav .bar{display:flex;align-items:center;gap:28px;padding:14px 32px}
+.brand{font-family:var(--font-display);font-weight:600;font-size:22px;color:var(--accent-ink);text-decoration:none}
+.search{flex:1;max-width:560px;display:flex}
+.search input{flex:1;min-width:0;font:inherit;font-size:14px;padding:9px 12px;border:1px solid var(--border-strong);border-right:none;border-radius:6px 0 0 6px;background:#fff}
+.search button{border:1px solid var(--accent);background:var(--accent);color:#fff;border-radius:0 6px 6px 0;padding:0 14px;font:inherit;font-weight:600;font-size:13.5px;display:flex;align-items:center;gap:6px}
+.acct{margin-left:auto;display:flex;align-items:center;gap:20px;font-size:13.5px;font-weight:600}
+.acct a{color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:6px}
+.count{background:var(--accent);color:#fff;border-radius:999px;font-size:11px;padding:1px 7px}
+.catnav{display:flex;align-items:center;gap:26px;padding:0 32px;border-top:1px solid var(--border)}
+.catnav a{padding:11px 0;font-size:13.5px;font-weight:600;color:var(--ink-muted);text-decoration:none;border-bottom:2px solid transparent}
+.catnav a.on{color:var(--ink);border-bottom-color:var(--accent)}
+.wrap{max-width:1216px;margin:0 auto;padding:22px 32px 40px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:26px;margin:0}
+.muted{color:var(--ink-muted)}
+.crumbs{font-size:12.5px;color:var(--ink-muted);margin-bottom:10px}
+.layout{display:flex;gap:28px;align-items:flex-start;margin-top:18px}
+.filters{width:250px;flex:none;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:6px 16px}
+fieldset{border:none;border-bottom:1px solid var(--border);margin:0;padding:12px 0}
+fieldset:last-child{border-bottom:none}
+legend{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);padding:0;margin-bottom:8px;float:left;width:100%}
+.opt{display:flex;align-items:center;gap:8px;font-size:13.5px;padding:4px 0;clear:both}
+.opt input{margin:0;accent-color:var(--accent)}
+.opt .n{margin-left:auto;color:var(--ink-faint);font-size:12px}
+.opt.sub{padding-left:22px}
+.narrow{width:100%;font:inherit;font-size:13px;padding:6px 9px;border:1px solid var(--border-strong);border-radius:6px;margin-bottom:6px;clear:both}
+.pricebox{display:flex;gap:8px;clear:both}
+.pricebox label{font-size:12px;font-weight:600;display:block;margin-bottom:4px}
+.pricebox input{width:100%;font:inherit;font-size:13px;padding:6px 8px;border:1px solid var(--border-strong);border-radius:6px}
+.btn-sm{font:inherit;font-weight:600;font-size:12.5px;padding:6px 12px;border-radius:6px;border:1px solid var(--accent);background:#fff;color:var(--accent-ink);margin-top:8px}
+.flag{width:20px;height:14px;border-radius:2px;box-shadow:0 0 0 1px rgba(0,0,0,.14);flex:none;display:block}
+.results{flex:1;min-width:0}
+.toolbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.summary{font-size:15px;font-weight:600}
+.sortsel{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600}
+.sortsel select{font:inherit;font-size:13px;padding:6px 8px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 16px;align-items:center}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;padding:5px 8px 5px 11px;border-radius:999px;background:var(--accent-soft);color:var(--accent-ink);border:1px solid rgba(21,96,90,.25)}
+.chip button{border:none;background:none;color:inherit;padding:0 2px;font-size:13px;cursor:pointer}
+.clear{font-size:12.5px;font-weight:600}
+.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:10px 10px 12px;display:flex;flex-direction:column;gap:5px}
+.card h3{font-size:14px;margin:4px 0 0;line-height:1.3}
+.card h3 a{color:var(--ink);text-decoration:none}
+.meta{font-size:12px;color:var(--ink-muted);display:flex;align-items:center;gap:6px}
+.price{font-weight:700;font-size:15px}
+.tax{font-weight:400;font-size:11.5px;color:var(--ink-muted)}
+.avail{font-size:12.5px;font-weight:600;display:inline-flex;align-items:center;gap:5px}
+.avail.in{color:var(--accent-ink)}
+.avail.out{color:var(--danger-ink)}
+.tag{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;padding:3px 8px;border-radius:999px;width:max-content}
+.tag.rx{background:var(--warning-bg);color:var(--warning-ink)}
+.tag.kit{background:var(--accent-soft);color:var(--accent-ink)}
+.stars{color:#b7862b;letter-spacing:1px;font-size:12px}
+.pimg{aspect-ratio:1/1;border-radius:8px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.pimg svg{height:58%}
+.c1{background:#e6efe9;color:#2f6f5f}.c2{background:#f3e9dc;color:#a0622d}.c3{background:#e8ecf4;color:#3d5a8a}.c4{background:#f4e6e6;color:#9a3b3b}.c5{background:#efece2;color:#6b6245}.c6{background:#ece6f2;color:#65498a}
+.ph{background:var(--surface-sunken);color:var(--ink-faint);flex-direction:column;gap:4px;font-size:11px}
+.ph svg{height:36%}
+.pager{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:22px;font-size:13.5px}
+.pager a,.pager span{padding:6px 11px;border-radius:6px;border:1px solid var(--border);background:#fff;text-decoration:none;color:var(--ink);font-weight:600}
+.pager [aria-current]{background:var(--accent);border-color:var(--accent);color:#fff}
+.pager .off{color:var(--ink-faint);background:transparent}
+.live{font-size:11.5px;color:var(--ink-faint);margin-top:4px}
+.foot{border-top:1px solid var(--border);background:#fff;padding:18px 32px;font-size:12.5px;color:var(--ink-muted);display:flex;gap:22px}
+.foot a{color:var(--ink-muted)}
+</style>
+</helmet>
+<div style="width:1280px;height:1320px;background:var(--surface-page)">
+  <header class="topnav">
+    <div class="bar">
+      <a class="brand" href="ShopHome.dc.html">PurrCare</a>
+      <form class="search" role="search" aria-label="Search products"><input aria-label="Search products" value="salmon"><button type="submit"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>Search</button></form>
+      <div class="acct">
+        <a href="Wishlist.dc.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"/></svg>Wishlist</a>
+        <a href="#"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/><path d="M2 3h3l2.5 12h12L22 7H6"/></svg>Cart <span class="count">2</span></a>
+        <a href="#"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg>Farhana</a>
+      </div>
+    </div>
+    <nav class="catnav" aria-label="Categories">
+      <a class="on" href="#" aria-current="true">Cat food</a><a href="#">Litter</a><a href="#">Litter pots &amp; accessories</a><a href="#">Bags &amp; carriers</a><a href="#">Health &amp; grooming</a><a href="#">Toys &amp; furniture</a><a href="ShopByCountry.dc.html">Shop by country</a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <div class="crumbs"><a href="ShopHome.dc.html">Shop</a> / All products</div>
+    <h1 class="h1">Search results</h1>
+
+    <div class="layout">
+      <section class="filters" aria-label="Filters">
+        <fieldset>
+          <legend>Country of origin</legend>
+          <label class="opt"><input type="checkbox" checked><svg class="flag" viewBox="0 0 9 6" aria-hidden="true"><rect width="9" height="6" fill="#A51931"/><rect y="1" width="9" height="4" fill="#F4F5F8"/><rect y="2" width="9" height="2" fill="#2D2A4A"/></svg>Thailand<span class="n">18</span></label>
+          <label class="opt"><input type="checkbox" checked><svg class="flag" viewBox="0 0 3 2" aria-hidden="true"><rect width="3" height="2" fill="#000"/><rect y=".667" width="3" height=".667" fill="#D00"/><rect y="1.333" width="3" height=".667" fill="#FFCE00"/></svg>Germany<span class="n">13</span></label>
+          <label class="opt"><input type="checkbox"><svg class="flag" viewBox="0 0 30 20" aria-hidden="true"><rect width="30" height="20" fill="#E30A17"/><circle cx="11" cy="10" r="5" fill="#fff"/><circle cx="12.3" cy="10" r="4" fill="#E30A17"/><path d="m17 10 3.6-1.2-2.2 3.1V8.1l2.2 3.1Z" fill="#fff"/></svg>Türkiye<span class="n">9</span></label>
+          <label class="opt"><input type="checkbox"><svg class="flag" viewBox="0 0 19 10" aria-hidden="true"><rect width="19" height="10" fill="#fff"/><path d="M0 0h19v.77H0zm0 1.54h19v.77H0zm0 1.54h19v.77H0zm0 1.54h19v.77H0zm0 1.54h19v.77H0zm0 1.54h19v.77H0zm0 1.54h19v.77H0z" fill="#B22234"/><rect width="7.6" height="5.4" fill="#3C3B6E"/></svg>United States<span class="n">7</span></label>
+          <label class="opt"><input type="checkbox"><svg class="flag" viewBox="0 0 30 20" aria-hidden="true"><rect width="30" height="20" fill="#fff"/><path d="M10 10a5 5 0 0 1 10 0Z" fill="#CD2E3A"/><path d="M10 10a5 5 0 0 0 10 0Z" fill="#0047A0"/><path d="M4 5h4M4 6.5h4M4 8h4M22 12h4M22 13.5h4M22 15h4" stroke="#000" stroke-width=".8"/></svg>South Korea<span class="n">5</span></label>
+          <label class="opt"><input type="checkbox"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width:20px;color:var(--ink-muted)"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>France<span class="n">4</span></label>
+        </fieldset>
+        <fieldset>
+          <legend>Brand</legend>
+          <input class="narrow" aria-label="Narrow the brand list" placeholder="Find a brand">
+          <label class="opt"><input type="checkbox">Siam Harvest<span class="n">14</span></label>
+          <label class="opt"><input type="checkbox">Nordwald<span class="n">11</span></label>
+          <label class="opt"><input type="checkbox">VetLine<span class="n">4</span></label>
+          <label class="opt"><input type="checkbox">Royal Canin<span class="n">4</span></label>
+          <a href="#" style="font-size:12.5px;font-weight:600">Show all 12 brands</a>
+        </fieldset>
+        <fieldset>
+          <legend>Category</legend>
+          <label class="opt"><input type="radio" name="cat">All categories</label>
+          <label class="opt"><input type="radio" name="cat" checked>Cat food<span class="n">56</span></label>
+          <label class="opt sub"><input type="radio" name="cat">Dry<span class="n">24</span></label>
+          <label class="opt sub"><input type="radio" name="cat">Wet<span class="n">18</span></label>
+          <label class="opt sub"><input type="radio" name="cat">Treats<span class="n">8</span></label>
+          <label class="opt sub"><input type="radio" name="cat">Therapeutic<span class="n">6</span></label>
+        </fieldset>
+        <fieldset>
+          <legend>Life stage</legend>
+          <label class="opt"><input type="checkbox">Kitten<span class="n">12</span></label>
+          <label class="opt"><input type="checkbox">Adult<span class="n">30</span></label>
+          <label class="opt"><input type="checkbox">Senior<span class="n">9</span></label>
+        </fieldset>
+        <fieldset>
+          <legend>Protein source</legend>
+          <label class="opt"><input type="checkbox">Salmon<span class="n">16</span></label>
+          <label class="opt"><input type="checkbox">Tuna<span class="n">11</span></label>
+          <label class="opt"><input type="checkbox">Chicken<span class="n">21</span></label>
+        </fieldset>
+        <fieldset>
+          <legend>Price (৳)</legend>
+          <div class="pricebox"><div><label for="pmin">Min ৳</label><input id="pmin" inputmode="decimal" placeholder="120"></div><div><label for="pmax">Max ৳</label><input id="pmax" inputmode="decimal" placeholder="6,800"></div></div>
+          <button class="btn-sm" type="button">Apply price</button>
+        </fieldset>
+        <fieldset>
+          <legend>Availability</legend>
+          <label class="opt"><input type="checkbox">In stock only</label>
+        </fieldset>
+        <fieldset>
+          <legend>Rating</legend>
+          <label class="opt"><input type="radio" name="rt">4 and up</label>
+          <label class="opt"><input type="radio" name="rt">3 and up</label>
+          <label class="opt"><input type="radio" name="rt" checked>Any rating</label>
+        </fieldset>
+      </section>
+
+      <section class="results" aria-label="Results">
+        <div class="toolbar">
+          <div class="summary" role="status" aria-live="polite">31 products for “salmon”</div>
+          <label class="sortsel">Sort by
+            <select><option>Relevance</option><option>Newest</option><option selected>Price low–high</option><option>Price high–low</option><option>Popularity</option><option>Rating</option></select>
+          </label>
+        </div>
+        <div class="chips" aria-label="Active filters">
+          <span class="chip">Country: Thailand <button aria-label="Remove Country: Thailand">✕</button></span>
+          <span class="chip">Country: Germany <button aria-label="Remove Country: Germany">✕</button></span>
+          <span class="chip">Category: Cat food <button aria-label="Remove Category: Cat food">✕</button></span>
+          <a class="clear" href="#">Clear all</a><span class="muted" style="font-size:12px">(keeps your search “salmon”)</span>
+        </div>
+
+        <div class="grid4">
+          <article class="card">
+            <div class="pimg ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-9 9"/></svg>Photo coming soon</div>
+            <h3><a href="ProductPage.dc.html">Siam Harvest Salmon Crunch Treats</a></h3>
+            <div class="meta">Siam Harvest</div>
+            <div class="meta"><svg class="flag" viewBox="0 0 9 6" aria-hidden="true"><rect width="9" height="6" fill="#A51931"/><rect y="1" width="9" height="4" fill="#F4F5F8"/><rect y="2" width="9" height="2" fill="#2D2A4A"/></svg>Thailand</div>
+            <div class="price">৳320.00 <span class="tax">+ VAT</span></div>
+            <div class="meta">No reviews yet</div>
+            <div class="avail in"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>In stock</div>
+          </article>
+          <article class="card">
+            <div class="pimg c1"><svg viewBox="0 0 80 100" aria-hidden="true"><path d="M18 12h44l6 12v64a4 4 0 0 1-4 4H16a4 4 0 0 1-4-4V24Z" fill="currentColor"/><rect x="22" y="40" width="36" height="22" rx="3" fill="#fff" opacity=".85"/></svg></div>
+            <h3><a href="ProductPage.dc.html">Siam Harvest Kitten Salmon</a></h3>
+            <div class="meta">Siam Harvest</div>
+            <div class="meta"><svg class="flag" viewBox="0 0 9 6" aria-hidden="true"><rect width="9" height="6" fill="#A51931"/><rect y="1" width="9" height="4" fill="#F4F5F8"/><rect y="2" width="9" height="2" fill="#2D2A4A"/></svg>Thailand</div>
+            <div class="price">From ৳1,200.00 <span class="tax">+ VAT</span></div>
+            <div class="meta"><span class="stars" aria-hidden="true">★★★★½</span>4.5 out of 5 (23 reviews)</div>
+            <div class="avail in"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>In stock</div>
+          </article>
+          <article class="card">
+            <div class="pimg c2"><svg viewBox="0 0 80 100" aria-hidden="true"><rect x="8" y="30" width="64" height="52" rx="6" fill="currentColor"/><rect x="18" y="44" width="44" height="18" rx="3" fill="#fff" opacity=".85"/></svg></div>
+            <h3><a href="ProductPage.dc.html">Siam Harvest Salmon in Gravy, 12 × 85 g</a></h3>
+            <div class="meta">Siam Harvest</div>
+            <div class="meta"><svg class="flag" viewBox="0 0 9 6" aria-hidden="true"><rect width="9" height="6" fill="#A51931"/><rect y="1" width="9" height="4" fill="#F4F5F8"/><rect y="2" width="9" height="2" fill="#2D2A4A"/></svg>Thailand</div>
+            <div class="price">৳1,560.00 <span class="tax">+ VAT</span></div>
+            <div class="meta"><span class="stars" aria-hidden="true">★★★★</span>4.1 out of 5 (9 reviews)</div>
+            <div class="avail in"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>In stock</div>
+          </article>
+          <article class="card">
+            <div class="pimg c5"><svg viewBox="0 0 80 100" aria-hidden="true"><path d="M8 34l32-14 32 14v44l-32 14-32-14Z" fill="currentColor"/><path d="M8 34l32 14 32-14M40 48v44" stroke="#fff" stroke-width="2" fill="none" opacity=".8"/></svg></div>
+            <h3><a href="KitProduct.dc.html">Salmon Taster Kit</a></h3>
+            <div class="meta">PurrCare</div>
+            <div class="meta"><svg class="flag" viewBox="0 0 9 6" aria-hidden="true"><rect width="9" height="6" fill="#A51931"/><rect y="1" width="9" height="4" fill="#F4F5F8"/><rect y="2" width="9" height="2" fill="#2D2A4A"/></svg>Thailand</div>
+            <div class="price">৳1,850.00 <span class="tax">+ VAT</span></div>
+            <div class="meta">No reviews yet</div>
+            <span class="tag kit"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width:13px;height:13px"><path d="M3 7l9-4 9 4v10l-9 4-9-4Z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg>Kit</span>
+            <div class="avail in"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>In stock</div>
+          </article>
+          <article class="card">
+            <div class="pimg c3"><svg viewBox="0 0 80 100" aria-hidden="true"><path d="M18 12h44l6 12v64a4 4 0 0 1-4 4H16a4 4 0 0 1-4-4V24Z" fill="currentColor"/><rect x="22" y="40" width="36" height="22" rx="3" fill="#fff" opacity=".85"/></svg></div>
+            <h3><a href="ProductPage.dc.html">Nordwald Adult Salmon &amp; Rice</a></h3>
+            <div class="meta">Nordwald</div>
+            <div class="meta"><svg class="flag" viewBox="0 0 3 2" aria-hidden="true"><rect width="3" height="2" fill="#000"/><rect y=".667" width="3" height=".667" fill="#D00"/><rect y="1.333" width="3" height=".667" fill="#FFCE00"/></svg>Germany</div>
+            <div class="price">৳2,450.00 <span class="tax">+ VAT</span></div>
+            <div class="meta"><span class="stars" aria-hidden="true">★★★★</span>4.0 out of 5 (8 reviews)</div>
+            <div class="avail in"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>In stock</div>
+          </article>
+          <article class="card">
+            <div class="pimg c6"><svg viewBox="0 0 80 100" aria-hidden="true"><path d="M18 12h44l6 12v64a4 4 0 0 1-4 4H16a4 4 0 0 1-4-4V24Z" fill="currentColor"/><rect x="22" y="40" width="36" height="22" rx="3" fill="#fff" opacity=".85"/></svg></div>
+            <h3><a href="ProductOutOfStock.dc.html">Nordwald Senior Salmon</a></h3>
+            <div class="meta">Nordwald</div>
+            <div class="meta"><svg class="flag" viewBox="0 0 3 2" aria-hidden="true"><rect width="3" height="2" fill="#000"/><rect y=".667" width="3" height=".667" fill="#D00"/><rect y="1.333" width="3" height=".667" fill="#FFCE00"/></svg>Germany</div>
+            <div class="price">৳2,600.00 <span class="tax">+ VAT</span></div>
+            <div class="meta"><span class="stars" aria-hidden="true">★★★★½</span>4.6 out of 5 (5 reviews)</div>
+            <div class="avail out"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m15 9-6 6M9 9l6 6"/></svg>Out of stock</div>
+          </article>
+          <article class="card">
+            <div class="pimg c4"><svg viewBox="0 0 80 100" aria-hidden="true"><path d="M18 12h44l6 12v64a4 4 0 0 1-4 4H16a4 4 0 0 1-4-4V24Z" fill="currentColor"/><rect x="22" y="40" width="36" height="22" rx="3" fill="#fff" opacity=".85"/></svg></div>
+            <h3><a href="ProductPage.dc.html">Nordwald Indoor Salmon</a></h3>
+            <div class="meta">Nordwald</div>
+            <div class="meta"><svg class="flag" viewBox="0 0 3 2" aria-hidden="true"><rect width="3" height="2" fill="#000"/><rect y=".667" width="3" height=".667" fill="#D00"/><rect y="1.333" width="3" height=".667" fill="#FFCE00"/></svg>Germany</div>
+            <div class="price">৳2,900.00 <span class="tax">+ VAT</span></div>
+            <div class="meta"><span class="stars" aria-hidden="true">★★★½</span>3.6 out of 5 (14 reviews)</div>
+            <div class="avail in"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>In stock</div>
+          </article>
+          <article class="card">
+            <div class="pimg c1"><svg viewBox="0 0 80 100" aria-hidden="true"><path d="M18 12h44l6 12v64a4 4 0 0 1-4 4H16a4 4 0 0 1-4-4V24Z" fill="currentColor"/><path d="M34 44h12M40 38v12" stroke="#fff" stroke-width="5"/></svg></div>
+            <h3><a href="PrescriptionGate.dc.html">VetLine Urinary Care Salmon</a></h3>
+            <div class="meta">VetLine</div>
+            <div class="meta"><svg class="flag" viewBox="0 0 3 2" aria-hidden="true"><rect width="3" height="2" fill="#000"/><rect y=".667" width="3" height=".667" fill="#D00"/><rect y="1.333" width="3" height=".667" fill="#FFCE00"/></svg>Germany</div>
+            <div class="price">From ৳3,100.00 <span class="tax">+ VAT</span></div>
+            <div class="meta"><span class="stars" aria-hidden="true">★★★★★</span>4.8 out of 5 (12 reviews)</div>
+            <span class="tag rx"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width:13px;height:13px"><path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6Z"/><path d="M12 9v6M9 12h6"/></svg>Vet authorisation needed</span>
+            <div class="avail in"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>In stock</div>
+          </article>
+        </div>
+
+        <nav class="pager" aria-label="Pages">
+          <span class="off">‹ Previous</span>
+          <a href="#" aria-current="page">1</a>
+          <a href="#">2</a>
+          <a href="#">Next ›</a>
+        </nav>
+        <p class="live" style="text-align:center">Showing 1–24 of 31 · pages are real links (<code>?pageNumber=2</code>); a filter change returns to page 1, a sort change keeps every filter.</p>
+      </section>
+    </div>
+  </main>
+  <footer class="foot"><a href="#">Delivery &amp; returns</a><a href="#">Privacy policy</a><a href="#">Terms of sale</a><span style="margin-left:auto">Payment: cash on delivery, cash or card in store, bank transfer</span></footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1320}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

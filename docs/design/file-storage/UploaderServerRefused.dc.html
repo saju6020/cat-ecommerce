@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Refused by the server — US-XCT-07</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px;display:flex;align-items:center;gap:16px}
+.main{padding:26px 32px;position:relative}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+.sub{color:var(--ink-muted);font-size:13.5px;margin:4px 0 20px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:20px}
+.card h2{font-size:14.5px;font-weight:700;margin:0 0 4px}
+.card .lead{font-size:12.5px;color:var(--ink-muted);margin:0 0 14px;line-height:1.45}
+.step{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);font-weight:700;margin:16px 0 8px}
+.btn-sm{font-family:var(--font-sans);font-weight:600;font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:#fff;color:var(--ink);border:1px solid var(--border-strong);cursor:pointer;flex:none}
+.drop{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:12px 14px;background:var(--surface);border:1.5px dashed var(--border-strong);border-radius:var(--radius-md);font:inherit;cursor:pointer}
+.drop .dt{font-weight:700;font-size:13.5px;color:var(--accent-ink)}
+.drop .dh{font-size:12px;color:var(--ink-muted)}
+.queue{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}
+.frow{display:flex;align-items:flex-start;gap:12px;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);background:#fff}
+.frow.bad{border-color:var(--danger-ink);border-left-width:4px}
+.ftype{width:38px;height:38px;flex:none;border-radius:6px;background:var(--surface-sunken);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;letter-spacing:.04em;color:var(--ink-muted)}
+.fbody{flex:1;min-width:0}
+.fname{font-weight:600;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fmeta{font-size:12px;color:var(--ink-muted);margin-top:2px;display:flex;align-items:center;gap:6px}
+progress{display:block;width:100%;height:6px;margin-top:7px;-webkit-appearance:none;appearance:none;border:none;border-radius:3px;background:var(--surface-sunken)}
+progress::-webkit-progress-bar{background:var(--surface-sunken);border-radius:3px}
+progress::-webkit-progress-value{background:var(--accent);border-radius:3px}
+.st-ok{color:var(--accent-ink);font-weight:600;display:inline-flex;align-items:center;gap:4px}
+.st-err{color:var(--danger-ink);font-weight:600;display:inline-flex;align-items:center;gap:4px}
+.msg{font-size:13px;line-height:1.45;padding:8px 10px;border-radius:6px;margin-top:8px;background:var(--danger-bg);color:var(--danger-ink)}
+.notice{display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.45;padding:10px 12px;border-radius:6px;background:var(--danger-bg);color:var(--danger-ink);margin-top:10px}
+.notice p{margin:0;flex:1}
+.live{font-family:ui-monospace,Consolas,monospace;font-size:11.5px;background:var(--surface-sunken);border-radius:6px;padding:8px 10px;color:var(--ink);line-height:1.6;margin-top:14px}
+.anno{background:var(--surface-sunken);border-radius:var(--radius-md);padding:14px 18px;font-size:12.5px;line-height:1.5;color:var(--ink-muted);margin-top:20px}
+.anno strong{color:var(--ink)}
+@media (max-width:1100px){.grid,.cols,.wrap{grid-template-columns:minmax(0,1fr) !important}}
+@media (max-width:700px){.drop{flex-wrap:wrap}.frow,.flist li,.titlerow{flex-wrap:wrap}.frow .fbody,.flist li .fbody{flex-basis:calc(100% - 52px)}.two,.states{grid-template-columns:1fr !important}.sheet{grid-template-columns:repeat(auto-fill,200px) !important}}
+.viewer,.dialog,.legend,.side{max-width:calc(100vw - 24px)}.scrim{flex-wrap:wrap;overflow:auto}.stage svg,.page{max-width:100%}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page);overflow:auto;position:relative">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who"><select class="branchpick" aria-label="Active branch"><option>Uttara (primary)</option><option>Banani</option></select>Dr. Nusrat Jahan · Vet</div></div>
+  <div class="main">
+    <h1 class="h1">Upload refusals from the server</h1>
+    <p class="sub">Lab-result attachments on diagnostic order DX-2026-0418 (host illustrative). The file passed the browser's checks; the server looked inside it.</p>
+    <div class="cols">
+      <section class="card" aria-labelledby="h-mm">
+        <h2 id="h-mm">Content does not match the name — C3</h2>
+        <p class="lead"><code>FileContentMismatch</code>. The row stays so the person can see which file it was, then Remove it.</p>
+        <button type="button" class="drop"><span class="dt">Choose files or drop them here</span><span class="dh">· PDF, JPEG, PNG or DICOM · up to 50 MB each</span></button>
+        <ul class="queue" aria-label="Files">
+          <li class="frow">
+            <div class="ftype" aria-hidden="true">PDF</div>
+            <div class="fbody"><div class="fname">urinalysis.pdf</div><div class="fmeta">640 KB · <span class="st-ok"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Uploaded</span></div></div>
+            <button type="button" class="btn-sm">Remove</button>
+          </li>
+          <li class="frow bad">
+            <div class="ftype" aria-hidden="true">PNG</div>
+            <div class="fbody">
+              <div class="fname">results.png</div>
+              <div class="fmeta">1.1 MB · <span class="st-err"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m9 9 6 6M15 9l-6 6"/></svg>Not uploaded</span></div>
+              <div class="msg">results.png does not look like a PNG file. It may be renamed or damaged.</div>
+            </div>
+            <button type="button" class="btn-sm" aria-label="Remove results.png">Remove</button>
+          </li>
+        </ul>
+        <div class="live">Announced once: "results.png not uploaded. It does not look like a PNG file."</div>
+      </section>
+
+      <section class="card" aria-labelledby="h-av">
+        <h2 id="h-av">Rejected by the virus scanner — E2</h2>
+        <p class="lead"><code>FileRejected</code>. Per OQ-1's default, the row is removed after the message: the file was never stored, so a row would imply it was.</p>
+        <div class="step">1 · Bytes sent, server scanning</div>
+        <ul class="queue" aria-label="Files, step 1">
+          <li class="frow">
+            <div class="ftype" aria-hidden="true">PDF</div>
+            <div class="fbody"><div class="fname">eicar-test.pdf</div><div class="fmeta">68 bytes · Checking the file…</div><progress max="100" value="100" aria-label="Uploading eicar-test.pdf"></progress></div>
+            <button type="button" class="btn-sm">Cancel</button>
+          </li>
+        </ul>
+        <div class="step">2 · Response: rejected</div>
+        <div class="notice" role="status">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none;margin-top:1px"><path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6Z"/><path d="m9.5 9.5 5 5M14.5 9.5l-5 5"/></svg>
+          <p>eicar-test.pdf was rejected by the virus scanner and has not been saved.</p>
+          <button type="button" class="btn-sm">Dismiss</button>
+        </div>
+        <p style="font-size:12.5px;color:var(--ink-muted);margin:10px 0 0">No row for eicar-test.pdf remains in the list, and nothing is added to the host's files.</p>
+        <div class="live">Announced once: "eicar-test.pdf was rejected by the virus scanner and has not been saved."</div>
+      </section>
+    </div>
+    <div class="anno"><strong>Rule:</strong> the server's message is never shown raw (ADR-FE-151). Every code maps to a §8.2 sentence that names the file and says what to do; strings are defaults the host can override, never concatenated from a server reply.</div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Dispensing detail &amp; reversal — US-PHM-05</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink);font-size:14px}
+a{color:var(--accent-ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px;display:flex;align-items:center;gap:16px}
+select.branchpick{font:inherit;font-size:13px;padding:5px 8px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.main{padding:26px 32px;position:relative}
+.titlerow{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:16px;flex-wrap:wrap}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+.h2{font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-muted);margin:0 0 10px}
+.muted{color:var(--ink-muted)}.faint{color:var(--ink-faint)}.small{font-size:12.5px}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:8px 15px;border-radius:var(--radius-sm);border:1px solid var(--accent);cursor:pointer;background:var(--accent);color:#fff;display:inline-flex;align-items:center;gap:7px;text-decoration:none;white-space:nowrap}
+.btn-sec{background:#fff;color:var(--ink);border-color:var(--border-strong)}
+.btn-danger{background:#fff;color:var(--danger-ink);border-color:var(--danger-ink)}
+.btn-danger-solid{background:var(--danger-ink);border-color:var(--danger-ink);color:#fff}
+.btn[disabled]{background:var(--surface-sunken);border-color:var(--border);color:var(--ink-faint);cursor:not-allowed}
+.btn-sm{font-size:12.5px;padding:5px 10px}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:18px}
+table.t{border-collapse:collapse;width:100%;background:#fff;border:1px solid var(--border)}
+.t th,.t td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--border);font-size:13px;vertical-align:top}
+.t th{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);font-weight:700;background:var(--surface-sunken);white-space:nowrap}
+.t tr.off td{color:var(--ink-faint);background:#fbfaf7}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;font-size:11.5px;font-weight:600;white-space:nowrap}
+.b-ok{background:var(--accent-soft);color:var(--accent-ink)}.b-warn{background:var(--warning-bg);color:var(--warning-ink)}.b-danger{background:var(--danger-bg);color:var(--danger-ink)}.b-neutral{background:var(--surface-sunken);color:var(--ink-muted)}
+.ic{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.field{margin-bottom:14px}
+.field label,.lab{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.field input,.field select,.field textarea{width:100%;font:inherit;font-size:14px;padding:8px 11px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:#fff;color:var(--ink)}
+.field input[readonly]{background:var(--surface-sunken);color:var(--ink-muted)}
+.field textarea{min-height:60px;resize:vertical}
+.hint{font-size:12px;color:var(--ink-muted);margin-top:4px;line-height:1.4}
+.field.bad input,.field.bad textarea,.field.bad select{border-color:var(--danger-ink);border-width:1.5px}
+.err{display:flex;gap:6px;align-items:flex-start;font-size:12.5px;color:var(--danger-ink);font-weight:600;margin-top:5px}
+.err .ic{margin-top:1px}
+.qi{display:flex}.qi input{border-radius:6px 0 0 6px;min-width:0}.qi select{width:auto;border-radius:0 6px 6px 0;border-left:none;background:var(--surface-sunken)}
+.fixedunit{display:flex;align-items:center;padding:0 12px;border:1px solid var(--border-strong);border-left:none;border-radius:0 6px 6px 0;background:var(--surface-sunken);font-size:14px;color:var(--ink-muted);white-space:nowrap}
+.note{display:flex;gap:10px;align-items:flex-start;padding:11px 14px;border-radius:8px;font-size:13px;line-height:1.45;border:1px solid}
+.note .ic{margin-top:2px}
+.n-info{background:var(--accent-soft);border-color:#c6dcd9;color:var(--accent-ink)}
+.n-warn{background:var(--warning-bg);border-color:#ebd9b4;color:var(--warning-ink)}
+.n-block{background:var(--danger-bg);border-color:#f0ccc8;color:var(--danger-ink)}
+.n-neutral{background:var(--surface-sunken);border-color:var(--border);color:var(--ink)}
+.scrim{position:absolute;inset:0;background:rgba(28,26,23,.4);display:flex;align-items:center;justify-content:center;z-index:5}
+.dialog{background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(20,18,10,.25);width:460px;padding:24px}
+.dialog h2{margin:0 0 10px;font-family:var(--font-display);font-weight:600;font-size:18px}
+.confirm{font-size:13px;background:var(--surface-sunken);border-radius:6px;padding:10px 12px;margin:12px 0;line-height:1.45}
+.dactions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
+.tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:16px}
+.tabs a{padding:10px 2px;margin-right:22px;font-size:13.5px;font-weight:600;color:var(--ink-muted);text-decoration:none;border-bottom:2px solid transparent}
+.tabs a.on{color:var(--ink);border-bottom-color:var(--accent)}
+.q,.nw{white-space:nowrap}
+.mono{font-family:ui-monospace,Consolas,monospace;font-size:12px}
+.kv{display:grid;grid-template-columns:170px 1fr;gap:7px 14px;font-size:13.5px;margin:0}
+.kv dt{color:var(--ink-muted)}.kv dd{margin:0}
+.panel-label{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 8px}
+.cathead{background:#fff;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:18px}
+.risk{display:flex;gap:10px;align-items:center;background:var(--danger-ink);color:#fff;padding:8px 18px;font-size:13px}
+.catrow{display:flex;gap:26px;align-items:center;padding:12px 18px;flex-wrap:wrap}
+.cav{width:44px;height:44px;border-radius:10px;background:var(--danger-ink);color:#fff;font-family:var(--font-display);font-size:22px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cname{font-family:var(--font-display);font-size:21px;font-weight:600}
+.lbl{font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:3px}
+.chip{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:2px 8px;border-radius:7px;border:1px solid;white-space:nowrap}
+.c-warn{background:var(--warning-bg);border-color:#ebd9b4;color:var(--warning-ink)}.c-danger{background:var(--danger-bg);border-color:#f0ccc8;color:var(--danger-ink)}.c-plain{background:var(--surface-sunken);border-color:var(--border);color:var(--ink)}
+.cattabs{display:flex;gap:2px;padding:0 18px;border-top:1px solid #efece4;background:#fcfbf8}
+.cattabs a{padding:10px 11px;font-size:13.5px;color:var(--ink-muted);text-decoration:none;border-bottom:2.5px solid transparent}
+.cattabs a.on{color:var(--accent-ink);font-weight:600;border-bottom-color:var(--accent)}
+.catc{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:#fff;border:1px solid var(--border);border-left:4px solid var(--danger-ink);border-radius:10px;padding:10px 14px;margin-bottom:16px;font-size:13px}
+/* page */
+.dgrid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:20px;align-items:start}
+.lab-mini{border:1px dashed var(--border-strong);border-radius:8px;padding:12px;font-size:11.5px;line-height:1.4;background:#fff}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page);position:relative">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who"><select class="branchpick" aria-label="Active branch"><option>Uttara (primary)</option><option>Banani</option></select>Shormi Akter · Reception</div></div>
+  <div class="main">
+    <div class="catc" aria-label="Cat">
+      <span class="badge b-danger"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 9v5M12 17.4v.6"/><path d="M10.3 3.9 2.6 17.2A2 2 0 0 0 4.3 20h15.4a2 2 0 0 0 1.7-2.8L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>High risk</span>
+      <span><b>Mittens</b> <span class="muted">&middot; Domestic shorthair &middot; <span class="q">4.20 kg</span> (14 Sep 2026)</span></span>
+      <span class="muted small">Allergies</span><span class="chip c-warn">Chicken protein</span><span class="chip c-danger"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m6 6 12 12"/></svg>Penicillin &middot; severe</span>
+      <span class="muted small" style="margin-left:auto">Owner <b style="color:var(--ink)">Farhana Yasmin</b> &middot; 01712 345678</span>
+    </div>
+    <div class="titlerow">
+      <div><h1 class="h1">Dispensing DSP-2026-000311</h1><div class="small muted" style="margin-top:4px">RX-2026-000123 · supply 1 of 3 · 22 Sep 2026, 11:02 (Asia/Dhaka)</div></div>
+      <div style="display:flex;gap:8px;align-items:center"><span class="badge b-ok"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Supplied</span><a class="btn btn-sec" href="MedicineLabel.dc.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V3h12v6M6 18H4v-6h16v6h-2M8 14h8v7H8z"/></svg>Reprint label</a><button type="button" class="btn btn-danger">Reverse…</button></div>
+    </div>
+    <div class="dgrid">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <section class="card">
+          <h2 class="h2">Lines</h2>
+          <table class="t"><thead><tr><th>Medicine</th><th>Lot</th><th>Expiry</th><th>Quantity</th></tr></thead>
+            <tbody><tr><td>Meloxicam <span class="q">1.5 mg per 1 ml</span></td><td><b>L4410</b></td><td>30 Nov 2026</td><td class="q">6 ml</td></tr>
+            <tr><td>Meloxicam <span class="q">1.5 mg per 1 ml</span></td><td><b>L4502</b></td><td>31 Mar 2027</td><td class="q">4 ml</td></tr></tbody></table>
+        </section>
+        <section class="card">
+          <dl class="kv">
+            <dt>Dispensed by</dt><dd>Shormi Akter · Reception</dd>
+            <dt>Witness</dt><dd class="muted">Not required — not a controlled drug</dd>
+            <dt>Batch choice</dt><dd>Followed the suggested plan — no reason needed</dd>
+            <dt>Label prints</dt><dd>2 — 22 Sep 2026, 11:03 and 23 Sep 2026, 09:10 (Asia/Dhaka)</dd>
+          </dl>
+          <p class="small muted" style="margin:12px 0 0">A dispensing is never edited. Reversing it returns the stock and records a new, linked entry.</p>
+        </section>
+      </div>
+      <section>
+        <div class="panel-label">Label preview</div>
+        <div class="lab-mini"><b>PurrCare Uttara</b> · 09611 223344<br><b>Mittens</b> (Farhana Yasmin)<br>Meloxicam <span class="q">1.5 mg per 1 ml</span> oral suspension<br><b style="font-size:13px">Give <span class="q">0.4 ml</span> by mouth once daily</b><br>Qty <span class="q">10 ml</span> · Dispensed 22 Sep 2026 · Exp 30 Nov 2026<br>RX-2026-000123 · Dr. Nusrat Jahan</div>
+        <a href="MedicineLabel.dc.html" class="small" style="display:inline-block;margin-top:8px">Open print view</a>
+      </section>
+    </div>
+  </div>
+
+  <div class="scrim">
+    <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="rv-t">
+      <h2 id="rv-t">Reverse this dispensing?</h2>
+      <div class="confirm">Return <b class="q">6 ml</b> of batch <b>L4410</b> and <b class="q">4 ml</b> of batch <b>L4502</b> to stock and undo <b>supply 1 of RX-2026-000123</b>? The original dispensing stays on record, marked reversed.</div>
+      <div class="field"><label for="rv-r">Reason <span class="muted" style="font-weight:400">(required)</span></label><textarea id="rv-r">Owner returned the bottle unopened — wrong cat's name on the bag.</textarea></div>
+      <p class="small muted" style="margin:0">For a controlled drug, the witness step follows this confirmation.</p>
+      <div class="dactions"><button type="button" class="btn btn-sec">Keep dispensing</button><button type="button" class="btn btn-danger-solid">Reverse and return stock</button></div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+{
+  "v": 3,
+  "createdOnFiles": { "v": 1, "at": "2026-09-20T12:00:00Z" },
+  "title": "PurrCare — Cat Profile UI",
+  "launch": { "view": "canvas" },
+  "pages": [],
+  "designSystems": [],
+  "boards": {
+    "Main.dc.html": { "x": 0, "y": 0, "w": 1280, "h": 900, "title": "Cat list", "is_interactive": true },
+    "CatRegister.dc.html": { "x": 1360, "y": 0, "w": 1280, "h": 980, "title": "Register a cat — photo rejected", "is_interactive": true },
+    "Vaccines.dc.html": { "x": 2720, "y": 0, "w": 1280, "h": 900, "title": "Vaccine catalogue", "is_interactive": true },
+
+    "CatOverview.dc.html": { "x": 0, "y": 1300, "w": 1280, "h": 980, "title": "Profile — high risk, allergies", "is_interactive": true },
+    "CatMedical.dc.html": { "x": 1360, "y": 1300, "w": 1280, "h": 980, "title": "Medical profile editor", "is_interactive": true },
+    "CatWeights.dc.html": { "x": 2720, "y": 1300, "w": 1280, "h": 980, "title": "Weight trend", "is_interactive": true },
+
+    "CatVaccinations.dc.html": { "x": 0, "y": 2600, "w": 1280, "h": 980, "title": "Vaccinations — Overdue, expired batch", "is_interactive": true },
+    "CatHealthy.dc.html": { "x": 1360, "y": 2600, "w": 1280, "h": 980, "title": "Profile — none recorded, Current", "is_interactive": true },
+    "Portal.dc.html": { "x": 2720, "y": 2600, "w": 1280, "h": 980, "title": "Owner portal — Due soon", "is_interactive": true },
+
+    "ConfirmDeceased.dc.html": { "x": 0, "y": 3900, "w": 1280, "h": 980, "title": "Confirm — mark deceased", "is_interactive": true },
+    "CatTransfer.dc.html": { "x": 1360, "y": 3900, "w": 1280, "h": 980, "title": "Confirm — transfer ownership", "is_interactive": true },
+    "CatDeceased.dc.html": { "x": 2720, "y": 3900, "w": 1280, "h": 980, "title": "Deceased record — read only", "is_interactive": true },
+
+    "CageCard.dc.html": { "x": 0, "y": 5200, "w": 720, "h": 900, "title": "Cage card (print)", "is_interactive": true },
+    "Mobile360.dc.html": { "x": 800, "y": 5200, "w": 360, "h": 800, "title": "Profile at 360 px", "is_interactive": true }
+  },
+  "order": [
+    "Main.dc.html",
+    "CatRegister.dc.html",
+    "Vaccines.dc.html",
+    "CatOverview.dc.html",
+    "CatMedical.dc.html",
+    "CatWeights.dc.html",
+    "CatVaccinations.dc.html",
+    "CatHealthy.dc.html",
+    "Portal.dc.html",
+    "ConfirmDeceased.dc.html",
+    "CatTransfer.dc.html",
+    "CatDeceased.dc.html",
+    "CageCard.dc.html",
+    "Mobile360.dc.html"
+  ],
+  "notes": {
+    "r1": { "x": 0, "y": -260, "text": "Staff — find, register, configure", "kind": "title1", "maxW": 4000 },
+    "r2": { "x": 0, "y": 1040, "text": "The cat record", "kind": "title1", "maxW": 4000 },
+    "r3": { "x": 0, "y": 2340, "text": "Vaccination status — the three states", "kind": "title1", "maxW": 4000 },
+    "r4": { "x": 0, "y": 3640, "text": "Decisions that must be confirmed", "kind": "title1", "maxW": 4000 },
+    "r5": { "x": 0, "y": 4940, "text": "Print and narrow widths", "kind": "title1", "maxW": 4000 },
+    "s1": {
+      "x": 4120,
+      "y": 0,
+      "w": 420,
+      "text": "Start at Cat list and click through — every screen is linked.\n\nThe cat list toggle actually works: untick Include deceased and Ash disappears.\n\nWhat to look at first:\n• The profile header. It sits in the layout, so every tab carries the allergy list and the high-risk warning.\n• Mittens vs Biscuit — allergies present vs \"None recorded\".\n• The two confirm dialogs. Each states exactly what will happen, rather than \"Are you sure?\".",
+      "color": "teal",
+      "size": "m"
+    },
+    "s2": {
+      "x": 4120,
+      "y": 2600,
+      "w": 420,
+      "text": "Current / Due soon / Overdue each carry an icon and a word, never colour alone — WCAG 2.1 AA (UI-6).\n\nOverdue states the boarding consequence, because that is the decision the status exists to drive (BR-1).",
+      "color": "orange",
+      "size": "m"
+    }
+  }
+}

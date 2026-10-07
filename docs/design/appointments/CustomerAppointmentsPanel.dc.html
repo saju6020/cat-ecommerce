@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Customer page — Appointments panel — US-CLN-08</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px}
+.main{padding:26px 32px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:22px;margin:0 0 6px;display:flex;align-items:center;gap:10px}
+.muted{color:var(--ink-muted)}
+.badge-incomplete{display:inline-flex;align-items:center;gap:5px;background:var(--warning-bg);color:var(--warning-ink);font-family:var(--font-sans);font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px}
+.cols{display:flex;gap:18px;align-items:flex-start;margin-top:18px}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:20px 22px}
+.kv{display:grid;grid-template-columns:110px 1fr;gap:8px;font-size:14px;margin:0}
+.kv dt{color:var(--ink-muted)}
+.kv dd{margin:0}
+.panel{flex:1;min-width:0;border:1px solid var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.phead{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.phead h2{font-family:var(--font-display);font-weight:600;font-size:18px;margin:0}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:8px 15px;border-radius:var(--radius-sm);border:none;background:var(--accent);color:#fff;cursor:pointer;text-decoration:none}
+.stats{display:flex;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:16px}
+.stat{flex:1;background:#fff;padding:10px 14px}
+.stat b{display:block;font-size:17px}
+.stat span{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted)}
+.stat.warn{background:var(--warning-bg)}
+.stat.warn b,.stat.warn span{color:var(--warning-ink)}
+h3{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);margin:14px 0 6px}
+.item{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--border);font-size:13.5px}
+.item:last-child{border-bottom:none}
+.item a{color:var(--accent-ink);font-weight:600}
+.new{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--accent-ink);font-weight:700;margin-bottom:6px}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page);overflow:auto">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who">Shormi Akter · Reception</div></div>
+  <div class="main">
+    <h1 class="h1">Kamrul Hasan <span class="badge-incomplete"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>Incomplete</span></h1>
+    <p class="muted" style="margin:0">Walk-in · registered 12 Mar 2026 · 2 cats</p>
+
+    <div class="cols">
+      <div class="card" style="width:420px;flex:none">
+        <dl class="kv">
+          <dt>Mobile</dt><dd>01712 900112</dd>
+          <dt>Email</dt><dd>— not on file</dd>
+          <dt>Password</dt><dd>Not set</dd>
+          <dt>Cats</dt><dd>Pumpkin, Rani</dd>
+        </dl>
+        <p class="muted" style="font-size:12px;margin:14px 0 0">The rest of this page belongs to Accounts &amp; Identity; only the Appointments panel on the right is new.</p>
+      </div>
+
+      <div>
+        <div class="new">New in this area</div>
+        <section class="card panel" aria-labelledby="ap-h">
+          <div class="phead"><h2 id="ap-h">Appointments</h2><a class="btn" href="StaffBooking.dc.html">Book appointment</a></div>
+          <div class="stats">
+            <div class="stat warn"><b>2 no-shows</b><span>Last: 3 Aug 2026</span></div>
+            <div class="stat"><b>1 upcoming</b><span>At Uttara</span></div>
+            <div class="stat"><b>14 Aug 2026</b><span>Last visit</span></div>
+          </div>
+          <h3>Upcoming</h3>
+          <div class="item"><span><a href="StaffAppointmentDetail.dc.html">Sat 26 Sep, 20:00</a> · Pumpkin · Standard consultation · Dr Jahan</span><span class="muted">Booked · Uttara</span></div>
+          <h3>No-shows</h3>
+          <div class="item"><span>Sun 3 Aug 2026, 11:00 · Rani · Rabies vaccination</span><span class="muted">Uttara</span></div>
+          <div class="item"><span>Fri 20 Jun 2026, 17:30 · Pumpkin · FVRCP booster</span><span class="muted">Banani</span></div>
+          <h3>Last visit</h3>
+          <div class="item"><span>Thu 14 Aug 2026 · Rani · Standard consultation · Dr Rahman</span><span class="muted">Completed</span></div>
+          <p class="muted" style="font-size:12px;margin:12px 0 0">Times in each branch's zone (Asia/Dhaka). The no-show count is the same number reception sees when booking for this customer.</p>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

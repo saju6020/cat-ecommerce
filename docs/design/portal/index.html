@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Customer Portal — screens</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="./index.css">
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../index.html">&larr; All areas</a>
+  <div class="eyebrow">PurrCare · backlog &sect;15</div>
+  <h1>Customer Portal</h1>
+  <p class="lede">Four rows, fourteen artboards &mdash; the portal home and its one action, re-order. The stay diary is Boarding's page (README C-6). No live interaction; every state is its own artboard.</p>
+
+  <div class="row-group">
+    <h2>Portal home — US-POR-01</h2>
+    <a class="screen-row" href="Dashboard.dc.html"><span class="screen-name">⭐ Portal home<span class="screen-file">Dashboard.dc.html</span></span><span class="screen-desc">All eight tiles on one screen for a customer with records everywhere; every tile links out to the area that owns it; no pay button</span></a>
+    <a class="screen-row" href="DashboardNewCustomer.dc.html"><span class="screen-name">New customer<span class="screen-file">DashboardNewCustomer.dc.html</span></span><span class="screen-desc">The "Add your first cat" invitation, and every other tile's true empty text in words</span></a>
+    <a class="screen-row" href="DashboardDegraded.dc.html"><span class="screen-name">⭐ Sections unavailable<span class="screen-file">DashboardDegraded.dc.html</span></span><span class="screen-desc">Balances and visits could not be read: explained with Try again, never shown as empty or zero; other tiles intact</span></a>
+    <a class="screen-row" href="DashboardLoading.dc.html"><span class="screen-name">Loading<span class="screen-file">DashboardLoading.dc.html</span></span><span class="screen-desc">Fixed-height placeholders per tile so nothing shifts when data arrives</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Tile states — US-POR-01</h2>
+    <a class="screen-row" href="CatTileStates.dc.html"><span class="screen-name">⭐ Cats tile<span class="screen-file">CatTileStates.dc.html</span></span><span class="screen-desc">Due soon / Overdue + high risk / Current / status unavailable / 13 cats with All cats / whole section unavailable with no invitation</span></a>
+    <a class="screen-row" href="BalancesStates.dc.html"><span class="screen-name">Balances tile<span class="screen-file">BalancesStates.dc.html</span></span><span class="screen-desc">BDT and USD shown separately with how to pay offline; Nothing to pay; unavailable</span></a>
+    <a class="screen-row" href="TileStates.dc.html"><span class="screen-name">Other tiles<span class="screen-file">TileStates.dc.html</span></span><span class="screen-desc">An appointment in a Europe/London branch, stays with and without a diary link, a suspended subscription</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Re-order — US-POR-02</h2>
+    <a class="screen-row" href="ReorderButtonStates.dc.html"><span class="screen-name">Re-order button<span class="screen-file">ReorderButtonStates.dc.html</span></span><span class="screen-desc">Ready, busy after one click, disabled with its reason while awaiting payment, and its place on the Orders detail page</span></a>
+    <a class="screen-row" href="ReorderAllAdded.dc.html"><span class="screen-name">All added<span class="screen-file">ReorderAllAdded.dc.html</span></span><span class="screen-desc">Result dialog over the dashboard: every line added, View basket</span></a>
+    <a class="screen-row" href="ReorderMixed.dc.html"><span class="screen-name">⭐ Mixed result<span class="screen-file">ReorderMixed.dc.html</span></span><span class="screen-desc">Added and Not added lists covering every outcome, each reason in words, reduced quantity and price change noted</span></a>
+    <a class="screen-row" href="ReorderNothingAdded.dc.html"><span class="screen-name">Nothing added<span class="screen-file">ReorderNothingAdded.dc.html</span></span><span class="screen-desc">"Nothing could be added" with View basket still offered, and re-ordering the same order again (already in your basket)</span></a>
+    <a class="screen-row" href="ReorderErrors.dc.html"><span class="screen-name">Request failures<span class="screen-file">ReorderErrors.dc.html</span></span><span class="screen-desc">Order not found, not re-orderable yet, basket changed meanwhile: three plain messages, no codes</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Narrow width — UI-1</h2>
+    <a class="screen-row" href="DashboardMobile360.dc.html"><span class="screen-name">Portal home at 360 px<span class="screen-file">DashboardMobile360.dc.html</span></span><span class="screen-desc">Tiles stacked, nav behind Menu, inbox badge kept, no horizontal scroll</span></a>
+    <a class="screen-row" href="ReorderMobile360.dc.html"><span class="screen-name">Re-order result at 360 px<span class="screen-file">ReorderMobile360.dc.html</span></span><span class="screen-desc">The result dialog at phone width with full-width actions</span></a>
+  </div>
+
+  <p class="note">Rendered locally by <code>support.js</code> in this folder, a from-scratch reimplementation of the hosted canvas runtime (not the original, which isn't distributed). See <a href="README.md">README.md</a> for the design system, encoded rules and known gaps.</p>
+</div>
+</body>
+</html>

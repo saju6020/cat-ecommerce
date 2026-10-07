@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Uploads survive a failed save — US-XCT-07</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px;display:flex;align-items:center;gap:16px}
+.main{padding:26px 32px;position:relative}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+.titlerow{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.sub{color:var(--ink-muted);font-size:13.5px;margin:4px 0 16px}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:24px;align-items:start}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:20px;margin-bottom:16px}
+.card h2{font-size:14.5px;font-weight:700;margin:0 0 12px}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:9px 16px;border-radius:var(--radius-sm);border:1px solid var(--accent);cursor:pointer;background:var(--accent);color:#fff}
+.btn-sm{font-family:var(--font-sans);font-weight:600;font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:#fff;color:var(--ink);border:1px solid var(--border-strong);cursor:pointer;flex:none}
+.summary{border:1px solid var(--danger-ink);border-left-width:4px;background:var(--danger-bg);color:var(--danger-ink);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:16px;font-size:13.5px}
+.summary strong{display:flex;align-items:center;gap:6px;margin-bottom:4px}
+.summary a{color:var(--danger-ink);font-weight:600}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.field input{width:100%;font:inherit;font-size:14px;padding:8px 11px;border:1px solid var(--border);border-radius:var(--radius-sm)}
+.field.err input{border-color:var(--danger-ink);border-width:2px}
+.ferr{font-size:12.5px;color:var(--danger-ink);margin-top:5px;display:flex;align-items:center;gap:5px;font-weight:600}
+.drop{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:12px 16px;background:var(--surface);border:1.5px dashed var(--border-strong);border-radius:var(--radius-md);font:inherit;cursor:pointer}
+.drop .dt{font-weight:700;font-size:14px;color:var(--accent-ink)}
+.drop .dh{font-size:12.5px;color:var(--ink-muted)}
+.photos{display:flex;gap:12px;margin-top:12px}
+.ph{width:170px;border:1px solid var(--border);border-radius:var(--radius-sm);background:#fff;overflow:hidden}
+.ph svg.img{display:block}
+.ph .cap{padding:8px 10px;font-size:12px}
+.ph .cap b{display:block;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ph .cap span{color:var(--ink-muted)}
+.ph .row{display:flex;justify-content:space-between;align-items:center;padding:0 10px 10px}
+.main-tag{font-size:11px;font-weight:700;color:var(--accent-ink);background:var(--accent-soft);padding:2px 7px;border-radius:999px}
+.anno{background:var(--surface-sunken);border-radius:var(--radius-md);padding:16px 18px;font-size:12.5px;line-height:1.5;color:var(--ink-muted)}
+.anno h3{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink);margin:0 0 8px}
+.anno ul{margin:0 0 14px;padding-left:18px}
+@media (max-width:1100px){.grid,.cols,.wrap{grid-template-columns:minmax(0,1fr) !important}}
+@media (max-width:700px){.drop{flex-wrap:wrap}.frow,.flist li,.titlerow{flex-wrap:wrap}.frow .fbody,.flist li .fbody{flex-basis:calc(100% - 52px)}.two,.states{grid-template-columns:1fr !important}.sheet{grid-template-columns:repeat(auto-fill,200px) !important}}
+.viewer,.dialog,.legend,.side{max-width:calc(100vw - 24px)}.scrim{flex-wrap:wrap;overflow:auto}.stage svg,.page{max-width:100%}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page);overflow:auto;position:relative">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who"><select class="branchpick" aria-label="Active branch"><option>Uttara (primary)</option><option>Banani</option></select>Rezwan Ahmed · Administrator</div></div>
+  <div class="main">
+    <div class="titlerow"><h1 class="h1">New product</h1><button type="button" class="btn">Save product</button></div>
+    <p class="sub">E1 — Save was pressed with the price empty. The form refused; the two photos uploaded a moment ago are still here.</p>
+    <div class="grid">
+      <div>
+        <div class="summary" role="alert" tabindex="-1">
+          <strong><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5h.01"/></svg>The product was not saved — 1 thing to fix</strong>
+          <a href="#np-price">Price is required.</a>
+        </div>
+        <div class="card">
+          <h2>Details</h2>
+          <div class="two">
+            <div class="field"><label for="np-name">Name</label><input id="np-name" value="Catnip kicker, 30 cm"></div>
+            <div class="field err"><label for="np-price">Price (৳)</label><input id="np-price" value="" aria-invalid="true" aria-describedby="np-price-err"><div class="ferr" id="np-price-err"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5h.01"/></svg>Enter a price, for example 450.00</div></div>
+          </div>
+        </div>
+        <div class="card">
+          <h2>Product photos</h2>
+          <button type="button" class="drop"><span class="dt">Choose files or drop them here</span><span class="dh">· JPEG, PNG or WebP · up to 5 MB each</span></button>
+          <div class="photos">
+            <div class="ph">
+              <svg class="img" width="170" height="120" viewBox="0 0 170 120" role="img" aria-label="Catnip kicker, front"><rect width="170" height="120" fill="#e9dfcc"/><rect x="30" y="48" width="110" height="26" rx="13" fill="#6f8f4e"/><path d="M40 52c10 8 20 8 30 0s20-8 30 0 20 8 30 0" stroke="#4d6a33" stroke-width="3" fill="none"/><circle cx="140" cy="61" r="6" fill="#c9a25a"/></svg>
+              <div class="cap"><b>kicker-front.jpg</b><span>1.9 MB</span></div>
+              <div class="row"><span class="main-tag">Main photo</span><button type="button" class="btn-sm" aria-label="Remove kicker-front.jpg">Remove</button></div>
+            </div>
+            <div class="ph">
+              <svg class="img" width="170" height="120" viewBox="0 0 170 120" role="img" aria-label="Catnip kicker, with a cat"><rect width="170" height="120" fill="#dfe6e2"/><ellipse cx="70" cy="80" rx="40" ry="22" fill="#8a7a66"/><circle cx="42" cy="58" r="18" fill="#8a7a66"/><path d="M30 44l4-12 8 9M46 41l8-9 2 12" fill="#8a7a66"/><rect x="95" y="70" width="60" height="18" rx="9" fill="#6f8f4e"/></svg>
+              <div class="cap"><b>kicker-with-cat.webp</b><span>2.4 MB</span></div>
+              <div class="row"><span style="font-size:11.5px;color:var(--ink-muted)">Photo 2</span><button type="button" class="btn-sm" aria-label="Remove kicker-with-cat.webp">Remove</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <aside class="anno" aria-label="Design notes">
+        <h3>What this board shows</h3>
+        <ul>
+          <li>The uploader is controlled: the page owns the list of uploaded file ids, so a refused save doesn't lose them (ADR-FE-156).</li>
+          <li>Focus goes to the error summary; its link jumps to the price field.</li>
+          <li>Removing an upload from an unsaved form needs no confirmation — nothing is attached until Save succeeds.</li>
+          <li>Thumbs use the caption the host supplies as alt text, fixed 170 × 120 px so nothing shifts while loading (ADR-FE-155).</li>
+        </ul>
+      </aside>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

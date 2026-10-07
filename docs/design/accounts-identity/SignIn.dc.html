@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sign in — US-ACC-04</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--ink:#1c1a17;--ink-muted:#5c574f;--border:#e5e1d8;--accent:#15605a;--accent-ink:#0e4a45;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--focus-ring:#15605a;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.h1{font-family:var(--font-display);font-weight:600;font-size:26px;margin:0 0 20px}
+.muted{color:var(--ink-muted)}
+.small{font-size:13px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md)}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.field input{width:100%;font:inherit;font-size:15px;padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius-sm)}
+.field input:focus{outline:2px solid var(--focus-ring);outline-offset:1px;border-color:var(--accent)}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:14px;padding:10px 16px;border-radius:var(--radius-sm);border:none;cursor:pointer;min-height:40px}
+.btn-primary{background:var(--accent);color:#fff;width:100%}
+.err-banner{display:flex;gap:8px;background:var(--danger-bg);color:var(--danger-ink);border-radius:var(--radius-sm);padding:12px 14px;font-size:13.5px;margin-bottom:18px;line-height:1.45}
+</style>
+</helmet>
+<div style="width:1280px;height:760px;background:var(--surface-page);display:flex;justify-content:center;align-items:center">
+  <div class="card" style="width:420px;padding:40px">
+    <div class="small muted" style="margin-bottom:6px">PurrCare · customer sign-in</div>
+    <h1 class="h1" tabindex="-1">Sign in</h1>
+
+    <div class="err-banner" role="alert">
+      <span aria-hidden="true">⚠</span>
+      <span>That mobile number or email and password don't match an account. Check them and try again, or reset your password.</span>
+    </div>
+
+    <div class="field">
+      <label for="si-id">Mobile number or email</label>
+      <input id="si-id" type="text" autocomplete="username" value="farhana@example.com">
+    </div>
+    <div class="field">
+      <label for="si-pass">Password</label>
+      <input id="si-pass" type="password" autocomplete="current-password" value="">
+    </div>
+
+    <button type="button" class="btn btn-primary">Sign in</button>
+
+    <div class="small" style="margin-top:16px;display:flex;justify-content:space-between">
+      <a href="ForgotPassword.dc.html" style="color:var(--accent-ink);font-weight:600">Forgot password?</a>
+      <a href="Register.dc.html" style="color:var(--accent-ink);font-weight:600">Create an account</a>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":760}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

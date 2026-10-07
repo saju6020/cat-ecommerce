@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Credit note wizard — US-BIL-05</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px;display:flex;align-items:center;gap:16px}
+select.branchpick{font:inherit;font-size:13px;padding:5px 8px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.main{padding:26px 32px}
+.titlerow{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:18px;flex-wrap:wrap}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+.sub{font-size:13px;color:var(--ink-muted);margin:5px 0 0;line-height:1.5}
+.h2{font-size:14px;font-weight:700;margin:0 0 10px}
+.muted{color:var(--ink-muted)}
+.faint{color:var(--ink-faint)}
+.small{font-size:12px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:8px 16px;border-radius:var(--radius-sm);border:1px solid var(--accent);cursor:pointer;background:var(--accent);color:#fff;white-space:nowrap;line-height:1.3}
+.btn-sec{background:#fff;color:var(--ink);border-color:var(--border-strong)}
+.btn-danger{background:#fff;color:var(--danger-ink);border-color:var(--danger-ink)}
+.btn-danger-solid{background:var(--danger-ink);color:#fff;border-color:var(--danger-ink)}
+.btn-sm{font-size:12.5px;padding:5px 11px}
+.btn[disabled]{background:var(--surface-sunken);color:var(--ink-faint);border-color:var(--border);cursor:not-allowed}
+a{color:var(--accent-ink);font-weight:600;text-decoration:none}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:18px}
+table{border-collapse:collapse;width:100%;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--border);font-size:13px;vertical-align:top}
+th{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);font-weight:700;background:var(--surface-sunken);white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td a{white-space:nowrap}
+th.num,td.num,.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.total td{font-weight:700;background:var(--surface-sunken)}
+.pill{font-family:var(--font-sans);display:inline-flex;align-items:center;gap:4px;padding:2px 9px;border-radius:999px;font-size:11.5px;font-weight:600;white-space:nowrap}
+.p-ok{background:var(--accent-soft);color:var(--accent-ink)}
+.p-warn{background:var(--warning-bg);color:var(--warning-ink)}
+.p-bad{background:var(--danger-bg);color:var(--danger-ink)}
+.p-neutral{background:var(--surface-sunken);color:var(--ink-muted)}
+.banner{display:flex;gap:10px;align-items:flex-start;border-radius:8px;padding:11px 14px;font-size:13px;line-height:1.5;margin-bottom:14px}
+.b-info{background:var(--accent-soft);color:var(--accent-ink)}
+.b-warn{background:var(--warning-bg);color:var(--warning-ink)}
+.b-bad{background:var(--danger-bg);color:var(--danger-ink)}
+.b-neutral{background:var(--surface-sunken);color:var(--ink-muted)}
+.field{margin-bottom:14px}
+.field label,.lbl{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.field input,.field select,.field textarea{width:100%;font:inherit;font-size:14px;padding:8px 11px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:#fff;color:var(--ink)}
+.field textarea{min-height:64px;resize:vertical}
+.field input.invalid,.field textarea.invalid,.field select.invalid{border-color:var(--danger-ink);box-shadow:0 0 0 1px var(--danger-ink)}
+.field input[readonly]{background:var(--surface-sunken);color:var(--ink-muted)}
+.err{font-size:12.5px;color:var(--danger-ink);margin-top:5px;line-height:1.45}
+.hint{font-size:12px;color:var(--ink-muted);margin-top:5px;line-height:1.45}
+.req{color:var(--danger-ink);font-weight:700}
+.opt{font-weight:400;color:var(--ink-muted)}
+.radio{display:flex;align-items:flex-start;gap:9px;padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:6px;font-size:13.5px;background:#fff}
+.radio.on{border-color:var(--accent);background:var(--accent-soft)}
+.radio input{margin:3px 0 0;width:auto !important;flex:none}
+.tabnav{display:flex;border-bottom:1px solid var(--border);margin-bottom:16px}
+.tabnav a{padding:10px 2px;margin-right:24px;font-size:13.5px;font-weight:600;color:var(--ink-muted);border-bottom:2px solid transparent}
+.tabnav a.active{color:var(--ink);border-bottom-color:var(--accent)}
+.main.hasdlg{position:relative;min-height:844px}
+.scrim{position:absolute;inset:0;background:rgba(28,26,23,.42);display:flex;justify-content:center;align-items:flex-start;padding:92px 20px 24px;gap:16px;flex-wrap:wrap}
+.dialog{background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(20,18,10,.25);width:440px;max-width:100%;padding:24px}
+.dialog h2{font-family:var(--font-display);font-weight:600;font-size:18px;margin:0 0 12px}
+.consequence{font-size:13px;background:var(--surface-sunken);border-radius:6px;padding:10px 12px;margin:12px 0;line-height:1.55}
+.dactions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px;flex-wrap:wrap}
+.cap{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-muted);font-weight:700}
+.tag{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-muted);border:1px solid var(--border-strong);border-radius:4px;padding:1px 6px}
+.statelabel{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-ink);margin:0 0 8px}
+.kv{display:grid;grid-template-columns:150px 1fr;gap:6px 14px;font-size:13px}
+.kv dt{color:var(--ink-muted)}
+.kv dd{margin:0}
+.stats{display:flex;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;margin-bottom:16px;flex-wrap:wrap}
+.stat{background:#fff;flex:1;padding:12px 16px;min-width:140px}
+.stat b{font-size:18px;display:block;font-variant-numeric:tabular-nums}
+.stat span{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted)}
+.stat em{display:block;font-style:normal;font-size:12px;color:var(--ink-muted);margin-top:2px}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
+.toolbar input,.toolbar select{font:inherit;font-size:12.5px;padding:7px 9px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+@media (max-width:820px){.g2,.g3,.g4{grid-template-columns:1fr}.kv{grid-template-columns:1fr}}
+.pager{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;color:var(--ink-muted);margin-top:10px}
+.steps{display:flex;gap:0;margin-bottom:18px;border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;background:#fff}
+.steps li{flex:1;list-style:none;padding:11px 16px;font-size:13px;color:var(--ink-muted);border-right:1px solid var(--border);display:flex;gap:8px;align-items:center}
+.steps li:last-child{border-right:none}
+.steps li b{display:inline-flex;width:22px;height:22px;border-radius:50%;align-items:center;justify-content:center;border:1px solid var(--border-strong);font-size:12px}
+.steps li.done b{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-ink)}
+.steps li.now{color:var(--ink);font-weight:700;background:var(--accent-soft)}
+.steps li.now b{background:var(--accent);border-color:var(--accent);color:#fff}
+.recap{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;font-size:13px;margin-bottom:16px}
+.choice{display:flex;gap:8px;margin-bottom:14px}
+.choice .radio{flex:1;margin:0}
+.cl td{vertical-align:middle}
+.cl input{width:90px;font:inherit;font-size:13px;padding:6px 8px;border:1px solid var(--border-strong);border-radius:6px;text-align:right}
+.cap2{font-size:11.5px;color:var(--ink-muted);display:block;margin-top:3px}
+</style>
+</helmet>
+<div style="width:1280px;height:960px;background:var(--surface-page);overflow:auto;position:relative">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who"><select class="branchpick" aria-label="Active branch"><option>Uttara (primary)</option><option>Banani</option></select>Rezwan Ahmed · Administrator</div></div>
+  <div class="main">
+    <div class="titlerow"><div><h1 class="h1">Credit note for INV-UTR-2627-000352</h1><p class="sub">Farhana Yasmin · issued 4 Aug 2026 · total ৳3,138.75 · <span class="pill p-ok"><span aria-hidden="true">✓</span> Paid</span></p></div></div>
+    <ol class="steps" style="padding:0;margin-top:0">
+      <li class="done"><b aria-hidden="true">✓</b> 1 · Kind and reason</li>
+      <li class="now" aria-current="step"><b>2</b> 2 · What to credit</li>
+      <li><b>3</b> 3 · Review and issue</li>
+    </ol>
+    <div class="card">
+      <div class="recap">
+        <div><span class="cap">Kind</span><br>Return</div>
+        <div style="flex:1"><span class="cap">Reason</span><br>Customer returned 3 unopened packs of dental treats on 23 Sep.</div>
+        <button class="btn btn-sec btn-sm" type="button">Change</button>
+      </div>
+      <div class="choice" role="radiogroup" aria-label="How much to credit">
+        <label class="radio"><input type="radio" name="how"><span><b>Full credit</b><br><span class="small muted">Everything still creditable on this invoice</span></span></label>
+        <label class="radio on"><input type="radio" name="how" checked><span><b>Per line</b><br><span class="small muted">Choose a quantity or an amount for each line</span></span></label>
+      </div>
+      <table class="cl">
+        <thead><tr><th>Line</th><th>Tax class</th><th class="num">Rate</th><th class="num">Gross on invoice</th><th class="num">Credit quantity</th><th class="num">or amount (৳)</th></tr></thead>
+        <tbody>
+          <tr><td>Clinic · Dental scale &amp; polish</td><td>STD</td><td class="num">15%</td><td class="num">৳2,530.00</td><td class="num"><input aria-label="Credit quantity, dental scale" placeholder="0"><span class="cap2">Up to 1 remaining</span></td><td class="num"><input aria-label="Credit amount, dental scale" placeholder="0.00"><span class="cap2">Up to ৳2,530.00</span></td></tr>
+          <tr><td>Clinic · Chlorhexidine oral gel</td><td>ZERO</td><td class="num">0%</td><td class="num">৳350.00</td><td class="num"><input aria-label="Credit quantity, oral gel" placeholder="0"><span class="cap2">Up to 1 remaining</span></td><td class="num"><input aria-label="Credit amount, oral gel" placeholder="0.00"><span class="cap2">Up to ৳350.00</span></td></tr>
+          <tr><td>Shop · Dental treats 60 g</td><td>STD</td><td class="num">15%</td><td class="num">৳258.75</td><td class="num"><input aria-label="Credit quantity, dental treats" value="3"><span class="cap2">Up to 3 remaining</span></td><td class="num"><input aria-label="Credit amount, dental treats" placeholder="0.00" disabled><span class="cap2">Quantity given</span></td></tr>
+        </tbody>
+      </table>
+      <p class="hint">Limits come from the server — what's left on each line after earlier credit notes. Credit is worked out at the rates fixed on the invoice, not today's.</p>
+      <div class="dactions"><button class="btn btn-sec" type="button">Back</button><button class="btn" type="button">Review credit note</button></div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":960}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

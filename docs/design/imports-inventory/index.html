@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Imports &amp; Inventory — screens</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="./index.css">
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../index.html">&larr; All areas</a>
+  <div class="eyebrow">PurrCare · backlog &sect;9</div>
+  <h1>Imports &amp; Inventory</h1>
+  <p class="lede">Nine rows, thirty-three artboards &mdash; the largest area so far, because HO-IMP-002 covers sixteen stories across two staff sections, Procurement and Inventory. No live interaction; every state is its own artboard or a labelled side panel.</p>
+
+  <div class="row-group">
+    <h2>Suppliers &amp; purchase orders — US-IMP-01, 02</h2>
+    <a class="screen-row" href="Suppliers.dc.html"><span class="screen-name">Suppliers<span class="screen-file">Suppliers.dc.html</span></span><span class="screen-desc">List beside the edit form: country and currency selects, lead time in days with an inline error, and the deactivate confirmation naming the open order it leaves alone</span></a>
+    <a class="screen-row" href="PurchaseOrderList.dc.html"><span class="screen-name">Purchase orders<span class="screen-file">PurchaseOrderList.dc.html</span></span><span class="screen-desc">Status and receipt state as separate badges, each with an icon and a word; filters kept in the address bar</span></a>
+    <a class="screen-row" href="PurchaseOrderBuilder.dc.html"><span class="screen-name">⭐ Purchase order builder<span class="screen-file">PurchaseOrderBuilder.dc.html</span></span><span class="screen-desc">Pre-filled from reorder suggestions, the SKU picker open (code, name, unit, class, storage), a whole-units error, and line totals left to the server</span></a>
+    <a class="screen-row" href="PurchaseOrderDetail.dc.html"><span class="screen-name">⭐ Purchase order detail<span class="screen-file">PurchaseOrderDetail.dc.html</span></span><span class="screen-desc">Ordered / accepted / rejected / outstanding per line with units (100 − 60 accepted = 40 bags outstanding), Cancel disabled with its reason, the close-short panel with a required reason</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Consignments &amp; landed cost — US-IMP-03, 05</h2>
+    <a class="screen-row" href="ConsignmentList.dc.html"><span class="screen-name">Consignments<span class="screen-file">ConsignmentList.dc.html</span></span><span class="screen-desc">One consignment in each customs status, and a landed-cost column that says "Stale" in words</span></a>
+    <a class="screen-row" href="ConsignmentDetails.dc.html"><span class="screen-name">Consignment &rarr; Details<span class="screen-file">ConsignmentDetails.dc.html</span></span><span class="screen-desc">Planned → In transit → At customs → Cleared stepper; "Mark as cleared" refused, with the error on the missing declaration-number field; HS codes</span></a>
+    <a class="screen-row" href="ConsignmentDocuments.dc.html"><span class="screen-name">⭐ Consignment &rarr; Documents<span class="screen-file">ConsignmentDocuments.dc.html</span></span><span class="screen-desc">A superseded certificate still listed, no delete control anywhere, and the add form that records details and a storage key under an honest "upload isn't available yet" note</span></a>
+    <a class="screen-row" href="ConsignmentCosts.dc.html"><span class="screen-name">⭐ Costs, rates &amp; landed cost<span class="screen-file">ConsignmentCosts.dc.html</span></span><span class="screen-desc">Costs and exchange rates with the "someone else changed these" conflict (edits kept), the stale banner, landed unit cost per batch to 4 dp, and the allocate confirmation naming 3 batches</span></a>
+    <a class="screen-row" href="InspectionPack.dc.html"><span class="screen-name">Inspection pack<span class="screen-file">InspectionPack.dc.html</span></span><span class="screen-desc">One printable page: details, HS codes, permit/certificate/declaration numbers, every document including superseded, every batch with lot and expiry</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Reorder — US-IMP-12</h2>
+    <a class="screen-row" href="ReorderSuggestions.dc.html"><span class="screen-name">⭐ Reorder suggestions<span class="screen-file">ReorderSuggestions.dc.html</span></span><span class="screen-desc">The formula explained in one sentence with a worked example; rows from two suppliers selected make two draft purchase orders</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Goods receipt — US-IMP-04, US-IMP-16 AC1</h2>
+    <a class="screen-row" href="GoodsReceipt.dc.html"><span class="screen-name">⭐ Receive goods<span class="screen-file">GoodsReceipt.dc.html</span></span><span class="screen-desc">Scan field announcing what it added, lines pre-filled from the order, expiry marked required for food and medicine, rejection reason shown only when something is rejected, "Refrigerated 2–8 °C" beside the line, autosave status</span></a>
+    <a class="screen-row" href="GoodsReceiptErrors.dc.html"><span class="screen-name">Receive goods — errors<span class="screen-file">GoodsReceiptErrors.dc.html</span></span><span class="screen-desc">Four problems, each on its own field: more than outstanding, already expired, missing rejection reason, missing expiry date on food</span></a>
+    <a class="screen-row" href="GoodsReceiptDialogs.dc.html"><span class="screen-name">Receive goods — dialogs<span class="screen-file">GoodsReceiptDialogs.dc.html</span></span><span class="screen-desc">Restore the draft, post (lines, quantities per unit, locations, permanence), discard the draft</span></a>
+    <a class="screen-row" href="ReceiptDetail.dc.html"><span class="screen-name">Receipt detail<span class="screen-file">ReceiptDetail.dc.html</span></span><span class="screen-desc">Read-only: lines, the batches it created, the ledger entries it wrote, and why rejected stock has none</span></a>
+    <a class="screen-row" href="GoodsReceiptMobile360.dc.html"><span class="screen-name">Receive goods at 360px<span class="screen-file">GoodsReceiptMobile360.dc.html</span></span><span class="screen-desc">The line editor in one column at the pallet — scan field on top, fractional ml quantities, nothing sideways</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Stock, batches &amp; ledger — US-IMP-06, 07, 08, 09, 15</h2>
+    <a class="screen-row" href="StockOverview.dc.html"><span class="screen-name">Stock<span class="screen-file">StockOverview.dc.html</span></span><span class="screen-desc">Alert, near-expiry and recall tiles over the stock table: on hand, reserved, usable, sellable, held and expired, with the exclusions explained</span></a>
+    <a class="screen-row" href="SkuStockDetail.dc.html"><span class="screen-name">⭐ SKU stock &amp; FEFO preview<span class="screen-file">SkuStockDetail.dc.html</span></span><span class="screen-desc">Batch × location matrix as a real table, expired and quarantined rows saying why in words; "what would be picked next" in the server's order, and the same panel with a 23-bag shortfall</span></a>
+    <a class="screen-row" href="SkuStockMobile360.dc.html"><span class="screen-name">SKU stock at 360px<span class="screen-file">SkuStockMobile360.dc.html</span></span><span class="screen-desc">The matrix as one card per batch below 768px</span></a>
+    <a class="screen-row" href="BatchDetail.dc.html"><span class="screen-name">Batch detail<span class="screen-file">BatchDetail.dc.html</span></span><span class="screen-desc">Provenance, positions, history with a FEFO override, only the server's allowed actions, and the quarantine confirmation naming the lot and the reserved stock it affects</span></a>
+    <a class="screen-row" href="Ledger.dc.html"><span class="screen-name">⭐ Stock ledger<span class="screen-file">Ledger.dc.html</span></span><span class="screen-desc">Required date range, signed quantities with units, a FEFO override with its reason, transfer pairs, server CSV, no edit or delete control, the over-366-days refusal</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Transfers, adjustments &amp; counts — US-IMP-13, 14</h2>
+    <a class="screen-row" href="TransferForm.dc.html"><span class="screen-name">New transfer<span class="screen-file">TransferForm.dc.html</span></span><span class="screen-desc">Destination options disabled with the reason in text, batch picker with expiry, the confirmation naming both locations, the same-location error</span></a>
+    <a class="screen-row" href="AdjustmentForm.dc.html"><span class="screen-name">⭐ New adjustment<span class="screen-file">AdjustmentForm.dc.html</span></span><span class="screen-desc">Eight reasons in plain words, "removes" fixed by the reason, the required note, the permanence confirmation, and both server outcomes: pending approval and posted</span></a>
+    <a class="screen-row" href="ApprovalQueue.dc.html"><span class="screen-name">Approvals<span class="screen-file">ApprovalQueue.dc.html</span></span><span class="screen-desc">One queue for adjustments and count commits; "Someone else has to approve your request" and the "stock has moved — recount" refusal</span></a>
+    <a class="screen-row" href="CountSheet.dc.html"><span class="screen-name">⭐ Count sheet (blind)<span class="screen-file">CountSheet.dc.html</span></span><span class="screen-desc">No book quantity anywhere; each line saved as counted, with saved / saving / not-saved states per row</span></a>
+    <a class="screen-row" href="CountVariance.dc.html"><span class="screen-name">Count variance &amp; commit<span class="screen-file">CountVariance.dc.html</span></span><span class="screen-desc">"Nothing has been written to stock yet", book vs counted with value, the commit confirmation naming 4 variances and −৳3,305.00, and the awaiting-approval result</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Alerts &amp; reports — US-IMP-10, 12</h2>
+    <a class="screen-row" href="Alerts.dc.html"><span class="screen-name">Alerts<span class="screen-file">Alerts.dc.html</span></span><span class="screen-desc">Every alert kind in plain words, a resolved one greyed with its resolution, and the acknowledge panel with its note</span></a>
+    <a class="screen-row" href="NearExpiryReport.dc.html"><span class="screen-name">Near-expiry report<span class="screen-file">NearExpiryReport.dc.html</span></span><span class="screen-desc">90-day window taken from the largest threshold, include-expired on, days remaining and value at risk per row, server CSV</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Recall console — US-IMP-11</h2>
+    <a class="screen-row" href="RecallList.dc.html"><span class="screen-name">Recalls<span class="screen-file">RecallList.dc.html</span></span><span class="screen-desc">Active, closed and withdrawn recalls with notified count and stock still held</span></a>
+    <a class="screen-row" href="DeclareRecall.dc.html"><span class="screen-name">⭐ Declare a recall<span class="screen-file">DeclareRecall.dc.html</span></span><span class="screen-desc">Side by side: the lot typed wrongly (button disabled, mismatch error) and typed correctly, with the "unusable immediately, everywhere" sentence</span></a>
+    <a class="screen-row" href="RecallDetail.dc.html"><span class="screen-name">⭐ Recall console<span class="screen-file">RecallDetail.dc.html</span></span><span class="screen-desc">Three numbered steps: stock held, the trace (dispensed, bought, boarding, merged customer shown as the survivor) with CSV, and notify with the count</span></a>
+    <a class="screen-row" href="RecallDialogs.dc.html"><span class="screen-name">Notify, withdraw, close<span class="screen-file">RecallDialogs.dc.html</span></span><span class="screen-desc">Notify confirm with the count, first-run and repeat-run results with the log link, withdraw back to quarantine, close refused while 1,120 ml is held</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Storage, locations &amp; policies — US-IMP-16, 06, 12</h2>
+    <a class="screen-row" href="StorageBreach.dc.html"><span class="screen-name">Storage breach<span class="screen-file">StorageBreach.dc.html</span></span><span class="screen-desc">What happened, the batches the server flagged, the quarantine confirmation naming the destination, and the close note</span></a>
+    <a class="screen-row" href="StockSettings.dc.html"><span class="screen-name">Locations, storage &amp; reorder policies<span class="screen-file">StockSettings.dc.html</span></span><span class="screen-desc">Permitted movements written out, the "still holds stock" refusal, a storage profile with the min/max error on the min field, reorder policies marked "default"</span></a>
+  </div>
+
+  <p class="note">Rendered locally by <code>support.js</code> in this folder, a from-scratch reimplementation of the hosted canvas runtime (not the original, which isn't distributed). See <a href="README.md">README.md</a> for the design system, encoded rules and known gaps.</p>
+</div>
+</body>
+</html>

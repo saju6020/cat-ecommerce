@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Reinstate and cancel — US-SUB-05, 06</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+a{color:var(--accent-ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+.muted{color:var(--ink-muted)}
+.small{font-size:12.5px}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:18px;margin-top:14px}
+.scrim{position:absolute;inset:0;background:rgba(28,26,23,.42);display:flex;align-items:flex-start;justify-content:center;gap:20px;padding:90px 24px 40px;flex-wrap:wrap;z-index:40}
+.dcol{flex:0 1 380px;min-width:0}
+.cap{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#fff;margin-bottom:8px;display:inline-block;background:rgba(28,26,23,.82);padding:4px 9px;border-radius:5px}
+.dialog{background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(20,18,10,.25);padding:22px}
+.dialog h2{font-family:var(--font-display);font-weight:600;font-size:19px;margin:0 0 10px;line-height:1.3}
+.dialog p{font-size:14px;line-height:1.55;margin:0 0 10px}
+.lbl{display:block;font-size:13px;font-weight:700;margin:12px 0 6px}
+.inp{font:inherit;font-size:14px;padding:8px 11px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:#fff;width:100%;resize:none}
+.inp.invalid{border-color:var(--danger-ink);box-shadow:0 0 0 1px var(--danger-ink)}
+.hint{font-size:12px;color:var(--ink-muted);margin-top:4px;line-height:1.45}
+.hrow{display:flex;justify-content:space-between;gap:8px}
+.err{font-size:12.5px;color:var(--danger-ink);margin-top:6px;font-weight:600;display:flex;gap:5px;align-items:center}
+.note{display:flex;gap:9px;align-items:flex-start;border-radius:var(--radius-sm);padding:10px 12px;font-size:13.5px;line-height:1.5}
+.note svg{flex:none;margin-top:2px}
+.n-err{background:var(--danger-bg);color:var(--danger-ink)}
+.dactions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px;flex-wrap:wrap}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:8px 14px;min-height:36px;border-radius:var(--radius-sm);border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer}
+.btn2{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:8px 14px;min-height:36px;border-radius:var(--radius-sm);border:1px solid var(--border-strong);background:#fff;color:var(--ink);cursor:pointer}
+.btn-danger{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:8px 14px;min-height:36px;border-radius:var(--radius-sm);border:1px solid var(--danger-ink);background:var(--danger-ink);color:#fff;cursor:pointer}
+</style>
+</helmet>
+<div style="width:1280px;height:860px;background:var(--surface-page);position:relative">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who">Rezwan Ahmed · Administrator</div></div>
+  <div class="main" style="padding:26px 32px">
+    <h1 class="h1">Kitten dry food</h1>
+    <div class="card">Suspended on Sat 19 Sep 2026 after 2 unpaid orders.</div>
+    <div class="card">Terms</div>
+  </div>
+
+  <div class="scrim">
+    <div class="dcol">
+      <div class="cap">Reinstate — submitted without a reason</div>
+      <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="s1">
+        <h2 id="s1">Restart Farhana's subscription?</h2>
+        <p>Orders resume from Sat 26 Sep: Kitten dry food, 2 bags every 2 weeks, paid by bank transfer. Farhana is told it has restarted.</p>
+        <label class="lbl" for="s1d">First order <span class="muted" style="font-weight:400">(optional)</span></label>
+        <input id="s1d" class="inp" type="date" value="2026-09-26" min="2026-09-26" max="2026-10-26" aria-describedby="s1d-h" style="width:190px">
+        <div class="hint" id="s1d-h">From Sat 26 Sep to Mon 26 Oct 2026.</div>
+        <label class="lbl" for="s1r">Reason <span class="muted" style="font-weight:400">(required)</span></label>
+        <textarea id="s1r" class="inp invalid" rows="3" aria-invalid="true" aria-describedby="s1r-e"></textarea>
+        <div class="err" id="s1r-e"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>Give a reason for reinstating.</div>
+        <div class="hint hrow"><span>Kept on the subscription's record.</span><span>0 / 500</span></div>
+        <div class="dactions"><button type="button" class="btn2">Keep suspended</button><button type="button" class="btn">Reinstate</button></div>
+      </div>
+    </div>
+
+    <div class="dcol">
+      <div class="cap">Reinstate refused — prescription food</div>
+      <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="s2">
+        <h2 id="s2">Restart Tahmid's subscription?</h2>
+        <div class="note n-err" role="alert"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg><span>Luna's authorisation for Renal Support dry food has ended. A vet must renew it first — the subscription then restarts on its own.</span></div>
+        <label class="lbl" for="s2r">Reason</label>
+        <textarea id="s2r" class="inp" rows="2">Customer called, wants deliveries back.</textarea>
+        <p class="muted small" style="margin:10px 0 0">Nothing was changed.</p>
+        <div class="dactions"><button type="button" class="btn2">Close</button></div>
+      </div>
+    </div>
+
+    <div class="dcol">
+      <div class="cap">Staff cancel — note required</div>
+      <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="s3">
+        <h2 id="s3">Cancel Farhana's Kitten dry food subscription?</h2>
+        <p>No more orders will be placed. Farhana is told by SMS, email and in the app. The unpaid orders ORD-10433 and ORD-10301 are not affected.</p>
+        <label class="lbl" for="s3n">Note <span class="muted" style="font-weight:400">(required)</span></label>
+        <textarea id="s3n" class="inp" rows="3">Customer asked by phone to stop. Will settle the two open orders at the Uttara counter.</textarea>
+        <div class="hint hrow"><span>Plain text. Recorded as "Cancelled by staff".</span><span>86 / 500</span></div>
+        <div class="dactions"><button type="button" class="btn2">Keep subscription</button><button type="button" class="btn-danger">Cancel subscription</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":860}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

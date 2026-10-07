@@ -1,0 +1,1 @@
+well based on the srs generate stories this stories means epic stories.. we no need generate epic.. create stories

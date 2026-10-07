@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Skip a delivery — US-SUB-02, 03</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#fbf6ef;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:14px;--warm:#e8894a;--warm-ink:#8a3f14;--warm-soft:#fdeee2}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+a{color:var(--accent-ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:14px 32px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:18px;color:var(--accent-ink)}
+.pnav{display:flex;gap:22px;font-size:14px;font-weight:600;margin-right:auto;margin-left:28px;flex-wrap:wrap}
+.pnav a{color:var(--ink-muted);text-decoration:none;padding:4px 0;border-bottom:2px solid transparent}
+.pnav a.active{color:var(--ink);border-bottom-color:var(--accent)}
+.who{display:flex;align-items:center;gap:10px;font-size:13.5px}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.h1{font-family:var(--font-display);font-weight:600;font-size:24px;margin:0}
+.muted{color:var(--ink-muted)}
+.small{font-size:12.5px}
+.wrap{max-width:1080px;margin:0 auto;padding:24px 32px}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:20px;margin-bottom:14px}
+.scrim{position:absolute;inset:0;background:rgba(28,26,23,.42);display:flex;align-items:flex-start;justify-content:center;gap:20px;padding:90px 24px 40px;flex-wrap:wrap}
+.dcol{flex:0 1 390px;min-width:0}
+.cap{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#fff;margin-bottom:4px;display:inline-block;background:rgba(28,26,23,.82);padding:4px 9px;border-radius:5px}
+.url{font-family:ui-monospace,Consolas,monospace;font-size:11.5px;color:#fff;margin-bottom:8px;word-break:break-all;background:rgba(28,26,23,.82);padding:4px 9px;border-radius:5px}
+.dialog{background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(20,18,10,.25);padding:22px}
+.dialog h2{font-family:var(--font-display);font-weight:600;font-size:19px;margin:0 0 10px;line-height:1.3}
+.dialog p{font-size:14px;line-height:1.55;margin:0 0 10px}
+.note{display:flex;gap:9px;align-items:flex-start;border-radius:var(--radius-sm);padding:10px 12px;font-size:13px;line-height:1.5;background:var(--surface-sunken)}
+.note svg{flex:none;margin-top:2px}
+.n-warn{background:var(--warning-bg);color:var(--warning-ink)}
+.n-err{background:var(--danger-bg);color:var(--danger-ink)}
+.n-ok{background:var(--accent-soft);border:1px solid var(--accent);color:var(--accent-ink)}
+.dactions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px;flex-wrap:wrap}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:8px 14px;min-height:36px;border-radius:var(--radius-sm);border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer}
+.btn2{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:8px 14px;min-height:36px;border-radius:var(--radius-sm);border:1px solid var(--border-strong);background:#fff;color:var(--ink);cursor:pointer}
+.after{background:#fff;border-radius:12px;padding:14px;margin-top:14px}
+</style>
+</helmet>
+<div style="width:1280px;height:820px;background:var(--surface-page);position:relative">
+  <div class="topnav">
+    <div class="brand">PurrCare</div>
+    <nav class="pnav" aria-label="Portal"><a href="#">My cats</a><a href="#">Appointments</a><a href="#">Shop</a><a href="#">Orders</a><a class="active" aria-current="page" href="MySubscriptions.dc.html">Subscriptions</a><a href="#">Inbox</a></nav>
+    <div class="who"><div class="avatar">FY</div>Farhana Yasmin</div>
+  </div>
+  <div class="wrap">
+    <h1 class="h1">Adult Indoor dry food</h1>
+    <div class="card" style="margin-top:16px">Next order on Tue 20 Oct</div>
+    <div class="card">Terms</div>
+  </div>
+
+  <div class="scrim">
+    <div class="dcol">
+      <div class="cap">From the reminder's link — date matches</div>
+      <div class="url">…/portal/subscriptions/7c1e…?skip=2026-10-20 → parameter removed after reading</div>
+      <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="k1">
+        <h2 id="k1">Skip the delivery on Tue 20 Oct?</h2>
+        <p>Nothing will be ordered for Tue 20 Oct. Your subscription carries on after it as normal.</p>
+        <p class="muted small" style="margin:0">Nothing has been skipped yet — you opened this from the reminder in your inbox.</p>
+        <div class="dactions"><button type="button" class="btn2">Keep this delivery</button><button type="button" class="btn">Skip Tue 20 Oct</button></div>
+      </div>
+      <div class="after">
+        <div class="muted small" style="font-weight:700;margin-bottom:6px">Then, on the page (role="status")</div>
+        <div class="note n-ok"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>Skipped. Nothing will be ordered on Tue 20 Oct. Your next order is on Tue 17 Nov.</span></div>
+      </div>
+    </div>
+
+    <div class="dcol">
+      <div class="cap">From an old reminder — stale link</div>
+      <div class="url">…/portal/subscriptions/7c1e…?skip=2026-09-22 → parameter removed after reading</div>
+      <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="k2">
+        <h2 id="k2">That delivery can't be skipped</h2>
+        <div class="note n-warn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg><span>That delivery can no longer be skipped. The next one you can skip is <strong>Tue 20 Oct</strong>.</span></div>
+        <p class="muted small" style="margin:10px 0 0">Nothing was changed.</p>
+        <div class="dactions"><button type="button" class="btn2">Close</button><button type="button" class="btn">Skip that one</button></div>
+      </div>
+    </div>
+
+    <div class="dcol">
+      <div class="cap">Confirmed, but the cut-off had passed</div>
+      <div class="url">Server replied CycleNoLongerSkippable → data reloaded</div>
+      <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="k3">
+        <h2 id="k3">Skip the delivery on Tue 20 Oct?</h2>
+        <div class="note n-err" role="alert"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg><span>Your order on Tue 20 Oct is already being prepared, so it can't be skipped. The next one you can skip is Tue 17 Nov.</span></div>
+        <p class="muted small" style="margin:10px 0 0">Nothing was skipped. The page now shows the latest.</p>
+        <div class="dactions"><button type="button" class="btn2">Close</button><button type="button" class="btn">Skip Tue 17 Nov</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":820}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

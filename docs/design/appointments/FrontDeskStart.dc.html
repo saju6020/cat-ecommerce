@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Start a walk-in — US-CLN-10</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--overlay:rgba(28,26,23,.4);--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px;display:flex;align-items:center;gap:16px}
+select.branchpick{font:inherit;font-size:13px;padding:5px 8px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.main{padding:22px 28px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+.muted{color:var(--ink-muted)}
+.tabnav{display:flex;border-bottom:1px solid var(--border);margin:12px 0 12px}
+.tabnav a{padding:10px 4px;margin-right:24px;font-size:13.5px;font-weight:600;color:var(--ink-muted);border-bottom:2px solid transparent;text-decoration:none}
+.tabnav a.active{color:var(--ink);border-bottom-color:var(--accent)}
+.qcard{display:flex;gap:12px;align-items:center;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:12px 14px;margin-bottom:8px;font-size:13px;max-width:760px}
+.prio{font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;text-transform:uppercase}
+.scrim{position:absolute;inset:0;background:var(--overlay);display:flex;align-items:center;justify-content:center}
+.dialog{background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(20,18,10,.25);width:500px;padding:26px}
+.dialog h2{font-family:var(--font-display);font-weight:600;font-size:19px;margin:0 0 4px}
+.catline{display:flex;align-items:center;gap:10px;background:var(--surface-sunken);border-radius:var(--radius-sm);padding:10px 12px;margin:12px 0 4px;font-size:13px}
+.av{width:30px;height:30px;border-radius:8px;background:#5c574f;color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:16px}
+.f{margin-top:14px}
+.f label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.f select{width:100%;font:inherit;font-size:14px;padding:9px 10px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.f select.err{border-color:var(--danger-ink);box-shadow:0 0 0 1px var(--danger-ink)}
+.ferr{display:flex;gap:6px;font-size:12.5px;color:var(--danger-ink);margin-top:6px;line-height:1.4}
+.hint{font-size:12px;color:var(--ink-muted);margin-top:5px}
+.srv{display:flex;gap:8px;background:var(--danger-bg);color:var(--danger-ink);border-radius:var(--radius-sm);padding:10px 12px;font-size:13.5px;line-height:1.45;margin-top:12px}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:14px;padding:10px 18px;border-radius:var(--radius-sm);border:none;background:var(--accent);color:#fff;cursor:pointer}
+.btn-ghost{background:#fff;border:1px solid var(--border-strong);color:var(--ink)}
+.dactions{display:flex;justify-content:space-between;align-items:center;margin-top:18px}
+.poll{font-size:11.5px;color:var(--ink-muted)}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page);overflow:hidden;position:relative">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who"><select class="branchpick" aria-label="Active branch"><option>Uttara (primary)</option><option>Banani</option></select>Shormi Akter · Reception</div></div>
+  <div class="main" aria-hidden="true">
+    <h1 class="h1">Front desk</h1>
+    <nav class="tabnav" aria-label="Front desk"><a href="FrontDeskToday.dc.html">Today (8)</a><a href="#" class="active">Queue (4)</a></nav>
+    <p class="muted" style="font-size:12.5px;margin:0 0 8px">2 vets on shift · updated 10:43 (Asia/Dhaka)</p>
+    <div class="qcard"><span class="prio" style="background:var(--surface-sunken);color:var(--ink-muted)">Routine</span><strong>Tiger</strong> · Imran Chowdhury · with Dr Jahan since 10:05 · In consultation</div>
+    <div class="qcard"><strong>1</strong><span class="prio" style="background:var(--danger-ink);color:#fff">Emergency</span><strong>Joy</strong> · Mahmud Hasan · Walk-in · About 5 min</div>
+    <div class="qcard"><strong>2</strong><span class="prio" style="background:var(--warning-bg);color:var(--warning-ink)">Urgent</span><strong>Momo</strong> · Tania Akhter · Walk-in · About 20 min</div>
+    <div class="qcard"><strong>3</strong><span class="prio" style="background:var(--surface-sunken);color:var(--ink-muted)">Routine</span><strong>Simba</strong> · Arif Hossain · Booked 10:15 · About 35 min</div>
+  </div>
+
+  <div class="scrim">
+    <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="st-h">
+      <h2 id="st-h">Start Joy's emergency consultation</h2>
+      <p class="muted" style="margin:0;font-size:13px">A walk-in has no vet or room yet — choose them now.</p>
+      <div class="catline"><span class="av" aria-hidden="true">J</span><span><strong>Joy</strong> · ~1 y · F · No weight recorded · Allergies: None recorded<br><span class="muted">Mahmud Hasan · "Hit by a motorbike, breathing fast"</span></span></div>
+
+      <div class="srv" role="alert"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true" style="flex:none;margin-top:2px"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg><span>Couldn't start: <strong>Dr Nusrat Jahan is already in a consultation</strong> (Tiger, since 10:05). Choose another vet, or wait until she finishes.</span></div>
+
+      <div class="f">
+        <label for="st-vet">Vet</label>
+        <select id="st-vet" class="err" aria-invalid="true" aria-describedby="st-vet-e"><option>Dr Nusrat Jahan</option><option>Dr Anisur Rahman</option></select>
+        <div class="ferr" id="st-vet-e"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true" style="flex:none;margin-top:1px"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>Busy with another patient.</div>
+        <div class="hint">Only vets qualified for this service and on shift now are listed. Tanvir Islam (nurse) isn't qualified for an emergency consultation.</div>
+      </div>
+      <div class="f">
+        <label for="st-room">Room</label>
+        <select id="st-room"><option>Consult 1 — free</option></select>
+        <div class="hint">Consultation rooms only. Consult 2 is in use.</div>
+      </div>
+      <div class="dactions">
+        <span class="poll">The queue behind refreshed at 10:43; your choices were kept.</span>
+        <span style="display:flex;gap:8px"><button class="btn btn-ghost" type="button">Cancel</button><button class="btn" type="button">Start</button></span>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

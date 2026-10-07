@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Subscription detail — US-SUB-02</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#fbf6ef;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:14px;--warm:#e8894a;--warm-ink:#8a3f14;--warm-soft:#fdeee2}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+a{color:var(--accent-ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:14px 32px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:18px;color:var(--accent-ink)}
+.pnav{display:flex;gap:22px;font-size:14px;font-weight:600;margin-right:auto;margin-left:28px;flex-wrap:wrap}
+.pnav a{color:var(--ink-muted);text-decoration:none;padding:4px 0;border-bottom:2px solid transparent}
+.pnav a.active{color:var(--ink);border-bottom-color:var(--accent)}
+.who{display:flex;align-items:center;gap:10px;font-size:13.5px}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.h1{font-family:var(--font-display);font-weight:600;font-size:24px;margin:0}
+.h2{font-family:var(--font-display);font-weight:600;font-size:17px;margin:0 0 12px}
+.muted{color:var(--ink-muted)}
+.small{font-size:12.5px}
+.wrap{max-width:1080px;margin:0 auto;padding:24px 32px 48px}
+.back{font-size:13.5px;font-weight:600;text-decoration:none}
+.titlerow{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:12px 0 4px}
+.cols{display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap;margin-top:18px}
+.colmain{flex:1 1 560px;min-width:0}
+.colside{flex:0 1 330px;min-width:0}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:20px;margin-bottom:14px}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+.b-active{background:var(--accent-soft);color:var(--accent-ink)}
+.b-neutral{background:var(--surface-sunken);color:var(--ink-muted)}
+.b-warn{background:var(--warning-bg);color:var(--warning-ink)}
+.b-danger{background:var(--danger-bg);color:var(--danger-ink)}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:14px;padding:9px 16px;min-height:38px;border-radius:var(--radius-sm);border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.btn2{font-family:var(--font-sans);font-weight:600;font-size:14px;padding:9px 16px;min-height:38px;border-radius:var(--radius-sm);border:1px solid var(--border-strong);background:#fff;color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.btn-dg{font-family:var(--font-sans);font-weight:600;font-size:14px;padding:9px 16px;min-height:38px;border-radius:var(--radius-sm);border:1px solid var(--border-strong);background:#fff;color:var(--danger-ink);cursor:pointer}
+.note{display:flex;gap:10px;align-items:flex-start;border-radius:var(--radius-sm);padding:11px 13px;font-size:13.5px;line-height:1.5;background:var(--surface-sunken)}
+.note svg{flex:none;margin-top:2px}
+.n-ok{background:var(--accent-soft);border:1px solid var(--accent);color:var(--accent-ink)}
+.big{font-family:var(--font-display);font-weight:600;font-size:26px;margin:2px 0 2px}
+.kv{display:grid;grid-template-columns:140px 1fr;gap:8px 14px;font-size:14px;line-height:1.5;margin:0}
+.kv dt{color:var(--ink-muted)}
+.kv dd{margin:0}
+.panelhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.panelhead .h2{margin:0}
+.tbl{border-collapse:collapse;width:100%;background:#fff}
+.tbl th,.tbl td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--border);font-size:13.5px;vertical-align:top}
+.tbl th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);font-weight:700;background:var(--surface-sunken)}
+.tbl tr:last-child td{border-bottom:none}
+.st{display:inline-flex;align-items:center;gap:5px;font-weight:600}
+.st-ok{color:var(--accent-ink)}
+.st-warn{color:var(--warning-ink)}
+.st-bad{color:var(--danger-ink)}
+.st-neutral{color:var(--ink-muted)}
+.actions{display:flex;flex-direction:column;gap:8px}
+.pager{display:flex;justify-content:space-between;align-items:center;font-size:13px;margin-top:12px}
+</style>
+</helmet>
+<div style="width:1280px;height:1120px;background:var(--surface-page)">
+  <div class="topnav">
+    <div class="brand">PurrCare</div>
+    <nav class="pnav" aria-label="Portal"><a href="#">My cats</a><a href="#">Appointments</a><a href="#">Shop</a><a href="#">Orders</a><a class="active" aria-current="page" href="MySubscriptions.dc.html">Subscriptions</a><a href="#">Inbox</a></nav>
+    <div class="who"><div class="avatar">FY</div>Farhana Yasmin</div>
+  </div>
+  <div class="wrap">
+    <a class="back" href="MySubscriptions.dc.html">← My subscriptions</a>
+    <div class="titlerow">
+      <h1 class="h1">Adult Indoor dry food</h1>
+      <span class="badge b-active"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Active</span>
+    </div>
+    <div class="muted" style="font-size:14px">2 kg bag · subscribed since Tue 2 Jun 2026</div>
+
+    <div class="note n-ok" role="status" aria-live="polite" style="margin-top:16px">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+      <span>Quantity changed to 3. This starts with your order on Tue 20 Oct.</span>
+    </div>
+
+    <div class="cols">
+      <div class="colmain">
+        <section class="card" aria-labelledby="next-h">
+          <div class="muted small" id="next-h" style="font-weight:700;text-transform:uppercase;letter-spacing:.05em">Next order</div>
+          <div class="big">Next order on Tue 20 Oct</div>
+          <p style="font-size:14px;line-height:1.55;margin:8px 0 6px">Changes made before <strong>Sun 18 Oct, 00:00 (Asia/Dhaka)</strong> apply to this delivery. After that, they start with the next one.</p>
+          <p class="muted" style="font-size:13.5px;margin:0">We'll remind you 3 days before each order. The order is raised on this date; the parcel follows.</p>
+        </section>
+
+        <section class="card" aria-labelledby="terms-h">
+          <div class="panelhead"><h2 class="h2" id="terms-h">Terms</h2><button type="button" class="btn2">Change</button></div>
+          <dl class="kv">
+            <dt>Per delivery</dt><dd>3 bags</dd>
+            <dt>How often</dt><dd>Every 4 weeks</dd>
+            <dt>Delivery</dt><dd>Deliver to <strong>Home</strong> — House 12, Road 7, Sector 4, Uttara, Dhaka 1230</dd>
+            <dt>Payment</dt><dd>Bank transfer, for each order</dd>
+            <dt>Cat</dt><dd class="muted">Not needed for this food</dd>
+            <dt>Estimate</dt><dd><strong>৳3,915.00 per delivery</strong> <span class="muted">(3 × ৳1,450.00, subscription discount −10 %)</span><div class="muted small" style="margin-top:2px">Delivery and tax are added when each order is placed, at the price on that day.</div></dd>
+          </dl>
+        </section>
+
+        <section class="card" aria-labelledby="hist-h">
+          <h2 class="h2" id="hist-h">Order history</h2>
+          <table class="tbl">
+            <thead><tr><th>Order date</th><th>Outcome</th><th>Order</th><th>Payment</th></tr></thead>
+            <tbody>
+              <tr><td>Tue 22 Sep 2026</td><td>Ordered</td><td><a href="#">ORD-10482</a></td><td><span class="st st-warn"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Awaiting transfer</span><div class="muted small">pay by Fri 25 Sep, 23:59 (Asia/Dhaka)</div></td></tr>
+              <tr><td>Tue 25 Aug 2026</td><td>Ordered</td><td><a href="#">ORD-10217</a></td><td><span class="st st-ok"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Delivered</span></td></tr>
+              <tr><td>Tue 28 Jul 2026</td><td>Not ordered</td><td class="muted">No order</td><td><span class="st st-bad"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>Out of stock — nothing was ordered</span></td></tr>
+              <tr><td>Tue 30 Jun 2026</td><td>Skipped</td><td class="muted">No order</td><td class="muted">You skipped this delivery</td></tr>
+              <tr><td>Tue 2 Jun 2026</td><td>Ordered</td><td><a href="#">ORD-09630</a></td><td><span class="st st-ok"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Delivered</span></td></tr>
+            </tbody>
+          </table>
+          <div class="pager muted"><span>All 5 deliveries shown</span><span>Order numbers open the order, with bank details for a transfer.</span></div>
+        </section>
+      </div>
+
+      <div class="colside">
+        <section class="card" aria-labelledby="act-h">
+          <h2 class="h2" id="act-h">Manage</h2>
+          <div class="actions">
+            <button type="button" class="btn2">Skip next delivery</button>
+            <button type="button" class="btn2">Pause</button>
+            <button type="button" class="btn-dg">Cancel subscription</button>
+          </div>
+        </section>
+        <section class="card">
+          <h2 class="h2">How paying works</h2>
+          <p style="font-size:13.5px;line-height:1.55;margin:0">No card needed. Each delivery creates an order that you pay for by bank transfer. The bank details and pay-by date are on each order.</p>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1120}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

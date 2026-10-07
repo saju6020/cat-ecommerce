@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Account — Profile — US-ACC-06</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--focus-ring:#15605a;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px;--radius-pill:999px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:18px;color:var(--accent-ink)}
+.who{display:flex;align-items:center;gap:14px;font-size:13.5px}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.tabnav{display:flex;gap:0;border-bottom:1px solid var(--border);padding:0 32px;background:#fff}
+.tab{padding:14px 4px;margin-right:26px;font-size:14px;font-weight:600;color:var(--ink-muted);border-bottom:2px solid transparent}
+.tab.active{color:var(--ink);border-bottom-color:var(--accent)}
+.h1{font-family:var(--font-display);font-weight:600;font-size:22px;margin:0 0 22px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:24px}
+.field{margin-bottom:18px;max-width:420px}
+.field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.field input{width:100%;font:inherit;font-size:15px;padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius-sm)}
+.field input:focus{outline:2px solid var(--focus-ring);outline-offset:1px;border-color:var(--accent)}
+.field input[readonly]{background:var(--surface-sunken);color:var(--ink-muted)}
+.hint{font-size:12.5px;color:var(--ink-muted);margin-top:5px;line-height:1.4}
+.row-add{display:flex;gap:8px;align-items:center;margin-bottom:10px;max-width:420px}
+.row-add input{flex:1}
+.icon-btn{background:none;border:1px solid var(--border-strong);border-radius:var(--radius-sm);width:36px;height:36px;color:var(--ink-muted);cursor:pointer}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:14px;padding:10px 18px;border-radius:var(--radius-sm);border:none;cursor:pointer;min-height:40px;background:var(--accent);color:#fff;margin-top:6px}
+.btn-add{background:none;border:1px dashed var(--border-strong);color:var(--accent-ink);font-weight:600;font-size:13.5px;padding:8px 14px;border-radius:var(--radius-sm);cursor:pointer}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page);overflow:auto">
+  <div class="topnav">
+    <div class="brand">PurrCare</div>
+    <div class="who"><div class="avatar">FY</div>Farhana Yasmin <a href="#" style="color:var(--accent-ink);font-weight:600;margin-left:8px">Sign out</a></div>
+  </div>
+  <div class="tabnav">
+    <div class="tab active" aria-current="page">Profile</div>
+    <div class="tab">Addresses</div>
+    <div class="tab">Notifications</div>
+    <div class="tab">Your data</div>
+  </div>
+  <div style="max-width:880px;margin:0 auto;padding:36px 32px">
+    <h1 class="h1">Profile</h1>
+    <div class="card">
+      <div class="field">
+        <label for="pf-name">Full name</label>
+        <input id="pf-name" type="text" value="Farhana Yasmin">
+      </div>
+      <div class="field">
+        <label for="pf-email">Email</label>
+        <input id="pf-email" type="email" value="farhana@example.com" readonly aria-describedby="pf-email-hint">
+        <div id="pf-email-hint" class="hint">Your email is how you sign in. Contact the clinic to change it.</div>
+      </div>
+      <div class="field">
+        <label for="pf-mobile">Primary mobile</label>
+        <input id="pf-mobile" type="tel" value="01712 345678" readonly aria-describedby="pf-mobile-hint">
+        <div id="pf-mobile-hint" class="hint">Your primary mobile is how you sign in. Contact the clinic to change it.</div>
+      </div>
+      <div class="field">
+        <label>Additional numbers <span style="font-weight:400;color:var(--ink-muted)">(up to 3)</span></label>
+        <div class="row-add">
+          <input type="tel" value="01898 112233">
+          <button type="button" class="icon-btn" aria-label="Remove this number">✕</button>
+        </div>
+        <button type="button" class="btn-add">+ Add another number</button>
+      </div>
+      <button type="button" class="btn">Save</button>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

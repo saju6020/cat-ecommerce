@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Calendar — drop and confirm a move — US-CLN-07</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--overlay:rgba(28,26,23,.28);--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px;display:flex;align-items:center;gap:16px}
+select.branchpick{font:inherit;font-size:13px;padding:5px 8px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.main{padding:20px 28px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0 0 4px}
+.muted{color:var(--ink-muted)}
+.cal{display:grid;grid-template-columns:60px repeat(3,1fr);grid-template-rows:44px repeat(72,5px);background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;margin-top:12px}
+.colh{grid-row:1;padding:6px 10px;border-bottom:1px solid var(--border-strong);border-left:1px solid var(--border);font-size:12.5px;background:var(--surface-sunken)}
+.colh b{display:block;font-size:13px}
+.colh span{font-size:11px;color:var(--ink-muted)}
+.hr{grid-column:1/-1;border-top:1px solid var(--border)}
+.tl{grid-column:1;font-size:11px;color:var(--ink-muted);padding:1px 8px 0}
+.vl{grid-row:2/74;border-left:1px solid var(--border)}
+.off{background:repeating-linear-gradient(135deg,#efebe2 0 6px,#e4dfd3 6px 8px);font-size:10.5px;color:var(--ink-muted);font-weight:600;padding:3px 7px}
+.leave{background:repeating-linear-gradient(45deg,#f6ecd8 0 6px,#ecdcbc 6px 8px);font-size:10.5px;color:var(--warning-ink);font-weight:700;padding:3px 7px;display:flex;align-items:flex-end}
+.closed{grid-column:2/5;background:repeating-linear-gradient(90deg,#ece8df 0 2px,#f4f1ea 2px 10px);border-top:1px dashed var(--border-strong);border-bottom:1px dashed var(--border-strong);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--ink-muted)}
+.ap{margin:0 5px 1px 4px;border-radius:5px;background:var(--accent-soft);border-left:3px solid var(--accent);padding:2px 7px;font-size:11px;line-height:1.3;overflow:hidden;z-index:2}
+.ap .s{color:var(--ink-muted)}
+.ap.flag{background:var(--warning-bg);border-left-color:var(--warning-ink)}
+.ap.src{background:#fff;border:1.5px dashed var(--border-strong);border-left:3px dashed var(--ink-faint);color:var(--ink-muted)}
+.ap.ghost{background:#fff;border:2px dashed var(--accent);border-left:3px solid var(--accent);box-shadow:0 6px 16px rgba(21,96,90,.25);z-index:3}
+.ico{display:inline-flex;font-weight:700;font-size:10px;padding:0 4px;border-radius:3px;margin-left:3px}
+.ico-risk{background:var(--danger-ink);color:#fff}
+.ico-flag{background:var(--warning-ink);color:#fff}
+.scrim{position:absolute;inset:0;z-index:10;background:var(--overlay);display:flex;align-items:center;justify-content:flex-end;padding-right:60px}
+.dialog{background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(20,18,10,.28);width:420px;padding:24px}
+.dialog h2{font-family:var(--font-display);font-weight:600;font-size:18px;margin:0 0 12px;line-height:1.35}
+.fromto{display:grid;grid-template-columns:48px 1fr;gap:8px 10px;font-size:13.5px;background:var(--surface-sunken);border-radius:var(--radius-sm);padding:12px 14px;margin:0 0 12px}
+.fromto dt{color:var(--ink-muted)}
+.fromto dd{margin:0}
+.dialog p{font-size:13px;line-height:1.5;margin:0 0 14px;color:var(--ink-muted)}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:14px;padding:9px 16px;border-radius:var(--radius-sm);border:none;background:var(--accent);color:#fff;cursor:pointer}
+.btn-ghost{background:#fff;border:1px solid var(--border-strong);color:var(--ink)}
+.dactions{display:flex;justify-content:flex-end;gap:8px}
+.after{margin-top:14px;border-top:1px solid var(--border);padding-top:12px;font-size:12px;color:var(--ink-muted);line-height:1.5}
+.pend{display:inline-block;border:2px dashed var(--accent);border-radius:5px;padding:1px 7px;font-size:11px;font-weight:700;color:var(--accent-ink);background:#fff}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page);overflow:hidden;position:relative">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who"><select class="branchpick" aria-label="Active branch"><option>Uttara (primary)</option><option>Banani</option></select>Shormi Akter · Reception</div></div>
+  <div class="main">
+    <h1 class="h1">Appointments</h1>
+    <p class="muted" style="margin:0;font-size:13px">Day · By vet · Thursday 24 September 2026 · Uttara · Asia/Dhaka — showing 09:00–15:00</p>
+    <div class="cal" aria-hidden="true">
+      <div class="colh" style="grid-column:1;border-left:none"><span>Time</span></div>
+      <div class="colh" style="grid-column:2"><b>Dr Anisur Rahman</b><span>Vet · 09:00–17:00</span></div>
+      <div class="colh" style="grid-column:3"><b>Dr Nusrat Jahan</b><span>Vet · on leave until 12:00</span></div>
+      <div class="colh" style="grid-column:4"><b>Tanvir Islam</b><span>Nurse · 09:00–15:00</span></div>
+      <div class="vl" style="grid-column:2"></div><div class="vl" style="grid-column:3"></div><div class="vl" style="grid-column:4"></div>
+      <div class="hr" style="grid-row:2"></div><div class="tl" style="grid-row:2/14">09:00</div>
+      <div class="hr" style="grid-row:14"></div><div class="tl" style="grid-row:14/26">10:00</div>
+      <div class="hr" style="grid-row:26"></div><div class="tl" style="grid-row:26/38">11:00</div>
+      <div class="hr" style="grid-row:38"></div><div class="tl" style="grid-row:38/50">12:00</div>
+      <div class="hr" style="grid-row:50"></div><div class="tl" style="grid-row:50/62">13:00</div>
+      <div class="hr" style="grid-row:62"></div><div class="tl" style="grid-row:62/74">14:00</div>
+
+      <div class="off" style="grid-column:3;grid-row:2/14">Off shift</div>
+      <div class="leave" style="grid-column:3;grid-row:14/38">On leave 10:00–12:00 (approved)</div>
+      <div class="closed" style="grid-row:50/62">Closed 13:00–14:00 · staff training</div>
+
+      <div class="ap" style="grid-column:2;grid-row:2/8"><b>09:00 Kitty</b><span class="ico ico-risk">⚠ High risk</span><br><span class="s">Standard consultation</span></div>
+      <div class="ap src" style="grid-column:2;grid-row:20/24"><b>10:30 Mitu</b> · moving from here</div>
+      <div class="ap" style="grid-column:2;grid-row:26/32"><b>11:00 Pixel</b><br><span class="s">Standard consultation</span></div>
+      <div class="ap" style="grid-column:2;grid-row:62/71"><b>14:00 Simba</b><span class="ico ico-risk">⚠ High risk</span><br><span class="s">Dental check</span></div>
+
+      <div class="ap flag" style="grid-column:3;grid-row:14/18"><b>10:00 Mishti</b><span class="ico ico-flag">⚑ Needs rescheduling</span></div>
+      <div class="ap" style="grid-column:3;grid-row:38/44"><b>12:00 Rani</b><br><span class="s">Standard consultation</span></div>
+      <div class="ap ghost" style="grid-column:3;grid-row:44/48"><b>12:30 Mitu</b> · FVRCP booster — dropped here</div>
+
+      <div class="ap" style="grid-column:4;grid-row:8/12"><b>09:30 Snowy</b> <span class="s">· FVRCP</span></div>
+      <div class="ap" style="grid-column:4;grid-row:14/18"><b>10:00 Pumpkin</b> <span class="s">· Rabies</span></div>
+      <div class="ap" style="grid-column:4;grid-row:32/36"><b>11:30 Bella</b> <span class="s">· FVRCP</span></div>
+    </div>
+  </div>
+
+  <div class="scrim">
+    <div class="dialog" role="alertdialog" aria-modal="true" aria-labelledby="mv-h">
+      <h2 id="mv-h">Move Mitu's FVRCP booster from 10:30 with Dr Rahman to 12:30 with Dr Jahan?</h2>
+      <dl class="fromto">
+        <dt>From</dt><dd><s>Thu 24 Sep, 10:30–10:50</s> · Dr Anisur Rahman · Consult 1</dd>
+        <dt>To</dt><dd><strong>Thu 24 Sep, 12:30–12:50</strong> · Dr Nusrat Jahan · Consult 2</dd>
+      </dl>
+      <p>Times are Asia/Dhaka. Farhana Yasmin will be sent a message with the new time, and her reminders move with it. The server checks the new time again before anything changes.</p>
+      <div class="dactions">
+        <button class="btn btn-ghost" type="button">Cancel — put it back</button>
+        <button class="btn" type="button">Move appointment</button>
+      </div>
+      <div class="after">After <strong>Move appointment</strong>: the block waits at 12:30 as <span class="pend">Moving…</span> until the server answers, then either stays and the calendar refreshes, or snaps back with the reason (see the next screen). A 30-second refresh never interrupts a drag or this dialog.</div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

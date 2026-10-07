@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>My billing at 360px — UI-1</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+a{color:var(--accent-ink);font-weight:600;text-decoration:none}
+.ptop{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--border);background:#fff}
+.pbrand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.menu{border:1px solid var(--border-strong);background:#fff;border-radius:6px;font:inherit;font-size:12.5px;padding:5px 10px}
+.wrap{padding:16px 14px}
+h1{font-family:var(--font-display);font-weight:600;font-size:20px;margin:0 0 4px}
+.note{font-size:11.5px;color:var(--ink-muted);margin:0 0 12px;line-height:1.45}
+.sum{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.tile{background:#fff;border:1px solid var(--border);border-radius:8px;padding:10px}
+.tile span{font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);font-weight:700}
+.tile b{display:block;font-size:16px;margin-top:2px;font-variant-numeric:tabular-nums}
+.tile em{display:block;font-style:normal;font-size:11px;color:var(--ink-muted)}
+h2{font-family:var(--font-display);font-weight:600;font-size:16px;margin:4px 0 8px}
+.inv{background:#fff;border:1px solid var(--border);border-radius:8px;padding:11px 12px;margin-bottom:8px;font-size:12.5px}
+.inv .r{display:flex;justify-content:space-between;gap:8px;margin-bottom:4px}
+.inv .num{font-variant-numeric:tabular-nums}
+.muted{color:var(--ink-muted)}
+.pill{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:999px;font-size:10.5px;font-weight:600;white-space:nowrap}
+.p-ok{background:var(--accent-soft);color:var(--accent-ink)}
+.p-warn{background:var(--warning-bg);color:var(--warning-ink)}
+.p-bad{background:var(--danger-bg);color:var(--danger-ink)}
+.htp{background:#fff;border:1px solid var(--border);border-radius:8px;padding:12px;font-size:12.5px;line-height:1.5;margin-top:14px}
+.ref{background:var(--accent-soft);color:var(--accent-ink);border-radius:6px;padding:8px 10px;margin:8px 0;word-break:break-word}
+.btn{display:block;width:100%;text-align:center;font-family:var(--font-sans);font-weight:600;font-size:13px;padding:9px;border-radius:6px;border:1px solid var(--border-strong);background:#fff;color:var(--ink);margin-top:8px}
+</style>
+</helmet>
+<div style="width:360px;height:1040px;background:var(--surface-page);overflow:auto">
+  <div class="ptop"><div class="pbrand">PurrCare</div><button class="menu" type="button" aria-label="Open menu">☰ Menu</button></div>
+  <div class="wrap">
+    <h1>Billing</h1>
+    <p class="note">Below 768px the tables become cards — same fields, no sideways scrolling.</p>
+    <div class="sum">
+      <div class="tile"><span>You owe</span><b>৳3,978.57</b><em>2 invoices</em></div>
+      <div class="tile"><span>Overdue</span><b style="color:var(--danger-ink)">৳750.00</b><em>⚠ since 3 Sep</em></div>
+      <div class="tile"><span>Your credit</span><b>৳548.75</b></div>
+      <div class="tile"><span>Points</span><b>740</b></div>
+    </div>
+
+    <h2>Invoices</h2>
+    <div class="inv">
+      <div class="r"><a href="MyInvoice.dc.html">INV-UTR-2627-000418</a><span class="pill p-warn"><span aria-hidden="true">◐</span> Part-paid</span></div>
+      <div class="r muted"><span>23 Sep 2026</span><span class="num">Total ৳10,228.57</span></div>
+      <div class="r"><b>Still to pay</b><b class="num">৳3,228.57</b></div>
+    </div>
+    <div class="inv">
+      <div class="r"><a href="MyInvoice.dc.html">INV-UTR-2627-000377</a><span class="pill p-bad"><span aria-hidden="true">⚠</span> Overdue</span></div>
+      <div class="r muted"><span>20 Aug 2026 · due 3 Sep</span><span class="num">Total ৳1,150.00</span></div>
+      <div class="r"><b>Still to pay</b><b class="num">৳750.00</b></div>
+    </div>
+    <div class="inv">
+      <div class="r"><a href="MyInvoice.dc.html">INV-UTR-2627-000417</a><span class="pill p-ok"><span aria-hidden="true">✓</span> Paid</span></div>
+      <div class="r muted"><span>22 Sep 2026</span><span class="num">Total ৳1,656.00</span></div>
+    </div>
+    <a class="btn" href="#">Show 2 older invoices</a>
+
+    <div class="htp">
+      <b>How to pay INV-UTR-2627-000418</b><br>
+      BRAC Bank · Uttara<br>PurrCare Veterinary Ltd.<br>Account 1501 2034 5678 001 · Routing 060264351
+      <div class="ref">Use <b>INV-UTR-2627-000418</b> as the payment reference.</div>
+      <span class="muted">Or pay at the clinic by cash or card.</span>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":360,"height":1040}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

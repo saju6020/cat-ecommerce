@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Flagged for rescheduling — US-ADM-03 AC2</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px;display:flex;align-items:center;gap:16px}
+select.branchpick{font:inherit;font-size:13px;padding:5px 8px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.main{padding:24px 30px}
+.titlerow{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+.muted{color:var(--ink-muted)}
+.back{font-size:13px;color:var(--accent-ink);font-weight:600;text-decoration:none}
+table{border-collapse:collapse;width:100%;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;margin-top:14px}
+th,td{padding:11px 13px;text-align:left;border-bottom:1px solid var(--border);font-size:13.5px;vertical-align:middle}
+th{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);font-weight:700;background:var(--surface-sunken)}
+tr:last-child td{border-bottom:none}
+.reason{display:inline-flex;align-items:center;gap:6px;background:var(--warning-bg);color:var(--warning-ink);font-size:12.5px;font-weight:600;padding:3px 9px;border-radius:6px}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:12.5px;padding:6px 12px;border-radius:var(--radius-sm);border:none;background:var(--accent);color:#fff;cursor:pointer;white-space:nowrap;text-decoration:none}
+.btn-danger-o{background:#fff;border:1px solid var(--danger-ink);color:var(--danger-ink)}
+.acts{display:flex;gap:6px}
+.empty{margin-top:22px;border:1px dashed var(--border-strong);border-radius:var(--radius-md);padding:18px;text-align:center;color:var(--ink-muted);font-size:13.5px;background:#fff}
+.cap{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-faint);font-weight:700;margin:22px 0 0}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page);overflow:auto">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who"><select class="branchpick" aria-label="Active branch"><option>Uttara (primary)</option><option>Banani</option></select>Shormi Akter · Reception</div></div>
+  <div class="main">
+    <a class="back" href="Calendar.dc.html">‹ Calendar</a>
+    <div class="titlerow" style="margin-top:8px">
+      <h1 class="h1">Flagged for rescheduling (2)</h1>
+    </div>
+    <p class="muted" style="margin:4px 0 0;font-size:13px">Future appointments at Uttara that can't go ahead as booked. Customers have not been told yet — whatever you do here sends them the usual message. Times in Asia/Dhaka.</p>
+    <table>
+      <thead><tr><th>When</th><th>Cat</th><th>Customer</th><th>Phone</th><th>Why</th><th>Actions</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Thu 24 Sep, 10:00</strong><br><span class="muted" style="font-size:12px">Rabies vaccination · Dr Jahan</span></td>
+          <td><a href="StaffAppointmentDetail.dc.html" style="color:var(--accent-ink);font-weight:600">Mishti</a></td>
+          <td>Tania Akhter</td>
+          <td><a href="tel:+8801819445566" style="color:var(--ink)">01819 445566</a></td>
+          <td><span class="reason">⚑ Dr Jahan is on leave that day</span></td>
+          <td><div class="acts"><a class="btn" href="MoveDialog.dc.html">Reschedule…</a><button class="btn btn-danger-o" type="button">Cancel…</button></div></td>
+        </tr>
+        <tr>
+          <td><strong>Sat 26 Sep, 16:00</strong><br><span class="muted" style="font-size:12px">Standard consultation · Dr Rahman</span></td>
+          <td><a href="StaffAppointmentDetail.dc.html" style="color:var(--accent-ink);font-weight:600">Ginger</a></td>
+          <td>Rahim Uddin</td>
+          <td><a href="tel:+8801711223300" style="color:var(--ink)">01711 223300</a></td>
+          <td><span class="reason">⚑ Branch closed that afternoon (generator maintenance)</span></td>
+          <td><div class="acts"><a class="btn" href="MoveDialog.dc.html">Reschedule…</a><button class="btn btn-danger-o" type="button">Cancel…</button></div></td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="muted" style="font-size:12px;margin:8px 0 0">Other reasons that can appear: "The cat has died" and "The cat has a new owner".</p>
+
+    <div class="cap">When there are none</div>
+    <div class="empty">No appointments need rescheduling. Leave, closures and changes to a cat's record put appointments here automatically.</div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

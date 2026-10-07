@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Template editor — US-NTF-02</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--overlay:rgba(28,26,23,.4);--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px;--radius-lg:16px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.main{padding:20px 28px;position:relative}
+.hd{margin-bottom:10px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:19px;margin:0 0 4px}
+.muted{color:var(--ink-muted)}
+.secretnote{background:var(--warning-bg);color:var(--warning-ink);border-radius:6px;padding:8px 12px;font-size:12.5px;margin:8px 0}
+.chtabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin:14px 0 16px}
+.chtabs .tab{padding:9px 4px;margin-right:22px;font-size:13.5px;font-weight:600;color:var(--ink-muted);border-bottom:2px solid transparent}
+.chtabs .tab.active{color:var(--ink);border-bottom-color:var(--accent)}
+.grid{display:grid;grid-template-columns:1fr 260px 380px;gap:20px}
+.field{margin-bottom:14px}
+.field label{display:flex;justify-content:space-between;font-size:12.5px;font-weight:600;margin-bottom:5px}
+.field label .cnt{font-weight:400;color:var(--ink-muted)}
+.field input,.field textarea{width:100%;font:inherit;font-size:13.5px;padding:8px 10px;border:1px solid var(--border);border-radius:6px}
+.varpanel{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:14px;font-size:12.5px}
+.varpanel h3{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);margin:0 0 10px}
+.varitem{padding:7px 8px;border-radius:6px;cursor:pointer;margin-bottom:2px}
+.varitem:hover{background:var(--surface-sunken)}
+.varitem .name{font-family:ui-monospace,monospace;font-weight:600;color:var(--accent-ink)}
+.varitem .req{font-size:10px;background:var(--warning-bg);color:var(--warning-ink);padding:1px 6px;border-radius:999px;margin-left:6px}
+.varitem .desc{color:var(--ink-muted);margin-top:2px}
+.previewpanel{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:14px}
+.previewpanel h3{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);margin:0 0 10px}
+.emailbox{border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.emailhead{background:var(--surface-sunken);padding:8px 12px;font-size:12.5px;border-bottom:1px solid var(--border)}
+.emailframe{padding:16px;font-size:13.5px;line-height:1.6;background:#fff;height:180px;overflow:auto}
+.emailframe h2{font-family:var(--font-display);font-size:17px;margin:0 0 8px}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:9px 16px;border-radius:6px;border:none;cursor:pointer}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-outline{background:#fff;border:1px solid var(--border-strong);color:var(--ink)}
+.scrim{position:absolute;inset:0;background:var(--overlay);display:flex;align-items:center;justify-content:center}
+.dialog{background:#fff;border-radius:var(--radius-lg);box-shadow:0 20px 60px rgba(20,18,10,.25);width:400px;padding:26px}
+.dactions{display:flex;justify-content:flex-end;gap:8px;margin-top:6px}
+.dg-cancel{background:#fff;border:1px solid var(--border-strong);color:var(--ink);font-weight:600;font-size:13px;padding:8px 14px;border-radius:6px;cursor:pointer}
+</style>
+</helmet>
+<div style="width:1280px;height:820px;background:var(--surface-page);overflow:auto;position:relative">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div style="font-size:13px">Rezwan Ahmed · Administrator</div></div>
+  <div class="main">
+    <div class="hd">
+      <h1 class="h1">Vaccination due soon</h1>
+      <span class="muted small">clinic.vaccination-due · Transactional · Ignores quiet hours</span>
+      <div class="secretnote">This template does not contain a password-reset link — shown here only for templates that do.</div>
+    </div>
+    <nav class="chtabs" role="tablist" aria-label="Channel">
+      <span class="tab active" role="tab" aria-selected="true">Email</span>
+      <span class="tab" role="tab" aria-selected="false">SMS</span>
+      <span class="tab" role="tab" aria-selected="false">In-app</span>
+      <span class="tab" role="tab" aria-selected="false">Push <span class="muted" style="font-size:11px">— not sent</span></span>
+    </nav>
+
+    <div class="grid">
+      <div>
+        <div class="field"><label>Subject <span class="cnt">42 / 120</span></label><input value="{{catName}}'s {{vaccineName}} is due soon"></div>
+        <div class="field"><label>Body <span class="cnt">186 / 2000</span></label><textarea rows="8">Hi {{ownerName}},
+
+{{catName}} is due for a {{vaccineName}} booster on {{dueDate}}. Book before your next boarding stay to avoid a hold at check-in.
+
+[Book now]({{bookingUrl}})</textarea></div>
+        <div style="display:flex;gap:8px;margin-top:16px">
+          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-outline">Reset to default</button>
+        </div>
+      </div>
+
+      <div class="varpanel">
+        <h3>Variables</h3>
+        <div class="varitem"><span class="name">{{catName}}</span><span class="req">Required</span><div class="desc">The cat's name</div></div>
+        <div class="varitem"><span class="name">{{ownerName}}</span><div class="desc">The customer's first name</div></div>
+        <div class="varitem"><span class="name">{{vaccineName}}</span><span class="req">Required</span><div class="desc">e.g. "Rabies booster"</div></div>
+        <div class="varitem"><span class="name">{{dueDate}}</span><span class="req">Required</span><div class="desc">Branch-local date</div></div>
+        <div class="varitem"><span class="name">{{bookingUrl}}</span><div class="desc">Offered as [Link text]({{bookingUrl}}) in email</div></div>
+      </div>
+
+      <div class="previewpanel">
+        <h3>Live preview</h3>
+        <div style="font-size:12.5px;margin-bottom:6px"><strong>{{catName}}'s {{vaccineName}} is due soon</strong></div>
+        <div class="emailbox">
+          <div class="emailhead">Email preview <span class="muted">(sandboxed — the only HTML this app renders)</span></div>
+          <div class="emailframe" title="Email preview">
+            <p>Hi Farhana,</p>
+            <p>Mittens is due for a Rabies booster booster on 2 Oct 2026. Book before your next boarding stay to avoid a hold at check-in.</p>
+            <p><a href="#" style="color:#15605a;font-weight:600">Book now</a></p>
+          </div>
+        </div>
+        <button type="button" class="btn-outline btn" style="font-size:12px;padding:5px 10px;margin-top:8px">Plain-text version ▾</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="scrim">
+    <div class="dialog">
+      <h2 style="margin:0 0 10px;font-size:16px;font-family:var(--font-display);font-weight:600">Save changes?</h2>
+      <p style="font-size:13.5px;color:var(--ink-muted);line-height:1.5;margin:0 0 16px">Messages sent from now on will use this wording. Messages already sent keep theirs.</p>
+      <div class="dactions"><button class="dg-cancel" type="button">Cancel</button><button class="btn btn-primary" type="button">Save changes</button></div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":820}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

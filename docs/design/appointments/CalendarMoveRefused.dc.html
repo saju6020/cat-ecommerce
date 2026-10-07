@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Calendar — move refused, by room — US-CLN-07 AC2</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px;display:flex;align-items:center;gap:16px}
+select.branchpick{font:inherit;font-size:13px;padding:5px 8px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.main{padding:20px 28px;position:relative}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0 0 10px}
+.muted{color:var(--ink-muted)}
+.toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.seg{display:inline-flex;border:1px solid var(--border-strong);border-radius:6px;overflow:hidden}
+.seg button{font:inherit;font-size:12.5px;font-weight:600;border:none;background:#fff;padding:6px 11px;color:var(--ink-muted)}
+.seg button[aria-pressed="true"]{background:var(--accent);color:#fff}
+.toolbar select{font:inherit;font-size:12.5px;padding:6px 8px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.layout{display:flex;gap:16px;align-items:flex-start;margin-top:12px}
+.cal{flex:1;min-width:0;display:grid;grid-template-columns:60px repeat(3,1fr);grid-template-rows:44px repeat(72,5px);background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden}
+.colh{grid-row:1;padding:6px 10px;border-bottom:1px solid var(--border-strong);border-left:1px solid var(--border);font-size:12.5px;background:var(--surface-sunken)}
+.colh b{display:block;font-size:13px}
+.colh span{font-size:11px;color:var(--ink-muted)}
+.hr{grid-column:1/-1;border-top:1px solid var(--border)}
+.tl{grid-column:1;font-size:11px;color:var(--ink-muted);padding:1px 8px 0}
+.vl{grid-row:2/74;border-left:1px solid var(--border)}
+.closed{grid-column:2/5;background:repeating-linear-gradient(90deg,#ece8df 0 2px,#f4f1ea 2px 10px);border-top:1px dashed var(--border-strong);border-bottom:1px dashed var(--border-strong);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--ink-muted)}
+.ap{margin:0 5px 1px 4px;border-radius:5px;background:var(--accent-soft);border-left:3px solid var(--accent);padding:2px 7px;font-size:11px;line-height:1.3;overflow:hidden;z-index:2}
+.ap .s{color:var(--ink-muted)}
+.ap.flag{background:var(--warning-bg);border-left-color:var(--warning-ink)}
+.ap.back{box-shadow:0 0 0 2px var(--danger-ink);background:#fff}
+.ico{display:inline-flex;font-weight:700;font-size:10px;padding:0 4px;border-radius:3px;margin-left:3px}
+.ico-risk{background:var(--danger-ink);color:#fff}
+.ico-flag{background:var(--warning-ink);color:#fff}
+.ico-no{background:var(--danger-bg);color:var(--danger-ink)}
+.empty{grid-column:4;grid-row:2/74;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--ink-faint)}
+.aside{width:300px;flex:none}
+.toast{display:flex;gap:10px;background:#fff;border:1px solid var(--danger-ink);border-left:4px solid var(--danger-ink);border-radius:var(--radius-md);box-shadow:0 10px 30px rgba(20,18,10,.16);padding:12px 14px;font-size:13px;line-height:1.45;margin-bottom:12px}
+.toast.stale{border-color:var(--warning-ink)}
+.toast b{display:block;margin-bottom:2px}
+.cap{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-faint);font-weight:700;margin:4px 0 6px}
+.reasons{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:10px 14px;font-size:12.5px;line-height:1.5}
+.reasons li{margin-bottom:6px}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page);overflow:auto">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who"><select class="branchpick" aria-label="Active branch"><option>Uttara (primary)</option><option>Banani</option></select>Shormi Akter · Reception</div></div>
+  <div class="main">
+    <h1 class="h1">Appointments</h1>
+    <div class="toolbar">
+      <div class="seg"><button type="button" aria-pressed="true">Day</button><button type="button" aria-pressed="false">Week</button></div>
+      <div class="seg"><button type="button" aria-pressed="false">By vet</button><button type="button" aria-pressed="true">By room</button></div>
+      <select aria-label="Rooms shown"><option>3 of 4 rooms</option></select>
+      <strong style="font-size:14px">Thursday 24 September 2026</strong> <span class="muted" style="font-size:12.5px">Uttara · Asia/Dhaka · showing 09:00–15:00</span>
+    </div>
+
+    <div class="layout">
+      <div class="cal" role="grid" aria-label="Thursday 24 September, by room">
+        <div class="colh" style="grid-column:1;border-left:none"><span>Time</span></div>
+        <div class="colh" style="grid-column:2"><b>Consult 1</b><span>Consultation</span></div>
+        <div class="colh" style="grid-column:3"><b>Consult 2</b><span>Consultation</span></div>
+        <div class="colh" style="grid-column:4"><b>Theatre</b><span>Surgery</span></div>
+        <div class="vl" style="grid-column:2"></div><div class="vl" style="grid-column:3"></div><div class="vl" style="grid-column:4"></div>
+        <div class="hr" style="grid-row:2"></div><div class="tl" style="grid-row:2/14">09:00</div>
+        <div class="hr" style="grid-row:14"></div><div class="tl" style="grid-row:14/26">10:00</div>
+        <div class="hr" style="grid-row:26"></div><div class="tl" style="grid-row:26/38">11:00</div>
+        <div class="hr" style="grid-row:38"></div><div class="tl" style="grid-row:38/50">12:00</div>
+        <div class="hr" style="grid-row:50"></div><div class="tl" style="grid-row:50/62">13:00</div>
+        <div class="hr" style="grid-row:62"></div><div class="tl" style="grid-row:62/74">14:00</div>
+        <div class="closed" style="grid-row:50/62">Closed 13:00–14:00 · staff training</div>
+        <div class="empty">No appointments in Theatre</div>
+
+        <div class="ap" style="grid-column:2;grid-row:2/8"><b>09:00 Kitty</b><span class="ico ico-risk">⚠ High risk</span><br><span class="s">Dr Rahman</span></div>
+        <div class="ap" style="grid-column:2;grid-row:14/18"><b>10:00 Pumpkin</b> <span class="s">· Tanvir</span></div>
+        <div class="ap" style="grid-column:2;grid-row:20/24"><b>10:30 Mitu</b> <span class="s">· Dr Rahman</span></div>
+        <div class="ap back" style="grid-column:2;grid-row:26/32"><b>11:00 Pixel</b><span class="ico ico-no">✕ Not moved</span><br><span class="s">Dr Rahman</span></div>
+        <div class="ap" style="grid-column:2;grid-row:62/71"><b>14:00 Simba</b><span class="ico ico-risk">⚠ High risk</span><br><span class="s">Dental check · Dr Rahman</span></div>
+
+        <div class="ap" style="grid-column:3;grid-row:8/12"><b>09:30 Snowy</b> <span class="s">· Tanvir</span></div>
+        <div class="ap flag" style="grid-column:3;grid-row:14/18"><b>10:00 Mishti</b><span class="ico ico-flag">⚑ Needs rescheduling</span></div>
+        <div class="ap" style="grid-column:3;grid-row:32/36"><b>11:30 Bella</b> <span class="s">· Tanvir</span></div>
+        <div class="ap" style="grid-column:3;grid-row:38/44"><b>12:00 Rani</b><br><span class="s">Dr Jahan</span></div>
+        <div class="ap" style="grid-column:3;grid-row:68/74"><b>14:30 Luna</b><br><span class="s">Dr Jahan</span></div>
+      </div>
+
+      <aside class="aside">
+        <div class="toast" role="alert">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--danger-ink)" stroke-width="2.2" aria-hidden="true" style="flex:none;margin-top:1px"><circle cx="12" cy="12" r="9"/><path d="m15 9-6 6M9 9l6 6"/></svg>
+          <span><b>Pixel wasn't moved to Consult 2, 14:15.</b>Dr Anisur Rahman already has an appointment 14:00–14:45. Pixel is back at 11:00 in Consult 1.</span>
+        </div>
+        <p class="muted" style="font-size:12px;margin:0 0 14px;line-height:1.45">The same sentence is read out by a live region. The server found the vet clash even though this view is by room — the page never checks conflicts itself.</p>
+
+        <div class="cap">Stale calendar (409)</div>
+        <div class="toast stale" role="status">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--warning-ink)" stroke-width="2.2" aria-hidden="true" style="flex:none;margin-top:1px"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg>
+          <span><b>This appointment changed since you loaded the calendar.</b>The calendar has been refreshed — check it and try again.</span>
+        </div>
+
+        <div class="cap">Other reasons the server can give (shown as sent)</div>
+        <ul class="reasons">
+          <li>Consult 2 is booked 12:00–12:30.</li>
+          <li>Theatre is a Surgery room; Standard consultation needs a Consultation room.</li>
+          <li>Dr Nusrat Jahan is not working at 10:15 (on leave).</li>
+          <li>Tanvir Islam isn't qualified for Dental check.</li>
+          <li>Pixel already has an appointment at that time.</li>
+        </ul>
+      </aside>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

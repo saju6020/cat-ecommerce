@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Kit with an out-of-stock component — US-SHP-12</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#fbf6ef;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:14px;--warm:#e8894a;--warm-ink:#8a3f14;--warm-soft:#fdeee2}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink);font-size:14px}
+a{color:var(--accent-ink)}
+.ic{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.topnav{background:#fff;border-bottom:1px solid var(--border)}
+.topnav .bar{display:flex;align-items:center;gap:28px;padding:14px 32px}
+.brand{font-family:var(--font-display);font-weight:600;font-size:22px;color:var(--accent-ink);text-decoration:none}
+.search{flex:1;max-width:560px;display:flex}
+.search input{flex:1;min-width:0;font:inherit;font-size:14px;padding:9px 12px;border:1px solid var(--border-strong);border-right:none;border-radius:6px 0 0 6px;background:#fff}
+.search button{border:1px solid var(--accent);background:var(--accent);color:#fff;border-radius:0 6px 6px 0;padding:0 14px;font:inherit;font-weight:600;font-size:13.5px;display:flex;align-items:center;gap:6px}
+.acct{margin-left:auto;display:flex;align-items:center;gap:20px;font-size:13.5px;font-weight:600}
+.acct a{color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:6px}
+.count{background:var(--accent);color:#fff;border-radius:999px;font-size:11px;padding:1px 7px}
+.wrap{max-width:1216px;margin:0 auto;padding:20px 32px 40px}
+.crumbs{font-size:12.5px;color:var(--ink-muted);margin-bottom:14px}
+.top{display:flex;gap:40px;align-items:flex-start}
+.main-img{width:420px;flex:none;aspect-ratio:1/1;border-radius:var(--radius-md);background:#efece2;color:#6b6245;display:flex;align-items:center;justify-content:center}
+.main-img svg{height:58%}
+.info{flex:1;min-width:0}
+.h1{font-family:var(--font-display);font-weight:600;font-size:30px;margin:0 0 6px}
+.sub{display:flex;gap:14px;align-items:center;flex-wrap:wrap;font-size:13.5px;color:var(--ink-muted)}
+.tag{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent-ink)}
+.buybox{margin-top:18px;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:18px 20px}
+.bprice{font-size:26px;font-weight:700}
+.bprice span{font-size:13px;font-weight:400;color:var(--ink-muted)}
+.bavail{display:flex;align-items:center;gap:6px;font-weight:700;font-size:14px;margin-top:6px;color:var(--danger-ink)}
+.hint{font-size:13px;color:var(--ink-muted);margin:6px 0 0}
+.btn{font:inherit;font-weight:600;font-size:13.5px;padding:9px 16px;border-radius:6px;border:none;background:var(--accent);color:#fff;display:inline-flex;align-items:center;gap:7px}
+.btn2{font:inherit;font-weight:600;font-size:13.5px;padding:9px 14px;border-radius:6px;border:1px solid var(--border-strong);background:#fff;color:var(--ink);display:inline-flex;align-items:center;gap:7px}
+.actions{display:flex;gap:10px;margin-top:14px}
+.kit{margin-top:22px}
+.kit h2{font-family:var(--font-display);font-weight:600;font-size:20px;margin:0 0 4px}
+.kit p{margin:0 0 12px;color:var(--ink-muted);font-size:13.5px}
+table{border-collapse:collapse;width:100%;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden}
+th,td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--border);font-size:13.5px}
+th{background:var(--surface-sunken);font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted)}
+tr:last-child td{border-bottom:none}
+.in{color:var(--accent-ink);font-weight:600;display:inline-flex;gap:5px;align-items:center}
+.out{color:var(--danger-ink);font-weight:600;display:inline-flex;gap:5px;align-items:center}
+.desc{margin-top:26px;max-width:760px}
+.desc h2{font-family:var(--font-display);font-weight:600;font-size:20px;margin:0 0 8px}
+.desc p{line-height:1.6;margin:0 0 10px}
+</style>
+</helmet>
+<div style="width:1280px;height:1000px;background:var(--surface-page)">
+  <header class="topnav">
+    <div class="bar">
+      <a class="brand" href="ShopHome.dc.html">PurrCare</a>
+      <form class="search" role="search" aria-label="Search products"><input aria-label="Search products" placeholder="Search food, litter, brands, ingredients"><button type="submit"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>Search</button></form>
+      <div class="acct">
+        <a href="Wishlist.dc.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"/></svg>Wishlist</a>
+        <a href="#"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/><path d="M2 3h3l2.5 12h12L22 7H6"/></svg>Cart <span class="count">2</span></a>
+        <a href="#"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg>Farhana</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="crumbs"><a href="ShopHome.dc.html">Shop</a> / <a href="Catalogue.dc.html">Cat food</a> / New Kitten Starter Kit</div>
+    <div class="top">
+      <div class="main-img" role="img" aria-label="The starter kit laid out: food bag, litter tray, scoop and wand toy"><svg viewBox="0 0 80 100" aria-hidden="true"><path d="M8 34l32-14 32 14v44l-32 14-32-14Z" fill="currentColor"/><path d="M8 34l32 14 32-14M40 48v44" stroke="#fff" stroke-width="2" fill="none" opacity=".8"/></svg></div>
+      <div class="info">
+        <h1 class="h1">New Kitten Starter Kit</h1>
+        <div class="sub"><span>PurrCare</span><span>4.7 out of 5 (9 reviews)</span><span class="tag"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width:13px;height:13px"><path d="M3 7l9-4 9 4v10l-9 4-9-4Z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg>Kit</span></div>
+        <section class="buybox" aria-label="Buy">
+          <div class="bprice">৳3,950.00 <span>+ VAT · priced as one kit</span></div>
+          <div class="bavail"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m15 9-6 6M9 9l6 6"/></svg>Out of stock</div>
+          <p class="hint">One item in this kit is out of stock, so the kit can't be sent right now. See <a href="#kit">what's in the kit</a>.</p>
+          <div class="actions">
+            <button class="btn" type="button"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>Tell me when it's back</button>
+            <button class="btn2" type="button" aria-pressed="false"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"/></svg>Save</button>
+          </div>
+        </section>
+
+        <section class="kit" id="kit">
+          <h2>This kit contains</h2>
+          <p>Each item is taken from its own stock when the kit is sent.</p>
+          <table>
+            <thead><tr><th>Item</th><th>Variant</th><th>Quantity</th><th>Availability</th></tr></thead>
+            <tbody>
+              <tr><td><a href="ProductPage.dc.html">Royal Canin Kitten</a></td><td>2 kg</td><td>1</td><td><span class="in"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>In stock</span></td></tr>
+              <tr><td><a href="#">Tofu Clumping Litter, Green Tea</a></td><td>6 L</td><td>2</td><td><span class="out"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m15 9-6 6M9 9l6 6"/></svg>Out of stock</span></td></tr>
+              <tr><td><a href="#">Open Litter Tray with Rim</a></td><td>Medium · Sage</td><td>1</td><td><span class="in"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>In stock</span></td></tr>
+              <tr><td><a href="#">Feather Wand Toy</a></td><td>Single</td><td>1</td><td><span class="in"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>In stock</span></td></tr>
+            </tbody>
+          </table>
+        </section>
+      </div>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1000}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

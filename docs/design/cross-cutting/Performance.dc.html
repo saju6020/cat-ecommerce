@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Storefront performance — US-XCT-02</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+:root{--overlay:rgba(28,26,23,.4);--radius-lg:16px;--radius-pill:999px;--offline-ink:#2b2823}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+a{color:var(--accent-ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px}
+.main{padding:24px 32px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:22px;margin:0 0 4px}
+.sub{color:var(--ink-muted);font-size:13.5px;margin:0 0 18px;line-height:1.5}
+.h2{font-size:15px;font-weight:700;margin:0 0 10px}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:20px}
+.muted{color:var(--ink-muted)}
+.small{font-size:12.5px;line-height:1.5}
+.mono{font-family:ui-monospace,Consolas,monospace;font-size:12px}
+.eyebrow{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;color:var(--ink-muted);margin:0 0 6px}
+.ic{width:14px;height:14px;flex:none}
+.ic18{width:18px;height:18px;flex:none}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:9px 16px;border-radius:var(--radius-sm);border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;display:inline-flex;align-items:center;gap:6px;text-decoration:none;white-space:nowrap}
+.btn-sm{font-size:12.5px;padding:6px 12px}
+.btn-secondary{background:#fff;color:var(--ink);border-color:var(--border-strong)}
+.btn-danger{background:var(--danger-ink);border-color:var(--danger-ink);color:#fff}
+.btn[disabled]{background:var(--surface-sunken);color:var(--ink-faint);border-color:var(--border);cursor:not-allowed}
+.reason{font-size:11.5px;color:var(--ink-muted);margin-top:5px;display:flex;gap:4px;align-items:center}
+td .reason{white-space:nowrap}
+.linkbtn{background:none;border:none;padding:0;font:inherit;font-size:12.5px;font-weight:600;color:var(--accent-ink);cursor:pointer;text-decoration:underline}
+table{border-collapse:collapse;width:100%;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--border);font-size:12.5px;vertical-align:top;line-height:1.45}
+th{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);background:var(--surface-sunken);font-weight:700;vertical-align:bottom}
+tr:last-child td{border-bottom:none}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+.strong{font-weight:600}
+.pill{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:var(--radius-pill);font-size:11.5px;font-weight:600;white-space:nowrap}
+.pill-ok{background:var(--accent-soft);color:var(--accent-ink)}
+.pill-warn{background:var(--warning-bg);color:var(--warning-ink)}
+.pill-bad{background:var(--danger-bg);color:var(--danger-ink)}
+.pill-neutral{background:var(--surface-sunken);color:var(--ink-muted)}
+.risk{display:inline-flex;align-items:center;gap:4px;background:var(--danger-ink);color:#fff;font-size:11px;font-weight:700;padding:2px 7px;border-radius:5px;white-space:nowrap}
+.banner{display:flex;gap:10px;align-items:flex-start;border-radius:8px;padding:12px 14px;font-size:13.5px;line-height:1.5}
+.banner .ic18{margin-top:1px}
+.banner-warn{background:var(--warning-bg);color:var(--warning-ink)}
+.banner-bad{background:var(--danger-bg);color:var(--danger-ink)}
+.banner-ok{background:var(--accent-soft);color:var(--accent-ink)}
+.banner-info{background:var(--surface-sunken);color:var(--ink)}
+.obanner{display:flex;gap:12px;align-items:center;background:var(--offline-ink);color:#fff;border-radius:8px;padding:12px 16px;font-size:13.5px;line-height:1.5;position:sticky;top:0;z-index:3;margin-bottom:18px}
+.obanner-text{flex:1;min-width:0}
+.obanner-actions{display:flex;gap:8px;flex-wrap:wrap}
+.obanner .btn{background:#fff;color:var(--offline-ink);border-color:#fff}
+.obanner .btn-secondary{background:transparent;color:#fff;border-color:rgba(255,255,255,.55)}
+.field{margin-bottom:14px}
+.field label,.lbl{display:block;font-size:12.5px;font-weight:600;margin-bottom:5px}
+.field input,.field select,.field textarea{width:100%;font:inherit;font-size:13.5px;padding:8px 11px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:#fff;color:var(--ink)}
+.field textarea{resize:vertical;line-height:1.45}
+.field textarea.mono,.field input.mono{font-family:ui-monospace,Consolas,monospace;font-size:12px}
+.req{color:var(--danger-ink)}
+.hint{font-size:12px;color:var(--ink-muted);margin-top:4px;line-height:1.45}
+.err{font-size:12px;color:var(--danger-ink);margin-top:5px;display:flex;gap:5px;align-items:flex-start;font-weight:600;line-height:1.45}
+.field.invalid input,.field.invalid textarea{border-color:var(--danger-ink);box-shadow:0 0 0 1px var(--danger-ink)}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px;font-size:12.5px}
+.toolbar select,.toolbar input{font:inherit;font-size:12.5px;padding:7px 9px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.pager{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:12.5px;color:var(--ink-muted);margin-top:10px}
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--border);margin:0 0 18px;flex-wrap:wrap}
+.tabs a{padding:9px 14px;font-size:13.5px;font-weight:600;color:var(--ink-muted);text-decoration:none;border-bottom:2px solid transparent;margin-bottom:-1px}
+.tabs a[aria-current]{color:var(--accent-ink);border-bottom-color:var(--accent)}
+.crumbs{font-size:12.5px;color:var(--ink-muted);margin:0 0 8px}
+.crumbs a{color:var(--accent-ink);text-decoration:none;font-weight:600}
+.scrim{position:absolute;inset:0;background:var(--overlay);display:flex;align-items:center;justify-content:center;gap:24px;z-index:5;padding:24px;flex-wrap:wrap}
+.dialog{background:#fff;border-radius:var(--radius-lg);box-shadow:0 20px 60px rgba(20,18,10,.25);width:520px;max-width:100%;padding:26px}
+.dialog h2{margin:0 0 10px;font-size:19px;font-family:var(--font-display);font-weight:600}
+.dialog p{font-size:13.5px;line-height:1.55;margin:0 0 10px}
+.dactions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px;flex-wrap:wrap}
+.list{margin:4px 0 10px;padding-left:18px;font-size:13px;line-height:1.6}
+.kv{display:grid;grid-template-columns:180px minmax(0,1fr);gap:7px 14px;font-size:13.5px;margin:0}
+.kv dt{color:var(--ink-muted)}
+.kv dd{margin:0}
+.switch{width:40px;height:22px;border-radius:999px;background:var(--border-strong);position:relative;border:none;cursor:pointer;flex:none;padding:0}
+.switch span{position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff}
+.switch[aria-checked="true"]{background:var(--accent)}
+.switch[aria-checked="true"] span{left:20px}
+.cols-2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+.cols-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.cols-main{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:20px;align-items:start}
+.cols-side{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:16px;align-items:start}
+.stack{display:flex;flex-direction:column;gap:14px}
+.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.spacer{flex:1}
+pre{background:var(--surface-sunken);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;font-family:ui-monospace,Consolas,monospace;font-size:11.5px;line-height:1.5;overflow:auto;margin:0;white-space:pre}
+.obar{display:flex;align-items:center;gap:14px;padding:12px 28px;background:#fff;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.obar .logo{font-family:var(--font-display);font-weight:600;font-size:19px;color:var(--accent-ink)}
+.obar .meta{font-size:13px;color:var(--ink-muted)}
+.chip-off{display:inline-flex;align-items:center;gap:6px;background:var(--offline-ink);color:#fff;font-size:12.5px;font-weight:700;padding:5px 11px;border-radius:999px;white-space:nowrap}
+.omain{padding:22px 28px}
+.section-h{display:flex;align-items:baseline;gap:10px;margin:0 0 10px}
+.section-h h2{font-family:var(--font-display);font-weight:600;font-size:19px;margin:0}
+.caption{color:#fff;font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin:0 0 8px}
+@media (max-width:900px){.cols-2,.cols-3,.cols-main,.cols-side{grid-template-columns:minmax(0,1fr)}.kv{grid-template-columns:minmax(0,1fr)}.kv dt{margin-top:6px}}
+.seg{display:inline-flex;border:1px solid var(--border-strong);border-radius:6px;overflow:hidden}.seg button{font:inherit;font-size:12.5px;font-weight:600;padding:6px 12px;background:#fff;border:none;border-right:1px solid var(--border-strong);color:var(--ink-muted);cursor:pointer}.seg button:last-child{border-right:none}.seg button[aria-pressed=true]{background:var(--accent-soft);color:var(--accent-ink)}.chart svg{width:100%;height:auto;display:block}
+</style>
+</helmet>
+<div style="width:1280px;height:1120px;background:var(--surface-page);position:relative;overflow:hidden">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who">Rezwan Ahmed · Administrator</div></div>
+  <div class="main" style="max-width:1040px">
+    <h1 class="h1">Storefront performance</h1>
+    <p class="sub">How fast the shop feels to real customers, measured in their own browsers. Each number is the 75th percentile: three in four visits were at least this fast. A route with fewer than 50 visits in the range gets no verdict. Staff pages are not measured.</p>
+
+    <div class="toolbar" style="margin-bottom:18px">
+      <label class="strong" for="from">From</label><input id="from" value="26 Aug 2026" style="width:120px">
+      <label class="strong" for="to">to</label><input id="to" value="23 Sep 2026" style="width:120px">
+      <span class="muted">(last 28 days, Asia/Dhaka)</span>
+      <span class="spacer"></span>
+      <div class="seg" role="group" aria-label="Metric"><button type="button" aria-pressed="true">LCP · loading</button><button type="button" aria-pressed="false">INP · responsiveness</button><button type="button" aria-pressed="false">CLS · layout shift</button></div>
+      <label class="strong" for="vp">Screen</label><select id="vp"><option>All screen sizes</option><option>Phone (narrow)</option><option>Tablet (medium)</option><option>Desktop (wide)</option></select>
+    </div>
+
+    <section class="card chart" aria-labelledby="ch-h" style="margin-bottom:18px">
+      <h2 class="h2" id="ch-h">Largest Contentful Paint, p75 by route — budget 2.5 s</h2>
+      <svg viewBox="0 0 960 250" role="img" aria-label="Bar chart of p75 LCP per route against the 2.5 second budget. Values are in the table below.">
+        <g font-family="Public Sans, system-ui, sans-serif" font-size="12" fill="#5c574f">
+          <!-- gridlines -->
+          <g stroke="#e5e1d8" stroke-width="1">
+            <line x1="150" y1="10" x2="150" y2="220"/><line x1="290" y1="10" x2="290" y2="220"/><line x1="430" y1="10" x2="430" y2="220"/><line x1="570" y1="10" x2="570" y2="220"/><line x1="710" y1="10" x2="710" y2="220"/><line x1="850" y1="10" x2="850" y2="220"/>
+          </g>
+          <text x="150" y="238" text-anchor="middle">0 s</text><text x="290" y="238" text-anchor="middle">1 s</text><text x="430" y="238" text-anchor="middle">2 s</text><text x="570" y="238" text-anchor="middle">3 s</text><text x="710" y="238" text-anchor="middle">4 s</text><text x="850" y="238" text-anchor="middle">5 s</text>
+          <!-- bars: 140px per second, one hue -->
+          <g fill="#15605a">
+            <path d="M150 20h248a4 4 0 0 1 4 4v18a4 4 0 0 1-4 4H150Z"/>
+            <path d="M150 54h301a4 4 0 0 1 4 4v18a4 4 0 0 1-4 4H150Z"/>
+            <path d="M150 88h416a4 4 0 0 1 4 4v18a4 4 0 0 1-4 4H150Z"/>
+            <path d="M150 122h273a4 4 0 0 1 4 4v18a4 4 0 0 1-4 4H150Z"/>
+            <path d="M150 156h308a4 4 0 0 1 4 4v18a4 4 0 0 1-4 4H150Z" opacity=".35"/>
+          </g>
+          <text x="140" y="37" text-anchor="end" fill="#1c1a17">/</text>
+          <text x="140" y="71" text-anchor="end" fill="#1c1a17">/shop</text>
+          <text x="140" y="105" text-anchor="end" fill="#1c1a17">/shop/[slug]</text>
+          <text x="140" y="139" text-anchor="end" fill="#1c1a17">/cart</text>
+          <text x="140" y="173" text-anchor="end" fill="#1c1a17">/checkout</text>
+          <text x="140" y="207" text-anchor="end" fill="#1c1a17">/portal</text>
+          <text x="410" y="37" fill="#1c1a17">1.8 s</text>
+          <text x="463" y="71" fill="#1c1a17">2.15 s</text>
+          <text x="578" y="105" fill="#1c1a17" font-weight="700">3.0 s · over budget</text>
+          <text x="435" y="139" fill="#1c1a17">1.98 s</text>
+          <text x="508" y="173" fill="#5c574f">2.23 s · 31 visits, not enough data</text>
+          <text x="156" y="207" fill="#5c574f">No visits in this range</text>
+          <!-- budget line -->
+          <line x1="500" y1="10" x2="500" y2="220" stroke="#1c1a17" stroke-width="2" stroke-dasharray="5 4"/>
+          <text x="504" y="18" fill="#1c1a17" font-weight="700">Budget 2.5 s</text>
+        </g>
+      </svg>
+      <p class="hint" style="margin:6px 0 0">Faded bar: too few visits to judge. Hovering a bar shows its sample count and value in the built page.</p>
+    </section>
+
+    <table>
+      <thead><tr><th>Route</th><th class="num">Visits</th><th class="num">p75 LCP</th><th class="num">Budget</th><th>Verdict</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">/</td><td class="num">4,812</td><td class="num">1.80 s</td><td class="num">2.50 s</td><td><span class="pill pill-ok"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg> Pass</span></td></tr>
+        <tr><td class="mono">/shop</td><td class="num">3,106</td><td class="num">2.15 s</td><td class="num">2.50 s</td><td><span class="pill pill-ok"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg> Pass</span></td></tr>
+        <tr><td class="mono">/shop/[slug]</td><td class="num">2,540</td><td class="num strong">3.00 s</td><td class="num">2.50 s</td><td><span class="pill pill-bad"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m9 9 6 6M15 9l-6 6"/></svg> Fail</span></td></tr>
+        <tr><td class="mono">/cart</td><td class="num">688</td><td class="num">1.98 s</td><td class="num">2.50 s</td><td><span class="pill pill-ok"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg> Pass</span></td></tr>
+        <tr><td class="mono">/checkout</td><td class="num">31</td><td class="num">2.23 s</td><td class="num">2.50 s</td><td><span class="pill pill-neutral"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12h8"/></svg> Not enough data</span></td></tr>
+        <tr><td class="mono">/portal</td><td class="num">0</td><td class="num muted">No visits</td><td class="num">2.50 s</td><td><span class="pill pill-neutral"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12h8"/></svg> Not enough data</span></td></tr>
+      </tbody>
+    </table>
+    <p class="small muted" style="margin:10px 0 0">Routes are shown as patterns — <span class="mono">/shop/[slug]</span> covers every product page — so no product id, query or customer is ever recorded. A failing route is fixed by the team that owns it.</p>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1120}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

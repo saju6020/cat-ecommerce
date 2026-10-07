@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Join the waitlist — US-CLN-09</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#fbf6ef;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--overlay:rgba(28,26,23,.4);--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:14px;--warm:#e8894a;--warm-ink:#8a3f14;--warm-soft:#fdeee2}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:18px;color:var(--accent-ink)}
+.pnav{display:flex;gap:24px;font-size:13.5px;font-weight:600}
+.pnav a{color:var(--ink-muted);text-decoration:none}
+.pnav a[aria-current]{color:var(--ink)}
+.who{display:flex;align-items:center;gap:12px;font-size:13.5px}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.wrap{max-width:960px;margin:0 auto;padding:26px 32px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:22px;margin:0 0 16px}
+.muted{color:var(--ink-muted)}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:20px}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:9px 16px;border-radius:var(--radius-sm);border:none;background:var(--accent);color:#fff;cursor:pointer}
+.btn-ghost{background:#fff;border:1px solid var(--border-strong);color:var(--ink)}
+.scrim{position:absolute;inset:0;background:var(--overlay);display:flex;align-items:center;justify-content:center;gap:24px}
+.dialog{background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(20,18,10,.25);width:460px;padding:26px}
+.dialog h2{font-family:var(--font-display);font-weight:600;font-size:19px;margin:0 0 14px}
+.kv{display:grid;grid-template-columns:110px 1fr;gap:6px 12px;font-size:14px;margin:0 0 16px;background:var(--surface-sunken);border-radius:var(--radius-sm);padding:12px 14px}
+.kv dt{color:var(--ink-muted)}
+.kv dd{margin:0;font-weight:600}
+.field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.field select{width:100%;font:inherit;font-size:14px;padding:9px 10px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:#fff}
+.hint{font-size:12.5px;color:var(--ink-muted);margin-top:5px}
+.explain{display:flex;gap:10px;font-size:13.5px;line-height:1.5;background:var(--accent-soft);color:var(--accent-ink);border-radius:var(--radius-sm);padding:11px 13px;margin:16px 0}
+.dactions{display:flex;justify-content:flex-end;gap:8px}
+.side{background:#fff;border-radius:14px;width:330px;padding:18px;box-shadow:0 20px 60px rgba(20,18,10,.2)}
+.cap{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-faint);font-weight:700;margin-bottom:10px}
+.alert{display:flex;gap:8px;background:var(--accent-soft);color:var(--accent-ink);border:1px solid var(--accent);border-radius:var(--radius-sm);padding:10px 12px;font-size:13px;line-height:1.45;margin-bottom:10px}
+.slot{font:inherit;font-size:12.5px;font-weight:600;border:1px solid var(--accent);color:var(--accent-ink);background:#fff;border-radius:var(--radius-sm);padding:6px 10px;margin:0 6px 6px 0}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page);overflow:hidden;position:relative">
+  <div class="topnav">
+    <div class="brand">PurrCare</div>
+    <nav class="pnav" aria-label="Portal"><a href="#">My cats</a><a href="MyAppointments.dc.html" aria-current="page">Appointments</a><a href="#">Inbox</a></nav>
+    <div class="who"><div class="avatar">FY</div>Farhana Yasmin</div>
+  </div>
+  <div class="wrap" aria-hidden="true">
+    <h1 class="h1">Book an appointment</h1>
+    <div class="card">
+      <p style="font-size:15px;font-weight:700;margin:0 0 4px">No times left on Saturday 26 September.</p>
+      <p class="muted" style="font-size:13px;margin:0 0 14px">FVRCP booster · Uttara · any vet · Asia/Dhaka</p>
+      <button class="btn" type="button">Join the waitlist for Saturday</button>
+    </div>
+  </div>
+
+  <div class="scrim">
+    <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="wl-h">
+      <h2 id="wl-h">Join the waitlist</h2>
+      <dl class="kv">
+        <dt>Cat</dt><dd>Mitu</dd>
+        <dt>Service</dt><dd>FVRCP booster</dd>
+        <dt>Date</dt><dd>Saturday 26 September</dd>
+        <dt>Branch</dt><dd>Uttara</dd>
+      </dl>
+      <div class="field">
+        <label for="wl-vet">Preferred vet <span class="muted" style="font-weight:400">(optional)</span></label>
+        <select id="wl-vet"><option>No preference — any vet</option><option>Dr Anisur Rahman</option><option>Dr Nusrat Jahan</option><option>Tanvir Islam (nurse)</option></select>
+        <div class="hint">Choosing a vet means you are only offered their times.</div>
+      </div>
+      <div class="explain">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="flex:none;margin-top:2px"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+        <span>If a time frees up we'll send you a message. <strong>You'll have 30 minutes to claim it</strong> — after that it is offered to the next person. There is nothing to pay now.</span>
+      </div>
+      <div class="dactions">
+        <button class="btn btn-ghost" type="button">Cancel</button>
+        <button class="btn" type="button">Join the waitlist</button>
+      </div>
+    </div>
+
+    <div class="side" aria-label="Alternative outcome">
+      <div class="cap">If times appeared meanwhile (SlotsStillAvailable)</div>
+      <p style="font-size:12.5px;color:var(--ink-muted);margin:0 0 10px">The dialog closes; step 4 shows:</p>
+      <div class="alert" role="status">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true" style="flex:none;margin-top:1px"><path d="m5 12 5 5L20 7"/></svg>
+        <span><strong>Times have just become available</strong> — pick one below.</span>
+      </div>
+      <button class="slot" type="button">11:00 · Dr Jahan</button><button class="slot" type="button">11:15 · Dr Jahan</button>
+      <p style="font-size:12.5px;color:var(--ink-muted);margin:8px 0 0">If Mitu is already on this waitlist: "Mitu is already on the waitlist for this day." with a link to <a href="MyAppointments.dc.html" style="color:var(--accent-ink)">your waitlist</a>.</p>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Register — US-ACC-01</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,0.08);--focus-ring:#15605a;--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--overlay:rgba(28,26,23,.4);--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px;--radius-lg:16px;--radius-pill:999px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.h1{font-family:var(--font-display);font-weight:600;font-size:26px;margin:0}
+.muted{color:var(--ink-muted)}
+.small{font-size:13px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md)}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:14px;padding:10px 16px;border-radius:var(--radius-sm);border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;gap:6px;min-height:40px}
+.btn-primary{background:var(--accent);color:#fff;width:100%;justify-content:center}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.field input{width:100%;font:inherit;font-size:15px;padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);background:#fff;color:var(--ink)}
+.field input:focus{outline:2px solid var(--focus-ring);outline-offset:1px;border-color:var(--accent)}
+.hint{font-size:12.5px;color:var(--ink-muted);margin-top:4px}
+.err-text{font-size:12.5px;color:var(--danger-ink);margin-top:4px;display:flex;gap:5px;align-items:flex-start}
+.field.err input{border-color:var(--danger-ink)}
+.banner-notice{display:flex;gap:8px;background:var(--surface-sunken);border-radius:var(--radius-sm);padding:10px 12px;font-size:13px;color:var(--ink-muted);margin-bottom:20px}
+.captcha-box{border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;background:var(--surface-sunken)}
+.captcha-img{width:220px;height:64px;border-radius:6px;background:repeating-linear-gradient(115deg,#dcd6c6 0 6px,#e9e4d6 6px 14px);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:26px;letter-spacing:6px;color:#3a352c;font-weight:600;border:1px solid var(--border-strong)}
+.link-btn{background:none;border:none;color:var(--accent-ink);font-weight:600;font-size:13px;cursor:pointer;padding:0;text-decoration:underline}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page);display:flex;justify-content:center;align-items:flex-start;padding:56px 24px;overflow:auto">
+  <div class="card" style="width:460px;padding:40px" role="region" aria-label="Register">
+    <div class="small muted" style="margin-bottom:6px">PurrCare</div>
+    <h1 class="h1" style="margin-bottom:22px" tabindex="-1">Create your account</h1>
+
+    <div class="banner-notice">
+      <span aria-hidden="true">ⓘ</span>
+      <span>Give a mobile number, an email, or both — you'll use one to sign in.</span>
+    </div>
+
+    <div class="field">
+      <label for="r-name">Full name</label>
+      <input id="r-name" type="text" autocomplete="name" value="Farhana Yasmin">
+    </div>
+
+    <div class="field">
+      <label for="r-mobile">Mobile number <span class="muted" style="font-weight:400">(optional)</span></label>
+      <input id="r-mobile" type="tel" autocomplete="tel" placeholder="01712 345678">
+      <div class="hint">Bangladesh mobile, e.g. 01712 345678</div>
+    </div>
+
+    <div class="field">
+      <label for="r-email">Email <span class="muted" style="font-weight:400">(optional)</span></label>
+      <input id="r-email" type="email" autocomplete="email" placeholder="you@example.com">
+    </div>
+
+    <div class="field err">
+      <label for="r-pass">Password</label>
+      <input id="r-pass" type="password" autocomplete="new-password" aria-describedby="r-pass-hint" aria-invalid="true" value="cats4ever">
+      <div id="r-pass-hint" class="hint">At least 10 characters. Common and previously-breached passwords are not accepted.</div>
+      <div class="err-text" role="alert"><span aria-hidden="true">⚠</span> Use at least 10 characters — you have 9.</div>
+    </div>
+
+    <div class="field">
+      <label for="r-captcha">Security check</label>
+      <div class="captcha-box">
+        <div style="display:flex;gap:12px;align-items:center;margin-bottom:10px">
+          <div class="captcha-img" role="img" aria-label="Security check: an image of 5 letters and numbers">7QXA2</div>
+          <button type="button" class="link-btn">New code</button>
+        </div>
+        <input id="r-captcha" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Type the letters and numbers above" style="width:180px">
+        <div class="hint" style="margin-top:8px">Can't see this? <a href="#" style="color:var(--accent-ink);font-weight:600">Register in person at the clinic reception</a>.</div>
+      </div>
+    </div>
+
+    <button type="button" class="btn btn-primary" style="margin-top:8px">Create account</button>
+
+    <div class="small muted" style="margin-top:18px;text-align:center">
+      Already have an account? <a href="SignIn.dc.html" style="color:var(--accent-ink);font-weight:600">Sign in</a>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

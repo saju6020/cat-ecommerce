@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Subscribe — US-SUB-01, 04</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#fbf6ef;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:14px;--warm:#e8894a;--warm-ink:#8a3f14;--warm-soft:#fdeee2}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+a{color:var(--accent-ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:14px 32px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:18px;color:var(--accent-ink)}
+.pnav{display:flex;gap:22px;font-size:14px;font-weight:600;margin-right:auto;margin-left:28px;flex-wrap:wrap}
+.pnav a{color:var(--ink-muted);text-decoration:none;padding:4px 0;border-bottom:2px solid transparent}
+.pnav a.active{color:var(--ink);border-bottom-color:var(--accent)}
+.who{display:flex;align-items:center;gap:10px;font-size:13.5px}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.h1{font-family:var(--font-display);font-weight:600;font-size:24px;margin:0}
+.h2{font-family:var(--font-display);font-weight:600;font-size:17px;margin:0 0 12px}
+.muted{color:var(--ink-muted)}
+.small{font-size:12.5px}
+.wrap{max-width:680px;margin:0 auto;padding:28px 32px 48px}
+.crumb{font-size:13px;margin-bottom:14px}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:20px;margin-bottom:14px}
+.prod{display:flex;gap:16px;align-items:center}
+.thumb{width:72px;height:72px;border-radius:8px;background:var(--surface-sunken);display:flex;align-items:center;justify-content:center;color:var(--ink-faint);flex:none}
+.lbl{display:block;font-size:13.5px;font-weight:700;margin-bottom:8px}
+.hint{font-size:12.5px;color:var(--ink-muted);margin-top:6px;line-height:1.45}
+.inp{font:inherit;font-size:15px;padding:9px 12px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:#fff;color:var(--ink)}
+.qty{display:inline-flex;align-items:center;border:1px solid var(--border-strong);border-radius:6px;overflow:hidden}
+.qty button{width:40px;height:40px;border:none;background:var(--surface-sunken);font-size:18px;font-weight:700;color:var(--ink);cursor:pointer}
+.qty input{width:60px;height:40px;text-align:center;border:none;font:inherit;font-size:15px;font-weight:700}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{display:flex;gap:10px;align-items:flex-start;padding:11px 13px;border:1px solid var(--border);border-radius:var(--radius-sm);background:#fff;font-size:14px;line-height:1.4}
+.opts .opt{flex:1 1 110px}
+.stack .opt{margin-bottom:6px}
+.opt.sel{border-color:var(--accent);background:var(--accent-soft)}
+.opt.dis{background:var(--surface-sunken);color:var(--ink-faint)}
+.opt input{margin:3px 0 0;accent-color:var(--accent)}
+.opt .why{display:block;font-size:12.5px;color:var(--ink-muted);margin-top:3px}
+.note{display:flex;gap:10px;align-items:flex-start;border-radius:var(--radius-sm);padding:11px 13px;font-size:13.5px;line-height:1.5;background:var(--surface-sunken)}
+.note svg{flex:none;margin-top:2px}
+.est{width:100%;border-collapse:collapse;font-size:14px}
+.est td{padding:7px 0;border-bottom:1px solid var(--border)}
+.est td:last-child{text-align:right;font-variant-numeric:tabular-nums}
+.est tr.total td{font-weight:700;font-size:15.5px;border-bottom:none;padding-top:10px}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:14.5px;padding:10px 20px;min-height:42px;border-radius:var(--radius-sm);border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer}
+.btn2{font-family:var(--font-sans);font-weight:600;font-size:14.5px;padding:10px 18px;min-height:42px;border-radius:var(--radius-sm);border:1px solid var(--border-strong);background:#fff;color:var(--ink);cursor:pointer}
+.addlink{display:inline-block;margin-top:6px;font-size:13.5px;font-weight:600}
+</style>
+</helmet>
+<div style="width:1280px;height:1560px;background:var(--surface-page)">
+  <div class="topnav">
+    <div class="brand">PurrCare</div>
+    <nav class="pnav" aria-label="Portal"><a href="#">My cats</a><a href="#">Appointments</a><a href="#">Shop</a><a href="#">Orders</a><a class="active" aria-current="page" href="MySubscriptions.dc.html">Subscriptions</a><a href="#">Inbox</a></nav>
+    <div class="who"><div class="avatar">FY</div>Farhana Yasmin</div>
+  </div>
+  <div class="wrap">
+    <div class="crumb muted"><a href="#">Shop</a> / <a href="#">Adult Indoor dry food</a> / Subscribe</div>
+    <h1 class="h1">Subscribe</h1>
+    <p class="muted" style="margin:6px 0 20px;font-size:14px">Regular deliveries of the same food. Pause, skip or cancel whenever you like.</p>
+
+    <form>
+    <section class="card" aria-labelledby="s-prod">
+      <div class="prod">
+        <div class="thumb" role="img" aria-label="Product photo"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3h12l1 5v12a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V8Z"/><path d="M5 8h14"/><circle cx="12" cy="14" r="2.5"/></svg></div>
+        <div>
+          <div id="s-prod" style="font-weight:700;font-size:16px">Adult Indoor dry food</div>
+          <div class="muted" style="font-size:14px">2 kg bag</div>
+          <div style="font-size:14px;margin-top:4px"><strong>৳1,450.00</strong> <span class="muted">each</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <label class="lbl" for="qty">Per delivery</label>
+      <div class="qty"><button type="button" aria-label="One fewer">−</button><input id="qty" type="number" value="3" min="1" max="6" aria-describedby="qty-h"><button type="button" aria-label="One more">+</button></div>
+      <div id="qty-h" class="hint">From 1 to 6 bags.</div>
+
+      <fieldset style="border:none;padding:0;margin:20px 0 0">
+        <legend class="lbl">How often</legend>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="iv">Every 2 weeks</label>
+          <label class="opt sel"><input type="radio" name="iv" checked>Every 4 weeks</label>
+          <label class="opt"><input type="radio" name="iv">Every 6 weeks</label>
+          <label class="opt"><input type="radio" name="iv">Every 8 weeks</label>
+        </div>
+      </fieldset>
+    </section>
+
+    <section class="card">
+      <fieldset style="border:none;padding:0;margin:0">
+        <legend class="lbl">Delivery or pickup</legend>
+        <div class="opts">
+          <label class="opt sel"><input type="radio" name="ff" checked>Deliver to me</label>
+          <label class="opt"><input type="radio" name="ff">Collect from the clinic</label>
+        </div>
+      </fieldset>
+      <fieldset style="border:none;padding:0;margin:18px 0 0">
+        <legend class="lbl">Deliver to</legend>
+        <div class="stack">
+          <label class="opt sel"><input type="radio" name="ad" checked><span><strong>Home</strong> <span class="muted small">· default</span><span class="why">House 12, Road 7, Sector 4, Uttara, Dhaka 1230</span></span></label>
+          <label class="opt"><input type="radio" name="ad"><span><strong>Office</strong><span class="why">Level 5, 22 Kemal Ataturk Avenue, Banani, Dhaka 1213</span></span></label>
+        </div>
+        <a class="addlink" href="#">+ Add an address</a>
+        <div class="hint">Your choices on this page are kept while you add it.</div>
+      </fieldset>
+    </section>
+
+    <section class="card">
+      <fieldset style="border:none;padding:0;margin:0">
+        <legend class="lbl">How you'll pay for each order</legend>
+        <div class="stack">
+          <label class="opt dis"><input type="radio" name="pm" disabled aria-describedby="cod-why"><span>Cash on delivery<span class="why" id="cod-why">Not available: cash on delivery is only offered for orders up to ৳3,000.</span></span></label>
+          <label class="opt sel"><input type="radio" name="pm" checked><span>Bank transfer<span class="why">The bank details and a pay-by date come with each order.</span></span></label>
+        </div>
+      </fieldset>
+      <div class="note" style="margin-top:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4M12 8h.01"/></svg><span>No card needed. Each delivery creates an order that you pay for by bank transfer.</span></div>
+    </section>
+
+    <section class="card">
+      <label class="lbl" for="first">First order</label>
+      <input id="first" class="inp" type="date" value="2026-09-26" min="2026-09-26" max="2026-10-26" aria-describedby="first-h" style="width:220px">
+      <div id="first-h" class="hint">Choose a date from Sat 26 Sep to Mon 26 Oct 2026. We'll remind you 3 days before each order.</div>
+    </section>
+
+    <section class="card" aria-labelledby="est-h">
+      <h2 class="h2" id="est-h">Estimate</h2>
+      <table class="est">
+        <tr><td>3 × ৳1,450.00</td><td>৳4,350.00</td></tr>
+        <tr><td>Subscription discount −10 %</td><td>−৳435.00</td></tr>
+        <tr class="total"><td>Estimated per delivery</td><td>৳3,915.00</td></tr>
+      </table>
+      <p class="hint" style="margin:10px 0 0">Estimated per delivery. Delivery and tax are added when each order is placed, at the price on that day.</p>
+    </section>
+
+    <div style="display:flex;gap:10px;align-items:center;margin-top:18px">
+      <button type="submit" class="btn">Start subscription</button>
+      <button type="button" class="btn2">Cancel</button>
+    </div>
+    </form>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1560}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

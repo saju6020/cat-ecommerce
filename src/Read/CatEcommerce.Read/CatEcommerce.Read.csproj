@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Infrastructure\CatEcommerce.Infrastructure\CatEcommerce.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Shared\CatEcommerce.Shared\CatEcommerce.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.0" />
+    <PackageReference Include="Platform.Infrastructure.Common" Version="1.0.8" />
+    <PackageReference Include="Platform.Infrastructure.Core" Version="1.0.34" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="CatEcommerce.Application.Tests" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

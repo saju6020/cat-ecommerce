@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Staff account detail — US-ACC-07</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--warning-bg:#fbf0dc;--warning-ink:#6e4700;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px;--radius-pill:999px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:18px;color:var(--accent-ink)}
+.who{font-size:13.5px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:22px;margin:0 0 4px}
+.muted{color:var(--ink-muted)}
+.grid{display:grid;grid-template-columns:1fr 380px;gap:24px;max-width:1000px}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:22px;margin-bottom:18px}
+.rolechip{display:inline-flex;align-items:center;gap:6px;background:var(--accent-soft);color:var(--accent-ink);font-size:12.5px;font-weight:600;padding:4px 10px;border-radius:var(--radius-pill);margin:0 6px 6px 0}
+.rolechip button{background:none;border:none;color:inherit;cursor:pointer;font-weight:700}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:8px 14px;border-radius:var(--radius-sm);border:1px solid var(--border-strong);background:#fff;cursor:pointer}
+.confirm{background:var(--warning-bg);color:var(--warning-ink);border-radius:var(--radius-sm);padding:14px;font-size:13.5px;line-height:1.5;margin-top:14px}
+.confirm .actions{display:flex;gap:8px;margin-top:10px}
+.btn-danger{background:var(--danger-ink);color:#fff;border:none;font-weight:600;font-size:13px;padding:7px 14px;border-radius:6px;cursor:pointer}
+.btn-cancel{background:#fff;border:1px solid var(--border-strong);font-weight:600;font-size:13px;padding:7px 14px;border-radius:6px;cursor:pointer}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page);overflow:auto">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who">Rezwan Ahmed · Administrator</div></div>
+  <div style="padding:28px 32px">
+    <h1 class="h1">Dr. Imran Kabir</h1>
+    <p class="muted" style="margin:0 0 20px">imran@purrcare.example · Password set</p>
+    <div class="grid">
+      <div>
+        <div class="card">
+          <div style="font-weight:700;margin-bottom:10px">Roles</div>
+          <div><span class="rolechip">Vet <button aria-label="Remove Vet role">✕</button></span><span class="rolechip">Administrator <button aria-label="Remove Administrator role">✕</button></span></div>
+          <div class="confirm" role="alertdialog" aria-label="Confirm removing the Administrator role">
+            <strong>Remove the Administrator role from Dr. Imran Kabir?</strong>
+            <p style="margin:6px 0 0">He'll be signed out immediately and lose access to staff accounts, roles and settings. His Vet role and clinical history are unaffected.</p>
+            <div class="actions">
+              <button class="btn-danger">Remove role</button>
+              <button class="btn-cancel">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div style="font-weight:700;margin-bottom:8px">If this were the last administrator</div>
+        <p class="muted" style="font-size:13px;line-height:1.5;margin:0">The server refuses the change and this message is shown instead of the confirmation above: <em>"This account is the only Administrator. Assign the role to someone else first."</em></p>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

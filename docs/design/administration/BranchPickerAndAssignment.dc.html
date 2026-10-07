@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Active branch &amp; staff assignment — US-ADM-01</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.h2{font-weight:700;font-size:14px;margin:0 0 4px}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:20px}
+.topnav-mini{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid var(--border)}
+.brand{font-family:var(--font-display);font-weight:600;font-size:16px;color:var(--accent-ink)}
+select.branchpick{font:inherit;font-size:13px;padding:6px 10px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.rowchk{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:14px}
+.rowchk:last-child{border-bottom:none}
+.primary-radio{margin-left:auto;display:flex;align-items:center;gap:5px;font-size:12.5px;color:var(--ink-muted)}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:9px 16px;border-radius:var(--radius-sm);border:none;cursor:pointer;background:var(--accent);color:#fff;margin-top:14px}
+</style>
+</helmet>
+<div style="width:1280px;height:820px;background:var(--surface-page);padding:32px;display:flex;gap:28px">
+  <div style="flex:1;max-width:440px">
+    <div class="h2" style="margin-bottom:12px">Active-branch picker — in the staff header</div>
+    <div class="topnav-mini" style="background:#fff;border-radius:var(--radius-md);border:1px solid var(--border)">
+      <div class="brand">PurrCare · staff</div>
+      <div style="font-size:13px;display:flex;align-items:center;gap:14px">
+        <select class="branchpick" aria-label="Active branch"><option>Uttara (primary)</option><option>Banani</option></select>
+        Dr. Nusrat Jahan
+      </div>
+    </div>
+    <p style="font-size:12.5px;color:var(--ink-muted);margin-top:12px;line-height:1.5">Hidden entirely for a staff member with only one branch (ADR-FE-015). Changing it sends <code>X-Branch-Id</code> on every request from then on and resets branch-scoped queries — nothing about the choice is saved between reloads.</p>
+  </div>
+  <div style="flex:1;max-width:440px">
+    <div class="h2" style="margin-bottom:12px">Branches panel — on a staff account's detail page</div>
+    <div class="card">
+      <div class="rowchk"><input type="checkbox" checked id="b1"><label for="b1" style="flex:1">Uttara</label><span class="primary-radio"><input type="radio" name="primary" checked id="p1"><label for="p1">Primary</label></span></div>
+      <div class="rowchk"><input type="checkbox" checked id="b2"><label for="b2" style="flex:1">Banani</label><span class="primary-radio"><input type="radio" name="primary" id="p2"><label for="p2">Primary</label></span></div>
+      <div class="rowchk"><input type="checkbox" id="b3"><label for="b3" style="flex:1;color:var(--ink-muted)">Chattogram <span style="font-size:12px">(inactive)</span></label></div>
+      <button type="button" class="btn">Save</button>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":820}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

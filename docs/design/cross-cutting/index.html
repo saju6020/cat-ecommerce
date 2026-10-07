@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Cross-cutting — screens</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="./index.css">
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../index.html">&larr; All areas</a>
+  <div class="eyebrow">PurrCare · backlog &sect;17</div>
+  <h1>Cross-cutting &amp; technical</h1>
+  <p class="lede">Four rows, twenty-four artboards, built against HO-XCT-002: the front desk when the internet drops, retention and erasure, backup and restore, and storefront performance. No live interaction; every state is its own artboard.</p>
+
+  <div class="row-group">
+    <h2>Offline front desk — US-XCT-01</h2>
+    <a class="screen-row" href="FrontDeskOffline.dc.html"><span class="screen-name">⭐ Front desk while offline<span class="screen-file">FrontDeskOffline.dc.html</span></span><span class="screen-desc">The offline banner over the last-loaded list; every action disabled with "Offline — can't save"; a check-in form keeps what was typed and shows the offline save message</span></a>
+    <a class="screen-row" href="OfflineBannerStates.dc.html"><span class="screen-name">Connection banner states<span class="screen-file">OfflineBannerStates.dc.html</span></span><span class="screen-desc">Offline with and without a saved copy, over an hour stale, server trouble (not offline), back online, and returning from the offline list</span></a>
+    <a class="screen-row" href="OfflineBoard.dc.html"><span class="screen-name">⭐ Offline list<span class="screen-file">OfflineBoard.dc.html</span></span><span class="screen-desc">Today's appointments and boarding tasks from the device copy, read-only, with no button anywhere; high-risk badge with its handling note; tap-to-call numbers</span></a>
+    <a class="screen-row" href="OfflineBoardRefusals.dc.html"><span class="screen-name">Offline list: when it won't show<span class="screen-file">OfflineBoardRefusals.dc.html</span></span><span class="screen-desc">No copy, out-of-date copy, another person's copy — each explained, no data shown — and the wording for a section left out of a valid copy</span></a>
+    <a class="screen-row" href="OfflineBoardLocked.dc.html"><span class="screen-name">Offline list locked<span class="screen-file">OfflineBoardLocked.dc.html</span></span><span class="screen-desc">"Locked. Sign in again when the connection returns." after 15 minutes without use, and why it can't be unlocked offline</span></a>
+    <a class="screen-row" href="OfflineBoardMobile360.dc.html"><span class="screen-name">Offline list at 360 px<span class="screen-file">OfflineBoardMobile360.dc.html</span></span><span class="screen-desc">The same list as cards on a narrow tablet or phone, with boarding tasks "not available yet"</span></a>
+    <a class="screen-row" href="OfflineDeviceSettings.dc.html"><span class="screen-name">Offline copy on this device<span class="screen-file">OfflineDeviceSettings.dc.html</span></span><span class="screen-desc">The per-device opt-in, what is kept and for how long, last saved time, "Clear this device now" and the automatic clears</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Retention &amp; erasure — US-XCT-06</h2>
+    <a class="screen-row" href="RetentionSchedule.dc.html"><span class="screen-name">⭐ Retention schedule<span class="screen-file">RetentionSchedule.dc.html</span></span><span class="screen-desc">Eligible-for-review counts ("Nothing is deleted automatically"), run-now, and every record class with its period and end action; one row expanded to its tables</span></a>
+    <a class="screen-row" href="RetentionRunNow.dc.html"><span class="screen-name">Run retention now<span class="screen-file">RetentionRunNow.dc.html</span></span><span class="screen-desc">The confirmation listing what the run will and will not do, beside the "already running" state</span></a>
+    <a class="screen-row" href="RetentionRuns.dc.html"><span class="screen-name">Retention runs<span class="screen-file">RetentionRuns.dc.html</span></span><span class="screen-desc">Paged history filtered by status: running, succeeded, completed with errors</span></a>
+    <a class="screen-row" href="RetentionRunDetail.dc.html"><span class="screen-name">Run detail<span class="screen-file">RetentionRunDetail.dc.html</span></span><span class="screen-desc">Per-pass counts (examined, affected, held, failed) and the one error explained in words, its code secondary</span></a>
+    <a class="screen-row" href="ErasureLedger.dc.html"><span class="screen-name">Erasure requests<span class="screen-file">ErasureLedger.dc.html</span></span><span class="screen-desc">By account id only — no names exist any more; "2 of 3 complete, 1 held until 12 Mar 2032"</span></a>
+    <a class="screen-row" href="ErasureLedgerDetail.dc.html"><span class="screen-name">Erasure request detail<span class="screen-file">ErasureLedgerDetail.dc.html</span></span><span class="screen-desc">One row per part with its hold date and legal basis, and a paragraph on held data written for a compliance officer</span></a>
+    <a class="screen-row" href="ReapplyAfterRestore.dc.html"><span class="screen-name">Re-apply after a restore<span class="screen-file">ReapplyAfterRestore.dc.html</span></span><span class="screen-desc">Pasted ids and the restore reference, under a confirmation that says these accounts are re-anonymised</span></a>
+    <a class="screen-row" href="ReapplyStates.dc.html"><span class="screen-name">Re-apply: validation and result<span class="screen-file">ReapplyStates.dc.html</span></span><span class="screen-desc">Over 500 ids and malformed lines blocked before sending; the four result counts afterwards</span></a>
+    <a class="screen-row" href="ErasePersonalData.dc.html"><span class="screen-name">⭐ Erase personal data<span class="screen-file">ErasePersonalData.dc.html</span></span><span class="screen-desc">The panel on the staff customer page: what is erased, what is kept and why, channel, identity check and reason</span></a>
+    <a class="screen-row" href="EraseConfirm.dc.html"><span class="screen-name">Erase: confirm<span class="screen-file">EraseConfirm.dc.html</span></span><span class="screen-desc">Names the customer once, repeats erased vs kept, and says "This cannot be undone."</span></a>
+    <a class="screen-row" href="EraseStates.dc.html"><span class="screen-name">Erase: erased and merged<span class="screen-file">EraseStates.dc.html</span></span><span class="screen-desc">"Personal data was erased on 23 Sep 2026" with a ledger link; the merged-record message pointing to the surviving customer</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Backup &amp; restore — US-XCT-05</h2>
+    <a class="screen-row" href="BackupStatus.dc.html"><span class="screen-name">⭐ Backup &amp; restore<span class="screen-file">BackupStatus.dc.html</span></span><span class="screen-desc">An overdue restore test and a stale backup, both visible without scrolling; objectives beside achieved RPO/RTO; restore-test history</span></a>
+    <a class="screen-row" href="RecordRestoreTest.dc.html"><span class="screen-name">Record a restore test<span class="screen-file">RecordRestoreTest.dc.html</span></span><span class="screen-desc">Paste the drill JSON, fields fill and stay editable; no RPO, RTO or outcome field exists</span></a>
+    <a class="screen-row" href="RecordRestoreTestParseError.dc.html"><span class="screen-name">Record: unreadable paste<span class="screen-file">RecordRestoreTestParseError.dc.html</span></span><span class="screen-desc">A clear parse error that keeps what was pasted; Save disabled with its reason</span></a>
+    <a class="screen-row" href="RestoreTestDetail.dc.html"><span class="screen-name">Restore test detail<span class="screen-file">RestoreTestDetail.dc.html</span></span><span class="screen-desc">The server's verdict (Failed) with computed RPO/RTO, the checks, and the drill output as plain text</span></a>
+    <a class="screen-row" href="OverdueBannerOnSettings.dc.html"><span class="screen-name">Overdue banner on an admin page<span class="screen-file">OverdueBannerOnSettings.dc.html</span></span><span class="screen-desc">The per-session banner on any admin route, shown on Settings with the nine new retention and operations settings</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Storefront performance — US-XCT-02</h2>
+    <a class="screen-row" href="Performance.dc.html"><span class="screen-name">Storefront performance<span class="screen-file">Performance.dc.html</span></span><span class="screen-desc">p75 per route against the 2.5 s budget as a chart and a table; Pass / Fail / Not enough data in words and icons</span></a>
+  </div>
+
+  <p class="note">Rendered locally by <code>support.js</code> in this folder, a from-scratch reimplementation of the hosted canvas runtime (not the original, which isn't distributed). See <a href="README.md">README.md</a> for the design system, encoded rules and known gaps.</p>
+</div>
+</body>
+</html>

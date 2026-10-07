@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Inbox — US-NTF-01</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--border:#e5e1d8;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px;--radius-pill:999px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:18px;color:var(--accent-ink)}
+.who{display:flex;align-items:center;gap:18px;font-size:13.5px}
+.icon-demo{position:relative;display:inline-flex;width:34px;height:34px;border-radius:999px;align-items:center;justify-content:center;color:var(--ink)}
+.count{position:absolute;top:-2px;right:-2px;min-width:17px;height:17px;padding:0 4px;border-radius:999px;background:var(--danger-ink);color:#fff;font-size:10.5px;font-weight:700;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 2px #fff}
+.h1{font-family:var(--font-display);font-weight:600;font-size:22px;margin:0 0 4px}
+.muted{color:var(--ink-muted)}
+.main{max-width:640px;margin:0 auto;padding:32px}
+.filterrow{display:flex;gap:6px;margin:14px 0 18px}
+.chip{border:1px solid var(--border);background:#fff;border-radius:999px;padding:6px 14px;font-size:13px;font-weight:600;cursor:pointer;color:var(--ink-muted)}
+.chip.active{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-ink)}
+.item{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);margin-bottom:8px;overflow:hidden}
+.ihead{display:flex;gap:10px;align-items:flex-start;padding:14px 16px;cursor:pointer}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex:none;margin-top:6px}
+.dot.read{background:transparent}
+.ititle{font-weight:700;font-size:14px}
+.ititle.unread{font-weight:700}
+.isnippet{color:var(--ink-muted);font-size:13px;margin-top:2px}
+.itime{font-size:12px;color:var(--ink-muted);white-space:nowrap;margin-left:auto}
+.ibody{padding:0 16px 16px 34px;font-size:13.5px;line-height:1.6;white-space:pre-wrap;border-top:1px solid var(--border);margin-top:0;padding-top:12px;color:var(--ink)}
+.viewlink{display:inline-block;margin-top:10px;color:var(--accent-ink);font-weight:600;font-size:13px;text-decoration:none}
+.unreadword{font-size:11px;font-weight:700;color:var(--accent-ink);background:var(--accent-soft);border-radius:999px;padding:2px 8px;margin-left:8px}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page);overflow:auto">
+  <div class="topnav">
+    <div class="brand">PurrCare</div>
+    <div class="who">
+      <span class="icon-demo" role="img" aria-label="Inbox, 3 unread messages">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v12H8l-4 4Z"/></svg>
+        <span class="count" aria-hidden="true">3</span>
+      </span>
+      Farhana Yasmin
+    </div>
+  </div>
+  <div class="main">
+    <h1 class="h1">Inbox</h1>
+    <div class="filterrow">
+      <button class="chip active">All</button>
+      <button class="chip">Unread</button>
+    </div>
+
+    <div class="item">
+      <div class="ihead">
+        <span class="dot"></span>
+        <div style="flex:1">
+          <span class="ititle unread">Rabies booster due soon<span class="unreadword">Unread</span></span>
+          <div class="isnippet">Mittens is due for a booster in 9 days. Book before your next boarding stay…</div>
+        </div>
+        <span class="itime">2 hours ago</span>
+      </div>
+      <div class="ibody">Mittens is due for a rabies booster in 9 days (2 Oct 2026). Book before your next boarding stay to avoid a hold at check-in.
+        <br><a class="viewlink" href="#">View Mittens' vaccinations →</a>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="ihead">
+        <span class="dot"></span>
+        <div style="flex:1"><span class="ititle unread">Order #1042 has shipped<span class="unreadword">Unread</span></span>
+          <div class="isnippet">Your order of cat food and litter is on its way…</div></div>
+        <span class="itime">Yesterday</span>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="ihead">
+        <span class="dot read"></span>
+        <div style="flex:1"><span class="ititle">Your password was reset</span>
+          <div class="isnippet">If this wasn't you, contact the clinic right away.</div></div>
+        <span class="itime">4 days ago</span>
+      </div>
+    </div>
+
+    <p class="muted" style="font-size:12.5px;margin-top:18px">Opening an item marks it read (OQ-3). Polling for new counts happens every 60s, paused while the tab is hidden — no WebSocket.</p>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

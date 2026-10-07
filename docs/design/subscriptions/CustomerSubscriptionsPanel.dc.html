@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Customer page — subscriptions panel — US-SUB-06</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+a{color:var(--accent-ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:22px;margin:0 0 6px}
+.h2{font-family:var(--font-display);font-weight:600;font-size:17px;margin:0}
+.muted{color:var(--ink-muted)}
+.faint{color:var(--ink-faint)}
+.small{font-size:12.5px}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:20px;max-width:820px;margin-bottom:16px}
+.card.dim{opacity:.55}
+.kv{display:grid;grid-template-columns:160px 1fr;gap:8px;font-size:14px;line-height:1.6;margin:0}
+.kv dt{color:var(--ink-muted)}
+.kv dd{margin:0}
+.panelhead{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+.new{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--accent-ink);background:var(--accent-soft);border-radius:4px;padding:2px 6px;margin-left:8px;vertical-align:middle}
+table{border-collapse:collapse;width:100%}
+th,td{padding:9px 10px;text-align:left;border-bottom:1px solid var(--border);font-size:13.5px}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);font-weight:700;background:var(--surface-sunken)}
+tr:last-child td{border-bottom:none}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;font-size:11.5px;font-weight:700;white-space:nowrap}
+.b-active{background:var(--accent-soft);color:var(--accent-ink)}
+.b-neutral{background:var(--surface-sunken);color:var(--ink-muted)}
+.counts{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;font-size:13.5px}
+.cnt{border:1px solid var(--border);border-radius:8px;padding:8px 12px;display:flex;gap:8px;align-items:center}
+.cnt strong{font-size:15px}
+</style>
+</helmet>
+<div style="width:1280px;height:820px;background:var(--surface-page)">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who">Shormi Akter · Reception</div></div>
+  <div style="padding:28px 32px">
+    <h1 class="h1">Farhana Yasmin</h1>
+    <p class="muted" style="margin:0 0 20px">Online customer · registered 12 Mar 2026 · 2 cats</p>
+
+    <div class="card dim" aria-hidden="true">
+      <dl class="kv"><dt>Mobile</dt><dd>01712 345678</dd><dt>Email</dt><dd>farhana@example.com</dd></dl>
+    </div>
+
+    <section class="card" aria-labelledby="subs-h">
+      <div class="panelhead">
+        <h2 class="h2" id="subs-h">Subscriptions <span class="new">Added by this area</span></h2>
+        <a href="StaffSubscriptions.dc.html" style="font-size:13.5px;font-weight:600">All of Farhana's subscriptions →</a>
+      </div>
+      <table>
+        <thead><tr><th>Product</th><th>Status</th><th>Next order</th><th></th></tr></thead>
+        <tbody>
+          <tr><td>Clumping cat litter <span class="muted small">· 2 × 10 L, every 2 weeks</span></td><td><span class="badge b-active">✓ Active</span></td><td>Thu 24 Sep 2026</td><td><a href="#">Open</a></td></tr>
+          <tr><td>Senior wet food <span class="muted small">· 1 × 12 pouches, every 2 weeks</span></td><td><span class="badge b-active">✓ Active</span></td><td>Tue 29 Sep 2026</td><td><a href="#">Open</a></td></tr>
+          <tr><td>Adult Indoor dry food <span class="muted small">· 3 × 2 kg, every 4 weeks</span></td><td><span class="badge b-active">✓ Active</span></td><td>Tue 20 Oct 2026</td><td><a href="#">Open</a></td></tr>
+          <tr><td>Lamb wet food pouches <span class="muted small">· 2 × 12, every 4 weeks</span></td><td><span class="badge b-neutral">❙❙ Paused</span></td><td class="faint">None while paused</td><td><a href="#">Open</a></td></tr>
+        </tbody>
+      </table>
+      <div class="counts">
+        <a class="cnt" href="StaffSubscriptions.dc.html" style="text-decoration:none;color:var(--warning-ink);background:var(--warning-bg);border-color:transparent"><strong>2</strong> suspended — 1 for unpaid orders, 1 for an ended authorisation</a>
+        <a class="cnt" href="StaffSubscriptions.dc.html" style="text-decoration:none;color:var(--ink-muted)"><strong>1</strong> cancelled</a>
+      </div>
+    </section>
+
+    <div class="card dim" aria-hidden="true"><strong>Cats</strong> <span class="muted">· Mittens, Mishti — existing panel on this page</span></div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":820}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

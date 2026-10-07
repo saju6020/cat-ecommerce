@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Branch details — US-ADM-01</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px;display:flex;align-items:center;gap:16px}
+select.branchpick{font:inherit;font-size:13px;padding:5px 8px;border:1px solid var(--border-strong);border-radius:6px}
+.shell{display:flex}
+.sidebar{width:210px;flex:none;background:#fff;border-right:1px solid var(--border);min-height:820px;padding:18px 0}
+.sidebar a{display:block;padding:9px 22px;font-size:13.5px;color:var(--ink-muted);text-decoration:none;font-weight:600}
+.sidebar a.active{color:var(--accent-ink);background:var(--accent-soft);border-right:2px solid var(--accent)}
+.main{flex:1;padding:26px 32px;max-width:760px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0 0 16px}
+.tabnav{display:flex;border-bottom:1px solid var(--border);margin-bottom:22px}
+.tabnav a{padding:11px 4px;margin-right:24px;font-size:13.5px;font-weight:600;color:var(--ink-muted);border-bottom:2px solid transparent;text-decoration:none}
+.tabnav a.active{color:var(--ink);border-bottom-color:var(--accent)}
+.field{margin-bottom:16px;max-width:380px}
+.field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.field input,.field select{width:100%;font:inherit;font-size:15px;padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius-sm)}
+.field input[readonly]{background:var(--surface-sunken);color:var(--ink-muted)}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:9px 16px;border-radius:var(--radius-sm);border:none;cursor:pointer;background:var(--accent);color:#fff;margin-top:8px}
+.btn-danger{background:#fff;border:1px solid var(--danger-ink);color:var(--danger-ink);margin-left:8px}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page);overflow:auto">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who"><select class="branchpick" aria-label="Active branch"><option>Uttara (primary)</option><option>Banani</option></select>Rezwan Ahmed · Administrator</div></div>
+  <div class="shell">
+    <div class="sidebar">
+      <a class="active" aria-current="page">Branches</a><a>Services &amp; pricing</a><a>Rosters &amp; leave</a><a>Settings</a><a>Content</a><a>Policies</a><a>Audit log</a><a>System</a>
+    </div>
+    <div class="main">
+      <h1 class="h1">Uttara</h1>
+      <nav class="tabnav" aria-label="Branch sections">
+        <a href="#" class="active" aria-current="page">Details</a>
+        <a href="WeeklyHoursEditor.dc.html">Opening hours</a>
+        <a href="Closures.dc.html">Closures</a>
+        <a href="Rooms.dc.html">Rooms</a>
+      </nav>
+      <div class="field"><label for="bd-name">Name</label><input id="bd-name" value="Uttara"></div>
+      <div class="field"><label for="bd-code">Code</label><input id="bd-code" value="UTR" readonly aria-describedby="bd-code-hint"><span id="bd-code-hint" class="hint" style="font-size:12px;color:var(--ink-muted)">Set once, at creation.</span></div>
+      <div class="field"><label for="bd-addr">Address</label><input id="bd-addr" value="Sector 7, Uttara, Dhaka"></div>
+      <div class="field"><label for="bd-phone">Phone</label><input id="bd-phone" value="09611 223344"></div>
+      <div class="field"><label for="bd-email">Email</label><input id="bd-email" value="uttara@purrcare.example"></div>
+      <div class="field">
+        <label for="bd-zone">Time zone</label>
+        <select id="bd-zone"><option>Asia/Dhaka</option><option>Asia/Kolkata</option></select>
+      </div>
+      <button type="button" class="btn">Save</button>
+      <button type="button" class="btn btn-danger">Deactivate branch</button>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

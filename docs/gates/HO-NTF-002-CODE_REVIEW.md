@@ -1,0 +1,48 @@
+GATE: CODE_REVIEW
+HANDOVER: HO-NTF-002
+COMMITS: cffaa79..8bb94ed, then ca9e2a5 (first pass) and a50a2c7 (fix, second pass) (code commits 83a4f10 275cf07 d7ce065 86c0098 778fae8 260e31b 66e8535; gate records 1a5965d 8bb94ed), branch ho/NTF-002
+DATE: 2026-10-04
+STATUS: PASS
+
+Checks run in web/: `npx tsc --noEmit` exit 0; `npm run lint` (--max-warnings 0) exit 0; `npx vitest run` 108 files / 501 tests passed. Playwright not run (TEST gate).
+Not re-reported: ARCHITECTURE (1 MEDIUM, 4 LOW) and SECURITY (3 LOW) findings, including the dead `useChangeNotificationPreferences`.
+Owner rule: the one HIGH below fails the gate; MEDIUM and LOW go to docs/backlog/NTF.md.
+
+FINDINGS
+- [HIGH] web/app/(staff)/staff/admin/notification-templates/[key]/page.tsx:43 — `if (isError || !template)` replaces the whole editor with ErrorState whenever the detail query is in the error state, including after a failed BACKGROUND refetch. The app QueryClient (app/providers.tsx:44) has staleTime 30 s and refetchOnWindowFocus on, so returning to the tab after 30 s refetches the template; a transient failure (retry is 1) unmounts TemplateEditor and discards everything typed. The same happens when the 409 banner's Reload fails: `useReloadNotificationTemplate` uses `fetchQuery`, which puts the query in error, so the page swaps to ErrorState, the editor is unmounted and the unsaved text is lost. This breaks NFR-USA-5 ("values survive every error") and the handover's "nothing typed is touched" on 409. Fix: show ErrorState only when `!template`; once data exists keep the editor mounted and surface a non-destructive "couldn't refresh" message; optionally set `refetchOnWindowFocus: false` on the detail query, since the editor deliberately ignores refetched versions. Add a page-level test (all current tests use editor-harness and never exercise the page).
+- [MEDIUM] web/app/(staff)/staff/notifications/page.tsx:107 — when `rangeOk` is false because From or To is cleared (backwards and over-93-day have messages), the table is `null` and NotificationLogFilters shows nothing: a blank area below the filters, with no "choose a date range" prompt. Clearing a date also deletes the URL param, so a reload silently restores the default range (useUrlFilterState `defaults`). Fix: render a prompt for the empty-range case, or make the date inputs non-clearable.
+- [MEDIUM] web/components/templates/TemplateEditor.tsx (215 lines), web/components/notifications/NotificationLogFilters.tsx (204), web/components/notifications/NotificationLogTable.tsx (187) — over the ~150-line guide. Nothing is wrong functionally, but there are clear seams. TemplateEditor: the status banners (conflict, rootError, notice) and the two ConfirmDialogs. Filters: a small labelled-field or select wrapper that removes the repeated label/select blocks. Table: the table body and the card list as two components. Not blocking.
+- [MEDIUM] web/app/(staff)/staff/admin/notification-templates/[key]/page.tsx:50-58 — `canManage` is derived from `session?.roleIds ?? []`. While the session is loading, or if the session query failed, the editor renders read-only with "You can view this template but not change it", and fields flip to editable when the session lands. Wait for the session before rendering, or show a loading state.
+- [LOW] web/components/templates/useTemplateWrites.ts:92 — `setTimeout(() => setFocusTarget(first), 0)` is never cleared. Harmless today; an unmount between the timer and its firing would call setState on an unmounted component. Use an effect keyed on a counter instead.
+- [LOW] web/components/templates/useTemplateWrites.ts:121-128 — `reload` has no pending state, so a double-click sends two fetches and a slow Reload gives no feedback. Disable the button while reloading.
+- [LOW] web/lib/hooks/useUrlFilterState.ts (pre-existing, used by web/app/(staff)/staff/notifications/page.tsx:41) with page.tsx `goToPage` (line 71): pagination calls `router.push` directly, not through the hook, so the URL change is treated as external navigation and `setValues(readFromUrl())` runs. A destination or template-key edit still inside the 300 ms debounce, i.e. not yet in the URL, is overwritten when the person clicks a page link within that window. Narrow, and typing then paging within 300 ms is unlikely.
+- [LOW] web/components/notifications/NotificationLogTable.tsx:55-62 — `keepPreviousData` keeps the previous rows on screen while a new filter loads, and there is no fetching indicator (`isFetching` is not passed). A failed refetch with old rows present (`isError && items`) shows nothing. The old rows can look like results of the new filters. Pass `isFetching` and `aria-busy`, and show a retry banner for the stale-rows error.
+- [LOW] web/tests/components/templates/template-editor.test.tsx:107-150 (U-C2) — the abort assertion is `signals.some((s) => s.aborted)`, which would also pass if any preview signal were aborted for another reason (for example the unmount). Real timers and `setTimeout` sleeps (about 3 s) make it timing-sensitive on a loaded machine. Assert that the specific second request's signal aborted, and use fake timers for the debounce window. The test still covers real behaviour and is named by ID.
+- [LOW] web/tests/components/inbox/inbox-badge.test.tsx:87 — U-A2 sets `document.visibilityState = 'hidden'` and does not restore it (the beforeEach at line 31 restores 'visible' only for the next test, and this is the last test). Safe today because vitest isolates per file; restore in afterEach. The assertion itself is real: nothing fires for 5 minutes while hidden, after the poll and focus refetches were shown to fire.
+- [LOW] web/components/inbox/InboxBadge.tsx:25 — the count changes silently for assistive tech (aria-label update on a link, no live region). Acceptable for a hint badge; consider a visually-hidden `role="status"` only if the owner wants announcements.
+
+CHECKED, NO FINDING
+- Preview debounce and abort: the request is serialised to a string before debouncing, so identity churn does not restart the timer. The query is keyed on the request, uses keepPreviousData, and `signal` reaches `fetch`. Preview 400s go onto fields as type `preview` without moving focus, and clear when the next preview lands.
+- Polling pause: `refetchIntervalInBackground: false` is explicit on the unread count, and the summary uses the default (paused when hidden).
+- Editor and `contentVersion`: `useForm` defaultValues and `loadedVersion` are set once. Only save, reset and Reload move them, so a background refetch cannot change what is sent as `expectedContentVersion`. A stale version yields a 409, which is handled.
+- Re-read after save and reset: `writeThenReload` does the write, then the GET, then `setQueryData`, so `adopt` gets the fresh version. A failed write skips the re-read.
+- 409 handling: banner with Reload, typed values kept (U-C7 asserts both). The component logic is correct; only the page wrapper in the HIGH finding loses it.
+- Error and empty states: the log and inbox have loading, error ("does not mean there are no messages") and empty states. The 403 path renders PermissionDeniedState.
+- Accessibility: ARIA tabs pattern, labelled inputs, the scrollable table region has a name and tabIndex, status is text and not colour alone, the badge name begins with its visible label, and the table and card list are CSS-switched.
+- §16 tests: all inspected tests assert behaviour (requests, DOM, values) and carry their U-/E- ID in the name, apart from the unnumbered supplementary cases, which are named descriptively.
+
+SCOPE CHECK
+- files in allowed scope: 90/90 (per ARCHITECTURE gate; this gate found no change to that)
+- files outside allowed scope: none (uncommitted web/public/mockServiceWorker.js left alone, not part of the reviewed range)
+
+SECOND PASS (2026-10-04, delta ca9e2a5..a50a2c7)
+STATUS: PASS (first pass was FAIL on the HIGH below; it is resolved)
+
+Checks in web/: `npx tsc --noEmit` exit 0; `npm run lint` exit 0; `npx vitest run` 109 files / 505 tests passed (was 108 / 501).
+
+- [RESOLVED, was HIGH] notification-templates/[key]/page.tsx:43 — the full-page ErrorState now shows only when `!template`. With data present the editor stays mounted through a failed background refetch or failed Reload, with a role="status" banner ("couldn't refresh ... your changes are kept"). The detail query sets `refetchOnWindowFocus: false`. Verified by reading the diff: the fix is correct and covers both paths (focus/background refetch, and `fetchQuery` in Reload).
+- [RESOLVED, was LOW] Reload now has a `reloading` state (disabled, "Reloading…", cleared in `finally`). A failed Reload reports in place via `showError`, with the editor kept.
+- Tests: template-editor-page.test.tsx drives the real page. Test 1 types a value, forces a 500 on invalidate, and asserts the banner, the kept value and no full-page error. Test 2 does 409 then a failing Reload, and asserts the message, the kept value and an enabled Reload. Test 3 asserts the disabled/"Reloading…" state while pending. Test 4 asserts a never-loaded template still gets the full-page error with Try again. Tests 1 and 2 assert that the ErrorState text is absent and that the typed value survives; the old `isError ||` condition renders ErrorState and unmounts the editor, so they would fail without the fix. A U-C7-R row was added to the TC sheet.
+- [LOW, new] notification-templates/[key]/page.tsx — the "couldn't refresh" banner has no dismiss or retry and stays until a later fetch succeeds; with focus refetch off, that may be until the next save or Reload. Add a Retry button or clear it once Reload is used. Backlog.
+
+Remaining first-pass MEDIUM and LOW findings are unchanged and go to docs/backlog/NTF.md.

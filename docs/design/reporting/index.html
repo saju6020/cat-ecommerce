@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Reporting — screens</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="./index.css">
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../index.html">&larr; All areas</a>
+  <div class="eyebrow">PurrCare · backlog &sect;16</div>
+  <h1>Reporting</h1>
+  <p class="lede">Three rows, nineteen artboards &mdash; the home dashboard, the one report viewer that serves all 27 reports, and report schedules. No live interaction; every state is its own artboard.</p>
+
+  <div class="row-group">
+    <h2>Home dashboard — US-RPT-05</h2>
+    <a class="screen-row" href="DashboardReception.dc.html"><span class="screen-name">⭐ Home dashboard (reception)<span class="screen-file">DashboardReception.dc.html</span></span><span class="screen-desc">Today at the active branch: six tiles in the server's order, "Updated 09:42 (Asia/Dhaka)", and tiles with no drill-down link simply without one</span></a>
+    <a class="screen-row" href="DashboardAdmin.dc.html"><span class="screen-name">Home dashboard (administrator)<span class="screen-file">DashboardAdmin.dc.html</span></span><span class="screen-desc">Money tiles: revenue by line, payments by the four v1 methods, receivables; a value-at-risk figure shown as "— Not recorded", never ৳0</span></a>
+    <a class="screen-row" href="DashboardNurse.dc.html"><span class="screen-name">Home dashboard (nurse)<span class="screen-file">DashboardNurse.dc.html</span></span><span class="screen-desc">Clinic tiles only &mdash; no money, stock or sales tile and no placeholder where one would be; no report links</span></a>
+    <a class="screen-row" href="DashboardStates.dc.html"><span class="screen-name">Dashboard states<span class="screen-file">DashboardStates.dc.html</span></span><span class="screen-desc">A vet's tile, a null figure, Short / Over / Breached as word + icon, refresh with a dialog left open, tab hidden, loading, and the empty payload</span></a>
+    <a class="screen-row" href="DashboardMobile.dc.html"><span class="screen-name">Dashboard at 360px<span class="screen-file">DashboardMobile.dc.html</span></span><span class="screen-desc">One column of tiles, same order, nothing scrolls sideways (UI-1)</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Report catalogue and viewer — US-RPT-01 &hellip; 04</h2>
+    <a class="screen-row" href="ReportCatalogue.dc.html"><span class="screen-name">Report catalogue<span class="screen-file">ReportCatalogue.dc.html</span></span><span class="screen-desc">27 reports in seven plain-language groups, "Covers up to N days", search by title and description</span></a>
+    <a class="screen-row" href="ReportViewer.dc.html"><span class="screen-name">⭐ Report viewer (daily schedule)<span class="screen-file">ReportViewer.dc.html</span></span><span class="screen-desc">Filter bar, server notes, a real table with caption, sortable headers, a Total footer and paging; "—" for values not recorded</span></a>
+    <a class="screen-row" href="ReportRevenueChart.dc.html"><span class="screen-name">⭐ Revenue by business line, with chart<span class="screen-file">ReportRevenueChart.dc.html</span></span><span class="screen-desc">The optional chart over the same server numbers (letters + fill patterns, hidden data table), margin coverage notes, 11-column table with a sticky first column</span></a>
+    <a class="screen-row" href="ReportRestrictedColumns.dc.html"><span class="screen-name">Restricted columns, two roles<span class="screen-file">ReportRestrictedColumns.dc.html</span></span><span class="screen-desc">Shop revenue as a shop manager (4 columns) and as an accountant (8) &mdash; permission shown by absence, no lock or blank column</span></a>
+    <a class="screen-row" href="ReportFilterBar.dc.html"><span class="screen-name">Filters and parameter controls<span class="screen-file">ReportFilterBar.dc.html</span></span><span class="screen-desc">The vaccination due list's filters seeded from server defaults, and one control per parameter type: presets, branch, group by, list, number, record picker</span></a>
+    <a class="screen-row" href="ReportFilterErrors.dc.html"><span class="screen-name">Filter errors<span class="screen-file">ReportFilterErrors.dc.html</span></span><span class="screen-desc">Range too long, dates missing, end before start, branch not allowed, and the page-level timeout banner; exports disabled with the reason</span></a>
+    <a class="screen-row" href="ReportEmptyLoading.dc.html"><span class="screen-name">Empty and loading<span class="screen-file">ReportEmptyLoading.dc.html</span></span><span class="screen-desc">"No appointments on Tue 22 Sep 2026 at Banani" with two next steps; a skeleton under the real column headers</span></a>
+    <a class="screen-row" href="ReportExportStates.dc.html"><span class="screen-name">Export states<span class="screen-file">ReportExportStates.dc.html</span></span><span class="screen-desc">Ready, "Preparing…" (busy, announced), downloaded, PDF too many rows, timed out, CSV too many rows</span></a>
+    <a class="screen-row" href="ReportMobile.dc.html"><span class="screen-name">Report at 360px<span class="screen-file">ReportMobile.dc.html</span></span><span class="screen-desc">An 11-column report as labelled cards, collapsed filters, totals card &mdash; no sideways scroll (UI-1)</span></a>
+    <a class="screen-row" href="ReportPermissionDenied.dc.html"><span class="screen-name">No access and not found<span class="screen-file">ReportPermissionDenied.dc.html</span></span><span class="screen-desc">Nurse opening Reports, shop manager opening schedules, and an unknown report key</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Report schedules — US-RPT-06</h2>
+    <a class="screen-row" href="ScheduleList.dc.html"><span class="screen-name">Schedule list<span class="screen-file">ScheduleList.dc.html</span></span><span class="screen-desc">Active / Paused / Cancelled as icon + word, "Daily at 07:00 (Asia/Dhaka)", next run from the server, last run with its outcome</span></a>
+    <a class="screen-row" href="ScheduleForm.dc.html"><span class="screen-name">⭐ New schedule<span class="screen-file">ScheduleForm.dc.html</span></span><span class="screen-desc">Prefilled from a report; period with a plain-language hint, 5-minute send time with its zone, recipients with one unselectable (no email); the server's next-run preview, quiet-hours hold and a refused recipient</span></a>
+    <a class="screen-row" href="ScheduleDetail.dc.html"><span class="screen-name">Schedule and run history<span class="screen-file">ScheduleDetail.dc.html</span></span><span class="screen-desc">Generated / Failed / Purged in words, "Too large to attach — link sent", a failure explained, per-recipient delivery with a link to the notification log</span></a>
+    <a class="screen-row" href="ScheduleConfirmDialogs.dc.html"><span class="screen-name">Run now, pause, cancel<span class="screen-file">ScheduleConfirmDialogs.dc.html</span></span><span class="screen-desc">The three confirmations, each stating what happens and to how many people, and the "Generated — 412 rows" result</span></a>
+  </div>
+
+  <p class="note">Rendered locally by <code>support.js</code> in this folder, a from-scratch reimplementation of the hosted canvas runtime (not the original, which isn't distributed). See <a href="README.md">README.md</a> for the design system, encoded rules and known gaps.</p>
+</div>
+</body>
+</html>

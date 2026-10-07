@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Cat Profile — screens</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="./index.css">
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../index.html">&larr; All areas</a>
+  <div class="eyebrow">PurrCare · backlog &sect;2</div>
+  <h1>Cat Profile</h1>
+  <p class="lede">Five rows, fourteen artboards. The cat list's "Include deceased" toggle is the one screen with real interaction &mdash; everything else is a separate artboard per state.</p>
+
+  <div class="row-group">
+    <h2>Cat list &amp; registration</h2>
+    <a class="screen-row" href="Main.dc.html"><span class="screen-name">Cat list<span class="screen-file">Main.dc.html</span></span><span class="screen-desc">US-CAT-09 deceased filter (working), high-risk badge in a list row, pagination</span></a>
+    <a class="screen-row" href="CatRegister.dc.html"><span class="screen-name">Register a cat<span class="screen-file">CatRegister.dc.html</span></span><span class="screen-desc">US-CAT-01 AC2 estimated DOB, AC3 photo rejected with the real limit named</span></a>
+    <a class="screen-row" href="Vaccines.dc.html"><span class="screen-name">Vaccine catalogue<span class="screen-file">Vaccines.dc.html</span></span><span class="screen-desc">Core vs non-core, validity months &mdash; the inputs to next-due</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Cat profile</h2>
+    <a class="screen-row" href="CatOverview.dc.html"><span class="screen-name">⭐ Profile — Mittens<span class="screen-file">CatOverview.dc.html</span></span><span class="screen-desc">The header: high-risk banner, allergy chips, approximate age, units</span></a>
+    <a class="screen-row" href="CatMedical.dc.html"><span class="screen-name">Medical profile editor<span class="screen-file">CatMedical.dc.html</span></span><span class="screen-desc">US-CAT-03 allergies, conditions, medications, care notes</span></a>
+    <a class="screen-row" href="CatWeights.dc.html"><span class="screen-name">Weight trend<span class="screen-file">CatWeights.dc.html</span></span><span class="screen-desc">US-CAT-02 AC2 chart, with a hidden data table for screen readers</span></a>
+    <a class="screen-row" href="CatVaccinations.dc.html"><span class="screen-name">Vaccinations — Mittens<span class="screen-file">CatVaccinations.dc.html</span></span><span class="screen-desc">US-CAT-07 AC3 Overdue + boarding warning; US-CAT-05 AC2 expired batch rejected</span></a>
+    <a class="screen-row" href="CatHealthy.dc.html"><span class="screen-name">Profile — Biscuit<span class="screen-file">CatHealthy.dc.html</span></span><span class="screen-desc">US-CAT-03 AC2 "None recorded"; US-CAT-07 AC1 Current</span></a>
+    <a class="screen-row" href="Portal.dc.html"><span class="screen-name">Owner portal<span class="screen-file">Portal.dc.html</span></span><span class="screen-desc">US-CAT-07 AC2 Due soon + booking link; US-CAT-10 PDF download</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Confirmations &amp; deceased record</h2>
+    <a class="screen-row" href="ConfirmDeceased.dc.html"><span class="screen-name">Confirm — mark deceased<span class="screen-file">ConfirmDeceased.dc.html</span></span><span class="screen-desc">UI-3: states exactly what happens, including that the record is kept</span></a>
+    <a class="screen-row" href="CatTransfer.dc.html"><span class="screen-name">Confirm — transfer ownership<span class="screen-file">CatTransfer.dc.html</span></span><span class="screen-desc">UI-3 + US-CAT-08: history moves, previous owner loses access, reason required</span></a>
+    <a class="screen-row" href="CatDeceased.dc.html"><span class="screen-name">Deceased record — Ash<span class="screen-file">CatDeceased.dc.html</span></span><span class="screen-desc">US-CAT-09 AC2 read-only, edit disabled with an explanation</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Cage card &amp; 360px floor</h2>
+    <a class="screen-row" href="CageCard.dc.html"><span class="screen-name">Cage card<span class="screen-file">CageCard.dc.html</span></span><span class="screen-desc">US-CAT-11 QR + the high-risk warning, print layout</span></a>
+    <a class="screen-row" href="Mobile360.dc.html"><span class="screen-name">Profile at 360px<span class="screen-file">Mobile360.dc.html</span></span><span class="screen-desc">UI-1 floor — header intact, no horizontal scroll</span></a>
+  </div>
+
+  <p class="note">Rendered locally by <code>support.js</code> in this folder, a from-scratch reimplementation of the hosted canvas runtime (not the original, which isn't distributed). See <a href="README.md">README.md</a> for the design system, encoded rules and known gaps.</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tax classes — US-ADM-04</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px;--radius-pill:999px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px}
+.shell{display:flex}
+.sidebar{width:210px;flex:none;background:#fff;border-right:1px solid var(--border);min-height:820px;padding:18px 0}
+.sidebar a{display:block;padding:9px 22px;font-size:13.5px;color:var(--ink-muted);text-decoration:none;font-weight:600}
+.sidebar a.active{color:var(--accent-ink);background:var(--accent-soft);border-right:2px solid var(--accent)}
+.main{flex:1;padding:26px 32px;display:flex;gap:28px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0 0 16px}
+table{border-collapse:collapse;width:100%;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden}
+th,td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--border);font-size:13.5px}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);background:var(--surface-sunken)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--surface-sunken);cursor:pointer}
+.h2{font-weight:700;font-size:14px;margin:0 0 10px}
+.hrow{display:flex;align-items:center;gap:12px;padding:9px 12px;border:1px solid var(--border);border-radius:6px;margin-bottom:6px;font-size:13.5px}
+.badge{display:inline-flex;padding:3px 9px;border-radius:var(--radius-pill);font-size:11.5px;font-weight:600;background:var(--accent-soft);color:var(--accent-ink)}
+.badge-past{background:var(--surface-sunken);color:var(--ink-muted)}
+</style>
+</helmet>
+<div style="width:1280px;height:820px;background:var(--surface-page);overflow:auto">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who">Rezwan Ahmed · Administrator</div></div>
+  <div class="shell">
+    <div class="sidebar"><a>Branches</a><a class="active" aria-current="page">Services &amp; pricing</a><a>Rosters &amp; leave</a><a>Settings</a><a>Content</a><a>Policies</a><a>Audit log</a><a>System</a></div>
+    <div class="main">
+      <div style="flex:1">
+        <h1 class="h1">Tax classes</h1>
+        <table>
+          <thead><tr><th>Code</th><th>Name</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>STD</td><td class="body-strong">Standard rate</td><td>Active</td></tr>
+            <tr><td>ZERO</td><td class="body-strong">Zero-rated (medicine)</td><td>Active</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="flex:1;max-width:360px">
+        <div class="h2">Standard rate — rate history</div>
+        <div class="hrow"><span class="badge">Current</span>15% <span style="color:var(--ink-muted);margin-left:auto">since 1 Jul 2025</span></div>
+        <div class="hrow"><span class="badge badge-past">Past</span>12% <span style="color:var(--ink-muted);margin-left:auto">— 30 Jun 2025</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":820}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

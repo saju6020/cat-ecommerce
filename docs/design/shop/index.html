@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Shop — screens</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="./index.css">
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../index.html">&larr; All areas</a>
+  <div class="eyebrow">PurrCare · backlog &sect;8</div>
+  <h1>Shop</h1>
+  <p class="lede">Five rows, twenty-eight artboards &mdash; the storefront, the customer portal pieces and the catalogue back office. No cart, checkout or payment: those belong to the Orders area, and there is no payment gateway in v1. No live interaction; every state is its own artboard or a labelled panel beside it.</p>
+
+  <div class="row-group">
+    <h2>Storefront &amp; catalogue — US-SHP-04, 05, 06, US-ADM-07, 08</h2>
+    <a class="screen-row" href="ShopHome.dc.html"><span class="screen-name">Storefront home<span class="screen-file">ShopHome.dc.html</span></span><span class="screen-desc">The storefront header (search, categories, cart, sign-in), shop banners, categories, featured origins, new arrivals, and the product-language picker shown because two languages are enabled</span></a>
+    <a class="screen-row" href="Catalogue.dc.html"><span class="screen-name">⭐ Catalogue<span class="screen-file">Catalogue.dc.html</span></span><span class="screen-desc">Filters as real fieldsets, removable chips, “Clear all” keeping the search, sort, the announced result count, and every product-card state: “From” price, out of stock, vet authorisation needed, kit, no reviews, no photo</span></a>
+    <a class="screen-row" href="CatalogueNoResults.dc.html"><span class="screen-name">No results &amp; filter errors<span class="screen-file">CatalogueNoResults.dc.html</span></span><span class="screen-desc">A misspelled search with “Did you mean” and “Popular right now”; beside it the filters-only empty state and the min-above-max price error</span></a>
+    <a class="screen-row" href="CatalogueMobile360.dc.html"><span class="screen-name">Catalogue at 360px<span class="screen-file">CatalogueMobile360.dc.html</span></span><span class="screen-desc">The “Filters (2)” button and the filter sheet with “Show results”, two-column grid behind it (UI-1)</span></a>
+    <a class="screen-row" href="ShopByCountry.dc.html"><span class="screen-name">Shop by country<span class="screen-file">ShopByCountry.dc.html</span></span><span class="screen-desc">Origin cards with flag, name, notes excerpt and product count; a country with no notes says so; a flagless country gets a globe</span></a>
+    <a class="screen-row" href="OriginPage.dc.html"><span class="screen-name">Origin page: Thailand<span class="screen-file">OriginPage.dc.html</span></span><span class="screen-desc">The AC-5 path: sourcing notes, then the catalogue with the country fixed and every other filter still available (Kitten + In stock)</span></a>
+    <a class="screen-row" href="MaintenanceNotice.dc.html"><span class="screen-name">Shop closed<span class="screen-file">MaintenanceNotice.dc.html</span></span><span class="screen-desc">The notice that replaces every storefront page during maintenance, with the admin's message and links to booking and the account</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Product page — US-SHP-01, 02, 03, 07, 08, 09, 10, 12, 14</h2>
+    <a class="screen-row" href="ProductPage.dc.html"><span class="screen-name">⭐ Product page<span class="screen-file">ProductPage.dc.html</span></span><span class="screen-desc">Thumbnail-button gallery, variant radio group with per-size stock, buy box with the best-before notice, the empty Add-to-cart slot for Orders, and the ingredients &amp; analysis tab with % in every cell</span></a>
+    <a class="screen-row" href="ProductOutOfStock.dc.html"><span class="screen-name">Out-of-stock size &amp; stock alerts<span class="screen-file">ProductOutOfStock.dc.html</span></span><span class="screen-desc">4 kg selected and out of stock while the others stay in stock; the alert confirmation when it will reach the customer, when it won't (with the settings link), already requested, and the guest sign-in redirect</span></a>
+    <a class="screen-row" href="PrescriptionGate.dc.html"><span class="screen-name">⭐ Prescription gate<span class="screen-file">PrescriptionGate.dc.html</span></span><span class="screen-desc">Three buy boxes side by side: guest, signed in with no authorised cat (Book a consultation), and two authorised cats with the “Which cat is this for?” picker built for Orders</span></a>
+    <a class="screen-row" href="KitProduct.dc.html"><span class="screen-name">Kit<span class="screen-file">KitProduct.dc.html</span></span><span class="screen-desc">“This kit contains” with quantities and per-item availability; one item out of stock makes the whole kit out of stock</span></a>
+    <a class="screen-row" href="ProductReviewsAndRecs.dc.html"><span class="screen-name">Recommendations &amp; reviews<span class="screen-file">ProductReviewsAndRecs.dc.html</span></span><span class="screen-desc">Frequently bought together, “for your cats”, the empty up-sell block left out, reviews as literal text, and the Write / Edit / not-bought / guest variants of the review button</span></a>
+    <a class="screen-row" href="ProductLanguage.dc.html"><span class="screen-name">Product content in Bangla<span class="screen-file">ProductLanguage.dc.html</span></span><span class="screen-desc">Name and description in Bangla, the feeding guide falling back to English and marked as such; labels stay English</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Customer portal — US-SHP-09, 11, 13</h2>
+    <a class="screen-row" href="Wishlist.dc.html"><span class="screen-name">Wishlist &amp; stock alerts<span class="screen-file">Wishlist.dc.html</span></span><span class="screen-desc">Saved items with availability, “No longer sold”; alerts as Waiting, Notified on…, Closed — no longer sold</span></a>
+    <a class="screen-row" href="ReviewForm.dc.html"><span class="screen-name">Write a review<span class="screen-file">ReviewForm.dc.html</span></span><span class="screen-desc">Size bought, 1–5 rating with words, the counter at 98 characters left, a rating-required error, and the server refusals in plain language with values kept</span></a>
+    <a class="screen-row" href="MyReviews.dc.html"><span class="screen-name">My reviews<span class="screen-file">MyReviews.dc.html</span></span><span class="screen-desc">“Thanks — your review will appear once it's approved”, each status in words, and the withdraw confirmation</span></a>
+    <a class="screen-row" href="FoodSuggestions.dc.html"><span class="screen-name">⭐ Food suggestions for a cat<span class="screen-file">FoodSuggestions.dc.html</span></span><span class="screen-desc">Each suggestion with its reasons, the allergy-exclusion sentence, the “add a date of birth” hint and the general-guidance footnote</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Back office: products — US-SHP-01, 02, 03, 08, 12, 14</h2>
+    <a class="screen-row" href="StaffProductList.dc.html"><span class="screen-name">Products<span class="screen-file">StaffProductList.dc.html</span></span><span class="screen-desc">Filters in the URL incl. barcode scan + Enter, status in words, CSV export, and the shop section's sub-navigation</span></a>
+    <a class="screen-row" href="NewProduct.dc.html"><span class="screen-name">New product<span class="screen-file">NewProduct.dc.html</span></span><span class="screen-desc">Standard or Kit, category-limited subcategories, the kit's SKU code, and a web address already in use</span></a>
+    <a class="screen-row" href="EditorDetails.dc.html"><span class="screen-name">⭐ Editor: Details<span class="screen-file">EditorDetails.dc.html</span></span><span class="screen-desc">The editor header: status, Publish always available, the server's refusal and the focused checklist (required vs warning in words); description with live preview, tags normalised, expiry locked on for food</span></a>
+    <a class="screen-row" href="EditorFood.dc.html"><span class="screen-name">Editor: Food &amp; labelling<span class="screen-file">EditorFood.dc.html</span></span><span class="screen-desc">Analysis inputs with a visible %, health focus, the prescription-diet confirmation, and the “changed by someone else” conflict with values kept</span></a>
+    <a class="screen-row" href="EditorVariants.dc.html"><span class="screen-name">⭐ Editor: Variants &amp; prices<span class="screen-file">EditorVariants.dc.html</span></span><span class="screen-desc">Stock copy as “12 sellable · best before…”, “0 sellable” and “No stock recorded”; Scheduled / Current / Past prices; the schedule dialog's past-date error and its exact confirmation sentence</span></a>
+    <a class="screen-row" href="EditorImages.dc.html"><span class="screen-name">Editor: Images<span class="screen-file">EditorImages.dc.html</span></span><span class="screen-desc">Storage key and metadata (no upload, said honestly), per-size images, main photo, and a missing alt text error</span></a>
+    <a class="screen-row" href="EditorBundle.dc.html"><span class="screen-name">Editor: Kit contents<span class="screen-file">EditorBundle.dc.html</span></span><span class="screen-desc">Component rows with quantities and live availability; the server's refusal of a prescription diet shown on the row it names</span></a>
+    <a class="screen-row" href="EditorRelated.dc.html"><span class="screen-name">Editor: Related &amp; status confirmations<span class="screen-file">EditorRelated.dc.html</span></span><span class="screen-desc">Two ordered lists with keyboard reorder buttons; the Publish, Unpublish, Archive and Discontinue confirmations, each naming its consequence</span></a>
+    <a class="screen-row" href="EditorTranslations.dc.html"><span class="screen-name">Editor: Translations<span class="screen-file">EditorTranslations.dc.html</span></span><span class="screen-desc">English reference beside the Bangla fields, an empty field that will fall back, and the remove-translation confirmation</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Back office: origins &amp; reviews — US-SHP-05, 09</h2>
+    <a class="screen-row" href="SourcingOrigins.dc.html"><span class="screen-name">Sourcing origins<span class="screen-file">SourcingOrigins.dc.html</span></span><span class="screen-desc">Origins with featured, order and the server's product count; countries listed without a record; the editor with notes preview</span></a>
+    <a class="screen-row" href="ReviewModeration.dc.html"><span class="screen-name">⭐ Review moderation<span class="screen-file">ReviewModeration.dc.html</span></span><span class="screen-desc">Waiting reviews first, text shown literally; the reject dialog with its required reason, and the hide confirmation</span></a>
+  </div>
+
+  <p class="note">Rendered locally by <code>support.js</code> in this folder, a from-scratch reimplementation of the hosted canvas runtime (not the original, which isn't distributed). See <a href="README.md">README.md</a> for the design system, encoded rules and known gaps.</p>
+</div>
+</body>
+</html>

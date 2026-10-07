@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Formulary — new medicine — US-PHM-04</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink);font-size:14px}
+a{color:var(--accent-ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px;display:flex;align-items:center;gap:16px}
+select.branchpick{font:inherit;font-size:13px;padding:5px 8px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.main{padding:26px 32px;position:relative}
+.titlerow{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:16px;flex-wrap:wrap}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+.h2{font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-muted);margin:0 0 10px}
+.muted{color:var(--ink-muted)}.faint{color:var(--ink-faint)}.small{font-size:12.5px}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:8px 15px;border-radius:var(--radius-sm);border:1px solid var(--accent);cursor:pointer;background:var(--accent);color:#fff;display:inline-flex;align-items:center;gap:7px;text-decoration:none;white-space:nowrap}
+.btn-sec{background:#fff;color:var(--ink);border-color:var(--border-strong)}
+.btn-danger{background:#fff;color:var(--danger-ink);border-color:var(--danger-ink)}
+.btn-danger-solid{background:var(--danger-ink);border-color:var(--danger-ink);color:#fff}
+.btn[disabled]{background:var(--surface-sunken);border-color:var(--border);color:var(--ink-faint);cursor:not-allowed}
+.btn-sm{font-size:12.5px;padding:5px 10px}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:18px}
+table.t{border-collapse:collapse;width:100%;background:#fff;border:1px solid var(--border)}
+.t th,.t td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--border);font-size:13px;vertical-align:top}
+.t th{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);font-weight:700;background:var(--surface-sunken);white-space:nowrap}
+.t tr.off td{color:var(--ink-faint);background:#fbfaf7}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;font-size:11.5px;font-weight:600;white-space:nowrap}
+.b-ok{background:var(--accent-soft);color:var(--accent-ink)}.b-warn{background:var(--warning-bg);color:var(--warning-ink)}.b-danger{background:var(--danger-bg);color:var(--danger-ink)}.b-neutral{background:var(--surface-sunken);color:var(--ink-muted)}
+.ic{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.field{margin-bottom:14px}
+.field label,.lab{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.field input,.field select,.field textarea{width:100%;font:inherit;font-size:14px;padding:8px 11px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:#fff;color:var(--ink)}
+.field input[readonly]{background:var(--surface-sunken);color:var(--ink-muted)}
+.field textarea{min-height:60px;resize:vertical}
+.hint{font-size:12px;color:var(--ink-muted);margin-top:4px;line-height:1.4}
+.field.bad input,.field.bad textarea,.field.bad select{border-color:var(--danger-ink);border-width:1.5px}
+.err{display:flex;gap:6px;align-items:flex-start;font-size:12.5px;color:var(--danger-ink);font-weight:600;margin-top:5px}
+.err .ic{margin-top:1px}
+.qi{display:flex}.qi input{border-radius:6px 0 0 6px;min-width:0}.qi select{width:auto;border-radius:0 6px 6px 0;border-left:none;background:var(--surface-sunken)}
+.fixedunit{display:flex;align-items:center;padding:0 12px;border:1px solid var(--border-strong);border-left:none;border-radius:0 6px 6px 0;background:var(--surface-sunken);font-size:14px;color:var(--ink-muted);white-space:nowrap}
+.note{display:flex;gap:10px;align-items:flex-start;padding:11px 14px;border-radius:8px;font-size:13px;line-height:1.45;border:1px solid}
+.note .ic{margin-top:2px}
+.n-info{background:var(--accent-soft);border-color:#c6dcd9;color:var(--accent-ink)}
+.n-warn{background:var(--warning-bg);border-color:#ebd9b4;color:var(--warning-ink)}
+.n-block{background:var(--danger-bg);border-color:#f0ccc8;color:var(--danger-ink)}
+.n-neutral{background:var(--surface-sunken);border-color:var(--border);color:var(--ink)}
+.scrim{position:absolute;inset:0;background:rgba(28,26,23,.4);display:flex;align-items:center;justify-content:center;z-index:5}
+.dialog{background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(20,18,10,.25);width:460px;padding:24px}
+.dialog h2{margin:0 0 10px;font-family:var(--font-display);font-weight:600;font-size:18px}
+.confirm{font-size:13px;background:var(--surface-sunken);border-radius:6px;padding:10px 12px;margin:12px 0;line-height:1.45}
+.dactions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
+.tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:16px}
+.tabs a{padding:10px 2px;margin-right:22px;font-size:13.5px;font-weight:600;color:var(--ink-muted);text-decoration:none;border-bottom:2px solid transparent}
+.tabs a.on{color:var(--ink);border-bottom-color:var(--accent)}
+.q,.nw{white-space:nowrap}
+.mono{font-family:ui-monospace,Consolas,monospace;font-size:12px}
+.kv{display:grid;grid-template-columns:170px 1fr;gap:7px 14px;font-size:13.5px;margin:0}
+.kv dt{color:var(--ink-muted)}.kv dd{margin:0}
+.panel-label{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 8px}
+.cathead{background:#fff;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:18px}
+.risk{display:flex;gap:10px;align-items:center;background:var(--danger-ink);color:#fff;padding:8px 18px;font-size:13px}
+.catrow{display:flex;gap:26px;align-items:center;padding:12px 18px;flex-wrap:wrap}
+.cav{width:44px;height:44px;border-radius:10px;background:var(--danger-ink);color:#fff;font-family:var(--font-display);font-size:22px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cname{font-family:var(--font-display);font-size:21px;font-weight:600}
+.lbl{font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:3px}
+.chip{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:2px 8px;border-radius:7px;border:1px solid;white-space:nowrap}
+.c-warn{background:var(--warning-bg);border-color:#ebd9b4;color:var(--warning-ink)}.c-danger{background:var(--danger-bg);border-color:#f0ccc8;color:var(--danger-ink)}.c-plain{background:var(--surface-sunken);border-color:var(--border);color:var(--ink)}
+.cattabs{display:flex;gap:2px;padding:0 18px;border-top:1px solid #efece4;background:#fcfbf8}
+.cattabs a{padding:10px 11px;font-size:13.5px;color:var(--ink-muted);text-decoration:none;border-bottom:2.5px solid transparent}
+.cattabs a.on{color:var(--accent-ink);font-weight:600;border-bottom-color:var(--accent)}
+.catc{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:#fff;border:1px solid var(--border);border-left:4px solid var(--danger-ink);border-radius:10px;padding:10px 14px;margin-bottom:16px;font-size:13px}
+/* page */
+.fgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:start}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.row4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;align-items:center;border:1px solid var(--border-strong);border-radius:6px;padding:6px 8px;background:#fff}
+.chips .chip{background:var(--accent-soft);border-color:#c6dcd9;color:var(--accent-ink)}
+.chips input{border:none !important;padding:4px !important;width:120px !important;flex:1}
+.preview{background:var(--accent-soft);border-radius:6px;padding:8px 12px;font-size:13.5px;color:var(--accent-ink)}
+.checks{display:flex;gap:14px;flex-wrap:wrap;font-size:13.5px}
+.checks label{display:flex;gap:6px;align-items:center;font-weight:400;margin:0}
+.checks input{width:auto !important;margin:0}
+.sku{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 12px;border-bottom:1px solid var(--border);font-size:13px}
+.sku:last-child{border-bottom:none}
+.sku.dis{background:var(--surface-sunken);color:var(--ink-faint)}
+.irow{display:grid;grid-template-columns:1.3fr 0.8fr 1.4fr 32px;gap:8px;align-items:end;margin-bottom:8px}
+.irow .field{margin:0}
+.ib{height:38px;border:1px solid var(--border-strong);background:#fff;border-radius:6px;color:var(--ink-muted)}
+.seg{display:inline-flex;border:1px solid var(--border-strong);border-radius:6px;overflow:hidden;font-size:12px;margin-bottom:6px}
+.seg span{padding:3px 9px}.seg .on{background:var(--accent);color:#fff}
+</style>
+</helmet>
+<div style="width:1280px;height:1260px;background:var(--surface-page);position:relative">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who">Rezwan Ahmed · Administrator</div></div>
+  <div class="main">
+    <div class="titlerow"><div><h1 class="h1">New medicine</h1><div class="small muted" style="margin-top:4px">Formulary · the controlled flag and activation are separate actions after saving</div></div>
+      <div style="display:flex;gap:8px"><button type="button" class="btn btn-sec">Cancel</button><button type="button" class="btn">Save medicine</button></div></div>
+    <div class="note n-block" role="alert" style="margin-bottom:16px"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m6 6 12 12"/></svg><span>2 fields need attention — minimum and maximum dose are required when dosing is per kg.</span></div>
+
+    <div class="fgrid">
+      <section class="card">
+        <h2 class="h2">Medicine</h2>
+        <div class="row2">
+          <div class="field"><label for="m-code">Code</label><input id="m-code" value="ROB-TB-06"><div class="hint">Set once, at creation.</div></div>
+          <div class="field"><label for="m-name">Name</label><input id="m-name" value="Robenacoxib"></div>
+        </div>
+        <div class="field"><label>Active ingredients <span class="muted" style="font-weight:400">(1–5)</span></label><div class="chips"><span class="chip">Robenacoxib ✕</span><input aria-label="Add ingredient" placeholder="Add…"></div></div>
+        <div class="field"><label>Drug classes</label><div class="chips"><span class="chip">NSAID ✕</span><span class="chip">coxib ✕</span><input aria-label="Add class" placeholder="Add…"></div><div class="hint">Allergy checks match recorded allergies against ingredients and classes.</div></div>
+        <div class="field"><label for="m-form">Form</label><select id="m-form"><option>Tablet</option></select></div>
+        <div class="lab">Strength</div>
+        <div class="row4">
+          <div class="field"><label for="m-sa" class="small">Amount</label><input id="m-sa" value="6"></div>
+          <div class="field"><label for="m-su" class="small">Unit</label><select id="m-su"><option>mg</option></select></div>
+          <div class="field"><label for="m-sp" class="small">Per</label><input id="m-sp" value="1"></div>
+          <div class="field"><label for="m-sd" class="small">Dispensing unit</label><select id="m-sd"><option>tablet</option></select></div>
+        </div>
+        <div class="preview" aria-live="polite">Preview: <b class="q">6 mg per 1 tablet</b></div>
+        <div class="row2" style="margin-top:14px">
+          <div class="field"><label for="m-dr">Default route</label><select id="m-dr"><option>Oral</option></select></div>
+          <div class="field"><span class="lab">Allowed routes</span><div class="checks"><label><input type="checkbox" checked>Oral</label><label><input type="checkbox">Subcutaneous</label><label><input type="checkbox">Topical</label></div></div>
+        </div>
+        <div class="field"><span class="lab">Dosing basis</span><div class="checks"><label><input type="radio" name="db" checked>Per kg</label><label><input type="radio" name="db">Fixed dose</label></div></div>
+        <div class="row2">
+          <div class="field bad"><label for="m-min">Minimum dose</label><div class="qi"><input id="m-min" aria-invalid="true" aria-describedby="m-min-e"><span class="fixedunit">mg/kg</span></div><div class="err" id="m-min-e"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m6 6 12 12"/></svg>Required when dosing is per kg.</div></div>
+          <div class="field bad"><label for="m-max">Maximum dose</label><div class="qi"><input id="m-max" aria-invalid="true" aria-describedby="m-max-e"><span class="fixedunit">mg/kg</span></div><div class="err" id="m-max-e"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m6 6 12 12"/></svg>Required when dosing is per kg.</div></div>
+        </div>
+        <div class="field" style="margin:0"><label for="m-ci">Contraindications</label><textarea id="m-ci">Do not use with other NSAIDs or corticosteroids. Caution in kidney disease.</textarea></div>
+      </section>
+
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <section class="card">
+          <h2 class="h2">Linked shop products (SKUs)</h2>
+          <div class="field" style="margin-bottom:8px"><label for="m-sku">Find a SKU</label><input id="m-sku" value="Onsior"></div>
+          <div style="border:1px solid var(--border-strong);border-radius:8px;overflow:hidden">
+            <div class="sku"><span><b>Onsior 6 mg tablets</b> · box of 6<br><span class="mono muted">5414736044125</span></span><button type="button" class="btn btn-sec btn-sm">Link</button></div>
+            <div class="sku dis" aria-disabled="true"><span><b>Onsior 20 mg tablets</b> · box of 7<br><span class="mono">5414736044149</span></span><span class="small" style="text-align:right">Already linked to<br><b>Robenacoxib 20 mg</b> (ROB-TB-20)</span></div>
+          </div>
+          <div class="lab" style="margin-top:14px">Linked (1)</div>
+          <div class="sku" style="border:1px solid var(--border);border-radius:6px"><span><b>Onsior 6 mg tablets</b> · strip of 1 · <span class="mono muted">5414736044118</span></span><button type="button" class="btn btn-sec btn-sm">Unlink</button></div>
+        </section>
+
+        <section class="card">
+          <h2 class="h2">Interactions</h2>
+          <div class="irow">
+            <div class="field"><div class="seg"><span class="on">Medicine</span><span>Term</span></div><select aria-label="Interacting medicine"><option>Prednisolone 5 mg</option></select></div>
+            <div class="field"><label class="small">Severity</label><select><option>Major</option><option>Minor</option></select></div>
+            <div class="field"><label class="small">Note</label><input value="Stomach and gut ulceration risk"></div>
+            <button type="button" class="ib" aria-label="Remove interaction">✕</button>
+          </div>
+          <div class="irow">
+            <div class="field"><div class="seg"><span>Medicine</span><span class="on">Term</span></div><input aria-label="Interacting term" value="NSAID"></div>
+            <div class="field"><label class="small">Severity</label><select><option>Major</option></select></div>
+            <div class="field"><label class="small">Note</label><input value="Never combine two NSAIDs"></div>
+            <button type="button" class="ib" aria-label="Remove interaction">✕</button>
+          </div>
+          <button type="button" class="btn btn-sec btn-sm">+ Add interaction</button>
+        </section>
+
+        <section class="card">
+          <h2 class="h2">Controlled drug · status</h2>
+          <p class="small" style="margin:0;line-height:1.5">Not controlled · will be Active when saved. <span class="muted">Marking a medicine controlled, or deactivating it, is a separate confirmed action on the saved medicine — not a field of this form.</span></p>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1260}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Claim an offered time — US-CLN-09</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#fbf6ef;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:14px;--warm:#e8894a;--warm-ink:#8a3f14;--warm-soft:#fdeee2}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:18px;color:var(--accent-ink)}
+.pnav{display:flex;gap:24px;font-size:13.5px;font-weight:600}
+.pnav a{color:var(--ink-muted);text-decoration:none}
+.pnav a[aria-current]{color:var(--ink)}
+.who{display:flex;align-items:center;gap:12px;font-size:13.5px}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.wrap{max-width:1100px;margin:0 auto;padding:26px 32px}
+.muted{color:var(--ink-muted)}
+.cols{display:flex;gap:22px;align-items:flex-start}
+.col{flex:1;min-width:0}
+.cap{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-faint);font-weight:700;margin-bottom:8px}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:22px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0 0 6px}
+.offer{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;background:var(--accent);color:#fff;margin-bottom:10px}
+.kv{display:grid;grid-template-columns:100px 1fr;gap:8px 12px;font-size:14px;margin:14px 0}
+.kv dt{color:var(--ink-muted)}
+.kv dd{margin:0}
+.timer{display:flex;align-items:center;gap:12px;background:var(--accent-soft);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:16px}
+.big{font-size:26px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--accent-ink)}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:14px;padding:10px 20px;border-radius:var(--radius-sm);border:none;background:var(--accent);color:#fff;cursor:pointer;text-decoration:none;display:inline-block}
+.btn-ghost{background:#fff;border:1px solid var(--border-strong);color:var(--ink)}
+.ended{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;background:var(--surface-sunken);color:var(--ink-muted);margin-bottom:10px}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page);overflow:auto">
+  <div class="topnav">
+    <div class="brand">PurrCare</div>
+    <nav class="pnav" aria-label="Portal"><a href="#">My cats</a><a href="MyAppointments.dc.html" aria-current="page">Appointments</a><a href="#">Inbox</a></nav>
+    <div class="who"><div class="avatar">FY</div>Farhana Yasmin</div>
+  </div>
+  <div class="wrap">
+    <p class="muted" style="font-size:13px;margin:0 0 16px">Opened from the inbox message "A time is available for Mitu". Two states of the same page.</p>
+    <div class="cols">
+      <div class="col">
+        <div class="cap">Offer open</div>
+        <div class="card">
+          <span class="offer"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/></svg>Offered from the waitlist</span>
+          <h1 class="h1">A time is available for Mitu</h1>
+          <dl class="kv">
+            <dt>Service</dt><dd>Standard consultation · 30 min</dd>
+            <dt>When</dt><dd><strong>Saturday 26 September, 11:00–11:30</strong> (Asia/Dhaka)</dd>
+            <dt>With</dt><dd>Dr Nusrat Jahan · Consult 2</dd>
+            <dt>Branch</dt><dd>Uttara</dd>
+            <dt>Price</dt><dd>৳800 — pay at the clinic</dd>
+          </dl>
+          <div class="timer">
+            <div class="big" role="timer" aria-label="Time left to claim">26:40</div>
+            <div style="font-size:13.5px;line-height:1.45">left to claim — until <strong>10:45 today</strong> (Asia/Dhaka). After that it goes to the next person on the waitlist.</div>
+          </div>
+          <button class="btn" type="button">Confirm booking</button>
+          <button class="btn btn-ghost" type="button" style="margin-left:8px">No thanks — release it</button>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="cap">Offer ended</div>
+        <div class="card">
+          <span class="ended"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Lapsed</span>
+          <h1 class="h1">This offer has ended.</h1>
+          <p style="font-size:14px;line-height:1.55;margin:10px 0 14px">Saturday 26 September, 11:00 with Dr Jahan was held for you until 10:45 (Asia/Dhaka) and has now gone to the next person on the waitlist.</p>
+          <p style="font-size:14px;line-height:1.55;margin:0 0 16px">You're no longer on the waitlist for that day. You can look for another time or join again.</p>
+          <a class="btn" href="BookSlots.dc.html">Find another time</a>
+          <a class="btn btn-ghost" href="MyAppointments.dc.html" style="margin-left:8px">My appointments</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

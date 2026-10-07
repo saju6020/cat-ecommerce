@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Upload queue and progress — US-XCT-07</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px;display:flex;align-items:center;gap:16px}
+.main{padding:26px 32px;position:relative}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+.titlerow{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.sub{color:var(--ink-muted);font-size:13.5px;margin:4px 0 20px}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:24px;align-items:start}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:20px}
+.card h2{font-size:14.5px;font-weight:700;margin:0 0 12px}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:9px 16px;border-radius:var(--radius-sm);border:1px solid var(--accent);cursor:pointer;background:var(--accent);color:#fff}
+.btn[disabled]{background:var(--border-strong);border-color:var(--border-strong);cursor:not-allowed}
+.btn-sm{font-family:var(--font-sans);font-weight:600;font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:#fff;color:var(--ink);border:1px solid var(--border-strong);cursor:pointer;flex:none}
+.drop{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:14px 16px;background:var(--surface);border:1.5px dashed var(--border-strong);border-radius:var(--radius-md);font:inherit;color:var(--ink);cursor:pointer}
+.drop svg{color:var(--accent-ink)}
+.drop .dt{font-weight:700;font-size:14px;color:var(--accent-ink)}
+.drop .dh{font-size:12.5px;color:var(--ink-muted)}
+.queue{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}
+.frow{display:flex;align-items:center;gap:12px;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);background:#fff}
+.ftype{width:38px;height:38px;flex:none;border-radius:6px;background:var(--surface-sunken);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;letter-spacing:.04em;color:var(--ink-muted)}
+.fbody{flex:1;min-width:0}
+.fname{font-weight:600;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fmeta{font-size:12px;color:var(--ink-muted);margin-top:2px;display:flex;align-items:center;gap:6px}
+progress{display:block;width:100%;height:6px;margin-top:7px;-webkit-appearance:none;appearance:none;border:none;border-radius:3px;background:var(--surface-sunken)}
+progress::-webkit-progress-bar{background:var(--surface-sunken);border-radius:3px}
+progress::-webkit-progress-value{background:var(--accent);border-radius:3px}
+.st-ok{color:var(--accent-ink);font-weight:600;display:inline-flex;align-items:center;gap:4px}
+.st-wait{color:var(--ink-muted);font-weight:600;display:inline-flex;align-items:center;gap:4px}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.field input{width:100%;font:inherit;font-size:14px;padding:8px 11px;border:1px solid var(--border);border-radius:var(--radius-sm)}
+.two{display:grid;grid-template-columns:200px 1fr;gap:14px}
+.reason{font-size:12.5px;color:var(--ink-muted);margin:6px 0 0}
+.anno{background:var(--surface-sunken);border-radius:var(--radius-md);padding:16px 18px;font-size:12.5px;line-height:1.5;color:var(--ink-muted)}
+.anno h3{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink);margin:0 0 8px}
+.anno ul{margin:0 0 14px;padding-left:18px}
+.live{font-family:ui-monospace,Consolas,monospace;font-size:11.5px;background:#fff;border:1px solid var(--border);border-radius:6px;padding:8px 10px;color:var(--ink);line-height:1.6;margin-bottom:14px}
+.live s{color:var(--ink-faint)}
+@media (max-width:1100px){.grid,.cols,.wrap{grid-template-columns:minmax(0,1fr) !important}}
+@media (max-width:700px){.drop{flex-wrap:wrap}.frow,.flist li,.titlerow{flex-wrap:wrap}.frow .fbody,.flist li .fbody{flex-basis:calc(100% - 52px)}.two,.states{grid-template-columns:1fr !important}.sheet{grid-template-columns:repeat(auto-fill,200px) !important}}
+.viewer,.dialog,.legend,.side{max-width:calc(100vw - 24px)}.scrim{flex-wrap:wrap;overflow:auto}.stage svg,.page{max-width:100%}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page);overflow:auto;position:relative">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who"><select class="branchpick" aria-label="Active branch"><option>Uttara (primary)</option><option>Banani</option></select>Dr. Nusrat Jahan · Vet</div></div>
+  <div class="main">
+    <div class="titlerow"><h1 class="h1">Milo — CBC and chemistry panel</h1></div>
+    <p class="sub">Diagnostic order DX-2026-0418 · host page is illustrative (HO-EMR-002). Three files chosen at once; they upload one at a time (ADR-FE-150).</p>
+    <div class="grid">
+      <div class="card">
+        <h2>Enter results</h2>
+        <div class="two">
+          <div class="field"><label for="r-date">Result date</label><input id="r-date" value="23 Sep 2026"></div>
+          <div class="field"><label for="r-note">Note <span style="font-weight:400;color:var(--ink-muted)">(optional)</span></label><input id="r-note" value="External lab — Popular Diagnostics"></div>
+        </div>
+        <div class="field" style="margin-bottom:0"><label>Attachments</label></div>
+        <button type="button" class="drop" aria-describedby="q-hint">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>
+          <span class="dt">Choose files or drop them here</span>
+          <span class="dh" id="q-hint">· PDF, JPEG, PNG or DICOM · up to 50 MB each</span>
+        </button>
+        <ul class="queue" aria-label="Files">
+          <li class="frow">
+            <div class="ftype" aria-hidden="true">PDF</div>
+            <div class="fbody">
+              <div class="fname">cbc-panel-page1.pdf</div>
+              <div class="fmeta">1.8 MB · <span class="st-ok"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Uploaded</span></div>
+            </div>
+            <button type="button" class="btn-sm" aria-label="Remove cbc-panel-page1.pdf">Remove</button>
+          </li>
+          <li class="frow" style="border-color:var(--accent)">
+            <div class="ftype" aria-hidden="true">JPG</div>
+            <div class="fbody">
+              <div class="fname">chemistry-printout.jpg</div>
+              <div class="fmeta">6.4 MB · Uploading — 4.0 MB of 6.4 MB (62%)</div>
+              <progress max="100" value="62" aria-label="Uploading chemistry-printout.jpg"></progress>
+            </div>
+            <button type="button" class="btn-sm" aria-label="Cancel uploading chemistry-printout.jpg">Cancel</button>
+          </li>
+          <li class="frow">
+            <div class="ftype" aria-hidden="true">DCM</div>
+            <div class="fbody">
+              <div class="fname">thorax-lateral.dcm</div>
+              <div class="fmeta">24.0 MB · <span class="st-wait"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Waiting — starts when the one above finishes</span></div>
+            </div>
+            <button type="button" class="btn-sm" aria-label="Remove thorax-lateral.dcm from the queue">Remove</button>
+          </li>
+        </ul>
+        <div style="margin-top:18px">
+          <button type="button" class="btn" disabled aria-describedby="q-reason">Attach results</button>
+          <p class="reason" id="q-reason">Available when the 2 remaining uploads finish. You can keep typing meanwhile.</p>
+        </div>
+      </div>
+      <aside class="anno" aria-label="Design notes">
+        <h3>Live region so far (polite)</h3>
+        <div class="live">"cbc-panel-page1.pdf uploaded."<br><s>"chemistry-printout.jpg 62%"</s> — never announced</div>
+        <h3>What this board shows</h3>
+        <ul>
+          <li>Each file has its own <code>&lt;progress&gt;</code> with an accessible name; the byte count is visible text, not colour.</li>
+          <li>Status is always a word with an icon: Uploaded, Uploading, Waiting.</li>
+          <li>One request per file, in order. A failure names one file and does not cancel the others (E3).</li>
+          <li>The host's submit button explains why it is disabled; the uploader does not own it (ADR-FE-156).</li>
+        </ul>
+      </aside>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

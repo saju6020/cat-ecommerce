@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Pharmacy — screens</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="./index.css">
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../index.html">&larr; All areas</a>
+  <div class="eyebrow">PurrCare · backlog &sect;6</div>
+  <h1>Pharmacy &amp; prescriptions</h1>
+  <p class="lede">Six rows, twenty-six artboards &mdash; the largest area so far, because this handover covers prescribing, dispensing, the controlled-drug register, the formulary, diet authorisations and the owner's portal. No live interaction; every acceptance-critical state is its own artboard or panel.</p>
+
+  <div class="row-group">
+    <h2>Prescribing — US-PHM-01, 02, 03</h2>
+    <a class="screen-row" href="CatPrescriptions.dc.html"><span class="screen-name">Cat &rarr; Prescriptions<span class="screen-file">CatPrescriptions.dc.html</span></span><span class="screen-desc">Mittens' Active tab with the clinical header, units on every dose, and New prescription asking which visit it is for</span></a>
+    <a class="screen-row" href="ComposerWarnings.dc.html"><span class="screen-name">⭐ Composer &mdash; warnings<span class="screen-file">ComposerWarnings.dc.html</span></span><span class="screen-desc">The live safety panel: dose above range in mg/kg and mg, Major and Minor interactions with severity words, and an unticked acknowledgement shown as a field error</span></a>
+    <a class="screen-row" href="ComposerAllergyBlock.dc.html"><span class="screen-name">⭐ Composer &mdash; allergy conflict<span class="screen-file">ComposerAllergyBlock.dc.html</span></span><span class="screen-desc">Amoxicillin for a penicillin-allergic cat: a Blocking warning, and the required reason left empty</span></a>
+    <a class="screen-row" href="ComposerWeightRequired.dc.html"><span class="screen-name">Composer &mdash; weight too old<span class="screen-file">ComposerWeightRequired.dc.html</span></span><span class="screen-desc">The refusal with the latest weight and date, and Record weight open as a dialog that re-checks on save</span></a>
+    <a class="screen-row" href="ComposerStates.dc.html"><span class="screen-name">Composer &mdash; other states<span class="screen-file">ComposerStates.dc.html</span></span><span class="screen-desc">No visit, finalised visit, no prescribing rights, medicine picker, checking, check failed, warnings changed, not checkable, issued</span></a>
+    <a class="screen-row" href="PrescriptionDetail.dc.html"><span class="screen-name">Prescription detail<span class="screen-file">PrescriptionDetail.dc.html</span></span><span class="screen-desc">The safety record as issued, dispensings, the owner's repeat request, and the cancel confirmation naming the number and the declined request</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Formulary — US-PHM-04</h2>
+    <a class="screen-row" href="FormularyList.dc.html"><span class="screen-name">Formulary<span class="screen-file">FormularyList.dc.html</span></span><span class="screen-desc">Search and filters; strength and dosing range with units; Controlled and Stocked as words with icons</span></a>
+    <a class="screen-row" href="FormularyEditor.dc.html"><span class="screen-name">New medicine<span class="screen-file">FormularyEditor.dc.html</span></span><span class="screen-desc">Strength preview "6 mg per 1 tablet", per-kg min/max errors, a SKU already linked elsewhere shown disabled with its medicine, interaction rows</span></a>
+    <a class="screen-row" href="FormularyActions.dc.html"><span class="screen-name">Controlled flag &amp; activation<span class="screen-file">FormularyActions.dc.html</span></span><span class="screen-desc">The three separate confirmations &mdash; mark controlled (schedule required), clear it (reason asked), deactivate &mdash; and the "someone else changed this" banner</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Dispensary — US-PHM-05, 04 AC2</h2>
+    <a class="screen-row" href="DispensaryQueue.dc.html"><span class="screen-name">Dispensary queue<span class="screen-file">DispensaryQueue.dc.html</span></span><span class="screen-desc">Scan-or-type lookup with its not-found message, Awaiting first supply and Repeat requests, the compact cat header on each row</span></a>
+    <a class="screen-row" href="DispenseScreen.dc.html"><span class="screen-name">⭐ Dispense<span class="screen-file">DispenseScreen.dc.html</span></span><span class="screen-desc">The server's batch plan: suggested lots preselected, quarantined and expired lots disabled with the reason written out, "10 of 10 ml selected"</span></a>
+    <a class="screen-row" href="DispenseStates.dc.html"><span class="screen-name">⭐ Dispense &mdash; other states<span class="screen-file">DispenseStates.dc.html</span></span><span class="screen-desc">FEFO override reason, short total, unknown scan, only expired stock (no Dispense button), blocked prescription, stock moved, dispensed with an unpriced notice</span></a>
+    <a class="screen-row" href="WitnessDialog.dc.html"><span class="screen-name">⭐ Witness step<span class="screen-file">WitnessDialog.dc.html</span></span><span class="screen-desc">Controlled drug: the witness types their own sign-in; the server's refusal in the dialog, password cleared</span></a>
+    <a class="screen-row" href="DispensingDetail.dc.html"><span class="screen-name">Dispensing detail<span class="screen-file">DispensingDetail.dc.html</span></span><span class="screen-desc">Lots with expiry, dispenser, witness, print count, and the reversal confirmation naming quantity, batch and supply</span></a>
+    <a class="screen-row" href="MedicineLabel.dc.html"><span class="screen-name">Medicine label<span class="screen-file">MedicineLabel.dc.html</span></span><span class="screen-desc">The 62 &times; 100 mm print view from the frozen label, with a controlled-drug variant</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Controlled-drug register — FR-PHM-7</h2>
+    <a class="screen-row" href="ControlledRegister.dc.html"><span class="screen-name">⭐ Register entries<span class="screen-file">ControlledRegister.dc.html</span></span><span class="screen-desc">Every kind, signed quantities, running balance, correction and reversal links, Sealed / Awaiting seal &mdash; and no edit control anywhere</span></a>
+    <a class="screen-row" href="RegisterBalancesIntegrity.dc.html"><span class="screen-name">Balances &amp; integrity<span class="screen-file">RegisterBalancesIntegrity.dc.html</span></span><span class="screen-desc">A register/stock mismatch as text and icon; integrity intact beside integrity broken at a named position</span></a>
+    <a class="screen-row" href="RegisterEntryDetail.dc.html"><span class="screen-name">Entry &amp; correction chain<span class="screen-file">RegisterEntryDetail.dc.html</span></span><span class="screen-desc">The original unchanged, its seal and hash, and the correction beneath it with its reason</span></a>
+    <a class="screen-row" href="RegisterCorrection.dc.html"><span class="screen-name">Add a correction<span class="screen-file">RegisterCorrection.dc.html</span></span><span class="screen-desc">Original read-only, the signed quantity change and its stock note, and the confirmation naming both entry numbers</span></a>
+    <a class="screen-row" href="RegisterMobile360.dc.html"><span class="screen-name">Register at 360px<span class="screen-file">RegisterMobile360.dc.html</span></span><span class="screen-desc">Each entry becomes a card below 768px &mdash; no horizontal scroll</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Diet authorisations — US-PHM-08</h2>
+    <a class="screen-row" href="DietAuthorisationForm.dc.html"><span class="screen-name">Authorise a diet<span class="screen-file">DietAuthorisationForm.dc.html</span></span><span class="screen-desc">From an open visit: food search, 30/90/180-day quick picks, and the "already authorised &mdash; extend it instead" refusal</span></a>
+    <a class="screen-row" href="CatDietAuthorisations.dc.html"><span class="screen-name">Cat &rarr; Diet<span class="screen-file">CatDietAuthorisations.dc.html</span></span><span class="screen-desc">Active, Expired and Revoked in words, Extend and Revoke, and the revoke confirmation naming what the owner loses</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Owner portal — US-PHM-06, 07, 08</h2>
+    <a class="screen-row" href="MyPrescriptions.dc.html"><span class="screen-name">⭐ My prescriptions<span class="screen-file">MyPrescriptions.dc.html</span></span><span class="screen-desc">Per row: cat, medicine, dose and frequency, days left, vet, repeat status; the cat filter; the empty state</span></a>
+    <a class="screen-row" href="MyPrescriptionDetail.dc.html"><span class="screen-name">Request a repeat<span class="screen-file">MyPrescriptionDetail.dc.html</span></span><span class="screen-desc">Collection history without batch numbers, and the request dialog: branch, note, pay at collection</span></a>
+    <a class="screen-row" href="RepeatNotPossible.dc.html"><span class="screen-name">Repeat not possible<span class="screen-file">RepeatNotPossible.dc.html</span></span><span class="screen-desc">The server's reason with Book a consultation; validity ended, just requested, and an open request with Withdraw</span></a>
+    <a class="screen-row" href="AuthorisedFoods.dc.html"><span class="screen-name">Authorised foods<span class="screen-file">AuthorisedFoods.dc.html</span></span><span class="screen-desc">Per cat: active (can buy in the shop), expired (when it ended, book a consultation), revoked, and a cat with none</span></a>
+  </div>
+
+  <p class="note">Rendered locally by <code>support.js</code> in this folder, a from-scratch reimplementation of the hosted canvas runtime (not the original, which isn't distributed). See <a href="README.md">README.md</a> for the design system, encoded rules and known gaps.</p>
+</div>
+</body>
+</html>

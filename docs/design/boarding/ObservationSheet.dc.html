@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Observation sheet and skip task — US-BRD-11, 10</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink);font-size:14px;-webkit-font-smoothing:antialiased}
+a{color:var(--accent-ink)}
+p{margin:0}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px;display:flex;align-items:center;gap:12px}
+.ctop{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;border-bottom:1px solid var(--border);background:#fff}
+.ctop .cbrand{font-family:var(--font-display);font-weight:600;font-size:19px;color:var(--accent-ink)}
+.ctop nav{display:flex;gap:22px;font-size:14px;font-weight:600}
+.ctop nav a{color:var(--ink-muted);text-decoration:none}
+.ctop nav a.on{color:var(--ink)}
+.ctop .cwho{display:flex;align-items:center;gap:10px;font-size:13.5px}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.main{padding:26px 32px;position:relative}
+.cmain{max-width:960px;margin:0 auto;padding:30px 32px 40px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+.h2{font-family:var(--font-display);font-weight:600;font-size:17px;margin:0 0 10px}
+.titlerow{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:18px}
+.sub{color:var(--ink-muted);font-size:13px;margin-top:4px}
+.muted{color:var(--ink-muted)}
+.faint{color:var(--ink-faint)}
+.small{font-size:12.5px}
+.tiny{font-size:11.5px}
+.strong{font-weight:700}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:18px}
+.cardh{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);margin:0 0 10px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.cardh a{text-transform:none;letter-spacing:0;font-size:12.5px}
+.btn{font:inherit;font-weight:600;font-size:13.5px;padding:8px 15px;border-radius:var(--radius-sm);border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;min-height:38px;display:inline-flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;white-space:nowrap}
+.btn-2{background:#fff;color:var(--ink);border-color:var(--border-strong)}
+.btn-danger{background:var(--danger-ink);border-color:var(--danger-ink);color:#fff}
+.btn-danger-2{background:#fff;border-color:#e4c4c0;color:var(--danger-ink)}
+.btn-sm{font-size:12.5px;padding:5px 11px;min-height:32px}
+.btn-link{background:none;border:none;color:var(--accent-ink);padding:0;min-height:0;font-weight:600}
+.btn[disabled]{background:var(--surface-sunken);color:var(--ink-faint);border-color:var(--border);cursor:not-allowed}
+.why{font-size:12px;color:var(--ink-muted);margin-top:6px;line-height:1.45}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:2px 9px;border-radius:999px;font-size:11.5px;font-weight:700;white-space:nowrap}
+.b-ok{background:#e6f0ee;color:var(--accent-ink)}
+.b-warn{background:var(--warning-bg);color:var(--warning-ink)}
+.b-bad{background:var(--danger-bg);color:var(--danger-ink)}
+.b-hr{background:var(--danger-ink);color:#fff}
+.b-neutral{background:var(--surface-sunken);color:var(--ink-muted)}
+.b-info{background:var(--accent-soft);color:var(--accent-ink);border:1px solid rgba(21,96,90,.25)}
+.alert{display:flex;gap:10px;border-radius:8px;padding:12px 14px;font-size:13.5px;line-height:1.5}
+.alert b.t{display:block}
+.alert-warn{background:var(--warning-bg);color:var(--warning-ink);border:1px solid #ebd9b4}
+.alert-bad{background:var(--danger-bg);color:var(--danger-ink);border:1px solid #f0ccc8}
+.alert-info{background:var(--accent-soft);color:var(--accent-ink);border:1px solid rgba(21,96,90,.25)}
+.alert-neutral{background:var(--surface-sunken);color:var(--ink-muted);border:1px solid var(--border)}
+.field{margin-bottom:14px}
+.lbl{display:block;font-size:13px;font-weight:600;margin-bottom:5px}
+.inp{width:100%;font:inherit;font-size:14px;padding:8px 11px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:#fff;color:var(--ink)}
+.inp.err{border-color:var(--danger-ink);box-shadow:0 0 0 1px var(--danger-ink)}
+textarea.inp{resize:vertical}
+.ferr{font-size:12.5px;color:var(--danger-ink);margin-top:4px;font-weight:600}
+.hint{font-size:12px;color:var(--ink-muted);margin-top:4px;line-height:1.45}
+.unit{display:flex;align-items:center;gap:6px}
+.unit span{font-size:13px;color:var(--ink-muted);font-weight:600}
+table{border-collapse:collapse;width:100%;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--border);font-size:13px;vertical-align:top}
+th{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);background:var(--surface-sunken)}
+tr:last-child td{border-bottom:none}
+.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tabnav{display:flex;border-bottom:1px solid var(--border);margin-bottom:18px;gap:22px;flex-wrap:wrap}
+.tabnav a{padding:10px 2px;font-size:13.5px;font-weight:600;color:var(--ink-muted);border-bottom:2px solid transparent;text-decoration:none}
+.tabnav a.active{color:var(--ink);border-bottom-color:var(--accent)}
+.stepper{display:flex;gap:6px;margin-bottom:22px;flex-wrap:wrap}
+.step{font-size:12.5px;padding:5px 11px;border-radius:999px;background:var(--surface-sunken);color:var(--ink-muted);font-weight:600}
+.step.done{background:#e6f0ee;color:var(--accent-ink)}
+.step.cur{background:var(--accent);color:#fff}
+.step.blocked{background:var(--danger-bg);color:var(--danger-ink)}
+.scrim{position:absolute;inset:0;background:rgba(28,26,23,.4);display:flex;align-items:center;justify-content:center;gap:24px;z-index:5;padding:24px}
+.dialog{background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(20,18,10,.25);width:460px;max-width:100%;padding:24px}
+.dialog h2{font-family:var(--font-display);font-weight:600;font-size:18px;margin:0 0 12px}
+.consequence{font-size:13.5px;background:var(--surface-sunken);border-radius:8px;padding:11px 13px;margin:12px 0;line-height:1.55}
+.dactions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px;flex-wrap:wrap}
+.panel-label{font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 7px}
+.zone{font-size:11.5px;color:var(--ink-muted);font-weight:400}
+.qline{display:flex;justify-content:space-between;gap:12px;font-size:13px;padding:4px 0}
+.qline .num{font-weight:600}
+.qdisc{color:var(--accent-ink)}
+.qtotal{border-top:1px solid var(--border);font-weight:700;margin-top:6px;padding-top:9px;font-size:14px}
+.kv{display:grid;grid-template-columns:150px 1fr;gap:7px 14px;font-size:13.5px;margin:0}
+.kv dt{color:var(--ink-muted);font-size:12.5px;font-weight:600}
+.kv dd{margin:0}
+.cph{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--border);border-radius:8px;padding:9px 11px;background:#fff;min-width:0}
+.cph .av{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--font-display);font-size:17px;flex:none}
+.cph-b{min-width:0;flex:1}
+.cph-n{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:14px}
+.cph-h{font-size:12.5px;color:var(--danger-ink);font-weight:600;margin-top:3px;line-height:1.4}
+.cph-a{display:flex;gap:5px;margin-top:5px;flex-wrap:wrap}
+.al{font-size:11.5px;font-weight:600;padding:2px 7px;border-radius:6px;background:var(--warning-bg);border:1px solid #ebd9b4;color:var(--warning-ink)}
+.al-sev{background:var(--danger-bg);border-color:#f0ccc8;color:var(--danger-ink)}
+.al-none{background:var(--surface-sunken);border-color:var(--border);color:var(--ink-muted)}
+.row{display:flex;gap:16px}
+.col{display:flex;flex-direction:column;gap:14px}
+.live{font-size:12px;color:var(--ink-muted);display:inline-flex;align-items:center;gap:6px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--accent);display:inline-block}
+.seg{display:inline-flex;border:1px solid var(--border-strong);border-radius:var(--radius-sm);overflow:hidden}
+.seg button{font:inherit;font-size:13px;font-weight:600;padding:7px 12px;border:none;border-right:1px solid var(--border-strong);background:#fff;color:var(--ink);cursor:pointer;min-height:36px}
+.seg button:last-child{border-right:none}
+.seg button.on{background:var(--accent);color:#fff}
+.note-dev{font-size:12px;color:var(--ink-muted);background:var(--surface-sunken);border:1px dashed var(--border-strong);border-radius:6px;padding:8px 10px;line-height:1.45}
+.lay{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:22px;align-items:start}
+.sheet{background:#fff;border:1px solid var(--border);border-radius:14px;box-shadow:0 14px 40px rgba(20,18,10,.14);padding:20px}
+.grp{margin-bottom:16px}
+.grp .seg button{min-height:44px;min-width:64px}
+.hist{font-size:12.5px;color:var(--ink-muted);border-top:1px solid var(--border);padding-top:12px;margin-top:4px;line-height:1.6}
+</style>
+</helmet>
+<div style="width:1280px;height:960px;background:var(--surface-page);overflow:auto;position:relative">
+<div class="topnav"><div class="brand">PurrCare · staff</div><div class="who"><select class="branchpick" aria-label="Active branch"><option>Uttara (primary)</option><option>Banani</option></select>Tanvir Islam · Nurse</div></div>
+<div class="main" style="padding:20px 24px">
+  <div class="titlerow"><div><h1 class="h1">Tasks — Mon 12 Oct</h1><p class="sub">S-1 · Standard 1 · the sheet opens over the task board; a 30-second refresh never clears it</p></div><a class="btn btn-2" href="TaskBoard.dc.html">Back to board</a></div>
+  <div class="lay">
+    <div>
+      <div class="panel-label">Observation sheet — Noodle</div>
+      <section class="sheet" role="dialog" aria-labelledby="oh">
+        <h2 class="h2" id="oh">Record an observation · 10:44</h2>
+        <div class="cph"><div class="av" style="background:#6e4700" aria-hidden="true">N</div><div class="cph-b"><div class="cph-n"><b>Noodle</b><span class="small muted">No handling warnings</span></div><div class="cph-a"><span class="al">Allergy · Fish</span></div></div></div>
+        <div class="alert alert-bad" style="margin:12px 0 16px"><span aria-hidden="true">⚠</span><div><b class="t">Not eating — flagged</b>Ate None at 18:10 Sun and 08:20 Mon. The vet on duty has been told; keep offering food and record every check.</div></div>
+        <div class="grp"><div class="lbl">Portion eaten</div><div class="seg" role="radiogroup" aria-label="Portion eaten"><button type="button" class="on" aria-pressed="true">None</button><button type="button">¼</button><button type="button">½</button><button type="button">¾</button><button type="button">All</button></div></div>
+        <div class="grp"><div class="lbl">Water</div><div class="seg"><button type="button">None</button><button type="button" class="on">Low</button><button type="button">Normal</button><button type="button">High</button></div></div>
+        <div class="grp"><div class="lbl">Litter output</div><div class="seg"><button type="button">None</button><button type="button" class="on">Normal</button><button type="button">Loose</button><button type="button">Blood seen</button></div></div>
+        <div class="grp"><div class="lbl">Mood</div><div class="seg"><button type="button">Playful</button><button type="button">Relaxed</button><button type="button" class="on">Withdrawn</button><button type="button">Stressed</button></div></div>
+        <div class="field"><label class="lbl" for="on">Notes</label><textarea id="on" class="inp" rows="2">Sniffed the food, walked away. Offered warmed wet food — no interest.</textarea></div>
+        <div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><button class="btn btn-2" type="button" style="min-height:44px">Add a photo note…</button><div style="display:flex;gap:8px"><button class="btn btn-2" type="button" style="min-height:44px">Cancel</button><button class="btn" type="button" style="min-height:44px">Save observation</button></div></div>
+        <div class="hist">Earlier today: 08:20 — Ate None · Water Low · Litter Normal · Withdrawn (Rafiq Uddin)<br>Sun 18:10 — Ate None · Water Normal · Litter None · Withdrawn (Tanvir Islam)</div>
+      </section>
+    </div>
+    <div class="col">
+      <div>
+        <div class="panel-label">"Skip…" on a task — reason required</div>
+        <section class="dialog" role="dialog" aria-labelledby="sk" style="width:auto">
+          <h2 id="sk">Skip "Feed ½ pouch wet — own food"?</h2>
+          <p class="small muted" style="margin-bottom:10px">Noodle · S-1 · due 12:00</p>
+          <div class="field"><label class="lbl" for="skr">Reason</label><select id="skr" class="inp err" aria-invalid="true" aria-describedby="ske"><option>Choose a reason</option><option>Refused food</option><option>Vet asked to withhold</option><option>Cat away — in surgery</option><option>Other</option></select><div class="ferr" id="ske">Choose why the task is being skipped.</div></div>
+          <div class="consequence">The task is recorded as <b>skipped</b>, not done, with your name and the reason. It shows in the owner's diary as skipped.</div>
+          <div class="dactions"><button class="btn btn-2" type="button">Keep the task</button><button class="btn" type="button">Skip task</button></div>
+        </section>
+      </div>
+      <div>
+        <div class="panel-label">"Add a photo note…" — no upload</div>
+        <section class="card">
+          <div class="field"><label class="lbl">Caption</label><input class="inp" value="Food bowl untouched at 10:40"></div>
+          <div class="note-dev">Photo storage is not available yet — the item is recorded without a photo. The caption and time go into the owner's diary.</div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":960}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

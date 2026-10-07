@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Cat prescriptions — US-PHM-01, 07</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink);font-size:14px}
+a{color:var(--accent-ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px;display:flex;align-items:center;gap:16px}
+select.branchpick{font:inherit;font-size:13px;padding:5px 8px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.main{padding:26px 32px;position:relative}
+.titlerow{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:16px;flex-wrap:wrap}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+.h2{font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-muted);margin:0 0 10px}
+.muted{color:var(--ink-muted)}.faint{color:var(--ink-faint)}.small{font-size:12.5px}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:8px 15px;border-radius:var(--radius-sm);border:1px solid var(--accent);cursor:pointer;background:var(--accent);color:#fff;display:inline-flex;align-items:center;gap:7px;text-decoration:none;white-space:nowrap}
+.btn-sec{background:#fff;color:var(--ink);border-color:var(--border-strong)}
+.btn-danger{background:#fff;color:var(--danger-ink);border-color:var(--danger-ink)}
+.btn-danger-solid{background:var(--danger-ink);border-color:var(--danger-ink);color:#fff}
+.btn[disabled]{background:var(--surface-sunken);border-color:var(--border);color:var(--ink-faint);cursor:not-allowed}
+.btn-sm{font-size:12.5px;padding:5px 10px}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:18px}
+table.t{border-collapse:collapse;width:100%;background:#fff;border:1px solid var(--border)}
+.t th,.t td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--border);font-size:13px;vertical-align:top}
+.t th{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);font-weight:700;background:var(--surface-sunken);white-space:nowrap}
+.t tr.off td{color:var(--ink-faint);background:#fbfaf7}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;font-size:11.5px;font-weight:600;white-space:nowrap}
+.b-ok{background:var(--accent-soft);color:var(--accent-ink)}.b-warn{background:var(--warning-bg);color:var(--warning-ink)}.b-danger{background:var(--danger-bg);color:var(--danger-ink)}.b-neutral{background:var(--surface-sunken);color:var(--ink-muted)}
+.ic{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.field{margin-bottom:14px}
+.field label,.lab{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.field input,.field select,.field textarea{width:100%;font:inherit;font-size:14px;padding:8px 11px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:#fff;color:var(--ink)}
+.field input[readonly]{background:var(--surface-sunken);color:var(--ink-muted)}
+.field textarea{min-height:60px;resize:vertical}
+.hint{font-size:12px;color:var(--ink-muted);margin-top:4px;line-height:1.4}
+.field.bad input,.field.bad textarea,.field.bad select{border-color:var(--danger-ink);border-width:1.5px}
+.err{display:flex;gap:6px;align-items:flex-start;font-size:12.5px;color:var(--danger-ink);font-weight:600;margin-top:5px}
+.err .ic{margin-top:1px}
+.qi{display:flex}.qi input{border-radius:6px 0 0 6px;min-width:0}.qi select{width:auto;border-radius:0 6px 6px 0;border-left:none;background:var(--surface-sunken)}
+.fixedunit{display:flex;align-items:center;padding:0 12px;border:1px solid var(--border-strong);border-left:none;border-radius:0 6px 6px 0;background:var(--surface-sunken);font-size:14px;color:var(--ink-muted);white-space:nowrap}
+.note{display:flex;gap:10px;align-items:flex-start;padding:11px 14px;border-radius:8px;font-size:13px;line-height:1.45;border:1px solid}
+.note .ic{margin-top:2px}
+.n-info{background:var(--accent-soft);border-color:#c6dcd9;color:var(--accent-ink)}
+.n-warn{background:var(--warning-bg);border-color:#ebd9b4;color:var(--warning-ink)}
+.n-block{background:var(--danger-bg);border-color:#f0ccc8;color:var(--danger-ink)}
+.n-neutral{background:var(--surface-sunken);border-color:var(--border);color:var(--ink)}
+.scrim{position:absolute;inset:0;background:rgba(28,26,23,.4);display:flex;align-items:center;justify-content:center;z-index:5}
+.dialog{background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(20,18,10,.25);width:460px;padding:24px}
+.dialog h2{margin:0 0 10px;font-family:var(--font-display);font-weight:600;font-size:18px}
+.confirm{font-size:13px;background:var(--surface-sunken);border-radius:6px;padding:10px 12px;margin:12px 0;line-height:1.45}
+.dactions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
+.tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:16px}
+.tabs a{padding:10px 2px;margin-right:22px;font-size:13.5px;font-weight:600;color:var(--ink-muted);text-decoration:none;border-bottom:2px solid transparent}
+.tabs a.on{color:var(--ink);border-bottom-color:var(--accent)}
+.q,.nw{white-space:nowrap}
+.mono{font-family:ui-monospace,Consolas,monospace;font-size:12px}
+.kv{display:grid;grid-template-columns:170px 1fr;gap:7px 14px;font-size:13.5px;margin:0}
+.kv dt{color:var(--ink-muted)}.kv dd{margin:0}
+.panel-label{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 8px}
+.cathead{background:#fff;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:18px}
+.risk{display:flex;gap:10px;align-items:center;background:var(--danger-ink);color:#fff;padding:8px 18px;font-size:13px}
+.catrow{display:flex;gap:26px;align-items:center;padding:12px 18px;flex-wrap:wrap}
+.cav{width:44px;height:44px;border-radius:10px;background:var(--danger-ink);color:#fff;font-family:var(--font-display);font-size:22px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cname{font-family:var(--font-display);font-size:21px;font-weight:600}
+.lbl{font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:3px}
+.chip{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:2px 8px;border-radius:7px;border:1px solid;white-space:nowrap}
+.c-warn{background:var(--warning-bg);border-color:#ebd9b4;color:var(--warning-ink)}.c-danger{background:var(--danger-bg);border-color:#f0ccc8;color:var(--danger-ink)}.c-plain{background:var(--surface-sunken);border-color:var(--border);color:var(--ink)}
+.cattabs{display:flex;gap:2px;padding:0 18px;border-top:1px solid #efece4;background:#fcfbf8}
+.cattabs a{padding:10px 11px;font-size:13.5px;color:var(--ink-muted);text-decoration:none;border-bottom:2.5px solid transparent}
+.cattabs a.on{color:var(--accent-ink);font-weight:600;border-bottom-color:var(--accent)}
+.catc{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:#fff;border:1px solid var(--border);border-left:4px solid var(--danger-ink);border-radius:10px;padding:10px 14px;margin-bottom:16px;font-size:13px}
+/* page */
+.pop{position:absolute;right:32px;top:292px;width:380px;background:#fff;border:1px solid var(--border-strong);border-radius:12px;box-shadow:0 12px 32px rgba(20,18,10,.18);padding:18px;z-index:4}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page);position:relative">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who">Dr. Nusrat Jahan · Vet</div></div>
+  <div class="main">
+    <section class="cathead" aria-label="Cat clinical header">
+      <div class="risk" role="alert"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 9v5M12 17.4v.6"/><path d="M10.3 3.9 2.6 17.2A2 2 0 0 0 4.3 20h15.4a2 2 0 0 0 1.7-2.8L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg><b>High risk &mdash; handle with care</b><span style="opacity:.92">Bites when restrained. Two handlers and a towel wrap required.</span></div>
+      <div class="catrow">
+        <div style="display:flex;gap:12px;align-items:center"><div class="cav">M</div><div><div class="cname">Mittens</div><div class="small muted">Domestic shorthair &middot; Female, neutered &middot; ~3 years</div></div></div>
+        <div><div class="lbl">Latest weight</div><span class="q">4.20 kg</span> <span class="small muted">&middot; 14 Sep 2026</span></div>
+        <div><div class="lbl">Allergies</div><div style="display:flex;gap:6px"><span class="chip c-warn">Chicken protein</span><span class="chip c-danger"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m6 6 12 12"/></svg>Penicillin &middot; severe</span></div></div>
+        <div><div class="lbl">Chronic</div>Early-stage CKD</div>
+        <div><div class="lbl">Owner</div>Farhana Yasmin</div>
+      </div>
+      <nav class="cattabs" aria-label="Cat sections"><a href="../cat-profile/CatOverview.dc.html">Overview</a><a href="../cat-profile/CatMedical.dc.html">Medical profile</a><a href="../cat-profile/CatWeights.dc.html">Weights</a><a href="../cat-profile/CatVaccinations.dc.html">Vaccinations</a><a class="on" aria-current="page" href="CatPrescriptions.dc.html">Prescriptions</a><a href="CatDietAuthorisations.dc.html">Diet</a><a href="../cat-profile/CageCard.dc.html">Cage card</a></nav>
+    </section>
+
+    <div class="titlerow">
+      <h1 class="h1">Prescriptions</h1>
+      <button type="button" class="btn" aria-expanded="true">+ New prescription</button>
+    </div>
+    <nav class="tabs" aria-label="Prescription scope"><a href="#" class="on" aria-current="page">Active (5)</a><a href="#">All (11)</a></nav>
+
+    <table class="t">
+      <thead><tr><th>Number</th><th>Medicine</th><th>Dose</th><th>Route · frequency</th><th>Remaining</th><th>Supplies</th><th>Valid until</th><th>Status</th><th>Vet</th><th>Warnings</th></tr></thead>
+      <tbody>
+        <tr><td class="nw"><a href="PrescriptionDetail.dc.html" style="font-weight:600">RX-2026-000123</a></td><td><b>Meloxicam</b><div class="small muted">1.5 mg/ml oral suspension</div></td><td class="q">0.4 ml</td><td>Oral · once daily</td><td>5 days left</td><td>1 of 3</td><td class="nw">31 Dec 2026</td><td><span class="badge b-ok"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Active</span></td><td>Dr. Nusrat Jahan</td><td><span class="badge b-warn"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 9v5M12 17.4v.6"/><path d="M10.3 3.9 2.6 17.2A2 2 0 0 0 4.3 20h15.4a2 2 0 0 0 1.7-2.8L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>2 acknowledged</span></td></tr>
+        <tr><td class="nw"><a href="PrescriptionDetail.dc.html" style="font-weight:600">RX-2026-000140</a></td><td><b>Amoxicillin–clavulanate</b><div class="small muted">50 mg tablet</div></td><td class="q">1 tablet</td><td>Oral · twice daily</td><td class="muted">Not yet dispensed</td><td>0 of 1</td><td class="nw">6 Oct 2026</td><td><span class="badge b-neutral"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Awaiting first supply</span></td><td>Dr. Nusrat Jahan</td><td><span class="badge b-danger"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m6 6 12 12"/></svg>Allergy acknowledged</span></td></tr>
+        <tr><td class="nw"><a href="PrescriptionDetail.dc.html" style="font-weight:600">RX-2026-000131</a></td><td><b>Buprenorphine</b> <span class="badge b-neutral"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Controlled</span><div class="small muted">0.3 mg/ml oral transmucosal</div></td><td class="q">0.1 ml</td><td>Transmucosal · every 8 hours</td><td>2 days left</td><td>1 of 1</td><td class="nw">30 Sep 2026</td><td><span class="badge b-ok"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Active</span></td><td>Dr. Nusrat Jahan</td><td class="muted small">None raised</td></tr>
+        <tr><td class="nw"><a href="PrescriptionDetail.dc.html" style="font-weight:600">RX-2026-000117</a></td><td><b>Prednisolone</b><div class="small muted">5 mg tablet</div></td><td class="q">1 tablet</td><td>Oral · once daily</td><td>9 days left</td><td>1 of 1</td><td class="nw">2 Oct 2026</td><td><span class="badge b-ok"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Active</span></td><td>Dr. Nusrat Jahan</td><td class="muted small">None raised</td></tr>
+        <tr><td class="nw"><a href="PrescriptionDetail.dc.html" style="font-weight:600">RX-2026-000098</a></td><td><b>Benazepril</b><div class="small muted">2.5 mg tablet</div></td><td class="q">0.5 tablet</td><td>Oral · once daily</td><td>Last day today</td><td>2 of 6</td><td class="nw">20 Nov 2026</td><td><span class="badge b-ok"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Active</span></td><td>Dr. Nusrat Jahan</td><td class="muted small">None raised</td></tr>
+      </tbody>
+    </table>
+    <p class="small muted" style="margin-top:10px">Dates are in the branch time zone, Asia/Dhaka. Issued prescriptions have no edit control — renew or cancel from the prescription's page.</p>
+  </div>
+
+  <div class="pop" role="dialog" aria-labelledby="np-title">
+    <div id="np-title" style="font-weight:700;margin-bottom:6px">Which visit is this prescription for?</div>
+    <p class="small muted" style="margin:0 0 12px;line-height:1.45">Prescriptions are issued from an open visit. Until open visits can be listed here, paste the visit reference from the consultation.</p>
+    <div class="field"><label for="np-visit">Visit reference</label><input id="np-visit" value="VIS-2026-004812"><div class="hint">Shown on the consultation screen.</div></div>
+    <div style="display:flex;justify-content:flex-end;gap:8px"><button type="button" class="btn btn-sec">Cancel</button><a class="btn" href="ComposerWarnings.dc.html">Open composer</a></div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

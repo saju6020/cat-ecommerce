@@ -1,0 +1,99 @@
+@import 'tailwindcss';
+
+/*
+ * PurrCare design tokens — base layer (staff and everything).
+ *
+ * Hand-transcribed from the `:root{...}` rules in the approved design-canvas mockups, e.g.
+ * docs/design/shop/StaffProductList.dc.html. These are consumed by name via Tailwind utilities
+ * generated below (`@theme inline`) — components must not use hex literals (HO-CAT-002 §9).
+ */
+:root {
+  --surface-page: #faf9f6;
+  --surface: #fff;
+  --surface-sunken: #f2efe7;
+  --ink: #1c1a17;
+  --ink-muted: #5c574f;
+  --ink-faint: #8c8578;
+  --border: #e5e1d8;
+  --border-strong: #cbc3b2;
+  --accent: #15605a;
+  --accent-ink: #0e4a45;
+  --accent-soft: rgba(21, 96, 90, 0.08);
+  --warning-bg: #fbf0dc;
+  --warning-ink: #6e4700;
+  --danger-bg: #fbe9e7;
+  --danger-ink: #8f1d1d;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+
+  /* The system's one deliberate exception to "borders, not shadows" (docs/design/administration/
+     README.md, docs/design/billing/README.md, docs/design/boarding/README.md, docs/design/
+     portal/README.md) — used for dialogs only, never for cards or list rows. Value transcribed
+     from docs/design/administration/*.dc.html's `.dialog` rule. */
+  --shadow-modal: 0 20px 60px rgba(20, 18, 10, 0.25);
+
+  /* Font stacks. The actual font files are loaded by next/font in app/layout.tsx, which sets
+     --font-display-loaded / --font-sans-loaded on <html>; these fall back to system fonts when
+     that isn't present (e.g. component tests rendered outside the root layout). */
+  --font-display: var(--font-display-loaded), Georgia, serif;
+  --font-sans: var(--font-sans-loaded), system-ui, sans-serif;
+}
+
+/*
+ * Customer layer (docs/design/portal/Dashboard.dc.html) — applied via `data-theme="customer"`
+ * on the (portal) route group's layout ONLY (web/app/(portal)/layout.tsx). Never apply this on
+ * a staff layout or a shared component: `--warm` is a fill colour, never text (HO-CAT-002 §8.5 —
+ * check contrast specifically before using it).
+ */
+[data-theme='customer'] {
+  --surface-page: #fbf6ef;
+  --radius-md: 14px;
+  --warm: #e8894a;
+  --warm-ink: #8a3f14;
+  --warm-soft: #fdeee2;
+}
+
+@theme inline {
+  --color-surface-page: var(--surface-page);
+  --color-surface: var(--surface);
+  --color-surface-sunken: var(--surface-sunken);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-faint: var(--ink-faint);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --color-warning-bg: var(--warning-bg);
+  --color-warning-ink: var(--warning-ink);
+  --color-danger-bg: var(--danger-bg);
+  --color-danger-ink: var(--danger-ink);
+  /* Customer-only — undefined (transparent) outside [data-theme="customer"] on purpose. */
+  --color-warm: var(--warm);
+  --color-warm-ink: var(--warm-ink);
+  --color-warm-soft: var(--warm-soft);
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --shadow-modal: var(--shadow-modal);
+
+  --font-display: var(--font-display);
+  --font-sans: var(--font-sans);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--surface-page);
+  color: var(--ink);
+  font-family: var(--font-sans);
+}
+
+/* Visible focus, everywhere — UI-6. Never `outline: none` without a replacement (HO-CAT-002 §8.5). */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}

@@ -1,0 +1,154 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1500" viewBox="0 0 1200 1500" role="img" aria-labelledby="title desc">
+  <title id="title">AI Development Harness Diagram</title>
+  <desc id="desc">A LinkedIn-ready diagram showing an AI development harness with architecture memory, agent roles, executable handovers, evidence gates, and feedback into ADRs and docs.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f7f3ea; }
+      .ink { fill: #1f2933; }
+      .muted { fill: #5c6672; }
+      .small { font: 500 22px Arial, Helvetica, sans-serif; }
+      .body { font: 600 28px Arial, Helvetica, sans-serif; }
+      .body2 { font: 500 26px Arial, Helvetica, sans-serif; }
+      .label { font: 700 30px Arial, Helvetica, sans-serif; }
+      .title { font: 800 64px Arial, Helvetica, sans-serif; letter-spacing: 0; }
+      .subtitle { font: 500 30px Arial, Helvetica, sans-serif; }
+      .pill { font: 700 22px Arial, Helvetica, sans-serif; }
+      .caption { font: 600 24px Arial, Helvetica, sans-serif; }
+      .card { fill: #ffffff; stroke: #d9d2c4; stroke-width: 2; }
+      .card-dark { fill: #24313f; stroke: #24313f; stroke-width: 2; }
+      .blue { fill: #2f6fed; }
+      .blue-soft { fill: #e6eefc; stroke: #9bb9f6; }
+      .teal { fill: #028482; }
+      .teal-soft { fill: #e0f4f1; stroke: #8ecdc5; }
+      .amber { fill: #b96f00; }
+      .amber-soft { fill: #fff0d2; stroke: #e4b966; }
+      .green { fill: #2e7d32; }
+      .green-soft { fill: #e4f3df; stroke: #9cca91; }
+      .rose { fill: #b23a48; }
+      .rose-soft { fill: #fde8eb; stroke: #e7a2ab; }
+      .purple { fill: #6750a4; }
+      .purple-soft { fill: #eee8ff; stroke: #b8a8ea; }
+      .line { stroke: #53606d; stroke-width: 4; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .line-light { stroke: #a2998d; stroke-width: 3; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .dash { stroke-dasharray: 10 10; }
+      .shadow { filter: url(#shadow); }
+    </style>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#2d3748" flood-opacity="0.12"/>
+    </filter>
+    <marker id="arrow" markerWidth="16" markerHeight="16" refX="12" refY="8" orient="auto" markerUnits="strokeWidth">
+      <path d="M 2 2 L 14 8 L 2 14 z" fill="#53606d"/>
+    </marker>
+    <marker id="arrow-light" markerWidth="16" markerHeight="16" refX="12" refY="8" orient="auto" markerUnits="strokeWidth">
+      <path d="M 2 2 L 14 8 L 2 14 z" fill="#a2998d"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1200" height="1500"/>
+
+  <g transform="translate(80 70)">
+    <text class="title ink" x="0" y="0" dominant-baseline="hanging">AI Development Harness</text>
+    <text class="subtitle muted" x="0" y="84">A practical system for evidence-backed AI software delivery.</text>
+  </g>
+
+  <g class="shadow">
+    <rect class="card" x="100" y="205" width="1000" height="104" rx="18"/>
+    <circle class="blue" cx="154" cy="257" r="27"/>
+    <text class="pill" fill="#ffffff" x="154" y="258" text-anchor="middle" dominant-baseline="middle">1</text>
+    <text class="label ink" x="202" y="243">Intent enters</text>
+    <text class="body2 muted" x="202" y="278">SRS, feature request, bug, or product decision</text>
+    <path class="line" d="M 600 310 L 600 365" marker-end="url(#arrow)"/>
+  </g>
+
+  <g class="shadow">
+    <rect class="card-dark" x="120" y="370" width="960" height="520" rx="28"/>
+    <text class="label" fill="#ffffff" x="600" y="425" text-anchor="middle">The Harness</text>
+    <text class="body2" fill="#d8dee8" x="600" y="463" text-anchor="middle">The AI is constrained by memory, roles, scope, and evidence.</text>
+
+    <rect class="blue-soft" x="170" y="510" width="410" height="140" rx="16"/>
+    <rect class="blue" x="194" y="536" width="64" height="64" rx="14"/>
+    <text class="pill" fill="#ffffff" x="226" y="568" text-anchor="middle" dominant-baseline="middle">.ai</text>
+    <text class="label ink" x="282" y="548">Architecture Memory</text>
+    <text class="small muted" x="282" y="588">ADRs, CQRS, DDD boundaries</text>
+    <text class="small muted" x="282" y="620">EF patterns, flows, names</text>
+
+    <rect class="teal-soft" x="620" y="510" width="410" height="140" rx="16"/>
+    <rect class="teal" x="644" y="536" width="64" height="64" rx="14"/>
+    <text class="pill" fill="#ffffff" x="676" y="568" text-anchor="middle" dominant-baseline="middle">roles</text>
+    <text class="label ink" x="732" y="548">Agent Team</text>
+    <text class="small muted" x="732" y="588">BA, architect, backend</text>
+    <text class="small muted" x="732" y="620">frontend, security, test</text>
+
+    <rect class="amber-soft" x="170" y="690" width="410" height="140" rx="16"/>
+    <rect class="amber" x="194" y="716" width="64" height="64" rx="14"/>
+    <text class="pill" fill="#ffffff" x="226" y="748" text-anchor="middle" dominant-baseline="middle">HO</text>
+    <text class="label ink" x="282" y="728">Executable Handover</text>
+    <text class="small muted" x="282" y="768">Scope, tests, acceptance</text>
+    <text class="small muted" x="282" y="800">forbidden paths, blocked states</text>
+
+    <rect class="green-soft" x="620" y="690" width="410" height="140" rx="16"/>
+    <rect class="green" x="644" y="716" width="64" height="64" rx="14"/>
+    <text class="pill" fill="#ffffff" x="676" y="748" text-anchor="middle" dominant-baseline="middle">docs</text>
+    <text class="label ink" x="732" y="728">Evidence Ledger</text>
+    <text class="small muted" x="732" y="768">Gate records, test sheets</text>
+    <text class="small muted" x="732" y="800">outputs, decisions, deviations</text>
+  </g>
+
+  <path class="line" d="M 600 891 L 600 946" marker-end="url(#arrow)"/>
+
+  <g class="shadow">
+    <rect class="card" x="90" y="950" width="1020" height="275" rx="24"/>
+    <text class="label ink" x="600" y="1005" text-anchor="middle">Five Evidence Gates</text>
+    <text class="body2 muted" x="600" y="1042" text-anchor="middle">Every gate can PASS, FAIL, or BLOCKED. No evidence means not done.</text>
+
+    <g transform="translate(128 1090)">
+      <rect class="purple-soft" x="0" y="0" width="170" height="86" rx="14"/>
+      <text class="caption ink" x="85" y="34" text-anchor="middle">Architecture</text>
+      <text class="small muted" x="85" y="64" text-anchor="middle">fit to ADRs</text>
+    </g>
+    <path class="line-light" d="M 304 1133 L 360 1133" marker-end="url(#arrow-light)"/>
+    <g transform="translate(366 1090)">
+      <rect class="rose-soft" x="0" y="0" width="150" height="86" rx="14"/>
+      <text class="caption ink" x="75" y="34" text-anchor="middle">Security</text>
+      <text class="small muted" x="75" y="64" text-anchor="middle">exploits</text>
+    </g>
+    <path class="line-light" d="M 522 1133 L 578 1133" marker-end="url(#arrow-light)"/>
+    <g transform="translate(584 1090)">
+      <rect class="blue-soft" x="0" y="0" width="160" height="86" rx="14"/>
+      <text class="caption ink" x="80" y="34" text-anchor="middle">Code Review</text>
+      <text class="small muted" x="80" y="64" text-anchor="middle">diff risks</text>
+    </g>
+    <path class="line-light" d="M 750 1133 L 806 1133" marker-end="url(#arrow-light)"/>
+    <g transform="translate(812 1090)">
+      <rect class="amber-soft" x="0" y="0" width="128" height="86" rx="14"/>
+      <text class="caption ink" x="64" y="34" text-anchor="middle">Test</text>
+      <text class="small muted" x="64" y="64" text-anchor="middle">observed</text>
+    </g>
+    <path class="line-light" d="M 946 1133 L 1002 1133" marker-end="url(#arrow-light)"/>
+    <g transform="translate(1008 1090)">
+      <rect class="green-soft" x="-62" y="0" width="154" height="86" rx="14"/>
+      <text class="caption ink" x="15" y="34" text-anchor="middle">Acceptance</text>
+      <text class="small muted" x="15" y="64" text-anchor="middle">evidence</text>
+    </g>
+  </g>
+
+  <path class="line" d="M 600 1226 L 600 1280" marker-end="url(#arrow)"/>
+
+  <g class="shadow">
+    <rect class="card" x="100" y="1285" width="1000" height="120" rx="20"/>
+    <circle class="green" cx="154" cy="1345" r="27"/>
+    <text class="pill" fill="#ffffff" x="154" y="1346" text-anchor="middle" dominant-baseline="middle">2</text>
+    <text class="label ink" x="202" y="1328">Verified delivery</text>
+    <text class="body2 muted" x="202" y="1364">Shippable change, test evidence, gate verdicts, updated memory</text>
+  </g>
+
+  <path class="line-light dash" d="M 1010 1345 C 1140 1210 1135 505 1035 460" marker-end="url(#arrow-light)"/>
+  <text class="small muted" x="835" y="1248">feedback loop:</text>
+  <text class="small muted" x="835" y="1276">ADRs + flow docs</text>
+  <text class="small muted" x="835" y="1304">updated after proof</text>
+
+  <g transform="translate(80 1430)">
+    <text class="caption ink" x="0" y="0">Principle:</text>
+    <text class="caption muted" x="112" y="0">AI agents should work inside a harness that makes correctness auditable.</text>
+  </g>
+</svg>

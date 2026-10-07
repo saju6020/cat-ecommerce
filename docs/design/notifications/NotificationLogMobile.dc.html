@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Notification log at 360px — UI-1</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--border:#e5e1d8;--accent-ink:#0e4a45;--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--accent-soft:rgba(21,96,90,.08);--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-pill:999px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.h1{font-family:var(--font-display);font-weight:600;font-size:18px;margin:0 0 12px}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;margin-bottom:8px;font-size:12.5px}
+.row{display:flex;justify-content:space-between;margin-bottom:4px}
+.tmpl{font-weight:700}
+.pill{display:inline-flex;padding:2px 8px;border-radius:var(--radius-pill);font-size:10.5px;font-weight:600}
+.pill-sent{background:var(--accent-soft);color:var(--accent-ink)}
+.pill-retry{background:var(--warning-bg);color:var(--warning-ink)}
+.pill-fail{background:var(--danger-bg);color:var(--danger-ink)}
+.muted{color:var(--ink-muted)}
+</style>
+</helmet>
+<div style="width:360px;height:640px;background:var(--surface-page);padding:18px 14px;overflow:auto">
+  <h1 class="h1">Notifications</h1>
+  <p class="muted" style="font-size:11.5px;margin:-6px 0 14px">Below 768px — the table becomes cards, same fields, no horizontal scroll.</p>
+
+  <div class="card">
+    <div class="row"><span class="tmpl">Vaccination due soon</span><span class="pill pill-retry">Held until 08:00</span></div>
+    <div class="muted">SMS · 017••••5678 · Farhana Yasmin</div>
+    <div class="muted">23 Sep 09:14 · 0 attempts</div>
+  </div>
+  <div class="card">
+    <div class="row"><span class="tmpl">Order shipped</span><span class="pill pill-sent">Sent</span></div>
+    <div class="muted">In-app · Kamrul Hasan</div>
+    <div class="muted">23 Sep 08:02 · 1 attempt</div>
+  </div>
+  <div class="card">
+    <div class="row"><span class="tmpl">Password reset link</span><span class="pill pill-fail">Undeliverable</span></div>
+    <div class="muted">Email · n••••@example.com · Nafisa Rahman</div>
+    <div class="muted">22 Sep 16:02 · 3 attempts</div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":360,"height":640}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

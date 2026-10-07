@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Delivery zones — US-ORD-06</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink);font-size:14px;line-height:1.45}
+.topnav{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:18px;color:var(--accent-ink)}
+.who{font-size:13px;display:flex;align-items:center;gap:14px}
+select.branchpick{font:inherit;font-size:13px;padding:5px 8px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.cnav{display:flex;gap:22px;font-size:14px;font-weight:600;color:var(--ink-muted);margin-right:auto;margin-left:28px}
+.cnav a{color:inherit;text-decoration:none}
+.cnav a.on{color:var(--accent-ink);text-decoration:underline;text-underline-offset:6px;text-decoration-thickness:2px}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.cartlink{display:inline-flex;align-items:center;gap:6px;font-weight:600;color:var(--ink);text-decoration:none;font-size:13.5px}
+.count{background:var(--accent);color:#fff;border-radius:999px;font-size:11px;font-weight:700;padding:1px 7px}
+.main{padding:26px 32px;position:relative}
+.page{max-width:1080px;margin:0 auto;padding:28px 32px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+.h2{font-family:var(--font-display);font-weight:600;font-size:17px;margin:0 0 10px}
+.lbl{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);font-weight:700;margin:0 0 8px}
+.titlerow{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:18px;flex-wrap:wrap}
+.muted{color:var(--ink-muted)}.faint{color:var(--ink-faint)}.sm{font-size:12.5px}.xs{font-size:11.5px}.b{font-weight:700}.num{font-variant-numeric:tabular-nums}
+p{margin:0 0 8px}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:8px 16px;border-radius:var(--radius-sm);border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;white-space:nowrap;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn-sec{background:#fff;color:var(--ink);border-color:var(--border-strong)}
+.btn-danger{background:var(--danger-ink);border-color:var(--danger-ink);color:#fff}
+.btn-ghost{background:none;border-color:transparent;color:var(--accent-ink);padding-left:4px;padding-right:4px}
+.btn[disabled]{background:var(--surface-sunken);border-color:var(--border);color:var(--ink-faint);cursor:not-allowed}
+.btn-lg{font-size:15px;padding:11px 22px}
+.btn-sm{font-size:12.5px;padding:5px 10px}
+.link{color:var(--accent-ink);font-weight:600;text-decoration:underline;text-underline-offset:2px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:18px 20px}
+.stack>*+*{margin-top:14px}
+.row{display:flex;gap:12px;align-items:center}
+.between{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.cols{display:flex;gap:22px;align-items:flex-start}
+.cols>*{flex:1;min-width:0}
+table{border-collapse:collapse;width:100%;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden}
+th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--border);font-size:13px;vertical-align:top}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);font-weight:700;background:var(--surface-sunken)}
+tr:last-child td{border-bottom:none}
+td.r,th.r{text-align:right}
+caption{text-align:left;font-size:12px;color:var(--ink-muted);padding:0 0 6px}
+.chip{display:inline-flex;align-items:center;gap:5px;padding:2px 9px;border-radius:999px;font-size:11.5px;font-weight:600;white-space:nowrap;border:1px solid transparent;line-height:1.5}
+.chip i{font-style:normal;font-size:11px}
+.c-ok{background:var(--accent-soft);color:var(--accent-ink);border-color:rgba(21,96,90,.22)}
+.c-warn{background:var(--warning-bg);color:var(--warning-ink);border-color:#ecd7ae}
+.c-bad{background:var(--danger-bg);color:var(--danger-ink);border-color:#f0c9c4}
+.c-neu{background:var(--surface-sunken);color:var(--ink-muted);border-color:var(--border)}
+.c-cat{background:#fff;color:var(--ink);border-color:var(--border-strong)}
+.field{margin-bottom:14px}
+.field label,.flabel{display:block;font-size:13px;font-weight:600;margin-bottom:5px}
+.field input,.field select,.field textarea,.inp{width:100%;font:inherit;font-size:14px;padding:8px 11px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:#fff;color:var(--ink)}
+.field textarea{min-height:60px;resize:vertical}
+.field input[readonly],.inp[readonly]{background:var(--surface-sunken);color:var(--ink-muted)}
+.invalid{border-color:var(--danger-ink)!important;box-shadow:0 0 0 1px var(--danger-ink)}
+.focus{outline:2px solid var(--accent);outline-offset:2px}
+.hint{font-size:12px;color:var(--ink-muted);margin-top:4px}
+.err{font-size:12.5px;color:var(--danger-ink);margin-top:5px;font-weight:600}
+.banner{border:1px solid var(--border);border-left:4px solid var(--accent);background:#fff;border-radius:var(--radius-sm);padding:11px 14px;font-size:13.5px}
+.b-warn{background:var(--warning-bg);border-color:#ecd7ae;border-left-color:var(--warning-ink);color:var(--warning-ink)}
+.b-bad{background:var(--danger-bg);border-color:#f0c9c4;border-left-color:var(--danger-ink);color:var(--danger-ink)}
+.b-info{background:var(--accent-soft);border-color:rgba(21,96,90,.25);border-left-color:var(--accent);color:var(--accent-ink)}
+.scrim{position:absolute;inset:0;background:rgba(28,26,23,.4);display:flex;align-items:center;justify-content:center;z-index:5;padding:20px}
+.dialog{background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(20,18,10,.25);width:470px;padding:24px}
+.dialog h2{margin:0 0 6px;font-size:18px;font-family:var(--font-display);font-weight:600}
+.confirm{font-size:13px;background:var(--surface-sunken);border-radius:6px;padding:10px 12px;margin:12px 0}
+.dactions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
+dl.sum{margin:0}
+dl.sum div{display:flex;justify-content:space-between;gap:12px;padding:6px 0;font-size:13.5px;border-bottom:1px dashed var(--border)}
+dl.sum dt{color:var(--ink-muted)}
+dl.sum dd{margin:0;font-variant-numeric:tabular-nums;white-space:nowrap}
+dl.sum div.tot{border-bottom:none;border-top:1px solid var(--ink);margin-top:4px;padding-top:10px;font-weight:700;font-size:15.5px}
+dl.sum div.tot dt{color:var(--ink)}
+dl.kv{margin:0;font-size:13.5px}
+dl.kv div{display:flex;gap:14px;padding:3px 0}
+dl.kv dt{color:var(--ink-muted);width:130px;flex:none}
+dl.kv dd{margin:0}
+.anno{font-size:11.5px;color:var(--ink-faint);font-style:italic;margin-top:8px}
+.tag{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-faint);font-weight:700;margin-bottom:8px}
+.radio{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--border-strong);border-radius:var(--radius-md);padding:12px 14px;background:#fff;margin-bottom:8px}
+.radio.on{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent);background:var(--accent-soft)}
+.radio.off{background:var(--surface-sunken);border-color:var(--border);color:var(--ink-faint)}
+.dot{width:16px;height:16px;border-radius:50%;border:2px solid var(--border-strong);flex:none;margin-top:2px;background:#fff}
+.radio.on .dot,.dot.on{border-color:var(--accent);box-shadow:inset 0 0 0 3px #fff;background:var(--accent)}
+.box{width:17px;height:17px;border-radius:4px;border:2px solid var(--border-strong);flex:none;background:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:700}
+.box.on{background:var(--accent);border-color:var(--accent)}
+.steps{display:flex;list-style:none;margin:0 0 22px;padding:0;border:1px solid var(--border);border-radius:var(--radius-md);background:#fff;overflow:hidden}
+.steps li{flex:1;padding:9px 14px;font-size:12px;color:var(--ink-muted);border-right:1px solid var(--border)}
+.steps li:last-child{border-right:none}
+.steps li b{display:block;font-size:13px;color:var(--ink)}
+.steps li.cur{background:var(--accent-soft);box-shadow:inset 0 -3px 0 var(--accent)}
+.steps li.skip{color:var(--ink-faint)}
+.steps li.skip b{color:var(--ink-faint)}
+.qty{display:inline-flex;align-items:center;border:1px solid var(--border-strong);border-radius:6px;overflow:hidden;background:#fff}
+.qty button{width:30px;height:30px;border:none;background:var(--surface-sunken);font:inherit;font-weight:700;cursor:pointer;color:var(--ink)}
+.qty input{width:38px;height:30px;border:none;border-left:1px solid var(--border);border-right:1px solid var(--border);text-align:center;font:inherit;font-size:13.5px}
+.qty button[disabled]{color:var(--ink-faint);cursor:not-allowed}
+.thumb{width:52px;height:52px;border-radius:8px;background:var(--surface-sunken);border:1px solid var(--border);flex:none;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--ink-faint);text-align:center;line-height:1.2}
+.kbd{font-family:ui-monospace,Consolas,monospace;font-size:11px;border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:4px;padding:0 5px;background:#fff;color:var(--ink)}
+.mono{font-family:ui-monospace,Consolas,monospace}
+.pager{display:flex;justify-content:space-between;align-items:center;margin-top:12px;font-size:12.5px;color:var(--ink-muted)}
+.filters{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;margin-bottom:14px}
+.filters .field{margin:0}
+.filters label{font-size:11.5px;color:var(--ink-muted)}
+.filters select,.filters input{font-size:13px;padding:6px 9px}
+.actionbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:12px 14px;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md)}
+.copy{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px dashed var(--border);font-size:14px}
+.copy:last-child{border-bottom:none}
+.sr{font-size:11px;color:var(--ink-faint);border:1px dashed var(--border-strong);border-radius:4px;padding:2px 6px;display:inline-block}
+td a.link,.nw{white-space:nowrap}
+.chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.pc{display:inline-flex;align-items:center;gap:4px;border:1px solid var(--border-strong);border-radius:999px;padding:2px 4px 2px 10px;font-size:12px;background:#fff}
+.pc button{border:none;background:none;cursor:pointer;color:var(--ink-muted);font-size:12px}
+.lv{border:1px solid var(--border);border-radius:var(--radius-md);padding:14px 16px;margin-bottom:12px;background:#fff}
+.band td,.win td{font-size:12.5px;padding:6px 8px}
+.tog{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600}
+.sw{width:34px;height:20px;border-radius:999px;background:var(--accent);position:relative;display:inline-block}
+.sw::after{content:"";position:absolute;right:3px;top:3px;width:14px;height:14px;border-radius:50%;background:#fff}
+.sw.off{background:var(--border-strong)}
+.sw.off::after{right:auto;left:3px}
+</style>
+</helmet>
+<div style="width:1280px;height:1500px;background:var(--surface-page);overflow:auto;position:relative">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who">Rezwan Ahmed · Administrator</div></div>
+  <div class="main">
+    <div class="titlerow"><h1 class="h1">Delivery zones</h1><button class="btn">+ Add zone</button></div>
+    <table>
+      <thead><tr><th>Zone</th><th>Branch</th><th class="r">Coverage</th><th>Cash on delivery</th><th>Status</th><th></th></tr></thead>
+      <tbody>
+        <tr style="background:var(--accent-soft)"><td class="b">Dhaka North</td><td>Uttara</td><td class="r">2 districts</td><td>Yes · up to ৳5,000.00</td><td><span class="chip c-ok"><i aria-hidden="true">✓</i>Active</span></td><td><a class="link sm" href="#">Editing</a></td></tr>
+        <tr><td class="b">Dhaka South</td><td>Banani</td><td class="r">2 districts</td><td>No</td><td><span class="chip c-ok"><i aria-hidden="true">✓</i>Active</span></td><td><a class="link sm" href="#">Edit</a></td></tr>
+        <tr><td class="b">Narayanganj</td><td>Banani</td><td class="r">1 district</td><td>Yes · up to ৳3,000.00</td><td><span class="chip c-neu"><i aria-hidden="true">–</i>Inactive</span></td><td><a class="link sm" href="#">Edit</a></td></tr>
+      </tbody>
+    </table>
+
+    <div class="cols" style="gap:22px;margin-top:22px">
+      <div style="flex:1.8">
+        <div class="card">
+          <h2 class="h2">Dhaka North</h2>
+          <div class="cols" style="gap:14px">
+            <div class="field"><label for="zn">Name</label><input id="zn" value="Dhaka North"></div>
+            <div class="field"><label for="zb">Dispatching branch</label><select id="zb"><option>Uttara</option></select></div>
+            <div class="field" style="flex:.5"><label for="zp">Priority</label><input id="zp" value="1"></div>
+          </div>
+          <div class="row" style="margin-bottom:14px"><span class="tog"><span class="sw" aria-hidden="true"></span>Cash on delivery</span><div class="field" style="margin:0;width:200px"><label for="cc" class="xs">COD ceiling (৳)</label><input id="cc" value="5,000.00"></div><span class="tog" style="margin-left:auto"><span class="sw" aria-hidden="true"></span>Active</span></div>
+
+          <div class="lbl">Coverage</div>
+          <table>
+            <thead><tr><th>District</th><th>Postal codes <span style="text-transform:none;font-weight:400">(empty = whole district)</span></th><th></th></tr></thead>
+            <tbody>
+              <tr><td>Dhaka</td><td><div class="chips"><span class="pc">1230<button aria-label="Remove postal code 1230">✕</button></span><span class="pc">1229<button aria-label="Remove postal code 1229">✕</button></span><span class="pc">1206<button aria-label="Remove postal code 1206">✕</button></span><input class="inp" style="width:110px;padding:3px 8px;font-size:12px" placeholder="Add code"></div></td><td><button class="btn btn-ghost btn-sm">Remove</button></td></tr>
+              <tr><td>Munshiganj</td><td><div class="chips"><span class="pc">1500<button aria-label="Remove postal code 1500">✕</button></span><input class="inp invalid" style="width:110px;padding:3px 8px;font-size:12px" value="15O1" aria-describedby="pc-e"></div><div id="pc-e" class="err">⚠ Postal codes are 4 digits.</div></td><td><button class="btn btn-ghost btn-sm">Remove</button></td></tr>
+            </tbody>
+          </table>
+          <button class="btn btn-sec btn-sm" style="margin-top:8px">+ Add district</button>
+
+          <div class="lbl" style="margin-top:18px">Service levels</div>
+          <div class="lv">
+            <div class="between"><b>Standard</b><span class="tog"><span class="sw" aria-hidden="true"></span>Active</span></div>
+            <div class="cols" style="gap:12px;margin-top:8px"><div class="field"><label class="xs" for="s1">Base charge (৳)</label><input id="s1" value="80.00"></div><div class="field"><label class="xs" for="s2">Free over (৳)</label><input id="s2" value="10,000.00"></div><div class="field"><label class="xs" for="s3">Lead time (days)</label><input id="s3" value="1"></div></div>
+            <div class="cols" style="gap:14px">
+              <div><div class="flabel xs">Weight bands</div>
+                <table class="band"><thead><tr><th>Up to</th><th>Add</th></tr></thead><tbody><tr><td>5,000 g</td><td>+ ৳0.00</td></tr><tr><td>10,000 g</td><td>+ ৳40.00</td></tr><tr><td>20,000 g</td><td>+ ৳90.00</td></tr></tbody></table>
+                <button class="btn btn-ghost btn-sm">+ Add band</button></div>
+              <div><div class="flabel xs">Slot windows (Asia/Dhaka)</div>
+                <table class="win"><thead><tr><th>Days</th><th>Windows</th></tr></thead><tbody><tr><td>Sat–Thu</td><td>10:00–13:00 · 13:00–16:00 · 16:00–19:00</td></tr><tr><td>Fri</td><td>None — no deliveries</td></tr></tbody></table>
+                <button class="btn btn-ghost btn-sm">Edit windows</button></div>
+            </div>
+          </div>
+          <div class="lv">
+            <div class="between"><b>Express</b><span class="tog"><span class="sw" aria-hidden="true"></span>Active</span></div>
+            <div class="sm muted" style="margin-top:4px">Base ৳150.00 · no free-over · lead time 0 days · no weight bands · <b>no slot windows</b> — customers skip the slot step and see the lead time instead.</div>
+          </div>
+          <div class="dactions"><button class="btn btn-sec">Cancel</button><button class="btn">Save zone</button></div>
+        </div>
+      </div>
+      <div style="flex:1">
+        <div class="card">
+          <h2 class="h2">Test an address</h2>
+          <p class="sm muted">Asks the server which zone an address falls in — the same answer checkout will get.</p>
+          <div class="field"><label for="td">District</label><input id="td" value="Munshiganj"></div>
+          <div class="field"><label for="tp">Postal code</label><input id="tp" value="1500"></div>
+          <button class="btn btn-sec">Test</button>
+          <div class="banner b-info sm" role="status" style="margin-top:12px"><b>Matches Dhaka North</b> (priority 1). Standard ৳80.00, Express ৳150.00. Cash on delivery up to ৳5,000.00.</div>
+          <div class="banner b-warn sm" style="margin-top:8px">Board Bazar, Gazipur 1703 → <b>no zone.</b> Checkout will offer pickup instead.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1500}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

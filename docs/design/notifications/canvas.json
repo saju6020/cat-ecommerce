@@ -1,0 +1,34 @@
+{
+  "v": 3,
+  "createdOnFiles": { "v": 1, "at": "2026-09-23T04:00:00Z" },
+  "title": "Notifications",
+  "launch": { "view": "canvas" },
+  "pages": [],
+  "boards": {
+    "InboxAndBadge.dc.html":         { "x": 0,    "y": 0,    "w": 1280, "h": 900 },
+    "PreferredChannel.dc.html":      { "x": 1360, "y": 0,    "w": 1280, "h": 900 },
+
+    "TemplateList.dc.html":          { "x": 0,    "y": 1020, "w": 1280, "h": 820 },
+    "TemplateEditor.dc.html":        { "x": 1360, "y": 1020, "w": 1280, "h": 820 },
+    "TemplatePreviewStates.dc.html": { "x": 2720, "y": 1020, "w": 1280, "h": 640 },
+
+    "Unsubscribe.dc.html":           { "x": 0,    "y": 1960, "w": 1280, "h": 640 },
+
+    "NotificationLog.dc.html":       { "x": 0,    "y": 2720, "w": 1280, "h": 900 },
+    "NotificationLogMobile.dc.html": { "x": 1360, "y": 2720, "w": 360,  "h": 640 },
+    "NotificationDetail.dc.html":    { "x": 2720, "y": 2720, "w": 1280, "h": 900 }
+  },
+  "order": [
+    "InboxAndBadge.dc.html", "PreferredChannel.dc.html",
+    "TemplateList.dc.html", "TemplateEditor.dc.html", "TemplatePreviewStates.dc.html",
+    "Unsubscribe.dc.html",
+    "NotificationLog.dc.html", "NotificationLogMobile.dc.html", "NotificationDetail.dc.html"
+  ],
+  "notes": {
+    "row1": { "x": 0, "y": -280, "text": "Inbox & preferred channel — US-NTF-01", "kind": "title1", "maxW": 2200 },
+    "row2": { "x": 0, "y": 740,  "text": "Message templates — US-NTF-02", "kind": "title1", "maxW": 3200 },
+    "row3": { "x": 0, "y": 1680, "text": "Unsubscribe — US-NTF-04", "kind": "title1", "maxW": 1200 },
+    "row4": { "x": 0, "y": 2440, "text": "Notification log & resend — US-NTF-06", "kind": "title1", "maxW": 3200 }
+  },
+  "designSystems": []
+}

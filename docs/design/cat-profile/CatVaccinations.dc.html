@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Mittens — vaccinations</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&amp;family=Public+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:'Public Sans',system-ui,sans-serif;background:#FAF9F6;color:#1C1A17;-webkit-font-smoothing:antialiased}
+a{color:#15605A}a:hover{color:#0E4742}
+button{font-family:inherit;cursor:pointer}
+input,select{font-family:inherit;font-size:14px}
+.fld{height:38px;border:1px solid #D8D3C7;border-radius:8px;padding:0 10px;background:#FFFFFF;width:100%}
+.lbl{font-size:12.5px;font-weight:600;color:#3D3932;margin-bottom:5px;display:block}
+</style>
+</helmet>
+<div style="width: 1280px; height: 980px; display: flex; flex-direction: column; background: #FAF9F6;">
+
+  <header style="height: 56px; flex-shrink: 0; border-bottom: 1px solid #E5E1D8; background: #FFFFFF; display: flex; align-items: center; padding: 0 26px;">
+    <nav aria-label="Breadcrumb" style="display: flex; align-items: center; gap: 8px; font-size: 14px; color: #5C574F;">
+      <a href="Main.dc.html" style="text-decoration: none;">Cats</a><span aria-hidden="true">/</span>
+      <a href="CatOverview.dc.html" style="text-decoration: none;">Mittens</a><span aria-hidden="true">/</span>
+      <span style="color: #1C1A17; font-weight: 600;">Vaccinations</span>
+    </nav>
+  </header>
+
+  <div style="flex-grow: 1; padding: 18px 26px 24px; display: flex; flex-direction: column; gap: 14px; overflow: hidden;">
+
+    <section style="background: #FFFFFF; border: 1px solid #E5E1D8; border-radius: 12px; overflow: hidden;">
+      <div role="alert" style="display: flex; align-items: center; gap: 11px; background: #8F1D1D; color: #FFFFFF; padding: 10px 18px;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;" aria-hidden="true"><path d="M12 9v5M12 17.4v.6"/><path d="M10.3 3.9 2.6 17.2A2 2 0 0 0 4.3 20h15.4a2 2 0 0 0 1.7-2.8L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
+        <span style="font-size: 14px; font-weight: 700;">High risk — handle with care.</span>
+        <span style="font-size: 13.5px; opacity: 0.94;">Bites when restrained. Two handlers and a towel wrap required.</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 16px; padding: 14px 18px;">
+        <div style="width: 52px; height: 52px; border-radius: 11px; background: #8F1D1D; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-family: 'Newsreader', Georgia, serif; font-size: 22px; color: #FFFFFF;">M</div>
+        <div style="flex-grow: 1;">
+          <div style="font-family: 'Newsreader', Georgia, serif; font-size: 22px; font-weight: 600;">Mittens</div>
+          <div style="font-size: 13px; color: #5C574F;">~3 years (estimated) · Female · Neutered · 4.2 kg · Allergies: Chicken protein, Penicillin</div>
+        </div>
+        <a href="CatOverview.dc.html" style="font-size: 13.5px; font-weight: 600; text-decoration: none;">Back to overview</a>
+      </div>
+    </section>
+
+    <div style="display: grid; grid-template-columns: 1.25fr 1fr; gap: 16px; flex-grow: 1; min-height: 0;">
+
+      <div style="display: flex; flex-direction: column; gap: 14px; min-height: 0;">
+
+        <section style="background: #FFFFFF; border: 1px solid #E5E1D8; border-radius: 12px; padding: 18px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px;">
+            <h2 style="margin: 0; font-size: 13px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: #5C574F;">Core vaccination status</h2>
+            <span style="display: inline-flex; align-items: center; gap: 6px; background: #FBE9E7; color: #8F1D1D; font-size: 13px; font-weight: 700; padding: 4px 11px; border-radius: 999px;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m6 6 12 12"/></svg>Overdue</span>
+          </div>
+
+          <div role="alert" style="display: flex; align-items: flex-start; gap: 10px; background: #FBE9E7; border: 1px solid #F0CCC8; border-radius: 9px; padding: 11px 13px; margin-bottom: 14px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8F1D1D" stroke-width="2.2" stroke-linecap="round" style="flex-shrink: 0; margin-top: 1px;" aria-hidden="true"><path d="M12 8v5M12 16.2v.4"/><path d="M10.3 3.9 2.6 17.2A2 2 0 0 0 4.3 20h15.4a2 2 0 0 0 1.7-2.8L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
+            <div style="font-size: 13.5px; color: #7A1A1A; line-height: 1.5;">
+              <strong style="color: #8F1D1D;">Boarding will be blocked while a core vaccine is overdue.</strong>
+              Record the outstanding vaccination, or an administrator can override with a recorded reason.
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 120px 120px 104px; gap: 10px; padding: 8px 0; border-bottom: 1px solid #EFECE4; font-size: 11px; font-weight: 700; color: #5C574F; letter-spacing: 0.05em; text-transform: uppercase;">
+            <span>Vaccine</span><span>Last given</span><span>Next due</span><span>Status</span>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 120px 120px 104px; gap: 10px; padding: 11px 0; border-bottom: 1px solid #EFECE4; align-items: center;">
+            <span style="font-size: 14px; font-weight: 600;">Rabies</span>
+            <span style="font-size: 13.5px; color: #3D3932;">02 Aug 2025</span>
+            <span style="font-size: 13.5px; color: #8F1D1D; font-weight: 600;">02 Aug 2026</span>
+            <span style="display: inline-flex; align-items: center; gap: 5px; background: #FBE9E7; color: #8F1D1D; font-size: 12px; font-weight: 700; padding: 3px 9px; border-radius: 999px; justify-self: start;">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m6 6 12 12"/></svg>Overdue</span>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 120px 120px 104px; gap: 10px; padding: 11px 0; border-bottom: 1px solid #EFECE4; align-items: center;">
+            <span style="font-size: 14px;">FVRCP</span>
+            <span style="font-size: 13.5px; color: #3D3932;">11 Mar 2026</span>
+            <span style="font-size: 13.5px; color: #3D3932;">11 Mar 2027</span>
+            <span style="display: inline-flex; align-items: center; gap: 5px; background: #E6F0EE; color: #0E4742; font-size: 12px; font-weight: 700; padding: 3px 9px; border-radius: 999px; justify-self: start;">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Current</span>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 120px 120px 104px; gap: 10px; padding: 11px 0; align-items: center;">
+            <span style="font-size: 14px;">Feline leukaemia</span>
+            <span style="font-size: 13.5px; color: #5C574F; font-style: italic;">Never given</span>
+            <span style="font-size: 13.5px; color: #5C574F;">—</span>
+            <span style="display: inline-flex; align-items: center; gap: 5px; background: #FBE9E7; color: #8F1D1D; font-size: 12px; font-weight: 700; padding: 3px 9px; border-radius: 999px; justify-self: start;">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m6 6 12 12"/></svg>Overdue</span>
+          </div>
+        </section>
+
+        <section style="background: #FFFFFF; border: 1px solid #E5E1D8; border-radius: 12px; padding: 18px; flex-grow: 1; min-height: 0;">
+          <h2 style="margin: 0 0 12px; font-size: 13px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: #5C574F;">History</h2>
+          <div style="display: grid; grid-template-columns: 1fr 120px 130px 1fr; gap: 10px; padding: 8px 0; border-bottom: 1px solid #EFECE4; font-size: 11px; font-weight: 700; color: #5C574F; letter-spacing: 0.05em; text-transform: uppercase;">
+            <span>Vaccine</span><span>Given</span><span>Batch</span><span>Administered by</span>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 120px 130px 1fr; gap: 10px; padding: 10px 0; border-bottom: 1px solid #EFECE4; font-size: 13.5px;">
+            <span>FVRCP</span><span style="color: #3D3932;">11 Mar 2026</span><span style="color: #3D3932;">FV-2291-A</span><span style="color: #3D3932;">Dr. A. Rahman</span>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 120px 130px 1fr; gap: 10px; padding: 10px 0; border-bottom: 1px solid #EFECE4; font-size: 13.5px;">
+            <span>Rabies</span><span style="color: #3D3932;">02 Aug 2025</span><span style="color: #3D3932;">RB-1180-C</span><span style="color: #3D3932;">Dr. S. Haque</span>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 120px 130px 1fr; gap: 10px; padding: 10px 0; font-size: 13.5px;">
+            <span>FVRCP</span><span style="color: #3D3932;">11 Mar 2025</span><span style="color: #3D3932;">FV-1902-B</span><span style="color: #3D3932;">Dr. A. Rahman</span>
+          </div>
+        </section>
+      </div>
+
+      <section style="background: #FFFFFF; border: 1px solid #E5E1D8; border-radius: 12px; padding: 18px; align-self: start;">
+        <h2 style="margin: 0 0 14px; font-size: 13px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: #5C574F;">Record a vaccination</h2>
+        <form style="display: flex; flex-direction: column; gap: 13px;">
+          <div>
+            <label class="lbl" for="vx">Vaccine</label>
+            <select class="fld" id="vx"><option>Rabies — core, 12 months</option><option>FVRCP — core, 12 months</option><option>Feline leukaemia — core, 12 months</option></select>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div>
+              <label class="lbl" for="batch">Batch reference</label>
+              <input class="fld" id="batch" type="text" value="RB-0942-X">
+            </div>
+            <div>
+              <label class="lbl" for="exp">Batch expiry</label>
+              <input class="fld" id="exp" type="date" value="2026-07-31" aria-describedby="exp-err" style="border-color: #C4453E; border-width: 1.5px;">
+            </div>
+          </div>
+
+          <div id="exp-err" role="alert" style="display: flex; align-items: flex-start; gap: 9px; background: #FBE9E7; border: 1px solid #F0CCC8; border-radius: 8px; padding: 10px 12px; margin-top: -3px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8F1D1D" stroke-width="2.3" stroke-linecap="round" style="flex-shrink: 0; margin-top: 1px;" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5M12 16v.5"/></svg>
+            <div style="font-size: 13px; color: #7A1A1A; line-height: 1.5;">
+              <strong style="display: block; color: #8F1D1D;">This batch expired on 31 Jul 2026.</strong>
+              An expired batch cannot be recorded. Use a batch that is in date on the day it was given.
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div>
+              <label class="lbl" for="given">Date given</label>
+              <input class="fld" id="given" type="date" value="2026-09-20">
+            </div>
+            <div>
+              <label class="lbl" for="vet">Administered by</label>
+              <select class="fld" id="vet"><option>Dr. A. Rahman</option><option>Dr. S. Haque</option></select>
+            </div>
+          </div>
+          <div style="background: #F6F4EE; border-radius: 8px; padding: 11px 13px; font-size: 13px; color: #3D3932;">
+            Next due will be calculated as <strong>20 Sep 2027</strong>, 12 months after the date given.
+          </div>
+          <button type="button" style="background: #15605A; color: #FFFFFF; border: 0; border-radius: 8px; padding: 11px 16px; font-size: 14px; font-weight: 600; margin-top: 2px;">Record vaccination</button>
+        </form>
+      </section>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":980}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

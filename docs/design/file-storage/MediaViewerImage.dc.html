@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Media viewer, image — US-XCT-07</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--overlay:rgba(28,26,23,.55);--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px;--radius-lg:16px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px;display:flex;align-items:center;gap:16px}
+.main{padding:26px 32px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+.sub{color:var(--ink-muted);font-size:13.5px;margin:4px 0 20px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:20px;max-width:760px}
+.card h2{font-size:14.5px;font-weight:700;margin:0 0 12px}
+.photos{display:flex;gap:12px}
+.ph{width:160px;border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;background:#fff;padding:0;font:inherit;text-align:left}
+.ph .cap{padding:7px 9px;font-size:12px}
+.ph .cap span{color:var(--ink-muted);display:block}
+.ph.opener{outline:3px dashed var(--accent);outline-offset:2px}
+.scrim{position:absolute;inset:0;background:var(--overlay);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
+.viewer{background:#fff;border-radius:var(--radius-lg);box-shadow:0 20px 60px rgba(20,18,10,.3);width:760px;overflow:hidden}
+.vhead{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;border-bottom:1px solid var(--border)}
+.vhead h2{margin:0;font-family:var(--font-display);font-weight:600;font-size:18px}
+.vhead p{margin:2px 0 0;font-size:12.5px;color:var(--ink-muted)}
+.close{font-family:var(--font-sans);display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid var(--border-strong);border-radius:6px;padding:7px 12px;font-weight:600;font-size:13px;cursor:pointer;outline:3px solid var(--accent);outline-offset:2px;flex:none}
+.stage{background:#1f1d1a;display:flex;align-items:center;justify-content:center;height:430px}
+.vfoot{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;font-size:12.5px;color:var(--ink-muted)}
+.btn-sm{font-family:var(--font-sans);font-weight:600;font-size:12.5px;padding:6px 12px;border-radius:var(--radius-sm);background:#fff;color:var(--ink);border:1px solid var(--border-strong);cursor:pointer}
+kbd{font-family:var(--font-sans);font-size:11.5px;border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:4px;padding:0 5px;background:#fff;color:var(--ink)}
+.legend{background:rgba(255,255,255,.95);border-radius:var(--radius-sm);padding:9px 14px;font-size:12px;color:var(--ink-muted);width:760px;line-height:1.5}
+@media (max-width:1100px){.grid,.cols,.wrap{grid-template-columns:minmax(0,1fr) !important}}
+@media (max-width:700px){.drop{flex-wrap:wrap}.frow,.flist li,.titlerow{flex-wrap:wrap}.frow .fbody,.flist li .fbody{flex-basis:calc(100% - 52px)}.two,.states{grid-template-columns:1fr !important}.sheet{grid-template-columns:repeat(auto-fill,200px) !important}}
+.viewer,.dialog,.legend,.side{max-width:calc(100vw - 24px)}.scrim{flex-wrap:wrap;overflow:auto}.stage svg,.page{max-width:100%}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page);overflow:auto;position:relative">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who"><select class="branchpick" aria-label="Active branch"><option>Uttara (primary)</option><option>Banani</option></select>Dr. Nusrat Jahan · Vet</div></div>
+  <div class="main">
+    <h1 class="h1">Milo — visit of 23 Sep 2026</h1>
+    <p class="sub">Photos panel (HO-EMR-002, illustrative). The first thumb opened the viewer.</p>
+    <section class="card">
+      <h2>Photos (3)</h2>
+      <div class="photos">
+        <button type="button" class="ph opener"><svg width="160" height="110" viewBox="0 0 160 110" aria-hidden="true" style="display:block"><rect width="160" height="110" fill="#e8d6c4"/><ellipse cx="80" cy="60" rx="46" ry="30" fill="#b8835d"/><path d="M60 58c10-6 30-6 40 0" stroke="#7d3b2a" stroke-width="4" fill="none" stroke-linecap="round"/></svg><div class="cap">Wound, left flank<span>23 Sep · JPEG · 3.2 MB</span></div></button>
+        <button type="button" class="ph"><svg width="160" height="110" viewBox="0 0 160 110" aria-hidden="true" style="display:block"><rect width="160" height="110" fill="#dfe6e2"/><circle cx="80" cy="58" r="28" fill="#8a7a66"/></svg><div class="cap">Ear, right, otoscope<span>23 Sep · PNG · 2.1 MB</span></div></button>
+        <button type="button" class="ph"><svg width="160" height="110" viewBox="0 0 160 110" aria-hidden="true" style="display:block"><rect width="160" height="110" fill="#efe3c8"/><rect x="40" y="30" width="80" height="50" rx="8" fill="#c9b48e"/></svg><div class="cap">Dental, upper left<span>23 Sep · WebP · 1.4 MB</span></div></button>
+      </div>
+    </section>
+  </div>
+
+  <div class="scrim">
+    <div class="viewer" role="dialog" aria-modal="true" aria-labelledby="mv-t">
+      <div class="vhead">
+        <div><h2 id="mv-t">Wound, left flank</h2><p>Taken 23 Sep 2026, 10:48 (Asia/Dhaka) · wound-left-flank.jpg · JPEG · 3.2 MB</p></div>
+        <button type="button" class="close" aria-label="Close viewer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>Close</button>
+      </div>
+      <div class="stage">
+        <svg width="640" height="430" viewBox="0 0 640 430" role="img" aria-label="Wound, left flank" style="display:block"><rect width="640" height="430" fill="#e8d6c4"/><ellipse cx="320" cy="230" rx="230" ry="140" fill="#b8835d"/><ellipse cx="320" cy="230" rx="180" ry="100" fill="#c6946c"/><path d="M230 222c40-24 140-24 180 0" stroke="#7d3b2a" stroke-width="10" fill="none" stroke-linecap="round"/><path d="M250 214l6 18M280 206l6 20M310 203l4 22M340 203l2 22M370 207l-2 20M398 214l-4 18" stroke="#3b2a22" stroke-width="3" stroke-linecap="round"/></svg>
+      </div>
+      <div class="vfoot">
+        <span><kbd>Esc</kbd> closes · <kbd>Tab</kbd> stays inside this dialog</span>
+        <button type="button" class="btn-sm">Download</button>
+      </div>
+    </div>
+    <div class="legend">Focus starts on Close and is trapped in the dialog. On close it returns to the dashed thumb that opened it (C7). The image's alt text is the caption the host supplied. One item only — no next/previous (out of scope; HO-BRD-002 owns gallery grouping).</div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

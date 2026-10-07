@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Interrupted and cancelled uploads — US-XCT-07</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px;display:flex;align-items:center;gap:16px}
+.main{padding:26px 32px;position:relative}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+.sub{color:var(--ink-muted);font-size:13.5px;margin:4px 0 20px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:20px}
+.card h2{font-size:14.5px;font-weight:700;margin:0 0 4px}
+.card .lead{font-size:12.5px;color:var(--ink-muted);margin:0 0 12px;line-height:1.45}
+.step{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);font-weight:700;margin:16px 0 8px}
+.btn-sm{font-family:var(--font-sans);font-weight:600;font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:#fff;color:var(--ink);border:1px solid var(--border-strong);cursor:pointer;flex:none}
+.btn-pri{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn-sm.focus{outline:3px solid var(--accent);outline-offset:2px}
+.queue{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.frow{display:flex;align-items:flex-start;gap:12px;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);background:#fff}
+.frow.bad{border-color:var(--danger-ink);border-left-width:4px}
+.ftype{width:38px;height:38px;flex:none;border-radius:6px;background:var(--surface-sunken);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;letter-spacing:.04em;color:var(--ink-muted)}
+.fbody{flex:1;min-width:0}
+.fname{font-weight:600;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fmeta{font-size:12px;color:var(--ink-muted);margin-top:2px;display:flex;align-items:center;gap:6px}
+.acts{display:flex;gap:6px;flex:none}
+progress{display:block;width:100%;height:6px;margin-top:7px;-webkit-appearance:none;appearance:none;border:none;border-radius:3px;background:var(--surface-sunken)}
+progress::-webkit-progress-bar{background:var(--surface-sunken);border-radius:3px}
+progress::-webkit-progress-value{background:var(--accent);border-radius:3px}
+.st-ok{color:var(--accent-ink);font-weight:600;display:inline-flex;align-items:center;gap:4px}
+.st-err{color:var(--danger-ink);font-weight:600;display:inline-flex;align-items:center;gap:4px}
+.msg{font-size:13px;line-height:1.45;padding:8px 10px;border-radius:6px;margin-top:8px;background:var(--danger-bg);color:var(--danger-ink)}
+.live{font-family:ui-monospace,Consolas,monospace;font-size:11.5px;background:var(--surface-sunken);border-radius:6px;padding:8px 10px;color:var(--ink);line-height:1.6;margin-top:14px}
+.anno{background:var(--surface-sunken);border-radius:var(--radius-md);padding:14px 18px;font-size:12.5px;line-height:1.5;color:var(--ink-muted);margin-top:20px}
+.anno strong{color:var(--ink)}
+@media (max-width:1100px){.grid,.cols,.wrap{grid-template-columns:minmax(0,1fr) !important}}
+@media (max-width:700px){.drop{flex-wrap:wrap}.frow,.flist li,.titlerow{flex-wrap:wrap}.frow .fbody,.flist li .fbody{flex-basis:calc(100% - 52px)}.two,.states{grid-template-columns:1fr !important}.sheet{grid-template-columns:repeat(auto-fill,200px) !important}}
+.viewer,.dialog,.legend,.side{max-width:calc(100vw - 24px)}.scrim{flex-wrap:wrap;overflow:auto}.stage svg,.page{max-width:100%}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page);overflow:auto;position:relative">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who"><select class="branchpick" aria-label="Active branch"><option>Uttara (primary)</option><option>Banani</option></select>Tanvir Islam · Nurse</div></div>
+  <div class="main">
+    <h1 class="h1">Interrupted and cancelled uploads</h1>
+    <p class="sub">Boarding diary for Luna, stay BRD-0192 (host illustrative). Two ways an upload stops before it finishes.</p>
+    <div class="cols">
+      <section class="card" aria-labelledby="h-net">
+        <h2 id="h-net">Connection dropped — network / abort</h2>
+        <p class="lead">Clinic Wi-Fi dropped mid-file. Only that file fails; the next one in the queue still runs (E3). Retry is manual (OQ-2).</p>
+        <ul class="queue" aria-label="Files">
+          <li class="frow">
+            <div class="ftype" aria-hidden="true">JPG</div>
+            <div class="fbody"><div class="fname">luna-breakfast.jpg</div><div class="fmeta">3.6 MB · <span class="st-ok"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Uploaded</span></div></div>
+            <button type="button" class="btn-sm">Remove</button>
+          </li>
+          <li class="frow bad">
+            <div class="ftype" aria-hidden="true">MP4</div>
+            <div class="fbody">
+              <div class="fname">luna-feather-wand.mp4</div>
+              <div class="fmeta">31.7 MB · <span class="st-err"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 2 21h20Z"/><path d="M12 10v5M12 18h.01"/></svg>Stopped at 18.2 MB of 31.7 MB</span></div>
+              <div class="msg">luna-feather-wand.mp4 did not finish uploading.</div>
+            </div>
+            <div class="acts"><button type="button" class="btn-sm btn-pri" aria-label="Retry luna-feather-wand.mp4">Retry</button><button type="button" class="btn-sm" aria-label="Remove luna-feather-wand.mp4">Remove</button></div>
+          </li>
+          <li class="frow">
+            <div class="ftype" aria-hidden="true">JPG</div>
+            <div class="fbody"><div class="fname">luna-nap.jpg</div><div class="fmeta">2.8 MB · Uploading — 1.1 MB of 2.8 MB (39%)</div><progress max="100" value="39" aria-label="Uploading luna-nap.jpg"></progress></div>
+            <button type="button" class="btn-sm">Cancel</button>
+          </li>
+        </ul>
+        <div class="live">Announced once: "luna-feather-wand.mp4 did not finish uploading. Retry is available."</div>
+      </section>
+
+      <section class="card" aria-labelledby="h-cx">
+        <h2 id="h-cx">Cancelled by the person — C5</h2>
+        <p class="lead">Cancel aborts the request and removes the row. No confirmation: nothing has been saved yet, and the file can simply be chosen again.</p>
+        <div class="step">1 · Cancel focused, upload running</div>
+        <ul class="queue" aria-label="Files, before cancel">
+          <li class="frow">
+            <div class="ftype" aria-hidden="true">MP4</div>
+            <div class="fbody"><div class="fname">luna-zoomies.mp4</div><div class="fmeta">44.0 MB · Uploading — 9.7 MB of 44.0 MB (22%)</div><progress max="100" value="22" aria-label="Uploading luna-zoomies.mp4"></progress></div>
+            <button type="button" class="btn-sm focus" aria-label="Cancel uploading luna-zoomies.mp4">Cancel</button>
+          </li>
+        </ul>
+        <div class="step">2 · After Enter</div>
+        <ul class="queue" aria-label="Files, after cancel">
+          <li class="frow">
+            <div class="ftype" aria-hidden="true">JPG</div>
+            <div class="fbody"><div class="fname">luna-sunspot.jpg</div><div class="fmeta">4.1 MB · <span class="st-ok"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Uploaded</span></div></div>
+            <button type="button" class="btn-sm focus">Remove</button>
+          </li>
+        </ul>
+        <p style="font-size:12.5px;color:var(--ink-muted);margin:10px 0 0">The zoomies row is gone; focus moves to the nearest remaining row's button, or to the drop zone when none is left. No orphan remains in the host's list.</p>
+        <div class="live">Announced once: "Upload of luna-zoomies.mp4 cancelled."</div>
+      </section>
+    </div>
+    <div class="anno"><strong>Failure wording</strong> uses a warning triangle and "Stopped at …" so the state reads without colour. Progress ticks are never announced — only the terminal event, once (ADR-FE-153).</div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

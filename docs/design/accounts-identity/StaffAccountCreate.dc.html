@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Add staff account — US-ACC-07</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--focus-ring:#15605a;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:18px;color:var(--accent-ink)}
+.who{font-size:13.5px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:22px;margin:0 0 20px}
+.muted{color:var(--ink-muted)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:900px}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:22px}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.field input{width:100%;font:inherit;font-size:15px;padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius-sm)}
+.field input:focus{outline:2px solid var(--focus-ring);outline-offset:1px;border-color:var(--accent)}
+fieldset{border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;margin:0 0 16px}
+legend{font-size:13px;font-weight:600;padding:0 4px}
+.rolerow{display:flex;align-items:center;gap:8px;padding:6px 0;font-size:14px}
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-muted);margin:0 0 8px}
+.matrix{width:100%;border-collapse:collapse;font-size:12.5px}
+.matrix th,.matrix td{padding:6px 8px;border-bottom:1px solid var(--border);text-align:left}
+.matrix th{color:var(--ink-muted);font-weight:600;font-size:11px}
+.yes{color:var(--accent-ink);font-weight:700}
+.no{color:var(--ink-faint)}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:14px;padding:10px 18px;border-radius:var(--radius-sm);border:none;cursor:pointer;min-height:40px;background:var(--accent);color:#fff;margin-top:8px}
+</style>
+</helmet>
+<div style="width:1280px;height:1000px;background:var(--surface-page);overflow:auto">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who">Rezwan Ahmed · Administrator</div></div>
+  <div style="padding:28px 32px">
+    <h1 class="h1">Add staff account</h1>
+    <div class="grid">
+      <div class="card">
+        <div class="field"><label for="sc-name">Full name</label><input id="sc-name" value="Shormi Akter"></div>
+        <div class="field"><label for="sc-mobile">Mobile number <span class="muted" style="font-weight:400">(optional)</span></label><input id="sc-mobile" value="01822 445566"></div>
+        <div class="field"><label for="sc-email">Email <span class="muted" style="font-weight:400">(optional)</span></label><input id="sc-email" placeholder="At least one identifier is required"></div>
+
+        <fieldset>
+          <legend>Roles</legend>
+          <div class="rolerow"><input type="checkbox" id="r1"><label for="r1">Vet</label></div>
+          <div class="rolerow"><input type="checkbox" id="r2"><label for="r2">Nurse</label></div>
+          <div class="rolerow"><input type="checkbox" id="r3" checked><label for="r3">Reception</label></div>
+          <div class="rolerow"><input type="checkbox" id="r4"><label for="r4">Accountant</label></div>
+          <div class="rolerow"><input type="checkbox" id="r5"><label for="r5">Administrator</label></div>
+        </fieldset>
+        <button type="button" class="btn">Create account</button>
+      </div>
+
+      <div class="card">
+        <div class="eyebrow">Capability preview — indicative, from SRS Appendix D</div>
+        <table class="matrix">
+          <thead><tr><th>Area</th><th>Reception</th></tr></thead>
+          <tbody>
+            <tr><td>Book &amp; check in appointments</td><td class="yes">✓</td></tr>
+            <tr><td>Register walk-in customers</td><td class="yes">✓</td></tr>
+            <tr><td>Take payments at the till</td><td class="yes">✓</td></tr>
+            <tr><td>Clinical notes &amp; prescriptions</td><td class="no">—</td></tr>
+            <tr><td>Change staff roles</td><td class="no">—</td></tr>
+            <tr><td>View financial reports</td><td class="no">—</td></tr>
+          </tbody>
+        </table>
+        <p class="muted" style="font-size:12.5px;margin:14px 0 0;line-height:1.5">This updates live as roles are checked. The real matrix and every role's full capability list come from <code>GET /api/staff-roles</code> — nothing here is hardcoded.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1000}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

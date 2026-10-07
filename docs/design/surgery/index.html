@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Surgery — screens</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="./index.css">
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../index.html">&larr; All areas</a>
+  <div class="eyebrow">PurrCare · backlog &sect;5 · HO-SRG-002</div>
+  <h1>Surgery</h1>
+  <p class="lede">Seven rows, twenty-six artboards &mdash; the largest area so far, because one surgery page carries booking, pre-op, theatre, report, recovery and discharge. No live interaction; every state is its own artboard or a labelled side panel.</p>
+
+  <div class="row-group">
+    <h2>Booking and the day list — US-SRG-01, 02, 11</h2>
+    <a class="screen-row" href="TheatreDayList.dc.html"><span class="screen-name">⭐ Theatre day list<span class="screen-file">TheatreDayList.dc.html</span></span><span class="screen-desc">Grouped by theatre; checklist as text and icon ("3 outstanding: consent, weight, ASA grade"), high-risk and deceased flags as words, "Needs rescheduling" badges</span></a>
+    <a class="screen-row" href="BookSurgery.dc.html"><span class="screen-name">⭐ Book a surgery<span class="screen-file">BookSurgery.dc.html</span></span><span class="screen-desc">Customer and cat with the cat header, procedure with price "for information", the three-resource picker, starts as buttons, the busy explainer, campaign pricing with its eligibility note</span></a>
+    <a class="screen-row" href="BookSurgeryClashes.dc.html"><span class="screen-name">Booking clashes<span class="screen-file">BookSurgeryClashes.dc.html</span></span><span class="screen-desc">A 400 with theatre, surgeon and assistant clashes shown all at once: the summary at the top plus an error beside each field; choices kept</span></a>
+    <a class="screen-row" href="BookSurgeryStates.dc.html"><span class="screen-name">Booking states<span class="screen-file">BookSurgeryStates.dc.html</span></span><span class="screen-desc">Six panels: the booking confirm, already neutered with "Book anyway", sex mismatch, no start that day plus the next free day, the 409 race, and a campaign with no note</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Surgery page — pre-op, start and override — US-SRG-01, 02, 03</h2>
+    <a class="screen-row" href="SurgeryPreOp.dc.html"><span class="screen-name">⭐ Pre-op tab (nurse)<span class="screen-file">SurgeryPreOp.dc.html</span></span><span class="screen-desc">Surgery header with cat header and status stepper, five checklist rows by role, admission, Start disabled with its blockers listed as links</span></a>
+    <a class="screen-row" href="SurgeryPreOpVet.dc.html"><span class="screen-name">Pre-op tab (vet), consent the only blocker<span class="screen-file">SurgeryPreOpVet.dc.html</span></span><span class="screen-desc">Mittens (high risk): a waived row, the ASA grade control, and "Start with emergency override" with what nurse and reception see instead</span></a>
+    <a class="screen-row" href="ConsentOverride.dc.html"><span class="screen-name">⭐ Emergency override dialog<span class="screen-file">ConsentOverride.dc.html</span></span><span class="screen-desc">A 9-character reason with Continue disabled and its counter, next to the final confirm that names the vet and says the override is recorded permanently</span></a>
+    <a class="screen-row" href="RescheduleCancel.dc.html"><span class="screen-name">Reschedule and cancel<span class="screen-file">RescheduleCancel.dc.html</span></span><span class="screen-desc">The prefilled picker with a confirm naming old and new times, and the cancel dialog with its required reason and the owner being told</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Anaesthesia log — US-SRG-04, 08</h2>
+    <a class="screen-row" href="AnaesthesiaLog.dc.html"><span class="screen-name">⭐ Anaesthesia timeline<span class="screen-file">AnaesthesiaLog.dc.html</span></span><span class="screen-desc">An ordered list, append only: drugs with units and mg/kg, controlled entries naming the witness, a stock shortfall, vitals with units, a struck-through entry labelled "Corrected" and linked to its correction</span></a>
+    <a class="screen-row" href="DrugEntry.dc.html"><span class="screen-name">⭐ Drug entry with witness<span class="screen-file">DrugEntry.dc.html</span></span><span class="screen-desc">Controlled drug: batch, quantity drawn, required wastage, Save disabled until the witness step returns; the witness dialog with its expired-confirmation error; BatchNotUsable</span></a>
+    <a class="screen-row" href="VitalsEntry.dc.html"><span class="screen-name">Vitals and milestone entry<span class="screen-file">VitalsEntry.dc.html</span></span><span class="screen-desc">Every vital with its unit beside the field; ImplausibleVitalValue marking the temperature and offering "Save anyway"; the milestone dialog</span></a>
+    <a class="screen-row" href="CorrectEntry.dc.html"><span class="screen-name">Correct a log entry<span class="screen-file">CorrectEntry.dc.html</span></span><span class="screen-desc">Original shown read-only, corrected values, a required reason (10–500), a new witness step, and "The original entry stays in the log"</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Report and neuter status — US-SRG-05, 06</h2>
+    <a class="screen-row" href="EndProcedure.dc.html"><span class="screen-name">End procedure<span class="screen-file">EndProcedure.dc.html</span></span><span class="screen-desc">Completed or Abandoned, with a confirm saying a spay sets the neuter status</span></a>
+    <a class="screen-row" href="ReportDraft.dc.html"><span class="screen-name">⭐ Report draft<span class="screen-file">ReportDraft.dc.html</span></span><span class="screen-desc">Autosave status, ReportIncomplete listing the missing fields, the finalise confirm, and the 409 conflict that keeps your text for copying</span></a>
+    <a class="screen-row" href="ReportFinal.dc.html"><span class="screen-name">Finalised report<span class="screen-file">ReportFinal.dc.html</span></span><span class="screen-desc">Read-only text, who finalised it and when, addenda in order, Add addendum; the neuter-status notice and its "Apply neuter status" fix</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Recovery and discharge — US-SRG-10, 07</h2>
+    <a class="screen-row" href="RecoveryTab.dc.html"><span class="screen-name">Recovery status<span class="screen-file">RecoveryTab.dc.html</span></span><span class="screen-desc">Segmented control with icon and word, an optional note, and the history with who and when</span></a>
+    <a class="screen-row" href="RecoveryBoard.dc.html"><span class="screen-name">⭐ Front desk recovery board<span class="screen-file">RecoveryBoard.dc.html</span></span><span class="screen-desc">Compact cat header per card, sorted Ready, then Recovering, then Stable; "since 14:55 · set by …", a tel: link, "Updated" time, and the empty state</span></a>
+    <a class="screen-row" href="DischargeForm.dc.html"><span class="screen-name">⭐ Discharge form<span class="screen-file">DischargeForm.dc.html</span></span><span class="screen-desc">Instructions filled from the protocol with a counter, follow-ups with their windows and an out-of-window error, Discharge disabled with the reason</span></a>
+    <a class="screen-row" href="Discharged.dc.html"><span class="screen-name">Discharged and follow-ups<span class="screen-file">Discharged.dc.html</span></span><span class="screen-desc">Success message naming the channel, Print post-op sheet, and follow-ups with Mark done or Cancel (reason required)</span></a>
+    <a class="screen-row" href="PostOpSheet.dc.html"><span class="screen-name">Printable post-op sheet<span class="screen-file">PostOpSheet.dc.html</span></span><span class="screen-desc">No app navigation: cat, procedure, instructions as text, follow-up dates, clinic contact</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Owner pages — US-SRG-07</h2>
+    <a class="screen-row" href="PortalSurgeries.dc.html"><span class="screen-name">My cats' surgeries (before)<span class="screen-file">PortalSurgeries.dc.html</span></span><span class="screen-desc">Upcoming and past lists; the date, the admit-by time, fasting instructions, the branch address; price paid at the clinic, nothing to pay online</span></a>
+    <a class="screen-row" href="PortalSurgeryAfter.dc.html"><span class="screen-name">During and after<span class="screen-file">PortalSurgeryAfter.dc.html</span></span><span class="screen-desc">"Biscuit is in our care. Call …" while in care; after discharge: instructions, follow-up dates with Book follow-up, Print</span></a>
+  </div>
+
+  <div class="row-group">
+    <h2>Protocols, campaigns and narrow width — US-SRG-07, 11, UI-1</h2>
+    <a class="screen-row" href="Protocols.dc.html"><span class="screen-name">Surgery protocols<span class="screen-file">Protocols.dc.html</span></span><span class="screen-desc">One row per surgical service with "Using defaults"; the editor with fasting hours, text, and follow-up windows with a validation error</span></a>
+    <a class="screen-row" href="Campaigns.dc.html"><span class="screen-name">Campaigns<span class="screen-file">Campaigns.dc.html</span></span><span class="screen-desc">Active, no cases left, and ended campaigns; the editor with prices locked after the first booking, stated as a sentence</span></a>
+    <a class="screen-row" href="CampaignCases.dc.html"><span class="screen-name">Campaign cases<span class="screen-file">CampaignCases.dc.html</span></span><span class="screen-desc">Cases with campaign and standard prices, and a totals row, reported separately (export belongs to Reports)</span></a>
+    <a class="screen-row" href="Mobile360.dc.html"><span class="screen-name">At 360px<span class="screen-file">Mobile360.dc.html</span></span><span class="screen-desc">Day list rows as cards; the surgery page with tabs as a select and the anaesthesia log still one column, time on the left</span></a>
+  </div>
+
+  <p class="note">Rendered locally by <code>support.js</code> in this folder, a from-scratch reimplementation of the hosted canvas runtime (not the original, which isn't distributed). See <a href="README.md">README.md</a> for the design system, encoded rules and known gaps.</p>
+</div>
+</body>
+</html>

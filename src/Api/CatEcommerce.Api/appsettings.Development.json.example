@@ -1,0 +1,32 @@
+{
+  "ConnectionStrings": {
+    "CatEcommerce": "Host=localhost;Port=5432;Database=catecommerce_dev;Username=postgres;Password="
+  },
+  "Account": {
+    "WebBaseUrl": "http://localhost:3000"
+  },
+  "PublicSite": {
+    "WebBaseUrl": "http://localhost:3000"
+  },
+  "Cors": {
+    "AllowedOrigins": ["http://localhost:3000"]
+  },
+  "Captcha": {
+    "TestAnswer": "TEST1"
+  },
+  "DevUser": {
+    "Enabled": true,
+    "UserId": "00000000-0000-0000-0000-000000000001",
+    "TenantId": "00000000-0000-0000-0000-000000000002",
+    "Roles": []
+  },
+  "FileStorage": {
+    "UrlSigningKey": "local-development-only-signing-key-not-a-secret"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Debug",
+      "Microsoft.AspNetCore": "Information"
+    }
+  }
+}

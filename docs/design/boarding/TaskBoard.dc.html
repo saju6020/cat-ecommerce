@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Task board (tablet) — US-BRD-09, 10</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink);font-size:14px;-webkit-font-smoothing:antialiased}
+a{color:var(--accent-ink)}
+p{margin:0}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px;display:flex;align-items:center;gap:12px}
+.ctop{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;border-bottom:1px solid var(--border);background:#fff}
+.ctop .cbrand{font-family:var(--font-display);font-weight:600;font-size:19px;color:var(--accent-ink)}
+.ctop nav{display:flex;gap:22px;font-size:14px;font-weight:600}
+.ctop nav a{color:var(--ink-muted);text-decoration:none}
+.ctop nav a.on{color:var(--ink)}
+.ctop .cwho{display:flex;align-items:center;gap:10px;font-size:13.5px}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.main{padding:26px 32px;position:relative}
+.cmain{max-width:960px;margin:0 auto;padding:30px 32px 40px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+.h2{font-family:var(--font-display);font-weight:600;font-size:17px;margin:0 0 10px}
+.titlerow{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:18px}
+.sub{color:var(--ink-muted);font-size:13px;margin-top:4px}
+.muted{color:var(--ink-muted)}
+.faint{color:var(--ink-faint)}
+.small{font-size:12.5px}
+.tiny{font-size:11.5px}
+.strong{font-weight:700}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:18px}
+.cardh{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);margin:0 0 10px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.cardh a{text-transform:none;letter-spacing:0;font-size:12.5px}
+.btn{font:inherit;font-weight:600;font-size:13.5px;padding:8px 15px;border-radius:var(--radius-sm);border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;min-height:38px;display:inline-flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;white-space:nowrap}
+.btn-2{background:#fff;color:var(--ink);border-color:var(--border-strong)}
+.btn-danger{background:var(--danger-ink);border-color:var(--danger-ink);color:#fff}
+.btn-danger-2{background:#fff;border-color:#e4c4c0;color:var(--danger-ink)}
+.btn-sm{font-size:12.5px;padding:5px 11px;min-height:32px}
+.btn-link{background:none;border:none;color:var(--accent-ink);padding:0;min-height:0;font-weight:600}
+.btn[disabled]{background:var(--surface-sunken);color:var(--ink-faint);border-color:var(--border);cursor:not-allowed}
+.why{font-size:12px;color:var(--ink-muted);margin-top:6px;line-height:1.45}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:2px 9px;border-radius:999px;font-size:11.5px;font-weight:700;white-space:nowrap}
+.b-ok{background:#e6f0ee;color:var(--accent-ink)}
+.b-warn{background:var(--warning-bg);color:var(--warning-ink)}
+.b-bad{background:var(--danger-bg);color:var(--danger-ink)}
+.b-hr{background:var(--danger-ink);color:#fff}
+.b-neutral{background:var(--surface-sunken);color:var(--ink-muted)}
+.b-info{background:var(--accent-soft);color:var(--accent-ink);border:1px solid rgba(21,96,90,.25)}
+.alert{display:flex;gap:10px;border-radius:8px;padding:12px 14px;font-size:13.5px;line-height:1.5}
+.alert b.t{display:block}
+.alert-warn{background:var(--warning-bg);color:var(--warning-ink);border:1px solid #ebd9b4}
+.alert-bad{background:var(--danger-bg);color:var(--danger-ink);border:1px solid #f0ccc8}
+.alert-info{background:var(--accent-soft);color:var(--accent-ink);border:1px solid rgba(21,96,90,.25)}
+.alert-neutral{background:var(--surface-sunken);color:var(--ink-muted);border:1px solid var(--border)}
+.field{margin-bottom:14px}
+.lbl{display:block;font-size:13px;font-weight:600;margin-bottom:5px}
+.inp{width:100%;font:inherit;font-size:14px;padding:8px 11px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:#fff;color:var(--ink)}
+.inp.err{border-color:var(--danger-ink);box-shadow:0 0 0 1px var(--danger-ink)}
+textarea.inp{resize:vertical}
+.ferr{font-size:12.5px;color:var(--danger-ink);margin-top:4px;font-weight:600}
+.hint{font-size:12px;color:var(--ink-muted);margin-top:4px;line-height:1.45}
+.unit{display:flex;align-items:center;gap:6px}
+.unit span{font-size:13px;color:var(--ink-muted);font-weight:600}
+table{border-collapse:collapse;width:100%;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--border);font-size:13px;vertical-align:top}
+th{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);background:var(--surface-sunken)}
+tr:last-child td{border-bottom:none}
+.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tabnav{display:flex;border-bottom:1px solid var(--border);margin-bottom:18px;gap:22px;flex-wrap:wrap}
+.tabnav a{padding:10px 2px;font-size:13.5px;font-weight:600;color:var(--ink-muted);border-bottom:2px solid transparent;text-decoration:none}
+.tabnav a.active{color:var(--ink);border-bottom-color:var(--accent)}
+.stepper{display:flex;gap:6px;margin-bottom:22px;flex-wrap:wrap}
+.step{font-size:12.5px;padding:5px 11px;border-radius:999px;background:var(--surface-sunken);color:var(--ink-muted);font-weight:600}
+.step.done{background:#e6f0ee;color:var(--accent-ink)}
+.step.cur{background:var(--accent);color:#fff}
+.step.blocked{background:var(--danger-bg);color:var(--danger-ink)}
+.scrim{position:absolute;inset:0;background:rgba(28,26,23,.4);display:flex;align-items:center;justify-content:center;gap:24px;z-index:5;padding:24px}
+.dialog{background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(20,18,10,.25);width:460px;max-width:100%;padding:24px}
+.dialog h2{font-family:var(--font-display);font-weight:600;font-size:18px;margin:0 0 12px}
+.consequence{font-size:13.5px;background:var(--surface-sunken);border-radius:8px;padding:11px 13px;margin:12px 0;line-height:1.55}
+.dactions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px;flex-wrap:wrap}
+.panel-label{font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 7px}
+.zone{font-size:11.5px;color:var(--ink-muted);font-weight:400}
+.qline{display:flex;justify-content:space-between;gap:12px;font-size:13px;padding:4px 0}
+.qline .num{font-weight:600}
+.qdisc{color:var(--accent-ink)}
+.qtotal{border-top:1px solid var(--border);font-weight:700;margin-top:6px;padding-top:9px;font-size:14px}
+.kv{display:grid;grid-template-columns:150px 1fr;gap:7px 14px;font-size:13.5px;margin:0}
+.kv dt{color:var(--ink-muted);font-size:12.5px;font-weight:600}
+.kv dd{margin:0}
+.cph{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--border);border-radius:8px;padding:9px 11px;background:#fff;min-width:0}
+.cph .av{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--font-display);font-size:17px;flex:none}
+.cph-b{min-width:0;flex:1}
+.cph-n{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:14px}
+.cph-h{font-size:12.5px;color:var(--danger-ink);font-weight:600;margin-top:3px;line-height:1.4}
+.cph-a{display:flex;gap:5px;margin-top:5px;flex-wrap:wrap}
+.al{font-size:11.5px;font-weight:600;padding:2px 7px;border-radius:6px;background:var(--warning-bg);border:1px solid #ebd9b4;color:var(--warning-ink)}
+.al-sev{background:var(--danger-bg);border-color:#f0ccc8;color:var(--danger-ink)}
+.al-none{background:var(--surface-sunken);border-color:var(--border);color:var(--ink-muted)}
+.row{display:flex;gap:16px}
+.col{display:flex;flex-direction:column;gap:14px}
+.live{font-size:12px;color:var(--ink-muted);display:inline-flex;align-items:center;gap:6px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--accent);display:inline-block}
+.seg{display:inline-flex;border:1px solid var(--border-strong);border-radius:var(--radius-sm);overflow:hidden}
+.seg button{font:inherit;font-size:13px;font-weight:600;padding:7px 12px;border:none;border-right:1px solid var(--border-strong);background:#fff;color:var(--ink);cursor:pointer;min-height:36px}
+.seg button:last-child{border-right:none}
+.seg button.on{background:var(--accent);color:#fff}
+.note-dev{font-size:12px;color:var(--ink-muted);background:var(--surface-sunken);border:1px dashed var(--border-strong);border-radius:6px;padding:8px 10px;line-height:1.45}
+.tb{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:#fff;border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:12px}
+.tb .inp{width:auto;min-height:44px}
+.cnt{margin-left:auto;display:flex;gap:6px}
+.board{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:start}
+.ug{background:#fff;border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.ugh{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--surface-sunken);border-bottom:1px solid var(--border)}
+.ugh h2{font-family:var(--font-display);font-size:18px;margin:0}
+.ugc{padding:10px 12px;display:flex;flex-direction:column;gap:8px;border-bottom:1px solid var(--border)}
+.tasks{list-style:none;margin:0;padding:10px 12px;display:flex;flex-direction:column;gap:10px}
+.task{border:1px solid var(--border);border-radius:10px;padding:10px 12px}
+.task.late{border-color:#e4c4c0;background:#fffafa}
+.task.done{background:#f3f8f6;border-color:#cfe3df}
+.th{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.tt{font-size:15px;font-weight:700;margin:4px 0 2px}
+.kind{font-size:12px;font-weight:700;color:var(--ink-muted);display:inline-flex;gap:5px;align-items:center}
+.time{font-weight:700;font-variant-numeric:tabular-nums;font-size:15px}
+.done-btn{width:100%;min-height:48px;font-size:15px;margin-top:8px}
+.sec2{display:flex;gap:6px;margin-top:6px}
+.sec2 .btn{min-height:44px;flex:1}
+.iso{background:var(--warning-bg);color:var(--warning-ink);padding:9px 14px;font-size:13px;font-weight:600;border-bottom:1px solid #ebd9b4}
+.flag{background:var(--danger-bg);color:var(--danger-ink);padding:9px 14px;font-size:13px;font-weight:700;border-bottom:1px solid #f0ccc8}
+</style>
+</helmet>
+<div style="width:1280px;height:1350px;background:var(--surface-page);overflow:auto;position:relative">
+<div class="topnav"><div class="brand">PurrCare · staff</div><div class="who"><select class="branchpick" aria-label="Active branch"><option>Uttara (primary)</option><option>Banani</option></select>Tanvir Islam · Nurse</div></div>
+<div class="main" style="padding:20px 24px">
+  <div class="titlerow" style="margin-bottom:12px"><div><h1 class="h1">Tasks — Mon 12 Oct</h1><p class="sub">Uttara · times Asia/Dhaka · <span class="live"><span class="dot" aria-hidden="true"></span>updated 10:42</span></p></div></div>
+  <div class="tb" role="toolbar" aria-label="Filters">
+    <input class="inp" value="Mon 12 Oct 2026" aria-label="Date" style="width:170px">
+    <div class="seg" role="group" aria-label="Whose tasks"><button class="on" type="button" aria-pressed="true">My tasks</button><button type="button" aria-pressed="false">Everyone</button></div>
+    <select class="inp" aria-label="Unit"><option>All units</option></select>
+    <div class="seg" role="group" aria-label="Status"><button type="button" class="on">Due</button><button type="button">Overdue</button><button type="button">Done</button></div>
+    <div class="cnt"><span class="badge b-neutral">14 due</span><span class="badge b-bad">⏱ 2 overdue</span><span class="badge b-ok">✓ 21 done</span></div>
+  </div>
+  <div class="alert alert-info" role="status" aria-live="polite" style="margin-bottom:12px;align-items:center"><span aria-hidden="true">✓</span><div style="flex:1">Ear drops for Mittens marked done at 10:41 by Tanvir Islam.</div></div>
+
+  <div class="board">
+    <section class="ug" aria-labelledby="u1">
+      <div class="ugh"><h2 id="u1">F-2 · Family 2</h2><span class="small muted">Garden wing · 2 cats</span></div>
+      <div class="ugc"><div class="cph"><div class="av" style="background:#8f1d1d" aria-hidden="true">M</div><div class="cph-b"><div class="cph-n"><b>Mittens</b><span class="badge b-hr">⚠ High risk</span></div><div class="cph-h">Bites when restrained — two handlers, towel wrap, do not scruff.</div><div class="cph-a"><span class="al">Allergy · Chicken protein</span><span class="al al-sev">Allergy · Penicillin — severe</span></div></div></div><div class="cph"><div class="av" style="background:#15605a" aria-hidden="true">B</div><div class="cph-b"><div class="cph-n"><b>Biscuit</b><span class="small muted">No handling warnings</span></div><div class="cph-a"><span class="al al-none">No allergies recorded</span></div></div></div></div>
+      <ul class="tasks" aria-label="F-2 tasks">
+        <li class="task late">
+          <div class="th"><span class="time">10:15</span><span class="badge b-bad">⏱ 27 min late</span></div>
+          <div class="kind"><span aria-hidden="true">▤</span> Litter</div>
+          <div class="tt">Clean litter — unscented clumping</div>
+          <div class="small muted">Mittens, Biscuit · Tanvir Islam</div>
+          <button class="btn done-btn" type="button">Done</button>
+          <div class="sec2"><button class="btn btn-2" type="button">Skip…</button><a class="btn btn-2" href="ObservationSheet.dc.html">Observe</a><a class="btn btn-2" href="IncidentFormResolve.dc.html">Incident</a></div>
+        </li>
+        <li class="task done">
+          <div class="th"><span class="time">10:30</span><span class="badge b-ok">✓ Done 10:41 · saving…</span></div>
+          <div class="kind"><span aria-hidden="true">✚</span> Medication</div>
+          <div class="tt">Ear drops, left ear — 2 drops</div>
+          <div class="small muted">Mittens · Tanvir Islam · two handlers</div>
+          <button class="btn btn-2 done-btn" type="button">Undo</button>
+          <p class="why">Undo is offered only while the save is in flight.</p>
+        </li>
+        <li class="task">
+          <div class="th"><span class="time">12:30</span><span class="small muted">due in 1 h 48 min</span></div>
+          <div class="kind"><span aria-hidden="true">◍</span> Feeding</div>
+          <div class="tt">Feed ⅓ cup dry — own food</div>
+          <div class="small muted">Biscuit · Tanvir Islam</div>
+          <button class="btn done-btn" type="button">Done</button>
+        </li>
+      </ul>
+    </section>
+
+    <div class="col" style="gap:16px">
+      <section class="ug" aria-labelledby="u2">
+        <div class="ugh"><h2 id="u2">S-1 · Standard 1</h2><span class="small muted">Main block · 1 cat</span></div>
+        <div class="flag">⚠ Not eating — flagged. Ate None at the last two checks.</div>
+        <div class="ugc"><div class="cph"><div class="av" style="background:#6e4700" aria-hidden="true">N</div><div class="cph-b"><div class="cph-n"><b>Noodle</b><span class="small muted">No handling warnings</span></div><div class="cph-a"><span class="al">Allergy · Fish</span></div></div></div></div>
+        <ul class="tasks" aria-label="S-1 tasks">
+          <li class="task">
+            <div class="th"><span class="time">10:30</span><span class="badge b-warn">↺ Not saved</span></div>
+            <div class="kind"><span aria-hidden="true">◎</span> Observation</div>
+            <div class="tt">Mid-morning check</div>
+            <div class="small muted">Noodle · Tanvir Islam</div>
+            <div class="alert alert-bad" role="alert" style="margin-top:8px;font-size:13px;padding:8px 10px"><span aria-hidden="true">⛔</span><div>Couldn't mark this done: it was already completed by Rafiq Uddin at 10:32. Your tap was undone.</div></div>
+            <button class="btn done-btn" type="button">Done</button>
+          </li>
+          <li class="task">
+            <div class="th"><span class="time">12:00</span><span class="small muted">due in 1 h 18 min</span></div>
+            <div class="kind"><span aria-hidden="true">◍</span> Feeding</div>
+            <div class="tt">Feed ½ pouch wet — own food (no fish)</div>
+            <div class="small muted">Noodle · Tanvir Islam</div>
+            <button class="btn done-btn" type="button">Done</button>
+          </li>
+        </ul>
+      </section>
+
+      <section class="ug" aria-labelledby="u3">
+        <div class="ugh"><h2 id="u3">ISO-1 · Isolation 1</h2><span class="small muted">Isolation block · 1 cat</span></div>
+        <div class="iso">⚠ Isolation — suspected ringworm. Gloves and gown on entry; record entry and exit. <a href="IsolationPanel.dc.html">Log</a></div>
+        <div class="ugc"><div class="cph"><div class="av" style="background:#6b5b95" aria-hidden="true">K</div><div class="cph-b"><div class="cph-n"><b>Kitty</b><span class="small muted">No handling warnings</span></div><div class="cph-a"><span class="al al-none">No allergies recorded</span></div></div></div></div>
+        <ul class="tasks" aria-label="ISO-1 tasks">
+          <li class="task">
+            <div class="th"><span class="time">11:00</span><span class="small muted">due in 18 min</span></div>
+            <div class="kind"><span aria-hidden="true">◍</span> Feeding</div>
+            <div class="tt">Feed ¼ cup dry — house food</div>
+            <div class="small muted">Kitty · Tanvir Islam</div>
+            <button class="btn done-btn" type="button">Done</button>
+          </li>
+        </ul>
+      </section>
+    </div>
+  </div>
+  <p class="small muted" style="margin-top:14px">One tap on <b>Done</b> completes a task — no confirmation, no note required. Refreshes every 30 s without moving your place or closing an open sheet.</p>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1350}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

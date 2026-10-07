@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Reorder suggestions — US-IMP-12</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+:root{--overlay:rgba(28,26,23,.4);--radius-lg:16px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px;display:flex;align-items:center;gap:16px}
+select.branchpick{font:inherit;font-size:13px;padding:5px 8px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.main{padding:22px 32px 32px;position:relative}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+.h2{font-family:var(--font-display);font-weight:600;font-size:17px;margin:0 0 10px}
+.h3{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);font-weight:700;margin:0 0 8px}
+.titlerow{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.sub{color:var(--ink-muted);font-size:13px;margin:4px 0 14px;line-height:1.5}
+.muted{color:var(--ink-muted)}
+.faint{color:var(--ink-faint)}
+.small{font-size:12px}
+.strong{font-weight:700}
+a.link{color:var(--accent-ink);font-weight:600;text-decoration:none}
+.secnav{display:flex;flex-wrap:wrap;gap:2px;border-bottom:1px solid var(--border);margin:0 0 18px}
+.secnav a{padding:9px 12px;font-size:13px;font-weight:600;color:var(--ink-muted);text-decoration:none;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap}
+.secnav a.active{color:var(--ink);border-bottom-color:var(--accent)}
+.secnav .count{display:inline-block;margin-left:4px;padding:0 6px;border-radius:999px;background:var(--warning-bg);color:var(--warning-ink);font-size:11px;font-weight:700}
+.tabnav{display:flex;border-bottom:1px solid var(--border);margin:14px 0 18px}
+.tabnav a{padding:10px 2px;margin-right:22px;font-size:13.5px;font-weight:600;color:var(--ink-muted);border-bottom:2px solid transparent;text-decoration:none;margin-bottom:-1px}
+.tabnav a.active{color:var(--ink);border-bottom-color:var(--accent)}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13px;padding:8px 14px;border-radius:var(--radius-sm);border:1px solid var(--accent);cursor:pointer;background:var(--accent);color:#fff;white-space:nowrap}
+.btn-sec{background:#fff;color:var(--ink);border:1px solid var(--border-strong)}
+.btn-danger{background:var(--danger-ink);border-color:var(--danger-ink);color:#fff}
+.btn-danger-o{background:#fff;border:1px solid var(--danger-ink);color:var(--danger-ink)}
+.btn[disabled]{background:var(--surface-sunken);border-color:var(--border);color:var(--ink-faint);cursor:not-allowed}
+.why{font-size:12px;color:var(--ink-muted);margin-top:4px;line-height:1.45}
+.b{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;font-size:11.5px;font-weight:600;white-space:nowrap;line-height:1.5}
+.b i{font-style:normal;font-weight:700}
+.b-ok{background:var(--accent-soft);color:var(--accent-ink)}
+.b-warn{background:var(--warning-bg);color:var(--warning-ink)}
+.b-danger{background:var(--danger-bg);color:var(--danger-ink)}
+.b-neutral{background:var(--surface-sunken);color:var(--ink-muted)}
+.b-out{background:#fff;border:1px solid var(--border-strong);color:var(--ink-muted)}
+.banner{display:flex;gap:10px;align-items:flex-start;border-radius:8px;padding:10px 14px;font-size:13px;line-height:1.5;margin-bottom:14px}
+.banner i{font-style:normal;font-weight:700}
+.banner-warn{background:var(--warning-bg);color:var(--warning-ink)}
+.banner-danger{background:var(--danger-bg);color:var(--danger-ink)}
+.banner-info{background:var(--accent-soft);color:var(--accent-ink)}
+.banner-neutral{background:var(--surface-sunken);color:var(--ink-muted)}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px;font-size:12.5px}
+.toolbar input,.toolbar select{font:inherit;font-size:12.5px;padding:7px 9px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.toolbar label{display:inline-flex;align-items:center;gap:5px}
+table{border-collapse:collapse;width:100%;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden}
+th,td{padding:9px 11px;text-align:left;border-bottom:1px solid var(--border);font-size:12.5px;vertical-align:top}
+th{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);font-weight:700;background:var(--surface-sunken)}
+tbody tr:last-child td{border-bottom:none}
+tfoot td{background:var(--surface-sunken);font-weight:700}
+.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.dim td{color:var(--ink-faint)}
+tr.unusable td{background:#fdfbf8}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:16px 18px}
+.grid2{display:flex;gap:18px;align-items:flex-start}
+.grid2 > *{flex:1;min-width:0}
+.field{margin-bottom:12px}
+.field label,.flabel{display:block;font-size:12.5px;font-weight:600;margin-bottom:5px}
+.field input,.field select,.field textarea{width:100%;font:inherit;font-size:13.5px;padding:8px 10px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:#fff}
+.field textarea{min-height:60px;resize:vertical}
+.field input[readonly]{background:var(--surface-sunken);color:var(--ink-muted)}
+.req{color:var(--danger-ink);font-weight:700}
+.hint{font-size:11.5px;color:var(--ink-muted);margin-top:4px;line-height:1.45}
+.field.error input,.field.error select,.field.error textarea,input.error,select.error{border-color:var(--danger-ink);box-shadow:0 0 0 1px var(--danger-ink)}
+.err{font-size:11.5px;color:var(--danger-ink);font-weight:600;margin-top:4px;line-height:1.4}
+.unitin{display:flex;align-items:stretch}
+.unitin input{border-top-right-radius:0;border-bottom-right-radius:0;min-width:0}
+.unitin span{display:flex;align-items:center;padding:0 9px;border:1px solid var(--border-strong);border-left:none;border-radius:0 var(--radius-sm) var(--radius-sm) 0;background:var(--surface-sunken);font-size:12px;color:var(--ink-muted);white-space:nowrap}
+.kv{display:grid;grid-template-columns:170px 1fr;gap:4px 14px;font-size:13px;line-height:1.7;margin:0}
+.kv dt{color:var(--ink-muted)}
+.kv dd{margin:0}
+.scrim{position:absolute;inset:0;background:var(--overlay);display:flex;align-items:center;justify-content:center;z-index:5}
+.dialog{background:#fff;border-radius:var(--radius-lg);box-shadow:0 20px 60px rgba(20,18,10,.25);width:460px;max-width:100%;padding:24px}
+.dialog h2{margin:0 0 12px;font-size:17px;font-family:var(--font-display);font-weight:600}
+.confirm{font-size:13px;color:var(--ink);background:var(--surface-sunken);border-radius:6px;padding:10px 12px;margin:12px 0 14px;line-height:1.5}
+.dactions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+.note{font-size:12px;color:var(--ink-muted);margin-top:10px;line-height:1.5}
+.pillnote{display:inline-block;font-size:11px;border:1px dashed var(--border-strong);border-radius:6px;padding:2px 7px;color:var(--ink-muted)}
+.stor{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:600;color:var(--accent-ink);background:var(--accent-soft);border-radius:6px;padding:2px 7px;white-space:nowrap}
+.statelabel{font-size:11px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;color:var(--ink-faint);margin:0 0 8px}
+.field input[type=checkbox],.field input[type=radio]{width:auto;padding:0}
+details.explain{background:#fff;border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:13px;margin-bottom:14px}
+details.explain summary{font-weight:600;cursor:pointer}
+tr.sel td{background:var(--accent-soft)}
+.selbar{position:sticky;bottom:0;display:flex;justify-content:space-between;align-items:center;gap:14px;background:#fff;border:1px solid var(--accent);border-radius:var(--radius-md);padding:12px 16px;margin-top:14px;font-size:13px}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page);overflow:auto;position:relative">
+<div class="topnav"><div class="brand">PurrCare · staff</div><div class="who"><select class="branchpick" aria-label="Active branch"><option>Uttara (primary)</option><option>Banani</option></select>Rezwan Ahmed · Administrator</div></div>
+<div class="main">
+  <nav class="secnav" aria-label="Procurement"><a href="Suppliers.dc.html">Suppliers</a><a href="PurchaseOrderList.dc.html">Purchase orders</a><a href="ConsignmentList.dc.html">Consignments</a><a href="ReorderSuggestions.dc.html" class="active" aria-current="page">Reorder</a></nav>
+  <div class="titlerow"><h1 class="h1">Reorder suggestions</h1><a class="link" href="StockSettings.dc.html">Reorder policies →</a></div>
+  <p class="sub">Uttara · SKU × location pairs at or below their reorder point, calculated by the server at 23 Sep 2026, 06:00 (Asia/Dhaka).</p>
+  <details class="explain" open><summary>How the suggested quantity is worked out</summary>
+    <p style="margin:8px 0 0;line-height:1.55">Enough to cover average daily use over the supplier's lead time, plus the reorder point, less what is usable now and already on order — or the fixed reorder quantity where one is set. For FD-KDC-2KG at UTR-WH: 2.4 bags/day × 7 days + 30 bags − 18 bags usable − 0 bags on order = <strong>29 bags</strong>.</p>
+  </details>
+  <table>
+    <thead><tr><th><input type="checkbox" aria-label="Select all"></th><th>SKU</th><th>Location</th><th class="num">Usable</th><th class="num">Reorder point</th><th class="num">On order</th><th class="num">Avg daily use</th><th class="num">Lead time</th><th class="num">Suggested</th><th>Preferred supplier</th></tr></thead>
+    <tbody>
+      <tr class="sel"><td><input type="checkbox" checked aria-label="Select FD-KDC-2KG at UTR-WH"></td><td><strong>FD-KDC-2KG</strong><div class="small muted">Kitten dry food, chicken 2 kg</div></td><td>UTR-WH</td><td class="num">18 bags</td><td class="num">30 bags</td><td class="num">0 bags</td><td class="num">2.4 bags</td><td class="num">7 days</td><td class="num strong">29 bags</td><td>Meridian Pet Supplies Ltd</td></tr>
+      <tr class="sel"><td><input type="checkbox" checked aria-label="Select GEN-LIT-10L at UTR-SHOP"></td><td><strong>GEN-LIT-10L</strong><div class="small muted">Clumping litter 10 L</div></td><td>UTR-SHOP</td><td class="num">6 bags</td><td class="num">10 bags <span class="b b-neutral">default</span></td><td class="num">0 bags</td><td class="num">1.1 bags</td><td class="num">7 days</td><td class="num strong">20 bags<div class="small muted">fixed quantity</div></td><td>Meridian Pet Supplies Ltd</td></tr>
+      <tr class="sel"><td><input type="checkbox" checked aria-label="Select MED-FVX-TRI at UTR-FRIDGE"></td><td><strong>MED-FVX-TRI</strong><div class="small muted">Feline tricat vaccine</div></td><td>UTR-FRIDGE</td><td class="num">8 doses</td><td class="num">20 doses</td><td class="num">0 doses</td><td class="num">0.9 doses</td><td class="num">45 days</td><td class="num strong">53 doses</td><td>Aurora Animal Health GmbH</td></tr>
+      <tr><td><input type="checkbox" aria-label="Select MED-AMX-50 at UTR-DISP"></td><td><strong>MED-AMX-50</strong><div class="small muted">Amoxicillin oral suspension 50 mg/ml</div></td><td>UTR-DISP</td><td class="num">0 ml<div class="small muted">1,120 ml recalled — held</div></td><td class="num">500 ml</td><td class="num">1,000 ml</td><td class="num">35 ml</td><td class="num">35 days</td><td class="num strong">725 ml</td><td>Kanto Veterinary Trading</td></tr>
+      <tr><td><input type="checkbox" aria-label="Select GEN-SCR-POST at UTR-SHOP"></td><td><strong>GEN-SCR-POST</strong><div class="small muted">Scratching post, 60 cm</div></td><td>UTR-SHOP</td><td class="num">1 each</td><td class="num">2 each</td><td class="num">0 each</td><td class="num">0.1 each</td><td class="num">7 days</td><td class="num strong">2 each</td><td class="muted">No preferred supplier — choose one in the order</td></tr>
+    </tbody>
+  </table>
+  <div class="selbar" role="region" aria-label="Selection">
+    <span><strong>3 selected</strong> from 2 suppliers — this makes <strong>2 draft purchase orders</strong>: Meridian Pet Supplies Ltd (2 lines), Aurora Animal Health GmbH (1 line).</span>
+    <a class="btn" href="PurchaseOrderBuilder.dc.html" style="text-decoration:none">Create 2 purchase orders</a>
+  </div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

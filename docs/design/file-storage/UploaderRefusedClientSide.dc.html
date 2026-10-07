@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Refused before sending — US-XCT-07</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px;display:flex;align-items:center;gap:16px}
+.main{padding:26px 32px;position:relative}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+.sub{color:var(--ink-muted);font-size:13.5px;margin:4px 0 20px}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:24px;align-items:start}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:20px}
+.card h2{font-size:14.5px;font-weight:700;margin:0 0 12px}
+.btn-sm{font-family:var(--font-sans);font-weight:600;font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:#fff;color:var(--ink);border:1px solid var(--border-strong);cursor:pointer;flex:none}
+.drop{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:14px 16px;background:var(--surface);border:1.5px dashed var(--border-strong);border-radius:var(--radius-md);font:inherit;color:var(--ink);cursor:pointer}
+.drop svg{color:var(--accent-ink)}
+.drop .dt{font-weight:700;font-size:14px;color:var(--accent-ink)}
+.drop .dh{font-size:12.5px;color:var(--ink-muted)}
+.queue{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}
+.frow{display:flex;align-items:flex-start;gap:12px;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);background:#fff}
+.frow.bad{border-color:var(--danger-ink);border-left-width:4px}
+.ftype{width:38px;height:38px;flex:none;border-radius:6px;background:var(--surface-sunken);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;letter-spacing:.04em;color:var(--ink-muted)}
+.fbody{flex:1;min-width:0}
+.fname{font-weight:600;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fmeta{font-size:12px;color:var(--ink-muted);margin-top:2px;display:flex;align-items:center;gap:6px}
+.st-ok{color:var(--accent-ink);font-weight:600;display:inline-flex;align-items:center;gap:4px}
+.st-err{color:var(--danger-ink);font-weight:600;display:inline-flex;align-items:center;gap:4px}
+.msg{font-size:13px;line-height:1.45;padding:8px 10px;border-radius:6px;margin-top:8px;background:var(--danger-bg);color:var(--danger-ink)}
+.anno{background:var(--surface-sunken);border-radius:var(--radius-md);padding:16px 18px;font-size:12.5px;line-height:1.5;color:var(--ink-muted)}
+.anno h3{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink);margin:0 0 8px}
+.anno ul{margin:0 0 14px;padding-left:18px}
+.live{font-family:ui-monospace,Consolas,monospace;font-size:11.5px;background:#fff;border:1px solid var(--border);border-radius:6px;padding:8px 10px;color:var(--ink);line-height:1.6;margin-bottom:14px}
+.net{font-family:ui-monospace,Consolas,monospace;font-size:11.5px;background:#fff;border:1px solid var(--border);border-radius:6px;padding:8px 10px;color:var(--ink);line-height:1.6;margin-bottom:14px}
+@media (max-width:1100px){.grid,.cols,.wrap{grid-template-columns:minmax(0,1fr) !important}}
+@media (max-width:700px){.drop{flex-wrap:wrap}.frow,.flist li,.titlerow{flex-wrap:wrap}.frow .fbody,.flist li .fbody{flex-basis:calc(100% - 52px)}.two,.states{grid-template-columns:1fr !important}.sheet{grid-template-columns:repeat(auto-fill,200px) !important}}
+.viewer,.dialog,.legend,.side{max-width:calc(100vw - 24px)}.scrim{flex-wrap:wrap;overflow:auto}.stage svg,.page{max-width:100%}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page);overflow:auto;position:relative">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who"><select class="branchpick" aria-label="Active branch"><option>Uttara (primary)</option><option>Banani</option></select>Dr. Nusrat Jahan · Vet</div></div>
+  <div class="main">
+    <h1 class="h1">Milo — add clinical photo</h1>
+    <p class="sub">Visit of 23 Sep 2026 · host panel is illustrative (HO-EMR-002 PhotosPanel). Three files chosen; two are refused in the browser before anything is sent (C2, ADR-FE-149).</p>
+    <div class="grid">
+      <div class="card">
+        <h2>Photos</h2>
+        <button type="button" class="drop" aria-describedby="c-hint">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>
+          <span class="dt">Choose files or drop them here</span>
+          <span class="dh" id="c-hint">· JPEG, PNG or WebP · up to 15 MB each</span>
+        </button>
+        <ul class="queue" aria-label="Files">
+          <li class="frow">
+            <div class="ftype" aria-hidden="true">JPG</div>
+            <div class="fbody">
+              <div class="fname">wound-left-flank.jpg</div>
+              <div class="fmeta">3.2 MB · <span class="st-ok"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Uploaded</span></div>
+            </div>
+            <button type="button" class="btn-sm" aria-label="Remove wound-left-flank.jpg">Remove</button>
+          </li>
+          <li class="frow bad">
+            <div class="ftype" aria-hidden="true">PNG</div>
+            <div class="fbody">
+              <div class="fname">wound-scan-fullres.png</div>
+              <div class="fmeta">22.8 MB · <span class="st-err"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m9 9 6 6M15 9l-6 6"/></svg>Not uploaded</span></div>
+              <div class="msg" role="status">That file is 22.8 MB. The largest allowed here is 15 MB.</div>
+            </div>
+            <button type="button" class="btn-sm" aria-label="Dismiss wound-scan-fullres.png">Dismiss</button>
+          </li>
+          <li class="frow bad">
+            <div class="ftype" aria-hidden="true">HEIC</div>
+            <div class="fbody">
+              <div class="fname">IMG_2231.HEIC</div>
+              <div class="fmeta">2.9 MB · <span class="st-err"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m9 9 6 6M15 9l-6 6"/></svg>Not uploaded</span></div>
+              <div class="msg">IMG_2231.HEIC is a HEIC file. You can upload JPEG, PNG or WebP.</div>
+            </div>
+            <button type="button" class="btn-sm" aria-label="Dismiss IMG_2231.HEIC">Dismiss</button>
+          </li>
+        </ul>
+        <p style="font-size:12.5px;color:var(--ink-muted);margin:12px 0 0">Refused files are never added to the host's file list; Dismiss only clears the message.</p>
+      </div>
+      <aside class="anno" aria-label="Design notes">
+        <h3>Network — this batch</h3>
+        <div class="net">POST /api/staff/files?purpose=ClinicalPhoto<br>&nbsp;&nbsp;wound-left-flank.jpg · 201<br><span style="color:var(--ink-faint)">— nothing else sent —</span></div>
+        <h3>Live region (polite)</h3>
+        <div class="live">"wound-scan-fullres.png not uploaded: that file is 22.8 MB. The largest allowed here is 15 MB."<br>"IMG_2231.HEIC not uploaded: it is a HEIC file…"<br>"wound-left-flank.jpg uploaded."</div>
+        <h3>What this board shows</h3>
+        <ul>
+          <li>§8.2 sentences, word for word, with the real size and the purpose's own cap and list.</li>
+          <li>Refused rows carry an icon, the words "Not uploaded" and a thick left edge — never red alone.</li>
+          <li>The client check is a courtesy; the server re-checks every file.</li>
+        </ul>
+      </aside>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Domain\CatEcommerce.Domain\CatEcommerce.Domain.csproj" />
+    <ProjectReference Include="..\..\Shared\CatEcommerce.Shared\CatEcommerce.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Cloud.Storage.V1" Version="5.0.0" />
+    <PackageReference Include="Konscious.Security.Cryptography.Argon2" Version="1.3.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="nClam" Version="9.0.0" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.0" />
+    <PackageReference Include="Platform.Infrastructure.Common" Version="1.0.8" />
+    <PackageReference Include="Platform.Infrastructure.Core" Version="1.0.34" />
+    <PackageReference Include="QRCoder" Version="1.8.0" />
+    <PackageReference Include="QuestPDF" Version="2026.9.0" />
+    <PackageReference Include="SkiaSharp" Version="3.119.1" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="3.119.1" />
+  </ItemGroup>
+
+  <!--
+    HO-ACC-001 §12.2: HttpContextClientIpAccessor needs IHttpContextAccessor and
+    MemoryCacheCaptchaService needs a Singleton-owned MemoryCache. Both types ship in the
+    ASP.NET Core shared framework, not as standalone NuGet packages for net9.0. A FrameworkReference
+    is the standard, zero-download way for a class library (not a Web SDK project) to reach them.
+    Not one of the "three packages" section 13 names because it is not a NuGet package.
+  -->
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Security\breached-passwords.txt" />
+    <!--
+      SECURITY gate, LOW (2026-09-26): QuestPdfCatMedicalHistoryRenderer registers this as a
+      fallback font so Bengali text (a cat's name, breed, note, etc.) does not crash PDF
+      generation. Noto Sans Bengali, SIL Open Font License 1.1 (NotoSansBengali-OFL.txt,
+      bundled alongside, not embedded: it is documentation, not a runtime asset).
+    -->
+    <EmbeddedResource Include="Documents\Fonts\NotoSansBengali-Regular.ttf" />
+    <None Include="Documents\Fonts\NotoSansBengali-OFL.txt" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

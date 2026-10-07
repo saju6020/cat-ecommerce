@@ -1,0 +1,44 @@
+# Build output
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+artifacts/
+
+# IDE
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+
+# Tests
+[Tt]est[Rr]esult*/
+coverage*.json
+coverage*.xml
+
+# Secrets — NEVER commit. NuGet.Config uses %BRAC_NUGET_*% env placeholders.
+*.pfx
+appsettings.*.local.json
+.env
+
+# Local dev config — carries the database password (SRS NFR-SEC-7)
+appsettings.Development.json
+
+# --- web/ (frontend, HO-CAT-002 §12.1) ---
+web/node_modules/
+web/.next/
+web/out/
+web/build/
+web/.env.local
+web/.env*.local
+web/coverage/
+web/playwright-report/
+web/test-results/
+web/*.tsbuildinfo
+web/next-env.d.ts
+web/.turbo/
+web/npm-debug.log*
+.claude/settings.local.json
+.claude/settings.local.json
+.claude/settings.local.json

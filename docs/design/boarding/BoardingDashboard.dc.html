@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Boarding dashboard — US-BRD-19</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink);font-size:14px;-webkit-font-smoothing:antialiased}
+a{color:var(--accent-ink)}
+p{margin:0}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px;display:flex;align-items:center;gap:12px}
+.ctop{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;border-bottom:1px solid var(--border);background:#fff}
+.ctop .cbrand{font-family:var(--font-display);font-weight:600;font-size:19px;color:var(--accent-ink)}
+.ctop nav{display:flex;gap:22px;font-size:14px;font-weight:600}
+.ctop nav a{color:var(--ink-muted);text-decoration:none}
+.ctop nav a.on{color:var(--ink)}
+.ctop .cwho{display:flex;align-items:center;gap:10px;font-size:13.5px}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.main{padding:26px 32px;position:relative}
+.cmain{max-width:960px;margin:0 auto;padding:30px 32px 40px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+.h2{font-family:var(--font-display);font-weight:600;font-size:17px;margin:0 0 10px}
+.titlerow{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:18px}
+.sub{color:var(--ink-muted);font-size:13px;margin-top:4px}
+.muted{color:var(--ink-muted)}
+.faint{color:var(--ink-faint)}
+.small{font-size:12.5px}
+.tiny{font-size:11.5px}
+.strong{font-weight:700}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:18px}
+.cardh{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);margin:0 0 10px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.cardh a{text-transform:none;letter-spacing:0;font-size:12.5px}
+.btn{font:inherit;font-weight:600;font-size:13.5px;padding:8px 15px;border-radius:var(--radius-sm);border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;min-height:38px;display:inline-flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;white-space:nowrap}
+.btn-2{background:#fff;color:var(--ink);border-color:var(--border-strong)}
+.btn-danger{background:var(--danger-ink);border-color:var(--danger-ink);color:#fff}
+.btn-danger-2{background:#fff;border-color:#e4c4c0;color:var(--danger-ink)}
+.btn-sm{font-size:12.5px;padding:5px 11px;min-height:32px}
+.btn-link{background:none;border:none;color:var(--accent-ink);padding:0;min-height:0;font-weight:600}
+.btn[disabled]{background:var(--surface-sunken);color:var(--ink-faint);border-color:var(--border);cursor:not-allowed}
+.why{font-size:12px;color:var(--ink-muted);margin-top:6px;line-height:1.45}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:2px 9px;border-radius:999px;font-size:11.5px;font-weight:700;white-space:nowrap}
+.b-ok{background:#e6f0ee;color:var(--accent-ink)}
+.b-warn{background:var(--warning-bg);color:var(--warning-ink)}
+.b-bad{background:var(--danger-bg);color:var(--danger-ink)}
+.b-hr{background:var(--danger-ink);color:#fff}
+.b-neutral{background:var(--surface-sunken);color:var(--ink-muted)}
+.b-info{background:var(--accent-soft);color:var(--accent-ink);border:1px solid rgba(21,96,90,.25)}
+.alert{display:flex;gap:10px;border-radius:8px;padding:12px 14px;font-size:13.5px;line-height:1.5}
+.alert b.t{display:block}
+.alert-warn{background:var(--warning-bg);color:var(--warning-ink);border:1px solid #ebd9b4}
+.alert-bad{background:var(--danger-bg);color:var(--danger-ink);border:1px solid #f0ccc8}
+.alert-info{background:var(--accent-soft);color:var(--accent-ink);border:1px solid rgba(21,96,90,.25)}
+.alert-neutral{background:var(--surface-sunken);color:var(--ink-muted);border:1px solid var(--border)}
+.field{margin-bottom:14px}
+.lbl{display:block;font-size:13px;font-weight:600;margin-bottom:5px}
+.inp{width:100%;font:inherit;font-size:14px;padding:8px 11px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:#fff;color:var(--ink)}
+.inp.err{border-color:var(--danger-ink);box-shadow:0 0 0 1px var(--danger-ink)}
+textarea.inp{resize:vertical}
+.ferr{font-size:12.5px;color:var(--danger-ink);margin-top:4px;font-weight:600}
+.hint{font-size:12px;color:var(--ink-muted);margin-top:4px;line-height:1.45}
+.unit{display:flex;align-items:center;gap:6px}
+.unit span{font-size:13px;color:var(--ink-muted);font-weight:600}
+table{border-collapse:collapse;width:100%;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--border);font-size:13px;vertical-align:top}
+th{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);background:var(--surface-sunken)}
+tr:last-child td{border-bottom:none}
+.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tabnav{display:flex;border-bottom:1px solid var(--border);margin-bottom:18px;gap:22px;flex-wrap:wrap}
+.tabnav a{padding:10px 2px;font-size:13.5px;font-weight:600;color:var(--ink-muted);border-bottom:2px solid transparent;text-decoration:none}
+.tabnav a.active{color:var(--ink);border-bottom-color:var(--accent)}
+.stepper{display:flex;gap:6px;margin-bottom:22px;flex-wrap:wrap}
+.step{font-size:12.5px;padding:5px 11px;border-radius:999px;background:var(--surface-sunken);color:var(--ink-muted);font-weight:600}
+.step.done{background:#e6f0ee;color:var(--accent-ink)}
+.step.cur{background:var(--accent);color:#fff}
+.step.blocked{background:var(--danger-bg);color:var(--danger-ink)}
+.scrim{position:absolute;inset:0;background:rgba(28,26,23,.4);display:flex;align-items:center;justify-content:center;gap:24px;z-index:5;padding:24px}
+.dialog{background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(20,18,10,.25);width:460px;max-width:100%;padding:24px}
+.dialog h2{font-family:var(--font-display);font-weight:600;font-size:18px;margin:0 0 12px}
+.consequence{font-size:13.5px;background:var(--surface-sunken);border-radius:8px;padding:11px 13px;margin:12px 0;line-height:1.55}
+.dactions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px;flex-wrap:wrap}
+.panel-label{font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 7px}
+.zone{font-size:11.5px;color:var(--ink-muted);font-weight:400}
+.qline{display:flex;justify-content:space-between;gap:12px;font-size:13px;padding:4px 0}
+.qline .num{font-weight:600}
+.qdisc{color:var(--accent-ink)}
+.qtotal{border-top:1px solid var(--border);font-weight:700;margin-top:6px;padding-top:9px;font-size:14px}
+.kv{display:grid;grid-template-columns:150px 1fr;gap:7px 14px;font-size:13.5px;margin:0}
+.kv dt{color:var(--ink-muted);font-size:12.5px;font-weight:600}
+.kv dd{margin:0}
+.cph{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--border);border-radius:8px;padding:9px 11px;background:#fff;min-width:0}
+.cph .av{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--font-display);font-size:17px;flex:none}
+.cph-b{min-width:0;flex:1}
+.cph-n{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:14px}
+.cph-h{font-size:12.5px;color:var(--danger-ink);font-weight:600;margin-top:3px;line-height:1.4}
+.cph-a{display:flex;gap:5px;margin-top:5px;flex-wrap:wrap}
+.al{font-size:11.5px;font-weight:600;padding:2px 7px;border-radius:6px;background:var(--warning-bg);border:1px solid #ebd9b4;color:var(--warning-ink)}
+.al-sev{background:var(--danger-bg);border-color:#f0ccc8;color:var(--danger-ink)}
+.al-none{background:var(--surface-sunken);border-color:var(--border);color:var(--ink-muted)}
+.row{display:flex;gap:16px}
+.col{display:flex;flex-direction:column;gap:14px}
+.live{font-size:12px;color:var(--ink-muted);display:inline-flex;align-items:center;gap:6px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--accent);display:inline-block}
+.seg{display:inline-flex;border:1px solid var(--border-strong);border-radius:var(--radius-sm);overflow:hidden}
+.seg button{font:inherit;font-size:13px;font-weight:600;padding:7px 12px;border:none;border-right:1px solid var(--border-strong);background:#fff;color:var(--ink);cursor:pointer;min-height:36px}
+.seg button:last-child{border-right:none}
+.seg button.on{background:var(--accent);color:#fff}
+.note-dev{font-size:12px;color:var(--ink-muted);background:var(--surface-sunken);border:1px dashed var(--border-strong);border-radius:6px;padding:8px 10px;line-height:1.45}
+.dash{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;align-items:start}
+.sec{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:14px 16px}
+.sec h2{font-size:13px;font-weight:700;margin:0 0 10px;display:flex;justify-content:flex-start;align-items:center;gap:8px}
+.sec h2 .n{font-size:12px;background:var(--surface-sunken);border-radius:999px;padding:1px 8px;color:var(--ink-muted)}
+.sec h2 .n.hot{background:var(--danger-bg);color:var(--danger-ink)}
+.sec h2 a{font-size:12px;font-weight:600;margin-left:auto}
+.it{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 0;border-top:1px solid #efece4;font-size:13px;line-height:1.4}
+.it:first-of-type{border-top:none}
+.big{font-family:var(--font-display);font-size:30px;font-weight:600;line-height:1}
+.empty{font-size:13px;color:var(--ink-muted);padding:6px 0}
+.span2{grid-column:span 2}
+</style>
+</helmet>
+<div style="width:1280px;height:1300px;background:var(--surface-page);overflow:auto;position:relative">
+<div class="topnav"><div class="brand">PurrCare · staff</div><div class="who"><select class="branchpick" aria-label="Active branch"><option>Uttara (primary)</option><option>Banani</option></select>Shormi Akter · Reception</div></div>
+<div class="main">
+  <div class="titlerow">
+    <div><h1 class="h1">Boarding — Uttara</h1><p class="sub">Mon 12 Oct 2026 · <span class="live"><span class="dot" aria-hidden="true"></span>updated 10:42 (Asia/Dhaka) · refreshes every 30 s</span></p></div>
+    <div style="display:flex;gap:8px"><a class="btn btn-2" href="OccupancyBoard.dc.html">Occupancy board</a><a class="btn btn-2" href="TaskBoard.dc.html">Task board</a><a class="btn" href="StaffBookingOverride.dc.html">+ New stay</a></div>
+  </div>
+  <div class="alert alert-bad" role="status" aria-live="polite" style="margin-bottom:14px"><span aria-hidden="true">⛔</span><div><b class="t">New high-severity incident — Noodle, S-1 (10:05)</b>Escaped the unit during cleaning; recovered after 5 minutes. Owner not yet reached. <a href="IncidentQueue.dc.html">Open the incident queue</a></div></div>
+
+  <div class="dash">
+    <section class="sec" aria-labelledby="s1">
+      <h2 id="s1">Occupancy today <a href="OccupancyBoard.dc.html">Board</a></h2>
+      <div style="display:flex;gap:22px;align-items:flex-end"><div><div class="big">11 <span class="small muted" style="font-family:var(--font-sans)">of 16 units</span></div><div class="small muted">occupied</div></div><div><div class="big">14</div><div class="small muted">cats in house</div></div></div>
+      <div class="small muted" style="margin-top:10px;line-height:1.6">Standard 6 of 8 · Family 3 of 4 · Suite 1 of 2 · Isolation 1 of 2<br>Out of service: none</div>
+    </section>
+
+    <section class="sec" aria-labelledby="s2">
+      <h2 id="s2">Arrivals <span class="n">2</span></h2>
+      <div class="it"><div><b>Pepper</b> · S-4 · Imran Chowdhury<div class="small muted">14:00–19:00 · <span class="badge b-ok">✓ Deposit received</span></div></div><a class="btn btn-sm" href="CheckInVaccinationHold.dc.html">Check in</a></div>
+      <div class="it"><div><b>Luna, Simba</b> · Family · Rakib Hasan<div class="small muted">14:00–19:00 · <span class="badge b-warn">◔ Deposit awaiting</span></div></div><a class="btn btn-2 btn-sm" href="StayWorkspace.dc.html">Open</a></div>
+    </section>
+
+    <section class="sec" aria-labelledby="s3">
+      <h2 id="s3">Departures <span class="n">1</span></h2>
+      <div class="it"><div><b>Tom</b> · S-2 · Sadia Karim<div class="small muted">08:00–12:00 · balance ৳4,200</div></div><a class="btn btn-sm" href="CheckOutEarly.dc.html">Check out</a></div>
+    </section>
+
+    <section class="sec" aria-labelledby="s4" style="border-color:#e4c4c0">
+      <h2 id="s4">Cats not eating <span class="n hot">1</span></h2>
+      <div class="it" style="display:block"><div class="cph"><div class="av" style="background:#6e4700" aria-hidden="true">N</div><div class="cph-b"><div class="cph-n"><b>Noodle</b><span class="small muted">No handling warnings</span></div><div class="cph-a"><span class="al">Allergy · Fish</span></div></div></div><div class="small" style="margin-top:6px">S-1 · Ate <b>None</b> Sun 18:10 · <b>None</b> Mon 08:20 <a href="ObservationSheet.dc.html">Observations</a></div></div>
+    </section>
+
+    <section class="sec" aria-labelledby="s5" style="border-color:#e4c4c0">
+      <h2 id="s5">Overdue tasks <span class="n hot">2</span> <a href="TaskBoard.dc.html">Task board</a></h2>
+      <div class="it"><div><b>F-2</b> · Litter clean — Mittens, Biscuit<div class="small muted">due 10:15 · Tanvir Islam</div></div><span class="badge b-bad">⏱ 27 min late</span></div>
+      <div class="it"><div><b>S-5</b> · Enrichment — Tiger<div class="small muted">due 10:00 · unassigned</div></div><span class="badge b-bad">⏱ 42 min late</span></div>
+    </section>
+
+    <section class="sec" aria-labelledby="s6">
+      <h2 id="s6">Unassigned tasks <span class="n">3</span> <a href="TaskBoard.dc.html">Assign</a></h2>
+      <div class="small" style="line-height:1.7">S-5 Enrichment 10:00 (late) · S-3 Enrichment 15:00 · S-6 Enrichment 15:00</div>
+    </section>
+
+    <section class="sec" aria-labelledby="s7">
+      <h2 id="s7">Open incidents <span class="n hot">2</span> <a href="IncidentQueue.dc.html">Queue</a></h2>
+      <div class="it"><div><b>Noodle</b> · escaped unit<div class="small muted">10:05 · not acknowledged</div></div><span class="badge b-bad">⛔ High</span></div>
+      <div class="it"><div><b>Mittens</b> · sick after breakfast<div class="small muted">Sat 09:40 · ✓ acknowledged 09:52</div></div><span class="badge b-warn">⚠ Medium</span></div>
+    </section>
+
+    <section class="sec" aria-labelledby="s8" style="border-color:#e4c4c0">
+      <h2 id="s8">Call owner <span class="n hot">1</span></h2>
+      <div class="small" style="line-height:1.5"><b>Noodle — high incident, 10:05.</b> No acknowledgement after 30 minutes — call Farhana Akter on <a href="#">+880 1911 662200</a>.</div>
+      <a class="btn btn-sm" href="IncidentQueue.dc.html" style="margin-top:10px">Record call</a>
+    </section>
+
+    <section class="sec" aria-labelledby="s9">
+      <h2 id="s9">Unpaid balances <span class="n">2</span></h2>
+      <div class="it"><div><b>Luna, Simba</b> · reserved<div class="small muted">deposit ৳5,040 · pay by today 18:00</div></div><span class="badge b-warn">◔ Awaiting</span></div>
+      <div class="it"><div><b>Tom</b> · in house<div class="small muted">balance ৳4,200 · leaves today</div></div><span class="badge b-neutral">Balance due</span></div>
+    </section>
+
+    <section class="sec" aria-labelledby="s10">
+      <h2 id="s10">Refund due <span class="n">0</span></h2>
+      <p class="empty">No refunds due. Refunds after an early check-out or a cancellation appear here.</p>
+    </section>
+
+    <section class="sec span2" aria-labelledby="s11">
+      <h2 id="s11">Needs attention <span class="n">1</span></h2>
+      <div class="it"><div><b>BRD-0187 · Mittens, Biscuit · F-2</b><div class="small muted">Owner approved ৳3,500 ear treatment for Mittens (Sat 11:52) — add the drops to her care profile.</div></div><a class="btn btn-2 btn-sm" href="StayWorkspace.dc.html">Open stay</a></div>
+    </section>
+  </div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1300}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

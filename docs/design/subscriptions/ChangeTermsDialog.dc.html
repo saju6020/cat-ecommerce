@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Change terms — US-SUB-02</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#fbf6ef;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:14px;--warm:#e8894a;--warm-ink:#8a3f14;--warm-soft:#fdeee2}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+a{color:var(--accent-ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:14px 32px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:18px;color:var(--accent-ink)}
+.pnav{display:flex;gap:22px;font-size:14px;font-weight:600;margin-right:auto;margin-left:28px;flex-wrap:wrap}
+.pnav a{color:var(--ink-muted);text-decoration:none;padding:4px 0;border-bottom:2px solid transparent}
+.pnav a.active{color:var(--ink);border-bottom-color:var(--accent)}
+.who{display:flex;align-items:center;gap:10px;font-size:13.5px}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.h1{font-family:var(--font-display);font-weight:600;font-size:24px;margin:0}
+.muted{color:var(--ink-muted)}
+.small{font-size:12.5px}
+.wrap{max-width:1080px;margin:0 auto;padding:24px 32px}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:20px;margin-bottom:14px}
+.scrim{position:absolute;inset:0;background:rgba(28,26,23,.42);display:flex;align-items:flex-start;justify-content:center;gap:20px;padding:90px 24px 40px;flex-wrap:wrap}
+.dcol{flex:0 1 390px;min-width:0}
+.cap{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#fff;margin-bottom:8px;display:inline-block;background:rgba(28,26,23,.82);padding:4px 9px;border-radius:5px}
+.dialog{background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(20,18,10,.25);padding:22px}
+.dialog h2{font-family:var(--font-display);font-weight:600;font-size:19px;margin:0 0 12px;line-height:1.3}
+.lbl{display:block;font-size:13px;font-weight:700;margin:14px 0 6px}
+.hint{font-size:12px;color:var(--ink-muted);margin-top:5px;line-height:1.45}
+.qty{display:inline-flex;align-items:center;border:1px solid var(--border-strong);border-radius:6px;overflow:hidden}
+.qty button{width:36px;height:36px;border:none;background:var(--surface-sunken);font-size:17px;font-weight:700;color:var(--ink)}
+.qty input{width:50px;height:36px;text-align:center;border:none;font:inherit;font-size:14.5px;font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:flex;gap:7px;align-items:center;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:13px;background:#fff}
+.chip.sel{border-color:var(--accent);background:var(--accent-soft)}
+.chip input,.opt input{margin:0;accent-color:var(--accent)}
+.opt{display:flex;gap:9px;align-items:flex-start;padding:8px 10px;border:1px solid var(--border);border-radius:6px;margin-bottom:5px;background:#fff;font-size:13px;line-height:1.4}
+.opt input{margin-top:2px}
+.opt.sel{border-color:var(--accent);background:var(--accent-soft)}
+.opt.dis{background:var(--surface-sunken);color:var(--ink-faint)}
+.why{display:block;font-size:12px;color:var(--ink-muted)}
+fieldset{border:none;padding:0;margin:14px 0 0}
+fieldset .lbl{margin:0 0 6px}
+.focusring{outline:2px solid var(--accent);outline-offset:4px;border-radius:6px}
+.note{display:flex;gap:9px;align-items:flex-start;border-radius:var(--radius-sm);padding:10px 12px;font-size:13px;line-height:1.5;background:var(--surface-sunken)}
+.note svg{flex:none;margin-top:2px}
+.n-warn{background:var(--warning-bg);color:var(--warning-ink)}
+.dactions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:8px 14px;min-height:36px;border-radius:var(--radius-sm);border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer}
+.btn2{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:8px 14px;min-height:36px;border-radius:var(--radius-sm);border:1px solid var(--border-strong);background:#fff;color:var(--ink);cursor:pointer}
+.addlink{font-size:13px;font-weight:600}
+</style>
+</helmet>
+<div style="width:1280px;height:1000px;background:var(--surface-page);position:relative">
+  <div class="topnav">
+    <div class="brand">PurrCare</div>
+    <nav class="pnav" aria-label="Portal"><a href="#">My cats</a><a href="#">Appointments</a><a href="#">Shop</a><a href="#">Orders</a><a class="active" aria-current="page" href="MySubscriptions.dc.html">Subscriptions</a><a href="#">Inbox</a></nav>
+    <div class="who"><div class="avatar">FY</div>Farhana Yasmin</div>
+  </div>
+  <div class="wrap">
+    <h1 class="h1">Adult Indoor dry food</h1>
+    <div class="card" style="margin-top:16px">Next order on Tue 20 Oct</div>
+    <div class="card">Terms</div>
+  </div>
+
+  <div class="scrim">
+    <div class="dcol">
+      <div class="cap">Editing, before the cut-off</div>
+      <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="d1">
+        <h2 id="d1">Change your subscription</h2>
+        <label class="lbl" for="q1" style="margin-top:0">Per delivery</label>
+        <div class="qty"><button type="button" aria-label="One fewer">−</button><input id="q1" type="number" value="3"><button type="button" aria-label="One more">+</button></div>
+        <fieldset><legend class="lbl">How often</legend>
+          <div class="chips"><label class="chip"><input type="radio" name="i1">2 weeks</label><label class="chip sel"><input type="radio" name="i1" checked>4 weeks</label><label class="chip"><input type="radio" name="i1">6 weeks</label><label class="chip"><input type="radio" name="i1">8 weeks</label></div>
+        </fieldset>
+        <fieldset><legend class="lbl">Delivery or pickup</legend>
+          <div class="chips"><label class="chip sel"><input type="radio" name="f1" checked>Deliver to me</label><label class="chip"><input type="radio" name="f1">Collect from the clinic</label></div>
+        </fieldset>
+        <fieldset><legend class="lbl">Deliver to</legend>
+          <label class="opt sel"><input type="radio" name="a1" checked><span><strong>Home</strong><span class="why">House 12, Road 7, Sector 4, Uttara</span></span></label>
+          <label class="opt"><input type="radio" name="a1"><span><strong>Office</strong><span class="why">Level 5, 22 Kemal Ataturk Ave, Banani</span></span></label>
+        </fieldset>
+        <fieldset><legend class="lbl">How you'll pay for each order</legend>
+          <label class="opt dis"><input type="radio" name="p1" disabled><span>Cash on delivery<span class="why">Not available: only offered for orders up to ৳3,000.</span></span></label>
+          <label class="opt sel"><input type="radio" name="p1" checked><span>Bank transfer</span></label>
+        </fieldset>
+        <p class="hint" style="margin-top:10px">Changes made before Sun 18 Oct, 00:00 (Asia/Dhaka) apply to this delivery. After that, they start with the next one. We'll tell you which when you save.</p>
+        <div class="dactions"><button type="button" class="btn2">Cancel</button><button type="button" class="btn">Save changes</button></div>
+      </div>
+    </div>
+
+    <div class="dcol">
+      <div class="cap">Saved from a stale page (409)</div>
+      <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="d2">
+        <h2 id="d2">Change your subscription</h2>
+        <div class="note n-warn" role="alert">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>
+          <span>This subscription changed in another window. We've loaded the latest. Your choices below are kept — check them and save again.</span>
+        </div>
+        <label class="lbl" for="q2">Per delivery</label>
+        <div class="qty"><button type="button" aria-label="One fewer">−</button><input id="q2" type="number" value="4"><button type="button" aria-label="One more">+</button></div>
+        <fieldset><legend class="lbl">How often</legend>
+          <div class="chips"><label class="chip"><input type="radio" name="i2">2 weeks</label><label class="chip"><input type="radio" name="i2">4 weeks</label><label class="chip sel"><input type="radio" name="i2" checked>6 weeks</label><label class="chip"><input type="radio" name="i2">8 weeks</label></div>
+        </fieldset>
+        <fieldset><legend class="lbl">Delivery or pickup</legend>
+          <div class="chips"><label class="chip sel"><input type="radio" name="f2" checked>Deliver to me</label><label class="chip"><input type="radio" name="f2">Collect from the clinic</label></div>
+        </fieldset>
+        <fieldset><legend class="lbl">Deliver to</legend>
+          <label class="opt sel"><input type="radio" name="a2" checked><span><strong>Home</strong><span class="why">House 12, Road 7, Sector 4, Uttara</span></span></label>
+        </fieldset>
+        <fieldset><legend class="lbl">How you'll pay for each order</legend>
+          <label class="opt dis"><input type="radio" name="p2" disabled><span>Cash on delivery<span class="why">Not available: only offered for orders up to ৳3,000.</span></span></label>
+          <label class="opt sel"><input type="radio" name="p2" checked><span>Bank transfer</span></label>
+        </fieldset>
+        <div class="dactions"><button type="button" class="btn2">Cancel</button><button type="button" class="btn">Save changes</button></div>
+      </div>
+    </div>
+
+    <div class="dcol">
+      <div class="cap">Delivery address was removed</div>
+      <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="d3">
+        <h2 id="d3">Change your subscription</h2>
+        <p class="muted small" style="margin:-6px 0 10px">Senior wet food, 12 × 85 g — a different subscription, opened from its warning</p>
+        <div class="note n-warn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>
+          <span>The address this subscription delivered to was removed from your address book. Choose another so your next order can be delivered.</span>
+        </div>
+        <fieldset class="focusring" style="margin-top:6px"><legend class="lbl">Deliver to <span class="muted" style="font-weight:400">(focused)</span></legend>
+          <label class="opt"><input type="radio" name="a3"><span><strong>Office</strong><span class="why">Level 5, 22 Kemal Ataturk Ave, Banani</span></span></label>
+          <a class="addlink" href="#">+ Add an address</a>
+        </fieldset>
+        <label class="lbl" for="q3">Per delivery</label>
+        <div class="qty"><button type="button" aria-label="One fewer">−</button><input id="q3" type="number" value="1"><button type="button" aria-label="One more">+</button></div>
+        <fieldset><legend class="lbl">How often</legend>
+          <div class="chips"><label class="chip sel"><input type="radio" name="i3" checked>2 weeks</label><label class="chip"><input type="radio" name="i3">4 weeks</label></div>
+        </fieldset>
+        <fieldset><legend class="lbl">How you'll pay for each order</legend>
+          <label class="opt sel"><input type="radio" name="p3" checked><span>Cash on delivery</span></label>
+          <label class="opt"><input type="radio" name="p3"><span>Bank transfer</span></label>
+        </fieldset>
+        <div class="dactions"><button type="button" class="btn2">Cancel</button><button type="button" class="btn">Save changes</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1000}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

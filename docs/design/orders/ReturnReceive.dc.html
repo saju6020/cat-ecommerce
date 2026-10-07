@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Receive into quarantine · restock or write off — US-ORD-14</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink);font-size:14px;line-height:1.45}
+.topnav{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:18px;color:var(--accent-ink)}
+.who{font-size:13px;display:flex;align-items:center;gap:14px}
+select.branchpick{font:inherit;font-size:13px;padding:5px 8px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.cnav{display:flex;gap:22px;font-size:14px;font-weight:600;color:var(--ink-muted);margin-right:auto;margin-left:28px}
+.cnav a{color:inherit;text-decoration:none}
+.cnav a.on{color:var(--accent-ink);text-decoration:underline;text-underline-offset:6px;text-decoration-thickness:2px}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.cartlink{display:inline-flex;align-items:center;gap:6px;font-weight:600;color:var(--ink);text-decoration:none;font-size:13.5px}
+.count{background:var(--accent);color:#fff;border-radius:999px;font-size:11px;font-weight:700;padding:1px 7px}
+.main{padding:26px 32px;position:relative}
+.page{max-width:1080px;margin:0 auto;padding:28px 32px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+.h2{font-family:var(--font-display);font-weight:600;font-size:17px;margin:0 0 10px}
+.lbl{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);font-weight:700;margin:0 0 8px}
+.titlerow{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:18px;flex-wrap:wrap}
+.muted{color:var(--ink-muted)}.faint{color:var(--ink-faint)}.sm{font-size:12.5px}.xs{font-size:11.5px}.b{font-weight:700}.num{font-variant-numeric:tabular-nums}
+p{margin:0 0 8px}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:8px 16px;border-radius:var(--radius-sm);border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;white-space:nowrap;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn-sec{background:#fff;color:var(--ink);border-color:var(--border-strong)}
+.btn-danger{background:var(--danger-ink);border-color:var(--danger-ink);color:#fff}
+.btn-ghost{background:none;border-color:transparent;color:var(--accent-ink);padding-left:4px;padding-right:4px}
+.btn[disabled]{background:var(--surface-sunken);border-color:var(--border);color:var(--ink-faint);cursor:not-allowed}
+.btn-lg{font-size:15px;padding:11px 22px}
+.btn-sm{font-size:12.5px;padding:5px 10px}
+.link{color:var(--accent-ink);font-weight:600;text-decoration:underline;text-underline-offset:2px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:18px 20px}
+.stack>*+*{margin-top:14px}
+.row{display:flex;gap:12px;align-items:center}
+.between{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.cols{display:flex;gap:22px;align-items:flex-start}
+.cols>*{flex:1;min-width:0}
+table{border-collapse:collapse;width:100%;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden}
+th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--border);font-size:13px;vertical-align:top}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);font-weight:700;background:var(--surface-sunken)}
+tr:last-child td{border-bottom:none}
+td.r,th.r{text-align:right}
+caption{text-align:left;font-size:12px;color:var(--ink-muted);padding:0 0 6px}
+.chip{display:inline-flex;align-items:center;gap:5px;padding:2px 9px;border-radius:999px;font-size:11.5px;font-weight:600;white-space:nowrap;border:1px solid transparent;line-height:1.5}
+.chip i{font-style:normal;font-size:11px}
+.c-ok{background:var(--accent-soft);color:var(--accent-ink);border-color:rgba(21,96,90,.22)}
+.c-warn{background:var(--warning-bg);color:var(--warning-ink);border-color:#ecd7ae}
+.c-bad{background:var(--danger-bg);color:var(--danger-ink);border-color:#f0c9c4}
+.c-neu{background:var(--surface-sunken);color:var(--ink-muted);border-color:var(--border)}
+.c-cat{background:#fff;color:var(--ink);border-color:var(--border-strong)}
+.field{margin-bottom:14px}
+.field label,.flabel{display:block;font-size:13px;font-weight:600;margin-bottom:5px}
+.field input,.field select,.field textarea,.inp{width:100%;font:inherit;font-size:14px;padding:8px 11px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:#fff;color:var(--ink)}
+.field textarea{min-height:60px;resize:vertical}
+.field input[readonly],.inp[readonly]{background:var(--surface-sunken);color:var(--ink-muted)}
+.invalid{border-color:var(--danger-ink)!important;box-shadow:0 0 0 1px var(--danger-ink)}
+.focus{outline:2px solid var(--accent);outline-offset:2px}
+.hint{font-size:12px;color:var(--ink-muted);margin-top:4px}
+.err{font-size:12.5px;color:var(--danger-ink);margin-top:5px;font-weight:600}
+.banner{border:1px solid var(--border);border-left:4px solid var(--accent);background:#fff;border-radius:var(--radius-sm);padding:11px 14px;font-size:13.5px}
+.b-warn{background:var(--warning-bg);border-color:#ecd7ae;border-left-color:var(--warning-ink);color:var(--warning-ink)}
+.b-bad{background:var(--danger-bg);border-color:#f0c9c4;border-left-color:var(--danger-ink);color:var(--danger-ink)}
+.b-info{background:var(--accent-soft);border-color:rgba(21,96,90,.25);border-left-color:var(--accent);color:var(--accent-ink)}
+.scrim{position:absolute;inset:0;background:rgba(28,26,23,.4);display:flex;align-items:center;justify-content:center;z-index:5;padding:20px}
+.dialog{background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(20,18,10,.25);width:470px;padding:24px}
+.dialog h2{margin:0 0 6px;font-size:18px;font-family:var(--font-display);font-weight:600}
+.confirm{font-size:13px;background:var(--surface-sunken);border-radius:6px;padding:10px 12px;margin:12px 0}
+.dactions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
+dl.sum{margin:0}
+dl.sum div{display:flex;justify-content:space-between;gap:12px;padding:6px 0;font-size:13.5px;border-bottom:1px dashed var(--border)}
+dl.sum dt{color:var(--ink-muted)}
+dl.sum dd{margin:0;font-variant-numeric:tabular-nums;white-space:nowrap}
+dl.sum div.tot{border-bottom:none;border-top:1px solid var(--ink);margin-top:4px;padding-top:10px;font-weight:700;font-size:15.5px}
+dl.sum div.tot dt{color:var(--ink)}
+dl.kv{margin:0;font-size:13.5px}
+dl.kv div{display:flex;gap:14px;padding:3px 0}
+dl.kv dt{color:var(--ink-muted);width:130px;flex:none}
+dl.kv dd{margin:0}
+.anno{font-size:11.5px;color:var(--ink-faint);font-style:italic;margin-top:8px}
+.tag{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-faint);font-weight:700;margin-bottom:8px}
+.radio{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--border-strong);border-radius:var(--radius-md);padding:12px 14px;background:#fff;margin-bottom:8px}
+.radio.on{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent);background:var(--accent-soft)}
+.radio.off{background:var(--surface-sunken);border-color:var(--border);color:var(--ink-faint)}
+.dot{width:16px;height:16px;border-radius:50%;border:2px solid var(--border-strong);flex:none;margin-top:2px;background:#fff}
+.radio.on .dot,.dot.on{border-color:var(--accent);box-shadow:inset 0 0 0 3px #fff;background:var(--accent)}
+.box{width:17px;height:17px;border-radius:4px;border:2px solid var(--border-strong);flex:none;background:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:700}
+.box.on{background:var(--accent);border-color:var(--accent)}
+.steps{display:flex;list-style:none;margin:0 0 22px;padding:0;border:1px solid var(--border);border-radius:var(--radius-md);background:#fff;overflow:hidden}
+.steps li{flex:1;padding:9px 14px;font-size:12px;color:var(--ink-muted);border-right:1px solid var(--border)}
+.steps li:last-child{border-right:none}
+.steps li b{display:block;font-size:13px;color:var(--ink)}
+.steps li.cur{background:var(--accent-soft);box-shadow:inset 0 -3px 0 var(--accent)}
+.steps li.skip{color:var(--ink-faint)}
+.steps li.skip b{color:var(--ink-faint)}
+.qty{display:inline-flex;align-items:center;border:1px solid var(--border-strong);border-radius:6px;overflow:hidden;background:#fff}
+.qty button{width:30px;height:30px;border:none;background:var(--surface-sunken);font:inherit;font-weight:700;cursor:pointer;color:var(--ink)}
+.qty input{width:38px;height:30px;border:none;border-left:1px solid var(--border);border-right:1px solid var(--border);text-align:center;font:inherit;font-size:13.5px}
+.qty button[disabled]{color:var(--ink-faint);cursor:not-allowed}
+.thumb{width:52px;height:52px;border-radius:8px;background:var(--surface-sunken);border:1px solid var(--border);flex:none;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--ink-faint);text-align:center;line-height:1.2}
+.kbd{font-family:ui-monospace,Consolas,monospace;font-size:11px;border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:4px;padding:0 5px;background:#fff;color:var(--ink)}
+.mono{font-family:ui-monospace,Consolas,monospace}
+.pager{display:flex;justify-content:space-between;align-items:center;margin-top:12px;font-size:12.5px;color:var(--ink-muted)}
+.filters{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;margin-bottom:14px}
+.filters .field{margin:0}
+.filters label{font-size:11.5px;color:var(--ink-muted)}
+.filters select,.filters input{font-size:13px;padding:6px 9px}
+.actionbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:12px 14px;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md)}
+.copy{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px dashed var(--border);font-size:14px}
+.copy:last-child{border-bottom:none}
+.sr{font-size:11px;color:var(--ink-faint);border:1px dashed var(--border-strong);border-radius:4px;padding:2px 6px;display:inline-block}
+td a.link,.nw{white-space:nowrap}
+.pnl{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:18px}
+.dl{border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:10px}
+.dl.bad{border-color:#f0c9c4;background:#fffaf9}
+.seg{display:flex;border:1px solid var(--border-strong);border-radius:8px;overflow:hidden;width:max-content;margin:8px 0}
+.seg span{padding:6px 12px;font-weight:600;font-size:12.5px;background:#fff}
+.seg span.on{background:var(--accent);color:#fff}
+.seg span.dis{color:var(--ink-faint);background:var(--surface-sunken)}
+</style>
+</helmet>
+<div style="width:1280px;height:1000px;background:var(--surface-page);overflow:auto;position:relative">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who"><select class="branchpick" aria-label="Active branch"><option>Uttara (primary)</option><option>Banani</option></select>Tanvir Islam · Nurse</div></div>
+  <div class="main">
+    <a class="link sm" href="ReturnsList.dc.html">← Returns</a>
+    <h1 class="h1" style="margin:8px 0 16px">Receiving and deciding</h1>
+    <div class="cols" style="gap:22px">
+      <div>
+        <div class="tag">1 · Receive — RET-2026-000023 (refused COD parcel)</div>
+        <div class="pnl">
+          <div class="banner b-info sm" style="margin-bottom:12px"><b>Received items go to quarantine.</b> Nothing returns to sale until someone restocks it.</div>
+          <table>
+            <thead><tr><th>Item</th><th class="r">Approved</th><th style="width:120px">Received</th></tr></thead>
+            <tbody>
+              <tr><td>Royal Canin Kitten 2 kg<div class="xs muted mono">RCK-2608-A</div></td><td class="r">2</td><td><input class="inp" value="2" aria-label="Quantity received of Royal Canin Kitten 2 kg"></td></tr>
+              <tr><td>Hill's Prescription Diet k/d 2 kg<div class="xs muted mono">HKD-2605-C</div></td><td class="r">1</td><td><input class="inp invalid" value="2" aria-label="Quantity received of Hill's k/d 2 kg" aria-describedby="rq-e"><div id="rq-e" class="err">⚠ At most 1 — that's what was approved.</div></td></tr>
+            </tbody>
+          </table>
+          <div class="field" style="margin-top:12px"><label for="rn">Note</label><input id="rn" value="Parcel returned by Pathao rider, seal intact"></div>
+          <div class="dactions" style="justify-content:flex-start"><button class="btn">Receive into quarantine</button></div>
+        </div>
+      </div>
+      <div>
+        <div class="tag">2 · Decide — RET-2026-000022, in quarantine</div>
+        <div class="pnl">
+          <div class="dl">
+            <div class="between"><b>Cat Litter Clumping 10 L</b><span class="sm muted">1 received</span></div>
+            <div class="seg" role="radiogroup" aria-label="Decision for Cat Litter 10 L"><span class="on" role="radio" aria-checked="true">Restock</span><span role="radio" aria-checked="false">Write off</span></div>
+            <div class="sm">Back to its original batch <b class="mono">LIT-2606-A</b>.</div>
+            <div class="field" style="margin:8px 0 0"><label for="d1" class="xs">Reason</label><input id="d1" value="Outer bag replaced, contents sealed"></div>
+          </div>
+          <div class="dl bad">
+            <div class="between"><b>Royal Canin Kitten 2 kg</b><span class="sm muted">1 received</span></div>
+            <div class="seg" role="radiogroup" aria-label="Decision for Royal Canin Kitten 2 kg"><span role="radio" aria-checked="false">Restock</span><span class="on" role="radio" aria-checked="true">Write off</span></div>
+            <div class="err" role="alert" style="margin-top:0">⚠ Batch RCK-2604-B has been recalled, so it can't be restocked. Write it off instead.</div>
+            <div class="field" style="margin:8px 0 0"><label for="d2" class="xs">Reason <span class="muted" style="font-weight:400">(required)</span></label><input id="d2" value="Recalled batch — destroyed"></div>
+          </div>
+          <div class="confirm"><b>Restock 1 and write off 1?</b> 1 × Cat Litter 10 L goes back on sale in batch LIT-2606-A; 1 × Royal Canin Kitten 2 kg is written off. This is recorded in stock history.</div>
+          <div class="dactions"><button class="btn btn-sec">Cancel</button><button class="btn">Restock 1, write off 1</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1000}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

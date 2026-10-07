@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Shop by Country — US-SHP-05</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#fbf6ef;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:14px;--warm:#e8894a;--warm-ink:#8a3f14;--warm-soft:#fdeee2}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink);font-size:14px}
+a{color:var(--accent-ink)}
+.ic{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.topnav{background:#fff;border-bottom:1px solid var(--border)}
+.topnav .bar{display:flex;align-items:center;gap:28px;padding:14px 32px}
+.brand{font-family:var(--font-display);font-weight:600;font-size:22px;color:var(--accent-ink);text-decoration:none}
+.search{flex:1;max-width:560px;display:flex}
+.search input{flex:1;min-width:0;font:inherit;font-size:14px;padding:9px 12px;border:1px solid var(--border-strong);border-right:none;border-radius:6px 0 0 6px;background:#fff}
+.search button{border:1px solid var(--accent);background:var(--accent);color:#fff;border-radius:0 6px 6px 0;padding:0 14px;font:inherit;font-weight:600;font-size:13.5px;display:flex;align-items:center;gap:6px}
+.acct{margin-left:auto;display:flex;align-items:center;gap:20px;font-size:13.5px;font-weight:600}
+.acct a{color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:6px}
+.count{background:var(--accent);color:#fff;border-radius:999px;font-size:11px;padding:1px 7px}
+.catnav{display:flex;align-items:center;gap:26px;padding:0 32px;border-top:1px solid var(--border)}
+.catnav a{padding:11px 0;font-size:13.5px;font-weight:600;color:var(--ink-muted);text-decoration:none;border-bottom:2px solid transparent}
+.catnav a.on{color:var(--ink);border-bottom-color:var(--accent)}
+.wrap{max-width:1216px;margin:0 auto;padding:22px 32px 40px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:28px;margin:0 0 6px}
+.lede{color:var(--ink-muted);font-size:15px;margin:0 0 22px;max-width:700px;line-height:1.5}
+.crumbs{font-size:12.5px;color:var(--ink-muted);margin-bottom:10px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.origin{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:20px 22px;display:flex;flex-direction:column;gap:10px;text-decoration:none;color:var(--ink)}
+.origin:hover{border-color:var(--accent)}
+.otop{display:flex;align-items:center;gap:12px}
+.origin h2{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+.origin p{margin:0;font-size:13.5px;color:var(--ink-muted);line-height:1.5}
+.origin .n{font-weight:700;font-size:13px;color:var(--accent-ink);margin-top:auto}
+.feat{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--accent-ink);background:var(--accent-soft);padding:2px 8px;border-radius:999px;margin-left:auto}
+.flag{width:42px;height:28px;border-radius:3px;box-shadow:0 0 0 1px rgba(0,0,0,.14);flex:none;display:block}
+.globe{width:42px;height:28px;display:flex;align-items:center;justify-content:center;background:var(--surface-sunken);border-radius:3px;color:var(--ink-muted)}
+.none{font-style:italic;color:var(--ink-faint)}
+.note{font-size:12px;color:var(--ink-faint);margin-top:18px}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page)">
+  <header class="topnav">
+    <div class="bar">
+      <a class="brand" href="ShopHome.dc.html">PurrCare</a>
+      <form class="search" role="search" aria-label="Search products"><input aria-label="Search products" placeholder="Search food, litter, brands, ingredients"><button type="submit"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>Search</button></form>
+      <div class="acct">
+        <a href="#"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/><path d="M2 3h3l2.5 12h12L22 7H6"/></svg>Cart <span class="count">0</span></a>
+        <a href="#"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg>Sign in</a>
+      </div>
+    </div>
+    <nav class="catnav" aria-label="Categories">
+      <a href="Catalogue.dc.html">Cat food</a><a href="#">Litter</a><a href="#">Litter pots &amp; accessories</a><a href="#">Bags &amp; carriers</a><a href="#">Health &amp; grooming</a><a href="#">Toys &amp; furniture</a><a class="on" href="#" aria-current="page">Shop by country</a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <div class="crumbs"><a href="ShopHome.dc.html">Shop</a> / Shop by country</div>
+    <h1 class="h1">Shop by country</h1>
+    <p class="lede">Cat food from the countries we source from, with notes on how we buy from each.</p>
+
+    <div class="grid">
+      <a class="origin" href="OriginPage.dc.html">
+        <div class="otop"><svg class="flag" viewBox="0 0 9 6" aria-hidden="true"><rect width="9" height="6" fill="#A51931"/><rect y="1" width="9" height="4" fill="#F4F5F8"/><rect y="2" width="9" height="2" fill="#2D2A4A"/></svg><h2>Thailand</h2><span class="feat">Featured</span></div>
+        <p>We buy directly from two family-run canneries in Samut Sakhon that use line-caught tuna and farmed salmon. Every batch arrives with its own lab analysis, and we check…</p>
+        <span class="n">18 products</span>
+      </a>
+      <a class="origin" href="#">
+        <div class="otop"><svg class="flag" viewBox="0 0 3 2" aria-hidden="true"><rect width="3" height="2" fill="#000"/><rect y=".667" width="3" height=".667" fill="#D00"/><rect y="1.333" width="3" height=".667" fill="#FFCE00"/></svg><h2>Germany</h2><span class="feat">Featured</span></div>
+        <p>Dry food from Lower Saxony, shipped via Hamburg in climate-controlled containers. Our German range includes most of our veterinary diets.</p>
+        <span class="n">13 products</span>
+      </a>
+      <a class="origin" href="#">
+        <div class="otop"><svg class="flag" viewBox="0 0 30 20" aria-hidden="true"><rect width="30" height="20" fill="#E30A17"/><circle cx="11" cy="10" r="5" fill="#fff"/><circle cx="12.3" cy="10" r="4" fill="#E30A17"/><path d="m17 10 3.6-1.2-2.2 3.1V8.1l2.2 3.1Z" fill="#fff"/></svg><h2>Türkiye</h2></div>
+        <p>Grain-free lamb and turkey recipes from an Izmir producer we have worked with since 2023.</p>
+        <span class="n">9 products</span>
+      </a>
+      <a class="origin" href="#">
+        <div class="otop"><svg class="flag" viewBox="0 0 19 10" aria-hidden="true"><rect width="19" height="10" fill="#fff"/><path d="M0 0h19v.77H0zm0 1.54h19v.77H0zm0 1.54h19v.77H0zm0 1.54h19v.77H0zm0 1.54h19v.77H0zm0 1.54h19v.77H0zm0 1.54h19v.77H0z" fill="#B22234"/><rect width="7.6" height="5.4" fill="#3C3B6E"/></svg><h2>United States</h2></div>
+        <p class="none">No sourcing notes yet.</p>
+        <span class="n">7 products</span>
+      </a>
+      <a class="origin" href="#">
+        <div class="otop"><svg class="flag" viewBox="0 0 30 20" aria-hidden="true"><rect width="30" height="20" fill="#fff"/><path d="M10 10a5 5 0 0 1 10 0Z" fill="#CD2E3A"/><path d="M10 10a5 5 0 0 0 10 0Z" fill="#0047A0"/><path d="M4 5h4M4 6.5h4M4 8h4M22 12h4M22 13.5h4M22 15h4" stroke="#000" stroke-width=".8"/></svg><h2>South Korea</h2></div>
+        <p>Freeze-dried treats and tofu litter from Gyeonggi-do.</p>
+        <span class="n">5 products</span>
+      </a>
+      <a class="origin" href="#">
+        <div class="otop"><span class="globe"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width:20px;height:20px"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></span><h2>France</h2></div>
+        <p class="none">No sourcing notes yet.</p>
+        <span class="n">4 products</span>
+      </a>
+    </div>
+    <p class="note">Featured origins first, in the order the shop manager set. France has no flag file yet, so it shows a globe — the country name is always the text; flags are decorative (<code>alt=""</code>).</p>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

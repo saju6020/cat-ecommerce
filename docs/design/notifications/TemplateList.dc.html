@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Message templates — US-NTF-02</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--border:#e5e1d8;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px;--radius-pill:999px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.shell{display:flex}
+.sidebar{width:210px;flex:none;background:#fff;border-right:1px solid var(--border);min-height:820px;padding:18px 0}
+.sidebar a{display:block;padding:9px 22px;font-size:13.5px;color:var(--ink-muted);text-decoration:none;font-weight:600}
+.sidebar a.active{color:var(--accent-ink);background:var(--accent-soft);border-right:2px solid var(--accent)}
+.main{flex:1;padding:26px 32px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+table{border-collapse:collapse;width:100%;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;margin-top:16px}
+th,td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--border);font-size:13.5px}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);background:var(--surface-sunken)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--surface-sunken);cursor:pointer}
+.pill{display:inline-flex;padding:3px 9px;border-radius:var(--radius-pill);font-size:11px;font-weight:600}
+.pill-tx{background:var(--accent-soft);color:var(--accent-ink)}
+.pill-mk{background:var(--surface-sunken);color:var(--ink-muted)}
+.customised{font-weight:600;color:var(--accent-ink)}
+</style>
+</helmet>
+<div style="width:1280px;height:820px;background:var(--surface-page);overflow:auto">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div style="font-size:13px">Rezwan Ahmed · Administrator</div></div>
+  <div class="shell">
+    <div class="sidebar"><a>Branches</a><a>Services &amp; pricing</a><a>Rosters &amp; leave</a><a>Settings</a><a>Content</a><a>Policies</a><a class="active" aria-current="page">Message templates</a><a>Audit log</a><a>System</a></div>
+    <div class="main">
+      <h1 class="h1">Message templates</h1>
+      <table>
+        <thead><tr><th>Name</th><th>Key</th><th>Category</th><th>Channels</th><th>Wording</th><th>Last edited</th></tr></thead>
+        <tbody>
+          <tr><td class="body-strong">Password reset link</td><td>auth.password-reset</td><td><span class="pill pill-tx">Transactional</span></td><td>Email, SMS</td><td>Default</td><td>—</td></tr>
+          <tr><td class="body-strong">Vaccination due soon</td><td>clinic.vaccination-due</td><td><span class="pill pill-tx">Transactional</span></td><td>Email, SMS, In-app</td><td class="customised">Customised</td><td>2 Sep 2026</td></tr>
+          <tr><td class="body-strong">Order shipped</td><td>shop.order-shipped</td><td><span class="pill pill-tx">Transactional</span></td><td>In-app, SMS</td><td>Default</td><td>—</td></tr>
+          <tr><td class="body-strong">Seasonal offer</td><td>marketing.seasonal-offer</td><td><span class="pill pill-mk">Marketing</span></td><td>Email, SMS</td><td class="customised">Customised</td><td>10 Aug 2026</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":820}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

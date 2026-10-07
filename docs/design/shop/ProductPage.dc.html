@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Product page — US-SHP-02, 03, 07</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#fbf6ef;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:14px;--warm:#e8894a;--warm-ink:#8a3f14;--warm-soft:#fdeee2}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink);font-size:14px}
+a{color:var(--accent-ink)}
+.ic{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.topnav{background:#fff;border-bottom:1px solid var(--border)}
+.topnav .bar{display:flex;align-items:center;gap:28px;padding:14px 32px}
+.brand{font-family:var(--font-display);font-weight:600;font-size:22px;color:var(--accent-ink);text-decoration:none}
+.search{flex:1;max-width:560px;display:flex}
+.search input{flex:1;min-width:0;font:inherit;font-size:14px;padding:9px 12px;border:1px solid var(--border-strong);border-right:none;border-radius:6px 0 0 6px;background:#fff}
+.search button{border:1px solid var(--accent);background:var(--accent);color:#fff;border-radius:0 6px 6px 0;padding:0 14px;font:inherit;font-weight:600;font-size:13.5px;display:flex;align-items:center;gap:6px}
+.acct{margin-left:auto;display:flex;align-items:center;gap:20px;font-size:13.5px;font-weight:600}
+.acct a{color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:6px}
+.count{background:var(--accent);color:#fff;border-radius:999px;font-size:11px;padding:1px 7px}
+.catnav{display:flex;align-items:center;gap:26px;padding:0 32px;border-top:1px solid var(--border)}
+.catnav a{padding:11px 0;font-size:13.5px;font-weight:600;color:var(--ink-muted);text-decoration:none;border-bottom:2px solid transparent}
+.catnav a.on{color:var(--ink);border-bottom-color:var(--accent)}
+.lang{margin-left:auto;font-size:12.5px;color:var(--ink-muted);display:flex;align-items:center;gap:6px}
+.lang select{font:inherit;font-size:12.5px;padding:4px 6px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.wrap{max-width:1216px;margin:0 auto;padding:20px 32px 40px}
+.crumbs{font-size:12.5px;color:var(--ink-muted);margin-bottom:14px}
+.top{display:flex;gap:40px;align-items:flex-start}
+.gallery{width:470px;flex:none}
+.main-img{aspect-ratio:1/1;border-radius:var(--radius-md);background:#e6efe9;color:#2f6f5f;display:flex;align-items:center;justify-content:center}
+.main-img svg{height:62%}
+.thumbs{display:flex;gap:10px;margin-top:10px}
+.thumbs button{width:76px;height:76px;border-radius:8px;border:1px solid var(--border);background:#e6efe9;color:#2f6f5f;padding:0;display:flex;align-items:center;justify-content:center}
+.thumbs button[aria-pressed="true"]{border:2px solid var(--accent)}
+.thumbs svg{height:60%}
+.info{flex:1;min-width:0}
+.h1{font-family:var(--font-display);font-weight:600;font-size:30px;margin:0 0 6px;line-height:1.15}
+.sub{display:flex;gap:16px;align-items:center;flex-wrap:wrap;font-size:13.5px;color:var(--ink-muted)}
+.sub a{display:inline-flex;gap:6px;align-items:center}
+.stars{color:#b7862b;letter-spacing:1px;font-size:13px}
+fieldset{border:none;margin:22px 0 0;padding:0}
+legend{font-size:13px;font-weight:700;margin-bottom:8px}
+.variants{display:flex;flex-direction:column;gap:8px}
+.variant{display:flex;align-items:center;gap:12px;border:1px solid var(--border-strong);border-radius:8px;padding:11px 14px;background:#fff;font-size:14px}
+.variant.on{border:2px solid var(--accent);padding:10px 13px;background:var(--accent-soft)}
+.variant input{margin:0;accent-color:var(--accent);width:17px;height:17px}
+.variant .vl{font-weight:600;width:80px}
+.variant .vp{font-weight:600}
+.variant .va{margin-left:auto;font-size:12.5px;font-weight:600;display:inline-flex;align-items:center;gap:5px}
+.in{color:var(--accent-ink)}.out{color:var(--danger-ink)}
+.buybox{margin-top:18px;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:18px 20px}
+.bprice{font-size:26px;font-weight:700}
+.bprice span{font-size:13px;font-weight:400;color:var(--ink-muted)}
+.bavail{display:flex;align-items:center;gap:6px;font-weight:700;font-size:14px;margin-top:6px}
+.expiry{display:flex;gap:9px;align-items:flex-start;background:var(--warning-bg);color:var(--warning-ink);border-radius:6px;padding:10px 12px;font-size:13.5px;margin-top:12px;line-height:1.45}
+.slot{margin-top:14px;border:1.5px dashed var(--border-strong);border-radius:8px;padding:12px;text-align:center;font-size:12.5px;color:var(--ink-faint)}
+.actions{display:flex;gap:10px;margin-top:10px}
+.btn2{font:inherit;font-weight:600;font-size:13.5px;padding:9px 14px;border-radius:6px;border:1px solid var(--border-strong);background:#fff;color:var(--ink);display:inline-flex;align-items:center;gap:7px}
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-top:34px}
+.tabs a{padding:12px 2px;margin-right:28px;font-size:14px;font-weight:600;color:var(--ink-muted);text-decoration:none;border-bottom:2px solid transparent}
+.tabs a.on{color:var(--ink);border-bottom-color:var(--accent)}
+.panel{display:flex;gap:40px;padding:22px 0}
+.panel h2{font-size:15px;margin:0 0 8px}
+.panel p{margin:0;line-height:1.6;font-size:14px;max-width:560px}
+table{border-collapse:collapse;background:#fff;border:1px solid var(--border);border-radius:8px;overflow:hidden;min-width:320px}
+caption{text-align:left;font-weight:700;font-size:15px;margin-bottom:8px}
+th,td{padding:9px 14px;text-align:left;border-bottom:1px solid var(--border);font-size:13.5px}
+td.num{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+th{background:var(--surface-sunken);font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted)}
+tr:last-child td{border-bottom:none}
+.muted{color:var(--ink-muted)}
+</style>
+</helmet>
+<div style="width:1280px;height:1180px;background:var(--surface-page)">
+  <header class="topnav">
+    <div class="bar">
+      <a class="brand" href="ShopHome.dc.html">PurrCare</a>
+      <form class="search" role="search" aria-label="Search products"><input aria-label="Search products" placeholder="Search food, litter, brands, ingredients"><button type="submit"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>Search</button></form>
+      <div class="acct">
+        <a href="Wishlist.dc.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"/></svg>Wishlist</a>
+        <a href="#"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/><path d="M2 3h3l2.5 12h12L22 7H6"/></svg>Cart <span class="count">2</span></a>
+        <a href="#"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg>Farhana</a>
+      </div>
+    </div>
+    <nav class="catnav" aria-label="Categories">
+      <a class="on" href="Catalogue.dc.html" aria-current="true">Cat food</a><a href="#">Litter</a><a href="#">Litter pots &amp; accessories</a><a href="#">Bags &amp; carriers</a><a href="#">Health &amp; grooming</a><a href="#">Toys &amp; furniture</a><a href="ShopByCountry.dc.html">Shop by country</a>
+      <label class="lang">Product language <select aria-label="Product content language"><option selected>English</option><option>বাংলা (Bangla)</option></select></label>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <div class="crumbs"><a href="ShopHome.dc.html">Shop</a> / <a href="Catalogue.dc.html">Cat food</a> / Kitten / Royal Canin Kitten</div>
+    <div class="top">
+      <div class="gallery">
+        <div class="main-img" role="img" aria-label="Royal Canin Kitten 2 kg bag, front"><svg viewBox="0 0 80 100" aria-hidden="true"><path d="M18 12h44l6 12v64a4 4 0 0 1-4 4H16a4 4 0 0 1-4-4V24Z" fill="currentColor"/><rect x="22" y="40" width="36" height="22" rx="3" fill="#fff" opacity=".85"/></svg></div>
+        <div class="thumbs">
+          <button aria-pressed="true" aria-label="Royal Canin Kitten 2 kg bag, front"><svg viewBox="0 0 80 100" aria-hidden="true"><path d="M18 12h44l6 12v64a4 4 0 0 1-4 4H16a4 4 0 0 1-4-4V24Z" fill="currentColor"/></svg></button>
+          <button aria-pressed="false" aria-label="2 kg bag, back with the feeding table"><svg viewBox="0 0 80 100" aria-hidden="true"><path d="M18 12h44l6 12v64a4 4 0 0 1-4 4H16a4 4 0 0 1-4-4V24Z" fill="currentColor" opacity=".6"/></svg></button>
+          <button aria-pressed="false" aria-label="Kibble close-up next to a coin for size"><svg viewBox="0 0 80 100" aria-hidden="true"><circle cx="30" cy="50" r="10" fill="currentColor"/><circle cx="52" cy="46" r="10" fill="currentColor"/><circle cx="42" cy="66" r="10" fill="currentColor"/></svg></button>
+          <button aria-pressed="false" aria-label="A kitten eating from a bowl"><svg viewBox="0 0 80 100" aria-hidden="true"><ellipse cx="40" cy="70" rx="26" ry="10" fill="currentColor"/><circle cx="40" cy="40" r="14" fill="currentColor" opacity=".6"/></svg></button>
+        </div>
+        <p class="muted" style="font-size:12px;margin-top:8px">Thumbnails are buttons; nothing rotates on its own. The 2 kg bag's own photos come first because 2 kg is selected.</p>
+      </div>
+
+      <div class="info">
+        <h1 class="h1">Royal Canin Kitten</h1>
+        <div class="sub">
+          <span>Royal Canin</span>
+          <a href="#reviews"><span class="stars" aria-hidden="true">★★★★½</span>4.5 out of 5 (23 reviews)</a>
+          <a href="#"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>Made in France</a>
+        </div>
+
+        <fieldset>
+          <legend>Size</legend>
+          <div class="variants" role="radiogroup" aria-label="Size">
+            <label class="variant"><input type="radio" name="sku"><span class="vl">400 g</span><span class="vp">৳650.00</span><span class="va in"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>In stock</span></label>
+            <label class="variant on"><input type="radio" name="sku" checked><span class="vl">2 kg</span><span class="vp">৳2,450.00</span><span class="va in"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>In stock</span></label>
+            <label class="variant"><input type="radio" name="sku"><span class="vl">4 kg</span><span class="vp">৳4,600.00</span><span class="va out"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m15 9-6 6M9 9l6 6"/></svg>Out of stock</span></label>
+          </div>
+        </fieldset>
+
+        <section class="buybox" aria-label="Buy">
+          <div class="bprice">৳2,450.00 <span>+ VAT · 2 kg</span></div>
+          <div class="bavail in"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>In stock</div>
+          <div class="expiry"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="margin-top:2px"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span><b>Best before 12 Nov 2026</b> — this is the date on the stock we would send you.</span></div>
+          <div class="slot">Action slot — HO-ORD-002 puts <b>Add to cart</b> here. Empty in this slice; no payment step exists in v1.</div>
+          <div class="actions">
+            <button class="btn2" type="button" aria-pressed="false"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"/></svg>Save</button>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <nav class="tabs" aria-label="Product details">
+      <a href="#">Description</a><a class="on" href="#" aria-current="true">Ingredients &amp; analysis</a><a href="#">Feeding guide</a><a href="#">Storage</a><a href="#">Origin</a>
+    </nav>
+    <div class="panel">
+      <div>
+        <h2>Ingredients</h2>
+        <p>Dehydrated poultry protein, rice, animal fats, maize, vegetable protein isolate, hydrolysed animal proteins, maize flour, beet pulp, minerals, fish oil, soya oil, yeasts and yeast parts, fructo-oligo-saccharides, hydrolysed yeast (source of manno-oligo-saccharides), marigold extract (source of lutein).</p>
+        <h2 style="margin-top:18px">Manufacturer</h2>
+        <p>Royal Canin SAS, Aimargues, France</p>
+      </div>
+      <div>
+        <table>
+          <caption>Guaranteed analysis</caption>
+          <thead><tr><th>Nutrient</th><th style="text-align:right">Amount</th></tr></thead>
+          <tbody>
+            <tr><td>Protein</td><td class="num">34.0 %</td></tr>
+            <tr><td>Fat</td><td class="num">16.0 %</td></tr>
+            <tr><td>Fibre</td><td class="num">2.8 %</td></tr>
+            <tr><td>Moisture</td><td class="num">8.0 %</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1180}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

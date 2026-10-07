@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Registered — US-ACC-01</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--ink:#1c1a17;--ink-muted:#5c574f;--border:#e5e1d8;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.h1{font-family:var(--font-display);font-weight:600;font-size:26px;margin:0}
+.muted{color:var(--ink-muted)}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md)}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:14px;padding:11px 20px;border-radius:6px;border:none;background:var(--accent);color:#fff;cursor:pointer;min-height:40px}
+.check{width:56px;height:56px;border-radius:50%;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;color:var(--accent-ink);margin-bottom:18px}
+</style>
+</helmet>
+<div style="width:1280px;height:640px;background:var(--surface-page);display:flex;justify-content:center;align-items:center">
+  <div class="card" style="width:440px;padding:40px;text-align:center">
+    <div class="check" style="margin-left:auto;margin-right:auto">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+    </div>
+    <h1 class="h1" tabindex="-1">Your account is ready</h1>
+    <p class="muted" style="margin:14px 0 26px;line-height:1.55">You can sign in and use it right away — add your cats, book a visit, or shop for supplies.</p>
+    <button type="button" class="btn" style="width:100%">Sign in</button>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":640}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

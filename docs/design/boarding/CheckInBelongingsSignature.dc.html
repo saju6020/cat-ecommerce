@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Check-in — belongings and signature — US-BRD-08</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink);font-size:14px;-webkit-font-smoothing:antialiased}
+a{color:var(--accent-ink)}
+p{margin:0}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px;display:flex;align-items:center;gap:12px}
+.ctop{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;border-bottom:1px solid var(--border);background:#fff}
+.ctop .cbrand{font-family:var(--font-display);font-weight:600;font-size:19px;color:var(--accent-ink)}
+.ctop nav{display:flex;gap:22px;font-size:14px;font-weight:600}
+.ctop nav a{color:var(--ink-muted);text-decoration:none}
+.ctop nav a.on{color:var(--ink)}
+.ctop .cwho{display:flex;align-items:center;gap:10px;font-size:13.5px}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.main{padding:26px 32px;position:relative}
+.cmain{max-width:960px;margin:0 auto;padding:30px 32px 40px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+.h2{font-family:var(--font-display);font-weight:600;font-size:17px;margin:0 0 10px}
+.titlerow{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:18px}
+.sub{color:var(--ink-muted);font-size:13px;margin-top:4px}
+.muted{color:var(--ink-muted)}
+.faint{color:var(--ink-faint)}
+.small{font-size:12.5px}
+.tiny{font-size:11.5px}
+.strong{font-weight:700}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:18px}
+.cardh{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);margin:0 0 10px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.cardh a{text-transform:none;letter-spacing:0;font-size:12.5px}
+.btn{font:inherit;font-weight:600;font-size:13.5px;padding:8px 15px;border-radius:var(--radius-sm);border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;min-height:38px;display:inline-flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;white-space:nowrap}
+.btn-2{background:#fff;color:var(--ink);border-color:var(--border-strong)}
+.btn-danger{background:var(--danger-ink);border-color:var(--danger-ink);color:#fff}
+.btn-danger-2{background:#fff;border-color:#e4c4c0;color:var(--danger-ink)}
+.btn-sm{font-size:12.5px;padding:5px 11px;min-height:32px}
+.btn-link{background:none;border:none;color:var(--accent-ink);padding:0;min-height:0;font-weight:600}
+.btn[disabled]{background:var(--surface-sunken);color:var(--ink-faint);border-color:var(--border);cursor:not-allowed}
+.why{font-size:12px;color:var(--ink-muted);margin-top:6px;line-height:1.45}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:2px 9px;border-radius:999px;font-size:11.5px;font-weight:700;white-space:nowrap}
+.b-ok{background:#e6f0ee;color:var(--accent-ink)}
+.b-warn{background:var(--warning-bg);color:var(--warning-ink)}
+.b-bad{background:var(--danger-bg);color:var(--danger-ink)}
+.b-hr{background:var(--danger-ink);color:#fff}
+.b-neutral{background:var(--surface-sunken);color:var(--ink-muted)}
+.b-info{background:var(--accent-soft);color:var(--accent-ink);border:1px solid rgba(21,96,90,.25)}
+.alert{display:flex;gap:10px;border-radius:8px;padding:12px 14px;font-size:13.5px;line-height:1.5}
+.alert b.t{display:block}
+.alert-warn{background:var(--warning-bg);color:var(--warning-ink);border:1px solid #ebd9b4}
+.alert-bad{background:var(--danger-bg);color:var(--danger-ink);border:1px solid #f0ccc8}
+.alert-info{background:var(--accent-soft);color:var(--accent-ink);border:1px solid rgba(21,96,90,.25)}
+.alert-neutral{background:var(--surface-sunken);color:var(--ink-muted);border:1px solid var(--border)}
+.field{margin-bottom:14px}
+.lbl{display:block;font-size:13px;font-weight:600;margin-bottom:5px}
+.inp{width:100%;font:inherit;font-size:14px;padding:8px 11px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:#fff;color:var(--ink)}
+.inp.err{border-color:var(--danger-ink);box-shadow:0 0 0 1px var(--danger-ink)}
+textarea.inp{resize:vertical}
+.ferr{font-size:12.5px;color:var(--danger-ink);margin-top:4px;font-weight:600}
+.hint{font-size:12px;color:var(--ink-muted);margin-top:4px;line-height:1.45}
+.unit{display:flex;align-items:center;gap:6px}
+.unit span{font-size:13px;color:var(--ink-muted);font-weight:600}
+table{border-collapse:collapse;width:100%;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--border);font-size:13px;vertical-align:top}
+th{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);background:var(--surface-sunken)}
+tr:last-child td{border-bottom:none}
+.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tabnav{display:flex;border-bottom:1px solid var(--border);margin-bottom:18px;gap:22px;flex-wrap:wrap}
+.tabnav a{padding:10px 2px;font-size:13.5px;font-weight:600;color:var(--ink-muted);border-bottom:2px solid transparent;text-decoration:none}
+.tabnav a.active{color:var(--ink);border-bottom-color:var(--accent)}
+.stepper{display:flex;gap:6px;margin-bottom:22px;flex-wrap:wrap}
+.step{font-size:12.5px;padding:5px 11px;border-radius:999px;background:var(--surface-sunken);color:var(--ink-muted);font-weight:600}
+.step.done{background:#e6f0ee;color:var(--accent-ink)}
+.step.cur{background:var(--accent);color:#fff}
+.step.blocked{background:var(--danger-bg);color:var(--danger-ink)}
+.scrim{position:absolute;inset:0;background:rgba(28,26,23,.4);display:flex;align-items:center;justify-content:center;gap:24px;z-index:5;padding:24px}
+.dialog{background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(20,18,10,.25);width:460px;max-width:100%;padding:24px}
+.dialog h2{font-family:var(--font-display);font-weight:600;font-size:18px;margin:0 0 12px}
+.consequence{font-size:13.5px;background:var(--surface-sunken);border-radius:8px;padding:11px 13px;margin:12px 0;line-height:1.55}
+.dactions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px;flex-wrap:wrap}
+.panel-label{font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 7px}
+.zone{font-size:11.5px;color:var(--ink-muted);font-weight:400}
+.qline{display:flex;justify-content:space-between;gap:12px;font-size:13px;padding:4px 0}
+.qline .num{font-weight:600}
+.qdisc{color:var(--accent-ink)}
+.qtotal{border-top:1px solid var(--border);font-weight:700;margin-top:6px;padding-top:9px;font-size:14px}
+.kv{display:grid;grid-template-columns:150px 1fr;gap:7px 14px;font-size:13.5px;margin:0}
+.kv dt{color:var(--ink-muted);font-size:12.5px;font-weight:600}
+.kv dd{margin:0}
+.cph{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--border);border-radius:8px;padding:9px 11px;background:#fff;min-width:0}
+.cph .av{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--font-display);font-size:17px;flex:none}
+.cph-b{min-width:0;flex:1}
+.cph-n{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:14px}
+.cph-h{font-size:12.5px;color:var(--danger-ink);font-weight:600;margin-top:3px;line-height:1.4}
+.cph-a{display:flex;gap:5px;margin-top:5px;flex-wrap:wrap}
+.al{font-size:11.5px;font-weight:600;padding:2px 7px;border-radius:6px;background:var(--warning-bg);border:1px solid #ebd9b4;color:var(--warning-ink)}
+.al-sev{background:var(--danger-bg);border-color:#f0ccc8;color:var(--danger-ink)}
+.al-none{background:var(--surface-sunken);border-color:var(--border);color:var(--ink-muted)}
+.row{display:flex;gap:16px}
+.col{display:flex;flex-direction:column;gap:14px}
+.live{font-size:12px;color:var(--ink-muted);display:inline-flex;align-items:center;gap:6px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--accent);display:inline-block}
+.seg{display:inline-flex;border:1px solid var(--border-strong);border-radius:var(--radius-sm);overflow:hidden}
+.seg button{font:inherit;font-size:13px;font-weight:600;padding:7px 12px;border:none;border-right:1px solid var(--border-strong);background:#fff;color:var(--ink);cursor:pointer;min-height:36px}
+.seg button:last-child{border-right:none}
+.seg button.on{background:var(--accent);color:#fff}
+.note-dev{font-size:12px;color:var(--ink-muted);background:var(--surface-sunken);border:1px dashed var(--border-strong);border-radius:6px;padding:8px 10px;line-height:1.45}
+.wiz{display:grid;grid-template-columns:210px minmax(0,1fr) 380px;gap:16px;align-items:start}
+.steps{background:#fff;border:1px solid var(--border);border-radius:12px;padding:10px;list-style:none;margin:0}
+.steps li{padding:7px 10px;border-radius:8px;font-size:13px;color:var(--ink-muted)}
+.steps li.ok{color:var(--accent-ink)}
+.steps li.cur{background:var(--accent);color:#fff;font-weight:700}
+.steps .grp{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);padding:10px 10px 4px}
+.brow{display:grid;grid-template-columns:130px 1fr 34px;gap:8px;margin-bottom:8px;align-items:center}
+.x{border:1px solid var(--border-strong);background:#fff;border-radius:6px;height:36px;color:var(--ink-muted)}
+.pad{height:150px;border:1.5px dashed var(--border-strong);border-radius:10px;background:#fcfbf8;position:relative}
+.pad svg{position:absolute;inset:0}
+.pad span{position:absolute;left:12px;bottom:8px;font-size:11.5px;color:var(--ink-faint)}
+.radio{display:flex;gap:8px;align-items:center;font-size:13.5px;font-weight:600;margin:8px 0}
+</style>
+</helmet>
+<div style="width:1280px;height:1100px;background:var(--surface-page);overflow:auto;position:relative">
+<div class="topnav"><div class="brand">PurrCare · staff</div><div class="who"><select class="branchpick" aria-label="Active branch"><option>Uttara (primary)</option><option>Banani</option></select>Shormi Akter · Reception</div></div>
+<div class="main">
+  <div class="titlerow"><div><h1 class="h1">Check in — BRD-0187 · Mittens and Biscuit</h1><p class="sub">F-2 · Family 2 · Fri 9 – Fri 23 Oct 2026 · Farhana Yasmin · arrived 15:05 <span class="zone">Asia/Dhaka</span></p></div><span class="badge b-ok">✓ Confirmed</span></div>
+  <div class="wiz">
+    <ol class="steps" aria-label="Check-in steps">
+      <li class="grp">Mittens</li><li class="ok">✓ Identity</li><li class="ok">✓ Vaccination proof</li><li class="ok">✓ Weight 4.2 kg</li><li class="ok">✓ Health check</li><li class="cur" aria-current="step">Belongings</li>
+      <li class="grp">Biscuit</li><li>○ Identity</li><li>○ Vaccination proof</li><li>○ Weight</li><li>○ Health check</li><li>○ Belongings</li>
+      <li class="grp">Owner</li><li>○ Signature</li><li>○ Summary</li>
+    </ol>
+    <section class="card" aria-labelledby="bl">
+      <h2 class="h2" id="bl">Belongings — Mittens</h2>
+      <div class="cph"><div class="av" style="background:#8f1d1d" aria-hidden="true">M</div><div class="cph-b"><div class="cph-n"><b>Mittens</b><span class="badge b-hr">⚠ High risk</span></div><div class="cph-h">Bites when restrained — two handlers, towel wrap, do not scruff.</div><div class="cph-a"><span class="al">Allergy · Chicken protein</span><span class="al al-sev">Allergy · Penicillin — severe</span></div></div></div>
+      <div class="brow small muted strong" style="margin-top:14px"><span>Kind</span><span>Description</span><span></span></div>
+      <div class="brow"><select class="inp"><option>Bedding</option></select><input class="inp" value="Grey fleece blanket, name tag sewn in"><button class="x" type="button" aria-label="Remove">✕</button></div>
+      <div class="brow"><select class="inp"><option>Toy</option></select><input class="inp" value="Feather wand toy"><button class="x" type="button" aria-label="Remove">✕</button></div>
+      <div class="brow"><select class="inp"><option>Food</option></select><input class="inp" value="Renal dry food, 2 kg bag, about ¾ full"><button class="x" type="button" aria-label="Remove">✕</button></div>
+      <div class="brow"><select class="inp"><option>Medication</option></select><input class="inp" value="Benazepril 2.5 mg, 14 tablets in blister"><button class="x" type="button" aria-label="Remove">✕</button></div>
+      <button class="btn btn-2 btn-sm" type="button">+ Add an item</button>
+      <div class="field" style="margin-top:14px"><label class="lbl">Photo reference <span class="muted" style="font-weight:400">(optional)</span></label><input class="inp" placeholder="e.g. tablet photo 0917"><div class="note-dev" style="margin-top:6px">Photo storage is not available yet — the item is recorded without a photo. Nothing is uploaded from this screen.</div></div>
+      <div style="display:flex;justify-content:space-between;margin-top:16px"><button class="btn btn-2" type="button">Back</button><button class="btn" type="button">Next: Biscuit</button></div>
+      <p class="small muted" style="margin-top:10px">Nothing is sent yet — every step is kept and the whole check-in is submitted once, from the summary.</p>
+    </section>
+    <div>
+      <div class="panel-label">Later step · owner signature, both paths</div>
+      <section class="card" aria-labelledby="sg">
+        <h2 class="h2" id="sg">Owner signature</h2>
+        <p class="small muted" style="margin-bottom:8px">Farhana Yasmin confirms the cats, belongings and care profiles above.</p>
+        <label class="radio"><input type="radio" name="sg"> Sign on the screen</label>
+        <div class="pad" aria-label="Signature area" role="img"><svg viewBox="0 0 340 150" aria-hidden="true"><path d="M30 105c20-40 35-55 45-40s-10 45 5 40 30-60 45-55-5 50 10 45 25-35 40-30 10 25 30 20 30-25 50-22" fill="none" stroke="#1c1a17" stroke-width="2.2" stroke-linecap="round"/></svg><span>Sign inside the box</span></div>
+        <div style="text-align:right;margin-top:6px"><button class="btn btn-2 btn-sm" type="button">Clear</button></div>
+        <label class="radio"><input type="radio" name="sg" checked> Type your name instead</label>
+        <input class="inp" value="Farhana Yasmin" aria-label="Typed name">
+        <label class="small" style="display:flex;gap:8px;margin-top:10px;line-height:1.45"><input type="checkbox" checked> I, Farhana Yasmin, confirm the details above are correct and agree to the boarding terms. Typing my name counts as my signature.</label>
+        <p class="small muted" style="margin-top:8px">Recorded with the time and the staff member present. No image is saved.</p>
+      </section>
+    </div>
+  </div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1100}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

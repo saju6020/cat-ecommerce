@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Calendar agenda at 360px — UI-1</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:16px;color:var(--accent-ink)}
+.who{font-size:12px}
+.main{padding:14px 14px 24px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:19px;margin:0 0 8px}
+.muted{color:var(--ink-muted)}
+.bar{display:flex;gap:6px;margin-bottom:8px}
+.bar select{flex:1;min-width:0;font:inherit;font-size:13px;padding:7px 8px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.datenav{display:flex;align-items:center;justify-content:space-between;background:#fff;border:1px solid var(--border);border-radius:8px;padding:6px 8px;margin-bottom:6px}
+.datenav button{font:inherit;font-size:13px;border:1px solid var(--border-strong);background:#fff;border-radius:6px;width:32px;height:32px}
+.datenav div{text-align:center;font-size:13px;font-weight:700;line-height:1.3}
+.datenav small{display:block;font-weight:400;font-size:11px;color:var(--ink-muted)}
+.flagged{display:block;text-align:center;font-size:12.5px;font-weight:700;color:var(--warning-ink);background:var(--warning-bg);border-radius:6px;padding:7px;margin-bottom:10px;text-decoration:none}
+.item{display:flex;gap:10px;background:#fff;border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:9px 10px;margin-bottom:6px}
+.item.flag{border-left-color:var(--warning-ink);background:#fffaf0}
+.time{width:46px;flex:none;font-weight:700;font-size:13px;font-variant-numeric:tabular-nums}
+.time small{display:block;font-weight:400;font-size:11px;color:var(--ink-muted)}
+.what{flex:1;min-width:0;font-size:12.5px;line-height:1.4}
+.what b{font-size:13.5px}
+.tag{display:inline-block;font-size:10.5px;font-weight:700;padding:0 5px;border-radius:3px;margin:2px 4px 0 0}
+.t-risk{background:var(--danger-ink);color:#fff}
+.t-flag{background:var(--warning-ink);color:#fff}
+.mv{font:inherit;font-size:12px;font-weight:600;border:1px solid var(--border-strong);background:#fff;border-radius:6px;padding:4px 8px;align-self:flex-start}
+.band{font-size:12px;color:var(--ink-muted);background:repeating-linear-gradient(90deg,#ece8df 0 2px,#f4f1ea 2px 10px);border:1px dashed var(--border-strong);border-radius:8px;padding:8px 10px;margin-bottom:6px;font-weight:600}
+</style>
+</helmet>
+<div style="width:360px;height:900px;background:var(--surface-page);overflow:auto">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who">Shormi Akter · Reception</div></div>
+  <div class="main">
+    <h1 class="h1">Appointments</h1>
+    <div class="bar">
+      <select aria-label="Group by"><option>By vet — all 3</option><option>By room</option></select>
+      <select aria-label="Range"><option>Day</option><option>Week</option></select>
+    </div>
+    <div class="datenav"><button type="button" aria-label="Previous day">‹</button><div>Thu 24 Sep 2026<small>Uttara · Asia/Dhaka</small></div><button type="button" aria-label="Next day">›</button></div>
+    <a class="flagged" href="FlaggedAppointments.dc.html">⚑ 2 flagged for rescheduling</a>
+    <p class="muted" style="font-size:11.5px;margin:0 0 8px">Below 768px the grid becomes this list — no sideways scrolling. Moves use Move…, not drag.</p>
+
+    <div class="item"><div class="time">09:00<small>30 min</small></div><div class="what"><b>Kitty</b> · Standard consultation<br>Dr Rahman · Consult 1 · Booked<br><span class="tag t-risk">⚠ High risk</span></div><button class="mv" type="button">Move…</button></div>
+    <div class="item"><div class="time">09:30<small>20 min</small></div><div class="what"><b>Snowy</b> · FVRCP booster<br>Tanvir Islam · Consult 2 · Booked</div><button class="mv" type="button">Move…</button></div>
+    <div class="item flag"><div class="time">10:00<small>20 min</small></div><div class="what"><b>Mishti</b> · Rabies vaccination<br>Dr Jahan · Consult 2 · Booked<br><span class="tag t-flag">⚑ Needs rescheduling</span>Dr Jahan on leave</div><button class="mv" type="button">Move…</button></div>
+    <div class="item"><div class="time">10:00<small>20 min</small></div><div class="what"><b>Pumpkin</b> · Rabies vaccination<br>Tanvir Islam · Consult 1 · Booked</div><button class="mv" type="button">Move…</button></div>
+    <div class="item"><div class="time">10:30<small>20 min</small></div><div class="what"><b>Mitu</b> · FVRCP booster<br>Dr Rahman · Consult 1 · Booked</div><button class="mv" type="button">Move…</button></div>
+    <div class="item"><div class="time">11:00<small>30 min</small></div><div class="what"><b>Pixel</b> · Standard consultation<br>Dr Rahman · Consult 1 · Booked</div><button class="mv" type="button">Move…</button></div>
+    <div class="band">13:00–14:00 · Branch closed · staff training</div>
+    <div class="item"><div class="time">14:00<small>45 min</small></div><div class="what"><b>Simba</b> · Dental check<br>Dr Rahman · Consult 1 · Booked<br><span class="tag t-risk">⚠ High risk</span></div><button class="mv" type="button">Move…</button></div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":360,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

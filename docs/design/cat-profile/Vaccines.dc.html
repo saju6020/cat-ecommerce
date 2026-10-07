@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Vaccine catalogue</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&amp;family=Public+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:'Public Sans',system-ui,sans-serif;background:#FAF9F6;color:#1C1A17;-webkit-font-smoothing:antialiased}
+a{color:#15605A}a:hover{color:#0E4742}
+button{font-family:inherit;cursor:pointer}
+input,select{font-family:inherit;font-size:14px}
+.fld{height:38px;border:1px solid #D8D3C7;border-radius:8px;padding:0 10px;background:#FFFFFF;width:100%}
+.lbl{font-size:12.5px;font-weight:600;color:#3D3932;margin-bottom:5px;display:block}
+</style>
+</helmet>
+<div style="width: 1280px; height: 900px; display: flex; background: #FAF9F6;">
+
+  <aside style="width: 240px; flex-shrink: 0; background: #F3F1EB; border-right: 1px solid #E5E1D8; padding: 22px 14px; display: flex; flex-direction: column; gap: 26px;">
+    <a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #1C1A17;">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#15605A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5c-3.3 0-6 2.5-6 5.6 0 2.2 1.2 3.4 1.2 5.2 0 1.2-.6 1.7-.6 2.4 0 .6.5 1 1.2 1h8.4c.7 0 1.2-.4 1.2-1 0-.7-.6-1.2-.6-2.4 0-1.8 1.2-3 1.2-5.2C18 7.5 15.3 5 12 5Z"/><path d="M7 7 5.5 4.2 8.4 5.1"/><path d="m17 7 1.5-2.8-2.9.9"/></svg>
+      <span style="font-family: 'Newsreader', Georgia, serif; font-size: 21px; font-weight: 600;">PurrCare</span>
+    </a>
+    <nav aria-label="Main" style="display: flex; flex-direction: column; gap: 2px;">
+      <a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 8px; text-decoration: none; color: #5C574F; font-size: 14px;">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>Cats</a>
+      <a href="Vaccines.dc.html" aria-current="page" style="display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 8px; text-decoration: none; background: #E6F0EE; color: #0E4742; font-size: 14px; font-weight: 600;">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m18 2 4 4M17 7 7 17l-4 4M14 4l6 6M9 11l4 4"/></svg>Vaccines</a>
+    </nav>
+    <div style="margin-top: auto; border-top: 1px solid #E5E1D8; padding-top: 14px;">
+      <div style="font-size: 13px; font-weight: 600;">Dr. A. Rahman</div>
+      <div style="font-size: 12px; color: #5C574F;">Veterinarian</div>
+    </div>
+  </aside>
+
+  <div style="flex-grow: 1; display: flex; flex-direction: column; min-width: 0;">
+    <header style="height: 62px; flex-shrink: 0; border-bottom: 1px solid #E5E1D8; background: #FFFFFF; display: flex; align-items: center; padding: 0 26px;">
+      <h1 style="margin: 0; font-family: 'Newsreader', Georgia, serif; font-size: 25px; font-weight: 600;">Vaccine catalogue</h1>
+    </header>
+
+    <div style="flex-grow: 1; padding: 22px 26px; display: grid; grid-template-columns: 1.7fr 1fr; gap: 18px; align-items: start; min-height: 0;">
+
+      <section style="background: #FFFFFF; border: 1px solid #E5E1D8; border-radius: 12px; overflow: hidden;">
+        <div style="padding: 16px 18px; border-bottom: 1px solid #EFECE4;">
+          <p style="margin: 0; font-size: 13.5px; color: #5C574F;">The catalogue sets which vaccines count as core and how long each stays valid. Next-due dates are calculated from these values at the moment a vaccination is recorded.</p>
+        </div>
+        <div style="display: grid; grid-template-columns: 1.5fr 110px 130px 110px; gap: 12px; padding: 11px 18px; background: #F6F4EE; border-bottom: 1px solid #E5E1D8; font-size: 11px; font-weight: 700; color: #5C574F; letter-spacing: 0.05em; text-transform: uppercase;">
+          <span>Vaccine</span><span>Code</span><span>Validity</span><span>Type</span>
+        </div>
+        <div style="display: grid; grid-template-columns: 1.5fr 110px 130px 110px; gap: 12px; padding: 13px 18px; border-bottom: 1px solid #EFECE4; align-items: center;">
+          <span style="font-size: 14px; font-weight: 600;">Rabies</span>
+          <span style="font-size: 13.5px; color: #3D3932; font-variant-numeric: tabular-nums;">RAB</span>
+          <span style="font-size: 13.5px; color: #3D3932;">12 months</span>
+          <span style="display: inline-flex; align-items: center; gap: 5px; background: #E6F0EE; color: #0E4742; font-size: 11.5px; font-weight: 700; padding: 3px 9px; border-radius: 999px; justify-self: start;">Core</span>
+        </div>
+        <div style="display: grid; grid-template-columns: 1.5fr 110px 130px 110px; gap: 12px; padding: 13px 18px; border-bottom: 1px solid #EFECE4; align-items: center;">
+          <span style="font-size: 14px; font-weight: 600;">FVRCP</span>
+          <span style="font-size: 13.5px; color: #3D3932;">FVRCP</span>
+          <span style="font-size: 13.5px; color: #3D3932;">12 months</span>
+          <span style="display: inline-flex; align-items: center; gap: 5px; background: #E6F0EE; color: #0E4742; font-size: 11.5px; font-weight: 700; padding: 3px 9px; border-radius: 999px; justify-self: start;">Core</span>
+        </div>
+        <div style="display: grid; grid-template-columns: 1.5fr 110px 130px 110px; gap: 12px; padding: 13px 18px; border-bottom: 1px solid #EFECE4; align-items: center;">
+          <span style="font-size: 14px; font-weight: 600;">Feline leukaemia</span>
+          <span style="font-size: 13.5px; color: #3D3932;">FELV</span>
+          <span style="font-size: 13.5px; color: #3D3932;">12 months</span>
+          <span style="display: inline-flex; align-items: center; gap: 5px; background: #E6F0EE; color: #0E4742; font-size: 11.5px; font-weight: 700; padding: 3px 9px; border-radius: 999px; justify-self: start;">Core</span>
+        </div>
+        <div style="display: grid; grid-template-columns: 1.5fr 110px 130px 110px; gap: 12px; padding: 13px 18px; border-bottom: 1px solid #EFECE4; align-items: center;">
+          <span style="font-size: 14px;">Feline infectious peritonitis</span>
+          <span style="font-size: 13.5px; color: #3D3932;">FIP</span>
+          <span style="font-size: 13.5px; color: #3D3932;">12 months</span>
+          <span style="display: inline-flex; align-items: center; gap: 5px; background: #F3F1EB; color: #45413A; font-size: 11.5px; font-weight: 700; padding: 3px 9px; border-radius: 999px; justify-self: start;">Non-core</span>
+        </div>
+        <div style="display: grid; grid-template-columns: 1.5fr 110px 130px 110px; gap: 12px; padding: 13px 18px; align-items: center; opacity: 0.6;">
+          <span style="font-size: 14px;">Chlamydophila felis</span>
+          <span style="font-size: 13.5px; color: #3D3932;">CHLAM</span>
+          <span style="font-size: 13.5px; color: #3D3932;">12 months</span>
+          <span style="display: inline-flex; align-items: center; gap: 5px; background: #F3F1EB; color: #45413A; font-size: 11.5px; font-weight: 700; padding: 3px 9px; border-radius: 999px; justify-self: start;">Inactive</span>
+        </div>
+      </section>
+
+      <section style="background: #FFFFFF; border: 1px solid #E5E1D8; border-radius: 12px; padding: 18px;">
+        <h2 style="margin: 0 0 14px; font-size: 13px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: #5C574F;">Add a vaccine</h2>
+        <form style="display: flex; flex-direction: column; gap: 13px;">
+          <div>
+            <label class="lbl" for="vn">Name</label>
+            <input class="fld" id="vn" type="text" placeholder="e.g. Rabies">
+          </div>
+          <div>
+            <label class="lbl" for="vc">Code</label>
+            <input class="fld" id="vc" type="text" placeholder="e.g. RAB">
+            <p style="margin: 5px 0 0; font-size: 12px; color: #5C574F;">Must be unique across the catalogue.</p>
+          </div>
+          <div>
+            <label class="lbl" for="vv">Validity</label>
+            <div style="display: flex; align-items: center; border: 1px solid #D8D3C7; border-radius: 8px; background: #FFFFFF; overflow: hidden;">
+              <input id="vv" type="number" min="1" max="120" value="12" style="height: 38px; border: 0; padding: 0 10px; width: 100%;">
+              <span style="padding: 0 11px; font-size: 13.5px; font-weight: 600; color: #3D3932; background: #F6F4EE; align-self: stretch; display: flex; align-items: center; border-left: 1px solid #E5E1D8;">months</span>
+            </div>
+          </div>
+          <label style="display: flex; align-items: flex-start; gap: 9px; font-size: 14px; cursor: pointer; margin-top: 2px;">
+            <input type="checkbox" style="width: 17px; height: 17px; accent-color: #15605A; margin-top: 2px;">
+            <span>Core vaccine<span style="display: block; font-size: 12.5px; color: #5C574F; margin-top: 2px;">Core vaccines decide the overall status shown on a cat, and whether boarding is allowed.</span></span>
+          </label>
+          <button type="button" style="background: #15605A; color: #FFFFFF; border: 0; border-radius: 8px; padding: 11px 16px; font-size: 14px; font-weight: 600; margin-top: 4px;">Add vaccine</button>
+        </form>
+      </section>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

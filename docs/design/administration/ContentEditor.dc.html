@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Content editor — US-ADM-07</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px;display:flex;gap:10px}
+.main{padding:22px 28px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:19px;margin:0 0 16px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:12.5px;font-weight:600;margin-bottom:5px}
+.field input,.field textarea{width:100%;font:inherit;font-size:14px;padding:8px 11px;border:1px solid var(--border);border-radius:6px}
+.help{background:var(--surface-sunken);border-radius:8px;padding:10px 12px;font-size:12px;color:var(--ink-muted);margin-bottom:14px;font-family:ui-monospace,monospace;line-height:1.6}
+.preview{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:20px;height:340px;overflow:auto}
+.preview h2{font-family:var(--font-display);font-size:20px;margin:0 0 10px}
+.preview p{font-size:14px;line-height:1.6;margin:0 0 10px}
+.preview ul{font-size:14px;line-height:1.6}
+.btnrow{display:flex;gap:8px;margin-top:16px}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13.5px;padding:9px 16px;border-radius:6px;border:none;cursor:pointer}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-outline{background:#fff;border:1px solid var(--border-strong);color:var(--ink)}
+</style>
+</helmet>
+<div style="width:1280px;height:820px;background:var(--surface-page);overflow:auto">
+  <div class="topnav"><div class="brand">PurrCare · staff</div><div class="who">Rezwan Ahmed · Administrator</div></div>
+  <div class="main">
+    <h1 class="h1">Edit page — About Us</h1>
+    <div class="grid">
+      <div>
+        <div class="field"><label>Title</label><input value="About Us"></div>
+        <div class="field"><label>Slug</label><input value="about-us"></div>
+        <div class="help">Supported: paragraphs · ## and ### headings · - bullets · **bold** · [link text](url)<br>Nothing else — anything else shows as plain text.</div>
+        <div class="field"><label>Body</label>
+          <textarea rows="9">## Who we are
+
+PurrCare is a cat clinic, care centre and shop serving Dhaka since 2019.
+
+- Licensed veterinary clinic
+- Long-term and short-term boarding
+- Cat food and supplies, sourced internationally
+
+Read more on our [services page](/pages/services).</textarea>
+        </div>
+        <div class="btnrow">
+          <button type="button" class="btn btn-outline">Save draft</button>
+          <button type="button" class="btn btn-primary">Publish</button>
+        </div>
+      </div>
+      <div>
+        <div class="field" style="margin-bottom:8px"><label>Live preview — exactly what the public page renders</label></div>
+        <div class="preview">
+          <h2>Who we are</h2>
+          <p>PurrCare is a cat clinic, care centre and shop serving Dhaka since 2019.</p>
+          <ul><li>Licensed veterinary clinic</li><li>Long-term and short-term boarding</li><li>Cat food and supplies, sourced internationally</li></ul>
+          <p>Read more on our <a href="#" style="color:var(--accent-ink);font-weight:600">services page</a>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":820}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

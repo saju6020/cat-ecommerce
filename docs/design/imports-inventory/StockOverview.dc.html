@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Stock — US-IMP-06, US-IMP-08</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+:root{--overlay:rgba(28,26,23,.4);--radius-lg:16px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px;display:flex;align-items:center;gap:16px}
+select.branchpick{font:inherit;font-size:13px;padding:5px 8px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.main{padding:22px 32px 32px;position:relative}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+.h2{font-family:var(--font-display);font-weight:600;font-size:17px;margin:0 0 10px}
+.h3{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);font-weight:700;margin:0 0 8px}
+.titlerow{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.sub{color:var(--ink-muted);font-size:13px;margin:4px 0 14px;line-height:1.5}
+.muted{color:var(--ink-muted)}
+.faint{color:var(--ink-faint)}
+.small{font-size:12px}
+.strong{font-weight:700}
+a.link{color:var(--accent-ink);font-weight:600;text-decoration:none}
+.secnav{display:flex;flex-wrap:wrap;gap:2px;border-bottom:1px solid var(--border);margin:0 0 18px}
+.secnav a{padding:9px 12px;font-size:13px;font-weight:600;color:var(--ink-muted);text-decoration:none;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap}
+.secnav a.active{color:var(--ink);border-bottom-color:var(--accent)}
+.secnav .count{display:inline-block;margin-left:4px;padding:0 6px;border-radius:999px;background:var(--warning-bg);color:var(--warning-ink);font-size:11px;font-weight:700}
+.tabnav{display:flex;border-bottom:1px solid var(--border);margin:14px 0 18px}
+.tabnav a{padding:10px 2px;margin-right:22px;font-size:13.5px;font-weight:600;color:var(--ink-muted);border-bottom:2px solid transparent;text-decoration:none;margin-bottom:-1px}
+.tabnav a.active{color:var(--ink);border-bottom-color:var(--accent)}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13px;padding:8px 14px;border-radius:var(--radius-sm);border:1px solid var(--accent);cursor:pointer;background:var(--accent);color:#fff;white-space:nowrap}
+.btn-sec{background:#fff;color:var(--ink);border:1px solid var(--border-strong)}
+.btn-danger{background:var(--danger-ink);border-color:var(--danger-ink);color:#fff}
+.btn-danger-o{background:#fff;border:1px solid var(--danger-ink);color:var(--danger-ink)}
+.btn[disabled]{background:var(--surface-sunken);border-color:var(--border);color:var(--ink-faint);cursor:not-allowed}
+.why{font-size:12px;color:var(--ink-muted);margin-top:4px;line-height:1.45}
+.b{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;font-size:11.5px;font-weight:600;white-space:nowrap;line-height:1.5}
+.b i{font-style:normal;font-weight:700}
+.b-ok{background:var(--accent-soft);color:var(--accent-ink)}
+.b-warn{background:var(--warning-bg);color:var(--warning-ink)}
+.b-danger{background:var(--danger-bg);color:var(--danger-ink)}
+.b-neutral{background:var(--surface-sunken);color:var(--ink-muted)}
+.b-out{background:#fff;border:1px solid var(--border-strong);color:var(--ink-muted)}
+.banner{display:flex;gap:10px;align-items:flex-start;border-radius:8px;padding:10px 14px;font-size:13px;line-height:1.5;margin-bottom:14px}
+.banner i{font-style:normal;font-weight:700}
+.banner-warn{background:var(--warning-bg);color:var(--warning-ink)}
+.banner-danger{background:var(--danger-bg);color:var(--danger-ink)}
+.banner-info{background:var(--accent-soft);color:var(--accent-ink)}
+.banner-neutral{background:var(--surface-sunken);color:var(--ink-muted)}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px;font-size:12.5px}
+.toolbar input,.toolbar select{font:inherit;font-size:12.5px;padding:7px 9px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.toolbar label{display:inline-flex;align-items:center;gap:5px}
+table{border-collapse:collapse;width:100%;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden}
+th,td{padding:9px 11px;text-align:left;border-bottom:1px solid var(--border);font-size:12.5px;vertical-align:top}
+th{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);font-weight:700;background:var(--surface-sunken)}
+tbody tr:last-child td{border-bottom:none}
+tfoot td{background:var(--surface-sunken);font-weight:700}
+.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.dim td{color:var(--ink-faint)}
+tr.unusable td{background:#fdfbf8}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:16px 18px}
+.grid2{display:flex;gap:18px;align-items:flex-start}
+.grid2 > *{flex:1;min-width:0}
+.field{margin-bottom:12px}
+.field label,.flabel{display:block;font-size:12.5px;font-weight:600;margin-bottom:5px}
+.field input,.field select,.field textarea{width:100%;font:inherit;font-size:13.5px;padding:8px 10px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:#fff}
+.field textarea{min-height:60px;resize:vertical}
+.field input[readonly]{background:var(--surface-sunken);color:var(--ink-muted)}
+.req{color:var(--danger-ink);font-weight:700}
+.hint{font-size:11.5px;color:var(--ink-muted);margin-top:4px;line-height:1.45}
+.field.error input,.field.error select,.field.error textarea,input.error,select.error{border-color:var(--danger-ink);box-shadow:0 0 0 1px var(--danger-ink)}
+.err{font-size:11.5px;color:var(--danger-ink);font-weight:600;margin-top:4px;line-height:1.4}
+.unitin{display:flex;align-items:stretch}
+.unitin input{border-top-right-radius:0;border-bottom-right-radius:0;min-width:0}
+.unitin span{display:flex;align-items:center;padding:0 9px;border:1px solid var(--border-strong);border-left:none;border-radius:0 var(--radius-sm) var(--radius-sm) 0;background:var(--surface-sunken);font-size:12px;color:var(--ink-muted);white-space:nowrap}
+.kv{display:grid;grid-template-columns:170px 1fr;gap:4px 14px;font-size:13px;line-height:1.7;margin:0}
+.kv dt{color:var(--ink-muted)}
+.kv dd{margin:0}
+.scrim{position:absolute;inset:0;background:var(--overlay);display:flex;align-items:center;justify-content:center;z-index:5}
+.dialog{background:#fff;border-radius:var(--radius-lg);box-shadow:0 20px 60px rgba(20,18,10,.25);width:460px;max-width:100%;padding:24px}
+.dialog h2{margin:0 0 12px;font-size:17px;font-family:var(--font-display);font-weight:600}
+.confirm{font-size:13px;color:var(--ink);background:var(--surface-sunken);border-radius:6px;padding:10px 12px;margin:12px 0 14px;line-height:1.5}
+.dactions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+.note{font-size:12px;color:var(--ink-muted);margin-top:10px;line-height:1.5}
+.pillnote{display:inline-block;font-size:11px;border:1px dashed var(--border-strong);border-radius:6px;padding:2px 7px;color:var(--ink-muted)}
+.stor{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:600;color:var(--accent-ink);background:var(--accent-soft);border-radius:6px;padding:2px 7px;white-space:nowrap}
+.statelabel{font-size:11px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;color:var(--ink-faint);margin:0 0 8px}
+.field input[type=checkbox],.field input[type=radio]{width:auto;padding:0}
+.tiles{display:flex;gap:14px;margin-bottom:16px;flex-wrap:wrap}
+.tile{flex:1;min-width:260px;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:14px 16px;font-size:13px;line-height:1.55}
+.tile .big{font-size:20px;font-weight:700;display:block;margin-bottom:2px}
+details.explain{font-size:12.5px;margin:10px 0 0;color:var(--ink-muted)}
+details.explain summary{font-weight:600;color:var(--ink);cursor:pointer}
+</style>
+</helmet>
+<div style="width:1280px;height:1000px;background:var(--surface-page);overflow:auto;position:relative">
+<div class="topnav"><div class="brand">PurrCare · staff</div><div class="who"><select class="branchpick" aria-label="Active branch"><option>Uttara (primary)</option><option>Banani</option></select>Rezwan Ahmed · Administrator</div></div>
+<div class="main">
+  <nav class="secnav" aria-label="Inventory"><a href="StockOverview.dc.html" class="active" aria-current="page">Stock</a><a href="GoodsReceipt.dc.html">Receipts</a><a href="TransferForm.dc.html">Transfers</a><a href="AdjustmentForm.dc.html">Adjustments</a><a href="ApprovalQueue.dc.html">Approvals</a><a href="CountSheet.dc.html">Counts</a><a href="Ledger.dc.html">Ledger</a><a href="Alerts.dc.html">Alerts <span class="count">7 open</span></a><a href="NearExpiryReport.dc.html">Reports</a><a href="RecallList.dc.html">Recalls</a><a href="StorageBreach.dc.html">Storage</a><a href="StockSettings.dc.html">Locations &amp; settings</a></nav>
+  <div class="titlerow"><h1 class="h1">Stock — Uttara</h1><div class="actions"><a class="btn btn-sec" style="text-decoration:none" href="Ledger.dc.html">Ledger</a><a class="btn" style="text-decoration:none" href="GoodsReceipt.dc.html">Receive goods</a></div></div>
+  <p class="sub">Figures are the server's, as of 23 Sep 2026, 11:02 (Asia/Dhaka). Switching branch reloads them.</p>
+  <div class="tiles">
+    <a class="tile" href="Alerts.dc.html" style="text-decoration:none;color:inherit"><span class="big">7 open alerts</span>3 about expiry · 2 below reorder point · 1 shortfall recorded · 1 storage breach <span class="link" style="color:var(--accent-ink);font-weight:600">→ Alerts</span></a>
+    <a class="tile" href="NearExpiryReport.dc.html" style="text-decoration:none;color:inherit"><span class="big">5 batches within 90 days</span>৳36,460.00 at risk, including 1 batch already expired <span style="color:var(--accent-ink);font-weight:600">→ Near-expiry report</span></a>
+    <div class="tile"><span class="big">1 active recall</span>Lot AMX-5521 · 1,120 ml still held <a class="link" href="RecallDetail.dc.html">→ Recall console</a></div>
+  </div>
+  <div class="toolbar">
+    <input placeholder="Search SKU code, name or scan" style="width:230px" aria-label="Search stock">
+    <select aria-label="Location"><option>All locations</option><option>UTR-WH · Warehouse</option><option>UTR-SHOP · Sales floor</option><option>UTR-DISP · Dispensary</option><option>UTR-FRIDGE · Pharmacy fridge</option><option>UTR-QUAR · Quarantine</option></select>
+    <select aria-label="Class"><option>All classes</option><option>Food</option><option>Medicine</option><option>General</option></select>
+    <label><input type="checkbox"> Below reorder point only</label>
+  </div>
+  <table>
+    <thead><tr><th>SKU</th><th class="num">On hand</th><th class="num">Reserved</th><th class="num">Usable</th><th class="num">Sellable</th><th class="num">Held</th><th class="num">Expired</th><th>Next expiry</th></tr></thead>
+    <tbody>
+      <tr><td><a class="link" href="SkuStockDetail.dc.html">FD-KDC-2KG</a><div class="small muted">Kitten dry food, chicken 2 kg · Food</div></td><td class="num">50 bags</td><td class="num">5 bags</td><td class="num">42 bags</td><td class="num strong">37 bags</td><td class="num">5 bags</td><td class="num">3 bags</td><td><span class="b b-warn"><i aria-hidden="true">⚠</i> 23 Sep 2026 · expires today</span></td></tr>
+      <tr><td><a class="link" href="SkuStockDetail.dc.html">FD-WET-TUN</a><div class="small muted">Adult wet food pouch, tuna 85 g · Food</div></td><td class="num">312 pouches</td><td class="num">24 pouches</td><td class="num">300 pouches</td><td class="num strong">276 pouches</td><td class="num">0 pouches</td><td class="num">12 pouches</td><td><span class="b b-warn"><i aria-hidden="true">⚠</i> 7 Oct 2026 · 14 days</span></td></tr>
+      <tr><td><a class="link" href="SkuStockDetail.dc.html">MED-AMX-50</a><div class="small muted">Amoxicillin oral suspension 50 mg/ml · Medicine · <span class="stor">Refrigerated 2–8 °C</span></div></td><td class="num">2,120 ml</td><td class="num">0 ml</td><td class="num">1,000 ml</td><td class="num strong">1,000 ml</td><td class="num">1,120 ml<div class="small muted">recalled</div></td><td class="num">0 ml</td><td>30 Apr 2027 · 219 days</td></tr>
+      <tr><td><a class="link" href="SkuStockDetail.dc.html">MED-FVX-TRI</a><div class="small muted">Feline tricat vaccine · Medicine · <span class="stor">Refrigerated 2–8 °C</span></div></td><td class="num">68 doses</td><td class="num">2 doses</td><td class="num">8 doses</td><td class="num strong">6 doses</td><td class="num">60 doses<div class="small muted">quarantined</div></td><td class="num">0 doses</td><td>9 Feb 2027 · 139 days</td></tr>
+      <tr><td><a class="link" href="SkuStockDetail.dc.html">GEN-LIT-10L</a><div class="small muted">Clumping litter 10 L · General</div> <span class="b b-warn"><i aria-hidden="true">↓</i> Below reorder point</span></td><td class="num">6 bags</td><td class="num">0 bags</td><td class="num">6 bags</td><td class="num strong">6 bags</td><td class="num">0 bags</td><td class="num">0 bags</td><td class="muted">No expiry date</td></tr>
+      <tr><td><a class="link" href="SkuStockDetail.dc.html">GEN-SCR-POST</a><div class="small muted">Scratching post, 60 cm · General</div> <span class="b b-warn"><i aria-hidden="true">↓</i> Below reorder point</span></td><td class="num">1 each</td><td class="num">0 each</td><td class="num">1 each</td><td class="num strong">1 each</td><td class="num">0 each</td><td class="num">0 each</td><td class="muted">No expiry date</td></tr>
+    </tbody>
+  </table>
+  <details class="explain" open><summary>What the columns mean</summary>
+    <p style="margin:6px 0 0;line-height:1.55"><strong>Usable</strong> is on hand less held (quarantined, recalled, in a quarantine location) and expired stock. <strong>Sellable</strong> excludes expired, quarantined, damaged and reserved stock — it is what a sale or dispense can actually take. Every figure comes from the server.</p>
+  </details>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1000}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

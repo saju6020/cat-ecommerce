@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Book at 360px — UI-1</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#fbf6ef;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:14px;--warm:#e8894a;--warm-ink:#8a3f14;--warm-soft:#fdeee2}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.mtop{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.menu{border:1px solid var(--border-strong);background:#fff;border-radius:6px;width:34px;height:34px;display:flex;align-items:center;justify-content:center}
+.body{padding:16px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:19px;margin:0 0 2px}
+.muted{color:var(--ink-muted)}
+.progress{font-size:12.5px;color:var(--ink-muted);margin:0 0 4px}
+.bar{height:4px;background:var(--border);border-radius:2px;margin-bottom:12px}
+.bar i{display:block;height:4px;width:80%;background:var(--accent);border-radius:2px}
+.summary{font-size:13px;background:#fff;border:1px solid var(--border);border-radius:var(--radius-sm);padding:9px 11px;margin-bottom:12px;line-height:1.45}
+.zone{font-size:12px;background:var(--surface-sunken);border-radius:var(--radius-sm);padding:7px 10px;margin-bottom:12px}
+.lbl{font-size:13px;font-weight:600;margin:0 0 6px;display:block}
+.days{display:flex;flex-wrap:wrap;gap:5px}
+.day{width:calc((100% - 30px)/7);border:1px solid var(--border);border-radius:6px;background:#fff;padding:5px 0;text-align:center;font:inherit;font-size:10.5px;color:var(--ink-muted);line-height:1.25}
+.day b{display:block;font-size:14px;color:var(--ink)}
+.day.sel{background:var(--accent);border-color:var(--accent);color:#dfeeeb}
+.day.sel b{color:#fff}
+.day.closed{background:var(--surface-sunken)}
+.day.closed b{color:var(--ink-faint)}
+.weeknav{display:flex;justify-content:space-between;margin:8px 0 14px;font-size:12.5px;font-weight:600}
+.weeknav a{color:var(--accent-ink)}
+select{width:100%;font:inherit;font-size:14px;padding:9px 10px;border:1px solid var(--border-strong);border-radius:6px;background:#fff;margin-bottom:14px}
+.grp h3{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);margin:12px 0 6px}
+.slots{display:flex;flex-direction:column;gap:6px}
+.slot{font:inherit;font-size:14px;font-weight:600;border:1px solid var(--accent);color:var(--accent-ink);background:#fff;border-radius:6px;padding:11px 12px;text-align:left;display:flex;justify-content:space-between}
+.slot span{font-weight:400;color:var(--ink-muted)}
+.none{font-size:12.5px;color:var(--ink-muted);margin:0}
+</style>
+</helmet>
+<div style="width:360px;height:780px;background:var(--surface-page);overflow:auto">
+  <div class="mtop">
+    <div class="brand">PurrCare</div>
+    <button class="menu" type="button" aria-label="Open menu"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5c574f" stroke-width="2.2" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+  </div>
+  <div class="body">
+    <h1 class="h1">Book an appointment</h1>
+    <p class="progress">Step 4 of 5 · Date &amp; time</p>
+    <div class="bar" aria-hidden="true"><i></i></div>
+    <div class="summary"><strong>Mitu</strong> · FVRCP booster · Uttara <a href="#" style="color:var(--accent-ink);font-weight:600;float:right">Change</a></div>
+    <div class="zone">Times are Uttara clinic time (Asia/Dhaka).</div>
+
+    <span class="lbl" id="m-date">Date</span>
+    <div class="days" role="group" aria-labelledby="m-date">
+      <button class="day" type="button">Wed<b>23</b></button>
+      <button class="day sel" type="button" aria-pressed="true">Thu<b>24</b></button>
+      <button class="day closed" type="button" aria-label="Friday 25 September — clinic closed" style="font-size:9.5px">Closed<b>25</b></button>
+      <button class="day" type="button">Sat<b>26</b></button>
+      <button class="day" type="button">Sun<b>27</b></button>
+      <button class="day" type="button">Mon<b>28</b></button>
+      <button class="day" type="button">Tue<b>29</b></button>
+    </div>
+    <div class="weeknav"><span class="muted" style="font-weight:400">23–29 September</span><a href="#">Next 7 days ›</a></div>
+
+    <label class="lbl" for="m-vet">Vet or nurse</label>
+    <select id="m-vet"><option>Any vet (fastest)</option></select>
+
+    <div role="group" aria-label="Times on Thursday 24 September">
+      <div class="grp"><h3>Morning</h3>
+        <div class="slots">
+          <button class="slot" type="button">09:45 <span>Dr Rahman</span></button>
+          <button class="slot" type="button">10:00 <span>Tanvir (nurse)</span></button>
+          <button class="slot" type="button">10:30 <span>Dr Rahman</span></button>
+          <button class="slot" type="button">11:15 <span>Dr Jahan</span></button>
+        </div>
+      </div>
+      <div class="grp"><h3>Afternoon</h3>
+        <div class="slots">
+          <button class="slot" type="button">14:00 <span>Dr Jahan</span></button>
+          <button class="slot" type="button">15:15 <span>Dr Jahan</span></button>
+          <button class="slot" type="button">16:45 <span>Tanvir (nurse)</span></button>
+        </div>
+      </div>
+      <div class="grp"><h3>Evening</h3><p class="none">None left in the evening.</p></div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":360,"height":780}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

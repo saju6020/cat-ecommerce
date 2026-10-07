@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Reschedule — US-CLN-04 AC1</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#fbf6ef;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--overlay:rgba(28,26,23,.4);--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:14px;--warm:#e8894a;--warm-ink:#8a3f14;--warm-soft:#fdeee2}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:18px;color:var(--accent-ink)}
+.pnav{display:flex;gap:24px;font-size:13.5px;font-weight:600}
+.pnav a{color:var(--ink-muted);text-decoration:none}
+.pnav a[aria-current]{color:var(--ink)}
+.who{display:flex;align-items:center;gap:12px;font-size:13.5px}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.wrap{max-width:900px;margin:0 auto;padding:26px 32px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:22px;margin:0 0 4px}
+.muted{color:var(--ink-muted)}
+.current{display:flex;gap:10px;align-items:center;font-size:13.5px;background:var(--surface-sunken);border-radius:var(--radius-sm);padding:10px 12px;margin:14px 0}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:18px 20px}
+.strip{display:flex;gap:6px}
+.day{flex:1;border:1px solid var(--border);border-radius:6px;background:#fff;padding:6px 0;text-align:center;font:inherit;font-size:11px;color:var(--ink-muted);line-height:1.3}
+.day b{display:block;font-size:15px;color:var(--ink)}
+.day.sel{background:var(--accent);border-color:var(--accent);color:#dfeeeb}
+.day.sel b{color:#fff}
+.day.cur{box-shadow:inset 0 -3px 0 var(--warning-ink)}
+select{font:inherit;font-size:14px;padding:8px 10px;border:1px solid var(--border-strong);border-radius:6px;background:#fff;min-width:240px}
+.slots{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.slot{font:inherit;font-size:13.5px;font-weight:600;border:1px solid var(--accent);color:var(--accent-ink);background:#fff;border-radius:6px;padding:8px 12px}
+.slot span{font-weight:400;color:var(--ink-muted)}
+.slot.picked{background:var(--accent);color:#fff}
+.slot.picked span{color:#dfeeeb}
+.scrim{position:absolute;inset:0;background:var(--overlay);display:flex;align-items:center;justify-content:center;gap:24px}
+.dialog{background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(20,18,10,.25);width:470px;padding:26px}
+.dialog h2{font-family:var(--font-display);font-weight:600;font-size:19px;margin:0 0 12px}
+.fromto{display:grid;grid-template-columns:60px 1fr;gap:8px 12px;font-size:14px;background:var(--surface-sunken);border-radius:var(--radius-sm);padding:12px 14px;margin:0 0 12px}
+.fromto dt{color:var(--ink-muted)}
+.fromto dd{margin:0}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:14px;padding:10px 18px;border-radius:var(--radius-sm);border:none;background:var(--accent);color:#fff;cursor:pointer}
+.btn-ghost{background:#fff;border:1px solid var(--border-strong);color:var(--ink)}
+.dactions{display:flex;justify-content:flex-end;gap:8px}
+.side{background:#fff;border-radius:14px;width:320px;padding:18px;box-shadow:0 20px 60px rgba(20,18,10,.2)}
+.cap{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-faint);font-weight:700;margin-bottom:10px}
+.alert{display:flex;gap:8px;background:var(--warning-bg);color:var(--warning-ink);border-radius:var(--radius-sm);padding:10px 12px;font-size:13px;line-height:1.45}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page);overflow:hidden;position:relative">
+  <div class="topnav">
+    <div class="brand">PurrCare</div>
+    <nav class="pnav" aria-label="Portal"><a href="#">My cats</a><a href="MyAppointments.dc.html" aria-current="page">Appointments</a><a href="#">Inbox</a></nav>
+    <div class="who"><div class="avatar">FY</div>Farhana Yasmin</div>
+  </div>
+  <div class="wrap">
+    <h1 class="h1">Reschedule Mitu's FVRCP booster</h1>
+    <div class="current"><strong>Current time:</strong> Thursday 24 September, 10:30 with Dr Rahman · Uttara (Asia/Dhaka). It stays yours until you confirm a new one.</div>
+    <div class="card">
+      <div class="strip" role="group" aria-label="Date">
+        <button class="day" type="button">Wed<b>23</b></button>
+        <button class="day cur" type="button" aria-label="Thursday 24 September — your current day">Thu<b>24</b></button>
+        <button class="day" type="button" aria-label="Friday 25 September — clinic closed" style="background:var(--surface-sunken)">Closed<b style="color:var(--ink-faint)">25</b></button>
+        <button class="day sel" type="button" aria-pressed="true">Sat<b>26</b></button>
+        <button class="day" type="button">Sun<b>27</b></button>
+        <button class="day" type="button">Mon<b>28</b></button>
+        <button class="day" type="button">Tue<b>29</b></button>
+      </div>
+      <div style="margin:14px 0 4px"><label for="rv" style="font-size:13px;font-weight:600;margin-right:10px">Vet</label><select id="rv"><option>Dr Anisur Rahman (current)</option><option>Any vet</option></select></div>
+      <div class="slots" role="group" aria-label="Times on Saturday 26 September">
+        <button class="slot" type="button">09:30 <span>· Dr Rahman</span></button>
+        <button class="slot picked" type="button" aria-pressed="true">10:00 <span>· Dr Rahman</span></button>
+        <button class="slot" type="button">12:15 <span>· Dr Rahman</span></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="scrim">
+    <div class="dialog" role="alertdialog" aria-modal="true" aria-labelledby="rs-h">
+      <h2 id="rs-h">Move to Saturday 26 September, 10:00?</h2>
+      <dl class="fromto">
+        <dt>From</dt><dd><s>Thu 24 Sep, 10:30</s> · Dr Rahman</dd>
+        <dt>To</dt><dd><strong>Sat 26 Sep, 10:00</strong> · Dr Rahman · Consult 1</dd>
+      </dl>
+      <p style="font-size:14px;margin:0 0 18px;line-height:1.5">Your current time will be released. Times are Asia/Dhaka.</p>
+      <div class="dactions">
+        <button class="btn btn-ghost" type="button">Keep current time</button>
+        <button class="btn" type="button">Move appointment</button>
+      </div>
+    </div>
+    <div class="side" aria-label="If the new time is taken">
+      <div class="cap">If 10:00 was just taken (409)</div>
+      <div class="alert" role="alert"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true" style="flex:none;margin-top:1px"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg><span><strong>Someone has just taken that time.</strong> Your appointment is unchanged — still Thursday 24 September, 10:30. Please choose another time.</span></div>
+      <p style="font-size:12.5px;color:var(--ink-muted);margin:10px 0 0;line-height:1.45">The dialog closes, the times refresh, and the "Current time" line above never changes until the server says the move succeeded.</p>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

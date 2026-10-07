@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Book — confirm with hold countdown — US-CLN-03</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#fbf6ef;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:14px;--warm:#e8894a;--warm-ink:#8a3f14;--warm-soft:#fdeee2}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:18px;color:var(--accent-ink)}
+.pnav{display:flex;gap:24px;font-size:13.5px;font-weight:600}
+.pnav a{color:var(--ink-muted);text-decoration:none}
+.pnav a[aria-current]{color:var(--ink)}
+.who{display:flex;align-items:center;gap:12px;font-size:13.5px}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.wrap{max-width:1000px;margin:0 auto;padding:26px 32px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:22px;margin:0 0 4px}
+.muted{color:var(--ink-muted)}
+.stepper{display:flex;list-style:none;padding:0;margin:16px 0 20px;border:1px solid var(--border);border-radius:var(--radius-md);background:#fff;overflow:hidden}
+.stepper li{flex:1;padding:9px 12px;font-size:12.5px;border-right:1px solid var(--border);color:var(--ink);line-height:1.35}
+.stepper li:last-child{border-right:none}
+.stepper b{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+.stepper .cur{background:var(--accent-soft);color:var(--accent-ink);font-weight:600;box-shadow:inset 0 -2px 0 var(--accent)}
+.cols{display:flex;gap:20px;align-items:flex-start}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:20px 22px}
+.kv{display:grid;grid-template-columns:120px 1fr;gap:9px 14px;font-size:14.5px;margin:0}
+.kv dt{color:var(--ink-muted)}
+.kv dd{margin:0}
+.pay{display:inline-flex;align-items:center;gap:6px;background:var(--surface-sunken);border-radius:999px;padding:2px 10px;font-size:12.5px;font-weight:600;margin-left:6px}
+.field{margin-top:18px}
+.field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.field textarea{width:100%;font:inherit;font-size:14.5px;padding:9px 12px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);resize:vertical}
+.hint{display:flex;justify-content:space-between;font-size:12.5px;color:var(--ink-muted);margin-top:5px}
+.actions{display:flex;justify-content:space-between;align-items:center;margin-top:20px}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:14.5px;padding:11px 22px;border-radius:var(--radius-sm);border:none;background:var(--accent);color:#fff;cursor:pointer}
+.btn-ghost{background:#fff;border:1px solid var(--border-strong);color:var(--ink);font-size:14px;padding:10px 18px}
+.hold{width:300px;flex:none}
+.timer{display:flex;align-items:center;gap:12px}
+.ring{width:46px;height:46px;border-radius:50%;border:4px solid var(--accent);border-right-color:var(--border);flex:none}
+.big{font-size:30px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:.01em}
+.cap{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-faint);font-weight:700;margin:16px 0 8px}
+.mini{display:flex;align-items:center;gap:8px;border-radius:var(--radius-sm);padding:8px 10px;font-size:12.5px;margin-bottom:6px}
+.mini b{font-variant-numeric:tabular-nums}
+.mini-warn{background:var(--warning-bg);color:var(--warning-ink)}
+.sr{font-size:12px;color:var(--ink-muted);line-height:1.45}
+</style>
+</helmet>
+<div style="width:1280px;height:900px;background:var(--surface-page);overflow:auto">
+  <div class="topnav">
+    <div class="brand">PurrCare</div>
+    <nav class="pnav" aria-label="Portal"><a href="#">My cats</a><a href="MyAppointments.dc.html" aria-current="page">Appointments</a><a href="#">Inbox</a></nav>
+    <div class="who"><div class="avatar">FY</div>Farhana Yasmin</div>
+  </div>
+  <div class="wrap">
+    <h1 class="h1">Book an appointment</h1>
+    <ol class="stepper" aria-label="Booking steps">
+      <li><b>1 · Cat</b>Mitu</li>
+      <li><b>2 · Service</b>FVRCP booster</li>
+      <li><b>3 · Branch</b>Uttara</li>
+      <li><b>4 · Date &amp; time</b>Thu 24 Sep, 10:30</li>
+      <li class="cur" aria-current="step"><b>5 · Confirm</b>Check and confirm</li>
+    </ol>
+
+    <div class="cols">
+      <div class="card" style="flex:1">
+        <h2 style="font-size:16px;margin:0 0 14px">Check your booking</h2>
+        <dl class="kv">
+          <dt>Cat</dt><dd>Mitu</dd>
+          <dt>Service</dt><dd>FVRCP booster · 20 min</dd>
+          <dt>When</dt><dd><strong>Thursday 24 September, 10:30–10:50</strong> <span class="muted">(Asia/Dhaka)</span></dd>
+          <dt>With</dt><dd>Dr Anisur Rahman</dd>
+          <dt>Room</dt><dd>Consult 1</dd>
+          <dt>Branch</dt><dd>Uttara · Sector 7, Uttara, Dhaka</dd>
+          <dt>Price</dt><dd>৳1,200 <span class="pay">Pay at the clinic</span></dd>
+        </dl>
+        <div class="field">
+          <label for="reason">Reason for visit <span class="muted" style="font-weight:400">(optional)</span></label>
+          <textarea id="reason" rows="3" aria-describedby="reason-hint">Yearly booster. She has been sneezing a little this week.</textarea>
+          <div class="hint" id="reason-hint"><span>Plain text. The vet reads this before the visit.</span><span>57 / 500</span></div>
+        </div>
+        <div class="actions">
+          <button class="btn btn-ghost" type="button">Back — release this time</button>
+          <a href="BookDone.dc.html" class="btn" style="text-decoration:none">Confirm booking</a>
+        </div>
+      </div>
+
+      <aside class="card hold" aria-label="Your hold">
+        <div class="timer">
+          <div class="ring" aria-hidden="true"></div>
+          <div>
+            <div class="big" role="timer" aria-label="Time left to confirm">07:42</div>
+            <div class="muted" style="font-size:12.5px">left to confirm</div>
+          </div>
+        </div>
+        <p style="font-size:13.5px;line-height:1.5;margin:14px 0 0">We're holding <strong>10:30 with Dr Rahman</strong> for you until <strong>10:26 today</strong> (Asia/Dhaka). Nobody else can take it until then.</p>
+
+        <div class="cap">How it changes</div>
+        <div class="mini mini-warn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg><span><b>00:48</b> left — under a minute, shown in amber with this icon</span></div>
+        <p class="sr">Screen readers hear it three times only: "5 minutes left to confirm", "1 minute left to confirm", and "Your hold has ended". Never every second.</p>
+        <p class="sr">The clock is the clinic server's, corrected for a phone that is fast or slow.</p>
+      </aside>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

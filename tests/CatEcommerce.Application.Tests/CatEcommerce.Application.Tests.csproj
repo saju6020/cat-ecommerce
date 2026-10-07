@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" Version="6.0.2" />
+    <PackageReference Include="Microsoft.Extensions.TimeProvider.Testing" Version="9.0.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageReference Include="xunit" Version="2.9.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Application\CatEcommerce.Application\CatEcommerce.Application.csproj" />
+    <ProjectReference Include="..\..\src\Infrastructure\CatEcommerce.Infrastructure\CatEcommerce.Infrastructure.csproj" />
+    <!-- Test-only reference. CatVaccinationStatusCalculator (src/Read) is a pure function
+         deliberately factored out of GetCatVaccinationStatusQueryHandler so it can be
+         unit-tested without a database (HO-CAT-001 section 15, U34 to U38). This does not
+         violate "Application never references Read" (.ai/cqrs.md rule 2): that rule
+         constrains the production CatEcommerce.Application assembly, which this project
+         reference is not part of. -->
+    <ProjectReference Include="..\..\src\Read\CatEcommerce.Read\CatEcommerce.Read.csproj" />
+  </ItemGroup>
+
+</Project>

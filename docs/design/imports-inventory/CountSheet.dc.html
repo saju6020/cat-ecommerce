@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Count sheet (blind) — US-IMP-14</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+:root{--overlay:rgba(28,26,23,.4);--radius-lg:16px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px;display:flex;align-items:center;gap:16px}
+select.branchpick{font:inherit;font-size:13px;padding:5px 8px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.main{padding:22px 32px 32px;position:relative}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+.h2{font-family:var(--font-display);font-weight:600;font-size:17px;margin:0 0 10px}
+.h3{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);font-weight:700;margin:0 0 8px}
+.titlerow{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.sub{color:var(--ink-muted);font-size:13px;margin:4px 0 14px;line-height:1.5}
+.muted{color:var(--ink-muted)}
+.faint{color:var(--ink-faint)}
+.small{font-size:12px}
+.strong{font-weight:700}
+a.link{color:var(--accent-ink);font-weight:600;text-decoration:none}
+.secnav{display:flex;flex-wrap:wrap;gap:2px;border-bottom:1px solid var(--border);margin:0 0 18px}
+.secnav a{padding:9px 12px;font-size:13px;font-weight:600;color:var(--ink-muted);text-decoration:none;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap}
+.secnav a.active{color:var(--ink);border-bottom-color:var(--accent)}
+.secnav .count{display:inline-block;margin-left:4px;padding:0 6px;border-radius:999px;background:var(--warning-bg);color:var(--warning-ink);font-size:11px;font-weight:700}
+.tabnav{display:flex;border-bottom:1px solid var(--border);margin:14px 0 18px}
+.tabnav a{padding:10px 2px;margin-right:22px;font-size:13.5px;font-weight:600;color:var(--ink-muted);border-bottom:2px solid transparent;text-decoration:none;margin-bottom:-1px}
+.tabnav a.active{color:var(--ink);border-bottom-color:var(--accent)}
+.btn{font-family:var(--font-sans);font-weight:600;font-size:13px;padding:8px 14px;border-radius:var(--radius-sm);border:1px solid var(--accent);cursor:pointer;background:var(--accent);color:#fff;white-space:nowrap}
+.btn-sec{background:#fff;color:var(--ink);border:1px solid var(--border-strong)}
+.btn-danger{background:var(--danger-ink);border-color:var(--danger-ink);color:#fff}
+.btn-danger-o{background:#fff;border:1px solid var(--danger-ink);color:var(--danger-ink)}
+.btn[disabled]{background:var(--surface-sunken);border-color:var(--border);color:var(--ink-faint);cursor:not-allowed}
+.why{font-size:12px;color:var(--ink-muted);margin-top:4px;line-height:1.45}
+.b{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;font-size:11.5px;font-weight:600;white-space:nowrap;line-height:1.5}
+.b i{font-style:normal;font-weight:700}
+.b-ok{background:var(--accent-soft);color:var(--accent-ink)}
+.b-warn{background:var(--warning-bg);color:var(--warning-ink)}
+.b-danger{background:var(--danger-bg);color:var(--danger-ink)}
+.b-neutral{background:var(--surface-sunken);color:var(--ink-muted)}
+.b-out{background:#fff;border:1px solid var(--border-strong);color:var(--ink-muted)}
+.banner{display:flex;gap:10px;align-items:flex-start;border-radius:8px;padding:10px 14px;font-size:13px;line-height:1.5;margin-bottom:14px}
+.banner i{font-style:normal;font-weight:700}
+.banner-warn{background:var(--warning-bg);color:var(--warning-ink)}
+.banner-danger{background:var(--danger-bg);color:var(--danger-ink)}
+.banner-info{background:var(--accent-soft);color:var(--accent-ink)}
+.banner-neutral{background:var(--surface-sunken);color:var(--ink-muted)}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px;font-size:12.5px}
+.toolbar input,.toolbar select{font:inherit;font-size:12.5px;padding:7px 9px;border:1px solid var(--border-strong);border-radius:6px;background:#fff}
+.toolbar label{display:inline-flex;align-items:center;gap:5px}
+table{border-collapse:collapse;width:100%;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden}
+th,td{padding:9px 11px;text-align:left;border-bottom:1px solid var(--border);font-size:12.5px;vertical-align:top}
+th{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);font-weight:700;background:var(--surface-sunken)}
+tbody tr:last-child td{border-bottom:none}
+tfoot td{background:var(--surface-sunken);font-weight:700}
+.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.dim td{color:var(--ink-faint)}
+tr.unusable td{background:#fdfbf8}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:16px 18px}
+.grid2{display:flex;gap:18px;align-items:flex-start}
+.grid2 > *{flex:1;min-width:0}
+.field{margin-bottom:12px}
+.field label,.flabel{display:block;font-size:12.5px;font-weight:600;margin-bottom:5px}
+.field input,.field select,.field textarea{width:100%;font:inherit;font-size:13.5px;padding:8px 10px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:#fff}
+.field textarea{min-height:60px;resize:vertical}
+.field input[readonly]{background:var(--surface-sunken);color:var(--ink-muted)}
+.req{color:var(--danger-ink);font-weight:700}
+.hint{font-size:11.5px;color:var(--ink-muted);margin-top:4px;line-height:1.45}
+.field.error input,.field.error select,.field.error textarea,input.error,select.error{border-color:var(--danger-ink);box-shadow:0 0 0 1px var(--danger-ink)}
+.err{font-size:11.5px;color:var(--danger-ink);font-weight:600;margin-top:4px;line-height:1.4}
+.unitin{display:flex;align-items:stretch}
+.unitin input{border-top-right-radius:0;border-bottom-right-radius:0;min-width:0}
+.unitin span{display:flex;align-items:center;padding:0 9px;border:1px solid var(--border-strong);border-left:none;border-radius:0 var(--radius-sm) var(--radius-sm) 0;background:var(--surface-sunken);font-size:12px;color:var(--ink-muted);white-space:nowrap}
+.kv{display:grid;grid-template-columns:170px 1fr;gap:4px 14px;font-size:13px;line-height:1.7;margin:0}
+.kv dt{color:var(--ink-muted)}
+.kv dd{margin:0}
+.scrim{position:absolute;inset:0;background:var(--overlay);display:flex;align-items:center;justify-content:center;z-index:5}
+.dialog{background:#fff;border-radius:var(--radius-lg);box-shadow:0 20px 60px rgba(20,18,10,.25);width:460px;max-width:100%;padding:24px}
+.dialog h2{margin:0 0 12px;font-size:17px;font-family:var(--font-display);font-weight:600}
+.confirm{font-size:13px;color:var(--ink);background:var(--surface-sunken);border-radius:6px;padding:10px 12px;margin:12px 0 14px;line-height:1.5}
+.dactions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+.note{font-size:12px;color:var(--ink-muted);margin-top:10px;line-height:1.5}
+.pillnote{display:inline-block;font-size:11px;border:1px dashed var(--border-strong);border-radius:6px;padding:2px 7px;color:var(--ink-muted)}
+.stor{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:600;color:var(--accent-ink);background:var(--accent-soft);border-radius:6px;padding:2px 7px;white-space:nowrap}
+.statelabel{font-size:11px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;color:var(--ink-faint);margin:0 0 8px}
+.field input[type=checkbox],.field input[type=radio]{width:auto;padding:0}
+.scan{background:#fff;border:2px solid var(--accent);border-radius:var(--radius-md);padding:12px 14px;margin:0 0 14px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.scan input{font:inherit;font-size:15px;padding:9px 12px;border:1px solid var(--border-strong);border-radius:6px;width:300px;max-width:100%}
+.cin{display:flex;max-width:170px}
+.cin input{font:inherit;font-size:13px;padding:6px 8px;border:1px solid var(--border-strong);border-radius:6px 0 0 6px;width:100%;min-width:0}
+.cin span{display:flex;align-items:center;padding:0 8px;border:1px solid var(--border-strong);border-left:none;border-radius:0 6px 6px 0;background:var(--surface-sunken);font-size:12px;color:var(--ink-muted)}
+.saved{font-size:12px;color:var(--accent-ink);font-weight:600;white-space:nowrap}
+.saving{font-size:12px;color:var(--ink-muted);white-space:nowrap}
+.failed{font-size:12px;color:var(--danger-ink);font-weight:600}
+.hdrcard{display:flex;gap:28px;flex-wrap:wrap;font-size:13px;margin-bottom:14px}
+.hdrcard div span{display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);font-weight:700}
+</style>
+</helmet>
+<div style="width:1280px;height:1000px;background:var(--surface-page);overflow:auto;position:relative">
+<div class="topnav"><div class="brand">PurrCare · staff</div><div class="who"><select class="branchpick" aria-label="Active branch"><option>Uttara (primary)</option><option>Banani</option></select>Tanvir Islam · Nurse</div></div>
+<div class="main">
+  <nav class="secnav" aria-label="Inventory"><a href="StockOverview.dc.html">Stock</a><a href="GoodsReceipt.dc.html">Receipts</a><a href="TransferForm.dc.html">Transfers</a><a href="AdjustmentForm.dc.html">Adjustments</a><a href="ApprovalQueue.dc.html">Approvals</a><a href="CountSheet.dc.html" class="active" aria-current="page">Counts</a><a href="Ledger.dc.html">Ledger</a><a href="Alerts.dc.html">Alerts <span class="count">7 open</span></a><a href="NearExpiryReport.dc.html">Reports</a><a href="RecallList.dc.html">Recalls</a><a href="StorageBreach.dc.html">Storage</a><a href="StockSettings.dc.html">Locations &amp; settings</a></nav>
+  <div class="titlerow"><h1 class="h1">Count CNT-UTR-0022 · <span class="b b-warn"><i aria-hidden="true">◷</i> Open</span></h1><button class="btn" type="button">Submit count…</button></div>
+  <div class="card hdrcard" style="margin-top:14px">
+    <div><span>Location</span>UTR-SHOP · Sales floor</div>
+    <div><span>Scope</span>Full location — every SKU on the shelf</div>
+    <div><span>Opened</span>23 Sep 2026, 08:30 (Asia/Dhaka) by Tanvir Islam</div>
+    <div><span>Counted so far</span>7 lines · 2 people</div>
+  </div>
+  <div class="banner banner-info"><i aria-hidden="true">ⓘ</i><span><strong>Blind count.</strong> What the system expects is hidden until the count is submitted — count what is physically there. Each line is saved as you enter it, so a reload or a second counter loses nothing.</span></div>
+  <div class="scan">
+    <label class="flabel" for="c-scan" style="margin:0">Scan a barcode</label>
+    <input id="c-scan" placeholder="Scan, then Enter">
+    <span role="status" style="font-size:13px;color:var(--accent-ink);font-weight:600">✓ Adult wet food pouch, tuna 85 g — FD-WET-TUN. Choose the batch.</span>
+    <span class="small muted" style="margin-left:auto">Or <a class="link" href="#">pick a SKU</a></span>
+  </div>
+  <table>
+    <thead><tr><th>SKU</th><th>Batch · lot</th><th>Expiry</th><th>Counted</th><th>Counted by</th><th>Saved</th></tr></thead>
+    <tbody>
+      <tr><td><strong>FD-KDC-2KG</strong><div class="small muted">Kitten dry food, chicken 2 kg</div></td><td>L2406A</td><td>21 Jan 2027</td><td><div class="cin"><input value="12" aria-label="Counted, FD-KDC-2KG L2406A"><span>bags</span></div></td><td>Tanvir Islam</td><td><span class="saved">✓ Saved 08:52</span></td></tr>
+      <tr><td><strong>FD-KDC-2KG</strong></td><td>L2407B</td><td>7 Nov 2026</td><td><div class="cin"><input value="8" aria-label="Counted, FD-KDC-2KG L2407B"><span>bags</span></div></td><td>Tanvir Islam</td><td><span class="saved">✓ Saved 08:53</span></td></tr>
+      <tr><td><strong>FD-KDC-2KG</strong></td><td>L2405C</td><td>23 Sep 2026</td><td><div class="cin"><input value="4" aria-label="Counted, FD-KDC-2KG L2405C"><span>bags</span></div></td><td>Tanvir Islam</td><td><span class="saved">✓ Saved 08:53</span></td></tr>
+      <tr><td><strong>FD-KDC-2KG</strong></td><td>L2404D</td><td>20 Sep 2026</td><td><div class="cin"><input value="3" aria-label="Counted, FD-KDC-2KG L2404D"><span>bags</span></div></td><td>Shormi Akter</td><td><span class="saved">✓ Saved 09:05</span></td></tr>
+      <tr><td><strong>GEN-LIT-10L</strong><div class="small muted">Clumping litter 10 L</div></td><td class="muted">No batches — not lot-tracked</td><td class="muted">No expiry date</td><td><div class="cin"><input value="6" aria-label="Counted, GEN-LIT-10L"><span>bags</span></div></td><td>Shormi Akter</td><td><span class="saved">✓ Saved 09:07</span></td></tr>
+      <tr><td><strong>GEN-SCR-POST</strong><div class="small muted">Scratching post, 60 cm</div></td><td class="muted">No batches — not lot-tracked</td><td class="muted">No expiry date</td><td><div class="cin"><input value="1" aria-label="Counted, GEN-SCR-POST"><span>each</span></div></td><td>Tanvir Islam</td><td><span class="saving">Saving…</span></td></tr>
+      <tr><td><strong>FD-WET-TUN</strong><div class="small muted">Adult wet food pouch, tuna 85 g</div></td><td><select aria-label="Batch" style="font:inherit;font-size:12.5px;padding:5px 7px;border:1px solid var(--accent);border-radius:6px"><option>W2409 · 7 Oct 2026</option><option>W2412 · 15 Mar 2027</option></select></td><td>7 Oct 2026</td><td><div class="cin"><input value="47.5" aria-label="Counted, FD-WET-TUN" style="border-color:var(--danger-ink);box-shadow:0 0 0 1px var(--danger-ink)" aria-invalid="true" aria-describedby="cw-err"><span>pouches</span></div><div class="err" id="cw-err">Counted in whole pouches — 47.5 isn't allowed.</div></td><td>Tanvir Islam</td><td><span class="failed">Not saved — fix the quantity</span></td></tr>
+    </tbody>
+  </table>
+  <p class="note">Submitting asks to confirm: "Submit CNT-UTR-0022? 7 lines counted at UTR-SHOP. Counts can't be changed after submitting. The variance report comes next — nothing is written to stock until it is committed."</p>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1000}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>

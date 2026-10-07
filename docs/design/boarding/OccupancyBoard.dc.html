@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Occupancy board — US-BRD-02, 15</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<style>
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink);font-size:14px;-webkit-font-smoothing:antialiased}
+a{color:var(--accent-ink)}
+p{margin:0}
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;border-bottom:1px solid var(--border);background:#fff}
+.brand{font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--accent-ink)}
+.who{font-size:13px;display:flex;align-items:center;gap:12px}
+.ctop{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;border-bottom:1px solid var(--border);background:#fff}
+.ctop .cbrand{font-family:var(--font-display);font-weight:600;font-size:19px;color:var(--accent-ink)}
+.ctop nav{display:flex;gap:22px;font-size:14px;font-weight:600}
+.ctop nav a{color:var(--ink-muted);text-decoration:none}
+.ctop nav a.on{color:var(--ink)}
+.ctop .cwho{display:flex;align-items:center;gap:10px;font-size:13.5px}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.main{padding:26px 32px;position:relative}
+.cmain{max-width:960px;margin:0 auto;padding:30px 32px 40px}
+.h1{font-family:var(--font-display);font-weight:600;font-size:21px;margin:0}
+.h2{font-family:var(--font-display);font-weight:600;font-size:17px;margin:0 0 10px}
+.titlerow{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:18px}
+.sub{color:var(--ink-muted);font-size:13px;margin-top:4px}
+.muted{color:var(--ink-muted)}
+.faint{color:var(--ink-faint)}
+.small{font-size:12.5px}
+.tiny{font-size:11.5px}
+.strong{font-weight:700}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:18px}
+.cardh{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);margin:0 0 10px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.cardh a{text-transform:none;letter-spacing:0;font-size:12.5px}
+.btn{font:inherit;font-weight:600;font-size:13.5px;padding:8px 15px;border-radius:var(--radius-sm);border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;min-height:38px;display:inline-flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;white-space:nowrap}
+.btn-2{background:#fff;color:var(--ink);border-color:var(--border-strong)}
+.btn-danger{background:var(--danger-ink);border-color:var(--danger-ink);color:#fff}
+.btn-danger-2{background:#fff;border-color:#e4c4c0;color:var(--danger-ink)}
+.btn-sm{font-size:12.5px;padding:5px 11px;min-height:32px}
+.btn-link{background:none;border:none;color:var(--accent-ink);padding:0;min-height:0;font-weight:600}
+.btn[disabled]{background:var(--surface-sunken);color:var(--ink-faint);border-color:var(--border);cursor:not-allowed}
+.why{font-size:12px;color:var(--ink-muted);margin-top:6px;line-height:1.45}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:2px 9px;border-radius:999px;font-size:11.5px;font-weight:700;white-space:nowrap}
+.b-ok{background:#e6f0ee;color:var(--accent-ink)}
+.b-warn{background:var(--warning-bg);color:var(--warning-ink)}
+.b-bad{background:var(--danger-bg);color:var(--danger-ink)}
+.b-hr{background:var(--danger-ink);color:#fff}
+.b-neutral{background:var(--surface-sunken);color:var(--ink-muted)}
+.b-info{background:var(--accent-soft);color:var(--accent-ink);border:1px solid rgba(21,96,90,.25)}
+.alert{display:flex;gap:10px;border-radius:8px;padding:12px 14px;font-size:13.5px;line-height:1.5}
+.alert b.t{display:block}
+.alert-warn{background:var(--warning-bg);color:var(--warning-ink);border:1px solid #ebd9b4}
+.alert-bad{background:var(--danger-bg);color:var(--danger-ink);border:1px solid #f0ccc8}
+.alert-info{background:var(--accent-soft);color:var(--accent-ink);border:1px solid rgba(21,96,90,.25)}
+.alert-neutral{background:var(--surface-sunken);color:var(--ink-muted);border:1px solid var(--border)}
+.field{margin-bottom:14px}
+.lbl{display:block;font-size:13px;font-weight:600;margin-bottom:5px}
+.inp{width:100%;font:inherit;font-size:14px;padding:8px 11px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:#fff;color:var(--ink)}
+.inp.err{border-color:var(--danger-ink);box-shadow:0 0 0 1px var(--danger-ink)}
+textarea.inp{resize:vertical}
+.ferr{font-size:12.5px;color:var(--danger-ink);margin-top:4px;font-weight:600}
+.hint{font-size:12px;color:var(--ink-muted);margin-top:4px;line-height:1.45}
+.unit{display:flex;align-items:center;gap:6px}
+.unit span{font-size:13px;color:var(--ink-muted);font-weight:600}
+table{border-collapse:collapse;width:100%;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--border);font-size:13px;vertical-align:top}
+th{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-muted);background:var(--surface-sunken)}
+tr:last-child td{border-bottom:none}
+.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tabnav{display:flex;border-bottom:1px solid var(--border);margin-bottom:18px;gap:22px;flex-wrap:wrap}
+.tabnav a{padding:10px 2px;font-size:13.5px;font-weight:600;color:var(--ink-muted);border-bottom:2px solid transparent;text-decoration:none}
+.tabnav a.active{color:var(--ink);border-bottom-color:var(--accent)}
+.stepper{display:flex;gap:6px;margin-bottom:22px;flex-wrap:wrap}
+.step{font-size:12.5px;padding:5px 11px;border-radius:999px;background:var(--surface-sunken);color:var(--ink-muted);font-weight:600}
+.step.done{background:#e6f0ee;color:var(--accent-ink)}
+.step.cur{background:var(--accent);color:#fff}
+.step.blocked{background:var(--danger-bg);color:var(--danger-ink)}
+.scrim{position:absolute;inset:0;background:rgba(28,26,23,.4);display:flex;align-items:center;justify-content:center;gap:24px;z-index:5;padding:24px}
+.dialog{background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(20,18,10,.25);width:460px;max-width:100%;padding:24px}
+.dialog h2{font-family:var(--font-display);font-weight:600;font-size:18px;margin:0 0 12px}
+.consequence{font-size:13.5px;background:var(--surface-sunken);border-radius:8px;padding:11px 13px;margin:12px 0;line-height:1.55}
+.dactions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px;flex-wrap:wrap}
+.panel-label{font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 7px}
+.zone{font-size:11.5px;color:var(--ink-muted);font-weight:400}
+.qline{display:flex;justify-content:space-between;gap:12px;font-size:13px;padding:4px 0}
+.qline .num{font-weight:600}
+.qdisc{color:var(--accent-ink)}
+.qtotal{border-top:1px solid var(--border);font-weight:700;margin-top:6px;padding-top:9px;font-size:14px}
+.kv{display:grid;grid-template-columns:150px 1fr;gap:7px 14px;font-size:13.5px;margin:0}
+.kv dt{color:var(--ink-muted);font-size:12.5px;font-weight:600}
+.kv dd{margin:0}
+.cph{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--border);border-radius:8px;padding:9px 11px;background:#fff;min-width:0}
+.cph .av{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--font-display);font-size:17px;flex:none}
+.cph-b{min-width:0;flex:1}
+.cph-n{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:14px}
+.cph-h{font-size:12.5px;color:var(--danger-ink);font-weight:600;margin-top:3px;line-height:1.4}
+.cph-a{display:flex;gap:5px;margin-top:5px;flex-wrap:wrap}
+.al{font-size:11.5px;font-weight:600;padding:2px 7px;border-radius:6px;background:var(--warning-bg);border:1px solid #ebd9b4;color:var(--warning-ink)}
+.al-sev{background:var(--danger-bg);border-color:#f0ccc8;color:var(--danger-ink)}
+.al-none{background:var(--surface-sunken);border-color:var(--border);color:var(--ink-muted)}
+.row{display:flex;gap:16px}
+.col{display:flex;flex-direction:column;gap:14px}
+.live{font-size:12px;color:var(--ink-muted);display:inline-flex;align-items:center;gap:6px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--accent);display:inline-block}
+.seg{display:inline-flex;border:1px solid var(--border-strong);border-radius:var(--radius-sm);overflow:hidden}
+.seg button{font:inherit;font-size:13px;font-weight:600;padding:7px 12px;border:none;border-right:1px solid var(--border-strong);background:#fff;color:var(--ink);cursor:pointer;min-height:36px}
+.seg button:last-child{border-right:none}
+.seg button.on{background:var(--accent);color:#fff}
+.note-dev{font-size:12px;color:var(--ink-muted);background:var(--surface-sunken);border:1px dashed var(--border-strong);border-radius:6px;padding:8px 10px;line-height:1.45}
+.og{background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.orow{display:grid;grid-template-columns:118px repeat(14,minmax(0,1fr));min-height:40px;border-top:1px solid var(--border);background-image:linear-gradient(to right,var(--border) 1px,transparent 1px);background-size:calc((100% - 118px) / 14) 100%;background-position:118px 0;background-repeat:repeat-x}
+.orow > *{grid-row:1}
+.ohead{background:var(--surface-sunken);min-height:44px}
+.ohead span{font-size:11px;font-weight:700;color:var(--ink-muted);text-align:center;padding:5px 0;line-height:1.3}
+.ohead span.today{background:var(--accent);color:#fff}
+.ul{grid-column:1;font-size:12.5px;font-weight:700;padding:8px 10px;background:#fff;border-right:1px solid var(--border)}
+.ul small{display:block;font-weight:400;color:var(--ink-muted);font-size:11px}
+.blk{padding:6px 10px;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-muted);background:#fcfbf8;border-top:1px solid var(--border)}
+.bar{margin:5px 2px;border-radius:6px;font-size:11.5px;font-weight:600;padding:4px 7px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;text-decoration:none;display:flex;align-items:center;gap:4px}
+.inh{background:var(--accent);color:#fff}
+.res{background:#fff;color:var(--accent-ink);border:1.5px dashed var(--accent)}
+.conf{background:#cfe3df;color:var(--accent-ink)}
+.arr{background:#fff;color:var(--warning-ink);border:1.5px solid #d9b56a}
+.iso{background:#6b5b95;color:#fff}
+.mnt{background:repeating-linear-gradient(45deg,#e9e4d8 0 6px,#f7f4ec 6px 12px);color:var(--ink);border:1px solid var(--border-strong)}
+.turn{margin:5px 2px;border-radius:4px;background:repeating-linear-gradient(135deg,transparent 0 3px,#cbc3b2 3px 4px),repeating-linear-gradient(45deg,transparent 0 3px,#cbc3b2 3px 4px);font-size:10px;font-weight:700;color:var(--ink-muted);display:flex;align-items:center;justify-content:center}
+.free{grid-column:2 / 16;font-size:11.5px;color:var(--ink-faint);padding:12px 10px}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--ink-muted);margin:12px 0 0}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:26px;height:14px;border-radius:3px;display:inline-block}
+.m360{width:360px;border:1px solid var(--border-strong);border-radius:18px;background:var(--surface-page);padding:14px;flex:none}
+.dl{background:#fff;border:1px solid var(--border);border-radius:8px;margin-bottom:8px}
+.dl div{display:flex;justify-content:space-between;gap:8px;padding:8px 10px;border-top:1px solid #efece4;font-size:12.5px}
+.dl div:first-child{border-top:none}
+</style>
+</helmet>
+<div style="width:1280px;height:1500px;background:var(--surface-page);overflow:auto;position:relative">
+<div class="topnav"><div class="brand">PurrCare · staff</div><div class="who"><select class="branchpick" aria-label="Active branch"><option>Uttara (primary)</option><option>Banani</option></select>Shormi Akter · Reception</div></div>
+<div class="main" style="padding:22px 26px">
+  <div class="titlerow">
+    <div><h1 class="h1">Occupancy — Uttara</h1><p class="sub">Units × nights · a bar covers the nights a unit is taken · <span class="live"><span class="dot" aria-hidden="true"></span>updated 10:42 (Asia/Dhaka)</span></p></div>
+    <div style="display:flex;gap:8px;align-items:center"><a class="btn btn-2 btn-sm" href="#">‹ Previous week</a><b class="small">12–25 Oct 2026</b><a class="btn btn-2 btn-sm" href="#">Next week ›</a><a class="btn btn-2 btn-sm" href="#">List view</a></div>
+  </div>
+
+  <div class="og" role="grid" aria-label="Occupancy, 12 to 25 October">
+    <div class="orow ohead" role="row"><span style="grid-column:1;text-align:left;padding-left:10px">Unit</span><span class="today" style="grid-column:2">Mon<br>12</span><span style="grid-column:3">Tue<br>13</span><span style="grid-column:4">Wed<br>14</span><span style="grid-column:5">Thu<br>15</span><span style="grid-column:6">Fri<br>16</span><span style="grid-column:7">Sat<br>17</span><span style="grid-column:8">Sun<br>18</span><span style="grid-column:9">Mon<br>19</span><span style="grid-column:10">Tue<br>20</span><span style="grid-column:11">Wed<br>21</span><span style="grid-column:12">Thu<br>22</span><span style="grid-column:13">Fri<br>23</span><span style="grid-column:14">Sat<br>24</span><span style="grid-column:15">Sun<br>25</span></div>
+
+    <div class="blk">Garden wing · Family</div>
+    <div class="orow" role="row"><div class="ul">F-1<small>Family · 2</small></div><a class="bar arr" style="grid-column:2 / 9" href="StayWorkspace.dc.html">◔ Reserved · arrives today — Luna, Simba</a><div class="turn" style="grid-column:9 / 10" title="Turnaround">Turn</div></div>
+    <div class="orow" role="row"><div class="ul">F-2<small>Family · 2</small></div><a class="bar inh" style="grid-column:2 / 13" href="StayWorkspace.dc.html">◂ In house — Mittens ⚠ high risk, Biscuit · BRD-0187 · to 23 Oct</a><div class="turn" style="grid-column:13 / 14" title="Turnaround">Turn</div></div>
+    <div class="orow" role="row"><div class="ul">F-3<small>Family · 2</small></div><a class="bar inh" style="grid-column:2 / 4" href="#">◂ In house — Coco, Bella</a><div class="turn" style="grid-column:4 / 5">Turn</div><a class="bar conf" style="grid-column:10 / 16" href="#">✓ Confirmed — Milo ▸</a></div>
+    <div class="orow" role="row"><div class="ul">F-4<small>Family · 2</small></div><div class="free">Free all fortnight — select a night to book</div></div>
+
+    <div class="blk">Main block · Standard</div>
+    <div class="orow" role="row"><div class="ul">S-1<small>Standard · 1</small></div><a class="bar inh" style="grid-column:2 / 6" href="#">◂ In house — Noodle · not eating</a><div class="turn" style="grid-column:6 / 7">Turn</div></div>
+    <div class="orow" role="row"><div class="ul">S-2<small>Standard · 1</small></div><div class="turn" style="grid-column:2 / 3">Turn</div><div class="free" style="grid-column:3 / 16">Tom leaves today · free from Tue 13</div></div>
+    <div class="orow" role="row"><div class="ul">S-3<small>Standard · 1</small></div><a class="bar inh" style="grid-column:2 / 8" href="#">◂ In house — Oreo</a><div class="turn" style="grid-column:8 / 9">Turn</div></div>
+    <div class="orow" role="row"><div class="ul">S-4<small>Standard · 1</small></div><a class="bar arr" style="grid-column:2 / 9" href="CheckInVaccinationHold.dc.html">✓ Confirmed · arrives today — Pepper</a><div class="turn" style="grid-column:9 / 10">Turn</div></div>
+    <div class="orow" role="row"><div class="ul">S-5<small>Standard · 1</small></div><a class="bar inh" style="grid-column:2 / 5" href="#">◂ In house — Tiger</a><div class="turn" style="grid-column:5 / 6">Turn</div></div>
+    <div class="orow" role="row"><div class="ul">S-6<small>Standard · 1</small></div><div class="bar mnt" style="grid-column:4 / 7">▨ Out of service — aircon repair</div></div>
+
+    <div class="blk">Suites</div>
+    <div class="orow" role="row"><div class="ul">SU-1<small>Suite · 3</small></div><a class="bar inh" style="grid-column:2 / 11" href="#">◂ In house — Leo, Nala, Max</a><div class="turn" style="grid-column:11 / 12">Turn</div></div>
+    <div class="orow" role="row"><div class="ul">SU-2<small>Suite · 3</small></div><div class="free">Free all fortnight — select a night to book</div></div>
+
+    <div class="blk">Isolation block · staff-assigned only</div>
+    <div class="orow" role="row"><div class="ul">ISO-1<small>Isolation · 1</small></div><a class="bar iso" style="grid-column:2 / 10" href="IsolationPanel.dc.html">◂ In isolation — Kitty · suspected ringworm</a></div>
+    <div class="orow" role="row"><div class="ul">ISO-2<small>Isolation · 1</small></div><div class="free">Free — needed if another cat is flagged</div></div>
+  </div>
+  <div class="legend">
+    <span><i class="sw inh"></i>In house</span><span><i class="sw conf"></i>Confirmed</span><span><i class="sw res" style="border:1.5px dashed var(--accent)"></i>Reserved (deposit not in)</span><span><i class="sw arr" style="border:1.5px solid #d9b56a"></i>Arrives today</span><span><i class="sw iso"></i>Isolation</span><span><i class="sw mnt"></i>Out of service</span><span><i class="sw turn" style="margin:0"></i>Turnaround — cleaning after a departure</span><span>◂ ▸ continues outside these dates</span>
+  </div>
+  <p class="small muted" style="margin-top:8px">Every bar is a link to its stay; Tab moves through units in row order. There's no drag — extend and relocate are on the stay, because both need a reason.</p>
+
+  <div style="display:flex;gap:26px;margin-top:26px;align-items:flex-start">
+    <div class="m360" aria-label="Below 768 px">
+      <div class="panel-label">Below 768 px — the grid becomes a day list</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><a class="btn btn-2 btn-sm" href="#">‹</a><b style="font-size:14px">Mon 12 Oct · today</b><a class="btn btn-2 btn-sm" href="#">›</a></div>
+      <div class="panel-label">Garden wing</div>
+      <div class="dl"><div><b>F-1</b><span>Luna, Simba · arrives today</span></div><div><b>F-2</b><span>Mittens ⚠, Biscuit · in house</span></div><div><b>F-3</b><span>Coco, Bella · in house</span></div><div><b>F-4</b><span class="muted">Free</span></div></div>
+      <div class="panel-label">Main block</div>
+      <div class="dl"><div><b>S-1</b><span>Noodle · in house</span></div><div><b>S-2</b><span>Tom leaves · turnaround</span></div><div><b>S-4</b><span>Pepper · arrives today</span></div><div><b>S-6</b><span class="muted">Free · out of service from 14 Oct</span></div></div>
+      <p class="small muted">No horizontal scroll at 360 px.</p>
+    </div>
+    <p class="small muted" style="max-width:420px;line-height:1.6">The grid is days across and units down; below 768 px it would need sideways scrolling, so the phone gets one day at a time instead — the same units, the same words, a list rather than a picture (UI-1).</p>
+  </div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1500}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+</body>
+</html>
