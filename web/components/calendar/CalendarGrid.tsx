@@ -123,6 +123,8 @@ export function CalendarGrid({
                 );
                 const appointments = payload.appointments.filter((a) => {
                   if (!a.startsOn || localDateOf(a.startsOn, zone) !== dateIso) return false;
+                  if (view === 'performer' && a.surgeryId && a.assistantId === resource.id)
+                    return true;
                   return (view === 'performer' ? a.performerId : a.roomId) === resource.id;
                 });
                 const off =
@@ -220,17 +222,25 @@ export function CalendarGrid({
                         const box = blockBox(start, end, range, grid);
                         const isPending = pending?.appointmentId === appointment.id;
                         const isDragging = drag?.appointmentId === appointment.id;
+                        const surgeryId = appointment.surgeryId;
+                        const assistant = surgeryId
+                          ? payload.resources.find((r) => r.id === appointment.assistantId)
+                          : undefined;
                         return (
                           <div
                             key={appointment.id}
                             role="group"
                             aria-label={`${appointment.catName}, ${appointment.serviceName}, ${timeOnlyInZone(appointment.startsOn!, zone)}`}
                             onPointerDown={(event) => {
+                              // A surgery's block is not draggable (HO-SRG-002 §11.10): the server refuses a
+                              // move with AppointmentManagedBySurgery anyway.
+                              if (surgeryId) return;
                               if ((event.target as HTMLElement).closest('a,button')) return;
                               begin(event, appointment.id);
                             }}
                             className={cn(
-                              'absolute inset-x-0.5 z-[2] flex cursor-grab touch-none select-none flex-col overflow-hidden rounded-[var(--radius-sm)] border bg-accent-soft px-1.5 py-1 text-[11px] leading-tight',
+                              'absolute inset-x-0.5 z-[2] flex select-none flex-col overflow-hidden rounded-[var(--radius-sm)] border bg-accent-soft px-1.5 py-1 text-[11px] leading-tight',
+                              surgeryId ? 'cursor-pointer' : 'cursor-grab touch-none',
                               appointment.needsRescheduling
                                 ? 'border-warning-ink'
                                 : 'border-accent',
@@ -239,7 +249,11 @@ export function CalendarGrid({
                             style={{ top: box.top, height: box.height }}
                           >
                             <Link
-                              href={`/staff/appointments/${appointment.id}`}
+                              href={
+                                surgeryId
+                                  ? `/staff/surgeries/${surgeryId}`
+                                  : `/staff/appointments/${appointment.id}`
+                              }
                               onClick={(event) => {
                                 if (consumeClick()) event.preventDefault();
                               }}
@@ -249,8 +263,12 @@ export function CalendarGrid({
                               {appointment.catName}
                             </Link>
                             <span className="truncate text-ink-muted">
+                              {surgeryId ? 'Surgery · ' : ''}
                               {appointment.serviceName} · {appointment.status}
                             </span>
+                            {surgeryId && assistant && (
+                              <span className="truncate text-ink-muted">with {assistant.name}</span>
+                            )}
                             {appointment.needsRescheduling && (
                               <span className="inline-flex items-center gap-0.5 font-semibold text-warning-ink">
                                 <AlertTriangle size={11} aria-hidden="true" /> Needs a new time
@@ -261,14 +279,16 @@ export function CalendarGrid({
                                 <ShieldAlert size={11} aria-hidden="true" /> High risk
                               </span>
                             )}
-                            <button
-                              type="button"
-                              onClick={() => onMoveDialog(appointment)}
-                              aria-label={`Move ${appointment.catName}’s appointment`}
-                              className="mt-auto w-fit rounded-sm text-[11px] font-semibold text-accent-ink underline underline-offset-2 focus-visible:outline-2 focus-visible:outline-accent"
-                            >
-                              Move…
-                            </button>
+                            {!surgeryId && (
+                              <button
+                                type="button"
+                                onClick={() => onMoveDialog(appointment)}
+                                aria-label={`Move ${appointment.catName}’s appointment`}
+                                className="mt-auto w-fit rounded-sm text-[11px] font-semibold text-accent-ink underline underline-offset-2 focus-visible:outline-2 focus-visible:outline-accent"
+                              >
+                                Move…
+                              </button>
+                            )}
                           </div>
                         );
                       })}

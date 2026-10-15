@@ -20,6 +20,14 @@ namespace CatEcommerce.Domain.Aggregates.Clinic;
 public sealed class AppointmentAggregate : AggregateRoot
 {
     private readonly List<AppointmentStatusChange> _statusHistory = [];
+    private readonly List<AppointmentStaffTime> _staffTime = [];
+
+    /// <summary>HO-SRG-001 section 8.4 (ADR-158) -- set only by <see cref="BookForSurgery"/>. While set, every other transition method refuses with
+    /// <c>AppointmentManagedBySurgery</c>: the appointment cannot diverge from its surgery.</summary>
+    public Guid? SurgeryId { get; private set; }
+
+    /// <summary>HO-SRG-001 section 8.4 -- the nurse or vet assisting a surgery; occupied through <see cref="StaffTime"/> (ADR-159).</summary>
+    public Guid? AssistantId { get; private set; }
 
     public Guid BranchId { get; private set; }
     public Guid CustomerId { get; private set; }
@@ -61,6 +69,9 @@ public sealed class AppointmentAggregate : AggregateRoot
 
     public IReadOnlyList<AppointmentStatusChange> StatusHistory => _statusHistory;
 
+    /// <summary>HO-SRG-001 section 8.4 (ADR-159) -- derived occupancy rows, at most two (performer, assistant).</summary>
+    public IReadOnlyList<AppointmentStaffTime> StaffTime => _staffTime;
+
     private AppointmentAggregate() { }
 
     public AppointmentAggregate(Guid id) : base(id) { }
@@ -87,6 +98,7 @@ public sealed class AppointmentAggregate : AggregateRoot
         ScheduleStamp = Stamp(dto.StartsOn);
 
         SetDefaultValue(dto.UserContext);
+        SyncStaffTime();
         UpdateVersion();
     }
 
@@ -112,6 +124,7 @@ public sealed class AppointmentAggregate : AggregateRoot
             PerformerId = PerformerId, StartsOn = StartsOn!.Value, Channel = Channel,
             CorrelationId = dto.CorrelationId, UserContext = dto.UserContext
         });
+        SyncStaffTime();
         UpdateVersion();
     }
 
@@ -122,6 +135,7 @@ public sealed class AppointmentAggregate : AggregateRoot
         AppointmentTransitionRules.EnsureAllowed(Status, AppointmentTransitionRules.ReleaseHold);
         Transition(AppointmentStatus.HoldReleased, now, userContext.UserId);
         SetDefaultValue(userContext);
+        SyncStaffTime();
         UpdateVersion();
     }
 
@@ -138,6 +152,7 @@ public sealed class AppointmentAggregate : AggregateRoot
         AppointmentTransitionRules.EnsureAllowed(Status, AppointmentTransitionRules.ExpireHold);
         // Expiry is the system's act, not a person's -- recorded against the empty id.
         Transition(AppointmentStatus.HoldExpired, now, Guid.Empty);
+        SyncStaffTime();
         UpdateVersion();
     }
 
@@ -172,6 +187,7 @@ public sealed class AppointmentAggregate : AggregateRoot
             PerformerId = PerformerId, StartsOn = StartsOn!.Value, Channel = Channel,
             CorrelationId = dto.CorrelationId, UserContext = dto.UserContext
         });
+        SyncStaffTime();
         UpdateVersion();
     }
 
@@ -179,6 +195,7 @@ public sealed class AppointmentAggregate : AggregateRoot
     /// time is released and the new one taken atomically -- one row, one update (US-CLN-04 AC1).</summary>
     public void Reschedule(AppointmentRescheduleDto dto)
     {
+        EnsureNotManagedBySurgery();
         AppointmentTransitionRules.EnsureAllowed(Status, AppointmentTransitionRules.Reschedule);
 
         if (!dto.IsStaff && dto.ChangeCutoffHours is { } cutoff && dto.Now > StartsOn!.Value.AddHours(-cutoff))
@@ -207,11 +224,13 @@ public sealed class AppointmentAggregate : AggregateRoot
             });
         }
 
+        SyncStaffTime();
         UpdateVersion();
     }
 
     public void Cancel(AppointmentCancelDto dto)
     {
+        EnsureNotManagedBySurgery();
         AppointmentTransitionRules.EnsureAllowed(Status, AppointmentTransitionRules.Cancel);
 
         if (dto.CancelledByCustomer && dto.ChangeCutoffHours is { } cutoff && dto.Now > StartsOn!.Value.AddHours(-cutoff))
@@ -234,11 +253,13 @@ public sealed class AppointmentAggregate : AggregateRoot
             AppointmentId = Id, BranchId = BranchId, CancelledByCustomer = dto.CancelledByCustomer,
             CorrelationId = dto.CorrelationId, UserContext = dto.UserContext
         });
+        SyncStaffTime();
         UpdateVersion();
     }
 
     public void CheckIn(AppointmentCheckInDto dto)
     {
+        EnsureNotManagedBySurgery();
         AppointmentTransitionRules.EnsureAllowed(Status, AppointmentTransitionRules.CheckIn);
 
         var timeZone = TimeZoneInfo.FindSystemTimeZoneById(dto.TimeZoneId);
@@ -257,6 +278,7 @@ public sealed class AppointmentAggregate : AggregateRoot
         if (dto.TriagePriority is { } priority) TriagePriority = priority;
 
         AddDomainEvent(new AppointmentCheckedInEvent { AppointmentId = Id, BranchId = BranchId, CorrelationId = dto.CorrelationId, UserContext = dto.UserContext });
+        SyncStaffTime();
         UpdateVersion();
     }
 
@@ -282,11 +304,13 @@ public sealed class AppointmentAggregate : AggregateRoot
         SetDefaultValue(dto.UserContext);
 
         AddDomainEvent(new WalkInRegisteredEvent { AppointmentId = Id, BranchId = BranchId, CorrelationId = dto.CorrelationId, UserContext = dto.UserContext });
+        SyncStaffTime();
         UpdateVersion();
     }
 
     public void SetTriagePriority(AppointmentTriageDto dto)
     {
+        EnsureNotManagedBySurgery();
         AppointmentTransitionRules.EnsureAllowed(Status, AppointmentTransitionRules.SetTriagePriority);
 
         TriagePriority = dto.Priority;
@@ -299,6 +323,7 @@ public sealed class AppointmentAggregate : AggregateRoot
     /// room (§11.4 C11). No exclusion constraint applies to a walk-in (§8.4).</summary>
     public void Start(AppointmentStartDto dto)
     {
+        EnsureNotManagedBySurgery();
         AppointmentTransitionRules.EnsureAllowed(Status, AppointmentTransitionRules.Start);
 
         if (IsWalkIn && (dto.PerformerId is null || dto.RoomId is null))
@@ -315,11 +340,13 @@ public sealed class AppointmentAggregate : AggregateRoot
             AppointmentId = Id, BranchId = BranchId, CatId = CatId, PerformerId = PerformerId!.Value,
             CorrelationId = dto.CorrelationId, UserContext = dto.UserContext
         });
+        SyncStaffTime();
         UpdateVersion();
     }
 
     public void Complete(AppointmentCompleteDto dto)
     {
+        EnsureNotManagedBySurgery();
         AppointmentTransitionRules.EnsureAllowed(Status, AppointmentTransitionRules.Complete);
 
         Transition(AppointmentStatus.Completed, dto.Now, dto.UserContext.UserId);
@@ -330,11 +357,13 @@ public sealed class AppointmentAggregate : AggregateRoot
             AppointmentId = Id, BranchId = BranchId, CustomerId = CustomerId, CatId = CatId,
             CorrelationId = dto.CorrelationId, UserContext = dto.UserContext
         });
+        SyncStaffTime();
         UpdateVersion();
     }
 
     public void RecordNoShow(AppointmentNoShowDto dto)
     {
+        EnsureNotManagedBySurgery();
         AppointmentTransitionRules.EnsureAllowed(Status, AppointmentTransitionRules.RecordNoShow);
 
         if (dto.Now < StartsOn!.Value.AddMinutes(dto.GraceMinutes))
@@ -348,6 +377,7 @@ public sealed class AppointmentAggregate : AggregateRoot
         {
             AppointmentId = Id, BranchId = BranchId, CustomerId = CustomerId, CorrelationId = dto.CorrelationId, UserContext = dto.UserContext
         });
+        SyncStaffTime();
         UpdateVersion();
     }
 
@@ -384,6 +414,135 @@ public sealed class AppointmentAggregate : AggregateRoot
 
         CustomerId = dto.NewCustomerId;
         UpdateVersion();
+    }
+
+    // -- HO-SRG-001 section 8.4 / 11.7 G1 (ADR-158, ADR-159) -- a surgery time is an appointment --
+
+    /// <summary>Staff mode, no hold: the appointment that holds a surgery theatre, surgeon and assistant. Created in the same save as the surgery.
+    /// Raises no appointment event -- the surgery raises its own.</summary>
+    public void BookForSurgery(SurgeryAppointmentDto dto)
+    {
+        BranchId = dto.BranchId;
+        CustomerId = dto.CustomerId;
+        CatId = dto.CatId;
+        ClinicServiceId = dto.ServiceId;
+        ServiceSnapshot = dto.ServiceSnapshot;
+        PerformerId = dto.SurgeonId;
+        AssistantId = dto.AssistantId;
+        RoomId = dto.TheatreId;
+        StartsOn = dto.StartsOn;
+        EndsOn = dto.EndsOn;
+        SurgeryId = dto.SurgeryId;
+        IsWalkIn = false;
+        Channel = BookingChannel.Surgery;
+        Status = AppointmentStatus.Booked;
+        TriagePriority = TriagePriority.Routine;
+        RescheduleCount = 0;
+        ScheduleStamp = Stamp(dto.StartsOn);
+
+        SetDefaultValue(dto.UserContext);
+        SyncStaffTime();
+        UpdateVersion();
+    }
+
+    /// <summary>The surgery was rescheduled or re-staffed. Clears any needs-rescheduling flag: moving the surgery is the resolution.</summary>
+    public void MoveForSurgery(SurgeryAppointmentMoveDto dto)
+    {
+        EnsureSurgeryAppointment(dto.SurgeryId);
+        AppointmentTransitionRules.EnsureAllowed(Status, AppointmentTransitionRules.Reschedule);
+
+        var startChanged = StartsOn != dto.StartsOn;
+        StartsOn = dto.StartsOn;
+        EndsOn = dto.EndsOn;
+        PerformerId = dto.SurgeonId;
+        AssistantId = dto.AssistantId;
+        RoomId = dto.TheatreId;
+
+        if (startChanged)
+        {
+            RescheduleCount++;
+            ScheduleStamp = Stamp(dto.StartsOn);
+        }
+
+        NeedsRescheduling = false;
+        RescheduleFlagReason = null;
+        RescheduleFlagSourceId = null;
+
+        SyncStaffTime();
+        UpdateVersion();
+    }
+
+    public void CancelForSurgery(SurgeryAppointmentCancelDto dto)
+    {
+        EnsureSurgeryAppointment(dto.SurgeryId);
+        AppointmentTransitionRules.EnsureAllowed(Status, AppointmentTransitionRules.Cancel);
+
+        Transition(AppointmentStatus.Cancelled, dto.Now, dto.UserContext.UserId);
+        CancelledOn = dto.Now;
+        CancelledBy = dto.UserContext.UserId;
+        CancellationReason = dto.Reason;
+        CancelledByCustomer = false;
+        NeedsRescheduling = false;
+        RescheduleFlagReason = null;
+        RescheduleFlagSourceId = null;
+
+        SyncStaffTime();
+        UpdateVersion();
+    }
+
+    /// <summary>The procedure ended: Booked to Completed, which frees any remaining planned time (a Completed appointment no longer occupies).</summary>
+    public void CompleteSurgerySlot(SurgeryAppointmentCompleteDto dto)
+    {
+        EnsureSurgeryAppointment(dto.SurgeryId);
+        if (Status != AppointmentStatus.Booked)
+            throw new DomainRuleViolationException(
+                BusinessViolationCodes.InvalidAppointmentTransition,
+                $"A {Status.DisplayName.ToLowerInvariant()} appointment cannot be completed.", nameof(Status));
+
+        Transition(AppointmentStatus.Completed, dto.Now, dto.UserContext.UserId);
+        CompletedOn = dto.Now;
+
+        SyncStaffTime();
+        UpdateVersion();
+    }
+
+    private void EnsureNotManagedBySurgery()
+    {
+        if (SurgeryId is not null)
+            throw new DomainRuleViolationException(BusinessViolationCodes.AppointmentManagedBySurgery, SurgeryMessages.AppointmentManagedBySurgery, nameof(SurgeryId));
+    }
+
+    private void EnsureSurgeryAppointment(Guid surgeryId)
+    {
+        if (SurgeryId != surgeryId)
+            throw new DomainRuleViolationException(BusinessViolationCodes.AppointmentManagedBySurgery, "This appointment does not belong to that surgery.", nameof(SurgeryId));
+    }
+
+    /// <summary>ADR-159 -- keeps the owned staff-time rows equal to what the appointment occupies. Called at the end of EVERY method that changes status,
+    /// time, performer or assistant (U-A8). A row is updated in place; one with no staff member or no time is removed.</summary>
+    private void SyncStaffTime()
+    {
+        var occupies = !IsWalkIn && (Status == AppointmentStatus.Held || Status == AppointmentStatus.Booked
+            || Status == AppointmentStatus.CheckedIn || Status == AppointmentStatus.InConsultation);
+
+        SyncRole(StaffTimeRole.Performer, PerformerId, occupies);
+        SyncRole(StaffTimeRole.Assistant, AssistantId, occupies);
+    }
+
+    private void SyncRole(StaffTimeRole role, Guid? staffAccountId, bool occupies)
+    {
+        var existing = _staffTime.FirstOrDefault(r => r.Role == role);
+
+        if (staffAccountId is null || StartsOn is null || EndsOn is null)
+        {
+            if (existing is not null) _staffTime.Remove(existing);
+            return;
+        }
+
+        if (existing is null)
+            _staffTime.Add(new AppointmentStaffTime(Guid.NewGuid(), role, staffAccountId.Value, StartsOn.Value, EndsOn.Value, occupies));
+        else
+            existing.Update(staffAccountId.Value, StartsOn.Value, EndsOn.Value, occupies);
     }
 
     private void Transition(AppointmentStatus to, DateTimeOffset now, Guid changedBy)

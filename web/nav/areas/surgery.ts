@@ -10,6 +10,11 @@ import type { NavArea } from '../types';
 export const surgeryNav: NavArea = {
   key: 'surgery',
   label: 'Surgery',
-  audience: 'staff',
-  items: [],
+  audience: 'both',
+  items: [
+    // HO-SRG-002 §13 names the two layouts (one nav entry each), but the shells' nav lives in this
+    // registry (the deviation HO-PHM-002, HO-IMP-002 and HO-BIL-002 recorded): neither layout is edited.
+    { label: 'Surgery', href: '/staff/surgeries', icon: 'scissors', audience: 'staff' },
+    { label: 'Surgeries', href: '/portal/surgeries', icon: 'scissors', audience: 'portal' },
+  ],
 };

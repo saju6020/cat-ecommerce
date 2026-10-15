@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Suspense } from 'react';
 import Link from 'next/link';
 import { Menu } from 'lucide-react';
+import { CartBadge } from '@/components/cart/CartBadge';
 import { SearchBox, SearchForm } from './SearchBox';
 import { categoryLabel } from '@/lib/shop/labels';
 import type { CategoryNode } from '@/lib/api/shop-catalogue';
@@ -38,7 +39,7 @@ function CategoryLinks({ categories }: { categories: CategoryNode[] }) {
 
 /**
  * HO-SHP-002 §11.1 `ShopHeader` — logo, `SearchBox`, the category navigation (a plain `<details>`
- * disclosure on small screens, so it works without JavaScript), and the account links. The
+ * disclosure on small screens, so it works without JavaScript), the account links and the cart. The
  * `useSearchParams` islands are suspended one by one, each with a server-rendered fallback, so the
  * header, nav and search are in the HTML itself (S4) - never streamed behind a hidden boundary.
  */
@@ -68,6 +69,8 @@ export function ShopHeader({ categories, accountSlot, languageSlot }: ShopHeader
           >
             {accountSlot}
           </Suspense>
+          {/* Issues.md #4 — the cart link and item count on every shop page (HO-ORD-002 §3.3 CartBadge). */}
+          <CartBadge />
         </div>
       </div>
       <nav aria-label="Shop categories" className="border-t border-border">

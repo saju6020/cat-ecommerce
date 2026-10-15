@@ -14,6 +14,7 @@ const TABS = [
   { segment: '', label: 'Details' },
   { segment: 'hours', label: 'Opening hours' },
   { segment: 'closures', label: 'Closures' },
+  { segment: 'calendar', label: 'Calendar' },
   { segment: 'rooms', label: 'Rooms' },
   { segment: 'roster', label: 'Roster' },
 ];

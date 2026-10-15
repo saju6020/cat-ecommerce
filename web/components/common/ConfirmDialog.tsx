@@ -11,6 +11,7 @@ import {
   useDialogReturnFocus,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
+import { OFFLINE_CANT_SAVE_LABEL, useWriteEnabled } from '@/lib/hooks/useConnectivity';
 
 /**
  * `components/common/ConfirmDialog.tsx` — HO-CAT-002 §11.7, UI-3.
@@ -56,6 +57,10 @@ export function ConfirmDialog({
 }: ConfirmDialogProps) {
   const [isPending, setIsPending] = React.useState(false);
   const returnFocusRef = useDialogReturnFocus(open);
+  // HO-XCT-002 §11.3, ADR-FE-143 — offline the confirm is switched off WITH a visible reason, never
+  // silently (the write would be refused by client.ts anyway).
+  const writeEnabled = useWriteEnabled();
+  const offlineReasonId = React.useId();
 
   async function handleConfirm() {
     setIsPending(true);
@@ -74,14 +79,20 @@ export function ConfirmDialog({
           <DialogDescription>{consequence}</DialogDescription>
         </DialogHeader>
         <DialogFooter>
+          {!writeEnabled && (
+            <p id={offlineReasonId} className="text-sm text-ink-muted">
+              {OFFLINE_CANT_SAVE_LABEL}
+            </p>
+          )}
           <Button variant="secondary" onClick={() => onOpenChange(false)} disabled={isPending}>
             {cancelLabel}
           </Button>
           <Button
             variant={variant === 'destructive' ? 'destructive' : 'primary'}
             onClick={handleConfirm}
-            disabled={isPending}
+            disabled={isPending || !writeEnabled}
             aria-busy={isPending}
+            aria-describedby={!writeEnabled ? offlineReasonId : undefined}
           >
             {isPending ? pendingLabel : confirmLabel}
           </Button>

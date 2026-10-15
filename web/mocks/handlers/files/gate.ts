@@ -4,11 +4,9 @@
  * — never a real `sleep` (task rule: "use promises you release manually"). Named so more than one
  * in-flight upload can be controlled independently if a future test needs it.
  *
- * Works identically from a Vitest spec (same Node process as `msw/node`'s handlers) and from a
- * Playwright spec (the harness page, `app/dev/file-storage-harness/page.tsx`, exposes
- * `window.__fileUploadGates` backed by these same functions — MSW's browser mode runs handler
- * code in the PAGE's own JS realm, not inside the service worker, so this module is genuinely the
- * same instance the page can reach).
+ * Used from Vitest specs (same Node process as `msw/node`'s handlers). The dev-only harness page
+ * that once exposed it to Playwright was deleted when the cat photo page became a real consumer
+ * of the uploader (owner decision 2026-09-28; HO-CAT-002 follow-up 2026-10-09).
  */
 const gates = new Map<string, { promise: Promise<void>; release: () => void }>();
 

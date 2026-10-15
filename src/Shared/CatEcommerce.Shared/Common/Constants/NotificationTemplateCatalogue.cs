@@ -50,7 +50,7 @@ public sealed record TemplateContentInput(
 /// HO-NTF-001 §8.2 -- the shipped definitions. Later areas append their own (§1 Amended); none are
 /// built by this pass beyond the three this handover itself owns (reset, vaccination, deworming).
 /// </summary>
-public static class NotificationTemplateCatalogue
+public static partial class NotificationTemplateCatalogue
 {
     public const string PasswordReset = "account.password-reset";
     public const string VaccinationDue = "care.vaccination-due";
@@ -68,6 +68,27 @@ public static class NotificationTemplateCatalogue
     /// for an alert but granted no marketing consent on any channel is told nothing (F33, OQ-2);
     /// the alert response's <c>deliverability</c> says so.</summary>
     public const string ShopBackInStock = "shop.back-in-stock";
+
+    /// <summary>HO-EMR-001 §8.8/§8.9 (ADR-130, ADR-131) -- two Transactional templates. Neither carries
+    /// clinical content: the summary message is link-only, and a follow-up reminder never states a reason
+    /// (a follow-up reason is clinical information in an SMS).</summary>
+    public const string VisitSummaryAvailable = "visit.summary-available";
+    public const string VisitFollowUpDue = "visit.follow-up-due";
+    /// <summary>HO-IMP-001 §8.12 -- a recalled batch's customer notice (<c>BatchRecallGuard</c>).</summary>
+    public const string InventoryBatchRecall = "inventory.batch-recall";
+    /// <summary>HO-BIL-001 §8.12 (ADR-193) -- three Transactional templates ("payment" messages are
+    /// exempt from marketing opt-out, FR-NTF-4). Enqueued by command handlers only.</summary>
+    public const string BillingInvoiceIssued = "billing.invoice-issued";
+    public const string BillingPaymentReceived = "billing.payment-received";
+    public const string BillingRefundIssued = "billing.refund-issued";
+
+    /// <summary>HO-PHM-001 §8.11 (ADR-150) -- five Transactional templates (medical, FR-NTF-4). None carries a dose, a diagnosis or a batch
+    /// number. Enqueued by command handlers (or, for the refill reminder, the timed producer), never by an event handler.</summary>
+    public const string PharmacyRefillDue = "pharmacy.refill-due";
+    public const string PharmacyRepeatReady = "pharmacy.repeat-ready";
+    public const string PharmacyRepeatDeclined = "pharmacy.repeat-declined";
+    public const string PharmacyDietAuthorised = "pharmacy.diet-authorised";
+    public const string PharmacyDietAuthorisationExpired = "pharmacy.diet-authorisation-expired";
 
     public static readonly IReadOnlyList<NotificationTemplateDefinition> Definitions =
     [
@@ -266,6 +287,246 @@ public static class NotificationTemplateCatalogue
                     "Hello {{recipientName}},\n\n{{productName}} ({{variantLabel}}) is back in stock. [See it in the shop]({{productLink}}).\n\n[Stop these alerts]({{unsubscribeLink}})", null),
                 new NotificationTemplateChannelDefault(NotificationChannel.InApp, null, "Back in stock",
                     "{{productName}} ({{variantLabel}}) is back in stock. Stop alerts: {{unsubscribeLink}}", "{{productLink}}"),
+            ]),
+
+        // HO-EMR-001 §8.8 -- on finalisation, to the cat's current owner. Link-only: no diagnosis, no
+        // vet name, no clinical text. The portal link is where access is authenticated and logged.
+        new NotificationTemplateDefinition(
+            VisitSummaryAvailable, "Visit summary available", "Sent when a vet finalises a visit, so the owner can read the discharge summary in the portal (HO-EMR-001 §8.8). Link only -- no clinical content.",
+            NotificationCategory.Transactional, NotificationUrgency.Normal,
+            [NotificationChannel.Sms, NotificationChannel.Email, NotificationChannel.InApp], ContainsSecret: false,
+            Variables:
+            [
+                new NotificationTemplateVariableDefinition("catName", "The cat's name.", TemplateVariableKind.Text, "Mitu", []),
+                new NotificationTemplateVariableDefinition("visitDate", "The visit's date.", TemplateVariableKind.Date, "2026-10-12", []),
+                new NotificationTemplateVariableDefinition("summaryLink", "A link to the visit summary in the portal.", TemplateVariableKind.Url, "https://portal.example.com/portal/visits/sample", [NotificationChannel.Sms, NotificationChannel.Email, NotificationChannel.InApp]),
+            ],
+            Defaults:
+            [
+                new NotificationTemplateChannelDefault(NotificationChannel.Sms, null, null,
+                    "{{catName}}'s visit summary from {{visitDate}} is ready: {{summaryLink}}", null),
+                new NotificationTemplateChannelDefault(NotificationChannel.Email, "{{catName}}'s visit summary is ready", null,
+                    "Hello {{recipientName}},\n\n{{catName}}'s visit summary from {{visitDate}} is ready. [Read the summary]({{summaryLink}}).", null),
+                new NotificationTemplateChannelDefault(NotificationChannel.InApp, null, "Visit summary ready",
+                    "{{catName}}'s visit summary from {{visitDate}} is ready.", "{{summaryLink}}"),
+            ]),
+
+        // HO-EMR-001 §8.9 -- a follow-up reminder queued with SendAfter and the VisitFollowUp guard. Never
+        // states the reason for the follow-up.
+        new NotificationTemplateDefinition(
+            VisitFollowUpDue, "Follow-up visit due", "Sent ahead of a cat's follow-up visit date when the owner has not yet booked (HO-EMR-001 §8.9). No reason is stated.",
+            NotificationCategory.Transactional, NotificationUrgency.Normal,
+            [NotificationChannel.Sms, NotificationChannel.Email, NotificationChannel.InApp], ContainsSecret: false,
+            Variables:
+            [
+                new NotificationTemplateVariableDefinition("catName", "The cat's name.", TemplateVariableKind.Text, "Mitu", []),
+                new NotificationTemplateVariableDefinition("dueOn", "The follow-up's due date.", TemplateVariableKind.Date, "2026-10-20", []),
+                new NotificationTemplateVariableDefinition("bookingLink", "A direct booking link.", TemplateVariableKind.Url, "https://portal.example.com/book?catId=sample&category=FollowUp", [NotificationChannel.Sms, NotificationChannel.Email, NotificationChannel.InApp]),
+            ],
+            Defaults:
+            [
+                new NotificationTemplateChannelDefault(NotificationChannel.Sms, null, null,
+                    "{{catName}} is due for a follow-up visit on {{dueOn}}. Book here: {{bookingLink}}", null),
+                new NotificationTemplateChannelDefault(NotificationChannel.Email, "A follow-up visit is due for {{catName}}", null,
+                    "Hello {{recipientName}},\n\n{{catName}} is due for a follow-up visit on {{dueOn}}. [Book now]({{bookingLink}}).", null),
+                new NotificationTemplateChannelDefault(NotificationChannel.InApp, null, "Follow-up visit due",
+                    "{{catName}} is due for a follow-up visit on {{dueOn}}.", "{{bookingLink}}"),
+            ]),
+
+        new NotificationTemplateDefinition(
+            InventoryBatchRecall, "Product recall", "Sent once to every customer who received a recalled batch, or whose cat did (HO-IMP-001 §8.12). A safety notice: transactional, urgent, ignores quiet hours (OQ-6).",
+            NotificationCategory.Transactional, NotificationUrgency.Urgent,
+            [NotificationChannel.Sms, NotificationChannel.Email, NotificationChannel.InApp], ContainsSecret: false,
+            Variables:
+            [
+                new NotificationTemplateVariableDefinition("productName", "The recalled product's name.", TemplateVariableKind.Text, "Royal Canin Kitten 2 kg", [NotificationChannel.Sms, NotificationChannel.Email, NotificationChannel.InApp]),
+                new NotificationTemplateVariableDefinition("lotNumber", "The recalled lot.", TemplateVariableKind.Text, "L2406-17", [NotificationChannel.Sms, NotificationChannel.Email, NotificationChannel.InApp]),
+                // Text rather than Date (a deviation from §8.12, recorded in HO-IMP-001 §1 Amended): an undated
+                // batch (a General SKU) has no expiry to give, and a Date variable that is not a date cannot render.
+                new NotificationTemplateVariableDefinition("expiresOn", "The lot's expiry date (yyyy-MM-dd), or \"no expiry date\".", TemplateVariableKind.Text, "2027-03-31", []),
+                new NotificationTemplateVariableDefinition("customerAdvice", "What the owner should do.", TemplateVariableKind.Text, "Stop feeding it and keep the packaging.", [NotificationChannel.Email, NotificationChannel.InApp]),
+            ],
+            Defaults:
+            [
+                new NotificationTemplateChannelDefault(NotificationChannel.Sms, null, null,
+                    "Safety recall from {{clinicName}}: {{productName}}, lot {{lotNumber}} (expires {{expiresOn}}). Please stop using it and call {{clinicPhone}}.", null),
+                new NotificationTemplateChannelDefault(NotificationChannel.Email, "Safety recall: {{productName}}", null,
+                    "Hello {{recipientName}},\n\n{{productName}}, lot {{lotNumber}} (expires {{expiresOn}}), has been recalled.\n\n{{customerAdvice}}\n\nPlease call {{clinicName}} on {{clinicPhone}} if you have any questions.", null),
+                new NotificationTemplateChannelDefault(NotificationChannel.InApp, null, "Product recall",
+                    "{{productName}}, lot {{lotNumber}} (expires {{expiresOn}}), has been recalled. {{customerAdvice}} Call {{clinicPhone}} with any questions.", null),
+            ]),
+
+        new NotificationTemplateDefinition(
+            BillingInvoiceIssued, "Invoice issued", "Sent when an invoice is issued to a customer (HO-BIL-001 §8.12).",
+            NotificationCategory.Transactional, NotificationUrgency.Normal,
+            [NotificationChannel.Sms, NotificationChannel.Email, NotificationChannel.InApp], ContainsSecret: false,
+            Variables:
+            [
+                new NotificationTemplateVariableDefinition("invoiceNumber", "The invoice number.", TemplateVariableKind.Text, "INV-MAIN-2627-000123", []),
+                new NotificationTemplateVariableDefinition("totalText", "The invoice total, formatted with its currency.", TemplateVariableKind.Text, "BDT 1,500.00", []),
+                new NotificationTemplateVariableDefinition("dueOn", "The date payment is due.", TemplateVariableKind.Date, "2026-10-12", []),
+                new NotificationTemplateVariableDefinition("invoiceLink", "A link to view the invoice.", TemplateVariableKind.Url, "https://portal.example.com/portal/billing/invoices/sample", [NotificationChannel.Sms, NotificationChannel.Email, NotificationChannel.InApp]),
+            ],
+            Defaults:
+            [
+                new NotificationTemplateChannelDefault(NotificationChannel.Sms, null, null,
+                    "Invoice {{invoiceNumber}} for {{totalText}} is due on {{dueOn}}. View: {{invoiceLink}}", null),
+                new NotificationTemplateChannelDefault(NotificationChannel.Email, "Your invoice {{invoiceNumber}}", null,
+                    "Hello {{recipientName}},\n\nInvoice {{invoiceNumber}} for {{totalText}} is due on {{dueOn}}. [View your invoice]({{invoiceLink}}).", null),
+                new NotificationTemplateChannelDefault(NotificationChannel.InApp, null, "New invoice",
+                    "Invoice {{invoiceNumber}} for {{totalText}} is due on {{dueOn}}.", "{{invoiceLink}}"),
+            ]),
+
+        new NotificationTemplateDefinition(
+            BillingPaymentReceived, "Payment received", "Sent when a payment is recorded and accepted (HO-BIL-001 §8.12).",
+            NotificationCategory.Transactional, NotificationUrgency.Normal,
+            [NotificationChannel.Sms, NotificationChannel.Email, NotificationChannel.InApp], ContainsSecret: false,
+            Variables:
+            [
+                new NotificationTemplateVariableDefinition("amountText", "The amount received, formatted with its currency.", TemplateVariableKind.Text, "BDT 500.00", []),
+                new NotificationTemplateVariableDefinition("methodName", "How the payment was made.", TemplateVariableKind.Text, "CashInStore", []),
+                new NotificationTemplateVariableDefinition("receiptNumber", "The receipt number.", TemplateVariableKind.Text, "R-000123", []),
+                new NotificationTemplateVariableDefinition("purposeText", "What the payment went towards.", TemplateVariableKind.Text, "INV-MAIN-2627-000123", []),
+                new NotificationTemplateVariableDefinition("receiptLink", "A link to view the receipt.", TemplateVariableKind.Url, "https://portal.example.com/portal/billing/payments/sample", [NotificationChannel.Sms, NotificationChannel.Email, NotificationChannel.InApp]),
+            ],
+            Defaults:
+            [
+                new NotificationTemplateChannelDefault(NotificationChannel.Sms, null, null,
+                    "We received {{amountText}} ({{methodName}}) for {{purposeText}}. Receipt {{receiptNumber}}: {{receiptLink}}", null),
+                new NotificationTemplateChannelDefault(NotificationChannel.Email, "Payment received - receipt {{receiptNumber}}", null,
+                    "Hello {{recipientName}},\n\nWe received {{amountText}} ({{methodName}}) for {{purposeText}}. [View receipt {{receiptNumber}}]({{receiptLink}}).", null),
+                new NotificationTemplateChannelDefault(NotificationChannel.InApp, null, "Payment received",
+                    "We received {{amountText}} ({{methodName}}) for {{purposeText}}. Receipt {{receiptNumber}}.", "{{receiptLink}}"),
+            ]),
+
+        new NotificationTemplateDefinition(
+            BillingRefundIssued, "Refund issued", "Sent when a refund is issued to a customer (HO-BIL-001 §8.12). The reason is never sent.",
+            NotificationCategory.Transactional, NotificationUrgency.Normal,
+            [NotificationChannel.Sms, NotificationChannel.Email, NotificationChannel.InApp], ContainsSecret: false,
+            Variables:
+            [
+                new NotificationTemplateVariableDefinition("amountText", "The amount refunded, formatted with its currency.", TemplateVariableKind.Text, "BDT 200.00", []),
+                new NotificationTemplateVariableDefinition("methodName", "How the refund was paid.", TemplateVariableKind.Text, "CashInStore", []),
+                new NotificationTemplateVariableDefinition("creditNoteNumber", "The credit note number, or a dash.", TemplateVariableKind.Text, "CN-MAIN-2627-000007", []),
+            ],
+            Defaults:
+            [
+                new NotificationTemplateChannelDefault(NotificationChannel.Sms, null, null,
+                    "We refunded {{amountText}} ({{methodName}}). Credit note: {{creditNoteNumber}}.", null),
+                new NotificationTemplateChannelDefault(NotificationChannel.Email, "Your refund", null,
+                    "Hello {{recipientName}},\n\nWe refunded {{amountText}} ({{methodName}}). Credit note: {{creditNoteNumber}}.", null),
+                new NotificationTemplateChannelDefault(NotificationChannel.InApp, null, "Refund issued",
+                    "We refunded {{amountText}} ({{methodName}}). Credit note: {{creditNoteNumber}}.", null),
+            ]),
+
+        .. OrderDefinitions(),
+        .. SurgeryDefinitions(),
+        .. BoardingDefinitions(),
+        .. ReportingDefinitions(),
+        new NotificationTemplateDefinition(
+            PharmacyRefillDue, "Prescription refill due", "Sent ahead of the date a repeat prescription is due, with a direct link to request it (HO-PHM-001 §8.11, US-NTF-03). No dose is stated.",
+            NotificationCategory.Transactional, NotificationUrgency.Normal,
+            [NotificationChannel.Sms, NotificationChannel.Email, NotificationChannel.InApp], ContainsSecret: false,
+            Variables:
+            [
+                new NotificationTemplateVariableDefinition("catName", "The cat's name.", TemplateVariableKind.Text, "Mitu", []),
+                new NotificationTemplateVariableDefinition("medicineName", "The medicine's name.", TemplateVariableKind.Text, "Meloxicam oral suspension", []),
+                new NotificationTemplateVariableDefinition("refillDueOn", "The date the next supply is due.", TemplateVariableKind.Date, "2026-10-12", []),
+                new NotificationTemplateVariableDefinition("validUntil", "The last day the repeat can be supplied.", TemplateVariableKind.Date, "2026-12-31", []),
+                new NotificationTemplateVariableDefinition("repeatLink", "A direct link to request the repeat.", TemplateVariableKind.Url, "https://portal.example.com/portal/prescriptions/sample?action=repeat", [NotificationChannel.Sms, NotificationChannel.Email, NotificationChannel.InApp]),
+            ],
+            Defaults:
+            [
+                new NotificationTemplateChannelDefault(NotificationChannel.Sms, null, null,
+                    "{{catName}}'s {{medicineName}} refill is due on {{refillDueOn}}. Request it here: {{repeatLink}}", null),
+                new NotificationTemplateChannelDefault(NotificationChannel.Email, "A refill is coming up for {{catName}}", null,
+                    "Hello {{recipientName}},\n\n{{catName}}'s {{medicineName}} refill is due on {{refillDueOn}}, and the prescription can be repeated until {{validUntil}}. [Request the repeat]({{repeatLink}}).", null),
+                new NotificationTemplateChannelDefault(NotificationChannel.InApp, null, "Refill due soon",
+                    "{{catName}}'s {{medicineName}} refill is due on {{refillDueOn}}.", "{{repeatLink}}"),
+            ]),
+
+        new NotificationTemplateDefinition(
+            PharmacyRepeatReady, "Repeat ready to collect", "Sent when a requested repeat has been dispensed and is ready (HO-PHM-001 §8.11).",
+            NotificationCategory.Transactional, NotificationUrgency.Normal,
+            [NotificationChannel.Sms, NotificationChannel.Email, NotificationChannel.InApp], ContainsSecret: false,
+            Variables:
+            [
+                new NotificationTemplateVariableDefinition("catName", "The cat's name.", TemplateVariableKind.Text, "Mitu", []),
+                new NotificationTemplateVariableDefinition("medicineName", "The medicine's name.", TemplateVariableKind.Text, "Meloxicam oral suspension", []),
+                new NotificationTemplateVariableDefinition("branchName", "The branch to collect from.", TemplateVariableKind.Text, "Main branch", []),
+                new NotificationTemplateVariableDefinition("prescriptionLink", "A link to the prescription.", TemplateVariableKind.Url, "https://portal.example.com/portal/prescriptions/sample", [NotificationChannel.Sms, NotificationChannel.Email, NotificationChannel.InApp]),
+            ],
+            Defaults:
+            [
+                new NotificationTemplateChannelDefault(NotificationChannel.Sms, null, null,
+                    "{{catName}}'s {{medicineName}} is ready to collect at {{branchName}}. Details: {{prescriptionLink}}", null),
+                new NotificationTemplateChannelDefault(NotificationChannel.Email, "{{catName}}'s repeat is ready", null,
+                    "Hello {{recipientName}},\n\n{{catName}}'s {{medicineName}} is ready to collect at {{branchName}}. [View the prescription]({{prescriptionLink}}).", null),
+                new NotificationTemplateChannelDefault(NotificationChannel.InApp, null, "Repeat ready",
+                    "{{catName}}'s {{medicineName}} is ready to collect at {{branchName}}.", "{{prescriptionLink}}"),
+            ]),
+
+        new NotificationTemplateDefinition(
+            PharmacyRepeatDeclined, "Repeat request declined", "Sent when a vet declines a repeat request (HO-PHM-001 §8.11). The reason is the vet's plain-text note, inserted as literal text.",
+            NotificationCategory.Transactional, NotificationUrgency.Normal,
+            [NotificationChannel.Sms, NotificationChannel.Email, NotificationChannel.InApp], ContainsSecret: false,
+            Variables:
+            [
+                new NotificationTemplateVariableDefinition("catName", "The cat's name.", TemplateVariableKind.Text, "Mitu", []),
+                new NotificationTemplateVariableDefinition("medicineName", "The medicine's name.", TemplateVariableKind.Text, "Meloxicam oral suspension", []),
+                new NotificationTemplateVariableDefinition("declineReason", "Why the repeat was declined.", TemplateVariableKind.Text, "Please book a recheck first.", []),
+                new NotificationTemplateVariableDefinition("bookLink", "A link to book a consultation.", TemplateVariableKind.Url, "https://portal.example.com/book?catId=sample", [NotificationChannel.Sms, NotificationChannel.Email, NotificationChannel.InApp]),
+            ],
+            Defaults:
+            [
+                new NotificationTemplateChannelDefault(NotificationChannel.Sms, null, null,
+                    "We could not repeat {{catName}}'s {{medicineName}}: {{declineReason}} Book here: {{bookLink}}", null),
+                new NotificationTemplateChannelDefault(NotificationChannel.Email, "About {{catName}}'s repeat request", null,
+                    "Hello {{recipientName}},\n\nWe could not repeat {{catName}}'s {{medicineName}}. {{declineReason}} [Book a consultation]({{bookLink}}).", null),
+                new NotificationTemplateChannelDefault(NotificationChannel.InApp, null, "Repeat request declined",
+                    "We could not repeat {{catName}}'s {{medicineName}}. {{declineReason}}", "{{bookLink}}"),
+            ]),
+
+        new NotificationTemplateDefinition(
+            PharmacyDietAuthorised, "Therapeutic diet authorised", "Sent when a vet authorises a prescription diet for a cat (HO-PHM-001 §8.11). No diagnosis is stated.",
+            NotificationCategory.Transactional, NotificationUrgency.Normal,
+            [NotificationChannel.Sms, NotificationChannel.Email, NotificationChannel.InApp], ContainsSecret: false,
+            Variables:
+            [
+                new NotificationTemplateVariableDefinition("catName", "The cat's name.", TemplateVariableKind.Text, "Mitu", []),
+                new NotificationTemplateVariableDefinition("productName", "The authorised food.", TemplateVariableKind.Text, "Renal diet", []),
+                new NotificationTemplateVariableDefinition("validTo", "The last day of the authorisation.", TemplateVariableKind.Date, "2027-01-31", []),
+                new NotificationTemplateVariableDefinition("authorisationsLink", "A link to the cat's authorisations.", TemplateVariableKind.Url, "https://portal.example.com/portal/prescriptions?tab=diets", [NotificationChannel.Sms, NotificationChannel.Email, NotificationChannel.InApp]),
+            ],
+            Defaults:
+            [
+                new NotificationTemplateChannelDefault(NotificationChannel.Sms, null, null,
+                    "{{catName}} can now be given {{productName}} until {{validTo}}. Details: {{authorisationsLink}}", null),
+                new NotificationTemplateChannelDefault(NotificationChannel.Email, "{{productName}} is authorised for {{catName}}", null,
+                    "Hello {{recipientName}},\n\nYour vet has authorised {{productName}} for {{catName}} until {{validTo}}. [View authorisations]({{authorisationsLink}}).", null),
+                new NotificationTemplateChannelDefault(NotificationChannel.InApp, null, "Diet authorised",
+                    "{{productName}} is authorised for {{catName}} until {{validTo}}.", "{{authorisationsLink}}"),
+            ]),
+
+        new NotificationTemplateDefinition(
+            PharmacyDietAuthorisationExpired, "Therapeutic diet authorisation ended", "Sent when a diet authorisation has ended and the food is locked again (HO-PHM-001 §8.11).",
+            NotificationCategory.Transactional, NotificationUrgency.Normal,
+            [NotificationChannel.Sms, NotificationChannel.Email, NotificationChannel.InApp], ContainsSecret: false,
+            Variables:
+            [
+                new NotificationTemplateVariableDefinition("catName", "The cat's name.", TemplateVariableKind.Text, "Mitu", []),
+                new NotificationTemplateVariableDefinition("productName", "The food that was authorised.", TemplateVariableKind.Text, "Renal diet", []),
+                new NotificationTemplateVariableDefinition("expiredOn", "The date the authorisation ended.", TemplateVariableKind.Date, "2027-01-31", []),
+                new NotificationTemplateVariableDefinition("bookLink", "A link to book a consultation.", TemplateVariableKind.Url, "https://portal.example.com/book?catId=sample", [NotificationChannel.Sms, NotificationChannel.Email, NotificationChannel.InApp]),
+            ],
+            Defaults:
+            [
+                new NotificationTemplateChannelDefault(NotificationChannel.Sms, null, null,
+                    "{{catName}}'s authorisation for {{productName}} ended on {{expiredOn}}. Book a consultation to renew it: {{bookLink}}", null),
+                new NotificationTemplateChannelDefault(NotificationChannel.Email, "{{catName}}'s diet authorisation has ended", null,
+                    "Hello {{recipientName}},\n\n{{catName}}'s authorisation for {{productName}} ended on {{expiredOn}}. [Book a consultation]({{bookLink}}) to renew it.", null),
+                new NotificationTemplateChannelDefault(NotificationChannel.InApp, null, "Diet authorisation ended",
+                    "{{catName}}'s authorisation for {{productName}} ended on {{expiredOn}}.", "{{bookLink}}"),
             ]),
     ];
 

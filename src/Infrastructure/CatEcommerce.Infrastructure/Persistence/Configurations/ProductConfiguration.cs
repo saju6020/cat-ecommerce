@@ -125,6 +125,7 @@ public sealed class ProductConfiguration : IEntityTypeConfiguration<CatEcommerce
             sku.Property(s => s.Flavour).HasColumnName("flavour").HasMaxLength(ProductRules.FlavourMaxLength);
             sku.Property(s => s.Colour).HasColumnName("colour").HasMaxLength(ProductRules.ColourMaxLength);
             sku.Property(s => s.PackQuantity).HasColumnName("pack_quantity");
+            sku.Property(s => s.ShippingWeightGrams).HasColumnName("shipping_weight_grams");
             sku.Property(s => s.Status).HasColumnName("status").HasConversion(v => v.Value, v => Enumeration.FromValue<SkuStatus>(v)).IsRequired();
 
             sku.HasIndex("product_id", nameof(Sku.Status)).HasDatabaseName("ix_sku_product_status");

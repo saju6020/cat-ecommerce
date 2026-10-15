@@ -11,6 +11,9 @@ import { ErrorState } from '@/components/common/ErrorState';
 import { ApiForbiddenError, ApiNotFoundError } from '@/lib/api/client';
 import { AppointmentSummaryPanel } from '@/components/appointments/AppointmentSummaryPanel';
 import { useCustomerAppointmentSummary } from '@/lib/hooks/useStaffAppointments';
+import { BillingSummaryPanel } from '@/components/billing/BillingSummaryPanel';
+import { CustomerOrdersPanel } from '@/components/orders/CustomerOrdersPanel';
+import { ErasePersonalDataPanel } from '@/components/retention/ErasePersonalDataPanel';
 
 // US-ACC-10/11.
 export default function StaffCustomerDetailPage({
@@ -61,6 +64,15 @@ export default function StaffCustomerDetailPage({
         isError={appointments.isError}
         onRetry={() => void appointments.refetch()}
       />
+      {/* HO-BIL-002 §11.1/§13 — the Billing panel (US-BIL-03): the money figures and a link to the account. */}
+      <BillingSummaryPanel customerId={customerId} />
+      {/* HO-ORD-002 §11.14/§13 — the Orders panel (mount only). */}
+      <CustomerOrdersPanel customerId={customerId} />
+      {/* HO-XCT-002 §11.5/§13 — the Erase personal data panel (US-XCT-06). Shown to Administrators
+          (presentation only: Customers.Erase is decided by the server). */}
+      {(session?.roleIds ?? []).includes('Administrator') && (
+        <ErasePersonalDataPanel customer={customer} />
+      )}
     </div>
   );
 }

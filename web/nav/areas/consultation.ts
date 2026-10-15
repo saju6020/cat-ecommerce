@@ -11,5 +11,10 @@ export const consultationNav: NavArea = {
   key: 'consultation',
   label: 'Consultation',
   audience: 'staff',
-  items: [],
+  // HO-EMR-002 §13 names the staff layout for two nav entries; the shells read this registry instead
+  // of hard-coding links (HO-CAT-002 §8.3), so the entries live here and the layout is unchanged.
+  items: [
+    { label: 'Visits', href: '/staff/visits', icon: 'stethoscope', audience: 'staff' },
+    { label: 'Diagnostics', href: '/staff/diagnostics', icon: 'flask-conical', audience: 'staff' },
+  ],
 };

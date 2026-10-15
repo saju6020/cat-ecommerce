@@ -35,6 +35,10 @@ public sealed class TaxClassAggregate : AggregateRoot
     {
         ValidateName(dto.Name);
 
+        // FU1 ORD-54 (ADR-217): the delivery charge is always invoiced under this class; there is no fallback, so it must stay active. (No tax class can be deleted.)
+        if (!dto.IsActive && Code == DeliveryTaxFacts.ClassCode)
+            throw new DomainRuleViolationException(BusinessViolationCodes.DeliveryTaxClassRequired, AdministrationMessages.DeliveryTaxClassRequired, nameof(dto.IsActive));
+
         Name = dto.Name;
         IsActive = dto.IsActive;
 

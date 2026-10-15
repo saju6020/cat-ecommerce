@@ -16,6 +16,11 @@ public sealed class RateLimitingOptions
     /// IP, so it no longer shares a bucket with <see cref="AccountSensitive"/> (deletion, export)
     /// and customers behind shared NAT/Wi-Fi do not block each other.</summary>
     public RateLimitPolicyOptions ProfileUpdate { get; set; } = new() { PermitLimit = 5, WindowMinutes = 60 };
+
+    /// <summary>HO-ORD-001 §12.3: cart writes, the checkout quote and placement, and inbound courier webhooks -- all IP-partitioned.</summary>
+    public RateLimitPolicyOptions Cart { get; set; } = new() { PermitLimit = 120, WindowMinutes = 1 };
+    public RateLimitPolicyOptions Checkout { get; set; } = new() { PermitLimit = 10, WindowMinutes = 1 };
+    public RateLimitPolicyOptions CourierWebhook { get; set; } = new() { PermitLimit = 600, WindowMinutes = 1 };
 }
 
 public sealed class RateLimitPolicyOptions

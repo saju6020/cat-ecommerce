@@ -159,6 +159,49 @@ const eslintConfig = [
       ],
     },
   },
+  {
+    // HO-BIL-002 §8.4 / ADR-FE-080 (U-X3) — money stays a string end to end: no `Number(`,
+    // `parseFloat(`, `parseInt(` and no unary `+` in the Billing components, the Billing API
+    // modules or `lib/money/**`. (A later `no-restricted-syntax` block replaces the earlier one's
+    // options rather than merging, so the `srcDoc` selectors above are repeated here.)
+    files: ['components/billing/**', 'lib/api/billing-*', 'lib/api/my-billing.ts', 'lib/money/**'],
+    rules: {
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: "JSXAttribute[name.name='srcDoc']",
+          message:
+            'srcDoc is allowed only in components/notifications/SandboxedEmailPreview.tsx (HO-NTF-002 §8.4, ADR-FE-160).',
+        },
+        {
+          selector: "Property[key.name='srcDoc'], Property[key.value='srcDoc']",
+          message:
+            'srcDoc is allowed only in components/notifications/SandboxedEmailPreview.tsx (HO-NTF-002 §8.4, ADR-FE-160).',
+        },
+        {
+          selector: 'AssignmentExpression > MemberExpression.left[property.name=/^srcdoc$/i]',
+          message:
+            'srcdoc is allowed only in components/notifications/SandboxedEmailPreview.tsx (HO-NTF-002 §8.4, ADR-FE-160).',
+        },
+        {
+          selector: "CallExpression[callee.name='Number'], NewExpression[callee.name='Number']",
+          message:
+            'Money stays a string (HO-BIL-002 ADR-FE-080): do not convert it with Number(). Show it with formatMoney/a11yMoney and send the string.',
+        },
+        {
+          selector:
+            "CallExpression[callee.name=/^(parseFloat|parseInt)$/], CallExpression[callee.object.name='Number'][callee.property.name=/^(parseFloat|parseInt)$/]",
+          message:
+            'Money stays a string (HO-BIL-002 ADR-FE-080): do not parse it with parseFloat/parseInt.',
+        },
+        {
+          selector: "UnaryExpression[operator='+']",
+          message:
+            'Money stays a string (HO-BIL-002 ADR-FE-080): unary + converts a string to a number. Do no arithmetic on amounts in the browser.',
+        },
+      ],
+    },
+  },
 ];
 
 export default eslintConfig;

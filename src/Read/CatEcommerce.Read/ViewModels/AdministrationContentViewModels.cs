@@ -14,6 +14,7 @@ public sealed record PolicyDocumentViewModel(
 
 public sealed record PolicyVersionSummaryViewModel(int VersionNumber, DateTimeOffset PublishedOn, string ChangeSummary);
 
-public sealed record PolicyVersionViewModel(string PolicyKey, int VersionNumber, string Body, DateTimeOffset PublishedOn);
+/// <summary>Issues.md #8: <c>Title</c> (the document's) added -- the acceptance prompt and the public policy page show it.</summary>
+public sealed record PolicyVersionViewModel(string PolicyKey, int VersionNumber, string Body, DateTimeOffset PublishedOn, string Title);
 
 public sealed record SystemStatusViewModel(bool MaintenanceMode, string? Message);

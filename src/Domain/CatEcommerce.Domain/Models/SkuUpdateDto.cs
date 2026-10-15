@@ -7,4 +7,5 @@ public sealed record SkuUpdateDto(
     string? SizeOrWeight,
     string? Flavour,
     string? Colour,
-    int? PackQuantity);
+    int? PackQuantity,
+    int? ShippingWeightGrams = null);

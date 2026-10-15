@@ -491,7 +491,7 @@ public sealed class ShopSection16GapEndpointTests(ShopApiFactory factory) : Shop
         var p3 = await CreateProductAsync(staff, brand, "Adult Dry " + Token(), category: "CatFood", subcategory: "Dry", countryCode: "FR", lifeStage: "Adult", proteinSource: "Chicken", price: 2000m);
         var p4 = await CreateProductAsync(staff, brand, "Toy Mouse " + Token(), category: "ToysAndFurniture", price: 500m);
         var p5 = await CreateProductAsync(staff, brand, "Toy Ball " + Token(), category: "ToysAndFurniture", price: 700m);
-        await SetSkuOutOfStockAsync(p5.SkuId); // no sellable price: out of stock
+        await MakeSkuUnpricedAsync(p5.SkuId); // no sellable price: not in stock
         await review(p1, 5);
         await review(p2, 2);
 

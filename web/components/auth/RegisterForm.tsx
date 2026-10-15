@@ -48,6 +48,8 @@ export interface RegisterFormProps {
   isPending: boolean;
   rateLimitError: ApiRateLimitedError | null;
   onSuccess: () => void;
+  /** The "Sign in" link, carrying `?next=` when the visitor came from Checkout (Issues.md #5). */
+  signInHref?: string;
 }
 
 export function RegisterForm({
@@ -56,6 +58,7 @@ export function RegisterForm({
   isPending,
   rateLimitError,
   onSuccess,
+  signInHref = '/sign-in',
 }: RegisterFormProps) {
   const [duplicateField, setDuplicateField] = useState<'mobileNumber' | 'emailAddress' | null>(
     null,
@@ -192,7 +195,7 @@ export function RegisterForm({
       <p className="text-sm text-ink-muted">
         Already have an account?{' '}
         <Link
-          href="/sign-in"
+          href={signInHref}
           className="font-semibold text-accent-ink no-underline hover:underline"
         >
           Sign in

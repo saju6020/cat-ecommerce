@@ -11,5 +11,12 @@ export const inventoryNav: NavArea = {
   key: 'inventory',
   label: 'Inventory',
   audience: 'staff',
-  items: [],
+  items: [
+    // HO-IMP-002 §13 names `(staff)/layout.tsx` for "two nav entries", but the shell's nav lives in
+    // this registry (the same deviation HO-ADM-002 and HO-SHP-002 recorded); the alert badge lives
+    // in the Inventory section's own tab row (`app/(staff)/staff/inventory/layout.tsx`) because the
+    // shared sidebar has no badge slot.
+    { label: 'Inventory', href: '/staff/inventory', icon: 'boxes' },
+    { label: 'Procurement', href: '/staff/procurement/suppliers', icon: 'truck' },
+  ],
 };

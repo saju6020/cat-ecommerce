@@ -6,7 +6,7 @@ namespace CatEcommerce.Application.CommandHandlers.Validators;
 
 public sealed class UpdateCatProfileCommandValidator : AbstractValidator<UpdateCatProfileCommand>
 {
-    public UpdateCatProfileCommandValidator()
+    public UpdateCatProfileCommandValidator(TimeProvider timeProvider)
     {
         RuleFor(x => x.CatId).NotEmpty();
         RuleFor(x => x.Name).NotEmpty().MaximumLength(100);
@@ -14,7 +14,7 @@ public sealed class UpdateCatProfileCommandValidator : AbstractValidator<UpdateC
         RuleFor(x => x.ColourAndMarkings).MaximumLength(200);
 
         RuleFor(x => x.DateOfBirth)
-            .LessThanOrEqualTo(_ => DateOnly.FromDateTime(DateTime.UtcNow))
+            .LessThanOrEqualTo(_ => CatRecordDateBound.LatestPossibleLocalDate(timeProvider))
             .When(x => x.DateOfBirth is not null)
             .WithMessage("Date of birth cannot be in the future.");
 

@@ -21,6 +21,8 @@ coverage*.xml
 *.pfx
 appsettings.*.local.json
 .env
+.claude/*.local.json
+.claude/settings.local.json
 
 # Local dev config — carries the database password (SRS NFR-SEC-7)
 appsettings.Development.json
@@ -39,6 +41,6 @@ web/*.tsbuildinfo
 web/next-env.d.ts
 web/.turbo/
 web/npm-debug.log*
-.claude/settings.local.json
-.claude/settings.local.json
-.claude/settings.local.json
+
+# Real-API e2e seed files hold credentials (HO-BRD-002 SECURITY L)
+web/seed*.json

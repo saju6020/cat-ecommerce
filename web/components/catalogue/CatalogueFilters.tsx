@@ -21,6 +21,8 @@ export interface CatalogueFiltersProps {
 }
 
 const RATINGS = [4, 3, 2] as const;
+/** Brands shown before "Show all" — the facet list arrives most-products-first. */
+const BRANDS_COLLAPSED = 8;
 
 /**
  * HO-SHP-002 §11.2 `CatalogueFilters` — every group is a real `<fieldset>`/`<legend>` (UI-6). The
@@ -38,9 +40,14 @@ export function CatalogueFilters({
 }: CatalogueFiltersProps) {
   const uid = useId();
   const [brandSearch, setBrandSearch] = useState('');
-  const brands = facets.brands.filter((b) =>
-    b.name.toLowerCase().includes(brandSearch.toLowerCase().trim()),
-  );
+  const [showAllBrands, setShowAllBrands] = useState(false);
+  const brandQuery = brandSearch.toLowerCase().trim();
+  const matchingBrands = facets.brands.filter((b) => b.name.toLowerCase().includes(brandQuery));
+  // Collapsed, the list keeps the top brands plus anything already ticked, so a choice never hides.
+  const collapsible = !brandQuery && !showAllBrands && matchingBrands.length > BRANDS_COLLAPSED;
+  const brands = collapsible
+    ? matchingBrands.filter((b, i) => i < BRANDS_COLLAPSED || value.brand.includes(b.name))
+    : matchingBrands;
   const selectedCategory = categories.find((c) => c.value === value.category);
 
   return (
@@ -136,6 +143,16 @@ export function CatalogueFilters({
             />
           ))}
           {brands.length === 0 && <p className="text-xs text-ink-muted">No brands match.</p>}
+          {!brandQuery && matchingBrands.length > BRANDS_COLLAPSED && (
+            <button
+              type="button"
+              aria-expanded={showAllBrands}
+              onClick={() => setShowAllBrands((shown) => !shown)}
+              className="self-start text-sm font-medium text-accent-ink underline-offset-2 hover:underline"
+            >
+              {showAllBrands ? 'Show fewer brands' : `Show all ${matchingBrands.length} brands`}
+            </button>
+          )}
         </FilterGroup>
       )}
 

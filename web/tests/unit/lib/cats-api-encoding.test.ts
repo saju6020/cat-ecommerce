@@ -23,7 +23,7 @@ describe('lib/api/cats.ts — catId path encoding', () => {
     server.use(
       http.get('*/api/cats/:catId', ({ request, params }) => {
         capturedUrl = request.url;
-        return HttpResponse.json({ id: params.catId, name: 'Whiskers' });
+        return HttpResponse.json({ id: params.catId, name: 'Whiskers', photos: [] });
       }),
     );
 

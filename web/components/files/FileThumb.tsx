@@ -108,7 +108,8 @@ export function FileThumb({
     void attemptRefresh(current.fileId);
   }
 
-  const content = failed ? (
+  // An empty `url` is `resolveFileUrl`'s "unusable" (protocol-relative, script scheme): no <img>.
+  const content = failed || !current.url ? (
     <div
       className="flex items-center justify-center bg-surface-sunken p-1 text-center text-[10px] text-ink-muted"
       style={{ width, height }}

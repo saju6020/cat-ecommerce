@@ -18,6 +18,17 @@ public sealed class SkuAvailabilityRulesTests
         Assert.Equal(expected, result.DisplayName);
     }
 
+    /// <summary>U-C4 (US-SHP-02 AC2): two SKUs of one product, one with sellable 0 -- each has its own status, so an out-of-stock variant is unavailable while the other stays purchasable.</summary>
+    [Fact]
+    public void U_C4_TwoSkus_OneWithSellableZero_EachHasItsOwnStatus()
+    {
+        var withStock = SkuAvailabilityRules.Evaluate(5, skuActive: true, productSellable: true);
+        var withoutStock = SkuAvailabilityRules.Evaluate(0, skuActive: true, productSellable: true);
+
+        Assert.Equal(AvailabilityStatus.InStock, withStock);
+        Assert.Equal(AvailabilityStatus.OutOfStock, withoutStock);
+    }
+
     [Fact]
     public void ExpiryNotice_WithinWindow_Shown()
     {

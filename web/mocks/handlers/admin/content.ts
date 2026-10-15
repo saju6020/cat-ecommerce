@@ -345,8 +345,9 @@ export const adminContentHandlers: HttpHandler[] = [
     const policy = policies.get(params.key as string);
     if (!policy || policy.currentVersionNumber === null) return notFound();
     const current = policy.versions.find((v) => v.versionNumber === policy.currentVersionNumber)!;
+    // The real API's shape (PolicyVersionViewModel): `policyKey`, not `key` (Issues.md #8).
     return HttpResponse.json({
-      key: policy.key,
+      policyKey: policy.key,
       title: policy.title,
       versionNumber: current.versionNumber,
       body: current.body,
@@ -360,7 +361,16 @@ export const adminContentHandlers: HttpHandler[] = [
     const pending = [...policies.values()]
       .filter((p) => p.requiresAcceptance && p.currentVersionNumber !== null)
       .filter((p) => !accepted.has(`${p.key}:${p.currentVersionNumber}`))
-      .map((p) => ({ key: p.key, title: p.title, versionNumber: p.currentVersionNumber! }));
+      .map((p) => {
+        const current = p.versions.find((v) => v.versionNumber === p.currentVersionNumber)!;
+        return {
+          policyKey: p.key,
+          title: p.title,
+          versionNumber: current.versionNumber,
+          body: current.body,
+          publishedOn: current.publishedOn,
+        };
+      });
     return HttpResponse.json(pending);
   }),
 

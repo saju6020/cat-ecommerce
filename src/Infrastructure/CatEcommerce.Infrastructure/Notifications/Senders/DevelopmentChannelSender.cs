@@ -27,8 +27,10 @@ public sealed class DevelopmentChannelSender : INotificationChannelSender
     public Task<SendOutcome> SendAsync(OutgoingMessage message, CancellationToken ct = default)
     {
         _logger.LogWarning(
-            "NOT SENT -- development sender. Channel: {Channel}. Destination: {Destination}. Subject: {Subject}. Body: {Body}",
-            Channel.DisplayName, message.Destination, message.Subject, message.TextBody);
+            "NOT SENT -- development sender. Channel: {Channel}. Destination: {Destination}. Subject: {Subject}. Body: {Body}. Attachments: {Attachments}",
+            Channel.DisplayName, message.Destination, message.Subject, message.TextBody,
+            // HO-NTF-001 section 8.9 rule 7 (HO-RPT-001 amendment): the file name and size only -- never the content.
+            string.Join(", ", message.AttachmentList.Select(a => $"{a.FileName} ({a.Content.Length} bytes)")));
 
         return Task.FromResult(new SendOutcome(SendOutcomeKind.Accepted, ProviderMessageId: $"dev-{message.NotificationId:N}", ProviderResponse: null));
     }

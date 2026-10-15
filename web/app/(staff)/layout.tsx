@@ -3,6 +3,11 @@ import { StaffSessionGuard } from '@/components/staff/StaffSessionGuard';
 import { IdleLock } from '@/components/staff/IdleLock';
 import { StaffLockProvider } from '@/components/staff/IdleLockContext';
 import { ActiveBranchPicker } from '@/components/branches/ActiveBranchPicker';
+import { ConnectivityProvider } from '@/components/offline/ConnectivityProvider';
+import { OfflineBanner } from '@/components/offline/OfflineBanner';
+import { OfflineSnapshotSync } from '@/components/offline/OfflineSnapshotSync';
+import { OverdueRestoreBanner } from '@/components/operations/OverdueRestoreBanner';
+import { ServiceWorkerRegistrar } from '@/components/offline/ServiceWorkerRegistrar';
 
 // Back-office shell for every /staff/** route (HO-CAT-002 §8.3). Thin by design (§8.2 rule 5) —
 // the interactive shell itself lives in a client component; this layout only composes it.
@@ -20,17 +25,27 @@ import { ActiveBranchPicker } from '@/components/branches/ActiveBranchPicker';
 // §13 scope. It renders as the first thing above every staff page's own content instead of in the
 // header row itself; it is still mounted on every `/staff/**` navigation (so the active-branch seed
 // effect always runs), and still hidden outright with one branch or none (§11.2 unchanged).
+// HO-XCT-002 §8.1/§11.3, ADR-FE-142..145 — `ConnectivityProvider` (the ping loop and TanStack's notion of
+// online) wraps everything; `OfflineBanner` is the first thing in <main>'s flow so a screen-reader user
+// meets it before the data; `OfflineSnapshotSync` and `ServiceWorkerRegistrar` render nothing and run only
+// inside the session guard, for a signed-in member of staff.
 export default function StaffLayout({ children }: { children: React.ReactNode }) {
   return (
     <StaffLockProvider>
-      <StaffSessionGuard>
-        <IdleLock>
-          <StaffShell>
-            <ActiveBranchPicker />
-            {children}
-          </StaffShell>
-        </IdleLock>
-      </StaffSessionGuard>
+      <ConnectivityProvider>
+        <StaffSessionGuard>
+          <IdleLock>
+            <OfflineSnapshotSync />
+            <ServiceWorkerRegistrar />
+            <StaffShell>
+              <OfflineBanner />
+              <OverdueRestoreBanner />
+              <ActiveBranchPicker />
+              {children}
+            </StaffShell>
+          </IdleLock>
+        </StaffSessionGuard>
+      </ConnectivityProvider>
     </StaffLockProvider>
   );
 }

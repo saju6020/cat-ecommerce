@@ -49,40 +49,16 @@ public sealed partial class ShopBacklogFixesEndpointTests
         Assert.Equal("Adult", body.GetProperty("cat").GetProperty("lifeStage").GetString());
     }
 
-    // ── Row 13: Shop:InterimAvailabilityFromPrice is explicit, and refused outside Development/Testing ─
+    // ── Row 13 (retired by HO-SHP-001-FU2): the interim availability flag is deleted ──────────────
 
     [Fact]
-    public void Row13_TheShippedAppsettings_StatesInterimAvailabilityOff()
+    public void Row13_TheInterimAvailabilityFlag_IsGone_FromTheShippedAppsettingsAndTheOptions()
     {
         using var document = JsonDocument.Parse(File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "appsettings.json")));
 
         var shop = document.RootElement.GetProperty("Shop");
-        Assert.True(shop.TryGetProperty("InterimAvailabilityFromPrice", out var flag));
-        Assert.Equal(JsonValueKind.False, flag.ValueKind);
-    }
-
-    [Fact]
-    public void Row13_HostInProduction_WithInterimAvailabilityOn_FailsToStart()
-    {
-        using var production = Factory.WithWebHostBuilder(builder =>
-        {
-            builder.UseEnvironment("Production");
-            builder.ConfigureAppConfiguration((_, configBuilder) => configBuilder.AddInMemoryCollection(new Dictionary<string, string?>
-            {
-                // The other development-only seams pinned safe, so ONLY the Shop flag can be responsible.
-                ["ConnectionStrings:CatEcommerce"] = "Host=localhost;Port=5432;Database=catecommerce_dev;Username=postgres;Password=postgres",
-                ["PublicSite:WebBaseUrl"] = "https://portal.example.com",
-                ["Notifications:ApiBaseUrl"] = "https://api.example.com",
-                ["Captcha:TestAnswer"] = "",
-                ["DevUser:Enabled"] = "false",
-                ["Shop:InterimAvailabilityFromPrice"] = "true"
-            }));
-        });
-
-        var exception = Record.Exception(() => production.CreateClient());
-
-        Assert.NotNull(exception);
-        Assert.Contains("Shop:InterimAvailabilityFromPrice", exception.ToString());
+        Assert.False(shop.TryGetProperty("InterimAvailabilityFromPrice", out _));
+        Assert.Null(typeof(CatEcommerce.Infrastructure.Configuration.ShopOptions).GetProperty("InterimAvailabilityFromPrice"));
     }
 
     // ── Row 20: food recommendations -- batched gate, rate limit ────────────────────────────────

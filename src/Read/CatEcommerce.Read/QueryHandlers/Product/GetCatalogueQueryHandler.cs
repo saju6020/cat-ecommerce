@@ -1,6 +1,7 @@
 using CatEcommerce.Domain.DomainServices;
 using CatEcommerce.Infrastructure.Persistence;
 using CatEcommerce.Infrastructure.Persistence.Views;
+using CatEcommerce.Infrastructure.Product;
 using CatEcommerce.Read.Queries.Product;
 using CatEcommerce.Read.ViewModels;
 using CatEcommerce.Shared.Common.Constants;
@@ -16,33 +17,47 @@ namespace CatEcommerce.Read.QueryHandlers.Product;
 /// Filtering, sorting and paging happen entirely in the database; nothing is filtered in memory
 /// after materialisation (ADR-083).
 /// </summary>
-public sealed class GetCatalogueQueryHandler(CatEcommerceDbContext db, IContentLocaleSettings localeSettings, Microsoft.Extensions.Options.IOptions<CatEcommerce.Infrastructure.Configuration.ShopOptions> shopOptions) : IQueryHandlerAsync<GetCatalogueQuery, CatalogueResult>
+public sealed class GetCatalogueQueryHandler(CatEcommerceDbContext db, IContentLocaleSettings localeSettings, Microsoft.Extensions.Options.IOptions<CatEcommerce.Infrastructure.Configuration.ShopOptions> shopOptions, TimeProvider timeProvider) : IQueryHandlerAsync<GetCatalogueQuery, CatalogueResult>
 {
     public async Task<QueryResponse<CatalogueResult>> HandleAsync(GetCatalogueQuery query)
     {
         var normalisedQ = CatalogueQuery.Normalise(query.Q);
         var hasQuery = normalisedQ.Length > 0;
 
-        // Fail-closed availability (HO-SHP-001 section 4.3): the view in_stock column is the INTERIM
-        // price-derived rule and only counts when Shop:InterimAvailabilityFromPrice is on.
-        var interim = shopOptions.Value.InterimAvailabilityFromPrice;
+        // Availability (HO-SHP-001 section 8.7): the view's is_on_sale (an Active SKU priced now) AND Inventory's inventory.v_sku_sellable
+        // figure for the storefront branch -- one predicate for the filter, the page labels and the suggestions.
+        var branchId = shopOptions.Value.EffectiveStorefrontBranchId;
 
-        var filtered = ApplyFilters(db, db.StorefrontCatalogueEntries.AsNoTracking(), query, normalisedQ, hasQuery, interim);
+        var filtered = ApplyFilters(db, db.StorefrontCatalogueEntries.AsNoTracking(), query, normalisedQ, hasQuery);
+
+        // The availability filter is a semi-join inside the query (after the other filters), not a catalogue-wide GUID list; only the
+        // bundles that survived the other filters need the per-SKU component check.
+        if (query.AvailabilityInStock == true)
+        {
+            var now = timeProvider.GetUtcNow();
+            var bundleIds = await StorefrontAvailability.SellableBundleProductIdsAsync(
+                db, filtered.Where(e => e.Kind == ProductKind.Bundle.Value).Select(e => e.ProductId), now, branchId);
+            filtered = StorefrontAvailability.WhereSellable(db, filtered, now, branchId, bundleIds);
+        }
 
         var totalCount = await filtered.CountAsync();
 
         var sort = ResolveSort(query.Sort, hasQuery);
         var sorted = ApplySort(filtered, sort, normalisedQ);
 
-        var rows = await sorted.Skip(query.Skip).Take(query.Take).ToListAsync();
+        // Two steps so the page's rows are priced and joined only for the page: the ids come from the filtered, sorted query (which, unless the
+        // sort is by price, reads none of the view's pricing), then the page's entries are read by id and put back in that order.
+        var pageIds = await sorted.Skip(query.Skip).Take(query.Take).Select(e => e.ProductId).ToListAsync();
+        var rows = await LoadInOrderAsync(pageIds);
         // US-SHP-14: the page's names in the requested language (per-field fallback); the
         // filtering, sorting and paging above never depended on it.
-        var items = await CatalogueItemLocaliser.ApplyAsync(db, localeSettings, rows.Select(r => ToCatalogueItem(r, interim)).ToList(), query.Locale);
+        var sellable = await StorefrontAvailability.SellableProductIdsAsync(db, rows.Select(r => r.ProductId).ToList(), timeProvider.GetUtcNow(), branchId);
+        var items = await CatalogueItemLocaliser.ApplyAsync(db, localeSettings, rows.Select(r => ToCatalogueItem(r, sellable.Contains(r.ProductId))).ToList(), query.Locale);
 
         CatalogueSuggestions? suggestions = null;
         if (hasQuery && totalCount == 0)
         {
-            suggestions = await BuildSuggestionsAsync(normalisedQ, interim);
+            suggestions = await BuildSuggestionsAsync(normalisedQ, branchId);
             suggestions = suggestions with { Popular = await CatalogueItemLocaliser.ApplyAsync(db, localeSettings, suggestions.Popular, query.Locale) };
         }
 
@@ -52,7 +67,7 @@ public sealed class GetCatalogueQueryHandler(CatEcommerceDbContext db, IContentL
         return new QueryResponse<CatalogueResult> { Result = result };
     }
 
-    private static IQueryable<StorefrontCatalogueEntry> ApplyFilters(CatEcommerceDbContext db, IQueryable<StorefrontCatalogueEntry> source, GetCatalogueQuery query, string normalisedQ, bool hasQuery, bool interim)
+    private static IQueryable<StorefrontCatalogueEntry> ApplyFilters(CatEcommerceDbContext db, IQueryable<StorefrontCatalogueEntry> source, GetCatalogueQuery query, string normalisedQ, bool hasQuery)
     {
         if (hasQuery)
         {
@@ -117,9 +132,6 @@ public sealed class GetCatalogueQueryHandler(CatEcommerceDbContext db, IContentL
                 .Any(current => current != null && (low == null || current >= low) && (high == null || current <= high)));
         }
 
-        if (query.AvailabilityInStock == true)
-            source = interim ? source.Where(e => e.InStock) : source.Where(e => false);
-
         if (query.MinRating is { } minRating)
             source = source.Where(e => e.RatingAverage != null && e.RatingAverage >= minRating);
 
@@ -165,7 +177,7 @@ public sealed class GetCatalogueQueryHandler(CatEcommerceDbContext db, IContentL
         return ordered.ThenBy(e => e.ProductId); // stable paging (section 8.8)
     }
 
-    private async Task<CatalogueSuggestions> BuildSuggestionsAsync(string normalisedQ, bool interim)
+    private async Task<CatalogueSuggestions> BuildSuggestionsAsync(string normalisedQ, Guid branchId)
     {
         var didYouMean = await db.CatalogueTerms.AsNoTracking()
             .Where(t => EF.Functions.TrigramsSimilarity(t.Term, normalisedQ) >= ShopSearchRules.DidYouMeanSimilarity)
@@ -174,13 +186,35 @@ public sealed class GetCatalogueQueryHandler(CatEcommerceDbContext db, IContentL
             .Take(3)
             .ToListAsync();
 
-        var popularRows = await db.StorefrontCatalogueEntries.AsNoTracking()
-            .Where(e => interim && e.InStock)
+        // The most-sold sellable products. Standard products and bundles are ranked apart (the standard predicate reads none of the view's
+        // pricing, so the catalogue is not priced to find eight products) and merged on the same sort key.
+        var standard = await TopSellingAsync(StorefrontAvailability.IsSellableStandard(db, branchId));
+        var bundles = await TopSellingAsync(StorefrontAvailability.IsSellableBundle(db, branchId));
+        var popularIds = standard.Concat(bundles)
+            .OrderByDescending(r => r.UnitsSold90d).ThenByDescending(r => r.FirstPublishedOn is null).ThenByDescending(r => r.FirstPublishedOn)
+            .Take(ShopSearchRules.PopularSuggestionCount).Select(r => r.ProductId).ToList();
+        var popularRows = await LoadInOrderAsync(popularIds);
+
+        return new CatalogueSuggestions(didYouMean, popularRows.Select(r => ToCatalogueItem(r, inStock: true)).ToList());
+    }
+
+    private async Task<List<(Guid ProductId, int UnitsSold90d, DateTimeOffset? FirstPublishedOn)>> TopSellingAsync(System.Linq.Expressions.Expression<Func<StorefrontCatalogueEntry, bool>> predicate)
+    {
+        var top = await db.StorefrontCatalogueEntries.AsNoTracking()
+            .Where(predicate)
             .OrderByDescending(e => e.UnitsSold90d).ThenByDescending(e => e.FirstPublishedOn)
             .Take(ShopSearchRules.PopularSuggestionCount)
+            .Select(e => new { e.ProductId, e.UnitsSold90d, e.FirstPublishedOn })
             .ToListAsync();
+        return top.Select(t => (t.ProductId, t.UnitsSold90d, t.FirstPublishedOn)).ToList();
+    }
 
-        return new CatalogueSuggestions(didYouMean, popularRows.Select(r => ToCatalogueItem(r, interim)).ToList());
+    private async Task<List<StorefrontCatalogueEntry>> LoadInOrderAsync(IReadOnlyList<Guid> ids)
+    {
+        if (ids.Count == 0) return [];
+        var entries = (await db.StorefrontCatalogueEntries.AsNoTracking().Where(e => ids.Contains(e.ProductId)).ToListAsync())
+            .ToDictionary(e => e.ProductId);
+        return ids.Where(entries.ContainsKey).Select(id => entries[id]).ToList();
     }
 
     private static IReadOnlyDictionary<string, string?> BuildAppliedFilters(GetCatalogueQuery query, CatalogueSort sort)
@@ -204,7 +238,7 @@ public sealed class GetCatalogueQueryHandler(CatEcommerceDbContext db, IContentL
         return applied;
     }
 
-    internal static CatalogueItem ToCatalogueItem(StorefrontCatalogueEntry e, bool interim)
+    internal static CatalogueItem ToCatalogueItem(StorefrontCatalogueEntry e, bool inStock)
     {
         var category = Enumeration.FromValue<ProductCategory>(e.Category);
         var subcategory = e.Subcategory is null ? null : Enumeration.FromValue<ProductSubcategory>(e.Subcategory.Value).DisplayName;
@@ -222,7 +256,7 @@ public sealed class GetCatalogueQueryHandler(CatEcommerceDbContext db, IContentL
 
         return new CatalogueItem(
             e.ProductId, e.Slug, e.Name, e.Brand, category.DisplayName, subcategory, kind.DisplayName, country, lifeStage,
-            e.PrescriptionRequired, fromPrice, priceVaries, interim && e.InStock ? "InStock" : "OutOfStock",
+            e.PrescriptionRequired, fromPrice, priceVaries, inStock ? "InStock" : "OutOfStock",
             new RatingSummary(e.RatingAverage, e.RatingCount), primaryImage);
     }
 }

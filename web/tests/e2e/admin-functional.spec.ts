@@ -95,6 +95,21 @@ test('E-B1: create a branch in Europe/London, set hours, add a holiday', async (
   await page.getByLabel(/reason/i).fill('Christmas Day');
   await page.getByRole('button', { name: /^add$/i }).click();
   await expect(page.getByText('Christmas Day')).toBeVisible();
+
+  // Calendar half (HO-ADM-002-FU1 E-B1): the detail view's Calendar tab skips the holiday.
+  await page.getByRole('link', { name: 'Calendar' }).click();
+  await page.goto(`/staff/admin/branches/${branchId}/calendar?month=2028-12`);
+  const calendarGrid = page.getByRole('grid');
+  await expect(page.getByText(/Times in Europe\/London/)).toBeVisible();
+  await expect(
+    calendarGrid.getByRole('gridcell', { name: /Monday 25 December 2028/ }),
+  ).toHaveAccessibleName(/Closed — Public holiday: Christmas Day/);
+  await expect(
+    calendarGrid.getByRole('gridcell', { name: /Monday 18 December 2028/ }),
+  ).toHaveAccessibleName(/Open 08:00–17:00/);
+  await expect(
+    calendarGrid.getByRole('gridcell', { name: /Tuesday 26 December 2028/ }),
+  ).toHaveAccessibleName(/Closed \(regular weekly closure\)/);
 });
 
 test('E-B2: a staff member assigned to two branches sees the picker, and switching sends the new branch header', async ({
@@ -357,4 +372,71 @@ test('E-H1: turning maintenance on does not affect staff sign-in or admin pages'
 
   await page.goto('/staff/admin/branches');
   await expect(page.getByRole('heading', { name: /branches/i })).toBeVisible();
+});
+
+// ADM-002-FU2 (RPT backlog row 89): the shared picker must not widen any staff page. 40-character
+// names at every width UI-1 names; checked on a page that is otherwise narrow-safe.
+test('E-B3: long branch names keep the picker row inside the viewport (360/768/1024/1440)', async ({
+  page,
+}) => {
+  await signInAsStaff(page);
+  const { mainBranchId, londonBranchId } = administrationFixtureIds;
+  await page.route('**/api/staff/branches/mine', (route) =>
+    route.fulfill({
+      json: {
+        branchIds: [mainBranchId, londonBranchId],
+        primaryBranchId: mainBranchId,
+        activeBranchId: mainBranchId,
+        activeBranchRefusal: null,
+      },
+    }),
+  );
+  // The seeded MSW store answers `GET /api/admin/branches` (a `page.route` does not reach it), so
+  // the 40-character names are written through the real admin PUT before the page loads.
+  const longNames: Record<string, string> = {
+    [mainBranchId]: 'Main clinic and surgical centre of Dhaka',
+    [londonBranchId]: 'London clinic and boarding hotel annex!!',
+  };
+  for (const [id, name] of Object.entries(longNames)) {
+    expect(name).toHaveLength(40);
+    const status = await page.evaluate(
+      async ({ id, name }) => {
+        const base = (window as unknown as { __apiBaseUrl?: string }).__apiBaseUrl ?? '';
+        const response = await fetch(`${base}/api/admin/branches/${id}`, {
+          method: 'PUT',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, timeZoneId: 'Asia/Dhaka' }),
+        });
+        return response.status;
+      },
+      { id, name },
+    );
+    expect(status).toBe(204);
+  }
+  // One navigation only: a second full page load drops the in-browser MSW session, and the layout
+  // is CSS-responsive, so resizing the viewport is enough.
+  await page.goto('/staff/admin/leave');
+  const picker = page.getByLabel(/^branch$/i);
+  await expect(picker).toBeVisible();
+  await expect(picker).toHaveAttribute('title', /^Main clinic and surgical centre of Dhaka$/);
+  for (const width of [360, 768, 1024, 1440]) {
+    await page.setViewportSize({ width, height: 800 });
+    // Not `documentElement.scrollWidth`: several staff pages (tables, forms) overflow at 360 on
+    // their own, which is outside this picker's scope. The shell parts this follow-up owns are
+    // measured directly: the picker row must stay inside the viewport and inside <main>'s padding.
+    const box = await page.evaluate(() => {
+      const row = document.getElementById('active-branch-picker')!.parentElement!;
+      const rect = row.getBoundingClientRect();
+      return {
+        left: rect.left,
+        right: rect.right,
+        rowOverflow: row.scrollWidth - row.clientWidth,
+        inner: window.innerWidth,
+      };
+    });
+    expect(box.right, `picker row right edge at ${width}`).toBeLessThanOrEqual(box.inner);
+    expect(box.rowOverflow, `picker row overflow at ${width}`).toBeLessThanOrEqual(0);
+    expect(box.right - box.left).toBeLessThanOrEqual(448 + 0.5); // max-w-md
+  }
 });

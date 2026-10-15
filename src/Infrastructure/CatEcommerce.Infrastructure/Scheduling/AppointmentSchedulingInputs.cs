@@ -74,11 +74,17 @@ public sealed class AppointmentSchedulingInputs(CatEcommerceDbContext db, IBranc
             occupying = occupying.Where(a => a.Id != excludeId);
 
         var occupyingRows = await occupying
-            .Select(a => new { a.Id, a.PerformerId, a.RoomId, a.CatId, a.StartsOn, a.EndsOn })
+            .Select(a => new { a.Id, a.PerformerId, a.AssistantId, a.RoomId, a.CatId, a.StartsOn, a.EndsOn })
             .ToListAsync(ct);
 
-        var byPerformer = occupyingRows.Where(a => a.PerformerId is not null)
-            .GroupBy(a => a.PerformerId!.Value)
+        // HO-SRG-001 section 11.7 G4 (ADR-159): a staff member is busy as performer OR as assistant, so a nurse assisting a surgery is not offered ordinary slots.
+        // Read from the appointment columns that clinic.appointment_staff_time mirrors (rather than the table itself) so a LAPSED hold -- which the
+        // `occupying` predicate above excludes but the table's occupies flag does not -- never makes anyone look busy.
+        var staffBusyRows = occupyingRows.Where(a => a.PerformerId is not null).Select(a => (StaffId: a.PerformerId!.Value, a.StartsOn, a.EndsOn))
+            .Concat(occupyingRows.Where(a => a.AssistantId is not null).Select(a => (StaffId: a.AssistantId!.Value, a.StartsOn, a.EndsOn)));
+
+        var byPerformer = staffBusyRows
+            .GroupBy(a => a.StaffId)
             .ToDictionary(g => g.Key, g => (IReadOnlyList<TimeInterval>)g.Select(a => new TimeInterval(a.StartsOn!.Value, a.EndsOn!.Value)).ToList());
 
         var byRoom = occupyingRows.Where(a => a.RoomId is not null)

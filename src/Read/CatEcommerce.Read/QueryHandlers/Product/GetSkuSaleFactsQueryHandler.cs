@@ -30,7 +30,8 @@ public sealed class GetSkuSaleFactsQueryHandler(CatEcommerceDbContext db)
             return new SkuSaleFactViewModel(
                 r.SkuId, r.ProductId, r.ProductName, r.Label, r.SkuCode, r.Kind.DisplayName, r.ProductStatus.DisplayName, r.SkuStatus.DisplayName,
                 r.ListedOnStorefront, r.PrescriptionRequired || rxBundles.Contains(r.ProductId), r.TaxClassId,
-                price is null ? null : new Money(price.Amount, price.CurrencyCode).ToViewModel());
+                price is null ? null : new Money(price.Amount, price.CurrencyCode).ToViewModel(),
+                r.ShippingWeightGrams);
         }).ToList();
 
         return new QueryResponse<IReadOnlyList<SkuSaleFactViewModel>> { Result = facts };

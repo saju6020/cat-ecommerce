@@ -68,14 +68,14 @@ public sealed class GetFoodRecommendationsQueryHandler(
 
         var stage = CatLifeStageDerivation.Derive(cat.DateOfBirth, cat.DateOfBirthPrecision, today, thresholds.KittenMaxAgeMonths, thresholds.SeniorFromAgeYears);
 
-        var interim = shopOptions.Value.InterimAvailabilityFromPrice;
-        var entries = interim ? await LoadInStockFoodEntriesAsync(stage.Stage) : [];
+        var branchId = shopOptions.Value.EffectiveStorefrontBranchId;
+        var entries = await LoadInStockFoodEntriesAsync(stage.Stage, branchId);
         var candidates = await BuildCandidatesAsync(entries, query.CustomerId, cat.Id);
 
         var result = FoodRecommendationPolicy.Recommend(facts, candidates, thresholds, today);
 
         var entriesById = entries.ToDictionary(e => e.ProductId);
-        var items = result.Items.Select(r => (r, Item: GetCatalogueQueryHandler.ToCatalogueItem(entriesById[r.ProductId], interim))).ToList();
+        var items = result.Items.Select(r => (r, Item: GetCatalogueQueryHandler.ToCatalogueItem(entriesById[r.ProductId], inStock: true))).ToList();
         var localised = await CatalogueItemLocaliser.ApplyAsync(db, localeSettings, items.Select(i => i.Item).ToList(), query.Locale);
 
         var viewItems = items.Select((i, index) => new FoodRecommendationItemViewModel(
@@ -91,10 +91,10 @@ public sealed class GetFoodRecommendationsQueryHandler(
         return new QueryResponse<FoodRecommendationsViewModel?> { Result = viewModel };
     }
 
-    private async Task<List<CatEcommerce.Infrastructure.Persistence.Views.StorefrontCatalogueEntry>> LoadInStockFoodEntriesAsync(LifeStage? stage)
+    private async Task<List<CatEcommerce.Infrastructure.Persistence.Views.StorefrontCatalogueEntry>> LoadInStockFoodEntriesAsync(LifeStage? stage, Guid branchId)
     {
         var food = ProductCategory.CatFood.Value;
-        var source = db.StorefrontCatalogueEntries.AsNoTracking().Where(e => e.Category == food && e.InStock);
+        var source = db.StorefrontCatalogueEntries.AsNoTracking().Where(e => e.Category == food).Where(CatEcommerce.Infrastructure.Product.StorefrontAvailability.IsSellable(db, branchId));
 
         if (stage is not null)
         {
@@ -204,7 +204,7 @@ public sealed class GetFoodRecommendationsQueryHandler(
                 entry.ProductId, entry.Name, entry.LifeStage is null ? null : Enumeration.FromValue<LifeStage>(entry.LifeStage.Value),
                 detail.HealthFocus,
                 bundleIngredients.TryGetValue(entry.ProductId, out var bundle) ? bundle.Combined : detail.IngredientList,
-                entry.PrescriptionRequired, entry.InStock, authorised, entry.UnitsSold90d,
+                entry.PrescriptionRequired, true, authorised, entry.UnitsSold90d,
                 IngredientsUnknown: bundleIngredients.TryGetValue(entry.ProductId, out var kit) && kit.Unknown));
         }
 

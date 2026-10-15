@@ -35,6 +35,20 @@ public interface IStockLedger
 
     Task<StockResult<IReadOnlyList<StockMovementLine>>> ReceiveReturnAsync(StockReturn stockReturn, StockReference reference, StockParty party, CancellationToken ct);
 
+    /// <summary>
+    /// Added 2026-10-09 (HO-ORD-001 architecture-gate fix, owner decision 2). Reserves ONE staff-chosen batch: the caller names the batch and the reason,
+    /// Inventory picks the locations and refuses a batch that is unknown for the SKU, held at another branch, recalled, expired or short. A choice that is
+    /// not FEFO is flagged and audited as an override (ADR-102). Enlists, never saves.
+    /// </summary>
+    Task<StockResult<StockPlan>> ReserveBatchAsync(StockBatchDemand demand, StockReference reference, StockParty party, CancellationToken ct);
+
+    /// <summary>
+    /// Added 2026-10-09 (owner decision 2). Whether each batch may still be sold (not recalled, not withdrawn, not expired in the branch's local date).
+    /// An unknown batch, or one held at another branch, is reported unusable (<c>BatchNotFound</c>). Read-only; lets a consumer name the refusal BEFORE
+    /// it consumes.
+    /// </summary>
+    Task<StockResult<IReadOnlyList<BatchUsability>>> GetBatchUsabilityAsync(Guid branchId, IReadOnlyCollection<Guid> batchIds, CancellationToken ct);
+
     /// <summary>US-CLN-15 AC2 → a Shortfall alert, enlisted (not an event).</summary>
     void RecordShortfall(StockShortfall shortfall);
 
@@ -49,4 +63,21 @@ public interface IStockLedger
     /// every location of the branch. Read-only.
     /// </summary>
     Task<StockResult<IReadOnlyList<BatchBalance>>> GetBranchBalancesAsync(Guid branchId, IReadOnlyCollection<Guid> skuIds, CancellationToken ct);
+
+    /// <summary>
+    /// Added 2026-10-09 (HO-PHM-001 architecture gate, owner decision A). Every batch held at the branch's ACTIVE clinic dispensary for the given SKUs
+    /// (on-hand or reserved above zero), with Inventory's batch status. Read-only; lets Pharmacy plan a dispensing without Inventory's internal position reader.
+    /// </summary>
+    Task<StockResult<IReadOnlyList<DispensaryBatch>>> GetDispensaryBatchesAsync(Guid branchId, IReadOnlyCollection<Guid> skuIds, CancellationToken ct);
+
+    /// <summary>Added 2026-10-09 (owner decision A). The branch's active clinic dispensary location, or a <c>DispensaryNotFound</c> failure. Read-only.</summary>
+    Task<StockResult<DispensaryLocation>> GetClinicDispensaryAsync(Guid branchId, CancellationToken ct);
+
+    /// <summary>
+    /// Added 2026-10-13 (HO-EMR-001 Phase F gate fix, ARCH 41, owner-directed additive change; recorded in CONTRACTS.md). The distinct SKUs with stock on hand at the
+    /// branch's ACTIVE clinic dispensary, so a consumer lists dispensary items without reading Inventory's positions and locations itself. Read-only. A default
+    /// member (answers <c>NotSupported</c>) so no other implementer of the port has to change; <c>EfStockLedger</c> overrides it.
+    /// </summary>
+    Task<StockResult<IReadOnlyList<Guid>>> GetDispensarySkuIdsAsync(Guid branchId, CancellationToken ct) =>
+        Task.FromResult(StockResult<IReadOnlyList<Guid>>.Failure("NotSupported", "This ledger cannot list dispensary items.", nameof(branchId)));
 }

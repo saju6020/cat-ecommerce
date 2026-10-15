@@ -16,10 +16,6 @@ public sealed class UpdateCatProfileCommandHandlerTests
 {
     private static readonly DateOnly Today = DateOnly.FromDateTime(DateTime.UtcNow);
 
-    // CODE_REVIEW gate, MEDIUM (2026-09-26): a fixed clock, pinned to the same DateOnly as
-    // `Today` above, so "future" is deterministic instead of racing the real wall clock.
-    private static TimeProvider FixedTimeProvider() =>
-        new FakeTimeProvider(new DateTimeOffset(Today.ToDateTime(TimeOnly.MinValue), TimeSpan.Zero));
 
     // U28
     [Fact]
@@ -27,7 +23,7 @@ public sealed class UpdateCatProfileCommandHandlerTests
     {
         var repository = new FakeAggregateRootRepository<CatAggregate>();
         var handler = new UpdateCatProfileCommandHandler(
-            NullLogger<UpdateCatProfileCommandHandler>.Instance, repository, FixedTimeProvider());
+            NullLogger<UpdateCatProfileCommandHandler>.Instance, repository, new FakeCatRecordClock(Today));
 
         var command = new UpdateCatProfileCommand
         {
@@ -58,7 +54,7 @@ public sealed class UpdateCatProfileCommandHandlerTests
         repository.Seed(cat);
 
         var handler = new UpdateCatProfileCommandHandler(
-            NullLogger<UpdateCatProfileCommandHandler>.Instance, repository, FixedTimeProvider());
+            NullLogger<UpdateCatProfileCommandHandler>.Instance, repository, new FakeCatRecordClock(Today));
 
         var command = new UpdateCatProfileCommand
         {
@@ -87,7 +83,6 @@ public sealed class UpdateCatProfileCommandHandlerTests
     public async Task HandleAsync_DateOfBirthAfterPinnedClock_IsRejectedRegardlessOfTheRealClock()
     {
         var pinnedToday = new DateOnly(2020, 1, 1);
-        var timeProvider = new FakeTimeProvider(new DateTimeOffset(pinnedToday.ToDateTime(TimeOnly.MinValue), TimeSpan.Zero));
 
         var repository = new FakeAggregateRootRepository<CatAggregate>();
         var cat = new CatAggregate(Guid.NewGuid());
@@ -97,7 +92,7 @@ public sealed class UpdateCatProfileCommandHandlerTests
         repository.Seed(cat);
 
         var handler = new UpdateCatProfileCommandHandler(
-            NullLogger<UpdateCatProfileCommandHandler>.Instance, repository, timeProvider);
+            NullLogger<UpdateCatProfileCommandHandler>.Instance, repository, new FakeCatRecordClock(pinnedToday));
 
         var command = new UpdateCatProfileCommand
         {

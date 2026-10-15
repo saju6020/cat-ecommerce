@@ -103,6 +103,10 @@ public sealed class MoveAppointmentCommandHandler(
         if (appointment is null || appointment.BranchId != command.BranchId)
             return Violation(BusinessViolationCodes.AppointmentNotFound, nameof(command.AppointmentId), "Appointment not found.");
 
+        // HO-SRG-001 section 11.7 G1: a surgery appointment moves only with its surgery -- say so before the slot rules (which would answer with an unrelated code).
+        if (appointment.SurgeryId is not null)
+            return Violation(BusinessViolationCodes.AppointmentManagedBySurgery, nameof(command.AppointmentId), SurgeryMessages.AppointmentManagedBySurgery);
+
         // Gate fix: the version guard has to run against the version the caller actually loaded,
         // before Reschedule bumps it -- see the type's remarks.
         if (appointment.Version != command.ExpectedVersion)

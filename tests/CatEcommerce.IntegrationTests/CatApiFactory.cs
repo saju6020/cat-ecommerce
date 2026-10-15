@@ -1,5 +1,8 @@
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Time.Testing;
 
 namespace CatEcommerce.IntegrationTests;
 
@@ -49,4 +52,10 @@ public sealed class CatApiFactory : CatEcommerceApiFactory
             {
                 ["PublicSite:WebBaseUrl"] = webBaseUrl
             })));
+
+    /// <summary>Second factory instance whose TimeProvider is a controllable <see cref="FakeTimeProvider"/>
+    /// -- the same technique <c>AccountsApiFactory.WithFakeTimeProvider()</c> uses. Used to pin the
+    /// clock to an instant where the UTC date and the clinic's (Asia/Dhaka, UTC+6) date differ.</summary>
+    public WebApplicationFactory<Program> WithClockAt(DateTimeOffset instant) => WithWebHostBuilder(builder =>
+        builder.ConfigureTestServices(services => services.AddSingleton<TimeProvider>(new FakeTimeProvider(instant))));
 }

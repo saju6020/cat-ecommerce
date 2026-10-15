@@ -1105,3 +1105,774 @@ notes go through `LimitedMarkup`.
 **Why.** HO-SHP-001 F33 / OQ-2; backlog SHP row 22.
 
 **Status.** Built as specified.
+
+### ADR-FE-049 — The consultation is one route; history, diagnostics and summaries open over it
+
+**Decision.** The consultation is **one route**; history, diagnostics detail and summaries open in a **drawer or dialog over it**, never a navigation; the note form stays mounted throughout
+
+**Why.** US-CLN-13 "without losing my draft" is guaranteed by structure, not by saving first
+
+**Status.** Built as specified, with one exception: once a visit is finalised the record links to its own printable summary route (`/staff/visits/[visitId]/summary`), which is a navigation. No note form is mounted in that state, so the draft the ADR protects is not at risk.
+
+### ADR-FE-050 — Auto-save goes to the server working copy; nothing is written to browser storage
+
+**Decision.** **Auto-save to the server working copy** (`PUT …/draft`): 3 s after typing stops, at most every 20 s while typing, and on `visibilitychange`/route change with `fetch(…, { keepalive: true })`. On load, a newer draft is **restored automatically** with a notice and **Revert to saved note**. **Nothing is written to browser storage.** Explicit **Save note** writes the record. Under the idle lock auto-save pauses (requests fail) and resumes on the next edit after unlock — never a replay
+
+**Why.** US-CLN-12 AC2 on shared clinic PCs; HO-ACC-002's idle-lock rule
+
+**Status.** Built as specified.
+
+### ADR-FE-051 — Actions come only from allowedActions; a finalised visit is a record, not a disabled form
+
+**Decision.** **Actions come only from `allowedActions`**; a finalised visit renders as a read-only record component (text, not disabled inputs) with addenda beneath
+
+**Why.** A disabled form invites "enable it in dev tools"; the server is the authority (US-CLN-17, US-CLN-22)
+
+**Status.** Built as specified, with one clarification: the open visit also renders as read-only text for a role without `editNote`, and a Vet may still enter diagnostic results on a finalised visit (results can be added after finalising), which `allowedActions` does not list.
+
+### ADR-FE-052 — The vitals confirm flow is server-driven
+
+**Decision.** **Vitals confirm flow is server-driven**: the client shows the server's plausible ranges early (from `vital-sign-rules`), but saves by posting; a `400 VitalsOutsidePlausibleRange` opens a confirm listing each value with its range; *Confirm and save* re-posts with `confirmedOutOfRange`
+
+**Why.** US-CLN-11 AC2; the warning that counts is the one the server recorded
+
+**Status.** Built as specified.
+
+### ADR-FE-053 — MeasurementInput and formatMeasurement carry every unit
+
+**Decision.** **`MeasurementInput`** — numeric input with a permanent visible unit suffix (part of the accessible name: *"Weight, kilograms"*), precision from the rules, no spinner; **`formatMeasurement`** for display
+
+**Why.** UI-8 in one place
+
+**Status.** Built as specified.
+
+### ADR-FE-054 — The signature pad is an in-repo canvas capturing strokes as data
+
+**Decision.** **Signature pad is an in-repo canvas** with pointer events, capturing strokes as normalised `[x, y]` points (4 dp) sent as data; *Clear* and *Undo stroke*; the non-drawing alternative is **upload a signed paper form**
+
+**Why.** ADR-132 (strokes, not images); no library; UI-6 needs an alternative for a pointer-only control
+
+**Status.** Built as specified.
+
+### ADR-FE-055 — FileUploadField pre-checks and uploads, then attaches by fileId
+
+**Decision.** **`FileUploadField`** pre-checks type and size from a map mirroring HO-EMR-001 `FileRules`, uploads with progress, then posts the attach command with `fileId`; the server's refusal (`FileContentMismatch`, `FileRejected`, `FileScanUnavailable`) is shown as the message. Files are displayed only from signed URLs in payloads
+
+**Why.** NFR-SEC-5 is the server's; the client only saves a round trip
+
+**Status.** Built with one change: `FileUploadField` is a thin wrapper over the shared HO-FIL-002 `FileUploader` (the one upload control) instead of a second implementation, so the pre-check map is that module's `FileRules` mirror and the scanner-unavailable sentence is its wording.
+
+### ADR-FE-056 — History loads the summary first, sections on demand
+
+**Decision.** **History loads summary first, sections on demand**: the drawer renders the summary (active problems, last visits, last vitals, weight trend, pending labs) from one call and fetches a section's first page only when its tab opens; "Load more" pages (no virtual-list library)
+
+**Why.** NFR-PRF-4 without a dependency
+
+**Status.** Built as specified.
+
+### ADR-FE-057 — Printing uses a print stylesheet; the PDF is the server's
+
+**Decision.** **Printing** uses a print stylesheet on `/staff/visits/[visitId]/summary` for the browser path and the server's PDF for download and the portal; the client never generates a PDF
+
+**Why.** One source of truth for the summary (ADR-130)
+
+**Status.** Built with one change: the JSON summary carries only `prescriptionsAvailable`, so the prescription-label sentence is a client constant matching the server's message; staff PDF download is fetched as a blob (sends `X-Branch-Id`) and saved via an object URL, the owner's portal uses a plain link.
+
+### ADR-FE-058 — Clinical text is plain text
+
+**Decision.** **Clinical text is plain text** — rendered with `white-space: pre-wrap`, never parsed as markdown or HTML; consent-form bodies (server `LimitedMarkup`) use HO-ADM-002's renderer
+
+**Why.** Notes are untrusted input displayed to other staff and owners
+
+**Status.** Built as specified.
+
+## ADR-FE-079 … ADR-FE-086 — Billing frontend slice (HO-BIL-002)
+
+### ADR-FE-079 — Billing is a route-based section with the customer account as its hub
+
+**Decision.** Billing is a route-based section `(staff)/staff/billing/**` with the **customer billing account** as its hub; the billing profile lives in the admin section (ADR-FE-013); the portal gets `/portal/billing/**`
+
+**Why.** Reception works customer-first; deep links from the inbox and other areas need stable routes
+
+**Status.** Built as specified.
+
+### ADR-FE-080 — Money stays a string end to end; the client does no money arithmetic
+
+**Decision.** **Money stays a string end to end; the client does no money arithmetic or comparison**; composer totals come from the server's preview endpoint, labelled *"Estimate at today's tax rates"* until issue; a lint rule enforces it
+
+**Why.** HO-BIL-001 ADR-181/194 — one calculator; JavaScript `number` cannot represent 0.10 exactly
+
+**Status.** Built as specified.
+
+### ADR-FE-081 — Every money-moving form sends one Idempotency-Key per mount
+
+**Decision.** **Every money-moving form sends one `Idempotency-Key` per mount**, reused on retry (network error, `5xx`, double click) and renewed only after success; submit buttons also disable while in flight
+
+**Why.** HO-BIL-001 ADR-187; a lost response followed by a retry must not record twice
+
+**Status.** Built as specified.
+
+### ADR-FE-082 — Payment-method UI is rendered from the server flags
+
+**Decision.** **Payment-method UI is rendered from `GET /api/billing/payment-methods` flags** (`requiresReference` + `referenceLabel`, `requiresCollector`, `countsInTill`, `allowedRefundMethods`); no component switches on a method value; `isOnline` methods (none in v1) are filtered out of staff recording
+
+**Why.** Phase 5 adds a method without a form rewrite (HO-BIL-001 ADR-182)
+
+**Status.** Built as specified.
+
+### ADR-FE-083 — Actions only from the server allowedActions
+
+**Decision.** **Actions only from the server's `allowedActions`**; there is no edit affordance on issued documents or payments; corrections are presented as *Reverse*, *Credit note*, *Corrected re-issue* and *Refund*, each with a UI-3 confirm
+
+**Why.** BR-11; the state machines are the server's
+
+**Status.** Built as specified.
+
+### ADR-FE-084 — C-5 client guard on reference, notes and refund reference
+
+**Decision.** **C-5 client guard**: reference, notes and refund reference inputs run the same Luhn check as the server on change and on submit; a match blocks submit, clears nothing else, and shows *"This looks like a card number…"*; the value is never sent, logged or put in the URL
+
+**Why.** The only way to keep a PAN out of request logs is not to send it
+
+**Status.** Built as specified.
+
+### ADR-FE-085 — Documents: server PDF; receipts print from a dedicated route
+
+**Decision.** **Documents**: invoices and credit notes download as the server's PDF; receipts print from a dedicated route with a print stylesheet (A4 and an 80 mm width variant) built from the receipt endpoint's data, text only
+
+**Why.** One legal rendering (the server's); thermal ESC/POS is POS's (HO-ORD-002)
+
+**Status.** Built as specified.
+
+### ADR-FE-086 — Split tender is a loop, not a multi-row form
+
+**Decision.** **Split tender is a loop, not a multi-row form**: after each accepted payment the form shows the server's new outstanding and offers *"Take another payment"* pre-filled with it, until `0.00`; pending-approval results end the loop with an explanation
+
+**Why.** Each tender is its own record with its own receipt and approval rule (US-BIL-04, US-BIL-11)
+
+**Status.** Built as specified.
+
+---
+
+## ADR-FE-039 … ADR-FE-048 — Imports, batches and inventory frontend slice (HO-IMP-002)
+
+Recorded from `docs/handover/HO-IMP-002.md` §9, word for word. Numbering note: the `ADR-FE-039…148`
+block above is allocated to this handover's series (`ADR-FE-039…048` are HO-IMP-002's); they are
+recorded in `web/docs/decisions.md` (the file every earlier frontend slice uses) because `.ai/**`
+is forbidden scope for a frontend handover (HO-IMP-002 §14) and carries only the backend ADRs.
+
+### ADR-FE-039
+
+**Decision.** Two route-based sections — `/staff/procurement/**` (buying) and `/staff/inventory/**` (holding) — each with its own nav layout; a person with only `Stock.View` sees Inventory and not Procurement, **as presentation only**
+
+**Why.** They are different jobs and different roles; every page still renders the server's `403`
+
+### ADR-FE-040
+
+**Decision.** **The server owns every stock decision.** FEFO order, `isExpired` / `daysToExpiry`, sellable and held quantities, `allowedActions`, `requiresApproval`, variance figures and suggested reorder quantities are rendered from the payload; the UI computes none of them and never re-sorts a FEFO plan
+
+**Why.** An independent client rule silently drifts from BR-3/BR-4 — the two rules with no override
+
+### ADR-FE-041
+
+**Decision.** **Quantities, money and unit costs are strings end to end**, validated by regex (`^\d+(\.\d{1,3})?$` / `(\.\d{1,4})?`) and never passed through `Number`; totals shown come from the server
+
+**Why.** Float arithmetic on stock and money (C-6) is how a count sheet ends up off by 0.0000001
+
+### ADR-FE-042
+
+**Decision.** **Barcode input is a keyboard-wedge `ScanField`**: keystrokes arriving faster than 30 ms apart and ending with Enter are treated as a scan, looked up server-side, and announced in a live region; typing and picking from the SKU picker always remain available
+
+**Why.** HW-2; no camera permission, no scanning library, and a scanner that is just a keyboard cannot break the form
+
+### ADR-FE-043
+
+**Decision.** The **goods-receipt form autosaves a draft to `sessionStorage`** per staff member, restores it with an explicit *"Restore the receipt you were entering?"*, and clears it on post
+
+**Why.** Fifty lines typed beside a pallet must survive a reload; nothing in the draft is personal data
+
+### ADR-FE-044
+
+**Decision.** The **count sheet saves each line to the server as it is counted** and never shows book quantities while the count is open
+
+**Why.** Counts are long and shared; blind counting is the control (HO-IMP-001 ADR-108)
+
+### ADR-FE-045
+
+**Decision.** Alerts are a **nav badge polled every 60 s** plus an alerts page; nothing else polls, and a poll never resets an open form or dialog
+
+**Why.** Expiry and low stock are the two things nobody should have to go looking for (UI-5's spirit, without a live screen)
+
+### ADR-FE-046
+
+**Decision.** The **recall console is a three-step, irreversible-by-design flow**: declare (type the lot number), trace (read, export), notify (explicit, with the recipient count). Notification is never automatic and never fires from the declare step
+
+**Why.** The most consequential action in the product; AC-10
+
+### ADR-FE-047
+
+**Decision.** **Expiry and unusable states are text first**, with icons that carry their own labels; an unusable row always says *why* (*"Expired"*, *"Quarantined"*, *"Recalled — held"*, *"In quarantine location"*) and never offers an action the server would refuse
+
+**Why.** UI-6; US-IMP-09's absoluteness has to be visible, not inferred from a red row
+
+### ADR-FE-048
+
+**Decision.** **Approval-gated actions render from the server's state** (`requiresApproval`, `status`, `allowedActions`), and the approval screens are one queue shared by adjustments and counts
+
+**Why.** ADR-107's separation of requester and approver must be obvious, not discovered on submit
+
+## ADR-FE-164 — Cat photos: upload, then attach by file id (HO-CAT-002 follow-up)
+
+### ADR-FE-164
+
+**Decision.** The staff cat photos page does **not** attach on upload: `FileUploadField` holds the uploaded file as a chip (with Remove), and an explicit **Add photo** posts `{ fileId, isPrimary }`. A refused attach (`PhotoFileNotEligible`, photo limit) is shown inline and keeps the chip so the person can retry or remove and re-upload. The first photo of a cat is sent as primary; the page hides the uploader at 10 photos.
+
+**Why.** The attach call has its own refusals (30-minute window, one file per cat, photo cap) that a person must see next to the file that caused them; auto-attaching would hide a chosen file behind a toast. The browser never supplies a storage key, type, size or name (HO-FIL-001 §1 Amended).
+
+## ADR-FE-170 … ADR-FE-172 — Branch calendar view (HO-ADM-002-FU1)
+
+ADR-FE-172 is held for amendments.
+
+### ADR-FE-170
+
+**Decision.** **The branch calendar's open/closed state and times come only from `GET …/calendar`.** The closure list and `weeklyHours` only label the reason. Where they disagree with the server (for example two reads taken at different moments), **the server's intervals win**, and a closed day with no matching reason reads plain *"Closed"*. If the calendar request fails, nothing is drawn from the other two reads
+
+**Why.** `BranchCalendar` is the single conversion point (HO-ADM-001 ADR-045, §20.7). A client recomputation would drift on DST, part-day subtraction and cancelled closures
+
+### ADR-FE-171
+
+**Decision.** **The month view is an in-repo `<table role="grid">` with a roving tabindex** (WAI-ARIA APG grid keys: arrows, Home/End, PageUp/PageDown). It becomes an `<ol>` day list below 768 px. The month is the `?month=yyyy-MM` URL param, defaulting to the current month in branch time
+
+**Why.** Extends ADR-FE-017 (no calendar library, no sideways scroll). Keeps month links shareable and safe with the Back button. One Tab stop keeps a 31-cell grid usable from the keyboard
+
+## ADR-FE-059 … ADR-FE-068 — Pharmacy and prescriptions frontend slice (HO-PHM-002)
+
+Recorded from `docs/handover/HO-PHM-002.md` §9. Where the build departs from the handover's text, the
+departure is in that file's §1 *Amended* rows and named below.
+
+### ADR-FE-059
+
+**Decision.** Prescribing lives **under the cat** (`/staff/cats/[catId]/prescriptions/**`) so the clinical header — allergies included — is always on screen, and the composer is an **embeddable component** (`PrescriptionComposer`, with `DietAuthorisationForm`, `VisitPrescriptionsList` and `WitnessDialog`) that takes the cat, an open visit (or none, for a renewal) and a callback, and never navigates on its own
+
+**Why.** UI-7 while prescribing; the consultation screen (HO-EMR-002) must not need a second composer. Build note: HO-EMR-002 now exists, but its workspace was not edited by this slice (out of scope, §14) — it reaches the composer through the cat's Prescriptions tab and the visit picker until it embeds the component
+
+### ADR-FE-060
+
+**Decision.** **The safety panel renders the server's assessment only.** A debounced check (400 ms) runs on every clinically relevant change; acknowledgements are stored **against the fingerprint** and cleared when it changes; submit sends that fingerprint; `400 PrescriptionWarningsNotAcknowledged` / `409 PrescriptionWarningsChanged` replace the panel with the assessment the body carries and say *"Something changed — please review the warnings again."* A repository scan (`clinical-logic-scan.test.ts`) fails the build on dose maths, allergy or interaction matching, batch ordering or expiry comparison in this slice
+
+**Why.** The client must never decide safety, and a tick against yesterday's warnings is not consent
+
+### ADR-FE-061
+
+**Decision.** **Units are part of the value.** `Quantity` (and `SignedQuantity`) is the only way a dose, quantity, weight, strength or range is rendered — one text run, a non-breaking space between number and unit, `data-clinical-value` on the element. Dose inputs pair a number with a **unit select that starts empty** and offers only the units the medicine's form allows; `lib/format/units.ts` is the one table of unit labels. Deviation: no `aria-label` spelling the unit on the element (a label on a plain `<span>` has no role to name, which axe reports)
+
+**Why.** UI-8 — a bare `0.3` on a dosing screen is a defect
+
+### ADR-FE-062
+
+**Decision.** **The dispense screen follows the server's plan.** Suggested batches are preselected; expired and non-dispensable batches are listed **disabled with the reason as text**; choosing away from the suggestion reveals a required reason; `canDispense: false` (only expired stock, an ended validity, no supplies) renders a blocking notice and **no Dispense button, no batch control, in the DOM**; a scanned lot selects the matching batch or says it is not in the plan. Deviation: batches are chosen with checkboxes plus a quantity box (a supply can be split, which one radio cannot express); the group is labelled. The only arithmetic is the exact decimal sum behind *"8 of 10 ml selected"* (`lib/format/pharmacy.ts`, integers in ten-thousandths)
+
+**Why.** BR-3 and BR-4 as the user sees them; the client has no expiry logic to get wrong
+
+### ADR-FE-063
+
+**Decision.** **The witness step is a modal** on `components/ui/dialog.tsx`: the witness types **their own** identifier and password on the same device; both fields `autocomplete="off"`; the credentials live in the dialog's local state only and are cleared on submit, cancel, close, unmount and on every refusal (password first, focus back to the identifier); failures show the server's one generic message. Credential-bearing calls (dispense, reverse, register correction) are **plain functions, not TanStack mutations**, so a password never sits in the mutation cache. Owner decision 2026-10-10: the witness must be a vet or nurse and not the dispenser; the dialog says so
+
+**Why.** HO-PHM-001 ADR-146; a password manager filling the dispenser's credentials, or a cache retaining a password, would defeat the witness
+
+### ADR-FE-064
+
+**Decision.** **Labels print from the frozen snapshot** through a dedicated print route; the print stylesheet is generated from two constants (`LABEL_WIDTH`, `LABEL_HEIGHT`, default 62 × 100 mm, OQ-1) and embedded with the label, as the receipt's is, rather than in a new CSS file; **Print** calls `window.print()` then records ONE `POST …/label-prints` per click — never per render
+
+**Why.** HO-CAT-002's cage-card precedent; a reprint must be the same label and must be counted
+
+### ADR-FE-065
+
+**Decision.** **Append-only UI.** Register entries, dispensings and issued prescriptions have **no edit control**; corrections, reversals and renewals are separate routes/dialogs that create something new and say so. The register's *Add correction* is for vets only; an administrator may reverse a dispensing but cannot correct the register (owner decision 2026-10-10). A reversal's confirmation says the stock returns to **quarantine**, as the backend does
+
+**Why.** C-2, D-5 — the UI must not suggest history can change
+
+### ADR-FE-066
+
+**Decision.** **Portal repeat requests** render only from `repeat.canRequest`; the refusal text is the server's, verbatim, with **Book a consultation** (`/book?catId=`) when the code is an ended validity or no repeats left; an open request shows **Withdraw**; `?action=repeat` opens the dialog on load only when a repeat is allowed. The list endpoints are plain arrays, so the cat filter and the paging of *Past* (20 a page) are applied on the client
+
+**Why.** US-PHM-06 AC2 "told why"
+
+### ADR-FE-067
+
+**Decision.** **Formulary editor** edits the whole medicine in one form with `expectedVersion`; the controlled flag and activation are **separate confirmed actions**; interactions are a repeatable row group with a medicine picker **or** a term; a `409` keeps the typed values and offers *Reload*
+
+**Why.** Mirrors HO-PHM-001 ADR-138's separate command; a controlled-flag change must be deliberate
+
+### ADR-FE-068
+
+**Decision.** The allergy-matching limitation is **stated on the safety panel**: *"Allergy checks compare recorded allergies with this medicine's ingredients and classes. A misspelt allergy may not be matched."*
+
+**Why.** HO-PHM-001 ADR-140 — a check that can miss must say so where it is relied on
+
+## ADR-FE-089 … ADR-FE-098 — Cart, checkout and orders (HO-ORD-002)
+
+### ADR-FE-089
+
+**Decision.** **The cart is server state.** One `['cart']` query serves guests and customers; the guest identity is the API's `HttpOnly` cookie, which the client never reads. When the cart says `guestCartPending`, `useCart` calls the merge endpoint once and refetches.
+
+**Why.** HO-ACC-002 forbids browser-stored drafts and tokens; a client-side cart would have to be merged in the browser, which cannot see the guest cookie.
+
+### ADR-FE-090
+
+**Decision.** **Checkout is one route with a stepper**, every choice in URL search params. **The quote is the single source of truth** for prices, charges, slots, payment availability and whether the order can be placed.
+
+**Why.** NFR-USA-5 across reloads and the Back button; a client that computes anything about money or availability drifts from the server.
+
+### ADR-FE-091
+
+**Decision.** **Acknowledgement is bound to a fingerprint.** Place order stays disabled until the customer ticks the acknowledgement for *this* quote; any new fingerprint (poll, option change, `409 CheckoutQuoteChanged`) clears the tick and re-opens the panel. The tick is also disabled while the quote for the latest choices is still settling.
+
+**Why.** FR-ORD-3: acknowledging a quote they never saw is the failure this prevents.
+
+### ADR-FE-092
+
+**Decision.** **No arithmetic on money in the browser and no payment-instrument UI.** Amounts are server strings rendered by `formatMoney`; totals, change due and refund suggestions come from the server. Two Vitest source scans (`tests/guards/`) fail the suite on money arithmetic and on card-like inputs, because `eslint.config.mjs` is outside this handover's scope.
+
+**Why.** C-5, C-6: a rounding difference is a support incident and a card field is a compliance incident.
+
+### ADR-FE-093
+
+**Decision.** **Staff actions render only from the API's `allowedActions`** (and the queue's `flags[]`); a server `403` renders the permission-denied state. Dialogs live in the screen, not under their button, so a 30-second refetch that removes an action never closes a dialog being filled in.
+
+**Why.** HO-APT-002 ADR-FE-028; the order status machine is the server's. Returns have no `allowedActions` in the API, so their panels follow the return's status and the server still refuses a wrong move.
+
+### ADR-FE-094
+
+**Decision.** **Printables are print-styled routes** on one `PrintSheet` shell (A4 for the pick list and packing slip, 80 mm for the receipt). The chrome sits outside the sheet and the print stylesheet hides everything but the sheet. No PDF library, no server render.
+
+**Why.** HW-1: the browser's print dialog already targets the thermal and A4 printers.
+
+### ADR-FE-095
+
+**Decision.** **Barcode scanning is a focused input with burst detection** (`useScanner`: keys under 50 ms apart ending in Enter are a scan; slower typing is manual entry; neither looks anything up before Enter). No scanner library, no camera. The basket, tenders and scan buffer are component state, never storage. `F2` focuses the payment amount; Enter adds the payment and opens a review whose *Complete sale* is focused.
+
+**Why.** HW-2 keyboard wedge; NFR-USA-2's keyboard-only sale without leaving the scan field.
+
+### ADR-FE-096
+
+**Decision.** **Bank-transfer instructions are a first-class screen**: account details with copy buttons, the payment reference (the order number), a countdown to the deadline on the server clock, and *I have made the transfer* which submits the customer's own reference. The order is refetched when the deadline passes.
+
+**Why.** US-ORD-19: the customer is away from the screen when they pay; the reference is what lets staff match the money.
+
+### ADR-FE-097
+
+**Decision.** **Money submissions are idempotent and single-shot**: one key per attempt (kept across retries of the same payload), buttons disabled while pending, no automatic retry, and `409 RequestInProgress` reads *"This is already being processed."*
+
+**Why.** FR-ORD-20: an automatic retry over an ambiguous failure is how a customer is charged twice.
+
+### ADR-FE-098
+
+**Decision.** `/cart` is public in the storefront group; `/checkout` sits behind the customer guard and is reached with `?next=/checkout`; both are in the open-redirect allow-list.
+
+**Why.** HO-ORD-001 OQ-1 (no guest checkout); the guard must stay closed.
+
+## ADR-FE-119 … ADR-FE-126 — Customer portal home and re-order (HO-POR-002)
+
+ADR-FE-124 and ADR-FE-125 (signed media URLs and the stay diary) are **retired**: the diary moved to HO-BRD-002 (README C-6), and BRD is skipped (owner, 2026-10-10). ADR-FE-126 records where the merged backend differs from the handover.
+
+### ADR-FE-119
+
+**Decision.** **The portal home is one request and one shell.** `GET /api/portal/dashboard` feeds every tile through `usePortalDashboard`; every tile is a `DashboardSection`. There is **no stays tile and no subscriptions tile**, not even a placeholder, because the backend has no such key (owner skipped BRD and SUB, 2026-10-10). When BRD or SUB are built, a tile is added with its key; nothing else changes
+
+**Why.** The backend composes the sections and degrades each on its own (ADR-260), so a second request per tile would only add latency and inconsistency. One shell makes the three states impossible to render differently by tile
+
+**Status.** Built. See `components/portal/dashboard/**`, `app/(portal)/portal/page.tsx`.
+
+### ADR-FE-120
+
+**Decision.** **Unavailable is never empty or zero, and a missing key is neither.** `Unavailable` renders "We couldn’t load … just now" with **Try again** (refetching the dashboard). A key that is absent from a section the backend is meant to deliver renders "Not available yet" with no retry. The no-cats invitation shows only for a `Ready` cats section with `hasCats: false`. Money is never summed across currencies
+
+**Why.** A customer who sees "No cats" or "Nothing to pay" because a read failed has been told something false (ADR-FE-012, ADR-260). A missing key means "not built yet", which a retry cannot fix
+
+**Status.** Built. See `DashboardSection`, `CatsTile`, `BalancesTile`.
+
+### ADR-FE-121
+
+**Decision.** **Tiles link out; they never rebuild another area’s page.** Every path the dashboard links to comes from `lib/routing/portal-links.ts`. Targets whose handover is not built (`/portal/orders/**`, `/portal/prescriptions`, `/cart`) have a constant there and are listed in `docs/test-cases/TC-HO-POR-002.md`; the day those pages land, only the pages change
+
+**Why.** HO-POR-002 section 20.5. One file to reconcile, and a test (`links-and-guards.test.tsx`) that fails if a component writes a path of its own
+
+**Status.** Built.
+
+### ADR-FE-122
+
+**Decision.** **There is no payment control in the portal.** Balances show what is owed per currency, the backend’s `howToPay` text, the clinics’ phone numbers (public branches) and links to invoices. No button or link whose name contains "pay" exists on the page (component test U-A4, e2e E-A2)
+
+**Why.** SRS section 1.2: no payment gateway in v1; payments are COD, cash, in-store card and bank transfer
+
+**Status.** Built.
+
+### ADR-FE-123
+
+**Decision.** **Re-order is Orders’ endpoint and the server decides.** The dashboard calls `POST /api/customers/me/orders/{orderId}/reorder` (HO-ORD-001 C15) with a UUID `Idempotency-Key`, shown when the order item’s own `canReorder` is true. The key is kept across a retry of one click and renewed after an answer. The client checks no stock, prescription or basket rule. The result dialog reports `addedCount` and each `unavailable[] { productName, reason }`; `reason` goes through a label map and an unknown code gets a generic sentence. Success invalidates `['cart']`, not the dashboard
+
+**Why.** HO-POR-001 section 1 Amended 2026-10-10 (3): the portal has no re-order of its own. The ORD-002 review failed on a client workaround for a missing endpoint; where the backend gives less than the design shows (no added-lines list, no "already in your basket", no price-change flag), the screen shows less and the gap is a backend backlog row
+
+**Status.** Built. See `useReorder`, `ReorderButton`, `ReorderResultDialog`, `describeReorderReason` in `lib/api/errors.ts`.
+
+### ADR-FE-126
+
+**Decision.** **The merged backend wins on the wire, and every difference is recorded** in HO-POR-002 section 1 Amended 2026-10-13. Differences found: (1) no `stays` / `subscriptions` key; (2) no portal re-order route, no `ReorderResultDto`, no `OrderNotFound` / `OrderNotReorderable` / `ReorderLineOutcome`; the call is Orders’, and it needs `Idempotency-Key`; (3) its answer is `{ addedCount, unavailable[{ productName, reason }] }` only, so there is no added list, no quantities, no "AlreadyInCart", no price-change flag; and a second re-order adds again; (4) `reason` is an open set of codes (`NotPurchasable`, `OutOfStock`, `PrescriptionNotAuthorised`, a cart rule code), not ten outcomes; (5) the server does not refuse a re-order of a non-re-orderable order: `canReorder` on the order item is the only gate, so there is no `400 OrderNotReorderable`; (6) the open-invoice count is taken over at most the newest 500 issued invoices; (7) the dashboard `visits[].followUpOn` and `orders[].trackingNumber` / `canReorder` are present (EMR, ORD); (8) `GET /api/portal/dashboard` is the only portal route
+
+**Why.** HO-POR-002 section 20.4 and the owner’s 2026-10-13 instruction: do not shim, record. The backend gaps are in `docs/backlog/POR.md` (rows 21 onward)
+
+**Status.** Built as specified.
+
+---
+
+## ADR-FE-069 … ADR-FE-078 — Surgery frontend slice (HO-SRG-002)
+
+ADR-FE-069 … 076 are the eight the handover specified, recorded as **built**. ADR-FE-077 and 078 are two decisions taken during the build. Where the merged backend differs from the handover the backend wins and the difference is in HO-SRG-002 section 1 Amended (2026-10-14).
+
+### ADR-FE-069 — Booking is one form with a three-resource picker
+
+**Decision.** `SurgeryResourcePicker` takes the date, surgeon, assistant (the chosen surgeon is removed from the assistant options) and theatre, and asks `GET /api/staff/surgeries/availability` on every change. The starts are the server's, shown as buttons (*"09:00–10:00"*, *"Outside opening hours"*); `BusyExplainer` lists each resource's busy intervals with the server's labels under the picker, and a day with no start offers the next day that has one (the same endpoint, up to 7 days ahead). A `400` shows **every** clash beside its field (`theatreId`, `surgeonId`, `assistantId`, `startsOn`, `catId`, `serviceId`, `campaignId`) and in a summary that takes focus; a `409` says *"Someone has just booked that time. Availability has been refreshed."* and refetches. The booking choices live in the URL (`useSurgeryBookingParams`, `router.replace`).
+
+**Why.** US-SRG-01 wants each resource checked with the reason; the server is the only clash authority, so the browser lists what it was told and works nothing out.
+
+**Status.** Built. See `components/surgery/SurgeryResourcePicker.tsx`, `BusyExplainer.tsx`, `SurgeryBookingForm.tsx`, `lib/validation/surgery.ts` (`mapBookingViolations`).
+
+### ADR-FE-070 — The anaesthesia log is an append-only timeline
+
+**Decision.** An ordered list by `occurredOn` (time as text on the left, kind as icon **and** word, one column at every width). There is no edit control and no delete control anywhere. **Correct…** opens a form prefilled from the entry and posts a linked correction; the original stays, struck through and marked *"Corrected"* with *"Corrected at 10:42 by Dr Akter — reason"* and a link to the correction, and the correction links back.
+
+**Why.** US-SRG-04 AC2 and US-SRG-08 AC2 must be visible, not only enforced. HO-SRG-002 section 20.6 stops any request for an edit or delete control.
+
+**Status.** Built. See `components/anaesthesia/AnaesthesiaTimeline.tsx`, `CorrectEntryDialog.tsx`. Tests U-C1, U-C2.
+
+### ADR-FE-071 — A controlled drug needs the witness step, and the credential is never kept
+
+**Decision.** A controlled drug (or a correction of one) goes through `WitnessDialog` (HO-PHM-002's component, built for exactly this reuse). The backend takes the witness's identifier and password **in the same request** (HO-SRG-001 section 1 Amended (16)), not a confirmation id, so the primary button of the drug dialog is **Next: witness**, disabled until the wastage (0 allowed) and every other required part is filled; the entry is saved when the witness confirms. `useLogDrug` and `useCorrectEntry` are plain functions, not TanStack mutations, so a password is never held in a mutation cache; the credential is passed to the request and dropped. A witness refusal stays in the witness dialog and clears the password; any other refusal closes it and shows in the drug dialog with the typed values kept.
+
+**Why.** BR-7 with identifier + password only; a password must never linger in React state, a cache, the URL or storage.
+
+**Status.** Built. Tests U-C3, U-C4, U-C7.
+
+### ADR-FE-072 — Start renders from the server
+
+**Decision.** `StartPanel` shows **Admit** only when `allowedTransitions` has `Admit`, **Start surgery** only when it has `Start` and `startBlockers` is empty, and otherwise lists the blockers (in a live region) as links to the checklist rows. **Start with emergency override** appears only for a vet and only when consent is the sole blocker; it asks for a reason of 10 to 1000 characters (counter, **Continue** disabled below the minimum) and a final confirm that names the vet and says the override is recorded permanently. The reason lives in the dialog's own state, so a 30 s poll never clears it.
+
+**Why.** BR-5; the gate is the server's and the UI must not offer a path the server refuses.
+
+**Status.** Built. Tests U-B3 to U-B6.
+
+### ADR-FE-073 — The recovery board is a front-desk tab, polled every 30 s
+
+**Decision.** `RecoveryBoard` is the front desk's third tab, sorted *Ready for discharge* → *Recovering* → *Stable* (oldest status first), each card with the compact cat header, the owner and a `tel:` link, *"Ended 09:55"* and the status as text with *"since 10:15 · set by Nurse Akter"*; the header says *"Updated 10:42"*.
+
+**Why.** FR-SRG-10 "near real time" is UI-5 polling (HO-SRG-001 ADR-168).
+
+**Status.** Built. The tab is in `app/(staff)/staff/front-desk/FrontDeskView.tsx` (where HO-APT-002 put the tabs), not `page.tsx`.
+
+### ADR-FE-074 — The report editor autosaves; finalising is separate and confirmed
+
+**Decision.** The draft saves 5 s after the last change with the last known `expectedVersion` (none on the first save, which creates the draft) and says *"Draft saved 10:42"*. A `409` stops the autosave and shows a reload prompt that keeps the local text in a read-only box for copying. **Finalise** (vets) saves first, then asks for confirmation; `ReportIncomplete` (one violation whose message lists the missing parts) marks each missing field and focuses the first. A finalised report renders read-only with its addenda and **Add addendum**, never an editor.
+
+**Why.** FR-SRG-5 immutability, visible to the user.
+
+**Status.** Built. Tests U-D1 to U-D3.
+
+### ADR-FE-075 — Units are part of the control
+
+**Decision.** Every dose, quantity, weight and vital is shown and entered with its unit (`lib/format/surgery.ts`, `QuantityInput`, `FieldWithUnit`). The mg/kg figure is labelled *"≈ 0.2 mg/kg at 4.2 kg (weighed 11 Oct)"* and marked "for information"; no warning logic exists in the browser.
+
+**Why.** UI-8; dose warnings are server policy (HO-SRG-001 OQ-11).
+
+**Status.** Built. Tests U-C5 and `tests/unit/surgery-format-and-validation.test.ts`.
+
+### ADR-FE-076 — The post-op sheet is an HTML route with a print stylesheet
+
+**Decision.** `/staff/surgeries/[surgeryId]/post-op-sheet` uses the shared `PrintSheet` (HO-ORD-002 ADR-FE-094): its inline `@media print` rule hides everything but the sheet, so no navigation reaches the paper. The owner's discharged page uses the same component. No PDF library. `web/styles/print.css` was not created (section 13 permits it); the shared component already carries the rule.
+
+**Why.** US-SRG-07 "produced"; no new dependency.
+
+**Status.** Built. Test U-E4.
+
+### ADR-FE-077 — Where HO-SRG-001 gives less than the screen wants, the screen says less
+
+**Decision.** Five places, each recorded in HO-SRG-002 section 1 Amended: (1) the surgery detail has no `serviceId`, so the reschedule dialog finds the service in `GET /api/staff/surgeries/services` by the procedure's name; (2) a checklist item carries who completed it as an id only, so a name is shown only when it is the surgeon, assistant or overriding vet; (3) `neuterStatusApplied: false` carries no reason, so the notice says the record was not updated and offers **Apply neuter status**; (4) the discharge response carries no channel, so the success line says the instructions were sent to the owner and are in their inbox; (5) the customer detail has the branch name only, so the clinic's phone and address come from the public branch list.
+
+**Why.** HO-SRG-002 section 20.5: never invent a backend field or a mock field. The screen states what the server gave.
+
+**Status.** Built; each is a backlog candidate for HO-SRG-001.
+
+### ADR-FE-078 — Cross-area components are consumed where they exist; a thin glue where they do not
+
+**Decision.** HO-EMR-002 built a consent capture **page** (`/staff/consents/new`), not a `ConsentCaptureDialog`, so *Record consent* links to it (once per kind, Surgery and Anaesthesia). HO-PHM-002's `WitnessDialog` and `FormularyPicker` are reused as they are. HO-IMP-002 built no `BatchPicker`: `DrugBatchChooser` is a radio list over IMP-002's own `useBatches` hook (usable batches only, soonest expiry first), recorded as a deviation from section 20.2 for the owner to confirm.
+
+**Why.** Section 8.5 assumed component shapes that the merged handovers did not build; the drug dialog cannot work without a batch choice.
+
+**Status.** Built. `DrugBatchChooser` owner-accepted 2026-10-14 ("Accept it"); a shared, location-scoped picker is a later Inventory follow-up (IMP backlog 63).
+
+## ADR-FE-139 … ADR-FE-148 — Cross-cutting and Technical frontend slice (HO-XCT-002)
+
+Numbering: `ADR-FE-139…148` are the block HO-XCT-002 §9 names for itself and no other slice has used them (the NTF note above lists them as "allocated to later handovers"), so they are used as written. Where the merged backend differs from HO-XCT-001 section 12.4 the merged backend wins; every difference is recorded in HO-XCT-002 section 1 Amended (2026-10-14).
+
+### ADR-FE-139
+
+**Decision.** **Offline support is staff-only.** The worker is `public/staff/sw.js`, so its scope is `/staff/`. It is registered only by `ServiceWorkerRegistrar` in the `(staff)` layout. There is no `Service-Worker-Allowed` header and nothing in `next.config.ts` widens the scope. It never controls the storefront, the portal or `(auth)` routes (`tests/components/offline/sw-register.test.ts`)
+
+**Why.** The requirement is the front desk. A root-scoped worker would put customer pages and their data under a cache nobody asked for, and would collide with MSW
+
+**Status.** Built.
+
+### ADR-FE-140
+
+**Decision.** **The worker caches only hashed static assets (`/_next/static/**`, `/staff/icons/**`) and the static offline shell (`/staff/offline`).** Navigations are network-first (4 s). If the network fails, `/staff/offline` is served from cache; any other `/staff/` page gets a `302` to `/staff/offline?from=<path>` (so a reload or a direct visit while offline lands on the board with an explanation, not on a dead session guard). `/staff/sign-in` is never intercepted. Anything under `/api/` and any other origin is never touched (no `respondWith`). Registered only when `NODE_ENV === 'production'`, `NEXT_PUBLIC_USE_MOCKS !== 'true'` and the device opt-in is on; in every other case `reconcileServiceWorker` unregisters our worker (scope `/staff/`, script `/staff/sw.js`, never MSW's) and deletes its caches
+
+**Why.** Caching staff HTML would cache rendered personal data outside the one store we control and wipe. Two workers in mock mode would silently break MSW
+
+**Amended 2026-10-14 (gate fix round).** Navigations fall back to the board only when the fetch REJECTS; there is no timeout of its own, so a slow answer is never mistaken for an outage. Each warm-up evicts hashed chunks that the fresh shell no longer references. A stale worker is unregistered on EVERY load in development and mock mode by `ServiceWorkerCleanup` in the root layout (the `(staff)` layout is not reached when a stale worker breaks `/staff/sign-in`), and sign-out unregisters the worker as well as emptying its caches
+
+**Status.** Built. The redirect for a non-shell navigation is this build's choice; HO-XCT-002 section 12.1 said "serve the cached shell", which would have put the offline page's markup under another page's URL.
+
+### ADR-FE-141
+
+**Decision.** **IndexedDB `purrcare-offline` (version 1, stores `snapshot` and `device`) is the one sanctioned persistence of personal data in this app.** Hand-written in `lib/offline/db.ts`. One snapshot per branch, the HO-XCT-001 payload plus `etag`, `fetchedAt`, `staffAccountId`; written only while the device flag is on; one person per device (another person's records are removed before a write). Wiped on: sign-out (the staff session query is removed from the cache, seen by `OfflineSnapshotSync`), a session read of `null`, `401 session_invalid` on a sync, a person change, `validUntil` passing, the opt-out, "Clear this device now", a schema-version mismatch, and a `403 ActionNotPermitted` on the snapshot. A `401 session_idle_timeout` and a network failure clear nothing. If IndexedDB is unavailable the feature does nothing: there is no `localStorage` fallback. No token, password, CAPTCHA answer or draft is ever stored. "Dismissed" state of the overdue banner is kept in the query cache, not in browser storage. **Amends HO-ACC-002 section 4.3.**
+
+**Amended 2026-10-14 (gate fix round).** **Owner decision: customers' phone numbers are not kept.** `customerPhone` is discarded before anything is written (`withoutCustomerPhones`) and never shown; the backend is asked to stop sending it (backlog row 90). Phone numbers in a record written before this decision are stripped when it is read. The device record also holds `lastActivityAt` and `lockedForStaffAccountId` (opaque id and timestamp, no personal data). Concurrent changes to either store are one IndexedDB transaction, and a cached connection that the browser closes is reopened. Only one open tab refreshes the snapshot: a copy confirmed by any tab within 80 % of the refresh period is left alone
+
+**Why.** NFR-AVL-3 cannot be met without data on the device. Residual risk: a signed-out but unwiped device (power loss) keeps the day's list until `validUntil`, on a physically controlled clinic machine
+
+**Status.** Built. Tests use an in-memory backend (`setOfflineBackendForTests`), because jsdom has no IndexedDB and `fake-indexeddb` is not permitted.
+
+### ADR-FE-142
+
+**Decision.** **Connectivity is the server's answer, not the browser's flag.** `lib/connectivity/monitor.ts` pings `GET /api/system/ping` every 15 s while well, **every 3 s after a failure and for the first minute offline (owner-confirmed 2026-10-14, backlog row 64; it replaces OQ-3's plain 15 s)**, every 15 s until five minutes offline and every 60 s after, on `visibilitychange` and on the window `online` / `offline` events, with a 5 s timeout. Two consecutive failures, or one while `navigator.onLine` is false, mean `offline`; one success means `online`; a `5xx` means `degraded`, and the offline list is not offered. `client.ts` reports every network failure and response through `setConnectivityReporter` (the same direction as `setSessionErrorHandler`, so there is no import cycle). While the offline board is open its own 5 s check shares the monitor and keeps resetting its timer, so on that page the rate is about one ping every 5 s and the 15 s / 60 s back-off does not apply (an accepted exception). There is ONE pending check at any time (`scheduleNext` clears the current handle first), a check already in flight is shared, nothing is scheduled after `stop()`, and a test counts the pings across a long outage and after recovery. A caller's own aborted request is not counted as a failure. A tiny module-level store read through `useSyncExternalStore`: a device fact, not server data and not an app store. `ConnectivityProvider` also feeds the status to TanStack's `onlineManager`, so queries pause and polling stops while offline instead of failing
+
+**Why.** `navigator.onLine` only means "an interface is up". A clinic with a dead uplink would look online
+
+**Status.** Built.
+
+### ADR-FE-143
+
+**Decision.** **Offline is read-only and nothing is queued.** `apiFetch` throws `OfflineError` for `POST`/`PUT`/`PATCH`/`DELETE` before any `fetch` while the monitor says `offline`. `ConnectivityProvider` sets the QueryClient's default mutation `networkMode` to `always` (no change to `app/providers.tsx`). `WriteButton` and `ConfirmDialog` disable themselves with the visible reason "Offline — can't save" and `aria-describedby`. The page stays mounted, so typed input survives. `describeApiError`, `describeUnexpectedError` and `submitWithServerErrors` map `OfflineError` to the offline sentence
+
+**Why.** US-XCT-01 AC2. A paused-and-replayed mutation is neither disabled nor honest
+
+**Status.** Built for `client.ts`, `ConfirmDialog` and the new screens. Other slices' own submit buttons (the front desk's check-in dialogs, for example) are outside section 13 and are NOT disabled, only refused fast; reported as a finding against their owners.
+
+### ADR-FE-144
+
+**Decision.** **The offline board is its own route group, `(offline)`, with no session guard,** reading only IndexedDB (once). It refuses to show data when the copy is missing, out of date, in another schema version, or saved by a different `staffAccountId` than the one known from the in-memory session cache (a hard reload offline has no session in memory, so then only the wipe rules protect it). It locks after `idleTimeoutMinutes` without keyboard, pointer or touch input and cannot be unlocked offline. `?from=` is honoured only for same-site `/staff/` paths (`safeReturnPath`). The page is `force-static` and has no server data
+
+**Amended 2026-10-14 (SECURITY gate fix).** The board does not trust a cold load. On mount it pings once: if the server answers (even with a 5xx) it goes to the staff app (`?from=` or the front desk) and shows nothing, and while open it asks again every 5 s. It opens locked when the device has recorded no activity, or none within `idleTimeoutMinutes` (`lastActivityAt`, written by the staff layout and the board about once a minute); its own idle timer counts that time already passed. The lock is saved in the device store and survives a reload; a successful snapshot sync by anyone clears it (the sync proves a live session and has already replaced another person's copy). Activity is not recorded while the HO-ACC-002 online idle lock is showing, and when that lock fires the board lock is saved too; a `lastActivityAt` in the future counts as no activity. A recovery that happened before the board opened (an earlier outage in the same page load) does not send it away
+
+**Why.** A guard would bounce to sign-in exactly when sign-in is unreachable. The idle lock keeps C-9 true on an unattended terminal, deliberately at the cost of availability in a long outage (OQ-2)
+
+**Status.** Built.
+
+### ADR-FE-145
+
+**Decision.** **Recovery is automatic and announced.** On the first reachable answer after `offline` the monitor calls its recovery listeners: `onlineManager.setOnline(true)` and `invalidateQueries()`. The banner says "Back online — updated just now." for 5 s. A board that was open goes to `?from=` or `/staff/front-desk`, or to sign-in if it had locked, and announces it in a polite live region. It never leaves because a first, optimistic "online" reading came before the first ping
+
+**Why.** US-XCT-01 AC3, and a redirect loop is worse than a slow one.
+
+**Status.** Built.
+
+### ADR-FE-146
+
+**Decision.** **Web vitals use `useReportWebVitals` from `next/web-vitals`.** Samples go through the `sendTelemetry()` function in `client.ts`: `credentials: 'omit'`, `keepalive`, `Content-Type: text/plain` (a CORS simple request, as a beacon), no CSRF or branch header. A sample holds metric, value, **route template** (from `usePathname()` plus `useParams()`, for example `/shop/products/[slug]`), navigation type, effective connection type and viewport class; a batch adds the build id. Batches are at most 10 samples (the API cap) and are flushed on `visibilitychange` (hidden), `pagehide` and route change. Nothing is sent from `/staff/**`. Samples the API would refuse (an upper-case route, an unknown metric) are dropped client-side. Sampling is 100 % (OQ-4). The build id is `NEXT_PUBLIC_BUILD_ID` when set and `unknown` otherwise (setting it needs a `next.config.ts` edit that section 13 does not allow)
+
+**Why.** `credentials: 'omit'` means no cookie, so nothing links a measurement to a person
+
+**Status.** Built.
+
+### ADR-FE-147
+
+**Decision.** **Budgets are checks you can fail, not dashboards, and live in the repo.** `perf-budgets.json` names the storefront routes. `scripts/check-js-budget.mjs` (gzip level 9 of every first-load chunk, layouts included) fails when a route is over `firstLoadJsKb` or no longer exists. `scripts/route-inventory.mjs` generates the route list from `app/**/page.tsx`. `tests/perf/lcp.spec.ts` (CDP Slow 4G, 4x CPU, median of 5, Chromium), `tests/perf/viewport-sweep.spec.ts` (360/768/1024/1440) and `tests/a11y/app-sweep.spec.ts` read that list. They run with their own config, `tests/perf/playwright.config.ts`, because `playwright.config.ts` is outside section 13. No Lighthouse dependency. The budget names `/shop/products/[slug]`, not the guessed `/shop/[slug]` of HO-XCT-002 section 11.6, which does not exist
+
+**Why.** NFR-PRF-1 must be provable before release, on an agreed profile
+
+**Status.** Built; measured numbers are in `docs/test-cases/TC-HO-XCT-002.md`.
+
+### ADR-FE-148
+
+**Decision.** **This slice measures; the owning area fixes.** Edits outside this slice are limited to the lines section 13 names: `app/layout.tsx` (the reporter), `app/(staff)/layout.tsx`, `app/(staff)/staff/customers/[customerId]/page.tsx` (the erase panel), `components/common/ConfirmDialog.tsx` and `WriteButton.tsx`, `components/admin/adminNavItems.ts` (three entries), `lib/api/client.ts` and `errors.ts`, `next.config.ts` (the worker header) and the `package.json` scripts. No sweep excludes a route and no budget was relaxed. Breaches found are reported in the test sheet against the owning handover
+
+**Why.** Otherwise the last handover in the order silently rewrites the others' screens
+
+## ADR-FE-129 … ADR-FE-138 — Reporting screens (HO-RPT-002)
+
+### ADR-FE-129
+
+**Decision.** **One generic report viewer**, drawn entirely from the catalogue payload: filter controls from `parameters`, columns from `columns`, the default range from `defaultRange`, totals and notes from the result. There is no per-report page or component, and `components/reports` names no report key (a source scan, `source-scan.test.ts`, fails if one appears). A key the caller's catalogue does not list is still asked of the server, so a direct URL shows the server's own `403` or `404`.
+
+**Why.** The server defines 21 reports now and will define more. A per-report screen guarantees drift between what the server can filter and what the screen offers.
+
+**Status.** Built. See `components/reports/ReportViewer.tsx`.
+
+### ADR-FE-130
+
+**Decision.** **`/staff` is the staff home and the landing route.** `app/page.tsx` and the staff sign-in default now go to `/staff`; `/staff/cats` stays in the nav. OQ-1 default taken (yes). The nav gets two entries, Home and Reports, in `nav/areas/reporting.ts` (the registry file this area owns), because the shell reads the registry, not `app/(staff)/layout.tsx`.
+
+**Why.** FR-RPT-3 says the home dashboard shows the role's figures; HO-ACC-002 flagged the landing route as a product decision.
+
+**Status.** Built. **Owner-confirmed 2026-10-14 (OQ-1: "Dashboard").** No existing Vitest test asserted the old landing. *Correction (TEST gate, 2026-10-14):* the Playwright case `home.spec.ts` "signed in as staff lands on ..." did, and was changed to expect `/staff` under a coordinator scope amendment (HO-RPT-002 Amended (19)).
+
+### ADR-FE-131
+
+**Decision.** **The client computes no figure.** No totals, margins, percentages, currency maths, next-run times, covered periods or default date ranges. Money stays a string; `defaultRange`, `totals`, `nextRuns` and `periodForNextRun` come from the server. Only string tests are used where a word is needed (is a variance amount non-zero), and the chart converts a string to a number purely to plot it. Consequence: the design's "Yesterday / This week / Last week / Last 30 days" presets are NOT offered, because the API has no way to resolve them and resolving them here would be date arithmetic; the one preset is "Default: {period}" from `defaultRange`.
+
+**Why.** Two implementations of "net revenue" is how a dashboard and a report end up disagreeing in front of the owner.
+
+**Status.** Built. **Owner 2026-10-14: "One date preset" is accepted as built.** Presets are an owner question (HO-RPT-002 section 1 Amended).
+
+### ADR-FE-132
+
+**Decision.** **Exports are fetched as a blob and saved with an object URL**, revoked at once. The fetch is an `XMLHttpRequest` in `lib/download/reportExport.ts` (as `inventory-download.ts` does) so `client.ts` stays the only `fetch` call site; every status maps onto `client.ts`'s error classes, and a `429` keeps its `Retry-After`. The filename is the server's `Content-Disposition` when the browser can read it; the API exposes only `Date` to cross-origin scripts, so otherwise it is `purrcare-{key}-{from}-to-{to}.{ext}`, the same pattern the server uses.
+
+**Why.** A navigation cannot show `413 ReportTooLargeForPdf` or `400 ReportTimedOut`.
+
+**Status.** Built. CORS exposure of `Content-Disposition` and `Retry-After` is a backend follow-up.
+
+### ADR-FE-133
+
+**Decision.** **A report table collapses to labelled cards when its container is narrower than 640 px**, measured with `useNarrowContainer`, not at a 768 px viewport. The staff sidebar takes 240 px from 640 px up, so the content width is the honest signal. Cards are a `<dl>` per row; the desktop first column is a sticky row header; on narrow screens sorting is a `<select>`.
+
+**Why.** UI-1 at 360 px for tables the server may make 12 columns wide; the same approach as the inventory stacked tables.
+
+**Status.** Built.
+
+### ADR-FE-134
+
+**Decision.** **Charts are optional companions** for `timeBucketed` reports only: closed by default, lazily loaded, `aria-hidden`, with a visually hidden `<table>` repeating every point through `formatCell`. Series are the numeric columns; points are labelled by the leading non-numeric columns. Bar for counts and money, line for percentages.
+
+**Why.** UI-6; a chart that recomputed from raw rows would contradict ADR-FE-131.
+
+**Status.** Built.
+
+### ADR-FE-135
+
+**Decision.** **The dashboard polls on the payload's `refreshSeconds`** (floor 10 s), never in the background, keeps the previous tiles while a refetch is in flight or fails, and announces "Dashboard updated" in a polite live region at most once a minute. "Updated HH:mm" is the server's `generatedOn` in the branch zone.
+
+**Why.** UI-5: the refresh must not reset an open dialog or a focused control.
+
+**Status.** Built.
+
+### ADR-FE-136
+
+**Decision.** **Schedule timing is previewed by the server.** The editor posts the draft timing to `…/preview` (debounced 500 ms, a mutation) and shows the next runs, the covered period and the quiet-hours hold exactly as returned. The preview carries no zone, so instants are labelled with the branch's zone (the primary branch's for "All branches"). The periods the editor offers mirror `ReportSchedulePeriods.IsCompatible` from the catalogue's `kind` and `defaultPeriod` as a convenience; the server still decides.
+
+**Why.** One calculator, on the server, so the DST night cannot disagree.
+
+**Status.** Built.
+
+### ADR-FE-137
+
+**Decision.** **Permission is expressed by absence.** A report the caller may not open is not in the catalogue; a restricted column is not in the payload and is not rendered; a tile not sent is not drawn. There is no "locked" affordance. The Reports nav entry is shown to every staff role (presentation only, like Messages): a Nurse gets `PermissionDeniedState` on `/staff/reports`.
+
+**Why.** Telling someone which financial columns exist but are withheld is itself information.
+
+**Status.** Built. Hiding the nav entry per role needed a shell change outside this handover (section 1 Amended). *Update, owner 2026-10-14 ("Hide the menu entry"):* `NavItem.roles` was added and the Reports entry is hidden for roles without `Reports.Any` (a Nurse); the page-level `403` refusal stays as defence in depth.
+
+### ADR-FE-138
+
+**Decision.** **The merged backend wins on the wire and every difference is recorded** in HO-RPT-002 section 1 Amended: `branchId=all`, `groupBy` values, the relative-period names, no zone on the preview, no `groupBy` on a schedule, recipient errors that do not name the person, a variance with no direction, deferred reports simply absent.
+
+**Why.** HO-RPT-002 section 20.4 and the owner's instruction: do not shim, record.
+
+**Status.** Built.
+
+---
+
+## HO-BRD-002 — Boarding (ADR-FE-099 … ADR-FE-108)
+
+The block `ADR-FE-099 … ADR-FE-108` is the one `docs/handover/README.md` reserves for HO-BRD-002 (checked
+free on master and on every open `ho/*` branch before use). Each entry states the decision as built.
+
+### ADR-FE-099
+
+**Decision.** **The booking flow is one route with a stepper; the search lives in URL params and the enquiry lives on the server from the cats step on, with `stayId` in the URL.** `/boarding?arrivalOn&departureOn&catCount&unitType` is the deep link for steps 1-2; once cats are chosen the page calls `POST …/enquiries` and the URL gains `stayId`. A vaccination block renders in place (`VaccinationGatePanel`) with a **Book a vaccination** link and the enquiry is resumable from `/portal/boarding`. **Resume** re-submits the same enquiry (`PUT …/enquiry`), which the server re-evaluates, and lands on the first step that still needs work (gate, then care profiles, then review). `/boarding` sits under the `(portal)` layout, so it needs a customer session like `/book`; the availability endpoint itself is public
+
+**Why.** US-BRD-04 AC2 ("without re-entering details") only works if the draft is not in memory. The portal layout's `CustomerSessionGuard` already carries the query string through sign-in (`?next=`)
+
+**Status.** Built. See `app/(portal)/boarding/**`, `components/boarding/booking/**`. The sign-in allow-list entry for `/boarding` is a one-token edit to `app/(auth)/sign-in/page.tsx`, outside section 13; `BOARDING_NEXT_PREFIX` in `lib/routing/boarding-links.ts` is the value to add (HO-BRD-002 section 1 Amended).
+
+### ADR-FE-100
+
+**Decision.** **The task board completes with one tap on a 44 px+ `Done` button, optimistically, with a live-region announcement and an Undo only while the request is in flight; no dialog, no required note.** `useCompleteTask` flips the card in the query cache in `onMutate`, rolls it back in `onError`, and shows the server's reason. **Undo** aborts the in-flight `POST …/complete` (an `AbortController` signal passed through `apiFetch`) and restores the card; once the server has answered there is no Undo, and a completion that had already reached the server simply shows as done on the next refresh
+
+**Why.** NFR-USA-3 is measured (E-C2); a confirm dialog would double every tap
+
+**Status.** Built. See `useCompleteTask`, `TaskCard`.
+
+### ADR-FE-101
+
+**Decision.** **Dashboard, task board, occupancy board and incident queue poll every 30 s; a poll never resets an open wizard, form, dialog or an in-flight completion.** New data is applied around them: dialogs and sheets own their values in component state, the task list is not remounted by a poll, and newly arrived incidents are announced in a polite live region rather than re-ordering focus. The occupancy board and the task board hold the list they are showing while a dialog is open (`useFrozenWhile`)
+
+**Why.** UI-5 "without losing unsaved input"
+
+**Status.** Built.
+
+### ADR-FE-102
+
+**Decision.** **The occupancy board is an in-repo CSS grid** (rows = units grouped by block, columns = days; 14 days, paged by week, `from` in the URL) with stay bars, maintenance bands (patterned) and turnaround hatching, each also written in text. **No drag-and-drop**: extend and relocate are dialogs, because both need a reason and the server's alternatives. Below 768 px it becomes a day list of units (no horizontal scroll), and the list is also the keyboard path at every width
+
+**Why.** HO-ADM-002 ADR-FE-016; a drag cannot express "why"
+
+**Status.** Built. See `OccupancyGrid`, `OccupancyDayList`.
+
+### ADR-FE-103
+
+**Decision.** **Signatures are captured by an in-repo pointer-event canvas that posts stroke points as JSON, with an equal typed-name + confirmation alternative always visible.** Points are rounded to integers, clamped to 0…10 000 and thinned to stay under the server's 32 KB; nothing is rendered as an image and no file is produced. The typed path is a radio, not a fallback hidden behind the canvas
+
+**Why.** HO-BRD-001 ADR-236; a canvas-only signature is a WCAG failure and there is no storage for an image
+
+**Status.** Built. See `components/signature/SignaturePad.tsx`, `boundStrokes` in `lib/validation/boarding.ts`.
+
+### ADR-FE-104
+
+**Decision.** **Nothing uploads.** Belongings, diary and incident media are recorded as a reference (storage key, type, size) in a clearly marked dev-only field with the honest note "Photo storage is not available yet — the item is recorded without a photo". Where `boarding.requireBelongingsPhotos` makes the server refuse, its message is shown verbatim. The diary shows the recorded reference and caption as text, never an image. HO-FIL-002 section 1 Amended (2026-09-28) confirms BRD stays upload-free; HO-BRD-001's later amendment to store `fileId`s is therefore not consumed here (HO-BRD-002 section 1 Amended)
+
+**Why.** Inventing an upload endpoint or consuming `FileUploader` is outside section 13/14
+
+**Status.** Built. See `MediaReferenceFields`, `MediaRecordDialog`.
+
+### ADR-FE-105
+
+**Decision.** **Every price, total, discount, deposit, balance and charge line is rendered from the server; the client never adds, multiplies or prorates money, and never derives availability, capacity, overdue or "not eating".** Amounts stay strings end to end and go through `formatMoney` only. The overdue chip formats the server's `minutesLate`; the "Not eating — flagged" banner reads the server's flag. The one piece of date arithmetic is the nights count shown beside the date inputs before the server has answered (calendar days between two strings; the server's `nights` replaces it). The early check-out recalculation cannot be shown *before* submit because HO-BRD-001 section 12.4 has no preview endpoint (section 20.5): the wizard says the nights will be recalculated and shows the server's recalculated lines and credit on the result
+
+**Why.** HO-BRD-001 sections 8.8/8.9 own those rules; a second implementation in the browser will disagree
+
+**Status.** Built; the early check-out preview is a recorded gap.
+
+### ADR-FE-106
+
+**Decision.** **There is no payment control anywhere.** The owner sees the amount, the pay-by time and the how-to-pay content page. Staff see **Record payment** (a link to Billing with the stay reference until HO-BIL-002's dialog is wired in), then **Confirm stay**, and an explicit *awaiting approval* state. The UI never claims a stay is confirmed until the server says so, and the word "pay" appears only in text that tells the owner how to pay offline
+
+**Why.** SRS A-2, C-5; the confirmation is the server's reading of Billing (HO-BRD-001 ADR-223)
+
+**Status.** Built. A test greps the boarding bundle for payment words (U-X4).
+
+### ADR-FE-107
+
+**Decision.** **Actions are rendered only from `allowedTransitions[]` and the server's capability flags; a `403` renders `PermissionDeniedState`.** No role check is hardcoded; the sidebar and tab rows hide nothing by role (they link to screens that answer `403` themselves)
+
+**Why.** HO-BRD-001 section 12.3; the role map is the server's (ADR-233)
+
+**Status.** Built.
+
+### ADR-FE-108
+
+**Decision.** **Check-in and check-out are wizards that submit once.** Per-cat steps collect everything in component state; one request creates the whole checklist, so a half-checked-in stay cannot exist. The server's `…ChecklistIncomplete` violations name `Cats[i].Field`; each is mapped back onto the offending cat step and field, the wizard jumps to the first cat with a problem, and nothing already typed is lost. A second click while the request is in flight is ignored
+
+**Why.** HO-BRD-001 section 8.11 refuses an incomplete checklist as a unit
+
+**Status.** Built. See `CheckInWizard`, `CheckOutWizard`.
+
+### ADR-FE-104 and ADR-FE-105 -- corrections (2026-10-15, ARCHITECTURE gate M3)
+
+Appended; the entries above are left as written.
+
+**ADR-FE-104 (no upload) is superseded.** By the owner's decisions of 2026-10-14 ("Add the uploader") and 2026-10-15 ("Yes, diary photos too"), Boarding consumes HO-FIL-002's `FileUploader`, unmodified, for **belongings photos at check-in** (purpose `BoardingBelongings`) and for **diary photos** (purpose `BoardingMedia`); only the returned `fileId` is sent. Incident photos have no field on the incident request and are not offered. `MediaReferenceFields` is removed. Diary media show a **View photo** link from the signed `file.url` the diary returns.
+
+**ADR-FE-105 (server-derived values) keeps its rule and loses two sentences.** The early check-out preview *is* shown before submit (`GET .../check-out-preview`, HO-BRD-001 1.1, with `isEarly`/`isLate`; the browser's clock no longer decides early or late). The built task list has **no** `minutesLate`, so the overdue chip says "Overdue" without minutes; the server's `isOverdue` still drives it. A value the backend does not send is shown as absent and never invented (no 0.00 balance, no assumed signature method, no default "referred by").
+
+**Status.** Built.

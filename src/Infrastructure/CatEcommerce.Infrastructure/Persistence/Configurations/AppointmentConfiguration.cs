@@ -69,6 +69,10 @@ public sealed class AppointmentConfiguration : IEntityTypeConfiguration<Appointm
             .HasConversion(v => v == null ? (int?)null : v.Value, v => v == null ? null : Enumeration.FromValue<RescheduleFlagReason>(v.Value));
         builder.Property(x => x.RescheduleFlagSourceId).HasColumnName("reschedule_flag_source_id");
 
+        // HO-SRG-001 section 11.7 G1/G3 (ADR-158, ADR-159): the surgery this appointment holds time for, and the assistant.
+        builder.Property(x => x.SurgeryId).HasColumnName("surgery_id");
+        builder.Property(x => x.AssistantId).HasColumnName("assistant_id");
+
         builder.OwnsMany(x => x.StatusHistory, h =>
         {
             h.ToTable("appointment_status_change", "clinic");
@@ -85,6 +89,24 @@ public sealed class AppointmentConfiguration : IEntityTypeConfiguration<Appointm
         });
         builder.Metadata.FindNavigation(nameof(AppointmentAggregate.StatusHistory))!.SetPropertyAccessMode(PropertyAccessMode.Field);
 
+        // HO-SRG-001 section 8.4 (ADR-159): the staff-time rows behind ex_appointment_staff_time (raw SQL in the AddAppointmentStaffTime migration).
+        builder.OwnsMany(x => x.StaffTime, h =>
+        {
+            h.ToTable("appointment_staff_time", "clinic");
+            h.WithOwner().HasForeignKey("appointment_id");
+            h.HasKey("Id");
+            h.Property(p => p.Id).ValueGeneratedNever().HasColumnName("id");
+            h.Property(p => p.Role).HasColumnName("role")
+                .HasConversion(v => v.Value, v => Enumeration.FromValue<StaffTimeRole>(v)).IsRequired();
+            h.Property(p => p.StaffAccountId).HasColumnName("staff_account_id").IsRequired();
+            h.Property(p => p.StartsOn).HasColumnName("starts_on").HasColumnType("timestamptz").IsRequired();
+            h.Property(p => p.EndsOn).HasColumnName("ends_on").HasColumnType("timestamptz").IsRequired();
+            h.Property(p => p.Occupies).HasColumnName("occupies").IsRequired();
+            h.HasIndex("appointment_id").HasDatabaseName("ix_appointment_staff_time_appointment");
+            h.HasIndex(p => new { p.StaffAccountId, p.StartsOn }).HasDatabaseName("ix_appointment_staff_time_staff_starts_on");
+        });
+        builder.Metadata.FindNavigation(nameof(AppointmentAggregate.StaffTime))!.SetPropertyAccessMode(PropertyAccessMode.Field);
+
         builder.HasIndex(x => new { x.BranchId, x.StartsOn }).HasDatabaseName("ix_appointment_branch_starts_on");
         builder.HasIndex(x => new { x.PerformerId, x.StartsOn }).HasDatabaseName("ix_appointment_performer_starts_on");
         builder.HasIndex(x => new { x.RoomId, x.StartsOn }).HasDatabaseName("ix_appointment_room_starts_on");
@@ -92,6 +114,7 @@ public sealed class AppointmentConfiguration : IEntityTypeConfiguration<Appointm
         builder.HasIndex(x => new { x.CustomerId, x.Status }).HasDatabaseName("ix_appointment_customer_status");
         builder.HasIndex(x => new { x.BranchId, x.Status }).HasDatabaseName("ix_appointment_branch_status");
         builder.HasIndex(x => new { x.Status, x.HoldExpiresOn }).HasDatabaseName("ix_appointment_status_hold_expires_on");
+        builder.HasIndex(x => x.SurgeryId).HasDatabaseName("ix_appointment_surgery_id").HasFilter("surgery_id IS NOT NULL");
         builder.HasIndex(x => new { x.NeedsRescheduling, x.BranchId }).HasDatabaseName("ix_appointment_needs_rescheduling_branch").HasFilter("needs_rescheduling");
 
         builder.Property(x => x.Tags).IsRequired(false);

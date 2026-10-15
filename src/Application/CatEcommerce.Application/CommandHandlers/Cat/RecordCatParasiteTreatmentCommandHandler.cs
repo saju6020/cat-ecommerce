@@ -2,6 +2,7 @@ using CatEcommerce.Application.Commands.Cat;
 using CatEcommerce.Application.DataMappers;
 using CatEcommerce.Domain.Aggregates.Account;
 using CatEcommerce.Domain.Aggregates.Cat;
+using CatEcommerce.Domain.DomainServices;
 using CatEcommerce.Domain.Exceptions;
 using CatEcommerce.Shared.Common.Constants;
 using Microsoft.Extensions.Logging;
@@ -21,7 +22,7 @@ public sealed class RecordCatParasiteTreatmentCommandHandler(
     ILogger<RecordCatParasiteTreatmentCommandHandler> logger,
     IAggregateRootRepository<CatAggregate> catRepository,
     IAggregateRootRepository<StaffAccountAggregate> staffAccountRepository,
-    TimeProvider timeProvider)
+    ICatRecordClock clock)
     : ICommandHandlerAsync<RecordCatParasiteTreatmentCommand>
 {
     public async Task<CommandResponse> HandleAsync(RecordCatParasiteTreatmentCommand command)
@@ -39,7 +40,7 @@ public sealed class RecordCatParasiteTreatmentCommandHandler(
 
         try
         {
-            var today = DateOnly.FromDateTime(timeProvider.GetUtcNow().UtcDateTime);
+            var today = await clock.LocalTodayAsync(CancellationToken.None);
             cat.RecordParasiteTreatment(command.ToDomainDto(today));
         }
         catch (DomainRuleViolationException ex)

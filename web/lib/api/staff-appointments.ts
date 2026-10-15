@@ -75,6 +75,10 @@ export interface CalendarAppointment {
   isWalkIn: boolean;
   needsRescheduling: boolean;
   catIsHighRisk: boolean;
+  /** HO-SRG-002 §11.10 — set on a surgery's block (HO-APT-001 §1 Amended G5): it opens the surgery page and cannot be moved. */
+  surgeryId?: string | null;
+  /** A surgery's assistant (the block also appears in the assistant's column). */
+  assistantId?: string | null;
 }
 
 export interface CalendarPayload {

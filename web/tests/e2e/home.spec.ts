@@ -30,15 +30,17 @@ test.describe('root redirect by session (SECURITY gate item 7)', () => {
     await expect(page).toHaveURL(/\/shop$/);
   });
 
-  test('signed in as staff lands on /staff/cats', async ({ page }) => {
+  test('signed in as staff lands on /staff (the home dashboard, HO-RPT-002 ADR-FE-130)', async ({
+    page,
+  }) => {
     await signInAsStaff(page);
     await page.goto('/');
-    await expect(page).toHaveURL(/\/staff\/cats/);
+    await expect(page).toHaveURL(/\/staff$/);
   });
 
-  test('signed in as a customer lands on /portal/cats', async ({ page }) => {
+  test('signed in as a customer lands on /portal (owner, 2026-10-13)', async ({ page }) => {
     await signInAsCustomer(page);
     await page.goto('/');
-    await expect(page).toHaveURL(/\/portal\/cats/);
+    await expect(page).toHaveURL(/\/portal$/);
   });
 });

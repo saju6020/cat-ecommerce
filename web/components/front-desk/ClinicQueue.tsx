@@ -11,6 +11,7 @@ import { timeOnlyInZone } from '@/lib/format/time';
 import type { ClinicQueue as ClinicQueueData, QueueEntry } from '@/lib/api/front-desk';
 import type { AppointmentAction, TriagePriority } from '@/lib/api/types';
 import { cn } from '@/lib/utils';
+import { QueueVisitActions } from '@/components/visit/QueueVisitActions';
 import { CompactCatHeader } from './CompactCatHeader';
 import { PRIORITY_OPTIONS, PriorityBadge } from './PriorityBadge';
 
@@ -138,6 +139,8 @@ export function ClinicQueue({
                   onStart={onStart}
                   onComplete={onComplete}
                 />
+                {/* HO-EMR-002 §11.9/§13 — the two card actions only (Record vitals, Open consultation). */}
+                <QueueVisitActions entry={entry} zone={zone} onStart={onStart} />
               </li>
             );
           })}

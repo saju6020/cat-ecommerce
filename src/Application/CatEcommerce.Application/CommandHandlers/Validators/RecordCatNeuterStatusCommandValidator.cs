@@ -6,7 +6,7 @@ namespace CatEcommerce.Application.CommandHandlers.Validators;
 
 public sealed class RecordCatNeuterStatusCommandValidator : AbstractValidator<RecordCatNeuterStatusCommand>
 {
-    public RecordCatNeuterStatusCommandValidator()
+    public RecordCatNeuterStatusCommandValidator(TimeProvider timeProvider)
     {
         RuleFor(x => x.CatId).NotEmpty();
 
@@ -16,7 +16,7 @@ public sealed class RecordCatNeuterStatusCommandValidator : AbstractValidator<Re
             .WithMessage("A neuter date is required when neuter status is Neutered.");
 
         RuleFor(x => x.NeuteredOn)
-            .LessThanOrEqualTo(_ => DateOnly.FromDateTime(DateTime.UtcNow))
+            .LessThanOrEqualTo(_ => CatRecordDateBound.LatestPossibleLocalDate(timeProvider))
             .When(x => x.NeuteredOn is not null)
             .WithMessage("The neuter date cannot be in the future.");
     }

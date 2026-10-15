@@ -86,6 +86,8 @@ export function PolicyAcceptancePrompt() {
   return (
     <Dialog open onOpenChange={() => {}}>
       <DialogContent
+        // Issues.md #7 — capped to the screen; the policy list scrolls, the heading and sign-out stay put.
+        className="flex max-h-[90vh] flex-col"
         hideClose
         onEscapeKeyDown={(event) => event.preventDefault()}
         onPointerDownOutside={(event) => event.preventDefault()}
@@ -105,7 +107,7 @@ export function PolicyAcceptancePrompt() {
           </p>
         )}
 
-        <ul className="flex flex-col gap-3">
+        <ul className="-mx-1 flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto px-1">
           {pending.map((policy) => (
             <li
               key={policy.key}

@@ -40,7 +40,6 @@ public static class ShopModule
         // Fail-closed (ADR-086): denies every review submission until the real reader lands.
         services.AddScoped<IPurchaseHistoryReader, NoPurchaseHistoryReader>();
 
-        services.AddSingleton<IValidateOptions<ShopOptions>, ShopOptionsValidator>();
         services.AddOptions<ShopOptions>()
             .Bind(configuration.GetSection(ShopOptions.SectionName))
             .Validate(o => o.Worker.IntervalSeconds >= 1, "Shop:Worker:IntervalSeconds must be at least 1.")

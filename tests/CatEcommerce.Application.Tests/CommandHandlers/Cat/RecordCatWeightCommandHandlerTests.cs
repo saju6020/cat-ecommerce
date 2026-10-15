@@ -14,8 +14,6 @@ public sealed class RecordCatWeightCommandHandlerTests
 {
     private static readonly DateOnly Today = DateOnly.FromDateTime(DateTime.UtcNow);
 
-    private static TimeProvider FixedTimeProvider(DateOnly today) =>
-        new FakeTimeProvider(new DateTimeOffset(today.ToDateTime(TimeOnly.MinValue), TimeSpan.Zero));
 
     // U32
     [Fact]
@@ -31,7 +29,7 @@ public sealed class RecordCatWeightCommandHandlerTests
         var weightRepository = new FakeAggregateRootRepository<CatWeightRecordAggregate>();
         var handler = new RecordCatWeightCommandHandler(
             NullLogger<RecordCatWeightCommandHandler>.Instance, catRepository, weightRepository,
-            FixedTimeProvider(Today));
+            new FakeCatRecordClock(Today));
 
         var response = await handler.HandleAsync(new RecordCatWeightCommand
         {
@@ -67,7 +65,7 @@ public sealed class RecordCatWeightCommandHandlerTests
         var weightRepository = new FakeAggregateRootRepository<CatWeightRecordAggregate>();
         var handler = new RecordCatWeightCommandHandler(
             NullLogger<RecordCatWeightCommandHandler>.Instance, catRepository, weightRepository,
-            FixedTimeProvider(pinnedToday));
+            new FakeCatRecordClock(pinnedToday));
 
         var response = await handler.HandleAsync(new RecordCatWeightCommand
         {

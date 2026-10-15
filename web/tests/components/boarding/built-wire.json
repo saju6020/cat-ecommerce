@@ -1,0 +1,952 @@
+{
+ "customerStay": {
+  "id": "8f8e655e-54ae-4668-ab20-55dce0497af8",
+  "version": 8,
+  "branchId": "ac35ea52-28b0-4ba4-a339-3c11e27d8fc9",
+  "branchTimeZoneId": "Asia/Dhaka",
+  "customerId": "3582d254-a2c7-48c3-896d-1161860f9427",
+  "customerName": null,
+  "status": "CheckedIn",
+  "allowedTransitions": [
+   "CheckOut"
+  ],
+  "channel": "Online",
+  "arrivalOn": "2026-10-15",
+  "departureOn": "2026-10-18",
+  "occupiedFrom": "2026-10-15T08:00:00+00:00",
+  "occupiedTo": "2026-10-18T08:00:00+00:00",
+  "nights": 3,
+  "requestedUnitType": "Standard",
+  "unit": {
+   "unitId": "11754d66-522c-4cf4-86d0-8a65d1c999b6",
+   "code": "S-1",
+   "name": "Standard 1",
+   "unitType": "Standard",
+   "block": "Main block"
+  },
+  "requiresIsolation": false,
+  "needsAttention": false,
+  "attentionReason": null,
+  "quote": {
+   "basis": "Nightly",
+   "units": [
+    {
+     "sequence": 1,
+     "kind": "Night",
+     "fromNight": 1,
+     "toNight": 3,
+     "description": "Nights 1-3 - Standard nightly rate",
+     "amount": {
+      "amount": "3000.00",
+      "currencyCode": "BDT"
+     }
+    }
+   ],
+   "discountLines": [],
+   "gross": {
+    "amount": "3000.00",
+    "currencyCode": "BDT"
+   },
+   "discountTotal": {
+    "amount": "0.00",
+    "currencyCode": "BDT"
+   },
+   "total": {
+    "amount": "3000.00",
+    "currencyCode": "BDT"
+   }
+  },
+  "deposit": {
+   "required": {
+    "amount": "900.00",
+    "currencyCode": "BDT"
+   },
+   "state": "Received",
+   "dueBy": null,
+   "received": {
+    "amount": "900.00",
+    "currencyCode": "BDT"
+   },
+   "pending": {
+    "amount": "0.00",
+    "currencyCode": "BDT"
+   },
+   "outstanding": {
+    "amount": "0.00",
+    "currencyCode": "BDT"
+   }
+  },
+  "balanceDue": {
+   "amount": "2100.00",
+   "currencyCode": "BDT"
+  },
+  "cats": [
+   {
+    "catId": "8cfd8884-7279-433f-9c5e-d4a0328f21fc",
+    "catName": "Mittens",
+    "catIsHighRisk": false,
+    "handlingNote": null,
+    "gate": {
+     "status": "Passed",
+     "reasons": [],
+     "evaluatedOn": "2026-10-15",
+     "overridden": false,
+     "overrideReason": null,
+     "overriddenOn": null
+    },
+    "careProfile": {
+     "feedings": [
+      {
+       "time": "12:00",
+       "portion": "1 cup",
+       "foodSource": "OwnFood",
+       "foodDescription": "Wet",
+       "houseFoodSkuId": null
+      },
+      {
+       "time": "08:00",
+       "portion": "1 cup",
+       "foodSource": "OwnFood",
+       "foodDescription": "Dry",
+       "houseFoodSkuId": null
+      }
+     ],
+     "medications": [
+      {
+       "name": "Metacam",
+       "dose": "0.5 ml",
+       "route": "Oral",
+       "times": [
+        "09:00"
+       ],
+       "instructions": null,
+       "fromOn": null,
+       "toOn": null
+      }
+     ],
+     "litterType": "Clumping",
+     "litterNote": null,
+     "vetVisitAuthorised": true,
+     "vetSpendingLimit": {
+      "amount": "2000.00",
+      "currencyCode": "BDT"
+     },
+     "emergencyContact": {
+      "name": "Sam",
+      "phone": "01711000000",
+      "relationship": null
+     },
+     "notes": null
+    },
+    "suspectedInfectious": false,
+    "infectiousNote": null,
+    "checkIn": {
+     "checkedInOn": "2026-10-14T18:21:29.651647+00:00",
+     "weightKg": 4.2,
+     "arrivalHealthObservation": null,
+     "noBelongings": false,
+     "belongings": [
+      {
+       "id": "b7381a51-3f44-44b7-bc05-066f8b29eaf9",
+       "kind": "Carrier",
+       "description": "Blue carrier",
+       "fileIds": [
+        "f532294e-bdaf-4777-a24f-bb51072412a1"
+       ],
+       "returned": null,
+       "returnNote": null
+      }
+     ],
+     "signerName": "Sam",
+     "signedOn": "2026-10-14T18:21:29.651647+00:00",
+     "checkedOutOn": null,
+     "checkOutWeightKg": null,
+     "checkOutSignerName": null
+    },
+    "awayReason": "At the clinic"
+   }
+  ],
+  "statusHistory": [
+   {
+    "from": "Enquiry",
+    "to": "Reserved",
+    "changedOn": "2026-10-14T18:21:29.403313+00:00",
+    "changedBy": "3582d254-a2c7-48c3-896d-1161860f9427"
+   },
+   {
+    "from": "Reserved",
+    "to": "Confirmed",
+    "changedOn": "2026-10-14T18:21:29.583874+00:00",
+    "changedBy": "532ee988-21ce-4d03-bb61-d96ca62f7548"
+   },
+   {
+    "from": "Confirmed",
+    "to": "CheckedIn",
+    "changedOn": "2026-10-14T18:21:29.651647+00:00",
+    "changedBy": "532ee988-21ce-4d03-bb61-d96ca62f7548"
+   }
+  ],
+  "cancelledOn": null,
+  "cancellationReason": null,
+  "depositForfeited": false,
+  "allocations": null,
+  "isolationEntries": null,
+  "inIsolationUnit": false,
+  "referrals": [
+   {
+    "id": "d1e2a367-b425-4318-ab5a-1a097c42aee7",
+    "catId": "8cfd8884-7279-433f-9c5e-d4a0328f21fc",
+    "catName": "Mittens",
+    "reason": "Limping",
+    "urgency": "Urgent",
+    "referredOn": "2026-10-14T18:22:59.716904+00:00",
+    "visitId": null,
+    "returnedOn": null
+   }
+  ],
+  "approvals": [
+   {
+    "id": "47990af4-4135-4899-811c-698baac2f4ad",
+    "catId": "8cfd8884-7279-433f-9c5e-d4a0328f21fc",
+    "catName": "Mittens",
+    "amount": {
+     "amount": "3500.00",
+     "currencyCode": "BDT"
+    },
+    "description": "X-ray",
+    "status": "Pending",
+    "requestedOn": "2026-10-14T18:22:59.753945+00:00",
+    "decidedOn": null,
+    "decidedVia": null,
+    "decisionNote": null
+   }
+  ],
+  "charges": [
+   {
+    "chargeId": "abb14941-3d11-4fc4-996b-75cfbb336f69",
+    "lineRef": "r1.Night.1-3",
+    "description": "Nights 1-3 - Standard nightly rate",
+    "net": {
+     "amount": "3000.00",
+     "currencyCode": "BDT"
+    },
+    "serviceDate": "2026-10-15",
+    "billed": false,
+    "voided": false
+   }
+  ],
+  "creditDue": null,
+  "headroom": null,
+  "attentionClearedNote": null,
+  "incidents": [
+   {
+    "id": "daa20ab7-49f2-40f2-a289-fb49274e52e4",
+    "catId": "8cfd8884-7279-433f-9c5e-d4a0328f21fc",
+    "kind": "Illness",
+    "severity": "Medium",
+    "occurredOn": "0001-01-01T00:00:00+00:00",
+    "ownerAcknowledged": false,
+    "status": "Open"
+   }
+  ]
+ },
+ "staffStay": {
+  "id": "8f8e655e-54ae-4668-ab20-55dce0497af8",
+  "version": 8,
+  "branchId": "ac35ea52-28b0-4ba4-a339-3c11e27d8fc9",
+  "branchTimeZoneId": "Asia/Dhaka",
+  "customerId": "3582d254-a2c7-48c3-896d-1161860f9427",
+  "customerName": "E2E Owner",
+  "status": "CheckedIn",
+  "allowedTransitions": [
+   "CheckOut"
+  ],
+  "channel": "Online",
+  "arrivalOn": "2026-10-15",
+  "departureOn": "2026-10-18",
+  "occupiedFrom": "2026-10-15T08:00:00+00:00",
+  "occupiedTo": "2026-10-18T08:00:00+00:00",
+  "nights": 3,
+  "requestedUnitType": "Standard",
+  "unit": {
+   "unitId": "11754d66-522c-4cf4-86d0-8a65d1c999b6",
+   "code": "S-1",
+   "name": "Standard 1",
+   "unitType": "Standard",
+   "block": "Main block"
+  },
+  "requiresIsolation": false,
+  "needsAttention": false,
+  "attentionReason": null,
+  "quote": {
+   "basis": "Nightly",
+   "units": [
+    {
+     "sequence": 1,
+     "kind": "Night",
+     "fromNight": 1,
+     "toNight": 3,
+     "description": "Nights 1-3 - Standard nightly rate",
+     "amount": {
+      "amount": "3000.00",
+      "currencyCode": "BDT"
+     }
+    }
+   ],
+   "discountLines": [],
+   "gross": {
+    "amount": "3000.00",
+    "currencyCode": "BDT"
+   },
+   "discountTotal": {
+    "amount": "0.00",
+    "currencyCode": "BDT"
+   },
+   "total": {
+    "amount": "3000.00",
+    "currencyCode": "BDT"
+   }
+  },
+  "deposit": {
+   "required": {
+    "amount": "900.00",
+    "currencyCode": "BDT"
+   },
+   "state": "Received",
+   "dueBy": null,
+   "received": {
+    "amount": "900.00",
+    "currencyCode": "BDT"
+   },
+   "pending": {
+    "amount": "0.00",
+    "currencyCode": "BDT"
+   },
+   "outstanding": {
+    "amount": "0.00",
+    "currencyCode": "BDT"
+   }
+  },
+  "balanceDue": {
+   "amount": "2100.00",
+   "currencyCode": "BDT"
+  },
+  "cats": [
+   {
+    "catId": "8cfd8884-7279-433f-9c5e-d4a0328f21fc",
+    "catName": "Mittens",
+    "catIsHighRisk": false,
+    "handlingNote": null,
+    "gate": {
+     "status": "Passed",
+     "reasons": [],
+     "evaluatedOn": "2026-10-15",
+     "overridden": false,
+     "overrideReason": null,
+     "overriddenOn": null
+    },
+    "careProfile": {
+     "feedings": [
+      {
+       "time": "12:00",
+       "portion": "1 cup",
+       "foodSource": "OwnFood",
+       "foodDescription": "Wet",
+       "houseFoodSkuId": null
+      },
+      {
+       "time": "08:00",
+       "portion": "1 cup",
+       "foodSource": "OwnFood",
+       "foodDescription": "Dry",
+       "houseFoodSkuId": null
+      }
+     ],
+     "medications": [
+      {
+       "name": "Metacam",
+       "dose": "0.5 ml",
+       "route": "Oral",
+       "times": [
+        "09:00"
+       ],
+       "instructions": null,
+       "fromOn": null,
+       "toOn": null
+      }
+     ],
+     "litterType": "Clumping",
+     "litterNote": null,
+     "vetVisitAuthorised": true,
+     "vetSpendingLimit": {
+      "amount": "2000.00",
+      "currencyCode": "BDT"
+     },
+     "emergencyContact": {
+      "name": "Sam",
+      "phone": "01711000000",
+      "relationship": null
+     },
+     "notes": null
+    },
+    "suspectedInfectious": false,
+    "infectiousNote": null,
+    "checkIn": {
+     "checkedInOn": "2026-10-14T18:21:29.651647+00:00",
+     "weightKg": 4.2,
+     "arrivalHealthObservation": "Bright",
+     "noBelongings": false,
+     "belongings": [
+      {
+       "id": "b7381a51-3f44-44b7-bc05-066f8b29eaf9",
+       "kind": "Carrier",
+       "description": "Blue carrier",
+       "fileIds": [
+        "f532294e-bdaf-4777-a24f-bb51072412a1"
+       ],
+       "returned": null,
+       "returnNote": null
+      }
+     ],
+     "signerName": "Sam",
+     "signedOn": "2026-10-14T18:21:29.651647+00:00",
+     "checkedOutOn": null,
+     "checkOutWeightKg": null,
+     "checkOutSignerName": null
+    },
+    "awayReason": "At the clinic"
+   }
+  ],
+  "statusHistory": [
+   {
+    "from": "Enquiry",
+    "to": "Reserved",
+    "changedOn": "2026-10-14T18:21:29.403313+00:00",
+    "changedBy": "3582d254-a2c7-48c3-896d-1161860f9427"
+   },
+   {
+    "from": "Reserved",
+    "to": "Confirmed",
+    "changedOn": "2026-10-14T18:21:29.583874+00:00",
+    "changedBy": "532ee988-21ce-4d03-bb61-d96ca62f7548"
+   },
+   {
+    "from": "Confirmed",
+    "to": "CheckedIn",
+    "changedOn": "2026-10-14T18:21:29.651647+00:00",
+    "changedBy": "532ee988-21ce-4d03-bb61-d96ca62f7548"
+   }
+  ],
+  "cancelledOn": null,
+  "cancellationReason": null,
+  "depositForfeited": false,
+  "allocations": [
+   {
+    "unitId": "11754d66-522c-4cf4-86d0-8a65d1c999b6",
+    "unitType": "Standard",
+    "occupiedFrom": "2026-10-15T08:00:00+00:00",
+    "occupiedTo": "2026-10-18T08:00:00+00:00",
+    "isActive": true,
+    "reason": null
+   }
+  ],
+  "isolationEntries": [],
+  "inIsolationUnit": false,
+  "referrals": [
+   {
+    "id": "d1e2a367-b425-4318-ab5a-1a097c42aee7",
+    "catId": "8cfd8884-7279-433f-9c5e-d4a0328f21fc",
+    "catName": "Mittens",
+    "reason": "Limping",
+    "urgency": "Urgent",
+    "referredOn": "2026-10-14T18:22:59.716904+00:00",
+    "visitId": null,
+    "returnedOn": null
+   }
+  ],
+  "approvals": [
+   {
+    "id": "47990af4-4135-4899-811c-698baac2f4ad",
+    "catId": "8cfd8884-7279-433f-9c5e-d4a0328f21fc",
+    "catName": "Mittens",
+    "amount": {
+     "amount": "3500.00",
+     "currencyCode": "BDT"
+    },
+    "description": "X-ray",
+    "status": "Pending",
+    "requestedOn": "2026-10-14T18:22:59.753945+00:00",
+    "decidedOn": null,
+    "decidedVia": null,
+    "decisionNote": null
+   }
+  ],
+  "charges": [
+   {
+    "chargeId": "abb14941-3d11-4fc4-996b-75cfbb336f69",
+    "lineRef": "r1.Night.1-3",
+    "description": "Nights 1-3 - Standard nightly rate",
+    "net": {
+     "amount": "3000.00",
+     "currencyCode": "BDT"
+    },
+    "serviceDate": "2026-10-15",
+    "billed": false,
+    "voided": false
+   }
+  ],
+  "creditDue": null,
+  "headroom": [
+   {
+    "catId": "8cfd8884-7279-433f-9c5e-d4a0328f21fc",
+    "catName": "Mittens",
+    "vetVisitAuthorised": true,
+    "limit": {
+     "amount": "2000.00",
+     "currencyCode": "BDT"
+    },
+    "committed": {
+     "amount": "0.00",
+     "currencyCode": "BDT"
+    },
+    "headroom": {
+     "amount": "2000.00",
+     "currencyCode": "BDT"
+    }
+   }
+  ],
+  "attentionClearedNote": null,
+  "incidents": [
+   {
+    "id": "daa20ab7-49f2-40f2-a289-fb49274e52e4",
+    "catId": "8cfd8884-7279-433f-9c5e-d4a0328f21fc",
+    "kind": "Illness",
+    "severity": "Medium",
+    "occurredOn": "0001-01-01T00:00:00+00:00",
+    "ownerAcknowledged": false,
+    "status": "Open"
+   }
+  ]
+ },
+ "diary": {
+  "stayId": "8f8e655e-54ae-4668-ab20-55dce0497af8",
+  "from": "2026-10-15",
+  "to": "2026-10-18",
+  "days": [
+   {
+    "date": "2026-10-15",
+    "observations": [
+     {
+      "catId": "8cfd8884-7279-433f-9c5e-d4a0328f21fc",
+      "catName": "Mittens",
+      "recordedOn": "2026-10-14T18:22:59.247803+00:00",
+      "portionEaten": "None",
+      "waterIntake": "Normal",
+      "litterOutput": "Normal",
+      "mood": "Withdrawn",
+      "notes": "sniffed"
+     },
+     {
+      "catId": "8cfd8884-7279-433f-9c5e-d4a0328f21fc",
+      "catName": "Mittens",
+      "recordedOn": "2026-10-14T18:22:59.291428+00:00",
+      "portionEaten": "None",
+      "waterIntake": "Low",
+      "litterOutput": "Normal",
+      "mood": "Withdrawn",
+      "notes": null
+     }
+    ],
+    "media": [],
+    "completedTasks": 1
+   }
+  ]
+ },
+ "summary": {
+  "stayId": "8f8e655e-54ae-4668-ab20-55dce0497af8",
+  "status": "CheckedIn",
+  "arrivalOn": "2026-10-15",
+  "departureOn": "2026-10-18",
+  "nights": 3,
+  "checkedOutOn": null,
+  "cats": [
+   {
+    "catId": "8cfd8884-7279-433f-9c5e-d4a0328f21fc",
+    "catName": "Mittens",
+    "weightIn": 4.2,
+    "weightOut": null,
+    "weightChange": null,
+    "observations": [
+     {
+      "date": "2026-10-15",
+      "portionEaten": "None",
+      "waterIntake": "Normal",
+      "litterOutput": "Normal",
+      "mood": "Withdrawn",
+      "notes": "sniffed"
+     },
+     {
+      "date": "2026-10-15",
+      "portionEaten": "None",
+      "waterIntake": "Low",
+      "litterOutput": "Normal",
+      "mood": "Withdrawn",
+      "notes": null
+     }
+    ],
+    "incidents": [
+     {
+      "id": "daa20ab7-49f2-40f2-a289-fb49274e52e4",
+      "kind": "Illness",
+      "severity": "Medium",
+      "occurredOn": "0001-01-01T00:00:00+00:00",
+      "status": "Open",
+      "resolution": null
+     }
+    ],
+    "medications": [],
+    "vetVisits": [
+     {
+      "referralId": "d1e2a367-b425-4318-ab5a-1a097c42aee7",
+      "reason": "Limping",
+      "urgency": "Urgent",
+      "referredOn": "2026-10-14T18:22:59.716904+00:00",
+      "returnedOn": null,
+      "visitId": null
+     }
+    ],
+    "belongings": [
+     {
+      "kind": "Carrier",
+      "description": "Blue carrier",
+      "returned": null,
+      "note": null
+     }
+    ],
+    "checkOutSignerName": null,
+    "checkOutSignedOn": null
+   }
+  ],
+  "charges": [
+   {
+    "lineRef": "r1.Night.1-3",
+    "description": "Nights 1-3 - Standard nightly rate",
+    "net": {
+     "amount": "3000.00",
+     "currencyCode": "BDT"
+    },
+    "billed": false
+   }
+  ],
+  "depositReceived": {
+   "amount": "900.00",
+   "currencyCode": "BDT"
+  },
+  "billing": {
+   "billedTotal": {
+    "amount": "0.00",
+    "currencyCode": "BDT"
+   },
+   "unbilledTotal": {
+    "amount": "3000.00",
+    "currencyCode": "BDT"
+   },
+   "invoicedOutstanding": {
+    "amount": "0.00",
+    "currencyCode": "BDT"
+   },
+   "invoiceIds": []
+  },
+  "creditDue": null
+ },
+ "dashboard": {
+  "today": "2026-10-15",
+  "generatedOn": "2026-10-14T18:28:55.3413372+00:00",
+  "occupancy": {
+   "unitsOccupied": 1,
+   "unitsActive": 6,
+   "catsInHouse": 1,
+   "byType": [
+    {
+     "unitType": "Deluxe",
+     "unitsOccupied": 0,
+     "unitsActive": 1
+    },
+    {
+     "unitType": "Family",
+     "unitsOccupied": 0,
+     "unitsActive": 1
+    },
+    {
+     "unitType": "Isolation",
+     "unitsOccupied": 0,
+     "unitsActive": 2
+    },
+    {
+     "unitType": "Standard",
+     "unitsOccupied": 1,
+     "unitsActive": 2
+    }
+   ]
+  },
+  "arrivals": [],
+  "departures": [],
+  "notEating": [
+   {
+    "stayId": "8f8e655e-54ae-4668-ab20-55dce0497af8",
+    "catId": "8cfd8884-7279-433f-9c5e-d4a0328f21fc",
+    "catName": "Mittens",
+    "unitCode": "S-1"
+   }
+  ],
+  "overdueTasks": [],
+  "unassignedTasks": [
+   {
+    "taskId": "91634400-ef12-44a9-b947-26a6a1109965",
+    "stayId": "8f8e655e-54ae-4668-ab20-55dce0497af8",
+    "catName": "Mittens",
+    "title": "Give Metacam 0.5 ml Oral",
+    "dueOn": "2026-10-15T03:00:00+00:00",
+    "assignedCaretakerId": null
+   },
+   {
+    "taskId": "a65bbf13-28cf-4952-83d5-7f5925010fc1",
+    "stayId": "8f8e655e-54ae-4668-ab20-55dce0497af8",
+    "catName": "Mittens",
+    "title": "Change litter",
+    "dueOn": "2026-10-15T03:00:00+00:00",
+    "assignedCaretakerId": null
+   }
+  ],
+  "openIncidents": [
+   {
+    "incidentId": "daa20ab7-49f2-40f2-a289-fb49274e52e4",
+    "stayId": "8f8e655e-54ae-4668-ab20-55dce0497af8",
+    "catName": "Mittens",
+    "severity": "Medium",
+    "reportedOn": "2026-10-14T18:22:59.339224+00:00",
+    "acknowledged": false,
+    "escalated": false
+   }
+  ],
+  "callOwner": [],
+  "unpaidBalances": [],
+  "refundDue": [],
+  "attention": []
+ },
+ "occupancy": {
+  "from": "2026-10-15",
+  "to": "2026-10-17",
+  "units": [
+   {
+    "unitId": "413c9bdb-6072-4784-a4a4-83f8c4e30031",
+    "code": "F-1",
+    "name": "Family 1",
+    "unitType": "Family",
+    "block": "Garden wing",
+    "isActive": true,
+    "cells": [
+     {
+      "date": "2026-10-15",
+      "state": "Free",
+      "stayId": null,
+      "label": null,
+      "catNames": null,
+      "inTurnaround": false
+     },
+     {
+      "date": "2026-10-16",
+      "state": "Free",
+      "stayId": null,
+      "label": null,
+      "catNames": null,
+      "inTurnaround": false
+     },
+     {
+      "date": "2026-10-17",
+      "state": "Free",
+      "stayId": null,
+      "label": null,
+      "catNames": null,
+      "inTurnaround": false
+     }
+    ]
+   },
+   {
+    "unitId": "11754d66-522c-4cf4-86d0-8a65d1c999b6",
+    "code": "S-1",
+    "name": "Standard 1",
+    "unitType": "Standard",
+    "block": "Main block",
+    "isActive": true,
+    "cells": [
+     {
+      "date": "2026-10-15",
+      "state": "Occupied",
+      "stayId": "8f8e655e-54ae-4668-ab20-55dce0497af8",
+      "label": "CheckedIn",
+      "catNames": [
+       "Mittens"
+      ],
+      "inTurnaround": false
+     },
+     {
+      "date": "2026-10-16",
+      "state": "Occupied",
+      "stayId": "8f8e655e-54ae-4668-ab20-55dce0497af8",
+      "label": "CheckedIn",
+      "catNames": [
+       "Mittens"
+      ],
+      "inTurnaround": false
+     },
+     {
+      "date": "2026-10-17",
+      "state": "Occupied",
+      "stayId": "8f8e655e-54ae-4668-ab20-55dce0497af8",
+      "label": "CheckedIn",
+      "catNames": [
+       "Mittens"
+      ],
+      "inTurnaround": false
+     }
+    ]
+   }
+  ]
+ },
+ "daycareDay": {
+  "date": "2026-10-16",
+  "capacity": 3,
+  "slotsTaken": 1,
+  "offered": true,
+  "visits": [
+   {
+    "id": "29ee52d3-30ee-473a-a022-35b95e93fb20",
+    "branchId": "ac35ea52-28b0-4ba4-a339-3c11e27d8fc9",
+    "customerId": "3582d254-a2c7-48c3-896d-1161860f9427",
+    "customerName": "E2E Owner",
+    "catId": "3fa503cc-b387-4f5a-9303-a89b1b7a80d0",
+    "catName": "Biscuit",
+    "localDate": "2026-10-16",
+    "slotNumber": 1,
+    "basis": "Day",
+    "expectedHours": null,
+    "status": "Booked",
+    "checkedInOn": null,
+    "checkedOutOn": null,
+    "chargeAmount": null
+   }
+  ]
+ },
+ "incidents": [
+  {
+   "id": "daa20ab7-49f2-40f2-a289-fb49274e52e4",
+   "stayId": "8f8e655e-54ae-4668-ab20-55dce0497af8",
+   "catId": "8cfd8884-7279-433f-9c5e-d4a0328f21fc",
+   "catName": "Mittens",
+   "kind": "Illness",
+   "severity": "Medium",
+   "description": "Sneezing",
+   "immediateAction": "Monitored",
+   "occurredOn": "0001-01-01T00:00:00+00:00",
+   "reportedOn": "2026-10-14T18:22:59.339224+00:00",
+   "ownerNotified": true,
+   "ownerAcknowledgedOn": null,
+   "acknowledgedVia": null,
+   "escalatedOn": null,
+   "phoneCallOn": null,
+   "phoneCallOutcome": null,
+   "status": "Open",
+   "resolvedOn": null,
+   "resolution": null,
+   "media": []
+  }
+ ],
+ "daycareRates": [
+  {
+   "id": "89aaa121-cd40-444f-b3cd-fae23c64c1e4",
+   "hourlyRate": {
+    "amount": "150.00",
+    "currencyCode": "BDT"
+   },
+   "dayRate": {
+    "amount": "800.00",
+    "currencyCode": "BDT"
+   },
+   "taxClassId": "aed9b3d7-6c14-4b1a-9ef8-a279800beaeb",
+   "effectiveFrom": "2026-10-14T18:15:41.688739+00:00",
+   "status": "Current"
+  }
+ ],
+ "preview": {
+  "isEarly": true,
+  "nightsBooked": 3,
+  "nightsCharged": 1,
+  "quote": {
+   "basis": "Nightly",
+   "units": [
+    {
+     "sequence": 1,
+     "kind": "Night",
+     "fromNight": 1,
+     "toNight": 1,
+     "description": "Night 1 - Standard nightly rate",
+     "amount": {
+      "amount": "1000.00",
+      "currencyCode": "BDT"
+     }
+    }
+   ],
+   "discountLines": [],
+   "gross": {
+    "amount": "1000.00",
+    "currencyCode": "BDT"
+   },
+   "discountTotal": {
+    "amount": "0.00",
+    "currencyCode": "BDT"
+   },
+   "total": {
+    "amount": "1000.00",
+    "currencyCode": "BDT"
+   }
+  },
+  "lines": [
+   {
+    "lineRef": "r1.Night.1-3",
+    "description": "Nights 1-3 - Standard nightly rate",
+    "net": {
+     "amount": "3000.00",
+     "currencyCode": "BDT"
+    },
+    "action": "Void"
+   },
+   {
+    "lineRef": "r2.Night.1-1",
+    "description": "Night 1 - Standard nightly rate",
+    "net": {
+     "amount": "1000.00",
+     "currencyCode": "BDT"
+    },
+    "action": "Record"
+   }
+  ],
+  "credit": {
+   "amount": "0.00",
+   "currencyCode": "BDT"
+  },
+  "creditOutcome": "None",
+  "today": "2026-10-15",
+  "bookedDepartureOn": "2026-10-18",
+  "chargedDepartureOn": "2026-10-16",
+  "unitFreeFrom": "2026-10-15T08:00:00.0000001+00:00",
+  "previousTotal": {
+   "amount": "3000.00",
+   "currencyCode": "BDT"
+  },
+  "newTotal": {
+   "amount": "1000.00",
+   "currencyCode": "BDT"
+  }
+ }
+}

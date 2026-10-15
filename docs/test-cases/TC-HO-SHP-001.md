@@ -269,3 +269,43 @@ Counts total the Unit, Integration, Regression and Extra-check tables. The accep
 | Migration Down paths are checked only by ShopMigrationPredicateTests' text check, never executed | Outside the handover's section 16. | Integrator at merge |
 | HO-SHP-002 (frontend) is not part of this gate | Separate handover. | n/a |
 | Rows marked 'PASS (partial)' (U-A1, U-A10, U-C2, I-A3, I-A4, I-A5, I-A7, I-A10, I-B2, I-D3, I-D5, I-E4, I-E6, I-E7) name the uncovered sub-clause in their Evidence | The mapped test covers the core behaviour but not every clause of the handover row. | Implementer (HO-SHP-001) or the next Shop slice |
+
+## Follow-up HO-SHP-001-FU2 — the availability seam on Inventory's view (2026-10-07, backlog row 51)
+
+Branch ho/SHP-001-FU2. Shop now reads `inventory.v_sellable_stock` (HO-IMP-001, ADR-116) and nothing else of Inventory's; `Shop:InterimAvailabilityFromPrice` is deleted (config, options, validator, factory). Stock is seeded as Inventory holds it (§16.1 rule 3): goods receipt, quarantine/release and adjustment through Inventory's own endpoints. These rows are appended; the earlier BLOCKED rows above are superseded by the matching row here. Executed on `catecommerce_shpfu2`.
+
+| ID | Case | Expected | Test | Status | Evidence |
+|---|---|---|---|---|---|
+| U-C4 | Two SKUs, one with sellable 0 | Each has its own status | SkuAvailabilityRulesTests.U_C4_TwoSkus_OneWithSellableZero_EachHasItsOwnStatus | PASS | Domain.Tests 1482/1482 |
+| I-C1 | Variants A (stock 5) and B (never stocked); detail | A InStock, B OutOfStock, product listed, A purchasable | ShopInventoryStockEndpointTests.I_C1_... | PASS | detail, list label and customer purchasability asserted |
+| I-C2 | "Push with older AsOf" | Not applicable: the push contract was dropped for the view (§8.7: no AsOf, no staleness). Analogue run: no stock write route exists, and a receive / quarantine shows on the very next read | ShopInventoryStockEndpointTests.I_C2_... | PASS (re-specified) | the as-written case cannot be run: there is nothing to push |
+| I-C3 | Expiry today+30 (window 60); +90; window 120 (and 0) | expiryNotice shown; absent; shown; never | I_C3_TheExpiryNotice_ShowsInsideTheWindow_... and I_C3_TheNoticeIsTheFefoFirstBatch_... | PASS | window changed through PUT /api/admin/settings and restored; FEFO-first batch (+20 before +200) is the one shown |
+| I-C4 | SKU never reported: public and staff detail | OutOfStock; staff stock null, not 0 | I_C4_ASkuInventoryNeverReported_... and I_C4_TheStaffStockField_... | PASS | staff `stock { sellableQuantity, nextAllocatableExpiryOn, asOf }` = 10 / +45 days with two batches |
+| I-C5 | Push for an unknown SKU id | Not applicable: no inbound stock command exists (§8.7). Inventory itself refuses an unknown SKU on receipt (HO-IMP-001's own tests) | n/a | N/A | no Shop surface to test |
+| I-C6 | Stock 5 then 0 | Detail shows exactly what Inventory holds | I_C6_WhatInventoryHolds_... and I_C6_AnAvailabilityFilter_AndTheListLabel_AgreeWithTheDetail | PASS | 5 -> adjust -5 (staff stock 0, OutOfStock) -> +2 (InStock, 2); filter, label and detail agree |
+| I-F5 | Stock A 5, B 1 -> bundle; B 0 -> bundle (A x2, B x1) | InStock; OutOfStock | I_F5_ABundleIsInStockOnlyWhileEveryComponentCoversItsQuantity | PASS | as written, plus A dropped to 1 (< 2) -> OutOfStock in detail, label and the availability filter |
+| I-G3 | Back-in-stock sent once (Inventory fixtures) | One request, one email, nothing later | ShopWishlistAndStockAlertEndpointTests.I_G3_* (2 cases) | PASS | alerts now flip on real receive / quarantine / release; the due-alert SQL prefilter requires a positive row in the view for a standard SKU (otherwise alerts waiting on out-of-stock SKUs fill the candidate-page budget) |
+| X-fu2-1 | Branch scoping | The storefront branch defaults to the seeded main branch (owner, 2026-10-07; tests stock there); `Shop:StorefrontBranchId` overrides it: set to the stocking branch it sees stock, set to another branch it does not | ShopInventoryStockEndpointTests.TheStorefrontBranchSetting_... | PASS | detail and filter |
+| X-fu2-2 | Inventory boundary | No Inventory DbSet but the view, no Inventory aggregate/port, no write to the view | Infrastructure.Tests ShopInventoryBoundaryTests (3) | PASS | source scan of Shop read, availability and command-handler files |
+| I-E11 | p95 <= 500 ms at 20,000 SKUs, measured alone | within budget | ShopCataloguePerformanceTests | PASS (after the summary, see below) | against the published `v_sellable_stock` alone: FAIL, p95 694-964 ms (backlog 62). With Inventory's trigger-kept summary (`v_sku_sellable`, ADR-116 amendment): p95 281 / 295 / 320 / 351 / 354 ms, p50 124-176 ms, over five runs alone (one cold run straight after re-stocking the fixture: 509 ms). Before the whole change: p95 151.4 ms, p50 76.9 ms |
+
+### §18 re-judgement
+
+| Row | Criterion | Was | Now | Evidence |
+|---|---|---|---|---|
+| A4 SHP-02 AC1 | own price, barcode, displayed stock, images | met by deferral | **MET** | U-A3, U-A4, U-A11, I-A6..I-A8 + I-C1 (displayed stock per SKU), I-C4 (staff stock field) |
+| A5 SHP-02 AC2 | OOS variant unavailable, others purchasable | met by deferral | **MET** | U-C4, I-C1 |
+| A17 SHP-07 AC1 | displayed availability is Inventory's sellable figure | met by deferral | **MET** | U-C2, I-C4, I-C6, I-C2 (live); fail-closed half = ShopFailClosedAvailabilityEndpointTests (now "never stocked") |
+| A18 SHP-07 AC2 | allocatable batch expiry shown inside the window | met by deferral | **MET** | U-C3, I-C3 (both) |
+| A11 SHP-04 AC3 | <= 500 ms p95 at 20k SKUs | met | **MET** (after the Inventory summary; NOT MET with `v_sellable_stock` alone) | I-E11 above |
+| A29 SHP-12 AC2 | any component OOS -> bundle unavailable | I-F5 BLOCKED | MET | U-F2, I-F5 as written, I-F5s |
+| A30 SHP-13 AC1 | back-in-stock once | PASS (interim) | PASS (Inventory fixtures) | I-G2, I-G3, I-G4 |
+
+Superseded: "Cases I could not run" (I-C1..I-C6, I-F5, U-C1, U-C4) — all run above, except I-C2 / I-C5 which are inapplicable by design. Suite on `catecommerce_shpfu2`: Domain 1482, Application 335, Infrastructure 159, Integration 1125 passed / 4 skipped (non-Performance).
+
+### Inventory summary (second FU2 step, 2026-10-07)
+
+| ID | Case | Expected | Test | Status | Evidence |
+|---|---|---|---|---|---|
+| X-fu2-3 | Summary equals the live view (ADR-116 amendment) | After receipts, reservation, release, quarantine, batch release, transfer out of and back into sellable stock, adjustment, location inactive/active, expiry edited, a branch time zone moved across the expiry boundary with no stock write, write-off and recall: `v_sku_sellable` summed by (branch, sku) = `v_sellable_stock` (quantity and next expiry) | InventorySellableSummaryEquivalenceTests.TheSummary_EqualsTheLiveView_AfterEveryStepOfAMixedHistory | PASS | one SQL statement per step, database-wide: 0 differing rows, over a non-empty set; the boundary step also asserts the dated bucket is sellable in Pacific/Pago_Pago and gone in Pacific/Kiritimati |
+| X-fu2-4 | Summary cannot be written directly | INSERT refused 42501 | InventorySellableSummaryEquivalenceTests.TheSummary_CannotBeWrittenDirectly | PASS | |

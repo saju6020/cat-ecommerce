@@ -20,6 +20,12 @@ const TABS: CatProfileTab[] = [
   { href: '/parasite-control', label: 'Parasite control' },
   { href: '/photos', label: 'Photos' },
   { href: '/cage-card', label: 'Cage card' },
+  // HO-EMR-002 §13 — two tab entries only (US-CLN-13, US-CLN-21).
+  { href: '/history', label: 'History' },
+  { href: '/consents', label: 'Consents' },
+  // HO-PHM-002 §13 — two tab entries only (US-PHM-01, US-PHM-08).
+  { href: '/prescriptions', label: 'Prescriptions' },
+  { href: '/diet-authorisations', label: 'Diet' },
 ];
 
 export default async function CatLayout({

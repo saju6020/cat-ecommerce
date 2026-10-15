@@ -53,6 +53,11 @@ public sealed class NotificationRequestConfiguration : IEntityTypeConfiguration<
         builder.Property(x => x.SendAfter).HasColumnName("send_after").HasColumnType("timestamptz");
         builder.Property(x => x.SubjectStamp).HasColumnName("subject_stamp").HasMaxLength(64);
 
+        // HO-RPT-001 section 11.7 (HO-NTF-001 amendment, migration AddNotificationAttachments): an attachment by reference.
+        builder.Property(x => x.AttachmentKind).HasColumnName("attachment_kind")
+            .HasConversion(v => v == null ? (int?)null : v.Value, v => v == null ? null : Enumeration.FromValue<NotificationAttachmentKind>(v.Value));
+        builder.Property(x => x.AttachmentId).HasColumnName("attachment_id");
+
         builder.Property(x => x.ContainsSecret).HasColumnName("contains_secret").IsRequired();
         builder.Property(x => x.Status).HasColumnName("status")
             .HasConversion(v => v.Value, v => Enumeration.FromValue<NotificationRequestStatus>(v)).IsRequired();

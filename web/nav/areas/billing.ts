@@ -11,5 +11,9 @@ export const billingNav: NavArea = {
   key: 'billing',
   label: 'Billing',
   audience: 'both',
-  items: [],
+  items: [
+    // HO-BIL-002 §13: one staff entry and one portal entry (the registry, not the layouts, holds nav).
+    { label: 'Billing', href: '/staff/billing', icon: 'receipt', audience: 'staff' },
+    { label: 'Billing', href: '/portal/billing', icon: 'receipt', audience: 'portal' },
+  ],
 };

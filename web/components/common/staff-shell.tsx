@@ -41,6 +41,11 @@ import { cn } from '@/lib/utils';
 // classes, so its initial value (`false`, matching the CSS default `sm:w-60`) produces identical
 // server and first-client-render markup — no hydration mismatch, and no JS-decided default below
 // `sm` either.
+/** An item with no `roles` is for everyone; otherwise the member of staff needs one of them. */
+export function canSeeNavItem(item: { roles?: readonly string[] }, roleIds: readonly string[]): boolean {
+  return !item.roles || item.roles.some((role) => roleIds.includes(role));
+}
+
 export function StaffShell({ children }: { children: React.ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
   const [sheetOpen, setSheetOpen] = useState(false);
@@ -49,6 +54,7 @@ export function StaffShell({ children }: { children: React.ReactNode }) {
   // comes from the same session query `StaffSessionGuard` (the enclosing layout) already
   // resolved, shared via the TanStack Query cache (no extra request).
   const { data: session } = useStaffSession();
+  const roleIds = session?.roleIds ?? [];
 
   // If the window is resized past `sm` while the below-`sm` sheet is open (e.g. rotating a device,
   // or widening a resizable window), leaving it open would strand the user in a nav-only modal
@@ -86,7 +92,9 @@ export function StaffShell({ children }: { children: React.ReactNode }) {
   const sections: NavArea[] = navRegistry
     .map((area) => ({
       ...area,
-      items: area.items.filter((item) => (item.audience ?? area.audience) !== 'portal'),
+      items: area.items.filter(
+        (item) => (item.audience ?? area.audience) !== 'portal' && canSeeNavItem(item, roleIds),
+      ),
     }))
     .filter((area) => area.items.length > 0);
 

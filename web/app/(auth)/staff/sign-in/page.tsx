@@ -39,7 +39,7 @@ function StaffSignInPageContent() {
         queryClient.clear();
         // ADM 12: only the SAME person re-signing in after a lapsed session keeps their branch.
         if ('staffAccountId' in result) restorePreservedBranch(queryClient, result.staffAccountId);
-        const destination = sanitizeNextPath(searchParams.get('next'), '/staff/', '/staff/cats');
+        const destination = sanitizeNextPath(searchParams.get('next'), '/staff/', '/staff');
         router.push(destination);
       }}
     />

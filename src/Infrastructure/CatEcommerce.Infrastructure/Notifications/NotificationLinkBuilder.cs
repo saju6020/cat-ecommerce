@@ -23,7 +23,44 @@ public sealed class NotificationLinkBuilder(IOptions<NotificationOptions> option
 
     public string BookingLink() => $"{Base()}/book";
 
+    public string InvoiceLink(Guid invoiceId) => $"{Base()}/portal/billing/invoices/{invoiceId}";
+
+    public string ReceiptLink(Guid paymentId) => $"{Base()}/portal/billing/payments/{paymentId}";
+
+    public string OrderLink(Guid orderId) => $"{Base()}/portal/orders/{orderId}";
+
     public string ProductLink(string slug, Guid skuId) => $"{Base()}/shop/products/{Uri.EscapeDataString(slug)}?sku={skuId}";
+
+    public string VisitSummaryLink(Guid visitId) => $"{Base()}/portal/visits/{visitId}";
+
+    public string PrescriptionLink(Guid prescriptionId) => $"{Base()}/portal/prescriptions/{prescriptionId}";
+
+    public string RepeatRequestLink(Guid prescriptionId) => $"{Base()}/portal/prescriptions/{prescriptionId}?action=repeat";
+
+    public string SurgeryLink(Guid surgeryId) => $"{Base()}/portal/surgeries/{surgeryId}";
+
+    public string FollowUpBookingLink(Guid catId) => CatCareLink(catId, "FollowUp");
+
+    /// <summary>HO-RPT-001 section 11.7 item 7: the staff link to the report a scheduled email is about; <c>all</c> when the schedule covers every branch.</summary>
+    public string ReportLink(string reportKey, DateOnly from, DateOnly to, Guid? branchId) =>
+        $"{Base()}/staff/reports/{Uri.EscapeDataString(reportKey)}?from={from:yyyy-MM-dd}&to={to:yyyy-MM-dd}&branchId={(branchId is { } id ? id.ToString() : "all")}";
+
+    public string BoardingStayLink(Guid stayId) => $"{Base()}/portal/boarding/{stayId}";
+
+    public string BoardingDiaryLink(Guid stayId) => $"{Base()}/portal/boarding/{stayId}/diary";
+
+    public string BoardingIncidentLink(Guid stayId, Guid incidentId) => $"{Base()}/portal/boarding/{stayId}/incidents/{incidentId}";
+
+    public string BoardingApprovalLink(Guid stayId, Guid approvalId) => $"{Base()}/portal/boarding/{stayId}/approvals/{approvalId}";
+
+    public string BoardingSummaryLink(Guid stayId) => $"{Base()}/portal/boarding/{stayId}/summary";
+
+    public string BoardingBookLink(DateOnly? arrivalOn = null, DateOnly? departureOn = null) =>
+        arrivalOn is { } a && departureOn is { } d ? $"{Base()}/boarding/book?arrival={a:yyyy-MM-dd}&departure={d:yyyy-MM-dd}" : $"{Base()}/boarding/book";
+
+    public string BoardingPaymentInstructionsLink() => $"{Base()}/pages/boarding-payment-instructions";
+
+    public string DietAuthorisationsLink() => $"{Base()}/portal/prescriptions?tab=diets";
 
     public string UnsubscribeLink(string token) => $"{Base()}/unsubscribe#token={token}";
 

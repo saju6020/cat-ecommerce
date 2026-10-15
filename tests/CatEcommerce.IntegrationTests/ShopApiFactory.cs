@@ -34,10 +34,6 @@ public sealed class ShopApiFactory : CatEcommerceApiFactory
         settings["RateLimiting:AccountSensitive:PermitLimit"] = "100000";
         settings["RateLimiting:ProfileUpdate:PermitLimit"] = "100000";
         settings["Shop:Worker:Enabled"] = "false";
-        // Production default is FAIL-CLOSED availability (HO-SHP-001 section 4.3); the Testing environment
-        // enables the interim price-based approximation so catalogue and availability tests stay meaningful.
-        // WithFailClosedAvailability() turns it back off for the default-behaviour test.
-        settings["Shop:InterimAvailabilityFromPrice"] = "true";
         // The catalogue rate limit (120/min/IP) would throttle the many tests sharing one TestServer
         // address; I-E10 lowers it for one test, I-E11 is unaffected.
         settings["Shop:Catalogue:PermitLimit"] = "100000";
@@ -89,12 +85,6 @@ public sealed class ShopApiFactory : CatEcommerceApiFactory
         WithWebHostBuilder(builder => builder.ConfigureAppConfiguration((_, configBuilder) =>
             configBuilder.AddInMemoryCollection(new Dictionary<string, string?> { ["Localisation:ContentLocales:1"] = "bn" })));
 
-
-    /// <summary>The PRODUCTION default: <c>Shop:InterimAvailabilityFromPrice</c> off, so every SKU reads
-    /// out of stock and is not purchasable until HO-IMP-001 supplies stock (section 4.3, ADR-082).</summary>
-    public WebApplicationFactory<Program> WithFailClosedAvailability() =>
-        WithWebHostBuilder(builder => builder.ConfigureAppConfiguration((_, configBuilder) =>
-            configBuilder.AddInMemoryCollection(new Dictionary<string, string?> { ["Shop:InterimAvailabilityFromPrice"] = "false" })));
 
     /// <summary>I-E10 -- the `catalogue` limit lowered for one test, the same technique as
     /// <c>AccountsApiFactory.WithTightRateLimits</c>.</summary>

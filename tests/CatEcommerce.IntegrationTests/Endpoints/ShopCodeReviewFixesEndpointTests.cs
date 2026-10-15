@@ -140,7 +140,7 @@ public sealed class ShopCodeReviewFixesEndpointTests(ShopApiFactory factory) : S
         var spread = await TwoSkuProductAsync("Spread 500 and 5000", 500m, 5000m);   // overlaps 1000-1500, no SKU inside it
         var inside = await TwoSkuProductAsync("Spread 500 and 1200", 500m, 1200m);   // one SKU at 1200
         var unpriced = await CreateProductAsync(staff, brand, "Unpriced Now", price: 1200m);
-        await SetSkuOutOfStockAsync(unpriced.SkuId); // moves its only price into the future: no current price
+        await MakeSkuUnpricedAsync(unpriced.SkuId); // moves its only price into the future: no current price
 
         var anonymous = CreateClient();
         async Task<List<Guid>> SearchAsync(string query)

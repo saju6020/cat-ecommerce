@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { ClinicQueue } from '@/components/front-desk/ClinicQueue';
 import { TodayList } from '@/components/front-desk/TodayList';
+import { RecoveryBoardPanel } from '@/components/recovery/RecoveryBoardPanel';
 import { CheckInDialog } from '@/components/front-desk/CheckInDialog';
 import { StartDialog } from '@/components/front-desk/StartDialog';
 import { ActiveBranchZoneGate } from '@/components/appointments/ActiveBranchZoneGate';
@@ -34,7 +35,9 @@ import type { CalendarAppointment } from '@/lib/api/staff-appointments';
 import type { QueueEntry } from '@/lib/api/front-desk';
 import type { AppointmentAction, TriagePriority } from '@/lib/api/types';
 
-type Tab = 'today' | 'queue';
+type Tab = 'today' | 'queue' | 'recovery';
+const TABS: Tab[] = ['today', 'queue', 'recovery'];
+const TAB_LABELS: Record<Tab, string> = { today: 'Today', queue: 'Queue', recovery: 'Recovery' };
 const OPEN_STATUSES = ['Booked', 'CheckedIn', 'InConsultation'];
 
 /** Container for `/staff/front-desk` (HO-APT-002 §11.5): polling data, dialogs and walk-in wiring. */
@@ -46,7 +49,8 @@ export function FrontDeskView() {
 function FrontDeskContent({ zone }: { zone: string }) {
   const searchParams = useSearchParams();
   const setParam = useFilterUrlUpdate();
-  const tab: Tab = searchParams.get('tab') === 'queue' ? 'queue' : 'today';
+  const tabParam = searchParams.get('tab');
+  const tab: Tab = tabParam === 'queue' || tabParam === 'recovery' ? tabParam : 'today';
   const mine = searchParams.get('mine') === '1';
 
   const activeBranchId = useActiveBranchId();
@@ -141,7 +145,7 @@ function FrontDeskContent({ zone }: { zone: string }) {
       </div>
 
       <div role="tablist" aria-label="Front desk" className="flex gap-1 border-b border-border">
-        {(['today', 'queue'] as Tab[]).map((key) => (
+        {TABS.map((key) => (
           <button
             key={key}
             id={`frontdesk-tab-${key}`}
@@ -153,7 +157,9 @@ function FrontDeskContent({ zone }: { zone: string }) {
             onClick={() => setParam('tab', key === 'today' ? '' : key)}
             onKeyDown={(event) => {
               if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
-                const next: Tab = key === 'today' ? 'queue' : 'today';
+                const at = TABS.indexOf(key);
+                const step = event.key === 'ArrowRight' ? 1 : -1;
+                const next: Tab = TABS[(at + step + TABS.length) % TABS.length]!;
                 setParam('tab', next === 'today' ? '' : next);
                 requestAnimationFrame(() =>
                   document.getElementById(`frontdesk-tab-${next}`)?.focus(),
@@ -167,13 +173,16 @@ function FrontDeskContent({ zone }: { zone: string }) {
                 : 'border-transparent text-ink-muted hover:text-ink',
             )}
           >
-            {key === 'today' ? 'Today' : 'Queue'}
+            {TAB_LABELS[key]}
           </button>
         ))}
       </div>
 
       <div id="frontdesk-panel" role="tabpanel" aria-labelledby={`frontdesk-tab-${tab}`}>
-        {tab === 'today' ? (
+        {tab === 'recovery' ? (
+          // HO-SRG-002 §11.8 — the surgery area's Recovery board (polled every 30 s on its own).
+          <RecoveryBoardPanel zone={zone} />
+        ) : tab === 'today' ? (
           <TodayList
             appointments={dayList.data}
             zone={zone}

@@ -52,7 +52,12 @@ Book / walk-in ──► Check-in ──► Vitals ──► Consultation (SOAP)
 ## Cross-module rules
 - Consumables and dispensed medicine deduct through the Inventory contract, which refuses an
   expired batch outright (BR-3, FR-IMP-9) — no override exists anywhere
-- Charges reach Billing as `VisitFinalisedIntegrationEvent`; Clinic never writes to `billing.*`
+- Charges reach Billing as `VisitFinalisedEvent`, which carries `CustomerId` (the owner at finalising, stored on
+  `clinic.visit.customer_id`); Clinic never writes to `billing.*` (HO-BIL-001 Phase J, ADR-344)
+- Billing's capture reads a visit only through `IVisitBillingReader`; the Read-layer uncaptured list counts `clinic.*`
+  rows (ADR-346 (1) as narrowed, CONTRACTS 36)
+- Diagnostics are priced from the `clinical.diagnosticPrice*` settings, and the price and tax class are frozen on the
+  order (ADR-345); the consultation fee is the appointment's; every visit is its own bill
 
 ## Decisions made
 -

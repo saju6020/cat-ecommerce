@@ -50,6 +50,10 @@ public static class SlotClaim
         if (service is null || !service.IsActive || service.Price is null || (!request.IsStaff && !service.IsBookableOnline))
             return Fail(BusinessViolationCodes.ServiceNotBookable, ClinicMessages.ServiceNotBookable);
 
+        // HO-SRG-001 section 11.7 G6 (ADR-172): a theatre procedure is scheduled only as a surgery (assistant, checklist, consent gate), never as an ordinary appointment.
+        if (service.RequiredRoomKind == RoomKind.Theatre)
+            return Fail(BusinessViolationCodes.ServiceNotBookable, ClinicMessages.ServiceNotBookable);
+
         var gridMinutes = businessSettings.GetInt(SettingKeys.BookingSlotIntervalMinutes, request.BranchId);
         if (!AppointmentSlotFinder.GridStartsForDay(localDate, gridMinutes, branch.TimeZoneId).Contains(request.StartsOn))
             return Fail(BusinessViolationCodes.SlotNotOnGrid, "This time is not on the booking grid.");

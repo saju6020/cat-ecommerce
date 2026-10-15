@@ -10,6 +10,18 @@ import type { NavArea } from '../types';
 export const pharmacyNav: NavArea = {
   key: 'pharmacy',
   label: 'Pharmacy',
-  audience: 'staff',
-  items: [],
+  audience: 'both',
+  items: [
+    // HO-PHM-002 §13 names `(staff)/layout.tsx` ("three nav entries") and `(portal)/layout.tsx`
+    // ("one nav entry"), but the shells' nav lives in this registry (the deviation HO-IMP-002 and
+    // HO-BIL-002 recorded). The third staff entry, Formulary, is in `adminNavItems.ts`.
+    { label: 'Pharmacy', href: '/staff/pharmacy', icon: 'pill', audience: 'staff' },
+    {
+      label: 'Controlled drugs',
+      href: '/staff/pharmacy/controlled-drugs',
+      icon: 'shield',
+      audience: 'staff',
+    },
+    { label: 'Prescriptions', href: '/portal/prescriptions', icon: 'pill', audience: 'portal' },
+  ],
 };

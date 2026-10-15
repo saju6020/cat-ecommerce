@@ -29,7 +29,7 @@ public sealed class StorefrontCatalogueEntryConfiguration : IEntityTypeConfigura
         builder.Property(x => x.MinPrice).HasColumnName("min_price");
         builder.Property(x => x.MaxPrice).HasColumnName("max_price");
         builder.Property(x => x.CurrencyCode).HasColumnName("currency_code");
-        builder.Property(x => x.InStock).HasColumnName("in_stock");
+        builder.Property(x => x.IsOnSale).HasColumnName("is_on_sale");
         builder.Property(x => x.RatingAverage).HasColumnName("rating_average");
         builder.Property(x => x.RatingCount).HasColumnName("rating_count");
         builder.Property(x => x.UnitsSold90d).HasColumnName("units_sold_90d");

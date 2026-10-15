@@ -5,7 +5,7 @@ namespace CatEcommerce.Application.CommandHandlers.Validators;
 
 public sealed class RecordCatParasiteTreatmentCommandValidator : AbstractValidator<RecordCatParasiteTreatmentCommand>
 {
-    public RecordCatParasiteTreatmentCommandValidator()
+    public RecordCatParasiteTreatmentCommandValidator(TimeProvider timeProvider)
     {
         RuleFor(x => x.CatId).NotEmpty();
         RuleFor(x => x.TreatmentId).NotEmpty();
@@ -16,7 +16,7 @@ public sealed class RecordCatParasiteTreatmentCommandValidator : AbstractValidat
         RuleFor(x => x.IntervalDays).InclusiveBetween(1, 730);
 
         RuleFor(x => x.AdministeredOn)
-            .LessThanOrEqualTo(_ => DateOnly.FromDateTime(DateTime.UtcNow))
+            .LessThanOrEqualTo(_ => CatRecordDateBound.LatestPossibleLocalDate(timeProvider))
             .WithMessage("The treatment date cannot be in the future.");
     }
 }

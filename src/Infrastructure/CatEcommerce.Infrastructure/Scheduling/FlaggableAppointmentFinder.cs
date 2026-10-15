@@ -18,7 +18,7 @@ public sealed class FlaggableAppointmentFinder(CatEcommerceDbContext db) : IFlag
         var (rangeStart, rangeEnd) = BufferedUtcRange(from, to);
 
         var candidates = await db.Set<AppointmentAggregate>().AsNoTracking()
-            .Where(a => !a.IsMarkedToDelete && a.PerformerId == performerId && a.Status == AppointmentStatus.Booked)
+            .Where(a => !a.IsMarkedToDelete && (a.PerformerId == performerId || a.AssistantId == performerId) && a.Status == AppointmentStatus.Booked)
             .Where(a => a.StartsOn != null && a.StartsOn >= rangeStart && a.StartsOn < rangeEnd)
             .Select(a => new { a.Id, a.BranchId, StartsOn = a.StartsOn!.Value })
             .ToListAsync(ct);

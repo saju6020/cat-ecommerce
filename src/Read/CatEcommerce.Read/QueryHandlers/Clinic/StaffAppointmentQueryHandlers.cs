@@ -36,7 +36,8 @@ public sealed class GetDayListQueryHandler(CatEcommerceDbContext db) : IQueryHan
         var rangeStart = AppointmentSlotFinder.InstantOf(query.Date, TimeOnly.MinValue, timeZoneId);
         var rangeEnd = AppointmentSlotFinder.InstantOf(query.Date.AddDays(1), TimeOnly.MinValue, timeZoneId);
 
-        var result = await QueryAsync(db, query.BranchId, rangeStart, rangeEnd);
+        // HO-SRG-001 section 11.7 G5: a surgery is shown on the calendar, never on this day list (it has its own theatre day list).
+        var result = await QueryAsync(db, query.BranchId, rangeStart, rangeEnd, includeSurgeries: false);
         return new QueryResponse<IReadOnlyList<CalendarAppointmentViewModel>> { Result = result };
     }
 
@@ -46,12 +47,13 @@ public sealed class GetDayListQueryHandler(CatEcommerceDbContext db) : IQueryHan
     /// this file, since a projection that calls <c>.DisplayName</c> inside the <c>Select</c> itself
     /// does not translate to SQL.</summary>
     internal static async Task<List<CalendarAppointmentViewModel>> QueryAsync(
-        CatEcommerceDbContext db, Guid branchId, DateTimeOffset rangeStart, DateTimeOffset rangeEnd)
+        CatEcommerceDbContext db, Guid branchId, DateTimeOffset rangeStart, DateTimeOffset rangeEnd, bool includeSurgeries)
     {
         var rows = await (
             from a in db.Set<AppointmentAggregate>().AsNoTracking()
             where !a.IsMarkedToDelete && a.BranchId == branchId && a.StartsOn != null && a.StartsOn >= rangeStart && a.StartsOn < rangeEnd
             where a.Status != AppointmentStatus.Held && a.Status != AppointmentStatus.HoldExpired && a.Status != AppointmentStatus.HoldReleased
+            where includeSurgeries || a.SurgeryId == null
             join cat in db.Set<CatAggregate>().AsNoTracking() on a.CatId equals cat.Id into cats
             from cat in cats.DefaultIfEmpty()
             join customer in db.Set<CustomerAccountAggregate>().AsNoTracking() on a.CustomerId equals customer.Id into customers
@@ -59,18 +61,18 @@ public sealed class GetDayListQueryHandler(CatEcommerceDbContext db) : IQueryHan
             orderby a.StartsOn
             select new CalendarRow(
                 a.Id, a.Version, a.CatId, cat != null ? cat.Name : "", cat != null && cat.IsHighRisk, a.CustomerId, customer != null ? customer.FullName : "",
-                a.ServiceSnapshot.Name, a.StartsOn, a.EndsOn, a.PerformerId, a.RoomId, a.Status, a.IsWalkIn, a.NeedsRescheduling)
+                a.ServiceSnapshot.Name, a.StartsOn, a.EndsOn, a.PerformerId, a.RoomId, a.Status, a.IsWalkIn, a.NeedsRescheduling, a.SurgeryId, a.AssistantId)
         ).ToListAsync();
 
         return rows.Select(r => new CalendarAppointmentViewModel(
             r.Id, r.Version, r.CatId, r.CatName, r.CustomerId, r.CustomerName, r.ServiceName,
-            r.StartsOn, r.EndsOn, r.PerformerId, r.RoomId, r.Status.DisplayName, r.IsWalkIn, r.NeedsRescheduling, r.CatIsHighRisk)).ToList();
+            r.StartsOn, r.EndsOn, r.PerformerId, r.RoomId, r.Status.DisplayName, r.IsWalkIn, r.NeedsRescheduling, r.CatIsHighRisk, r.SurgeryId, r.AssistantId)).ToList();
     }
 
     private sealed record CalendarRow(
         Guid Id, int Version, Guid CatId, string CatName, bool CatIsHighRisk, Guid CustomerId, string CustomerName,
         string ServiceName, DateTimeOffset? StartsOn, DateTimeOffset? EndsOn, Guid? PerformerId, Guid? RoomId,
-        AppointmentStatus Status, bool IsWalkIn, bool NeedsRescheduling);
+        AppointmentStatus Status, bool IsWalkIn, bool NeedsRescheduling, Guid? SurgeryId, Guid? AssistantId);
 }
 
 /// <summary>§12.4 -- ≤ 7 days (<c>AppointmentRules.MaxCalendarRangeDays</c>, enforced by the
@@ -88,13 +90,13 @@ public sealed class GetCalendarQueryHandler(CatEcommerceDbContext db, IBusinessS
 
         var gridMinutes = businessSettings.GetInt(SettingKeys.BookingSlotIntervalMinutes, query.BranchId);
 
-        var appointments = await GetDayListQueryHandler.QueryAsync(db, query.BranchId, rangeStart, rangeEnd);
+        var appointments = await GetDayListQueryHandler.QueryAsync(db, query.BranchId, rangeStart, rangeEnd, includeSurgeries: true);
 
         if (query.Ids is { Count: > 0 } ids)
         {
             appointments = string.Equals(query.View, "room", StringComparison.OrdinalIgnoreCase)
                 ? appointments.Where(a => a.RoomId != null && ids.Contains(a.RoomId.Value)).ToList()
-                : appointments.Where(a => a.PerformerId != null && ids.Contains(a.PerformerId.Value)).ToList();
+                : appointments.Where(a => (a.PerformerId != null && ids.Contains(a.PerformerId.Value)) || (a.AssistantId != null && ids.Contains(a.AssistantId.Value))).ToList();
         }
 
         var closures = await db.Set<BranchClosureAggregate>().AsNoTracking()

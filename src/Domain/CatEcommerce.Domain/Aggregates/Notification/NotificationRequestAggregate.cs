@@ -37,6 +37,11 @@ public sealed class NotificationRequestAggregate : AggregateRoot
     /// the old one then fails its guard at expansion (or delivery) time.</summary>
     public string? SubjectStamp { get; private set; }
 
+    /// <summary>HO-RPT-001 section 11.7 (HO-NTF-001 amendment): a file the message carries, by reference. No attachment bytes ever enter notify.*.</summary>
+    public NotificationAttachmentKind? AttachmentKind { get; private set; }
+
+    public Guid? AttachmentId { get; private set; }
+
     public bool ContainsSecret { get; private set; }
     public NotificationRequestStatus Status { get; private set; } = default!;
     public NotificationSuppressionReason? SuppressionReason { get; private set; }
@@ -97,6 +102,8 @@ public sealed class NotificationRequestAggregate : AggregateRoot
         NotAfter = dto.NotAfter;
         SendAfter = dto.SendAfter;
         SubjectStamp = dto.SubjectStamp;
+        AttachmentKind = dto.AttachmentKind;
+        AttachmentId = dto.AttachmentId;
         ContainsSecret = dto.ContainsSecret;
         Status = NotificationRequestStatus.Pending;
         RequestedOn = dto.RequestedOn;

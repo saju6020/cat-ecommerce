@@ -17,6 +17,18 @@ import { db, findById, findSku, money, persist } from './store';
  */
 
 const noContent = () => new HttpResponse(null, { status: 204 });
+/** HO-SHP-001-FU3: absent/null = not set; otherwise a whole number 1..100000 (else `InvalidShippingWeight`). */
+function shippingWeightRefusal(value: unknown): Response | null {
+  if (value === undefined || value === null) return null;
+  if (typeof value === 'number' && Number.isInteger(value) && value >= 1 && value <= 100000)
+    return null;
+  return badRequest(
+    'ShippingWeightGrams',
+    'InvalidShippingWeight',
+    'Enter a shipping weight between 1 and 100000 g.',
+  );
+}
+
 const notFound = () => new HttpResponse(null, { status: 404 });
 
 const label = (s: MockSku) =>
@@ -195,6 +207,7 @@ function staffDetail(p: MockProduct) {
       flavour: s.flavour,
       colour: s.colour,
       packQuantity: s.packQuantity,
+      shippingWeightGrams: s.shippingWeightGrams ?? null,
       label: skuLabelFor(p, s),
       status: s.status,
       currentPrice: s.price ? money(s.price) : null,
@@ -367,6 +380,7 @@ export const staffHandlers: HttpHandler[] = [
                 flavour: null,
                 colour: null,
                 packQuantity: null,
+                shippingWeightGrams: null,
                 status: 'Active',
                 price: null,
                 scheduledPrice: null,
@@ -601,6 +615,8 @@ export const staffHandlers: HttpHandler[] = [
     const response = await write(String(params.productId), request, (p, b) => {
       if (p.skus.some((s) => s.code === b.code))
         return badRequest('Code', 'SkuCodeAlreadyInUse', 'This SKU code is already in use.');
+      const weightRefusal = shippingWeightRefusal(b.shippingWeightGrams);
+      if (weightRefusal) return weightRefusal;
       if (!b.sizeOrWeight && !b.flavour && !b.colour) {
         return badRequest(
           'SizeOrWeight',
@@ -616,6 +632,7 @@ export const staffHandlers: HttpHandler[] = [
         flavour: (b.flavour as string | null) ?? null,
         colour: (b.colour as string | null) ?? null,
         packQuantity: (b.packQuantity as number | null) ?? null,
+        shippingWeightGrams: (b.shippingWeightGrams as number | null) ?? null,
         status: 'Active',
         price: null,
         scheduledPrice: null,
@@ -630,11 +647,15 @@ export const staffHandlers: HttpHandler[] = [
     write(String(params.productId), request, (p, b) => {
       const s = p.skus.find((x) => x.skuId === params.skuId);
       if (!s) return notFound();
+      const weightRefusal = shippingWeightRefusal(b.shippingWeightGrams);
+      if (weightRefusal) return weightRefusal;
       Object.assign(s, {
         sizeOrWeight: b.sizeOrWeight ?? null,
         flavour: b.flavour ?? null,
         colour: b.colour ?? null,
         packQuantity: b.packQuantity ?? null,
+        // As the real API: omitting the field CLEARS it.
+        shippingWeightGrams: b.shippingWeightGrams ?? null,
       });
     }),
   ),

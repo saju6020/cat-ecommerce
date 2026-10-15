@@ -77,6 +77,7 @@ export interface MockSku {
   flavour: string | null;
   colour: string | null;
   packQuantity: number | null;
+  shippingWeightGrams: number | null;
   status: 'Active' | 'Discontinued';
   /** Current price amount, or null when never priced. */
   price: string | null;
@@ -197,6 +198,7 @@ function sku(
     flavour: null,
     colour: null,
     packQuantity: null,
+    shippingWeightGrams: null,
     status: 'Active',
     price,
     scheduledPrice: null,
@@ -382,6 +384,7 @@ export function seedProducts(): MockProduct[] {
       skus: [
         sku(101, 'RC-K-400G', '400 g', '650.00', true),
         sku(102, 'RC-K-2KG', '2 kg', '2450.00', true, {
+          shippingWeightGrams: 2100,
           expiresOn: '2026-11-12',
           scheduledPrice: { amount: '2600.00', effectiveFrom: '2026-12-01T00:00:00Z' },
         }),

@@ -97,3 +97,13 @@ body {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
+
+/* Issues.md #1/#6 — components/common/NavigationProgress.tsx: the top bar slides while a page loads. */
+@keyframes nav-progress {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(300%);
+  }
+}

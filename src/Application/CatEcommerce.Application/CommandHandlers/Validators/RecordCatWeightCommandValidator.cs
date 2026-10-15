@@ -6,7 +6,7 @@ namespace CatEcommerce.Application.CommandHandlers.Validators;
 
 public sealed class RecordCatWeightCommandValidator : AbstractValidator<RecordCatWeightCommand>
 {
-    public RecordCatWeightCommandValidator()
+    public RecordCatWeightCommandValidator(TimeProvider timeProvider)
     {
         RuleFor(x => x.WeightRecordId).NotEmpty();
         RuleFor(x => x.CatId).NotEmpty();
@@ -26,7 +26,7 @@ public sealed class RecordCatWeightCommandValidator : AbstractValidator<RecordCa
         RuleFor(x => x.Kilograms).InclusiveBetween(Weight.MinKilograms, Weight.MaxKilograms);
 
         RuleFor(x => x.RecordedOn)
-            .LessThanOrEqualTo(_ => DateOnly.FromDateTime(DateTime.UtcNow))
+            .LessThanOrEqualTo(_ => CatRecordDateBound.LatestPossibleLocalDate(timeProvider))
             .WithMessage("The weight record date cannot be in the future.");
     }
 }

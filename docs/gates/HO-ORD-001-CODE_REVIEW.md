@@ -1,0 +1,67 @@
+GATE: CODE_REVIEW
+HANDOVER: HO-ORD-001
+COMMITS: 900c4c5a (head of ho/ORD-001; reviewed merge-base(master)...HEAD, 18 commits, phases A to H)
+DATE: 2026-10-09
+STATUS: PASS
+
+Reviewed: Appendix C table (`OrderTransitionRules`) and the aggregate's mutations; `MinorUnits`, `CheckoutPricing`, `DiscountRules`, `DeliveryChargeCalculator`, `TenderCalculator`, `RefundCalculator`; place / transfer confirm and approve / expire / cancel / dispatch / deliver / delivery-failure / refund / counter-sale handlers; `TransactionalScope`; `IdempotencyFilter` and `EfIdempotencyStore`; `OrderWorkCycle` and `OrderWorker`; courier webhook; error mapping (`OrderingResults`, `ConcurrencyExceptionFilter`, `UniqueConstraintExceptionFilter`); the shared test-infrastructure edits of 900c4c5a; test lists against `docs/test-cases/TC-HO-ORD-001.md`. Superseded-architecture scan of the diff (IBusMessageDispatcher, AddServiceBusProvider, IDispatcher in controllers, 202 results, double/float money, QueryAsync): clean. Tests were not executed here (read-only review; the TEST gate re-runs them).
+
+Verdicts on the points asked:
+- State transitions: one table, enforced in every aggregate mutation, each raising an event and calling `UpdateVersion()`; no state added to Appendix C; a counter sale walks PendingPayment -> Confirmed -> Delivered. Correct.
+- Money: integer minor units throughout, half-away-from-zero rounding at the line, largest-remainder apportionment, order-discount shares folded into the line discount for Billing, totals re-summed in `Order.Place` (`ValidateTotals`), tender change and cash-due maths and cumulative refund rounding all correct. Only gap: weight-band surcharge never applies (documented; backlog 5).
+- Concurrency and transactions: stock reserved in SKU order through `IStockLedger` (deadlock-free, flush between repeated SKUs); discount and cart on tracked roots with xmin -> `409 CheckoutQuoteChanged`; commit-time 23514 translated to `StockNoLongerAvailable`; Ordering, Inventory and Billing share one transaction with savepoints off and a per-branch advisory lock for numbering; expiry vs confirmation resolved by xmin and by `Expire` being a no-op for non-expirable orders. The idempotency claim commits on its own context before the action and is released on 5xx or exception. Sound.
+- Shared test-infrastructure edits do NOT hide a real bug. Disabling the worker in every host is needed because other areas move the shared clock (backlog 4 notes the lost host-level coverage). `withIdempotencyPurge` only restores the purge failure-path test inside a branch-restricted cycle. The widened I-D9 assertion still proves exactly one order and zero sellable stock. I-D10's retry loop retries only on `PolicyAcceptanceRequired` and still asserts one order and a replay of the same order id. The removed bank-account test loses one HTTP-level rule check (backlog 6). The weakest result is that the 23514 translation now has no deterministic test (backlog 1).
+- Diet-gate rows are skipped with a reason pending HO-PHM-001, as known. Not a finding.
+
+FINDINGS
+- [MEDIUM] src/Infrastructure/CatEcommerce.Infrastructure/Ordering/TransactionalScope.cs:Translate/FlushAsync — commit-time stock race translation has no deterministic test since I-D9 accepts CheckoutQuoteChanged for losers. Backlog 1.
+- [MEDIUM] src/Application/CatEcommerce.Application/CommandHandlers/Order/OrderPaymentCommandHandlers.cs (ConfirmBankTransfer, ApproveHeldPayment), IssueRefundCommandHandler.cs, OrderFulfilmentCommandHandlers.cs (RecordDelivery), CompleteCounterSaleCommandHandler.cs — bare `catch (Exception)` writes an Open reconciliation issue for a benign DbUpdateConcurrencyException. Backlog 2.
+- [MEDIUM] tests — no test for confirm-vs-expiry, cancel-vs-dispatch or concurrent refunds. Backlog 3.
+- [MEDIUM] tests/CatEcommerce.IntegrationTests/CatEcommerceApiFactory.cs:49 — hosted OrderWorker and its production default never exercised. Backlog 4.
+- [MEDIUM] src/Domain/CatEcommerce.Domain/DomainServices/CheckoutPricing.cs:184 — weight passed as 0; configurable weight bands are inert. Backlog 5.
+- [MEDIUM] tests/CatEcommerce.IntegrationTests/Endpoints/OrderingCheckoutQuoteEndpointTests.cs — removed BankTransferDisabled HTTP test. Backlog 6.
+- [MEDIUM] docs/test-cases/TC-HO-ORD-001.md — rows are ranges and "per §16.x"; I-D15 reflection only. Backlog 7.
+- [LOW] src/Api/CatEcommerce.Api/Background/OrderWorkCycle.cs:23 — test-only parameters in production signature. Backlog 8.
+- [LOW] src/Api/CatEcommerce.Api/Idempotency/IdempotencyFilter.cs:60 — client abort between claim and next() strands the key up to 10 min; stale take-over can double-run. Backlog 9.
+- [LOW] IdempotencyFilter.cs — transient 409s are stored and replayed for 24 h (as ADR-202). Backlog 10.
+- [LOW] OrderFulfilmentCommandHandlers.cs (ApplyCourierTrackingEventCommandHandler) — early events for unknown tracking numbers are dropped. Backlog 11.
+- [LOW] OrderFulfilmentCommandHandlers.cs (Dispatch, MarkReadyForCollection) — outside ITransactionalScope, unmapped 23514. Backlog 12.
+- [LOW] Persistence/Migrations — branch carries migrations; the integrator must regenerate at merge. Backlog 13.
+- [LOW] Idempotency and PrescriptionLineStatus enums — C# enums for technical values. Backlog 14.
+
+No BLOCKER or HIGH findings. MEDIUM/LOW items are in docs/backlog/ORD.md.
+
+SCOPE CHECK
+- files in allowed scope: 283/283 by count; files beyond handover section 13's literal list are recorded in the Amended (build) row (items 5 and 6)
+- files outside allowed scope: none unrecorded. Shared edits, all additive and Ordering-motivated: tests/CatEcommerce.IntegrationTests/CatEcommerceApiFactory.cs, one-line fake additions in Billing/Clinic/Visit handler tests, BillingConventionTests.cs, UniqueConstraintExceptionFilter.cs, ConcurrencyExceptionFilter.cs, appsettings.json, NotificationTemplateCatalogue.cs
+
+## Delta review (post-TEST fixes + master merge)
+
+GATE: CODE_REVIEW (combined architecture + security + code-quality delta)
+HANDOVER: HO-ORD-001
+COMMITS: 64231f11, 070557e2, 5a38cc2e (head); fix code reviewed as `git diff 85c74f53..070557e2`, merge as `git show --remerge-diff 5a38cc2e`
+DATE: 2026-10-10
+STATUS: PASS
+
+Owner decisions applied: additive ORD edits to Billing/Inventory (incl. the F-1 DocumentNumbering change); ADR-215 one atomic transaction; ADR-216 walk-in by mobile.
+
+VERDICTS ON THE POINTS ASKED
+- F-1 `DocumentNumbering` -- correct. The scoped path locks the series row in `LockSeriesRowAsync`; the unscoped path now opens its own short transaction (savepoints off, restored in `finally`), locks first, reloads the series, and renumbers only when the committed number moved (`fresh != taken`; after a retry the reload yields the same number, so there is no double renumber). The document INSERT can no longer precede the series lock, which removes the cycle. The document's save callback (notification enqueue, audit) runs after the renumber, so nothing describes a stale number. No gap or duplicate: a rolled-back attempt rolls the series update back with it. 40P01 is retried only when `!inCallersTransaction`; inside a caller's transaction it is not retried (correct, the transaction is aborted). The in-process gate is skipped in a caller's transaction, so there is no gate/row-lock cycle. Invoice and credit-note series are separate rows and each issuer locks only its own; the unscoped issuer takes the series lock before any other row in its transaction; the scoped counter sale only inserts new charge rows, so no remaining inversion with the frozen-invoice trigger or the credit-note path was found. `EnsureSeriesAsync` handles the creator-not-yet-committed case (lock returns false, re-lock and reload once the row is visible). No `EnableRetryOnFailure` is configured, so `BeginTransactionAsync` is safe.
+- F-2/F-3 `ICounterBuyerRegistrar` -- correct. Registration runs before the sale scope in its own save; Accounts' handler does its duplicate check before it touches the tracker, so a refusal leaves nothing tracked, and only the 23505 path needs `DiscardFailedAttempt`. The 23505 match is on the constraint name, walking inner exceptions. The raced buyer is found and used; a Merged/Anonymised holder gets `AccountNotActive` with a cashier-facing message. Authorization is unchanged (the endpoint's staff permission precedes the handler). No mobile number or name is logged by the adapter or by Accounts' handler (the id only). The Domain port with an Api-project implementation follows the pattern already recorded for `ICounterCustomerFinder` (backlog 38).
+- Billing tests adapted from ORD: acceptable, with two weaknesses (backlog 45). `I_C3_TheRetryIsBounded` still proves what Billing needs: the retry is bounded and the `DbUpdateConcurrencyException` surfaces (409 at the edge); simulating the stale read through a wrong tracked xmin is the right substitute now that a rival cannot bump the row while the lock is held. `XI_1b` still proves the property that matters (two hosts, 40 concurrent issues, all 201, sequences exactly 1..40, no duplicate). But (a) no test now exercises a retry that RECOVERS (fails once on xmin, succeeds on attempt 2); `I_C3_ACollision...` now passes through renumber-on-moved, not through the catch block; and (b) the new `DoesNotContain(... "Unhandled exception" && "Document number" ...)` is effectively vacuous (the conjunction will not occur in a real unhandled-exception log line), `Distinct().Count()==40` is implied by the 1..40 assertion above it, and the test name still says "AreSeenToRetry".
+- Merge resolutions: `IStockLedger` has both PHM (`GetDispensaryBatchesAsync`, `GetClinicDispensaryAsync`) and ORD (`ReserveBatchAsync`, `GetBatchUsabilityAsync`) members, and the test doubles (`OrderStockTests`, `PharmacyDispensingEndpointTests`, `OrderingFakes`) carry both. `INotificationLinkBuilder` (OrderLink + three Prescription links), `NotificationTemplateCatalogue` (`OrderDefinitions()` + Pharmacy definitions) and `UniqueConstraintExceptionFilter` (Ordering and Pharmacy mappings, each with its own handled/return) kept both sides; no conflict marker remains in `src`, `tests`, `.ai` or `docs`. `CatalogueSku` -> `OrderCatalogueSku` is applied consistently (interface, lookup, fakes, handlers, tests). `CatalogueLookup` reads `SkuRow.ShippingWeightGrams`, Shop's published projection (CONTRACTS #25), not a Shop internal. `CheckoutPricing`: PrescriptionCatRequired now wins over NothingToPlace, covered end to end by `I_D5` (no unit test; backlog 46). Model snapshot: every Entity, Property, ToTable, HasIndex and Owns line of both parents is present in the merge result; the repeated `modelBuilder.Entity(..., b =>` headers are EF's normal two-pass layout (properties, then relationships), not a duplicated block; the reported clean has-pending-model-changes stands.
+- Diet-gate tests I_C4 / I_D5 / I_D5b: acceptable technique. They issue a real `DietAuthorisationAggregate` through its repository and are judged by the real `IDietAuthorisationGate`. Lapsing it by shifting the dates, and nulling a cart line's cat in raw SQL (guarded by `Assert.Equal(1, rows)`), reach states the API refuses on purpose, which is what the rows need; the date window is wide enough for any branch-local date.
+- CONTRACTS renumbering (ORD rows #26-#28): the table is right. Stale references to the old numbers: `docs/handover/HO-BIL-001.md:20` ("rows 24 to 26" should be 26 to 28), `docs/handover/HO-ORD-001.md:23` ("rows 25, 26" should be 27, 28), `docs/gates/HO-ORD-001-ARCHITECTURE.md:215` ("row 25" is now 27) and `:217` ("row 26" is now 28). The `#25` references in `CatalogueLookup`, `OrderingCatalogueShippingWeightEndpointTests`, `TC-HO-ORD-001.md:123` and `HO-ORD-001.md:27` are correct (Shop weight). This gate did not edit handovers; backlog 45 carries the edits.
+
+FINDINGS
+- [MEDIUM] tests/CatEcommerce.IntegrationTests/Endpoints/BillingTestGateTraceEndpointTests.cs:~103 and BillingInvoiceEndpointTests.cs:~190 -- retry-recovery no longer covered; XI_1b second assertion vacuous and misnamed. Backlog 45.
+- [LOW] src/Domain/CatEcommerce.Domain/DomainServices/CheckoutPricing.cs:~36 -- the NothingToPlace/PrescriptionCatRequired precedence has no unit test. Backlog 46.
+- [LOW] src/Api/CatEcommerce.Api/Ordering/AccountsCounterBuyerRegistrar.cs:~66 -- `DiscardFailedAttempt` detaches EVERY Added entry in the request's tracker, resting on "nothing else is pending this early"; and every Accounts refusal is re-coded `CustomerNotFound` on property `CustomerName` (Accounts' own code is dropped). Backlog 47.
+- [LOW] A registered walk-in outlives a sale that later fails inside the transaction (by design of the amendment: the retry reuses the account). Worth one line in ADR-216. Backlog 47.
+- [LOW] Stale CONTRACTS numbers listed above (backlog 45); backlog row 40 (merge order) is resolved by this merge (backlog 48).
+
+No BLOCKER or HIGH findings.
+
+SCOPE CHECK
+- files in allowed scope: all production changes in 070557e2 except the items below
+- files outside allowed scope (beyond what backlog already records): `Domain/DomainServices/ICounterBuyerRegistrar.cs` and `Api/Ordering/AccountsCounterBuyerRegistrar.cs` (same class as backlog 38; ADR-216 amended names them); `Infrastructure/Billing/DocumentNumbering.cs` and the two Billing test edits (owner-approved additive Billing edit, recorded in ADR-179 amended); `OrderPaymentCommandValidators.cs` one line (backlog 39). Merge-only files come from PHM/SHP and are not ORD scope. Nothing else new.

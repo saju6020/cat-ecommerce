@@ -102,6 +102,8 @@ export function useCreateBranchClosure(branchId: string) {
     mutationFn: (request: CreateBranchClosureRequest) => createBranchClosure(branchId, request),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ['admin', 'branches', branchId, 'closures'] });
+      // HO-ADM-002-FU1 §12.1 — a new or cancelled closure changes the calendar too.
+      void queryClient.invalidateQueries({ queryKey: ['admin', 'branches', branchId, 'calendar'] });
     },
   });
 }
@@ -112,6 +114,8 @@ export function useCancelBranchClosure(branchId: string) {
     mutationFn: (closureId: string) => cancelBranchClosure(branchId, closureId),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ['admin', 'branches', branchId, 'closures'] });
+      // HO-ADM-002-FU1 §12.1 — a new or cancelled closure changes the calendar too.
+      void queryClient.invalidateQueries({ queryKey: ['admin', 'branches', branchId, 'calendar'] });
     },
   });
 }

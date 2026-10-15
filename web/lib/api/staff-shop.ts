@@ -80,6 +80,8 @@ export interface StaffSku {
   flavour: string | null;
   colour: string | null;
   packQuantity: number | null;
+  /** HO-SHP-001-FU3: optional shipping weight in grams (1..100000); `null` = not set. */
+  shippingWeightGrams: number | null;
   /** The public label: size, flavour, colour and "Pack of N" joined with " · "; the product name when none is set. */
   label: string;
   status: 'Active' | 'Discontinued';
@@ -307,6 +309,8 @@ export interface SkuAttributesInput {
   flavour?: string | null;
   colour?: string | null;
   packQuantity?: number | null;
+  /** HO-SHP-001-FU3: 1..100000, `null` = not set. An update that OMITS it CLEARS it, so always send the current value. */
+  shippingWeightGrams?: number | null;
 }
 export interface AddSkuRequest extends SkuAttributesInput {
   code: string;

@@ -1,6 +1,7 @@
 using CatEcommerce.Application.Commands.Cat;
 using CatEcommerce.Application.DataMappers;
 using CatEcommerce.Domain.Aggregates.Cat;
+using CatEcommerce.Domain.DomainServices;
 using CatEcommerce.Domain.Exceptions;
 using CatEcommerce.Shared.Common.Constants;
 using Microsoft.Extensions.Logging;
@@ -19,7 +20,7 @@ public sealed class RecordCatWeightCommandHandler(
     ILogger<RecordCatWeightCommandHandler> logger,
     IAggregateRootRepository<CatAggregate> catRepository,
     IAggregateRootRepository<CatWeightRecordAggregate> weightRepository,
-    TimeProvider timeProvider)
+    ICatRecordClock clock)
     : ICommandHandlerAsync<RecordCatWeightCommand>
 {
     public async Task<CommandResponse> HandleAsync(RecordCatWeightCommand command)
@@ -31,7 +32,7 @@ public sealed class RecordCatWeightCommandHandler(
                 $"Cat '{command.CatId}' was not found.");
 
         var weightRecord = new CatWeightRecordAggregate(command.WeightRecordId);
-        var today = DateOnly.FromDateTime(timeProvider.GetUtcNow().UtcDateTime);
+        var today = await clock.LocalTodayAsync(CancellationToken.None);
 
         try
         {

@@ -34,7 +34,7 @@ test.describe('Registration — US-ACC-01', () => {
     await page.getByLabel(/mobile number or email/i).fill('01755512345');
     await page.getByLabel(/^password/i).fill('a-genuinely-long-password');
     await page.getByRole('button', { name: 'Sign in', exact: true }).click();
-    await expect(page).toHaveURL(/\/portal\//);
+    await expect(page).toHaveURL(/\/portal(\/|$)/);
   });
 
   test('E-B3: wrong CAPTCHA then right — message, new image, fields kept, then success', async ({
@@ -132,7 +132,7 @@ test.describe('Password reset — US-ACC-05', () => {
     await page.getByLabel(/mobile number or email/i).fill(accountsFixtureIds.customerEmail);
     await page.getByLabel(/^password/i).fill('a-brand-new-password-1');
     await page.getByRole('button', { name: 'Sign in', exact: true }).click();
-    await expect(page).toHaveURL(/\/portal\//);
+    await expect(page).toHaveURL(/\/portal(\/|$)/);
   });
 
   test('E-D2: reusing the link shows the invalid/expired state', async ({ page }) => {

@@ -29,7 +29,8 @@ namespace CatEcommerce.IntegrationTests.Endpoints;
 /// 20,000 SKUs, each priced now, across all six categories, 12 origins and every life stage and
 /// protein, created through the aggregates and their repositories (no raw SQL), seeded once and
 /// idempotently -- it resumes from however many already exist and is never deleted (OQ-15). "Stocked"
-/// is the interim availability (HO-SHP-001 §1 Amended): a SKU with a current price is in stock.
+/// is Inventory's: every fixture SKU without sellable stock in <c>inventory.v_sku_sellable</c> at the storefront (main) branch is received through
+/// Inventory's goods-receipt endpoint (200 lines per receipt), also idempotently (HO-SHP-001-FU2).
 ///
 /// §20.4: if this fails the query, the view or the indexes change -- never this test, the fixture
 /// size or a cache in front of the list.
@@ -106,6 +107,15 @@ public sealed class ShopCataloguePerformanceTests(ShopApiFactory factory, ITestO
         output.WriteLine(summary);
         Console.WriteLine(summary);
 
+        // Where the time goes: the availability filter joins Inventory's view, everything else does not.
+        foreach (var (label, subset) in new[] { ("with availability=inStock", sorted.Where(t => t.Url.Contains("availability=inStock")).ToList()), ("without", sorted.Where(t => !t.Url.Contains("availability=inStock")).ToList()) })
+        {
+            if (subset.Count == 0) continue;
+            var split = $"I-E11 {label}: n = {subset.Count}, p50 = {subset[subset.Count / 2].Ms:F1} ms, p95 = {subset[(int)Math.Ceiling(subset.Count * 0.95) - 1].Ms:F1} ms";
+            output.WriteLine(split);
+            Console.WriteLine(split);
+        }
+
         Assert.Equal(Requests, sorted.Count);
         Assert.True(p95 <= Budget.TotalMilliseconds, summary);
     }
@@ -157,6 +167,7 @@ public sealed class ShopCataloguePerformanceTests(ShopApiFactory factory, ITestO
         if (existing >= FixtureProducts)
         {
             output.WriteLine($"I-E11 fixture already holds {existing} products; not reseeding.");
+            await EnsureFixtureStockAsync();
             return;
         }
 
@@ -214,5 +225,27 @@ public sealed class ShopCataloguePerformanceTests(ShopApiFactory factory, ITestO
                 }
             }
         }
+
+        await EnsureFixtureStockAsync();
+    }
+
+    /// <summary>Stocks every fixture SKU Inventory has no sellable row for, 200 per receipt (<c>InventoryRules.MaxReceiptLines</c>).</summary>
+    private async Task EnsureFixtureStockAsync()
+    {
+        List<(Guid SkuId, bool ExpiryTracked)> unstocked;
+        await using (var scope = Factory.Services.CreateAsyncScope())
+        {
+            var db = scope.ServiceProvider.GetRequiredService<CatEcommerceDbContext>();
+            var storefrontBranchId = CatEcommerce.Shared.Common.Constants.AdministrationSeed.MainBranchId;
+            var rows = await db.Products.AsNoTracking().Where(p => p.Brand == FixtureBrand)
+                .SelectMany(p => p.Skus, (p, s) => new { SkuId = s.Id, p.Category })
+                .Where(r => !db.SkuSellable.Any(v => v.SkuId == r.SkuId && v.BranchId == storefrontBranchId && v.SellableQuantity > 0))
+                .ToListAsync();
+            unstocked = rows.Select(r => (r.SkuId, r.Category == ProductCategory.CatFood)).ToList();
+        }
+
+        output.WriteLine($"I-E11 fixture: stocking {unstocked.Count} SKUs through goods receipts.");
+        foreach (var chunk in unstocked.Chunk(InventoryRules.MaxReceiptLines))
+            await StockSkusAsync(chunk);
     }
 }

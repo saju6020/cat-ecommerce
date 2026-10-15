@@ -26,6 +26,7 @@ Shared), not separate projects per context. A context is a folder and a namespac
 | **Order** | `OrderAggregate`, `CartAggregate`, `SubscriptionAggregate` | §4.9, §4.10 |
 | **Invoice** | `InvoiceAggregate`, `PaymentAggregate`, credit notes | §4.11 |
 | **Notification** | Templates and the notification log | §4.12 |
+| **Reporting** | `ReportScheduleAggregate`, `ScheduledReportRunAggregate` (schema `report`); read-only `report.rv_*` views over the other contexts, never materialised and no rows copied (HO-RPT-001 ADR-277/278). Writes only its own two tables, audit rows, notification requests (through `INotificationOutbox`) and export files (through the Files port, purpose `ReportExport`) | §8 |
 
 ---
 

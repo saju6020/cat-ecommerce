@@ -16,12 +16,13 @@ namespace CatEcommerce.Read.QueryHandlers.Product;
 /// only (.ai/read-side-pattern.md section 4): the product row with its image, translation and food
 /// columns in one split query, the SKU rows, the price rows and (for a bundle) the component rows --
 /// a fixed handful of queries however many SKUs or components there are. Per-SKU availability is
-/// <see cref="ISkuAvailabilityReader"/>: fail-closed until HO-IMP-001 supplies stock (section 4.3);
-/// the expiry notice is always absent for the same reason ("never reported").
+/// <see cref="ISkuAvailabilityReader"/> over <c>inventory.v_sku_sellable</c> (a SKU Inventory never stocked
+/// is out of stock); the expiry notice (US-SHP-07 AC2) is the view's FEFO-first expiry of an in-stock SKU
+/// when it falls inside <c>shop.expiryDisplayWindowDays</c> of today (<see cref="SkuAvailabilityRules.ExpiryNotice"/>).
 /// </summary>
 public sealed class GetProductDetailQueryHandler(
     CatEcommerceDbContext db, TimeProvider timeProvider, IBusinessSettings businessSettings, IContentLocaleSettings localeSettings,
-    ISkuAvailabilityReader availabilityReader)
+    ISkuAvailabilityReader availabilityReader, Microsoft.Extensions.Options.IOptions<CatEcommerce.Infrastructure.Configuration.ShopOptions> shopOptions)
     : IQueryHandlerAsync<GetProductDetailQuery, ProductDetailViewModel?>
 {
     public async Task<QueryResponse<ProductDetailViewModel?>> HandleAsync(GetProductDetailQuery query)
@@ -57,6 +58,7 @@ public sealed class GetProductDetailQueryHandler(
             .Select(r => new { r.RatingAverage, r.RatingCount }).FirstOrDefaultAsync();
 
         var availabilityBySku = await availabilityReader.GetAsync(skuIds);
+        var expiryNoticeBySku = await ExpiryNoticesAsync(product.Kind, skus.Select(s => s.SkuId).ToList(), availabilityBySku);
 
         var skuViewModels = skus.Select(s =>
         {
@@ -67,7 +69,8 @@ public sealed class GetProductDetailQueryHandler(
 
             return new DetailSkuViewModel(
                 s.SkuId, s.SkuCode, s.Label, s.SizeOrWeight, s.Flavour, s.Colour, s.PackQuantity,
-                current is null ? null : new Money(current.Amount, current.CurrencyCode).ToViewModel(), availability.DisplayName, null, images);
+                current is null ? null : new Money(current.Amount, current.CurrencyCode).ToViewModel(), availability.DisplayName,
+                expiryNoticeBySku.GetValueOrDefault(s.SkuId), images);
         }).ToList();
 
         // US-SHP-14: per-field fallback to the default language; an unknown or disabled locale is the
@@ -110,6 +113,28 @@ public sealed class GetProductDetailQueryHandler(
             await BuildBundleAsync(product.Id, product.Kind));
 
         return new QueryResponse<ProductDetailViewModel?> { Result = result };
+    }
+
+    /// <summary>US-SHP-07 AC2 -- the short-dated notice per in-stock SKU: the view's FEFO-first expiry when it is inside the
+    /// configured window of today (the storefront branch's business date). A bundle's own SKU holds no stock, so it has none.</summary>
+    private async Task<Dictionary<Guid, ExpiryNoticeViewModel>> ExpiryNoticesAsync(
+        ProductKind kind, IReadOnlyCollection<Guid> skuIds, IReadOnlyDictionary<Guid, AvailabilityStatus> availability)
+    {
+        var notices = new Dictionary<Guid, ExpiryNoticeViewModel>();
+        var window = businessSettings.GetInt(CatEcommerce.Shared.Common.Constants.SettingKeys.ShopExpiryDisplayWindowDays);
+        if (kind == ProductKind.Bundle || window <= 0) return notices;
+
+        var inStockIds = skuIds.Where(id => availability.GetValueOrDefault(id) == AvailabilityStatus.InStock).ToList();
+        var stock = await SkuSellability.StockAsync(db, inStockIds, shopOptions.Value.EffectiveStorefrontBranchId);
+        var today = await ShopBusinessDate.TodayAsync(db, timeProvider, shopOptions.Value.EffectiveStorefrontBranchId);
+
+        foreach (var (skuId, figure) in stock)
+        {
+            if (SkuAvailabilityRules.ExpiryNotice(figure.NextExpiresOn, today, window) is { } expiresOn)
+                notices[skuId] = new ExpiryNoticeViewModel(expiresOn);
+        }
+
+        return notices;
     }
 
     /// <summary>HO-SHP-001 section 12.4 -- a bundle's components, each with its own availability

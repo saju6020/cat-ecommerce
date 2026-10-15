@@ -2,6 +2,10 @@ namespace CatEcommerce.Read.ViewModels;
 
 public sealed record PublicationChecklistItemViewModel(string Item, bool IsBlocking, bool IsMet, string Message);
 
+/// <summary>HO-SHP-001 section 12.4 -- Inventory's figure for the SKU from <c>inventory.v_sku_sellable</c>. The whole object is
+/// null when Inventory has never reported the SKU ("never reported", not zero); <c>AsOf</c> is the read time -- the view is live.</summary>
+public sealed record StaffSkuStockViewModel(decimal SellableQuantity, DateOnly? NextAllocatableExpiryOn, DateTimeOffset AsOf);
+
 public sealed record StaffSkuViewModel(
     Guid SkuId,
     string Code,
@@ -13,7 +17,9 @@ public sealed record StaffSkuViewModel(
     string Status,
     MoneyViewModel? CurrentPrice,
     MoneyViewModel? ScheduledPrice,
-    string? Label = null);
+    string? Label = null,
+    StaffSkuStockViewModel? Stock = null,
+    int? ShippingWeightGrams = null);
 
 /// <summary>HO-SHP-001 section 12.4 -- full staff detail, including drafts, version and the
 /// publication checklist (section 8.4).</summary>

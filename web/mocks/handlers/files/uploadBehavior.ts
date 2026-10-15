@@ -24,6 +24,10 @@ function violation(code: string, message: string, propertyName = 'Content') {
   };
 }
 
+/** Files this mock "stored", so the cat-photo attach mock can read their metadata back the way the
+ *  real handler reads the verified `StoredFileAggregate` (HO-FIL-001) instead of trusting the caller. */
+export const mockUploadedFiles = new Map<string, MockUploadFileInfo>();
+
 const scannedOnceFileNames = new Set<string>();
 let nextMockFileId = 1;
 
@@ -111,6 +115,7 @@ export async function resolveMockUploadOutcome(
   const fileId = `mock-file-${nextMockFileId}`;
   nextMockFileId += 1;
   const exp = Math.floor(Date.now() / 1000) + 5 * 60;
+  mockUploadedFiles.set(fileId, { name, type: file.type, size: file.size });
 
   return {
     status: 201,

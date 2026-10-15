@@ -8,7 +8,7 @@ using Microsoft.Extensions.Time.Testing;
 namespace CatEcommerce.IntegrationTests;
 
 /// <summary>
-/// HO-ACC-001 §16.1. Real HTTP through TestServer, against the shared catecommerce_dev database.
+/// HO-ACC-001 §16.1. Real HTTP through TestServer, against the shared catecommerce_test database (never catecommerce_dev -- Issues.md #2).
 /// Sets Captcha:TestAnswer and raises every rate limit except in the dedicated rate-limit cases
 /// (I-B9/I-C9), which use <see cref="WithTightRateLimits"/> instead. The Testing-environment setup
 /// and the connection string are shared with every other area via <see cref="CatEcommerceApiFactory"/>;

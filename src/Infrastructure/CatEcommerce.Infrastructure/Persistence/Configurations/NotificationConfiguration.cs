@@ -39,6 +39,11 @@ public sealed class NotificationConfiguration : IEntityTypeConfiguration<Notific
         // AddNotificationRequestScheduling.
         builder.Property(x => x.SubjectStamp).HasColumnName("subject_stamp").HasMaxLength(64);
 
+        // HO-RPT-001 section 11.7 (HO-NTF-001 amendment, migration AddNotificationAttachments): an attachment by reference.
+        builder.Property(x => x.AttachmentKind).HasColumnName("attachment_kind")
+            .HasConversion(v => v == null ? (int?)null : v.Value, v => v == null ? null : Enumeration.FromValue<NotificationAttachmentKind>(v.Value));
+        builder.Property(x => x.AttachmentId).HasColumnName("attachment_id");
+
         builder.Property(x => x.BranchId).HasColumnName("branch_id");
 
         builder.Property(x => x.Channel).HasColumnName("channel")

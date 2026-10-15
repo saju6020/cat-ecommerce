@@ -178,12 +178,12 @@ describe('ProductPurchase — HO-SHP-002 §11.3', () => {
     expect(price().getByText('৳650.00')).toBeInTheDocument();
   });
 
-  it('leaves the action slot empty for HO-ORD-002 (no cart here)', () => {
+  it('puts the Add to cart button in the action slot (HO-ORD-002)', () => {
     const { container } = purchase();
     const slot = container.querySelector('[data-slot="buy-box-actions"]');
     expect(slot).toBeInTheDocument();
-    expect(slot).toBeEmptyDOMElement();
-    expect(screen.queryByRole('button', { name: /add to cart/i })).not.toBeInTheDocument();
+    expect(slot).not.toBeEmptyDOMElement();
+    expect(screen.getByRole('button', { name: /add to cart/i })).toBeEnabled();
   });
 
   it('handles every SKU being out of stock (fail-closed availability) with honest messaging', () => {
@@ -207,7 +207,8 @@ describe('ProductPurchase — HO-SHP-002 §11.3', () => {
     const group = within(screen.getByRole('group', { name: 'Choose a size' }));
     expect(group.getAllByText('Out of stock')).toHaveLength(3);
     expect(screen.getAllByText('Out of stock').length).toBeGreaterThan(3);
-    expect(screen.queryByRole('button', { name: /add to cart/i })).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /add to cart/i })).toBeDisabled();
+    expect(screen.getByText('This variant is out of stock.')).toBeInTheDocument();
   });
 });
 

@@ -16,4 +16,10 @@ public sealed class NotificationRedactionReason(int value, string displayName) :
     /// <summary>ADR-041 -- the recipient's account was anonymised; also nulls the destination and
     /// the unsubscribe link, regardless of any prior <see cref="Secret"/> redaction.</summary>
     public static readonly NotificationRedactionReason Anonymisation = new(2, nameof(Anonymisation));
+
+    /// <summary>HO-XCT-001 §5.3 / ADR-305 -- the retention worker redacts notification content
+    /// <c>retention.notificationContentMonths</c> after creation; like <see cref="Anonymisation"/> it also
+    /// nulls the destination and the unsubscribe link. Metadata (channel, template, status, timestamps,
+    /// recipient id) is kept.</summary>
+    public static readonly NotificationRedactionReason Retention = new(3, nameof(Retention));
 }

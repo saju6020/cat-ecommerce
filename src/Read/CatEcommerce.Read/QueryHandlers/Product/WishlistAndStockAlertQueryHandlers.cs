@@ -123,11 +123,12 @@ public sealed class GetStockAlertDeliverabilityQueryHandler(INotificationRecipie
 }
 
 /// <summary>
-/// HO-SHP-001 section 12.2 -- the ShopWorker's input. Fail-closed like every availability read: with
-/// <c>Shop:InterimAvailabilityFromPrice</c> off nothing is available, so no alert is due. With it on,
-/// the SQL prefilter is the interim rule (Active SKU, Active listed product, a price effective now)
-/// and <see cref="ISkuAvailabilityReader"/> then settles bundles (every component too). The notify
-/// command re-checks, so a race only means the next pass retries.
+/// HO-SHP-001 section 12.2 -- the ShopWorker's input. The SQL prefilter is Shop's own rule (Active SKU,
+/// Active listed product, a price effective now) plus, for a standard SKU, a row in <c>inventory.v_sku_sellable</c>
+/// with a positive sellable quantity: without that, every alert waiting on an out-of-stock SKU -- the normal
+/// state of a back-in-stock alert -- would be a candidate and could crowd a due one out of the page budget.
+/// A bundle SKU holds no stock of its own, so a bundle alert passes the prefilter and <see cref="ISkuAvailabilityReader"/>
+/// settles it (every component too). The notify command re-checks, so a race only means the next pass retries.
 /// </summary>
 public sealed class GetDueStockAlertsQueryHandler(CatEcommerceDbContext db, TimeProvider timeProvider, ISkuAvailabilityReader availabilityReader, IOptions<ShopOptions> options)
     : IQueryHandlerAsync<GetDueStockAlertsQuery, IReadOnlyList<Guid>>
@@ -137,10 +138,9 @@ public sealed class GetDueStockAlertsQueryHandler(CatEcommerceDbContext db, Time
 
     public async Task<QueryResponse<IReadOnlyList<Guid>>> HandleAsync(GetDueStockAlertsQuery query)
     {
-        if (!options.Value.InterimAvailabilityFromPrice)
-            return new QueryResponse<IReadOnlyList<Guid>> { Result = [] };
-
         var now = timeProvider.GetUtcNow();
+        var branchId = options.Value.EffectiveStorefrontBranchId;
+        var bundleKind = ProductKind.Bundle;
 
         // Row 33: the SQL prefilter cannot tell a bundle that is never available (a component is out of stock or
         // needs a prescription) from one that is, so a plain Take(Limit) over it could be filled with such
@@ -157,7 +157,9 @@ public sealed class GetDueStockAlertsQueryHandler(CatEcommerceDbContext db, Time
                 .Where(a => a.Status == StockAlertStatus.Pending
                     && db.Products.Any(p => p.Status == ProductStatus.Active && p.ListedOnStorefront
                         && p.Skus.Any(s => s.Id == a.SkuId && s.Status == SkuStatus.Active))
-                    && db.SkuPrices.Any(sp => sp.SkuId == a.SkuId && sp.EffectiveFrom <= now))
+                    && db.SkuPrices.Any(sp => sp.SkuId == a.SkuId && sp.EffectiveFrom <= now)
+                    && (db.Products.Any(p => p.Kind == bundleKind && p.Skus.Any(s => s.Id == a.SkuId))
+                        || db.SkuSellable.Any(v => v.SkuId == a.SkuId && v.SellableQuantity > 0 && v.BranchId == branchId)))
                 .Where(a => lastRequestedOn == null || a.RequestedOn > lastRequestedOn
                     || (a.RequestedOn == lastRequestedOn && a.Id.CompareTo(lastId) > 0))
                 .OrderBy(a => a.RequestedOn).ThenBy(a => a.Id)

@@ -12,10 +12,13 @@ internal static class ShopBusinessDate
 {
     private const string FallbackZone = "Asia/Dhaka";
 
-    public static async Task<DateOnly> TodayAsync(CatEcommerceDbContext db, TimeProvider timeProvider)
+    public static Task<DateOnly> TodayAsync(CatEcommerceDbContext db, TimeProvider timeProvider) => TodayAsync(db, timeProvider, AdministrationSeed.MainBranchId);
+
+    /// <summary>The calendar date in the given branch's zone -- the storefront branch for the expiry notice, the same branch whose stock and expiry filter are read.</summary>
+    public static async Task<DateOnly> TodayAsync(CatEcommerceDbContext db, TimeProvider timeProvider, Guid branchId)
     {
         var zone = await db.Set<BranchAggregate>().AsNoTracking()
-            .Where(b => b.Id == AdministrationSeed.MainBranchId)
+            .Where(b => b.Id == branchId)
             .Select(b => b.TimeZoneId)
             .FirstOrDefaultAsync();
         return BranchCalendar.LocalDateOf(timeProvider.GetUtcNow(), zone ?? FallbackZone);

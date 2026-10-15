@@ -16,8 +16,6 @@ namespace CatEcommerce.Application.Tests.CommandHandlers.Cat;
 public sealed class RecordCatVaccinationCommandHandlerTests
 {
     private static readonly DateOnly Today = DateOnly.FromDateTime(DateTime.UtcNow);
-    private static readonly TimeProvider FixedTimeProvider =
-        new FakeTimeProvider(new DateTimeOffset(Today.ToDateTime(TimeOnly.MinValue), TimeSpan.Zero));
 
     private static CatAggregate SeededCat(FakeAggregateRootRepository<CatAggregate> repository)
     {
@@ -58,7 +56,7 @@ public sealed class RecordCatVaccinationCommandHandlerTests
 
         var handler = new RecordCatVaccinationCommandHandler(
             NullLogger<RecordCatVaccinationCommandHandler>.Instance, catRepository, vaccineRepository,
-            staffAccountRepository, FixedTimeProvider);
+            staffAccountRepository, new FakeCatRecordClock(Today));
 
         var response = await handler.HandleAsync(new RecordCatVaccinationCommand
         {
@@ -87,7 +85,7 @@ public sealed class RecordCatVaccinationCommandHandlerTests
 
         var handler = new RecordCatVaccinationCommandHandler(
             NullLogger<RecordCatVaccinationCommandHandler>.Instance, catRepository, vaccineRepository,
-            staffAccountRepository, FixedTimeProvider);
+            staffAccountRepository, new FakeCatRecordClock(Today));
 
         var response = await handler.HandleAsync(new RecordCatVaccinationCommand
         {
@@ -123,7 +121,7 @@ public sealed class RecordCatVaccinationCommandHandlerTests
 
         var handler = new RecordCatVaccinationCommandHandler(
             NullLogger<RecordCatVaccinationCommandHandler>.Instance, catRepository, vaccineRepository,
-            staffAccountRepository, FixedTimeProvider);
+            staffAccountRepository, new FakeCatRecordClock(Today));
 
         var response = await handler.HandleAsync(new RecordCatVaccinationCommand
         {
@@ -164,7 +162,7 @@ public sealed class RecordCatVaccinationCommandHandlerTests
 
         var handler = new RecordCatVaccinationCommandHandler(
             NullLogger<RecordCatVaccinationCommandHandler>.Instance, catRepository, vaccineRepository,
-            staffAccountRepository, FixedTimeProvider);
+            staffAccountRepository, new FakeCatRecordClock(Today));
 
         var response = await handler.HandleAsync(new RecordCatVaccinationCommand
         {
@@ -200,7 +198,7 @@ public sealed class RecordCatVaccinationCommandHandlerTests
 
         var handler = new RecordCatVaccinationCommandHandler(
             NullLogger<RecordCatVaccinationCommandHandler>.Instance, catRepository, vaccineRepository,
-            staffAccountRepository, FixedTimeProvider);
+            staffAccountRepository, new FakeCatRecordClock(Today));
 
         var response = await handler.HandleAsync(new RecordCatVaccinationCommand
         {

@@ -16,5 +16,9 @@ public static class CustomerActions
         Actions.Cats.View,
         Actions.Cats.Register,
         Actions.Cats.EditProfile,
+
+        // HO-EMR-001 (OwnerScope.Cat on the cat routes; the visit-by-id routes resolve the visit's cat and its
+        // current owner in the handler, FR-POR-3).
+        Actions.Visits.ViewOwn,
     ];
 }

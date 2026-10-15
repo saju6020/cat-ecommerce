@@ -40,6 +40,13 @@ public sealed class AppointmentBacklogFixHandlerTests
         public string AppointmentLink(Guid appointmentId) => "";
         public string BookingLink() => "";
         public string ProductLink(string slug, Guid skuId) => "";
+        public string VisitSummaryLink(Guid visitId) => "";
+        public string InvoiceLink(Guid invoiceId) => "";
+        public string ReceiptLink(Guid paymentId) => "";
+        public string OrderLink(Guid orderId) => "";
+        public string PrescriptionLink(Guid prescriptionId) => "";
+        public string RepeatRequestLink(Guid prescriptionId) => "";
+        public string DietAuthorisationsLink() => "";
     }
 
     private static InMemoryBusinessSettings Settings() => new(new Dictionary<string, object>
@@ -83,7 +90,7 @@ public sealed class AppointmentBacklogFixHandlerTests
         var handler = new CancelAppointmentCommandHandler(
             appointments, new FakeAggregateRootRepository<BranchAggregate>(), cats,
             new FakeAggregateRootRepository<StaffAccountAggregate>(), Settings(), new NullOutbox(), new StubLinkBuilder(),
-            new FakeTimeProvider(Now));
+            new FakeTimeProvider(Now), new FakeAggregateRootRepository<CatEcommerce.Domain.Aggregates.Visit.VisitAggregate>());
         return new CancelRig(handler, appointments, cats);
     }
 
@@ -314,7 +321,7 @@ public sealed class AppointmentBacklogFixHandlerTests
             .HandleAsync(new CheckInAppointmentCommand { AppointmentId = appointment.Id, BranchId = otherBranch, UserContext = user, CorrelationId = Guid.NewGuid() });
         var triage = await new SetTriagePriorityCommandHandler(appointments)
             .HandleAsync(new SetTriagePriorityCommand { AppointmentId = appointment.Id, BranchId = otherBranch, TriagePriority = "Urgent", UserContext = user, CorrelationId = Guid.NewGuid() });
-        var complete = await new CompleteAppointmentCommandHandler(appointments, new FakeTimeProvider(Now))
+        var complete = await new CompleteAppointmentCommandHandler(appointments, new FakeTimeProvider(Now), new FakeAggregateRootRepository<CatEcommerce.Domain.Aggregates.Visit.VisitAggregate>())
             .HandleAsync(new CompleteAppointmentCommand { AppointmentId = appointment.Id, BranchId = otherBranch, UserContext = user, CorrelationId = Guid.NewGuid() });
         var noShow = await new RecordNoShowCommandHandler(appointments, Settings(), new FakeTimeProvider(Now))
             .HandleAsync(new RecordNoShowCommand { AppointmentId = appointment.Id, BranchId = otherBranch, UserContext = user, CorrelationId = Guid.NewGuid() });

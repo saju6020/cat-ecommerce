@@ -38,7 +38,9 @@ public sealed class EfNotificationOutbox(CatEcommerceDbContext db, INotification
             UserContext: request.UserContext ?? new Platform.Infrastructure.Common.Security.UserContext(SystemActors.NotificationWorker, Guid.Empty),
             CorrelationId: request.CorrelationId == default ? Guid.NewGuid() : request.CorrelationId,
             SendAfter: request.SendAfter,
-            SubjectStamp: request.SubjectStamp));
+            SubjectStamp: request.SubjectStamp,
+            AttachmentKind: request.AttachmentKind,
+            AttachmentId: request.AttachmentId));
 
         db.NotificationRequests.Add(aggregate);
     }

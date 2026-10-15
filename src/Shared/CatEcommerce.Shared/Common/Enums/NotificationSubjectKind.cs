@@ -22,4 +22,29 @@ public sealed class NotificationSubjectKind(int value, string displayName) : Enu
     /// <summary>HO-SHP-001 §8.11 -- valid while the stock alert is <c>Notified</c>, its SKU Active and its
     /// product Active and listed (<c>StockAlertGuard</c>). Stock is not re-checked at send time.</summary>
     public static readonly NotificationSubjectKind StockAlert = new(4, nameof(StockAlert));
+
+    /// <summary>HO-EMR-001 §8.9 -- valid while the visit follow-up stamp equals the request stamp, the cat is
+    /// alive and owned by the recipient, and the cat has no Booked appointment on or after today
+    /// (<c>VisitFollowUpGuard</c>).</summary>
+    public static readonly NotificationSubjectKind VisitFollowUp = new(5, nameof(VisitFollowUp));
+
+    /// <summary>HO-IMP-001 §8.12 -- valid while the batch (<c>SubjectId</c>) is <c>Recalled</c> (<c>BatchRecallGuard</c>).</summary>
+    public static readonly NotificationSubjectKind BatchRecall = new(6, nameof(BatchRecall));
+
+    /// <summary>HO-PHM-001 §8.11 (ADR-150) -- valid while the prescription still has a supply to give, is inside its validity, the
+    /// recomputed refill-due date equals the request's <c>SubjectDueOn</c>, no repeat request is open and the cat is alive and owned by the
+    /// recipient (<c>PrescriptionRefillDueGuard</c>).</summary>
+    public static readonly NotificationSubjectKind PrescriptionRefillDue = new(7, nameof(PrescriptionRefillDue));
+
+    /// <summary>HO-SRG-001 §8.10 -- valid while the surgery is <c>Scheduled</c> and its <c>ScheduleStamp</c> equals the request's stamp,
+    /// the cat is alive and owned by the recipient (<c>SurgeryPreOpGuard</c>).</summary>
+    public static readonly NotificationSubjectKind SurgeryPreOp = new(8, nameof(SurgeryPreOp));
+
+    /// <summary>HO-SRG-001 §8.10 -- valid while the follow-up (<c>SubjectRef</c>) is still <c>Pending</c>, the cat is alive and owned by
+    /// the recipient (<c>SurgeryFollowUpGuard</c>).</summary>
+    public static readonly NotificationSubjectKind SurgeryFollowUp = new(9, nameof(SurgeryFollowUp));
+    public static readonly NotificationSubjectKind ScheduledReport = new(10, nameof(ScheduledReport));
+
+    /// <summary>HO-BRD-001 section 8.19 -- valid while the boarding stay (SubjectId) is CheckedIn; the daily update uses it, so a stay checked out at 17:00 gets no 18:00 update.</summary>
+    public static readonly NotificationSubjectKind BoardingStayInHouse = new(11, nameof(BoardingStayInHouse));
 }

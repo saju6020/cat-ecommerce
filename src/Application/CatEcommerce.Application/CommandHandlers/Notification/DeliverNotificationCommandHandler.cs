@@ -32,6 +32,7 @@ public sealed class DeliverNotificationCommandHandler(
     INotificationDeliverySettings deliverySettings,
     INotificationClaimStore claimStore,
     INotificationEnlister enlister,
+    INotificationAttachmentResolver attachmentResolver,
     TimeProvider timeProvider)
     : ICommandHandlerAsync<DeliverNotificationCommand>
 {
@@ -107,6 +108,22 @@ public sealed class DeliverNotificationCommandHandler(
             }
         }
 
+        // HO-RPT-001 section 11.7 item 3 (HO-NTF-001 amendment): an attachment is loaded from its owner immediately before sending, for the Email channel only. A file that no longer
+        // exists (a purged report) cancels the notification -- it is never sent without the file it promised.
+        IReadOnlyList<OutgoingAttachment> attachments = [];
+        if (notification.Channel == NotificationChannel.Email && notification.AttachmentKind is { } attachmentKind && notification.AttachmentId is { } attachmentId)
+        {
+            var attachment = await attachmentResolver.LoadAsync(attachmentKind, attachmentId);
+            if (attachment is null)
+            {
+                notification.Cancel(NotificationCloseReason.SubjectNoLongerApplies, now);
+                await notificationRepository.UpdateAsync(notification, EventPublishOption.InMemoryPublishOnly);
+                return Success();
+            }
+
+            attachments = [new OutgoingAttachment(attachment.FileName, attachment.ContentType, attachment.Content)];
+        }
+
         notification.Claim(now, TimeSpan.FromSeconds(deliverySettings.LeaseSeconds));
         var claimed = await claimStore.TrySaveClaimAsync(notification);
         if (!claimed) return Success(); // another worker has it
@@ -117,7 +134,7 @@ public sealed class DeliverNotificationCommandHandler(
         {
             using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(deliverySettings.SendTimeoutSeconds));
             var headers = BuildHeaders(notification);
-            var message = new OutgoingMessage(notification.Id, notification.Destination ?? "", notification.Subject, notification.Body, notification.HtmlBody, headers);
+            var message = new OutgoingMessage(notification.Id, notification.Destination ?? "", notification.Subject, notification.Body, notification.HtmlBody, headers, attachments);
             outcome = await sender.SendAsync(message, cts.Token);
         }
         catch (Exception ex)
@@ -244,7 +261,7 @@ public sealed class DeliverNotificationCommandHandler(
             original.RecipientKind, original.RecipientId, original.SubjectKind, original.SubjectId, original.SubjectRef, original.SubjectDueOn,
             original.BranchId, fallbackChannel, destination, rendered.Subject, rendered.Title, rendered.TextBody, rendered.HtmlBody, rendered.LinkPath,
             original.NotAfter, now, null, false, unsubscribeTokenHash, unsubscribeLink, FallbackFromId: original.Id, ResendOfId: null, ResentBy: null,
-            SubjectStamp: original.SubjectStamp));
+            SubjectStamp: original.SubjectStamp, AttachmentKind: original.AttachmentKind, AttachmentId: original.AttachmentId));
 
         return fallback;
     }

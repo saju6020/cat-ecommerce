@@ -249,7 +249,9 @@ public sealed class FilesEndpointTests(FilesApiFactory factory) : FilesIntegrati
     [Fact]
     public async Task Dicom_and_zip_are_always_served_as_attachment_even_when_inline_is_requested()
     {
-        using var client = await SignedInStaffClientAsync(StaffRoles.Administrator);
+        // HO-EMR-001 (2026-10-07): LabResult is now owned by Consultation -- uploading one needs Visits.WriteNote (Vet), no longer
+        // "any staff role" via the test-only fall-back. The ReportExport zip below is still unowned, so the same Vet may upload it.
+        using var client = await SignedInStaffClientAsync(StaffRoles.Vet);
 
         using var dicomForm = BuildUpload(BuildDicomBytes(), "scan.dcm", "application/dicom");
         var dicomUpload = await client.PostAsync("/api/staff/files?purpose=LabResult", dicomForm);

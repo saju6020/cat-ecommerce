@@ -13,6 +13,7 @@ import {
 import { ApiConflictError, ApiValidationError } from '@/lib/api/client';
 import { describeApiError, SHOP_CODE_MESSAGES } from '@/lib/api/errors';
 import { CONFLICT_MESSAGE } from '@/lib/shop/submitSection';
+import { parseShippingWeight, shippingWeightServerError } from '@/lib/shop/shippingWeight';
 import { Field, inputClass } from './SectionFrame';
 
 export interface AddSkuValues {
@@ -22,6 +23,7 @@ export interface AddSkuValues {
   flavour: string | null;
   colour: string | null;
   packQuantity: number | null;
+  shippingWeightGrams: number | null;
 }
 
 /** HO-SHP-002 §11.6 — **Add SKU**: code, barcode, size/weight, flavour, colour, pack quantity. A
@@ -43,7 +45,9 @@ export function AddSkuDialog({
     flavour: '',
     colour: '',
     pack: '',
+    weight: '',
   });
+  const [errors, setErrors] = React.useState<Record<string, string>>({});
   const [error, setError] = React.useState<string | null>(null);
   const [pending, setPending] = React.useState(false);
   const set = (key: keyof typeof v) => (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -52,8 +56,11 @@ export function AddSkuDialog({
   async function submit(event: React.FormEvent) {
     event.preventDefault();
     setError(null);
+    setErrors({});
     if (!v.code.trim()) return setError('Enter the SKU code.');
     if (v.pack && !/^\d+$/.test(v.pack)) return setError('Pack quantity must be a whole number.');
+    const weight = parseShippingWeight(v.weight);
+    if (weight.error !== undefined) return setErrors({ weight: weight.error });
     setPending(true);
     try {
       await onAdd({
@@ -63,10 +70,16 @@ export function AddSkuDialog({
         flavour: v.flavour.trim() || null,
         colour: v.colour.trim() || null,
         packQuantity: v.pack ? Number(v.pack) : null,
+        shippingWeightGrams: weight.value,
       });
-      setV({ code: '', barcode: '', size: '', flavour: '', colour: '', pack: '' });
+      setV({ code: '', barcode: '', size: '', flavour: '', colour: '', pack: '', weight: '' });
       onOpenChange(false);
     } catch (e) {
+      const weightError = shippingWeightServerError(e);
+      if (weightError) {
+        setErrors({ weight: weightError });
+        return;
+      }
       setError(
         e instanceof ApiConflictError
           ? CONFLICT_MESSAGE
@@ -132,6 +145,25 @@ export function AddSkuDialog({
               className={inputClass}
               value={v.pack}
               onChange={set('pack')}
+            />
+          </Field>
+          <Field
+            id="sku-weight"
+            label="Shipping weight (g) (optional)"
+            error={errors.weight}
+            hint="Used to work out the delivery charge. Leave empty if not set."
+          >
+            <input
+              id="sku-weight"
+              type="number"
+              inputMode="numeric"
+              min={1}
+              max={100000}
+              step={1}
+              className={inputClass}
+              value={v.weight}
+              onChange={set('weight')}
+              aria-invalid={!!errors.weight}
             />
           </Field>
           <DialogFooter>

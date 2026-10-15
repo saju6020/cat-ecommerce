@@ -72,4 +72,37 @@ describe('ActiveBranchPicker — HO-ADM-002 §11.2, ADR-FE-016', () => {
     await user.selectOptions(select, 'b2');
     expect(queryClient.getQueryData(ACTIVE_BRANCH_KEY)).toBe('b2');
   });
+
+  it('ADM-002-FU2: a long branch name is truncated by classes, not by data — full name in option text and title', async () => {
+    const longName = 'The Very Long Named Veterinary Branch Number Two'.padEnd(40, 'x');
+    server.use(
+      http.get('*/api/staff/branches/mine', () =>
+        HttpResponse.json({
+          branchIds: ['b1', 'b2'],
+          primaryBranchId: 'b1',
+          activeBranchId: 'b1',
+          activeBranchRefusal: null,
+        }),
+      ),
+      http.get('*/api/admin/branches', () =>
+        HttpResponse.json([
+          { id: 'b1', code: 'LONG', name: longName, timeZoneId: 'Asia/Dhaka', isActive: true },
+          { id: 'b2', code: 'MAIN', name: 'Main clinic', timeZoneId: 'Asia/Dhaka', isActive: true },
+        ]),
+      ),
+    );
+    const user = userEvent.setup();
+    const { container, queryClient } = renderWithClient(<ActiveBranchPicker />);
+    const select = await screen.findByLabelText(/branch/i);
+    await waitFor(() => expect(select).toHaveAttribute('title', longName));
+    expect(screen.getByRole('option', { name: longName })).toBeInTheDocument();
+    expect(select).toHaveClass('min-w-0', 'flex-1', 'truncate');
+    expect(container.firstElementChild).toHaveClass('w-full', 'min-w-0', 'max-w-md');
+    expect(screen.getByText('Branch')).toHaveClass('flex-shrink-0');
+    // Behaviour is intact: the long-named option is still selectable by keyboard-equivalent change,
+    // and the title follows the selection. (The real overflow guard is Playwright E-B3; jsdom has no layout.)
+    await user.selectOptions(select, 'b2');
+    expect(queryClient.getQueryData(ACTIVE_BRANCH_KEY)).toBe('b2');
+    await waitFor(() => expect(select).toHaveAttribute('title', 'Main clinic'));
+  });
 });

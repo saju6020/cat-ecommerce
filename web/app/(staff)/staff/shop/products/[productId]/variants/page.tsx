@@ -9,6 +9,7 @@ import {
   useScheduleSkuPrice,
   useSetSkuStatus,
   useSkuPrices,
+  useUpdateSku,
   useStaffProduct,
 } from '@/lib/hooks/useStaffShop';
 
@@ -45,6 +46,7 @@ export default function ProductVariantsPage({
   const [priceSkuId, setPriceSkuId] = useState<string | null>(null);
   const prices = useSkuPrices(priceSkuId);
   const addSku = useAddSku(productId);
+  const updateSku = useUpdateSku(productId);
   const setStatus = useSetSkuStatus(productId);
   const p = product.data;
   if (!p) return <LoadingState rows={6} />;
@@ -60,6 +62,9 @@ export default function ProductVariantsPage({
       priceLoading={prices.isPending && !!priceSkuId}
       onSchedulePrice={(_sku, amount, iso, currency) => schedule(amount, iso, currency)}
       onAddSku={(values) => addSku.mutateAsync({ expectedVersion: p.version, ...values })}
+      onUpdateSku={(sku, values) =>
+        updateSku.mutateAsync({ skuId: sku.skuId, expectedVersion: p.version, ...values })
+      }
       onSetStatus={(sku, active) =>
         setStatus.mutateAsync({ skuId: sku.skuId, active, expectedVersion: p.version })
       }

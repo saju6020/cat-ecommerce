@@ -1,0 +1,21 @@
+# Drill-only pgBackRest configuration (rendered with envsubst). repo2 is posix here but encrypted exactly as production's S3 repository is.
+[global]
+repo1-type=posix
+repo1-path=/var/lib/pgbackrest
+repo1-retention-full=5
+repo2-type=posix
+repo2-path=/var/lib/pgbackrest/repo2-store
+repo2-cipher-type=aes-256-cbc
+repo2-cipher-pass=${REPO2_CIPHER_PASS}
+repo2-retention-full=5
+start-fast=y
+compress-type=zst
+process-max=2
+archive-async=y
+spool-path=/var/spool/pgbackrest
+log-level-console=info
+log-path=/var/log/pgbackrest
+
+[purrcare]
+pg1-path=${PGDATA}
+pg1-port=${PGPORT}

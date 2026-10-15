@@ -1,0 +1,6 @@
+# Shell scripts and SQL are executed inside Linux containers: always LF.
+*.sh text eol=lf
+*.sql text eol=lf
+*.template text eol=lf
+*.cron text eol=lf
+Dockerfile text eol=lf

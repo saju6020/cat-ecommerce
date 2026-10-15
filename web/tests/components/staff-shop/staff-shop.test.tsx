@@ -35,6 +35,7 @@ const SKU = (over: Partial<StaffSku> = {}): StaffSku => ({
   flavour: null,
   colour: null,
   packQuantity: null,
+  shippingWeightGrams: null,
   label: '2 kg',
   status: 'Active',
   currentPrice: { amount: '2450.00', currencyCode: 'BDT' },
@@ -327,6 +328,7 @@ describe('Forms start from the loaded values — HO-SHP-001-FU1 (backlog S1)', (
       <VariantsTable
         product={PRODUCT({ skus: [SKU({ sizeOrWeight: null, label: 'Royal Canin Kitten' })] })}
         onAddSku={vi.fn()}
+        onUpdateSku={vi.fn()}
         onSetStatus={vi.fn()}
         priceSkuId={null}
         onSelectPrices={() => {}}
@@ -373,6 +375,7 @@ describe('VariantsTable — US-SHP-02, ADR-FE-032', () => {
       <VariantsTable
         product={product}
         onAddSku={vi.fn()}
+        onUpdateSku={vi.fn()}
         onSetStatus={vi.fn()}
         priceSkuId={null}
         onSelectPrices={() => {}}
@@ -406,6 +409,7 @@ describe('VariantsTable — US-SHP-02, ADR-FE-032', () => {
       <VariantsTable
         product={PRODUCT()}
         onAddSku={vi.fn()}
+        onUpdateSku={vi.fn()}
         onSetStatus={vi.fn()}
         priceSkuId="sku-1"
         onSelectPrices={() => {}}
@@ -449,6 +453,7 @@ describe('VariantsTable — US-SHP-02, ADR-FE-032', () => {
       <VariantsTable
         product={PRODUCT()}
         onAddSku={vi.fn()}
+        onUpdateSku={vi.fn()}
         onSetStatus={vi.fn()}
         priceSkuId="sku-1"
         onSelectPrices={() => {}}

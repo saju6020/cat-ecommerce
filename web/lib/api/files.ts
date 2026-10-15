@@ -26,6 +26,39 @@ export type FilePurpose =
   | 'ReportExport'
   | 'CatProfilePhoto';
 
+/**
+ * `resolveFileUrl` -- the ONE place a signed file URL from an API response becomes something the
+ * browser can load (HO-FIL-002 §1 Amended 2026-10-09; FIL backlog 25). The API signs a path
+ * relative to ITS origin (`HmacFileUrlSigner`: `/api/files/{id}/content?exp=..&disp=..&sig=..`);
+ * left alone the browser would resolve it against the web origin and get a 404. Production GCS
+ * returns an absolute `https://` URL (ADR-318), which passes through untouched.
+ *
+ *  - exactly one leading `/` (not `//`)  -> anchored on the API base URL via `getApiUrl`
+ *  - absolute `http:` / `https:`         -> unchanged
+ *  - anything else (`//host`, `javascript:`, `data:`, `file:`, empty, null, relative without `/`)
+ *    -> `null`: unusable, the caller shows its plain "could not be loaded" state rather than
+ *    handing a protocol-relative or script URL to an `<img src>` or `<a href>`.
+ */
+export function resolveFileUrl(url: string | null | undefined): string | null {
+  if (!url) return null;
+  if (url.startsWith('//') || url.startsWith('/\\')) return null;
+  if (url.startsWith('/')) return getApiUrl(url);
+  try {
+    const parsed = new URL(url);
+    return parsed.protocol === 'https:' || parsed.protocol === 'http:' ? url : null;
+  } catch {
+    return null;
+  }
+}
+
+/** Maps a file view model read from an API response: `url` is resolved, or `''` when unusable
+ *  (components treat an empty `url` as "cannot be loaded" and render no link). */
+export function resolveStoredFile<T extends { url: string }>(file: T): T;
+export function resolveStoredFile<T extends { url: string }>(file: T | null): T | null;
+export function resolveStoredFile<T extends { url: string }>(file: T | null): T | null {
+  return file ? { ...file, url: resolveFileUrl(file.url) ?? '' } : null;
+}
+
 /** Which upload route a caller uses — `POST /api/staff/files` or `POST /api/customers/me/files`
  *  (HO-FIL-001 §12). The purpose-access check differs per route; this slice never guesses which
  *  one to call — the host names it. */
@@ -246,7 +279,7 @@ export function uploadFile({
       const status = xhr.status;
       if (status === 200 || status === 201) {
         try {
-          resolve(JSON.parse(xhr.responseText) as StoredFileViewModel);
+          resolve(resolveStoredFile(JSON.parse(xhr.responseText) as StoredFileViewModel));
         } catch {
           reject(new FileUploadNetworkError());
         }

@@ -28,6 +28,7 @@ public static partial class BusinessViolationCodes
     public const string PriceCannotBeBackdated = nameof(PriceCannotBeBackdated);
     public const string DuplicatePriceEffectiveDate = nameof(DuplicatePriceEffectiveDate);
     public const string TaxClassNotFound = nameof(TaxClassNotFound);
+    public const string DeliveryTaxClassRequired = nameof(DeliveryTaxClassRequired); // FU1 ORD-54: the DELIVERY tax class cannot be deactivated
     public const string UnknownSetting = nameof(UnknownSetting);
     public const string SettingNotBranchOverridable = nameof(SettingNotBranchOverridable);
     public const string InvalidSettingValue = nameof(InvalidSettingValue);

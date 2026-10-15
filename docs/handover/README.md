@@ -96,14 +96,15 @@ reached.
 | ADR-FE-099 … ADR-FE-108 | `HO-BRD-002` (all used) |
 | ADR-FE-109 … ADR-FE-118 | `HO-SUB-002` (109–114 used) |
 | ADR-FE-119 … ADR-FE-128 | `HO-POR-002` (119–126 used) |
-| ADR-FE-129 … ADR-FE-138 | `HO-RPT-002` (129–137 used) |
+| ADR-FE-129 … ADR-FE-138 | `HO-RPT-002` (129–138 used) |
 | ADR-FE-139 … ADR-FE-148 | `HO-XCT-002` (139–148 used) |
 | ADR-FE-149 … ADR-FE-158 | `HO-FIL-002` (all used) |
+| ADR-FE-170 … ADR-FE-172 | HO-ADM-002-FU1 (170–171 used) |
 
 A range is that handover's to spend. Unused numbers inside a range stay with it for later
 amendments; they are not handed to the next area. **ADR-317 … ADR-320** and **ADR-342** are
 cross-cutting decisions recorded in `.ai/decisions/adr.md` rather than in any one handover, because
-more than one area is bound by each. The next new area starts at **ADR-343** / **ADR-FE-164**.
+more than one area is bound by each. The next new area starts at **ADR-347** (ADR-344 to ADR-346 are HO-BIL-001 Phase J) / **ADR-FE-173** (ADR-FE-164 was used by the HO-CAT-002 photo follow-up; 170–172 are reserved by HO-ADM-002-FU1).
 
 ## Open conflicts between written handovers
 

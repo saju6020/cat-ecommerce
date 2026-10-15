@@ -28,15 +28,15 @@ public abstract class CatEcommerceApiFactory : WebApplicationFactory<Program>
     /// <summary>
     /// The "Testing" environment loads appsettings.json + appsettings.Testing.json (which does not
     /// exist) -- it does NOT load appsettings.Development.json, so the real connection string must
-    /// be supplied here explicitly. Defaults to the same local Postgres instance the Development
-    /// profile uses (not a secret -- local-only credentials), but is read from
+    /// be supplied here explicitly. Defaults to the shared catecommerce_test database on the local Postgres instance -- never
+    /// catecommerce_dev, whose rows the running app shows (Issues.md #2; local-only credentials). Read from
     /// <c>CATECOMMERCE_TEST_DB</c> first so a wave-B (or later) area branch can point its whole
     /// suite at its own database without editing this file -- see the README's "per-branch
     /// database" section.
     /// </summary>
     protected static string TestConnectionString { get; } =
         Environment.GetEnvironmentVariable("CATECOMMERCE_TEST_DB")
-        ?? "Host=localhost;Port=5432;Database=catecommerce_dev;Username=postgres;Password=postgres";
+        ?? "Host=localhost;Port=5432;Database=catecommerce_test;Username=postgres;Password=postgres";
 
     protected sealed override void ConfigureWebHost(IWebHostBuilder builder)
     {
@@ -46,7 +46,12 @@ public abstract class CatEcommerceApiFactory : WebApplicationFactory<Program>
         {
             var settings = new Dictionary<string, string?>
             {
-                ["ConnectionStrings:CatEcommerce"] = TestConnectionString
+                ["ConnectionStrings:CatEcommerce"] = TestConnectionString,
+                // The hosted order worker expires unpaid bank-transfer orders with THIS host's clock. Every area's tests share one database, and several move their clock
+                // forward, so an enabled worker here would expire other areas' fresh orders (HO-ORD-001). The Ordering tests drive OrderWorkCycle by hand.
+                ["Orders:Worker:Enabled"] = "false",
+                // The hosted Boarding worker would lapse, expire, confirm and invoice other areas' Boarding stays against the shared database with THIS host's clock; the Boarding tests drive BoardingWorkCycle by hand.
+                ["Boarding:Worker:Enabled"] = "false"
             };
             ConfigureAdditionalSettings(settings);
             configBuilder.AddInMemoryCollection(settings);

@@ -17,5 +17,7 @@ public sealed class AddSkuCommandValidator : AbstractValidator<AddSkuCommand>
         RuleFor(x => x.Colour).MaximumLength(ProductRules.ColourMaxLength);
         RuleFor(x => x.PackQuantity).InclusiveBetween(ProductRules.MinPackQuantity, ProductRules.MaxPackQuantity)
             .When(x => x.PackQuantity is not null);
+        RuleFor(x => x.ShippingWeightGrams).InclusiveBetween(ProductRules.MinShippingWeightGrams, ProductRules.MaxShippingWeightGrams)
+            .When(x => x.ShippingWeightGrams is not null);
     }
 }

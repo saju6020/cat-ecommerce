@@ -1,6 +1,7 @@
 using CatEcommerce.Application.Commands.Cat;
 using CatEcommerce.Application.DataMappers;
 using CatEcommerce.Domain.Aggregates.Cat;
+using CatEcommerce.Domain.DomainServices;
 using CatEcommerce.Domain.Exceptions;
 using CatEcommerce.Shared.Common.Constants;
 using Microsoft.Extensions.Logging;
@@ -13,7 +14,7 @@ namespace CatEcommerce.Application.CommandHandlers.Cat;
 public sealed class UpdateCatProfileCommandHandler(
     ILogger<UpdateCatProfileCommandHandler> logger,
     IAggregateRootRepository<CatAggregate> catRepository,
-    TimeProvider timeProvider)
+    ICatRecordClock clock)
     : ICommandHandlerAsync<UpdateCatProfileCommand>
 {
     public async Task<CommandResponse> HandleAsync(UpdateCatProfileCommand command)
@@ -24,7 +25,7 @@ public sealed class UpdateCatProfileCommandHandler(
             return Violation(BusinessViolationCodes.CatNotFound, nameof(command.CatId),
                 $"Cat '{command.CatId}' was not found.");
 
-        var today = DateOnly.FromDateTime(timeProvider.GetUtcNow().UtcDateTime);
+        var today = await clock.LocalTodayAsync(CancellationToken.None);
 
         try
         {

@@ -25,4 +25,6 @@ public sealed record NotificationRequestCreateDto(
     UserContext UserContext,
     Guid CorrelationId,
     DateTimeOffset? SendAfter = null,
-    string? SubjectStamp = null);
+    string? SubjectStamp = null,
+    NotificationAttachmentKind? AttachmentKind = null,
+    Guid? AttachmentId = null);

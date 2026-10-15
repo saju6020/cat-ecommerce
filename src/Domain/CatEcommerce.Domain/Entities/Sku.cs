@@ -19,6 +19,8 @@ public sealed partial class Sku
     public string? Flavour { get; private set; }
     public string? Colour { get; private set; }
     public int? PackQuantity { get; private set; }
+    /// <summary>Optional shipping weight in grams (owner decision 2026-10-09) -- feeds Ordering's per-zone weight bands.</summary>
+    public int? ShippingWeightGrams { get; private set; }
     public SkuStatus Status { get; private set; } = SkuStatus.Active;
 
     /// <summary>Derived display label -- the set axes joined with " · ", or the product name when
@@ -52,7 +54,7 @@ public sealed partial class Sku
 
     private Sku() { }
 
-    public Sku(Guid id, string code, string? barcode, string? sizeOrWeight, string? flavour, string? colour, int? packQuantity)
+    public Sku(Guid id, string code, string? barcode, string? sizeOrWeight, string? flavour, string? colour, int? packQuantity, int? shippingWeightGrams = null)
     {
         Id = id;
         SetCode(code);
@@ -61,11 +63,13 @@ public sealed partial class Sku
         Flavour = Trim(flavour);
         Colour = Trim(colour);
         PackQuantity = packQuantity;
+        SetShippingWeight(shippingWeightGrams);
         Status = SkuStatus.Active;
     }
 
-    public void UpdateAxes(string? sizeOrWeight, string? flavour, string? colour, int? packQuantity)
+    public void UpdateAxes(string? sizeOrWeight, string? flavour, string? colour, int? packQuantity, int? shippingWeightGrams = null)
     {
+        SetShippingWeight(shippingWeightGrams);
         SizeOrWeight = Trim(sizeOrWeight);
         Flavour = Trim(flavour);
         Colour = Trim(colour);
@@ -75,6 +79,15 @@ public sealed partial class Sku
     public void Discontinue() => Status = SkuStatus.Discontinued;
 
     public void Reactivate() => Status = SkuStatus.Active;
+
+    private void SetShippingWeight(int? grams)
+    {
+        if (grams is < ProductRules.MinShippingWeightGrams or > ProductRules.MaxShippingWeightGrams)
+            throw new DomainRuleViolationException(BusinessViolationCodes.InvalidShippingWeight,
+                $"Shipping weight must be between {ProductRules.MinShippingWeightGrams} and {ProductRules.MaxShippingWeightGrams} grams.", nameof(ShippingWeightGrams));
+
+        ShippingWeightGrams = grams;
+    }
 
     private void SetCode(string code)
     {

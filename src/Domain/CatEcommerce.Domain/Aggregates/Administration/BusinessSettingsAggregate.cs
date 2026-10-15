@@ -99,7 +99,11 @@ public sealed class BusinessSettingsAggregate : AggregateRoot
         if (definition.Type == SettingType.TimeRange)
         {
             var parts = value.Split('-');
-            return parts.Length == 2 && TimeOnly.TryParse(parts[0], CultureInfo.InvariantCulture, out _) && TimeOnly.TryParse(parts[1], CultureInfo.InvariantCulture, out _);
+            if (parts.Length != 2 || !TimeOnly.TryParse(parts[0], CultureInfo.InvariantCulture, out var start) || !TimeOnly.TryParse(parts[1], CultureInfo.InvariantCulture, out var end))
+                return false;
+
+            // HO-BRD-001 U-A9: a window that may not wrap midnight declares SettingBounds.StartBeforeEnd; quiet hours (which wrap) declare no bound.
+            return definition.Max != SettingBounds.StartBeforeEnd || start < end;
         }
 
         if (definition.Type == SettingType.CurrencyCode)

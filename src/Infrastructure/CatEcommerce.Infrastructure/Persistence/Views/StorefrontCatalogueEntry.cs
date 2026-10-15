@@ -5,7 +5,7 @@ namespace CatEcommerce.Infrastructure.Persistence.Views;
 /// <c>product.storefront_catalogue_entry</c> (<c>ToView</c>, keyless, section 12.1). One row per
 /// Active, listed product. Never migrated from the read side.
 ///
-/// <c>InStock</c> is computed here as "has an Active SKU with a current price" -- see
+/// <c>IsOnSale</c> (column <c>is_on_sale</c>, formerly <c>in_stock</c>) is computed here as "has an Active SKU with a current price" -- see
 /// HO-SHP-001.md section 1 Amended (2026-09-28): HO-IMP-001's <c>inventory.v_sellable_stock</c>
 /// does not exist in this worktree, so the view cannot join it yet. This is a documented,
 /// temporary approximation for the availability filter/sort only; every other column (price,
@@ -34,7 +34,8 @@ public sealed class StorefrontCatalogueEntry
     public decimal? MinPrice { get; init; }
     public decimal? MaxPrice { get; init; }
     public string? CurrencyCode { get; init; }
-    public bool InStock { get; init; }
+    /// <summary>"On sale": has an Active SKU with a price effective now (a bundle: its own SKU is on sale and every component is Active, listed and priced). It says NOTHING about stock -- renamed from <c>in_stock</c> in HO-SHP-001-FU2, when the interim price-derived stand-in for stock was replaced by <c>inventory.v_sku_sellable</c>; availability is read from Inventory.</summary>
+    public bool IsOnSale { get; init; }
     public decimal? RatingAverage { get; init; }
     public int RatingCount { get; init; }
     public int UnitsSold90d { get; init; }

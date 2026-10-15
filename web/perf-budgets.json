@@ -1,0 +1,5 @@
+{
+  "lcpMs": 2500,
+  "firstLoadJsKb": 170,
+  "routes": ["/", "/shop", "/shop/products/[slug]", "/cart", "/checkout", "/portal"]
+}

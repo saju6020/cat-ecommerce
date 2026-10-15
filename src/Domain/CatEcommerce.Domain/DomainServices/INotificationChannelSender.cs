@@ -19,6 +19,14 @@ public sealed record OutgoingMessage(
     string? Subject,
     string TextBody,
     string? HtmlBody,
-    IReadOnlyDictionary<string, string> Headers);
+    IReadOnlyDictionary<string, string> Headers,
+    IReadOnlyList<OutgoingAttachment>? Attachments = null)
+{
+    /// <summary>HO-RPT-001 section 11.7: the files the message carries, as MIME parts (HO-NTF-001 section 8.9 rule 7: never logged). Empty by default.</summary>
+    public IReadOnlyList<OutgoingAttachment> AttachmentList => Attachments ?? [];
+}
+
+/// <summary>A file attached to an outgoing email: loaded from its owner immediately before sending.</summary>
+public sealed record OutgoingAttachment(string FileName, string ContentType, byte[] Content);
 
 public sealed record SendOutcome(SendOutcomeKind Kind, string? ProviderMessageId, string? ProviderResponse);

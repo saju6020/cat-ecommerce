@@ -47,6 +47,13 @@ export interface NavItem {
    * `StaffShell`/`PortalHeader` (`components/common/`) read this with that same fallback.
    */
   audience?: 'staff' | 'portal' | 'both';
+  /**
+   * Optional role limit (HO-RPT-002, owner decision 2026-10-14): the staff roles that see this
+   * item. Omit for "every role" — today's behaviour for every other item. PRESENTATION ONLY: the
+   * server and the page's own refusal (`PermissionDeniedState`) remain the authority. While the
+   * session is still loading a role-limited item is not shown.
+   */
+  roles?: readonly string[];
 }
 
 export interface NavArea {

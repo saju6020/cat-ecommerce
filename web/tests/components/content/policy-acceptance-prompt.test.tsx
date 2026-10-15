@@ -17,9 +17,10 @@ function renderWithClient(children: React.ReactNode) {
   return render(<QueryClientProvider client={queryClient}>{children}</QueryClientProvider>);
 }
 
+// The real API's wire shape (`policyKey`), Issues.md #8.
 const PENDING = [
-  { key: 'terms', title: 'Terms of service', versionNumber: 2 },
-  { key: 'privacy', title: 'Privacy policy', versionNumber: 3 },
+  { policyKey: 'terms', title: 'Terms of service', versionNumber: 2 },
+  { policyKey: 'privacy', title: 'Privacy policy', versionNumber: 3 },
 ];
 
 describe('PolicyAcceptancePrompt — ⭐ HO-ADM-002 §11.6, OQ-2/OQ-3', () => {
@@ -27,7 +28,7 @@ describe('PolicyAcceptancePrompt — ⭐ HO-ADM-002 §11.6, OQ-2/OQ-3', () => {
     let accepted: string[] = [];
     server.use(
       http.get('*/api/customers/me/policy-acceptances/pending', () =>
-        HttpResponse.json(PENDING.filter((p) => !accepted.includes(p.key))),
+        HttpResponse.json(PENDING.filter((p) => !accepted.includes(p.policyKey))),
       ),
       http.post('*/api/customers/me/policy-acceptances', async ({ request }) => {
         const body = (await request.json()) as { policyKey: string };
@@ -92,5 +93,19 @@ describe('PolicyAcceptancePrompt — ⭐ HO-ADM-002 §11.6, OQ-2/OQ-3', () => {
     await user.click(within(dialog).getByRole('button', { name: /try again/i }));
     expect(await screen.findByText('Terms of service')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /^accept$/i })).toBeInTheDocument();
+  });
+
+  it('Issues.md #8: each policy shows its title and "Read the full text" opens that policy', async () => {
+    server.use(
+      http.get('*/api/customers/me/policy-acceptances/pending', () => HttpResponse.json(PENDING)),
+    );
+    renderWithClient(<PolicyAcceptancePrompt />);
+    const dialog = await screen.findByRole('dialog');
+    expect(within(dialog).getByText('Terms of service')).toBeInTheDocument();
+    const links = within(dialog).getAllByRole('link', { name: /read the full text/i });
+    expect(links.map((a) => a.getAttribute('href'))).toEqual([
+      '/policies/terms',
+      '/policies/privacy',
+    ]);
   });
 });

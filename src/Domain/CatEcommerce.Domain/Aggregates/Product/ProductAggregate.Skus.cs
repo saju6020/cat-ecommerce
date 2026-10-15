@@ -22,7 +22,7 @@ public sealed partial class ProductAggregate
         if (_skus.Count >= ProductRules.MaxSkus)
             throw new DomainRuleViolationException(BusinessViolationCodes.SkuLimitReached, $"A product may have at most {ProductRules.MaxSkus} SKUs.", nameof(dto.Code));
 
-        var sku = new Sku(dto.SkuId, dto.Code, dto.Barcode, dto.SizeOrWeight, dto.Flavour, dto.Colour, dto.PackQuantity);
+        var sku = new Sku(dto.SkuId, dto.Code, dto.Barcode, dto.SizeOrWeight, dto.Flavour, dto.Colour, dto.PackQuantity, dto.ShippingWeightGrams);
 
         // Row 32: the PricedSkus rule holds for as long as the product is Active, not only at publish. A new SKU
         // cannot be priced before it exists, so on an Active product it starts inactive (not sold, not shown, not
@@ -40,7 +40,7 @@ public sealed partial class ProductAggregate
     public void UpdateSku(SkuUpdateDto dto, UserContext userContext, Guid correlationId)
     {
         var sku = FindSkuOrThrow(dto.SkuId);
-        sku.UpdateAxes(dto.SizeOrWeight, dto.Flavour, dto.Colour, dto.PackQuantity);
+        sku.UpdateAxes(dto.SizeOrWeight, dto.Flavour, dto.Colour, dto.PackQuantity, dto.ShippingWeightGrams);
 
         ValidateVariantCombinations();
         RefreshSearchText();

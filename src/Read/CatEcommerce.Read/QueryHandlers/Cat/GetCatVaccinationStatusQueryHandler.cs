@@ -22,7 +22,8 @@ namespace CatEcommerce.Read.QueryHandlers.Cat;
 public sealed class GetCatVaccinationStatusQueryHandler(
     ILogger<GetCatVaccinationStatusQueryHandler> logger,
     CatEcommerceDbContext db,
-    IBusinessSettings settings)
+    IBusinessSettings settings,
+    ICatRecordClock clock)
     : IQueryHandlerAsync<GetCatVaccinationStatusQuery, CatVaccinationStatusViewModel?>
 {
     public async Task<QueryResponse<CatVaccinationStatusViewModel?>> HandleAsync(
@@ -49,7 +50,7 @@ public sealed class GetCatVaccinationStatusQueryHandler(
 
         var result = CatVaccinationStatusCalculator.Calculate(
             query.CatId, activeCoreVaccines, catVaccinations,
-            DateOnly.FromDateTime(DateTime.UtcNow), dueSoonWindowDays);
+            await clock.LocalTodayAsync(CancellationToken.None), dueSoonWindowDays);
 
         return new QueryResponse<CatVaccinationStatusViewModel?> { Result = result };
     }

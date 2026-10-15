@@ -26,6 +26,9 @@ public static class ProductRules
     public const int ColourMaxLength = 50;
     public const int MinPackQuantity = 1;
     public const int MaxPackQuantity = 999;
+    /// <summary>Owner decision 2026-10-09: optional shipping weight per SKU, grams; 1 g to 100 kg.</summary>
+    public const int MinShippingWeightGrams = 1;
+    public const int MaxShippingWeightGrams = 100_000;
 
     public const int AltTextMaxLength = 200;
     public const long MaxImageSizeInBytes = 5_242_880;

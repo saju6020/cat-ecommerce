@@ -19,7 +19,23 @@ public sealed class ConcurrencyExceptionFilter : IExceptionFilter
 {
     public void OnException(ExceptionContext context)
     {
-        if (context.Exception is not DbUpdateConcurrencyException) return;
+        // A save inside a nested in-process dispatch (a producer calling another area's command) arrives wrapped in a TargetInvocationException; the conflict is the same.
+        var exception = context.Exception;
+        while (exception is System.Reflection.TargetInvocationException { InnerException: { } inner }) exception = inner;
+
+        if (exception is not DbUpdateConcurrencyException) return;
+
+        // HO-ORD-001 §12.5: on the placement route a moved discount or cart counter means the quote the customer saw is stale.
+        if (context.ActionDescriptor.EndpointMetadata.OfType<ConflictAsQuoteChangedAttribute>().Any())
+        {
+            var validation = new Platform.Infrastructure.Core.Validation.ValidationResponse();
+            validation.AddError(
+                errorMessage: CatEcommerce.Shared.Common.Constants.OrderMessages.CheckoutQuoteChanged, propertyName: "QuoteFingerprint",
+                errorCode: CatEcommerce.Shared.Common.Constants.BusinessViolationCodes.CheckoutQuoteChanged, resourceName: "Order");
+            context.Result = new ConflictObjectResult(validation);
+            context.ExceptionHandled = true;
+            return;
+        }
 
         context.Result = new ConflictObjectResult(new
         {

@@ -136,6 +136,35 @@ export class ApiRateLimitedError extends ApiError {
 }
 
 /**
+ * HO-XCT-002 ADR-FE-143 — thrown by `apiFetch` BEFORE any request is made, for an unsafe method
+ * while the connectivity monitor says the server is unreachable. Offline is read-only and nothing
+ * is queued, so a refused write is a typed, immediate error the form can show without discarding
+ * what was typed (NFR-USA-5). `status` 0 matches the other "never reached a server" error.
+ */
+export class OfflineError extends ApiError {
+  constructor() {
+    super("You're offline, so this couldn't be saved. Your entries are still here.", 0);
+    this.name = 'OfflineError';
+  }
+}
+
+/**
+ * HO-XCT-002 ADR-FE-142 — the seam between this module and `lib/connectivity/monitor.ts`. The
+ * monitor registers itself here (the same direction as `setSessionErrorHandler`) so `client.ts`
+ * imports nothing from it: the monitor's ping goes through `apiFetch`, and a direct import would be
+ * a cycle. `isOffline()` is read before every unsafe request; `report()` receives every
+ * network-level failure and every response that reached the server.
+ */
+export interface ConnectivityReporter {
+  isOffline: () => boolean;
+  report: (outcome: 'reachable' | 'unreachable' | 'server-error') => void;
+}
+let connectivityReporter: ConnectivityReporter | null = null;
+export function setConnectivityReporter(reporter: ConnectivityReporter | null): void {
+  connectivityReporter = reporter;
+}
+
+/**
  * ARCH gate HIGH 2 (first pass) — this used to be ONE global handler, with `isStaff` guessed from
  * `path.startsWith('/api/staff')`. That guess is wrong for staff screens calling anything outside
  * that prefix (`/api/cats`, `/api/vaccines`, HO-ADM-002's `/api/admin/**`, and every future staff
@@ -237,11 +266,40 @@ export interface ApiRequestInit extends Omit<RequestInit, 'body'> {
    *  `GET /api/staff/session`) — a `401` there is the normal way of learning "not signed in", not
    *  a session that just failed, so it must not also invoke the global session-error handler. */
   skipSessionErrorHandling?: boolean;
+  /** HO-ORD-002 ADR-FE-097 — sets the `Idempotency-Key` header of a money-moving write (placement,
+   *  transfer confirmation, delivery, refund, counter sale). The caller owns the key's lifetime
+   *  (`useIdempotencyKey`); this client never generates, stores or replays one, and never retries. */
+  idempotencyKey?: string;
+  /** HO-XCT-002 — set by the connectivity monitor's own ping, so a ping failure is not reported
+   *  twice (the monitor already records it) and a ping is never refused as an "unsafe" write. */
+  skipConnectivityReport?: boolean;
+  /** HO-XCT-002 — receives the response headers of a `200`/`304`. Used by the offline snapshot to
+   *  read `ETag`. A cross-origin response only exposes the headers the API lists in
+   *  `Access-Control-Expose-Headers`; an unexposed header simply reads as `null`. */
+  onResponseHeaders?: (headers: Headers, status: number) => void;
 }
 
 export async function apiFetch<T>(path: string, init: ApiRequestInit = {}): Promise<T> {
-  const { body, headers, method, skipSessionErrorHandling, ...rest } = init;
+  const {
+    body,
+    headers,
+    method,
+    skipSessionErrorHandling,
+    idempotencyKey,
+    skipConnectivityReport,
+    onResponseHeaders,
+    ...rest
+  } = init;
   const httpMethod = (method ?? 'GET').toUpperCase();
+
+  // HO-XCT-002 ADR-FE-143 — offline is read-only: refuse before any fetch, queue nothing.
+  if (
+    !skipConnectivityReport &&
+    UNSAFE_METHODS.has(httpMethod) &&
+    connectivityReporter?.isOffline()
+  ) {
+    throw new OfflineError();
+  }
 
   const identityHeaders: Record<string, string> = {};
   if (UNSAFE_METHODS.has(httpMethod)) {
@@ -263,19 +321,33 @@ export async function apiFetch<T>(path: string, init: ApiRequestInit = {}): Prom
       headers: {
         Accept: 'application/json',
         ...(body !== undefined ? { 'Content-Type': 'application/json' } : {}),
+        ...(idempotencyKey ? { 'Idempotency-Key': idempotencyKey } : {}),
         ...headers,
         // Last, so a caller's headers can never override the CSRF/branch identity headers.
         ...identityHeaders,
       },
       body: body !== undefined ? JSON.stringify(body) : undefined,
     });
-  } catch {
+  } catch (caught) {
     // Network failure, CORS rejection, TLS/dev-cert failure (HO-CAT-002 §12.3/§12.4) — none of
     // these have a status code, and none should ever surface as a raw browser error message.
+    // A caller that aborts its own request (a navigation, a superseded search) says nothing about the
+    // server, so it is not reported: two aborts must not flip the app offline.
+    const aborted = (caught as { name?: string } | null)?.name === 'AbortError';
+    if (!skipConnectivityReport && !aborted) connectivityReporter?.report('unreachable');
     throw new ApiError('Could not reach the server. Please try again.', 0);
   }
 
+  if (!skipConnectivityReport) {
+    connectivityReporter?.report(response.status >= 500 ? 'server-error' : 'reachable');
+  }
   recordServerDate(response.headers.get('Date'));
+  if (response.status === 200 || response.status === 304) {
+    onResponseHeaders?.(response.headers, response.status);
+  }
+
+  // HO-XCT-002 — a conditional GET answered `304` has no body: nothing changed.
+  if (response.status === 304) return undefined as T;
 
   if (response.status === 200 || response.status === 201) {
     const contentLength = response.headers.get('content-length');
@@ -330,6 +402,29 @@ export async function apiFetch<T>(path: string, init: ApiRequestInit = {}): Prom
   }
 
   throw new ApiError('Something went wrong. Please try again.', response.status);
+}
+
+/**
+ * HO-XCT-002 ADR-FE-146 — the one telemetry send. Anonymous by construction: `credentials: 'omit'`
+ * (no cookie, so no CSRF check applies and nothing links a sample to a person), no `X-CSRF-Token`,
+ * no `X-Branch-Id`, `keepalive` so it survives a page hide. `text/plain` keeps it a CORS "simple
+ * request" (no preflight), exactly like a beacon; the API parses JSON either way (HO-XCT-001
+ * section 12.4). Never throws and never reports to the connectivity monitor: telemetry must not
+ * change what a person sees.
+ */
+export async function sendTelemetry(path: string, payload: unknown): Promise<boolean> {
+  try {
+    const response = await fetch(`${resolveBaseUrl()}${path}`, {
+      method: 'POST',
+      credentials: 'omit',
+      keepalive: true,
+      headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+      body: JSON.stringify(payload),
+    });
+    return response.ok;
+  } catch {
+    return false;
+  }
 }
 
 /**

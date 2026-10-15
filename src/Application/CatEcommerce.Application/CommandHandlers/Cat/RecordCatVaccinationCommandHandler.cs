@@ -3,6 +3,7 @@ using CatEcommerce.Application.DataMappers;
 using CatEcommerce.Domain.Aggregates.Account;
 using CatEcommerce.Domain.Aggregates.Cat;
 using CatEcommerce.Domain.Aggregates.Vaccination;
+using CatEcommerce.Domain.DomainServices;
 using CatEcommerce.Domain.Exceptions;
 using CatEcommerce.Shared.Common.Constants;
 using Microsoft.Extensions.Logging;
@@ -23,7 +24,7 @@ public sealed class RecordCatVaccinationCommandHandler(
     IAggregateRootRepository<CatAggregate> catRepository,
     IAggregateRootRepository<VaccineAggregate> vaccineRepository,
     IAggregateRootRepository<StaffAccountAggregate> staffAccountRepository,
-    TimeProvider timeProvider)
+    ICatRecordClock clock)
     : ICommandHandlerAsync<RecordCatVaccinationCommand>
 {
     public async Task<CommandResponse> HandleAsync(RecordCatVaccinationCommand command)
@@ -56,7 +57,7 @@ public sealed class RecordCatVaccinationCommandHandler(
         try
         {
             // IsCore + ValidityMonths travel in the DTO; the AGGREGATE computes NextDueOn.
-            var today = DateOnly.FromDateTime(timeProvider.GetUtcNow().UtcDateTime);
+            var today = await clock.LocalTodayAsync(CancellationToken.None);
             cat.RecordVaccination(command.ToDomainDto(vaccine, today));
         }
         catch (DomainRuleViolationException ex)

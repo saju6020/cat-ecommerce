@@ -89,8 +89,9 @@ public sealed partial class ShopBacklogFixesEndpointTests
         }
     }
 
+    // HO-XCT-001 ADR-299: stock_alert rows are retained (Forbidden), so leftovers are CLOSED, which takes them out of the Pending queue the read paginates.
     private Task DeleteStarveAlertsAsync() => ExecuteSqlAsync(
-        $"DELETE FROM product.stock_alert WHERE sku_id IN (SELECT s.\"Id\" FROM product.sku s JOIN product.product p ON p.\"Id\" = s.product_id WHERE p.brand LIKE 'Starve-%')");
+        $"UPDATE product.stock_alert SET status = 3, closure_reason = 1 WHERE status = 1 AND sku_id IN (SELECT s.\"Id\" FROM product.sku s JOIN product.product p ON p.\"Id\" = s.product_id WHERE p.brand LIKE 'Starve-%')");
 
     private async Task StarvationScenarioAsync()
     {

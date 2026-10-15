@@ -1,0 +1,40 @@
+GATE: CODE_REVIEW
+HANDOVER: HO-RPT-001
+COMMITS: b12fd39d..425f0939 (13 commits, head 425f0939)
+DATE: 2026-10-13
+STATUS: PASS
+
+Verified: Domain.Tests filtered to Report* -- 70 passed. Integration/Application suites not run (shared catecommerce_rpt; no BLOCKER/HIGH needed them).
+Checked and found correct: revenue/margin (credit notes netted on their own date, return cost on the return date, partly costed lines treated as uncosted, per-currency groups), tax summary (credit notes negative), refunds report, payment reconciliation (four launch methods), ReportPeriodResolver and ReportScheduleCalculator (Asia/Dhaka local dates, Monday weeks, DST skip/ambiguity), LatestDueSlot + RecordRunCompleted (missed slots collapse to the latest; advance is idempotent), slot uniqueness via partial unique index ix_scheduled_report_run_slot (loser discards file, no second email), CSV (BOM, CRLF, ADR-051 guard, numbers unguarded), PDF, deferred boarding tiles/reports absent, controllers on IInMemoryDispatcher, no superseded-architecture types.
+
+FINDINGS
+- [MEDIUM] src/Infrastructure/CatEcommerce.Infrastructure/Persistence/ReportingViews/Sql/rv_customer_activity.v1.sql:12 and src/Read/CatEcommerce.Read/QueryHandlers/Reporting/Sources/FinancialReportSources.cs (ReceivablesAgeingSource.CustomerOf) -- merged-customer resolution follows ONE hop (COALESCE(merged_into_customer_id, customer_id)). CustomerAccountAggregate lets a survivor that was Active at merge time be merged later (A -> B, then B -> C), so A's invoices resolve to B while B's resolve to C: the same person is counted twice in R18/R19/R20 and shown under two names in R15. Resolve the chain (recursive CTE in the view; loop in CustomerOf) and add a chain test.
+- [MEDIUM] src/Application/CatEcommerce.Application/CommandHandlers/Reporting/ReportScheduleSupport.cs:CheckRecipientsAsync and src/Infrastructure/CatEcommerce.Infrastructure/Notifications/Guards/ScheduledReportGuard.cs -- an all-branches schedule (BranchId null) does not require recipients to hold a cross-branch role, and the delivery guard rechecks only the category/restricted actions, not branch assignment or the cross-branch right. A one-branch manager can be emailed all-branch data they could not open on screen, contrary to ADR-288 ("nobody receives what they could not open"). Handover section 11.4 C2 states only the three recipient rules, so this is a spec gap. Require CanUseAllBranches for recipients when BranchId is null and recheck assignment/cross-branch in the guard.
+- [MEDIUM] src/Read/CatEcommerce.Read/QueryHandlers/Reporting/Dashboard/DashboardTileSources.cs:RevenueTodayByLineTile -- the Boarding figure prints 0 when there is no boarding revenue, but HO-BRD-001 is not merged, so the source is deferred. Deferred sources must be absent, not zero (handover U-E4). Omit the Boarding figure until HO-BRD-001 merges.
+- [MEDIUM] tests/CatEcommerce.IntegrationTests/ReportingApiFactory.cs:21-24 -- the guard only rejects connection strings containing "catecommerce_test", although its message says dev is rejected too; a null CATECOMMERCE_TEST_DB throws NullReferenceException (connection!). ScheduleTestBase.RetireOtherSchedulesAsync cancels EVERY non-cancelled schedule in the target database, so a run pointed at catecommerce_dev destroys real schedules. Reject dev, require the per-branch database name, and throw a clear error when the variable is unset.
+- [LOW] src/Application/CatEcommerce.Application/CommandHandlers/Reporting/ScheduledReportRunCommandHandlers.cs:215-216 and :126, ReportScheduleSupport.cs:54 -- "today" taken from now.UtcDateTime: the failed-run fallback period, the parameter-validation dates and the file RetainUntil are UTC dates, not branch-local (6 hours off between 18:00 and 24:00 UTC). Use the schedule's zone (ReportPeriodResolver.LocalDate).
+- [LOW] src/Read/CatEcommerce.Read/QueryHandlers/Reporting/IReportSource.cs:ReportMath.Money -- rounds half to even, whereas InvoiceCalculator.Round (the invoice money rule) rounds away from zero; totals are summed from unrounded values, so a total can differ by a cent from the sum of its displayed rows, and the CSV "0.00" format rounds away from zero while the JSON path rounds to even. Align on one mode; round before summing.
+- [LOW] src/Read/CatEcommerce.Read/QueryHandlers/Reporting/Sources/GrowthReportSources.cs (FirstInvoiceAsync) -- "first invoice ever" is taken within the report's branch scope, so a customer who is returning at another branch counts as "new" in a single-branch R18/R20. Documented as branch-of-transaction, but add a note on the report.
+- [LOW] src/Read/CatEcommerce.Read/QueryHandlers/Reporting/Sources/GrowthReportBuilders.cs:LifetimeValueBuilder -- the clinic/shop/boarding shares leave out the Other line, so they can sum below 100 %; add an "other" share or a note.
+- [LOW] src/Api/CatEcommerce.Api/Background/ScheduledReportRunner.cs:FailAsync -- a failing slot is retried on every worker poll with no back-off, so all three attempts can burn in about three polls and a transient fault gets no time to clear. Consider a minimum interval between attempts of one slot.
+- [LOW] src/Infrastructure/CatEcommerce.Infrastructure/Reporting/QuestPdfReportRenderer.cs (constructor) -- instantiates QuestPdfCatMedicalHistoryRenderer only for its font-registration side effect; extract the shared registration instead.
+- [LOW] tests/CatEcommerce.IntegrationTests/Endpoints/BillingTestGateDatabaseTests.cs:XI_6 (not changed in this diff) -- `tested.Count >= 10` fails on an empty database (pre-existing; the RPT suite passes only because earlier tests populate billing). Seed what it needs or skip with a message when fewer than 10 billing tables hold a row.
+- [LOW] tests -- ReportSchedulePeriods.IsCompatible has no direct unit test (covered only through the aggregate's violations in ReportScheduleDomainTests); add a Theory over the kind x period matrix. No time-bomb tests found: pure tests inject their own instants; endpoint tests use the fake clock (EnsureDaytime is relative to Factory.Clock, 09:00-11:00 Dhaka, not wall time; I_G10 finds the next London clock change from the fake now).
+
+PROPOSED docs/backlog/RPT.md ROWS (next free number 28)
+| 28 | MEDIUM | rv_customer_activity / ReceivablesAgeingSource | Merged-customer resolution is one hop; a chain A->B->C double counts in R15/R18-R20. | CODE_REVIEW |
+| 29 | MEDIUM | ReportScheduleSupport.CheckRecipientsAsync / ScheduledReportGuard | All-branches schedule: recipients need no cross-branch role; guard does not recheck branch rights (ADR-288). | CODE_REVIEW |
+| 30 | MEDIUM | RevenueTodayByLineTile | Boarding figure is 0, not absent, while HO-BRD-001 is unmerged. | CODE_REVIEW |
+| 31 | MEDIUM | ReportingApiFactory | DB-name guard does not block catecommerce_dev; null env var NRE; RetireOtherSchedulesAsync cancels all schedules. | CODE_REVIEW |
+| 32 | LOW | ScheduledReportRunCommandHandlers / ReportScheduleSupport | UTC "today" for failed-run period, parameter validation and RetainUntil. | CODE_REVIEW |
+| 33 | LOW | ReportMath.Money / ReportCsvWriter | Rounding half-even vs away-from-zero; totals summed unrounded. | CODE_REVIEW |
+| 34 | LOW | GrowthReportSources | First invoice ever is branch-scoped: a cross-branch returning customer is "new". | CODE_REVIEW |
+| 35 | LOW | LifetimeValueBuilder | Line shares exclude Other and may sum below 100 %. | CODE_REVIEW |
+| 36 | LOW | ScheduledReportRunner.FailAsync | Three attempts per slot with no back-off. | CODE_REVIEW |
+| 37 | LOW | QuestPdfReportRenderer ctor | Constructs another renderer for its font-registration side effect. | CODE_REVIEW |
+| 38 | LOW | BillingTestGateDatabaseTests XI_6 | Fails on an empty database (tested.Count >= 10); pre-existing. | CODE_REVIEW |
+| 39 | LOW | tests | No direct unit test of ReportSchedulePeriods.IsCompatible. | CODE_REVIEW |
+
+SCOPE CHECK
+- files in allowed scope: all reviewed Reporting files; shared edits limited to the HO-NTF-001 attachment amendment, HO-ADM-001/HO-ACC-001 Amended rows and .ai/decisions/adr.md (declared in handover section 1)
+- files outside allowed scope: none found

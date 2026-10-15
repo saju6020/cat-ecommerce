@@ -1,4 +1,5 @@
 import { apiFetch, getApiUrl } from './client';
+import { resolveFileUrl } from './files';
 
 /**
  * Cat Profiles domain types and endpoint functions — HO-CAT-002 §11.1/§11.2, mirroring
@@ -58,12 +59,19 @@ export interface Medication {
   endsOn: string | null;
 }
 
+/**
+ * `GET /api/cats/{catId}` `photos[]` — `CatPhotoViewModel` (HO-CAT-002 §1 Amended 2026-09-27, by
+ * HO-FIL-001). `url` is a short-lived signed link (valid until `urlExpiresOn`); there is no
+ * `storageKey` any more — the browser never sees or supplies one.
+ */
 export interface CatPhoto {
   id: string;
-  storageKey: string;
+  fileId: string;
+  url: string;
   contentType: string;
   sizeInBytes: number;
-  fileName: string;
+  originalFileName: string;
+  urlExpiresOn: string; // DateTimeOffset, ISO
   isPrimary: boolean;
   uploadedOn: string; // DateTimeOffset, ISO
 }
@@ -189,7 +197,12 @@ export async function getCats(params: GetCatsParams = {}): Promise<PagedResult<C
 }
 
 export async function getCat(catId: string): Promise<CatProfile> {
-  return apiFetch<CatProfile>(`${catPath(catId)}`);
+  const cat = await apiFetch<CatProfile>(`${catPath(catId)}`);
+  // Photo `url` is signed relative to the API origin -- anchor it (FIL backlog 25).
+  return {
+    ...cat,
+    photos: cat.photos.map((photo) => ({ ...photo, url: resolveFileUrl(photo.url) ?? '' })),
+  };
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -297,14 +310,14 @@ export async function updateCatMedicalProfile(
 }
 
 // ---------------------------------------------------------------------------------------------
-// POST /api/cats/{catId}/photos — C6, US-CAT-01 AC3 (HO-CAT-002 §11.6/§20.4 — metadata only)
+// POST /api/cats/{catId}/photos — C6, US-CAT-01 AC3 (HO-CAT-002 §1 Amended 2026-09-27, by HO-FIL-001)
+// Upload first (`POST /api/staff/files?purpose=CatProfilePhoto`, via `<FileUploader>`), then attach
+// the returned `fileId` here within 30 minutes. The server reads type/size/name from the verified
+// file — the browser never supplies them.
 // ---------------------------------------------------------------------------------------------
 
 export interface AddCatPhotoRequest {
-  storageKey: string;
-  contentType: string;
-  sizeInBytes: number;
-  fileName: string;
+  fileId: string;
   isPrimary: boolean;
 }
 

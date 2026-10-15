@@ -104,4 +104,22 @@ public sealed class FakeStockLedgerTests
         Assert.True(result.IsSuccess);
         Assert.Empty(result.Value!);
     }
+
+    [Fact]
+    public async Task GetDispensaryBatchesAsync_succeeds_with_no_batches()
+    {
+        var result = await _sut.GetDispensaryBatchesAsync(Guid.NewGuid(), [Guid.NewGuid()], CancellationToken.None);
+
+        Assert.True(result.IsSuccess);
+        Assert.Empty(result.Value!);
+    }
+
+    [Fact]
+    public async Task GetClinicDispensaryAsync_fails_closed_because_no_dispensary_exists_yet()
+    {
+        var result = await _sut.GetClinicDispensaryAsync(Guid.NewGuid(), CancellationToken.None);
+
+        Assert.False(result.IsSuccess);
+        Assert.Equal("DispensaryNotFound", result.ViolationCode);
+    }
 }

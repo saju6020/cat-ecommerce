@@ -1,0 +1,29 @@
+# HO-XCT-001 section 12.8 -- rendered with envsubst at container start. NO secret is stored here: every ${VAR} is injected from the secret store (NFR-SEC-7).
+[global]
+# repo1: local posix repository (fast restore). repo2: off-site S3-compatible object storage, encrypted client-side (a stolen bucket is unreadable).
+repo1-type=posix
+repo1-path=/var/lib/pgbackrest
+repo1-retention-full=5
+repo2-type=s3
+repo2-path=/purrcare
+repo2-s3-endpoint=${REPO2_S3_ENDPOINT}
+repo2-s3-bucket=${REPO2_S3_BUCKET}
+repo2-s3-region=${REPO2_S3_REGION}
+repo2-s3-key=${REPO2_S3_KEY}
+repo2-s3-key-secret=${REPO2_S3_KEY_SECRET}
+repo2-storage-verify-tls=${REPO2_S3_VERIFY_TLS}
+repo2-s3-uri-style=${REPO2_S3_URI_STYLE}
+repo2-cipher-type=aes-256-cbc
+repo2-cipher-pass=${REPO2_CIPHER_PASS}
+repo2-retention-full=5
+start-fast=y
+compress-type=zst
+process-max=2
+archive-async=y
+spool-path=/var/spool/pgbackrest
+log-level-console=info
+log-path=/var/log/pgbackrest
+
+[purrcare]
+pg1-path=${PGDATA}
+pg1-port=${PGPORT}

@@ -39,6 +39,11 @@ public sealed class NotificationAggregate : AggregateRoot
     /// <summary>HO-APT-001 §8.9 amendment -- carried from the request so the send-time guard can
     /// be re-checked immediately before each delivery attempt, not only at expansion (§8.7).</summary>
     public string? SubjectStamp { get; private set; }
+
+    /// <summary>HO-RPT-001 section 11.7 (HO-NTF-001 amendment): a file the message carries, by reference, loaded immediately before sending (Email only). No attachment bytes ever enter notify.*.</summary>
+    public NotificationAttachmentKind? AttachmentKind { get; private set; }
+
+    public Guid? AttachmentId { get; private set; }
     public Guid? BranchId { get; private set; }
     public NotificationChannel Channel { get; private set; } = default!;
     public string? Destination { get; private set; }
@@ -142,6 +147,8 @@ public sealed class NotificationAggregate : AggregateRoot
         SubjectRef = dto.SubjectRef;
         SubjectDueOn = dto.SubjectDueOn;
         SubjectStamp = dto.SubjectStamp;
+        AttachmentKind = dto.AttachmentKind;
+        AttachmentId = dto.AttachmentId;
         BranchId = dto.BranchId;
         Subject = dto.Subject;
         Title = dto.Title;
@@ -287,6 +294,23 @@ public sealed class NotificationAggregate : AggregateRoot
     /// </summary>
     public void Redact(NotificationRedactionReason reason, DateTimeOffset now)
     {
+        if (reason == NotificationRedactionReason.Retention)
+        {
+            // HO-XCT-001 section 5.3 / ADR-305: content is redacted retention.notificationContentMonths after creation, like an anonymisation it also nulls
+            // the destination and the unsubscribe link, but it is NOT an anonymisation (the recipient still exists) and never overrides one. Metadata (channel,
+            // template, status, timestamps, recipient id) is kept. Idempotent.
+            if (AnonymisedOn is not null || RedactedReason == NotificationRedactionReason.Retention) return;
+
+            RedactBodyFieldsIfNotAlready();
+            Destination = null;
+            UnsubscribeLink = null;
+
+            RedactedOn ??= now;
+            RedactedReason = NotificationRedactionReason.Retention;
+            UpdateVersion();
+            return;
+        }
+
         if (reason == NotificationRedactionReason.Anonymisation)
         {
             if (AnonymisedOn is not null) return;

@@ -44,8 +44,17 @@ test.describe('catalogue back office (US-SHP-01…03)', () => {
     const addDialog = page.getByRole('dialog', { name: 'Add SKU' });
     await addDialog.getByLabel('SKU code').fill(`E2E-${stamp}`);
     await addDialog.getByLabel('Size or weight').fill('1 kg');
+    await addDialog.getByLabel(/Shipping weight/).fill('500');
     await addDialog.getByRole('button', { name: 'Add SKU' }).click();
     await expect(page.getByRole('rowheader', { name: new RegExp(`E2E-${stamp}`) })).toBeVisible();
+    // HO-SHP-001-FU3: the weight shows, is prefilled on Edit and survives a save (not cleared).
+    await expect(page.getByRole('cell', { name: '500 g' })).toBeVisible();
+    await page.getByRole('button', { name: `Edit E2E-${stamp}` }).click();
+    const editDialog = page.getByRole('dialog', { name: `Edit SKU E2E-${stamp}` });
+    await expect(editDialog.getByLabel(/Shipping weight/)).toHaveValue('500');
+    await editDialog.getByRole('button', { name: 'Save SKU' }).click();
+    await expect(editDialog).toBeHidden();
+    await expect(page.getByRole('cell', { name: '500 g' })).toBeVisible();
     await page.getByRole('button', { name: `Prices for E2E-${stamp}` }).click();
     await page.getByRole('button', { name: 'Schedule a new price' }).click();
     const priceDialog = page.getByRole('dialog', { name: 'Schedule a new price' });

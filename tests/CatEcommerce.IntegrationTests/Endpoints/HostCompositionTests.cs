@@ -85,7 +85,7 @@ public sealed class HostCompositionTests(AccountsApiFactory factory) : AccountsI
             {
                 configBuilder.AddInMemoryCollection(new Dictionary<string, string?>
                 {
-                    ["ConnectionStrings:CatEcommerce"] = "Host=localhost;Port=5432;Database=catecommerce_dev;Username=postgres;Password=postgres",
+                    ["ConnectionStrings:CatEcommerce"] = "Host=localhost;Port=5432;Database=catecommerce_test;Username=postgres;Password=postgres",
                     ["PublicSite:WebBaseUrl"] = "https://portal.example.com",
                     ["Notifications:ApiBaseUrl"] = "https://api.example.com",
                     [offendingKey] = offendingValue,
@@ -159,7 +159,7 @@ public sealed class HostCompositionTests(AccountsApiFactory factory) : AccountsI
             {
                 configBuilder.AddInMemoryCollection(new Dictionary<string, string?>
                 {
-                    ["ConnectionStrings:CatEcommerce"] = "Host=localhost;Port=5432;Database=catecommerce_dev;Username=postgres;Password=postgres",
+                    ["ConnectionStrings:CatEcommerce"] = "Host=localhost;Port=5432;Database=catecommerce_test;Username=postgres;Password=postgres",
                     ["Captcha:TestAnswer"] = "",
                     ["DevUser:Enabled"] = "false",
                     // HO-NTF-001 gate fix (2026-09-27): see the sibling Production case below for why.
@@ -185,7 +185,7 @@ public sealed class HostCompositionTests(AccountsApiFactory factory) : AccountsI
             {
                 configBuilder.AddInMemoryCollection(new Dictionary<string, string?>
                 {
-                    ["ConnectionStrings:CatEcommerce"] = "Host=localhost;Port=5432;Database=catecommerce_dev;Username=postgres;Password=postgres",
+                    ["ConnectionStrings:CatEcommerce"] = "Host=localhost;Port=5432;Database=catecommerce_test;Username=postgres;Password=postgres",
                     ["Captcha:TestAnswer"] = "",
                     ["DevUser:Enabled"] = "false",
                     // HO-NTF-001 gate fix (2026-09-27): pinned so NotificationOptions' own

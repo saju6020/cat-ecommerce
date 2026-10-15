@@ -52,6 +52,18 @@ public static class FilePurposeAccess
             // fail-closed policy refused every staff role -- a product image could not be uploaded
             // in the real host. Same action that governs the product write that attaches it.
             [FilePurpose.ProductImage] = Actions.Shop.ProductsManage,
+
+            // HO-EMR-001 (2026-10-07): the three clinical purposes HO-FIL-001 pre-declared. A lab file or a
+            // clinical photo is uploaded by the vet who will attach it; a signed consent form by whoever
+            // captures the consent (Reception, Nurse, Vet, Administrator). Customers upload none of them.
+            [FilePurpose.LabResult] = Actions.Visits.WriteNote,
+            [FilePurpose.ClinicalPhoto] = Actions.Visits.WriteNote,
+            [FilePurpose.ConsentForm] = Actions.Consents.Record,
+
+            // HO-BRD-001 (2026-10-14, found writing I-F7): the two boarding purposes HO-FIL-001 pre-declared had no mapping, so the fail-closed policy refused every staff role.
+            // A diary photo is uploaded by whoever records care; a belongings photo by whoever checks the cat in.
+            [FilePurpose.BoardingMedia] = Actions.Boarding.RecordCare,
+            [FilePurpose.BoardingBelongings] = Actions.Boarding.CheckInOut,
         };
 
     private static readonly IReadOnlySet<FilePurpose> CustomerPurposes = new HashSet<FilePurpose>

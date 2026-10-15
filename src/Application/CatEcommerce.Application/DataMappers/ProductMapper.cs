@@ -21,10 +21,10 @@ public static class ProductMapper
             healthFocus, command.UserContext, command.CorrelationId);
 
     public static SkuAddDto ToDomainDto(this AddSkuCommand command) =>
-        new(command.SkuId, command.Code, command.Barcode, command.SizeOrWeight, command.Flavour, command.Colour, command.PackQuantity);
+        new(command.SkuId, command.Code, command.Barcode, command.SizeOrWeight, command.Flavour, command.Colour, command.PackQuantity, command.ShippingWeightGrams);
 
     public static SkuUpdateDto ToDomainDto(this UpdateSkuCommand command) =>
-        new(command.SkuId, command.SizeOrWeight, command.Flavour, command.Colour, command.PackQuantity);
+        new(command.SkuId, command.SizeOrWeight, command.Flavour, command.Colour, command.PackQuantity, command.ShippingWeightGrams);
 
     public static IReadOnlyList<ProductImageInputDto> ToDomainDto(this SetProductImagesCommand command) =>
         command.Images.Select(i => new ProductImageInputDto(i.ImageId, i.SkuId, i.FileId, i.AltText, i.SortOrder, i.IsPrimary)).ToList();

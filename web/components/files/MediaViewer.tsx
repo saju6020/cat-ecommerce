@@ -111,7 +111,7 @@ export function MediaViewer({ open, onOpenChange, file, caption, onRefresh }: Me
           <DialogTitle>{caption}</DialogTitle>
         </DialogHeader>
 
-        {failed ? (
+        {failed || !current.url ? (
           <p className="py-10 text-center text-sm text-ink-muted">{EXPIRED_MESSAGE}</p>
         ) : current.contentType === 'application/pdf' ? (
           // No `sandbox` here (SECURITY gate LOW) — Chromium refuses to render a PDF inside a

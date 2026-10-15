@@ -16,7 +16,7 @@ public sealed class CommandValidatorsTests
     [Fact]
     public void RegisterCatCommandValidator_EmptyName_FailsOnName()
     {
-        var result = new RegisterCatCommandValidator().Validate(new RegisterCatCommand
+        var result = new RegisterCatCommandValidator(new Microsoft.Extensions.Time.Testing.FakeTimeProvider(DateTimeOffset.UtcNow)).Validate(new RegisterCatCommand
         {
             CatId = Guid.NewGuid(), OwnerId = Guid.NewGuid(), Name = "", Species = "Cat",
             Sex = CatSex.Female, DateOfBirth = Today, DateOfBirthPrecision = DateOfBirthPrecision.Exact,
@@ -30,7 +30,7 @@ public sealed class CommandValidatorsTests
     [Fact]
     public void RecordCatNeuterStatusCommandValidator_NeuteredWithNoDate_FailsOnNeuteredOn()
     {
-        var result = new RecordCatNeuterStatusCommandValidator().Validate(new RecordCatNeuterStatusCommand
+        var result = new RecordCatNeuterStatusCommandValidator(new Microsoft.Extensions.Time.Testing.FakeTimeProvider(DateTimeOffset.UtcNow)).Validate(new RecordCatNeuterStatusCommand
         {
             CatId = Guid.NewGuid(), NeuterStatus = NeuterStatus.Neutered, NeuteredOn = null,
             UserContext = TestUserContext.Create(), CorrelationId = Guid.NewGuid()
@@ -43,7 +43,7 @@ public sealed class CommandValidatorsTests
     [Fact]
     public void RecordCatWeightCommandValidator_OutOfRangeKilograms_FailsOnKilograms()
     {
-        var result = new RecordCatWeightCommandValidator().Validate(new RecordCatWeightCommand
+        var result = new RecordCatWeightCommandValidator(new Microsoft.Extensions.Time.Testing.FakeTimeProvider(DateTimeOffset.UtcNow)).Validate(new RecordCatWeightCommand
         {
             WeightRecordId = Guid.NewGuid(), CatId = Guid.NewGuid(), Kilograms = 0m,
             RecordedOn = Today, RecordedByStaffId = Guid.NewGuid(),
@@ -157,11 +157,11 @@ public sealed class CommandValidatorsTests
     [Fact]
     public void RecordCatVaccinationCommandValidator_FutureDate_FailsOnAdministeredOn()
     {
-        var result = new RecordCatVaccinationCommandValidator().Validate(new RecordCatVaccinationCommand
+        var result = new RecordCatVaccinationCommandValidator(new Microsoft.Extensions.Time.Testing.FakeTimeProvider(DateTimeOffset.UtcNow)).Validate(new RecordCatVaccinationCommand
         {
             CatId = Guid.NewGuid(), VaccinationId = Guid.NewGuid(), VaccineId = Guid.NewGuid(),
             BatchReference = "BATCH-1", BatchExpiresOn = Today.AddMonths(6),
-            AdministeredOn = Today.AddDays(1), AdministeredByVetId = Guid.NewGuid(),
+            AdministeredOn = Today.AddDays(2), AdministeredByVetId = Guid.NewGuid(),
             UserContext = TestUserContext.Create(), CorrelationId = Guid.NewGuid()
         });
 
@@ -172,7 +172,7 @@ public sealed class CommandValidatorsTests
     [Fact]
     public void RecordCatParasiteTreatmentCommandValidator_IntervalDaysOutOfRange_FailsOnIntervalDays()
     {
-        var result = new RecordCatParasiteTreatmentCommandValidator().Validate(new RecordCatParasiteTreatmentCommand
+        var result = new RecordCatParasiteTreatmentCommandValidator(new Microsoft.Extensions.Time.Testing.FakeTimeProvider(DateTimeOffset.UtcNow)).Validate(new RecordCatParasiteTreatmentCommand
         {
             CatId = Guid.NewGuid(), TreatmentId = Guid.NewGuid(),
             TreatmentType = ParasiteTreatmentType.Deworming, ProductName = "Product",
@@ -188,9 +188,9 @@ public sealed class CommandValidatorsTests
     [Fact]
     public void MarkCatDeceasedCommandValidator_FutureDate_FailsOnDeceasedOn()
     {
-        var result = new MarkCatDeceasedCommandValidator().Validate(new MarkCatDeceasedCommand
+        var result = new MarkCatDeceasedCommandValidator(new Microsoft.Extensions.Time.Testing.FakeTimeProvider(DateTimeOffset.UtcNow)).Validate(new MarkCatDeceasedCommand
         {
-            CatId = Guid.NewGuid(), DeceasedOn = Today.AddDays(1),
+            CatId = Guid.NewGuid(), DeceasedOn = Today.AddDays(2),
             UserContext = TestUserContext.Create(), CorrelationId = Guid.NewGuid()
         });
 
@@ -371,7 +371,7 @@ public sealed class CommandValidatorsTests
     [Fact]
     public void UpdateCatProfileCommandValidator_ExactPrecisionWithNoDate_FailsOnDateOfBirth()
     {
-        var result = new UpdateCatProfileCommandValidator().Validate(new UpdateCatProfileCommand
+        var result = new UpdateCatProfileCommandValidator(new Microsoft.Extensions.Time.Testing.FakeTimeProvider(DateTimeOffset.UtcNow)).Validate(new UpdateCatProfileCommand
         {
             CatId = Guid.NewGuid(), Name = "Mittens", Sex = CatSex.Female, DateOfBirth = null,
             DateOfBirthPrecision = DateOfBirthPrecision.Exact,

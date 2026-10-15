@@ -82,6 +82,7 @@ closed by owner decision b3377df). Real-API cells of every E-case are owed (row 
 | W18 | LOW | Tests: mobile-360 E-E1's first test asserts only the heading; duplicate React keys in U-C2 (`StaffBookingForm.tsx` slot key `startsOn|roomId` ignores `performerId`); E-D2 takes 33–34 s (over the 30 s default); cold-start sign-in 404 race in the e2e fixture. | TEST |
 | W19 | LOW | Room override on staff booking (§11.3) not built — no free-rooms endpoint exists. | build (Amended 4) |
 | W20 | LOW | Integrator: run the real-API column of every E-case; the inbox legs of E-A1/E-B2/E-B3 are now satisfiable on master (HO-NTF-002 merged); E-A2 needs a genuine two-customer race; E-B3 clinic pass and E-E2 leave-approval flagging. | TEST / ACCEPTANCE |
+| W21 | LOW | Offline, the front desk's own check-in and walk-in buttons fail fast with the offline sentence (nothing queued, typed input kept) but are not greyed out. Owner decision 2026-10-14 on HO-XCT-002 A3: "Accept as built" (XCT rows 65, 108; HO-APT-002 §1 Amended (15)). Follow-up: wrap them in `WriteButton` / `useWriteEnabled()` so they are disabled with "Offline — can't save" and `aria-describedby`, like the shared controls. | XCT-002 ACCEPTANCE (owner) |
 
 ## Bug-fix batch ho/BUGS-APT-BE (combined review PASS — `docs/gates/BUGS-APT-BE-REVIEW.md`)
 

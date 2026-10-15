@@ -17,7 +17,11 @@
     "test:e2e": "playwright test --project=chromium --project=mobile-360",
     "test:e2e:real-api": "node scripts/run-real-api-e2e.mjs",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "perf:js": "node scripts/check-js-budget.mjs",
+    "perf:lcp": "playwright test -c tests/perf/playwright.config.ts lcp.spec.ts",
+    "sweep:viewport": "playwright test -c tests/perf/playwright.config.ts viewport-sweep.spec.ts",
+    "sweep:a11y": "playwright test -c tests/perf/playwright.config.ts app-sweep.spec.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "5.9.1",

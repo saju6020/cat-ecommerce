@@ -10,30 +10,13 @@ public sealed class ShopOptions
     public ShopFoodRecommendationOptions FoodRecommendations { get; set; } = new();
 
     /// <summary>
-    /// HO-SHP-001 section 4.3 / ADR-082: until HO-IMP-001 supplies stock, the storefront is FAIL-CLOSED --
-    /// every SKU reads out of stock and is not purchasable. Setting this true switches on the interim
-    /// approximation "an Active SKU on an Active, listed product with a price effective now counts as
-    /// available" (HO-SHP-001.md section 1 Amended, 2026-09-28 / 2026-10-04), which only the Testing
-    /// environment enables so the catalogue and availability tests stay meaningful. Production default:
-    /// false. Removed when the inventory view lands.
+    /// HO-SHP-001 section 8.7 -- the branch whose <c>inventory.v_sku_sellable</c> rows the storefront shows. Null (the
+    /// default) means the seeded main branch (<c>AdministrationSeed.MainBranchId</c>); configuration can name another.
     /// </summary>
-    public bool InterimAvailabilityFromPrice { get; set; }
-}
+    public Guid? StorefrontBranchId { get; set; }
 
-/// <summary>Backlog row 13: <c>Shop:InterimAvailabilityFromPrice</c> is a stand-in for stock that makes every
-/// priced SKU "in stock". It exists so Development and Testing stay meaningful; it must never be on in a
-/// deployed environment, where it would sell what the shop does not have. Refused at startup (ValidateOnStart).</summary>
-public sealed class ShopOptionsValidator(Microsoft.Extensions.Hosting.IHostEnvironment environment)
-    : Microsoft.Extensions.Options.IValidateOptions<ShopOptions>
-{
-    public Microsoft.Extensions.Options.ValidateOptionsResult Validate(string? name, ShopOptions options)
-    {
-        var isDevelopmentOrTesting = environment.EnvironmentName is "Development" or "Testing";
-        return options.InterimAvailabilityFromPrice && !isDevelopmentOrTesting
-            ? Microsoft.Extensions.Options.ValidateOptionsResult.Fail(
-                "Shop:InterimAvailabilityFromPrice must never be true outside Development/Testing (HO-SHP-001 section 4.3).")
-            : Microsoft.Extensions.Options.ValidateOptionsResult.Success;
-    }
+    /// <summary>The branch the storefront reads stock from: the configured one, else the seeded main branch (owner decision 2026-10-07).</summary>
+    public Guid EffectiveStorefrontBranchId => StorefrontBranchId ?? CatEcommerce.Shared.Common.Constants.AdministrationSeed.MainBranchId;
 }
 
 public sealed class ShopWorkerOptions

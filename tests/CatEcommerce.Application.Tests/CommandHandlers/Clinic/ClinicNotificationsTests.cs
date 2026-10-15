@@ -35,6 +35,13 @@ public sealed class ClinicNotificationsTests
         public string AppointmentLink(Guid appointmentId) => $"https://portal.example.test/portal/appointments/{appointmentId}";
         public string BookingLink() => "https://portal.example.test/book";
         public string ProductLink(string slug, Guid skuId) => $"https://portal.example.test/shop/products/{slug}?sku={skuId}";
+        public string VisitSummaryLink(Guid visitId) => $"https://portal.example.test/portal/visits/{visitId}";
+        public string InvoiceLink(Guid invoiceId) => "";
+        public string ReceiptLink(Guid paymentId) => "";
+        public string OrderLink(Guid orderId) => "";
+        public string PrescriptionLink(Guid prescriptionId) => "";
+        public string RepeatRequestLink(Guid prescriptionId) => "";
+        public string DietAuthorisationsLink() => "";
     }
 
     private static ServiceSnapshot Snapshot() => new("Consultation", ServiceCategory.Consultation, 30, new Money(500m, "BDT"));

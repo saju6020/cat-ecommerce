@@ -43,6 +43,7 @@ public sealed class AddSkuRequest
     public string? Flavour { get; init; }
     public string? Colour { get; init; }
     public int? PackQuantity { get; init; }
+    public int? ShippingWeightGrams { get; init; }
 }
 
 public sealed class UpdateSkuRequest
@@ -52,6 +53,7 @@ public sealed class UpdateSkuRequest
     public string? Flavour { get; init; }
     public string? Colour { get; init; }
     public int? PackQuantity { get; init; }
+    public int? ShippingWeightGrams { get; init; }
 }
 
 public sealed class SkuVersionRequest

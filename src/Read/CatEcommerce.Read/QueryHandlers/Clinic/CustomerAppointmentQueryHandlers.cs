@@ -20,7 +20,8 @@ public sealed class GetCustomerAppointmentsQueryHandler(CatEcommerceDbContext db
     public async Task<QueryResponse<PagedResult<AppointmentSummaryViewModel>>> HandleAsync(GetCustomerAppointmentsQuery query)
     {
         var now = timeProvider.GetUtcNow();
-        var filtered = db.Set<AppointmentAggregate>().AsNoTracking().Where(a => !a.IsMarkedToDelete && a.CustomerId == query.CustomerId);
+        // HO-SRG-001 section 11.7 G5: a surgery appears in the portal surgery list, not in the appointment list.
+        var filtered = db.Set<AppointmentAggregate>().AsNoTracking().Where(a => !a.IsMarkedToDelete && a.SurgeryId == null && a.CustomerId == query.CustomerId);
 
         filtered = string.Equals(query.Scope, "past", StringComparison.OrdinalIgnoreCase)
             ? filtered.Where(a => a.Status == AppointmentStatus.Completed || a.Status == AppointmentStatus.Cancelled || a.Status == AppointmentStatus.NoShow)
@@ -96,7 +97,7 @@ public sealed class GetCustomerAppointmentSummaryQueryHandler(CatEcommerceDbCont
         // instead of one lookup per row, so a missing cat or branch never drops the row (backlog #20).
         var upcomingRows = await (
             from a in db.Set<AppointmentAggregate>().AsNoTracking()
-            where !a.IsMarkedToDelete && a.CustomerId == query.CustomerId && a.Status == AppointmentStatus.Booked
+            where !a.IsMarkedToDelete && a.SurgeryId == null && a.CustomerId == query.CustomerId && a.Status == AppointmentStatus.Booked
             join cat in db.Set<CatAggregate>().AsNoTracking() on a.CatId equals cat.Id into cats
             from cat in cats.DefaultIfEmpty()
             join branch in db.Set<BranchAggregate>().AsNoTracking() on a.BranchId equals branch.Id into branches

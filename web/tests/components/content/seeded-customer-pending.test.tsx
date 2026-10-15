@@ -20,7 +20,7 @@ describe('policy-acceptances/pending fixture', () => {
     });
     expect(created.ok).toBe(true);
     expect(await pending()).toEqual([
-      { key: 'terms', title: 'Terms of service', versionNumber: 3 },
+      expect.objectContaining({ policyKey: 'terms', title: 'Terms of service', versionNumber: 3 }),
     ]);
     resetAdminContentMockData();
   });

@@ -25,14 +25,39 @@ public sealed class FilePurposeAccessTests
         yield return [FilePurpose.ReportExport];
     }
 
+    public static IEnumerable<object[]> PurposesWithNoRegisteredOwner()
+    {
+        yield return [FilePurpose.ReportExport];
+    }
+
+    [Fact]
+    public void TryGetRequiredStaffAction_maps_the_clinical_purposes_to_their_EMR_actions()
+    {
+        Assert.True(FilePurposeAccess.TryGetRequiredStaffAction(FilePurpose.LabResult, out var lab));
+        Assert.Equal(Actions.Visits.WriteNote, lab);
+        Assert.True(FilePurposeAccess.TryGetRequiredStaffAction(FilePurpose.ClinicalPhoto, out var photo));
+        Assert.Equal(Actions.Visits.WriteNote, photo);
+        Assert.True(FilePurposeAccess.TryGetRequiredStaffAction(FilePurpose.ConsentForm, out var consent));
+        Assert.Equal(Actions.Consents.Record, consent);
+    }
+
     [Theory]
-    [MemberData(nameof(EveryCanonicalPurposeExceptCatProfilePhoto))]
+    [MemberData(nameof(PurposesWithNoRegisteredOwner))]
     public void TryGetRequiredStaffAction_refuses_every_purpose_with_no_registered_owner(FilePurpose purpose)
     {
         var found = FilePurposeAccess.TryGetRequiredStaffAction(purpose, out var action);
 
         Assert.False(found);
         Assert.Equal("", action);
+    }
+
+    [Fact]
+    public void TryGetRequiredStaffAction_maps_the_boarding_purposes_to_their_Boarding_actions()
+    {
+        Assert.True(FilePurposeAccess.TryGetRequiredStaffAction(FilePurpose.BoardingMedia, out var media));
+        Assert.Equal(Actions.Boarding.RecordCare, media);
+        Assert.True(FilePurposeAccess.TryGetRequiredStaffAction(FilePurpose.BoardingBelongings, out var belongings));
+        Assert.Equal(Actions.Boarding.CheckInOut, belongings);
     }
 
     [Fact]

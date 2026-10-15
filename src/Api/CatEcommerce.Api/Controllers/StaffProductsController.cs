@@ -239,7 +239,7 @@ public sealed class StaffProductsController(IInMemoryDispatcher dispatcher, IUse
         {
             ProductId = productId, ExpectedVersion = request.ExpectedVersion, SkuId = skuId, Code = request.Code,
             Barcode = request.Barcode, SizeOrWeight = request.SizeOrWeight, Flavour = request.Flavour, Colour = request.Colour,
-            PackQuantity = request.PackQuantity, UserContext = userContextProvider.GetUserContext(), CorrelationId = Guid.NewGuid(), ValidateCommand = true
+            PackQuantity = request.PackQuantity, ShippingWeightGrams = request.ShippingWeightGrams, UserContext = userContextProvider.GetUserContext(), CorrelationId = Guid.NewGuid(), ValidateCommand = true
         };
 
         var response = await dispatcher.SendAsync(command);
@@ -253,7 +253,7 @@ public sealed class StaffProductsController(IInMemoryDispatcher dispatcher, IUse
         var command = new UpdateSkuCommand
         {
             ProductId = productId, ExpectedVersion = request.ExpectedVersion, SkuId = skuId, SizeOrWeight = request.SizeOrWeight,
-            Flavour = request.Flavour, Colour = request.Colour, PackQuantity = request.PackQuantity,
+            Flavour = request.Flavour, Colour = request.Colour, PackQuantity = request.PackQuantity, ShippingWeightGrams = request.ShippingWeightGrams,
             UserContext = userContextProvider.GetUserContext(), CorrelationId = Guid.NewGuid(), ValidateCommand = true
         };
 

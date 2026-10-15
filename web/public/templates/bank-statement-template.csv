@@ -1,0 +1,4 @@
+date,amount,direction,reference,description,bankTransactionId
+2026-10-01,1000.00,C,TRF-20261001-001,Transfer from customer,TXN-0001
+2026-10-02,500.00,C,TRF-20261002-002,Transfer from customer,TXN-0002
+2026-10-03,250.50,D,BANK-FEE,Monthly account fee,TXN-0003

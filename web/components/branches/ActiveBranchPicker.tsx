@@ -11,6 +11,10 @@ import { useAdminBranches } from '@/lib/hooks/useAdminBranches';
  * Names are read from `useAdminBranches()` (the caller's own branch list) rather than duplicated
  * here — falls back to the bare id if that list hasn't loaded yet, never blocking the picker on a
  * second request.
+ *
+ * ADM-002-FU2: the row is `w-full max-w-md` with `min-w-0` on the select, so a long branch name
+ * is truncated inside the select instead of widening the page (UI-1, no sideways scroll at 360px).
+ * The label never shrinks; the full name stays in each option's text and in the select's `title`.
  */
 export function ActiveBranchPicker() {
   const { data: myBranches } = useMyBranches();
@@ -21,18 +25,20 @@ export function ActiveBranchPicker() {
   const branchIds = myBranches?.branchIds ?? [];
   if (branchIds.length <= 1) return null;
 
+  const selectedId = activeBranchId ?? myBranches?.primaryBranchId ?? '';
   const nameFor = (id: string) => allBranches?.find((b) => b.id === id)?.name ?? id;
 
   return (
-    <div className="mb-4 flex items-center gap-2 text-sm">
-      <label htmlFor="active-branch-picker" className="font-semibold text-ink-muted">
+    <div className="mb-4 flex w-full min-w-0 max-w-md items-center gap-2 text-sm">
+      <label htmlFor="active-branch-picker" className="flex-shrink-0 font-semibold text-ink-muted">
         Branch
       </label>
       <select
         id="active-branch-picker"
-        value={activeBranchId ?? myBranches?.primaryBranchId ?? ''}
+        value={selectedId}
+        title={nameFor(selectedId)}
         onChange={(event) => setActiveBranch(event.target.value)}
-        className="rounded-[var(--radius-sm)] border border-border-strong bg-surface px-2 py-1.5 text-sm text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+        className="min-w-0 flex-1 truncate rounded-[var(--radius-sm)] border border-border-strong bg-surface px-2 py-1.5 text-sm text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
       >
         {branchIds.map((id) => (
           <option key={id} value={id}>

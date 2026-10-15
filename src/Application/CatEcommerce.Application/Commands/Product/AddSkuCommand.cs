@@ -14,4 +14,5 @@ public sealed class AddSkuCommand : Command
     public string? Flavour { get; init; }
     public string? Colour { get; init; }
     public int? PackQuantity { get; init; }
+    public int? ShippingWeightGrams { get; init; }
 }

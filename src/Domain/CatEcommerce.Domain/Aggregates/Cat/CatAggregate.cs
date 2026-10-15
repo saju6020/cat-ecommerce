@@ -265,6 +265,18 @@ public sealed class CatAggregate : AggregateRoot
         UpdateVersion();
     }
 
+    /// <summary>
+    /// HO-BRD-001 section 8.6 (ADR-222, renumbered ADR-355): the cat's core-vaccination status as of <paramref name="asOf"/>, by the shared
+    /// <see cref="DomainServices.VaccinationStatusRule"/>. <b>Read-only</b>: no mutation, no event, no <c>UpdateVersion()</c>. This is
+    /// ".ai/bounded-contexts.md": "CatAggregate exposes vaccination status; the boarding command handler checks it".
+    /// </summary>
+    public DomainServices.VaccinationEvaluation EvaluateVaccinationStatus(
+        IReadOnlyList<DomainServices.VaccinationRuleVaccine> activeCoreVaccines, DateOnly asOf, int dueSoonDays) =>
+        DomainServices.VaccinationStatusRule.Evaluate(
+            activeCoreVaccines,
+            _vaccinations.Select(v => new DomainServices.VaccinationRuleRecord(v.VaccineId, v.AdministeredOn, v.NextDueOn)).ToList(),
+            asOf, dueSoonDays);
+
     public void RecordVaccination(CatVaccinationDto dto)
     {
         EnsureAlive();

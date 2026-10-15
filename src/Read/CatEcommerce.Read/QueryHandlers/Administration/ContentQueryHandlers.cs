@@ -146,17 +146,19 @@ public sealed class GetPublicPolicyQueryHandler(CatEcommerceDbContext db) : IQue
 {
     public async Task<QueryResponse<PolicyVersionViewModel?>> HandleAsync(GetPublicPolicyQuery query)
     {
-        var documentExists = await db.Set<PolicyDocumentAggregate>().AsNoTracking()
-            .AnyAsync(d => d.Key == query.Key && d.CurrentVersionNumber != null);
+        var title = await db.Set<PolicyDocumentAggregate>().AsNoTracking()
+            .Where(d => d.Key == query.Key && d.CurrentVersionNumber != null)
+            .Select(d => d.Title)
+            .FirstOrDefaultAsync();
 
-        if (!documentExists) return new QueryResponse<PolicyVersionViewModel?> { Result = null };
+        if (title is null) return new QueryResponse<PolicyVersionViewModel?> { Result = null };
 
         // The read query uses MAX(version_number) so a lag in the document's pointer is never
         // visible (ADR-052).
         var result = await db.Set<PolicyVersionAggregate>().AsNoTracking()
             .Where(v => v.PolicyKey == query.Key)
             .OrderByDescending(v => v.VersionNumber)
-            .Select(v => new PolicyVersionViewModel(v.PolicyKey, v.VersionNumber, v.Body, v.PublishedOn))
+            .Select(v => new PolicyVersionViewModel(v.PolicyKey, v.VersionNumber, v.Body, v.PublishedOn, title))
             .FirstOrDefaultAsync();
 
         return new QueryResponse<PolicyVersionViewModel?> { Result = result };
@@ -179,13 +181,13 @@ public sealed class GetPendingPolicyAcceptancesQueryHandler(CatEcommerceDbContex
                 a.CustomerAccountId == query.CustomerAccountId && a.PolicyKey == d.Key && a.VersionNumber == d.CurrentVersionNumber))
             .Select(d => db.Set<PolicyVersionAggregate>()
                 .Where(v => v.PolicyKey == d.Key && v.VersionNumber == d.CurrentVersionNumber)
-                .Select(v => new { v.PolicyKey, v.VersionNumber, v.Body, v.PublishedOn })
+                .Select(v => new { v.PolicyKey, v.VersionNumber, v.Body, v.PublishedOn, d.Title })
                 .FirstOrDefault())
             .ToListAsync();
 
         var result = rows
             .Where(v => v is not null)
-            .Select(v => new PolicyVersionViewModel(v!.PolicyKey, v.VersionNumber, v.Body, v.PublishedOn))
+            .Select(v => new PolicyVersionViewModel(v!.PolicyKey, v.VersionNumber, v.Body, v.PublishedOn, v.Title))
             .ToList();
 
         return new QueryResponse<IReadOnlyList<PolicyVersionViewModel>> { Result = result };

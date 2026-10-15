@@ -54,7 +54,7 @@ public sealed class ShopBacklogFixesCatalogueApplicationTests
     [Fact]
     public void CatalogueItem_ShowsTheStoredCurrency_NotAHardCodedOne()
     {
-        var item = GetCatalogueQueryHandler.ToCatalogueItem(Entry(1500m, "USD"), interim: false);
+        var item = GetCatalogueQueryHandler.ToCatalogueItem(Entry(1500m, "USD"), inStock: false);
 
         Assert.Equal("USD", item.FromPrice!.CurrencyCode);
         Assert.Equal("1500.00", item.FromPrice.Amount);
@@ -63,7 +63,7 @@ public sealed class ShopBacklogFixesCatalogueApplicationTests
     [Fact]
     public void CatalogueItem_PriceWithNoStoredCurrency_IsNotShownUnderAnInventedOne()
     {
-        var item = GetCatalogueQueryHandler.ToCatalogueItem(Entry(1500m, null), interim: false);
+        var item = GetCatalogueQueryHandler.ToCatalogueItem(Entry(1500m, null), inStock: false);
 
         Assert.Null(item.FromPrice);
     }

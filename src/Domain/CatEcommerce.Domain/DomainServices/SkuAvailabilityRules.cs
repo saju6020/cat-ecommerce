@@ -4,7 +4,7 @@ namespace CatEcommerce.Domain.DomainServices;
 
 /// <summary>
 /// HO-SHP-001 section 8.7, section 12.1 -- pure. Shop never computes sellable stock (ADR-082); this
-/// takes the already-read <c>sellable_quantity</c> from <c>inventory.v_sellable_stock</c> (a SKU
+/// takes the already-read <c>sellable_quantity</c> from <c>inventory.v_sku_sellable</c> (a SKU
 /// with no row is out of stock, i.e. <c>sellableQuantity == null</c>) and applies the two rules
 /// that ARE Shop's own: a discontinued SKU or an unlisted/non-active product is never shown as
 /// purchasable regardless of quantity, and the expiry notice only shows inside the configured

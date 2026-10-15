@@ -41,6 +41,11 @@ const ROUTES: RouteCase[] = [
     audience: 'staff',
     heading: /closures/i,
   },
+  {
+    path: `/staff/admin/branches/${mainBranchId}/calendar?month=2027-02`,
+    audience: 'staff',
+    heading: /calendar/i,
+  },
   { path: `/staff/admin/branches/${mainBranchId}/rooms`, audience: 'staff', heading: /rooms/i },
   { path: `/staff/admin/branches/${mainBranchId}/roster`, audience: 'staff', heading: /roster/i },
   { path: '/staff/admin/leave', audience: 'staff', heading: /leave approvals/i },

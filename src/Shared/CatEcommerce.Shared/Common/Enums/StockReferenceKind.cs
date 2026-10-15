@@ -29,4 +29,8 @@ public sealed class StockReferenceKind(int value, string displayName) : Enumerat
     public static readonly StockReferenceKind Surgery = new(11, nameof(Surgery));
     public static readonly StockReferenceKind BoardingStay = new(12, nameof(BoardingStay));
     public static readonly StockReferenceKind CustomerReturn = new(13, nameof(CustomerReturn));
+
+    /// <summary>Added by HO-IMP-001 (CONTRACTS.md D-5): the reference of a controlled-drug register
+    /// correction passed to <c>IStockLedger.AdjustAsync</c> (HO-PHM-001 §11.4 C7). See HO-IMP-001 §1 Amended.</summary>
+    public static readonly StockReferenceKind ControlledDrugCorrection = new(14, nameof(ControlledDrugCorrection));
 }

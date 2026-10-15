@@ -11,6 +11,9 @@
   "Cors": {
     "AllowedOrigins": ["http://localhost:3000"]
   },
+  "Notifications": {
+    "ApiBaseUrl": "http://localhost:5005"
+  },
   "Captcha": {
     "TestAnswer": "TEST1"
   },

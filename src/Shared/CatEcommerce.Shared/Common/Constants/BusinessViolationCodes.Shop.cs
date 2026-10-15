@@ -32,6 +32,7 @@ public static partial class BusinessViolationCodes
     public const string DuplicateVariant = nameof(DuplicateVariant);
     public const string SkuCodeAlreadyInUse = nameof(SkuCodeAlreadyInUse);
     public const string InvalidBarcode = nameof(InvalidBarcode);
+    public const string InvalidShippingWeight = nameof(InvalidShippingWeight);
     public const string BarcodeAlreadyInUse = nameof(BarcodeAlreadyInUse);
     public const string LastActiveSkuCannotBeDiscontinued = nameof(LastActiveSkuCannotBeDiscontinued);
     public const string ImageLimitReached = nameof(ImageLimitReached);

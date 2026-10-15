@@ -2,6 +2,7 @@ import { PortalHeader } from '@/components/common/portal-header';
 import { CustomerSessionGuard } from '@/components/portal/CustomerSessionGuard';
 import { PolicyAcceptancePrompt } from '@/components/content/PolicyAcceptancePrompt';
 import { InboxBadge } from '@/components/inbox/InboxBadge';
+import { CartBadge } from '@/components/cart/CartBadge';
 
 // Owner-facing shell for every /portal/** route (HO-CAT-002 §8.3). `data-theme="customer"`
 // applies the warm customer design-token layer (app/globals.css) — this is the ONLY *layout* it is
@@ -15,8 +16,15 @@ import { InboxBadge } from '@/components/inbox/InboxBadge';
 export default function PortalLayout({ children }: { children: React.ReactNode }) {
   return (
     <div data-theme="customer" className="min-h-screen bg-surface-page">
-      {/* HO-NTF-002 §11.1/§13 — InboxBadge only (rendered by the header once signed in). */}
-      <PortalHeader sessionActions={<InboxBadge />} />
+      {/* HO-NTF-002 §11.1/§13 — InboxBadge (rendered by the header once signed in); HO-ORD-002 §3.3/§20.1 — the CartBadge beside it. */}
+      <PortalHeader
+        sessionActions={
+          <>
+            <CartBadge />
+            <InboxBadge />
+          </>
+        }
+      />
       <main id="main-content" className="mx-auto max-w-5xl px-8 py-8">
         <CustomerSessionGuard>
           {/* HO-ADM-002 §11.6/§13 — the one scoped edit to this file: gates the whole portal

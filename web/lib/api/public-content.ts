@@ -53,8 +53,21 @@ export interface PublicPolicy {
   publishedOn: string;
 }
 
+/** The wire shape: the API names the key `policyKey` (HO-ADM-001 `PolicyVersionViewModel`). Issues.md #8 — reading it as
+ *  `key` left every "Read the full text" link at `/policies/undefined` and every policy title blank. */
+interface PolicyVersionWire {
+  policyKey: string;
+  title: string;
+  versionNumber: number;
+  body: string;
+  publishedOn: string;
+}
+
 export async function getPublicPolicy(key: string): Promise<PublicPolicy> {
-  return apiFetch<PublicPolicy>(`/api/policies/${encodeURIComponent(key)}`);
+  const { policyKey, ...rest } = await apiFetch<PolicyVersionWire>(
+    `/api/policies/${encodeURIComponent(key)}`,
+  );
+  return { key: policyKey, ...rest };
 }
 
 export interface PendingPolicyAcceptance {
@@ -64,7 +77,10 @@ export interface PendingPolicyAcceptance {
 }
 
 export async function getPendingPolicyAcceptances(): Promise<PendingPolicyAcceptance[]> {
-  return apiFetch<PendingPolicyAcceptance[]>('/api/customers/me/policy-acceptances/pending');
+  const pending = await apiFetch<PolicyVersionWire[]>(
+    '/api/customers/me/policy-acceptances/pending',
+  );
+  return pending.map((p) => ({ key: p.policyKey, title: p.title, versionNumber: p.versionNumber }));
 }
 
 export async function acceptPolicyVersion(policyKey: string, versionNumber: number): Promise<void> {

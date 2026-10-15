@@ -50,4 +50,53 @@ export const adminNavItems: AdminNavItem[] = [
     href: '/staff/admin/notification-templates',
     roles: ['Administrator', 'ShopManager'],
   }, // NotificationTemplates.View
+  // HO-EMR-002 §11.8/§13 — three entries only (ClinicalCatalogue.Manage: Vet and Administrator).
+  { label: 'Diagnosis codes', href: '/staff/admin/clinical/diagnosis-codes', roles: ['Administrator', 'Vet'] },
+  { label: 'Lab analytes', href: '/staff/admin/clinical/lab-analytes', roles: ['Administrator', 'Vet'] },
+  { label: 'Note templates', href: '/staff/admin/clinical/note-templates', roles: ['Administrator', 'Vet'] },
+  // HO-BIL-002 §13 — one entry only. Billing.View reads it; BillingProfile.Manage (Administrator) saves.
+  {
+    label: 'Billing profile',
+    href: '/staff/admin/billing-profile',
+    roles: ['Administrator', 'Accountant'],
+  }, // Billing.View
+  // HO-PHM-002 §13 — one entry only. Formulary.View reads the list; Formulary.Manage (Administrator) edits.
+  {
+    label: 'Formulary',
+    href: '/staff/admin/formulary',
+    roles: ['Administrator', 'Reception', 'Nurse', 'Vet', 'Inventory'],
+  }, // Formulary.View
+  // HO-ORD-002 §12.2/§13 — four entries (roles per HO-ORD-001 §12.3: DeliveryZones.View, Couriers.Manage,
+  // Discounts.View, Orders.ManagePaymentSettings).
+  {
+    label: 'Delivery zones',
+    href: '/staff/admin/delivery-zones',
+    roles: ['Administrator', 'ShopManager', 'Accountant'],
+  },
+  {
+    label: 'Discount codes',
+    href: '/staff/admin/discount-codes',
+    roles: ['Administrator', 'ShopManager', 'Accountant'],
+  },
+  { label: 'Couriers', href: '/staff/admin/couriers', roles: ['Administrator', 'ShopManager'] },
+  { label: 'Payment settings', href: '/staff/admin/payment-settings', roles: ['Administrator'] },
+  // HO-XCT-002 §11.5/§13 — three entries only (Retention.View: Administrator and Accountant;
+  // Operations.View: Administrator; Telemetry.View: Administrator and ShopManager).
+  {
+    label: 'Retention',
+    href: '/staff/admin/retention',
+    roles: ['Administrator', 'Accountant'],
+  },
+  {
+    label: 'Backup & restore',
+    href: '/staff/admin/operations/backup',
+    roles: ['Administrator'],
+  },
+  {
+    label: 'Performance',
+    href: '/staff/admin/performance',
+    roles: ['Administrator', 'ShopManager'],
+  },
+  // HO-RPT-002 §11.1/§13 — one entry only (Reports.Schedule: Administrator).
+  { label: 'Report schedules', href: '/staff/admin/report-schedules', roles: ['Administrator'] },
 ];

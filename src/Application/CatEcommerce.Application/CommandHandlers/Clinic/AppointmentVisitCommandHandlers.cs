@@ -4,6 +4,7 @@ using CatEcommerce.Domain.Aggregates.Account;
 using CatEcommerce.Domain.Aggregates.Administration;
 using CatEcommerce.Domain.Aggregates.Cat;
 using CatEcommerce.Domain.Aggregates.Clinic;
+using CatEcommerce.Domain.Aggregates.Visit;
 using CatEcommerce.Domain.DomainServices;
 using CatEcommerce.Domain.Exceptions;
 using CatEcommerce.Domain.Models;
@@ -184,7 +185,8 @@ public sealed class StartAppointmentCommandHandler(
     }
 }
 
-public sealed class CompleteAppointmentCommandHandler(IAggregateRootRepository<AppointmentAggregate> appointmentRepository, TimeProvider timeProvider)
+public sealed class CompleteAppointmentCommandHandler(
+    IAggregateRootRepository<AppointmentAggregate> appointmentRepository, TimeProvider timeProvider, IAggregateRootRepository<VisitAggregate> visitRepository)
     : ICommandHandlerAsync<CompleteAppointmentCommand>
 {
     public async Task<CommandResponse> HandleAsync(CompleteAppointmentCommand command)
@@ -194,6 +196,11 @@ public sealed class CompleteAppointmentCommandHandler(IAggregateRootRepository<A
         // with a reason that would confirm it exists.
         if (appointment is null || appointment.BranchId != command.BranchId)
             return Violation(BusinessViolationCodes.AppointmentNotFound, nameof(command.AppointmentId), "Appointment not found.");
+
+        // HO-EMR-001 ADR-133 (guard line only): an appointment whose consultation is still open cannot complete.
+        // Finalising the visit does not complete the appointment; the vet completes it after finalising.
+        if (await visitRepository.ExistAsync(v => v.AppointmentId == appointment.Id && v.Status == VisitStatus.Open))
+            return Violation(BusinessViolationCodes.VisitNotFinalised, nameof(command.AppointmentId), ClinicalMessages.VisitNotFinalised);
 
         try
         {

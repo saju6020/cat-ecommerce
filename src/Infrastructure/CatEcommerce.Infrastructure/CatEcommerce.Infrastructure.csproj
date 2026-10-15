@@ -44,6 +44,8 @@
     -->
     <EmbeddedResource Include="Documents\Fonts\NotoSansBengali-Regular.ttf" />
     <None Include="Documents\Fonts\NotoSansBengali-OFL.txt" />
+    <!-- HO-RPT-001 section 12.1 (ADR-278): the versioned report-view SQL, run by Reporting's migrations. -->
+    <EmbeddedResource Include="Persistence\ReportingViews\Sql\*.sql" />
   </ItemGroup>
 
   <PropertyGroup>

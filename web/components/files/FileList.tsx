@@ -76,15 +76,17 @@ export function FileList({
               </p>
             </div>
             <div className="flex flex-none items-center gap-1">
-              <a
-                href={file.url}
-                download={file.originalFileName}
-                referrerPolicy="no-referrer"
-                aria-label={`Download ${file.originalFileName}`}
-                className="inline-flex h-8 w-8 items-center justify-center rounded-[var(--radius-sm)] text-ink-muted hover:bg-surface-sunken focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-              >
-                <Download size={16} aria-hidden="true" />
-              </a>
+              {file.url && (
+                <a
+                  href={file.url}
+                  download={file.originalFileName}
+                  referrerPolicy="no-referrer"
+                  aria-label={`Download ${file.originalFileName}`}
+                  className="inline-flex h-8 w-8 items-center justify-center rounded-[var(--radius-sm)] text-ink-muted hover:bg-surface-sunken focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                >
+                  <Download size={16} aria-hidden="true" />
+                </a>
+              )}
               {onRemove && (
                 <Button
                   type="button"

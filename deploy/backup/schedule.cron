@@ -1,0 +1,7 @@
+# HO-XCT-001 section 12.8 -- the backup schedule. The server clock is Asia/Dhaka (documented in docs/runbooks/backup-and-restore.md).
+# m h dom mon dow  command
+0 1 * * 0     /opt/purrcare/scripts/backup.sh full
+0 1 * * 1-6   /opt/purrcare/scripts/backup.sh diff
+*/10 * * * *  /opt/purrcare/scripts/archive-check.sh
+# every 10 minutes, offset from the archive check: the journal gap then matches the RPO (gate fix 2026-10-12, SECURITY medium)
+5-55/10 * * * *  /opt/purrcare/scripts/export-erasure-journal.sh

@@ -29,7 +29,9 @@ public sealed partial class ShopBacklogFixesEndpointTests
     {
         var staff = await SignInAsShopManagerAsync();
         var product = await CreateProductAsync(staff, NewBrand("NoSku"), "Skuless Toy");
-        await ExecuteSqlAsync($"DELETE FROM product.sku WHERE product_id = {product.ProductId}");
+        // HO-XCT-001 ADR-299: a SKU row is retained (Forbidden), so "no SKUs" is made by moving the SKU to a second product.
+        var holder = await CreateProductAsync(staff, NewBrand("NoSkuHolder"), "Sku Holder");
+        await ExecuteSqlAsync($"UPDATE product.sku SET product_id = {holder.ProductId} WHERE product_id = {product.ProductId}");
         var (customer, _) = await RegisterAndSignInCustomerAsync();
 
         var purchasability = await customer.GetAsync($"/api/customers/me/shop/products/{product.Slug}/purchasability");

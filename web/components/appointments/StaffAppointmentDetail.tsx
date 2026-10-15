@@ -23,6 +23,7 @@ import { describeRescheduleFlag, formatAppointmentWhen } from '@/lib/format/appo
 import { formatInZone } from '@/lib/format/time';
 import { formatMoney } from '@/lib/format/money';
 import type { AppointmentAction, AppointmentDetail } from '@/lib/api/types';
+import { AppointmentClinicalLinks } from '@/components/visit/AppointmentClinicalLinks';
 import { AppointmentStatusBadge } from './AppointmentStatusBadge';
 
 /**
@@ -167,6 +168,13 @@ export function StaffAppointmentDetail({
           </Button>
         )}
       </div>
+
+      {/* HO-EMR-002 §11.9/§13 — the two links only: Visit (when one exists) and Record consent. */}
+      <AppointmentClinicalLinks
+        appointmentId={detail.id}
+        catId={detail.catId}
+        status={detail.status}
+      />
 
       <section aria-labelledby="history-heading">
         <h2 id="history-heading" className="mb-2 text-[15px] font-semibold text-ink">

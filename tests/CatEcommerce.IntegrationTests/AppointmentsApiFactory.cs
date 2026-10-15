@@ -12,7 +12,7 @@ namespace CatEcommerce.IntegrationTests;
 /// -- tests call <c>NotificationWorkCycle</c>/<c>ClinicWorkCycle</c> directly and advance a
 /// <see cref="FakeTimeProvider"/>.
 /// </summary>
-public sealed class AppointmentsApiFactory : CatEcommerceApiFactory
+public class AppointmentsApiFactory : CatEcommerceApiFactory
 {
     protected override void ConfigureAdditionalSettings(IDictionary<string, string?> settings)
     {

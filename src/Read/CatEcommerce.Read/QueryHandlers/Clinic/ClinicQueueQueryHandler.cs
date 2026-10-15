@@ -29,7 +29,7 @@ public sealed class GetClinicQueueQueryHandler(CatEcommerceDbContext db, IBranch
         // queue needs, left-joined once instead of one lookup per row (a missing cat or customer shows "", it never drops the row, backlog #20).
         var rows = await (
             from a in db.Set<AppointmentAggregate>().AsNoTracking()
-            where !a.IsMarkedToDelete && a.BranchId == query.BranchId && (a.Status == AppointmentStatus.CheckedIn || a.Status == AppointmentStatus.InConsultation)
+            where !a.IsMarkedToDelete && a.SurgeryId == null && a.BranchId == query.BranchId && (a.Status == AppointmentStatus.CheckedIn || a.Status == AppointmentStatus.InConsultation)
             join cat in db.Set<CatAggregate>().AsNoTracking() on a.CatId equals cat.Id into cats
             from cat in cats.DefaultIfEmpty()
             join customer in db.Set<CustomerAccountAggregate>().AsNoTracking() on a.CustomerId equals customer.Id into customers

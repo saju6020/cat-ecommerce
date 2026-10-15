@@ -7,6 +7,7 @@ import {
   loadPersisted,
   savePersisted,
   clearPersisted,
+  zonedTimeToUtcIso,
 } from './fixtures';
 
 const PERSIST_KEY = '__purrcare_admin_branches_mock_db__';
@@ -51,6 +52,23 @@ interface Room {
   name: string;
   kind: string;
   isActive: boolean;
+}
+
+const DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+/** Date-string arithmetic at UTC noon, never via the browser's zone (HO-ADM-002-FU1 §12.2 (e)). */
+function dayNumber(dateIso: string): number {
+  return Math.floor(new Date(`${dateIso}T12:00:00Z`).getTime() / 86_400_000);
+}
+function dateOfDayNumber(day: number): string {
+  return new Date(day * 86_400_000 + 43_200_000).toISOString().slice(0, 10);
+}
+function toMinutes(time: string): number {
+  const [h = '0', m = '0'] = time.split(':');
+  return Number(h) * 60 + Number(m);
+}
+function fromMinutes(total: number): string {
+  return `${String(Math.floor(total / 60)).padStart(2, '0')}:${String(total % 60).padStart(2, '0')}`;
 }
 
 function seedBranches(): Map<string, Branch> {
@@ -114,8 +132,8 @@ function seedClosures(): Map<string, Closure> {
   const halfDay: Closure = {
     id: administrationFixtureIds.closureHalfDayId,
     branchId: administrationFixtureIds.mainBranchId,
-    startsOn: '2027-02-14',
-    endsOn: '2027-02-14',
+    startsOn: '2027-02-15',
+    endsOn: '2027-02-15',
     kind: 'Closure',
     reason: 'Staff training (half day)',
     partialFrom: '13:00',
@@ -330,8 +348,16 @@ export const adminBranchesHandlers: HttpHandler[] = [
     return noContent();
   }),
 
-  http.get('*/api/admin/branches/:branchId/closures', ({ params }) => {
-    const list = [...closures.values()].filter((c) => c.branchId === params.branchId);
+  http.get('*/api/admin/branches/:branchId/closures', ({ params, request }) => {
+    // HO-ADM-002-FU1 §12.2 — overlap filter as `GetBranchClosuresQueryHandler`: keep a closure
+    // when `endsOn >= from` and `startsOn <= to`; cancelled closures are still returned.
+    const url = new URL(request.url);
+    const from = url.searchParams.get('from');
+    const to = url.searchParams.get('to');
+    const list = [...closures.values()].filter(
+      (c) =>
+        c.branchId === params.branchId && (!from || c.endsOn >= from) && (!to || c.startsOn <= to),
+    );
     return HttpResponse.json(list);
   }),
 
@@ -396,35 +422,59 @@ export const adminBranchesHandlers: HttpHandler[] = [
   }),
 
   http.get('*/api/admin/branches/:branchId/calendar', ({ params, request }) => {
-    const branch = branches.get(params.branchId as string);
-    if (!branch) return notFound();
+    // HO-ADM-002-FU1 §12.2 — returns what the real `BranchCalendar.OpenIntervals` returns: an
+    // unknown branch is `200 []`, a range over 62 days is `400`, and the open intervals are real
+    // instants (branch wall-clock converted with the branch's own zone), part-day closures
+    // subtracted, sorted and merged.
     const url = new URL(request.url);
     const from = url.searchParams.get('from') ?? '2027-01-01';
     const to = url.searchParams.get('to') ?? from;
+    if (dayNumber(to) - dayNumber(from) > 62) {
+      return HttpResponse.json({ error: 'The range cannot exceed 62 days.' }, { status: 400 });
+    }
+    const branch = branches.get(params.branchId as string);
+    if (!branch) return HttpResponse.json([]);
     const branchClosures = [...closures.values()].filter(
       (c) => c.branchId === branch.id && !c.isCancelled,
     );
     const intervals: Array<{ start: string; end: string }> = [];
-    let cursor = new Date(`${from}T00:00:00Z`);
-    const end = new Date(`${to}T00:00:00Z`);
-    const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    while (cursor <= end) {
-      const dateStr = cursor.toISOString().slice(0, 10);
-      const dayName = dayNames[cursor.getUTCDay()];
-      const closedAllDay = branchClosures.some(
-        (c) => dateStr >= c.startsOn && dateStr <= c.endsOn && !c.partialFrom,
-      );
-      if (!closedAllDay) {
-        for (const interval of branch.weeklyHours.filter((h) => h.dayOfWeek === dayName)) {
-          intervals.push({
-            start: `${dateStr}T${interval.opens}:00Z`,
-            end: `${dateStr}T${interval.closes}:00Z`,
-          });
-        }
+    for (let day = dayNumber(from); day <= dayNumber(to); day += 1) {
+      const dateStr = dateOfDayNumber(day);
+      const onDate = branchClosures.filter((c) => dateStr >= c.startsOn && dateStr <= c.endsOn);
+      if (onDate.some((c) => !c.partialFrom)) continue;
+      const dayName = DAY_NAMES[new Date(day * 86_400_000).getUTCDay()];
+      let open: Array<[number, number]> = branch.weeklyHours
+        .filter((h) => h.dayOfWeek === dayName)
+        .map((h) => [toMinutes(h.opens), toMinutes(h.closes)]);
+      for (const c of onDate) {
+        const cutFrom = toMinutes(c.partialFrom as string);
+        const cutTo = toMinutes(c.partialTo as string);
+        open = open.flatMap(([a, b]): Array<[number, number]> => {
+          if (cutTo <= a || cutFrom >= b) return [[a, b]];
+          const kept: Array<[number, number]> = [];
+          if (a < cutFrom) kept.push([a, cutFrom]);
+          if (cutTo < b) kept.push([cutTo, b]);
+          return kept;
+        });
       }
-      cursor = new Date(cursor.getTime() + 86_400_000);
+      for (const [a, b] of open) {
+        intervals.push({
+          start: zonedTimeToUtcIso(dateStr, fromMinutes(a), branch.timeZoneId),
+          end: zonedTimeToUtcIso(dateStr, fromMinutes(b), branch.timeZoneId),
+        });
+      }
     }
-    return HttpResponse.json(intervals);
+    intervals.sort((x, y) => x.start.localeCompare(y.start));
+    const merged: Array<{ start: string; end: string }> = [];
+    for (const interval of intervals) {
+      const last = merged[merged.length - 1];
+      if (last && interval.start <= last.end) {
+        if (interval.end > last.end) last.end = interval.end;
+      } else {
+        merged.push({ ...interval });
+      }
+    }
+    return HttpResponse.json(merged);
   }),
 
   http.get('*/api/admin/staff/:staffAccountId/branches', ({ params }) => {

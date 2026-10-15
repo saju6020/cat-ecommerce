@@ -20,9 +20,11 @@ public sealed class SkuRow
     public string? Flavour { get; set; }
     public string? Colour { get; set; }
     public int? PackQuantity { get; set; }
+    public int? ShippingWeightGrams { get; set; }
 
     public Guid ProductId { get; set; }
     public string ProductName { get; set; } = default!;
+    public string Brand { get; set; } = default!;
     public string ProductSlug { get; set; } = default!;
     public ProductKind Kind { get; set; } = default!;
     public ProductStatus ProductStatus { get; set; } = default!;
@@ -67,8 +69,8 @@ public static class ProductProjections
         db.Products.AsNoTracking().SelectMany(p => p.Skus, (p, s) => new SkuRow
         {
             SkuId = s.Id, SkuCode = s.Code, Barcode = s.Barcode, SkuStatus = s.Status,
-            SizeOrWeight = s.SizeOrWeight, Flavour = s.Flavour, Colour = s.Colour, PackQuantity = s.PackQuantity,
-            ProductId = p.Id, ProductName = p.Name, ProductSlug = p.Slug, Kind = p.Kind, ProductStatus = p.Status,
+            SizeOrWeight = s.SizeOrWeight, Flavour = s.Flavour, Colour = s.Colour, PackQuantity = s.PackQuantity, ShippingWeightGrams = s.ShippingWeightGrams,
+            ProductId = p.Id, ProductName = p.Name, Brand = p.Brand, ProductSlug = p.Slug, Kind = p.Kind, ProductStatus = p.Status,
             ListedOnStorefront = p.ListedOnStorefront, PrescriptionRequired = p.PrescriptionRequired, TaxClassId = p.TaxClassId,
             Category = p.Category, IsExpiryTracked = p.IsExpiryTracked, CountryOfOriginCode = p.CountryOfOriginCode
         });

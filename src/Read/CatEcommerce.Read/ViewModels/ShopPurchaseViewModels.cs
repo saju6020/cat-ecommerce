@@ -31,7 +31,8 @@ public sealed record BundleDetailViewModel(IReadOnlyList<BundleComponentDetailVi
 /// <c>AsOf</c>, or null.</summary>
 public sealed record SkuSaleFactViewModel(
     Guid SkuId, Guid ProductId, string ProductName, string SkuLabel, string SkuCode, string Kind, string ProductStatus,
-    string SkuStatus, bool ListedOnStorefront, bool PrescriptionRequired, Guid TaxClassId, MoneyViewModel? Price);
+    string SkuStatus, bool ListedOnStorefront, bool PrescriptionRequired, Guid TaxClassId, MoneyViewModel? Price,
+    int? ShippingWeightGrams = null);
 
 /// <summary>HO-SHP-001 section 8.12 -- D-2 (expiry tracking) and revenue by origin.</summary>
 public sealed record SkuCatalogueFactViewModel(

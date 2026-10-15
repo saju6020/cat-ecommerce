@@ -36,6 +36,21 @@ export default function PortalCatProfilePage({ params }: { params: Promise<{ cat
       </Link>
 
       <Link
+        href={`/portal/cats/${catId}/visits`}
+        className={buttonVariants({ variant: 'secondary' })}
+      >
+        Visits and results
+      </Link>
+
+      {/* HO-PHM-002 §13 — the one scoped edit to this page: a summary link (US-PHM-07). */}
+      <Link
+        href={`/portal/prescriptions?catId=${catId}`}
+        className={buttonVariants({ variant: 'secondary' })}
+      >
+        Active prescriptions
+      </Link>
+
+      <Link
         href={`/portal/cats/${catId}/medical-history`}
         className={buttonVariants({ variant: 'secondary' })}
       >

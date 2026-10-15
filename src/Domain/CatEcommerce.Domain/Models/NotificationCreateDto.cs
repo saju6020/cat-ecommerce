@@ -43,4 +43,6 @@ public sealed record NotificationCreateDto(
     Guid? ResendOfId,
     Guid? ResentBy,
     int? ResendOrdinal = null,
-    string? SubjectStamp = null);
+    string? SubjectStamp = null,
+    NotificationAttachmentKind? AttachmentKind = null,
+    Guid? AttachmentId = null);

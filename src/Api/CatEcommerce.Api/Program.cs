@@ -68,7 +68,7 @@ builder.Services.AddControllers(options =>
 // calls the platform's UseHttpPipeline(), which used to map it internally -- SECURITY gate,
 // dropping UseHttpPipeline() entirely). Not itself a dispatch-pipeline service, so registering it
 // does not violate the "never hand-register" list in .ai/host-composition.md section 5.
-builder.Services.AddHealthChecks();
+builder.Services.AddHealthChecks().AddCheck<CatEcommerce.Api.Hosting.DeliveryTaxClassHealthCheck>("delivery-tax-class");
 
 // ── Platform: the in-memory dispatch pipeline ────────────────────────────────
 // Registers exactly IResolver, IHandlerResolver, IInMemoryDispatcher, ICommandSender,
@@ -99,11 +99,17 @@ builder.Services.AddDbContext<CatEcommerceDbContext>((sp, o) =>
 {
     o.UseNpgsql(builder.Configuration.GetConnectionString("CatEcommerce"));
     o.AddInterceptors(
+        // HO-XCT-001 ADR-299 layer 2. The two dedicated immutability guards keep running first: they raise their own, more specific errors for the
+        // tables they cover (audit entries, the controlled-drug register) and have no side effects. The retention guard runs next and BEFORE the
+        // change-capture interceptor, so a refused delete is never audited as though it happened (it aborts the save).
+        new AuditEntryImmutabilityInterceptor(),
+        // HO-PHM-001 §8.9 layer 2 (ADR-144): a modified or deleted controlled-drug register entry or seal is refused before SQL is sent.
+        new ControlledDrugRegisterImmutabilityInterceptor(),
+        new CatEcommerce.Infrastructure.Retention.HardDeleteGuardInterceptor(),
         new AuditChangeCaptureInterceptor(
             sp.GetRequiredService<IClientIpAccessor>(),
             sp.GetRequiredService<IUserContextProvider>(),
-            sp.GetRequiredService<TimeProvider>()),
-        new AuditEntryImmutabilityInterceptor());
+            sp.GetRequiredService<TimeProvider>()));
 });
 
 // Our EF Core implementation of the platform's IAggregateRootRepository<T> contract

@@ -213,6 +213,7 @@ public sealed class ShopWishlistAndStockAlertEndpointTests(ShopApiFactory factor
         var (daytime, _) = Factory.WithDaytimeClock();
         var staff = await SignInAsShopManagerAsync();
         var product = await CreateProductAsync(staff, NewBrand("Once"), "Salmon Pate");
+        await BackdatePricesForFrozenClockAsync(product.SkuId);
         await SetSkuOutOfStockAsync(product.SkuId);
 
         var email = NewEmail();
@@ -269,6 +270,7 @@ public sealed class ShopWishlistAndStockAlertEndpointTests(ShopApiFactory factor
         var (daytime, _) = Factory.WithDaytimeClock();
         var staff = await SignInAsShopManagerAsync();
         var product = await CreateProductAsync(staff, NewBrand("Two"), "Tuna Flakes");
+        await BackdatePricesForFrozenClockAsync(product.SkuId);
         await SetSkuOutOfStockAsync(product.SkuId);
 
         var customers = new List<Guid>();
@@ -294,6 +296,7 @@ public sealed class ShopWishlistAndStockAlertEndpointTests(ShopApiFactory factor
         var (daytime, _) = Factory.WithDaytimeClock();
         var staff = await SignInAsShopManagerAsync();
         var product = await CreateProductAsync(staff, NewBrand("NoConsent"), "Chicken Bites");
+        await BackdatePricesForFrozenClockAsync(product.SkuId);
         await SetSkuOutOfStockAsync(product.SkuId);
 
         var (customer, customerId) = await RegisterAndSignInCustomerAsync(daytime, NewEmail());

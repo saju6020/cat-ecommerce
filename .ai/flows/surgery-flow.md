@@ -53,7 +53,10 @@ Discharge + post-op instructions ──► wound check ~day 3 ──► sutures 
 - Neuter status update goes to CatProfiles as an integration event — Clinic does not write to
   `cats.*`
 - A surgery on a currently boarding cat links to the stay and its charges flow to the stay invoice
-  (FR-SRG-9)
+  (FR-SRG-9). Not built yet: `SurgeryDischargedEvent` carries no stay link and the Surgery item
+  source sets no billing group (BIL backlog row 76; HO-BRD-001 contract P2)
+- Surgery is billed from `SurgeryDischargedEvent` to the owner at discharge
+  (`clinic.surgery.owner_at_discharge_id`, frozen once set; ADR-344 extended, HO-BIL-001 Phase J)
 
 ## Decisions made
 -

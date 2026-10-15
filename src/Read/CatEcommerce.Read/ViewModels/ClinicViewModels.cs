@@ -68,7 +68,7 @@ public sealed record CalendarClosureViewModel(DateOnly StartsOn, DateOnly EndsOn
 public sealed record CalendarAppointmentViewModel(
     Guid Id, int Version, Guid CatId, string CatName, Guid CustomerId, string CustomerName, string ServiceName,
     DateTimeOffset? StartsOn, DateTimeOffset? EndsOn, Guid? PerformerId, Guid? RoomId, string Status, bool IsWalkIn,
-    bool NeedsRescheduling, bool CatIsHighRisk);
+    bool NeedsRescheduling, bool CatIsHighRisk, Guid? SurgeryId = null, Guid? AssistantId = null);
 
 public sealed record CalendarResourceViewModel(Guid Id, string Name);
 

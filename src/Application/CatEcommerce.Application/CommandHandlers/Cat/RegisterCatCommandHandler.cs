@@ -2,6 +2,7 @@ using CatEcommerce.Application.Commands.Cat;
 using CatEcommerce.Application.DataMappers;
 using CatEcommerce.Domain.Aggregates.Account;
 using CatEcommerce.Domain.Aggregates.Cat;
+using CatEcommerce.Domain.DomainServices;
 using CatEcommerce.Domain.Exceptions;
 using CatEcommerce.Shared.Common.Constants;
 using CatEcommerce.Shared.Common.Enums;
@@ -36,7 +37,7 @@ public sealed class RegisterCatCommandHandler(
     ILogger<RegisterCatCommandHandler> logger,
     IAggregateRootRepository<CatAggregate> catRepository,
     IAggregateRootRepository<CustomerAccountAggregate> customerRepository,
-    TimeProvider timeProvider)
+    ICatRecordClock clock)
     : ICommandHandlerAsync<RegisterCatCommand>
 {
     public async Task<CommandResponse> HandleAsync(RegisterCatCommand command)
@@ -54,7 +55,7 @@ public sealed class RegisterCatCommandHandler(
                 "This customer record is not active.");
 
         var cat = new CatAggregate(command.CatId);
-        var today = DateOnly.FromDateTime(timeProvider.GetUtcNow().UtcDateTime);
+        var today = await clock.LocalTodayAsync(CancellationToken.None);
 
         try
         {

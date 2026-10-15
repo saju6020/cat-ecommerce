@@ -29,6 +29,8 @@ export interface TaxClassFormProps {
 
 export function TaxClassForm({ taxClass, onSave, isPending }: TaxClassFormProps) {
   const isCreate = !taxClass;
+  // HO-ORD-001-FU1: the DELIVERY class carries the tax on delivery charges and can never be deactivated.
+  const isDeliveryClass = taxClass?.code === 'DELIVERY';
   const {
     register,
     handleSubmit,
@@ -48,7 +50,7 @@ export function TaxClassForm({ taxClass, onSave, isPending }: TaxClassFormProps)
       await onSave({
         code: isCreate ? values.code : undefined,
         name: values.name,
-        isActive: values.isActive,
+        isActive: isDeliveryClass ? true : values.isActive,
       });
     } catch (error) {
       if (error instanceof ApiValidationError) {
@@ -105,10 +107,23 @@ export function TaxClassForm({ taxClass, onSave, isPending }: TaxClassFormProps)
         )}
       </div>
       {!isCreate && (
-        <label className="flex items-center gap-2 text-sm text-ink">
-          <input type="checkbox" {...register('isActive')} />
-          Active
-        </label>
+        <div className="flex flex-col gap-1">
+          <label className="flex items-center gap-2 text-sm text-ink">
+            <input
+              type="checkbox"
+              {...register('isActive')}
+              disabled={isDeliveryClass}
+              checked={isDeliveryClass ? true : undefined}
+              aria-describedby={isDeliveryClass ? 'tax-class-delivery-why' : undefined}
+            />
+            Active
+          </label>
+          {isDeliveryClass && (
+            <p id="tax-class-delivery-why" className="text-xs text-ink-muted">
+              The DELIVERY tax class carries the tax on delivery charges, so it cannot be deactivated. Change its rate instead.
+            </p>
+          )}
+        </div>
       )}
       <Button
         type="submit"

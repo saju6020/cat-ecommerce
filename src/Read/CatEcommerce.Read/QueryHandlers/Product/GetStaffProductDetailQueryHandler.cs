@@ -19,7 +19,8 @@ namespace CatEcommerce.Read.QueryHandlers.Product;
 /// staff read share <c>ProductPublicationRules.Evaluate(product, facts)</c> with the publish command,
 /// and that pure rule takes the aggregate. Everything else here (component SKUs, prices, related
 /// products, the tax class) is a column projection (.ai/read-side-pattern.md section 4).</summary>
-public sealed class GetStaffProductDetailQueryHandler(CatEcommerceDbContext db, TimeProvider timeProvider)
+public sealed class GetStaffProductDetailQueryHandler(
+    CatEcommerceDbContext db, TimeProvider timeProvider, Microsoft.Extensions.Options.IOptions<CatEcommerce.Infrastructure.Configuration.ShopOptions> shopOptions)
     : IQueryHandlerAsync<GetStaffProductDetailQuery, StaffProductDetailViewModel?>
 {
     public async Task<QueryResponse<StaffProductDetailViewModel?>> HandleAsync(GetStaffProductDetailQuery query)
@@ -55,6 +56,9 @@ public sealed class GetStaffProductDetailQueryHandler(CatEcommerceDbContext db, 
             .Select(i => new PublicationChecklistItemViewModel(i.Item, i.IsBlocking, i.IsMet, i.Message))
             .ToList();
 
+        // US-SHP-02 AC1 / US-SHP-07: Inventory's figure per SKU, null when the view has no row ("never reported").
+        var stockBySku = await SkuSellability.StockAsync(db, skuIds, shopOptions.Value.EffectiveStorefrontBranchId);
+
         var skuViewModels = product.Skus.Select(s =>
         {
             var skuPrices = prices.Where(p => p.SkuId == s.Id).ToList();
@@ -65,7 +69,9 @@ public sealed class GetStaffProductDetailQueryHandler(CatEcommerceDbContext db, 
                 s.Id, s.Code, s.Barcode, s.SizeOrWeight, s.Flavour, s.Colour, s.PackQuantity, s.Status.DisplayName,
                 current is null ? null : new Money(current.Amount, current.CurrencyCode).ToViewModel(),
                 scheduled is null ? null : new Money(scheduled.Amount, scheduled.CurrencyCode).ToViewModel(),
-                s.Label(product.Name));
+                s.Label(product.Name),
+                stockBySku.TryGetValue(s.Id, out var stock) ? new StaffSkuStockViewModel(stock.SellableQuantity, stock.NextExpiresOn, now) : null,
+                s.ShippingWeightGrams);
         }).ToList();
 
         var relatedIds = product.RelatedProducts.Select(l => l.RelatedProductId).ToList();

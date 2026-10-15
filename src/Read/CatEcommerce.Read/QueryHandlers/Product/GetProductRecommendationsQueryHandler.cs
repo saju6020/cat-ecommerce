@@ -32,7 +32,7 @@ public sealed class GetProductRecommendationsQueryHandler(
 
     public async Task<QueryResponse<RecommendationsViewModel?>> HandleAsync(GetProductRecommendationsQuery query)
     {
-        var interim = shopOptions.Value.InterimAvailabilityFromPrice;
+        var branchId = shopOptions.Value.EffectiveStorefrontBranchId;
 
         var product = await db.Products.AsNoTracking()
             .Where(p => p.Slug == query.Slug && p.Status == ProductStatus.Active && p.ListedOnStorefront)
@@ -55,20 +55,21 @@ public sealed class GetProductRecommendationsQueryHandler(
             : await db.StorefrontCatalogueEntries.AsNoTracking().Where(e => linkedIds.Contains(e.ProductId)).ToListAsync();
 
         var lifeStages = await ResolveLifeStagesAsync(product.IsFood ? product.OwnLifeStage : null, query.CustomerId);
-        var candidates = await LoadLifeStageCandidatesAsync(product.Id, lifeStages.Stages, interim);
+        var candidates = await LoadLifeStageCandidatesAsync(product.Id, lifeStages.Stages, branchId);
+        var sellable = await StorefrontAvailability.SellableProductIdsAsync(db, linkedEntries.Concat(candidates).Select(e => e.ProductId).ToList(), timeProvider.GetUtcNow(), branchId);
 
         var buyableRx = await ResolveBuyablePrescriptionProductsAsync(query.CustomerId, linkedEntries.Concat(candidates).DistinctBy(e => e.ProductId));
 
         IReadOnlyList<CatalogueItem> CuratedBlock(RelatedProductKind kind) => product.Links
             .Where(l => l.Kind == kind).OrderBy(l => l.SortOrder)
             .Select(l => linkedEntries.FirstOrDefault(e => e.ProductId == l.RelatedProductId))
-            .Where(e => e is not null && IsIncluded(e, product.Id, isGuest, buyableRx, interim))
-            .Select(e => GetCatalogueQueryHandler.ToCatalogueItem(e!, interim)).ToList();
+            .Where(e => e is not null && IsIncluded(e, product.Id, isGuest, buyableRx, sellable))
+            .Select(e => GetCatalogueQueryHandler.ToCatalogueItem(e!, sellable.Contains(e!.ProductId))).ToList();
 
         var lifeStageItems = candidates
-            .Where(e => IsIncluded(e, product.Id, isGuest, buyableRx, interim))
+            .Where(e => IsIncluded(e, product.Id, isGuest, buyableRx, sellable))
             .Take(MaxLifeStageItems)
-            .Select(e => GetCatalogueQueryHandler.ToCatalogueItem(e, interim)).ToList();
+            .Select(e => GetCatalogueQueryHandler.ToCatalogueItem(e, sellable.Contains(e.ProductId))).ToList();
 
         // US-SHP-14: names in the requested language, per-field fallback to the default.
         var result = new RecommendationsViewModel(
@@ -80,9 +81,9 @@ public sealed class GetProductRecommendationsQueryHandler(
         return new QueryResponse<RecommendationsViewModel?> { Result = result };
     }
 
-    private static bool IsIncluded(StorefrontCatalogueEntry entry, Guid productId, bool isGuest, HashSet<Guid> buyableRx, bool interim) =>
+    private static bool IsIncluded(StorefrontCatalogueEntry entry, Guid productId, bool isGuest, HashSet<Guid> buyableRx, HashSet<Guid> sellable) =>
         RecommendationExclusionPolicy.IsIncluded(
-            isActiveAndListed: true, inStock: interim && entry.InStock, isSameProduct: entry.ProductId == productId,
+            isActiveAndListed: true, inStock: sellable.Contains(entry.ProductId), isSameProduct: entry.ProductId == productId,
             prescriptionRequired: entry.PrescriptionRequired, isGuest: isGuest, callerHasEligibleCat: buyableRx.Contains(entry.ProductId));
 
     /// <summary>The signed-in customer's alive cats' life stages (section 8.13's derivation) when
@@ -110,13 +111,14 @@ public sealed class GetProductRecommendationsQueryHandler(
         return ("ThisProduct", ownLifeStage is null ? [] : [ownLifeStage]);
     }
 
-    private async Task<List<StorefrontCatalogueEntry>> LoadLifeStageCandidatesAsync(Guid productId, IReadOnlyList<LifeStage> stages, bool interim)
+    private async Task<List<StorefrontCatalogueEntry>> LoadLifeStageCandidatesAsync(Guid productId, IReadOnlyList<LifeStage> stages, Guid branchId)
     {
-        if (stages.Count == 0 || !interim) return [];
+        if (stages.Count == 0) return [];
 
         var food = ProductCategory.CatFood.Value;
         var source = db.StorefrontCatalogueEntries.AsNoTracking()
-            .Where(e => e.Category == food && e.InStock && e.ProductId != productId && e.LifeStage != null);
+            .Where(e => e.Category == food && e.ProductId != productId && e.LifeStage != null)
+            .Where(StorefrontAvailability.IsSellable(db, branchId));
 
         if (!stages.Contains(LifeStage.AllLifeStages))
         {

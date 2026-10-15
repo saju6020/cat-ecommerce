@@ -1,6 +1,7 @@
 import { http, HttpResponse } from 'msw';
 import { addDays, addMonths, format, subMonths } from 'date-fns';
 import type {
+  CatPhoto,
   CatProfile,
   CatListItem,
   CatVaccinationStatus,
@@ -10,6 +11,8 @@ import type {
 } from '@/lib/api/cats';
 import type { VaccineListItem } from '@/lib/api/vaccines';
 import { CAT_PHOTO_RULES } from '@/lib/catPhotoRules';
+import { buildStoredFileViewModel } from '../files/fixtures';
+import { mockUploadedFiles } from '../files/uploadBehavior';
 
 /**
  * Cat Profiles MSW request handlers — all 20 endpoints in HO-CAT-001 §12.4 (HO-CAT-002 §12.5).
@@ -95,6 +98,28 @@ type StoredCat = Omit<CatProfile, 'latestWeightKg' | 'hasRecordedAllergies'> & {
 };
 
 const today = () => new Date();
+
+/** A photo as `GET /api/cats/{id}` now returns it (HO-FIL-001 §12.4 shape): a signed `url`, no storage key. */
+function seedPhoto(
+  originalFileName: string,
+  contentType: string,
+  sizeInBytes: number,
+  isPrimary: boolean,
+  uploadedOn: string,
+): CatPhoto {
+  const file = buildStoredFileViewModel({ originalFileName, contentType, sizeInBytes });
+  return {
+    id: crypto.randomUUID(),
+    fileId: file.fileId,
+    url: file.url,
+    contentType,
+    sizeInBytes,
+    originalFileName,
+    urlExpiresOn: file.urlExpiresOn,
+    isPrimary,
+    uploadedOn,
+  };
+}
 const iso = (date: Date) => format(date, 'yyyy-MM-dd');
 
 function dateOnlyAddMonths(dateOnly: string, months: number): string {
@@ -220,24 +245,8 @@ function seedCats(vaccineCatalog: VaccineListItem[]): Map<string, StoredCat> {
       },
     ],
     photos: [
-      {
-        id: crypto.randomUUID(),
-        storageKey: 'dev/whiskers-1.jpg',
-        contentType: 'image/jpeg',
-        sizeInBytes: 812_000,
-        fileName: 'whiskers-front.jpg',
-        isPrimary: true,
-        uploadedOn: subMonths(today(), 4).toISOString(),
-      },
-      {
-        id: crypto.randomUUID(),
-        storageKey: 'dev/whiskers-2.jpg',
-        contentType: 'image/jpeg',
-        sizeInBytes: 640_000,
-        fileName: 'whiskers-side.jpg',
-        isPrimary: false,
-        uploadedOn: subMonths(today(), 2).toISOString(),
-      },
+      seedPhoto('whiskers-front.jpg', 'image/jpeg', 812_000, true, subMonths(today(), 4).toISOString()),
+      seedPhoto('whiskers-side.jpg', 'image/jpeg', 640_000, false, subMonths(today(), 2).toISOString()),
     ],
     vaccinations: [vaccination(rabies, 6, 'RB-2201'), vaccination(fvrcp, 2, 'FV-9910')],
     parasiteTreatments: [
@@ -341,15 +350,7 @@ function seedCats(vaccineCatalog: VaccineListItem[]): Map<string, StoredCat> {
     chronicConditions: [],
     medications: [],
     photos: [
-      {
-        id: crypto.randomUUID(),
-        storageKey: 'dev/tiger-1.jpg',
-        contentType: 'image/png',
-        sizeInBytes: 1_240_000,
-        fileName: 'tiger.png',
-        isPrimary: true,
-        uploadedOn: subMonths(today(), 5).toISOString(),
-      },
+      seedPhoto('tiger.png', 'image/png', 1_240_000, true, subMonths(today(), 5).toISOString()),
     ],
     // Rabies never administered -> Overdue/NeverAdministered. FVRCP administered 14 months ago
     // with 12-month validity -> also Overdue (past its own next-due date).
@@ -986,26 +987,17 @@ export const catProfilesHandlers = [
     const cat = cats.get(catId);
     if (!cat) return new HttpResponse(null, { status: 404 });
 
-    const body = (await request.json()) as {
-      storageKey: string;
-      contentType: string;
-      sizeInBytes: number;
-      fileName: string;
-      isPrimary: boolean;
-    };
+    const body = (await request.json()) as { fileId?: string; isPrimary?: boolean };
 
-    if (!(CAT_PHOTO_RULES.allowedContentTypes as readonly string[]).includes(body.contentType)) {
+    // Mirrors AddCatPhotoCommandHandler: ONE refusal code for every ineligible-file reason (unknown
+    // id, wrong purpose, someone else's upload, too old). The mock's `attach-rejected-*` file name
+    // is the e2e/unit hook for that path.
+    const uploaded = body.fileId ? mockUploadedFiles.get(body.fileId) : undefined;
+    if (!uploaded || uploaded.name.startsWith('attach-rejected-')) {
       return domainViolation(
-        'ContentType',
-        'InvalidPhotoContentType',
-        "That file type isn't supported. Use JPEG, PNG or WebP.",
-      );
-    }
-    if (body.sizeInBytes > CAT_PHOTO_RULES.maxSizeInBytes) {
-      return domainViolation(
-        'SizeInBytes',
-        'PhotoTooLarge',
-        `That image is too large. The maximum is ${CAT_PHOTO_RULES.maxSizeInBytes / (1024 * 1024)} MB.`,
+        'FileId',
+        'PhotoFileNotEligible',
+        'The uploaded file could not be attached to this cat. Upload it again and try immediately.',
       );
     }
     if (cat.photos.length >= CAT_PHOTO_RULES.maxPhotosPerCat) {
@@ -1017,13 +1009,16 @@ export const catProfilesHandlers = [
     }
 
     const photoId = crypto.randomUUID();
+    const exp = Math.floor(Date.now() / 1000) + 5 * 60;
     cat.photos.push({
       id: photoId,
-      storageKey: body.storageKey,
-      contentType: body.contentType,
-      sizeInBytes: body.sizeInBytes,
-      fileName: body.fileName,
-      isPrimary: cat.photos.length === 0 ? true : body.isPrimary,
+      fileId: body.fileId!,
+      url: `/api/files/${body.fileId}/content?exp=${exp}&disp=inline&sig=mock`,
+      contentType: uploaded.type,
+      sizeInBytes: uploaded.size,
+      originalFileName: uploaded.name,
+      urlExpiresOn: new Date(exp * 1000).toISOString(),
+      isPrimary: cat.photos.length === 0 ? true : (body.isPrimary ?? false),
       uploadedOn: new Date().toISOString(),
     });
 

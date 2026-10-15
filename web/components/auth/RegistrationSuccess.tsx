@@ -9,7 +9,7 @@ import { buttonVariants } from '@/components/ui/button';
  * or checking email (§4.1 — withdrawn scope); does not echo the password or the full mobile
  * number. The heading receives focus (§8.6).
  */
-export function RegistrationSuccess() {
+export function RegistrationSuccess({ signInHref = '/sign-in' }: { signInHref?: string }) {
   const headingRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export function RegistrationSuccess() {
         You can use it right away — sign in with the mobile number or email you just gave, and your
         password.
       </p>
-      <Link href="/sign-in" className={buttonVariants({ variant: 'primary' })}>
+      <Link href={signInHref} className={buttonVariants({ variant: 'primary' })}>
         Sign in
       </Link>
     </div>

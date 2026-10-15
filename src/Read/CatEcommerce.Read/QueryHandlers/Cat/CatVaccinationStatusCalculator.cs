@@ -1,3 +1,4 @@
+using CatEcommerce.Domain.DomainServices;
 using CatEcommerce.Read.ViewModels;
 using CatEcommerce.Shared.Common.Enums;
 
@@ -17,49 +18,21 @@ public static class CatVaccinationStatusCalculator
         DateOnly asOf,
         int dueSoonWindowDays)
     {
-        var items = new List<CatVaccinationStatusItemViewModel>();
+        // HO-BRD-001 ADR-355: the algorithm itself is the Domain's VaccinationStatusRule, shared with the boarding gate; this method only maps its output.
+        var evaluation = VaccinationStatusRule.Evaluate(
+            activeCoreVaccines.Select(v => new VaccinationRuleVaccine(v.VaccineId, v.Code, v.Name)).ToList(),
+            catVaccinations.Select(v => new VaccinationRuleRecord(v.VaccineId, v.AdministeredOn, v.NextDueOn)).ToList(),
+            asOf, dueSoonWindowDays);
 
-        foreach (var vaccine in activeCoreVaccines)
-        {
-            var mostRecent = catVaccinations
-                .Where(v => v.VaccineId == vaccine.VaccineId)
-                .OrderByDescending(v => v.AdministeredOn)
-                .FirstOrDefault();
-
-            if (mostRecent is null)
-            {
-                items.Add(new CatVaccinationStatusItemViewModel(
-                    vaccine.VaccineId, vaccine.Code, vaccine.Name,
-                    VaccinationStatus.Overdue.DisplayName, null, "NeverAdministered"));
-                continue;
-            }
-
-            var status =
-                mostRecent.NextDueOn < asOf ? VaccinationStatus.Overdue
-                : mostRecent.NextDueOn <= asOf.AddDays(dueSoonWindowDays) ? VaccinationStatus.DueSoon
-                : VaccinationStatus.Current;
-
-            items.Add(new CatVaccinationStatusItemViewModel(
-                vaccine.VaccineId, vaccine.Code, vaccine.Name,
-                status.DisplayName, mostRecent.NextDueOn, null));
-        }
-
-        var overallStatus = items.Count == 0
-            ? VaccinationStatus.Current
-            : Enumeration.FromDisplayName<VaccinationStatus>(
-                items.Select(i => Enumeration.FromDisplayName<VaccinationStatus>(i.Status))
-                     .OrderByDescending(s => s.Value)
-                     .First()
-                     .DisplayName);
-
-        var knownDueDates = items.Where(i => i.NextDueOn is not null).Select(i => i.NextDueOn!.Value).ToList();
-        DateOnly? earliestNextDueOn = knownDueDates.Count == 0 ? null : knownDueDates.Min();
+        var items = evaluation.Items
+            .Select(i => new CatVaccinationStatusItemViewModel(i.VaccineId, i.Code, i.Name, i.Status.DisplayName, i.NextDueOn, i.Reason))
+            .ToList();
 
         return new CatVaccinationStatusViewModel(
             catId,
-            overallStatus.DisplayName,
-            earliestNextDueOn,
-            BookingEligible: overallStatus != VaccinationStatus.Overdue,
+            evaluation.OverallStatus.DisplayName,
+            evaluation.EarliestNextDueOn,
+            BookingEligible: evaluation.OverallStatus != VaccinationStatus.Overdue,
             items);
     }
 }

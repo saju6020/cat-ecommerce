@@ -1,0 +1,59 @@
+GATE: ACCEPTANCE
+HANDOVER: HO-EMR-002
+COMMITS: ho/EMR-002, head 88da16c4. Diff base d97e42c4 (the master side of merge 3258ad8d): 141 files. Code last changed at 5afcc36d. The commits after the R2 review (7d9ef574, c7c05440, 88da16c4) touch only docs/backlog/EMR.md, docs/gates/HO-EMR-002-TEST.md and docs/test-cases/TC-HO-EMR-002.md (`git diff cacfb200..HEAD --stat`).
+DATE: 2026-10-09
+STATUS: PASS
+
+A5 (US-CLN-15, treatments and stock) is DEFERRED by owner decision: HO-EMR-001 Phase F is not on master (backlog EMR row 20). U-D1..U-D4, E-C2 and the consumable step of E-A1 are recorded DEFERRED in the TC sheet and are not built. A5 is recorded as a deferral. It counts as neither met nor failed. This follows the HO-EMR-001 ACCEPTANCE precedent.
+A3's prescriptions, boarding and food panels are recorded as DEFERRED (HO-EMR-001 §4.2), not passed, as §19 requires. They render the server's `available: false` state.
+
+PRIOR GATES (read from docs/gates/ and docs/test-cases/, not from commit messages)
+- SECURITY: PASS (HO-EMR-002-SECURITY.md, 3 LOW).
+- ARCHITECTURE: round 1 FAIL (1 HIGH, staff binary downloads without X-Branch-Id). CODE_REVIEW: round 1 FAIL (3 HIGH: blank result sent as 0, vitals wiped by a failed refetch, signature lost). HO-EMR-002-REVIEW-R2.md is the combined follow-up review, PASS at cacfb200. It confirms all 4 HIGH closed, each with a regression test in tests/components/visit/fix-round-1.test.tsx.
+- TEST: PASS (HO-EMR-002-TEST.md, c7c05440, plus the 88da16c4 addendum). The sheet docs/test-cases/TC-HO-EMR-002.md was written before execution. One NOT RUN row remains: the real-API re-run of E-A1/A3/A4/A5, E-C1, E-D2, E-G1/G2 and E-H1/H2. It is not counted as a pass (finding M-1). Real E-X, E-A and E-B PASS on catecommerce_dev.
+
+RE-EXECUTION BY THIS GATE
+- Vitest, EMR files only (visit, consent, clinical-history, clinical-catalogue, files/file-upload-field): 15 files, 135/135 passed. No dev server, Playwright or DB was used.
+- Each §15 U-case maps to a named test (`it('U-xx: …')`) in the file the TC sheet names. I read the test titles and the asserted behaviour of the E-specs (emr-workspace, emr-history-diagnostics, emr-portal-consent, emr-a11y-responsive, emr-real-api).
+
+CRITERIA (§18)
+- A1 MET. vitals.test.tsx: U-B1 (accessible name "Weight, kilograms", visible suffix, no spinner); U-B2 (two warned signs listed with ranges, re-post with confirmedOutOfRange, Correct values refocuses); U-B3 (field error, no confirm); U-B4 (cat and weights invalidated). E-A1 (emr-workspace.spec.ts:11): the nurse sees the 42 °C hint, gets the confirm and saves; the card shows *Vitals recorded*.
+- A2 MET. note-flows: U-A5 (newer draft restored with notice and Revert; no notice otherwise); U-A9 (no browser-storage writes across a session); U-A10 (409 keeps the text, comparison box); a coded problem added from the keyboard with duplicate refusal. autosave and fix-round-1: U-A7 (3 s, 20 s ceiling, keepalive on hide and unmount); U-A8 (no replay). E-A2 (reload restores, storage snapshot clean) and E-A3 (idle lock, text kept, next edit saves) on mocks. Real E-A: draft auto-saved and restored, server GET returned the Plan text.
+- A3 MET (the unavailable panels are deferred, see above). history.test.tsx: U-F1 (drawer open and close while dirty leaves the value and URL unchanged); U-F2 (unavailable section, no page request); U-F3 (chart plus table). E-B1 on mocks and real E-B (drawer on a real visit, Prescriptions "will appear here…"). E-D2: 20 cold opens of the 10-year fixture, p95 1004 ms < 2000 ms (mock; flaky on a loaded host, backlog 28; not measurable on the real API).
+- A4 MET. diagnostics.test.tsx: U-C1 (preview flag replaced by the server's); U-C2 (words plus icon); U-C3 (DICOM Download, no Open). file-upload-field: U-C4 (type and size refused before upload; FileScanUnavailable sentence). E-A1 orders Creatinine, enters 300 and sees *High ↑* in the table. E-C1 attaches a PDF, gets a new-tab noopener link to /api/files/…/content, and the DICOM is download-only. On mocks only the link is checked, not the opening (M-1).
+- A5 DEFERRED (owner decision, Phase F). Nothing is built: no TreatmentsPanel, dispensary module or mock (ARCHITECTURE "Treatments deferred correctly").
+- A6 MET. summary-portal: U-G1 (label sentence on prescriptionsAvailable false); U-G2 (neutral 404); print-only-for-staff and print stylesheet. fix-round-1: the staff PDF is fetched as a blob with X-Branch-Id and revoked. E-G1 fetches the portal PDF link and gets 200 application/pdf; E-A1 reaches the staff summary. E-G2 gives a neutral not-found for an open visit and for another owner's visit.
+- A7 MET. workspace-roles U-A4 (finalised = record, no note inputs, addendum form only with addAddendum). note-flows U-A13 (confirm "cannot be edited or removed", listed with author and time). E-A5 (addendum listed; original text present once before and after reload).
+- A8 MET. panels.test.tsx U-E1: the reminder sentence; Book an appointment books through the staff slots, then sets the follow-up with the returned id. E-A1 sets a reminder 14 days out (*Reminder on…*).
+- A9 MET, evidence partly by source. panels.test.tsx: photos shown with their note; Add photo only with attachPhoto; the form needs a photo and a date that is not in the future (max). U-X4 refreshes an expired URL once. Source: PhotosPanel.tsx AddPhotoForm posts {fileId, takenOn, note} through useAttachPhoto, which invalidates the clinical history (useVisit.ts:157-163). HistoryItem.tsx:101-115 renders the photo item with its date and note on the timeline. history.test.tsx lists the Photos section. No test drives a successful attach end to end (backlog 38a).
+- A10 MET. note-flows U-A6: a template visit with no saved note is pre-filled and editable, with the notice.
+- A11 MET. consent.test.tsx: U-H1 (strokes in [0,1] at 4 dp, Undo, Clear, < 10 points blocked); U-H2 (unpublished form, no submit); U-H3 (LimitedMarkup, no injection); records the version shown; version-changed reload. fix-round-1: the signature survives a tab round-trip and an empty signature is never submitted. E-H1: tablet 768x1024 with touch; signed, Undo, re-signed; confirm names form version 3; listed with Version 3 and Recorded; ConsentList has date, signer and version columns. E-H2: upload path, consent shows the open link. Judged with the known items: the missing cat-page *Record consent* button and the CheckedIn/InConsultation-only appointment link are §11.6 entry-point deviations. They are not part of A11's wording, which is capture with form version. MEDIUM, backlog 33.
+- A12 MET. workspace-roles: U-A2 (nurse: note as text, no Finalise); U-A3 (administrator read-only, no Finalise); reception gets PermissionDeniedState. note-flows U-A11 maps the server's ProblemRequired. E-A4 (mock): reception refused; administrator has no Finalise, no Save and no inputs. Not run on the real API: no e2e.reception or e2e.admin in the dev DB (M-1).
+- A13 MET. U-B1 above. cross-cutting U-X3 checks the record-view vitals, the summary weight and the history last-vitals, and that every vitals input names its unit.
+- A14 MET. emr-a11y-responsive.spec.ts. E-X1 runs axe with zero serious/critical findings on all 24 route cases. They cover every §8.1 route for all roles: visits list, workspace for vet/nurse/admin/reception and in draft, template and finalised states, summary, diagnostics list and two orders, consent capture, consent detail, cat history, cat consents, three catalogues, front-desk queue, appointment detail, portal cat visits, portal summary and not-found. E-X1 also covers six named states: drawer open, vitals confirm, finalise blocked and ready, order drawer and dialog plus quick vitals, consent upload tab and unpublished form, catalogue editors. 30/30 PASS. E-X2 runs the same 24 routes at 360/768/1024/1440: no document overflow and no control past the viewport (96 PASS), plus the overlays at 360 px. Gap: /portal/cats/[catId] (one link added) is not loaded (LOW, backlog 38b).
+
+SCOPE
+- §4 out-of-scope work found: none. No prescribe button, no price or payment on clinical screens (DischargeSummaryView states it; FollowUpBookingDialog only filters services by isPriced), no DICOM viewer, no markdown or HTML parsing, no new dependency. `git diff d97e42c4 HEAD -- web/package.json package-lock.json web/package-lock.json web/tsconfig.json web/next.config.ts web/eslint.config.mjs .ai .claude src tests` is empty. Browser storage appears only in the MSW mock store (mocks-only, accepted by SECURITY).
+- ADRs: ADR-FE-049…058 are only in web/docs/decisions.md:1109-1187, once each. A script compared each Decision and Why with the §9 table: 10/10 identical. No ADR-FE text exists in .ai/**. The Status lines name the realised deviations of 049, 051, 055 and 057.
+- Files outside allowed scope:
+  - web/nav/areas/consultation.ts (+6/−1), the web/README-mandated registry equivalent of §13's `(staff)/layout.tsx` nav line. The layout is untouched.
+  - web/tests/e2e/emr-helpers.ts, a non-spec helper beside the emr-*.spec.ts glob.
+  - Both were accepted by ARCHITECTURE and R2 on the HO-SHP-002/HO-BIL-002 precedent. The §1 Amended row is owed (backlog 35).
+  - docs/backlog/EMR.md is the owner's gate-rule record, not implementation.
+  - Scoped edits to other areas' files match §13 exactly: cat layout +2 tabs; portal cat page +1 link; adminNavItems +3 entries; ClinicQueue +1 component (two card actions); StaffAppointmentDetail +1 component (two links); errors.ts and mocks/handlers/index.ts append only.
+- files in allowed scope: 138/141 inside the literal §13 list (incl. docs/test-cases/TC-HO-EMR-002.md and docs/gates/HO-EMR-002-*.md); the other 3 are the two above and docs/backlog/EMR.md.
+
+FINDINGS (none BLOCKER or HIGH)
+- [MEDIUM] M-1 docs/test-cases/TC-HO-EMR-002.md "Real-API cases": 10 of the 13 E-cases were never run on the real API. §16 asks for both runs. The owner has now approved test data, so most of the reason is gone. A12's E-A4 needs reception and admin logins that the dev DB lacks. The contract risk is reduced by ARCHITECTURE's field-by-field mock-vs-view-model check and by the three real cases that passed. Backlog 32.
+- [MEDIUM] M-2 web/app/(staff)/staff/cats/[catId]/consents/page.tsx and web/components/visit/AppointmentClinicalLinks.tsx:18,42: there is no cat-page *Record consent* entry (§11.6). The appointment link shows only from check-in onward. This deviation is declared but not in §1 Amended. Backlog 33, with row 22.
+- [MEDIUM] M-3 Backend follow-ups raised by ARCHITECTURE and SECURITY had no backlog rows: DiagnosticOrder allowedActions, consent requirement on the appointment, witness staff list, witness validation, label sentence. Added as backlog 34.
+- [MEDIUM] (existing) Declared deviations not yet recorded in §1 Amended: results after finalise, ProvidersGate (a private `next/dist` import), compact VisitCatHeader, broadened consent link. Backlog 22. These are owner-confirm items. They do not contradict a §18 criterion.
+- [LOW] §1 Amended rows owed for the nav registry and emr-helpers.ts (backlog 35); VisitCatHeader and toFixed(2) (backlog 36); component sizes over ~150 lines (backlog 37); test gaps for photo attach, the portal cat page in E-X, and E-H1 date/signer (backlog 38).
+- [NOTE] Integrator: merging into current master 2330aa40 (HO-BIL-002) conflicts append-on-append in adminNavItems.ts, decisions.md and errors.ts (backlog 39). Recheck the ADR text after resolution.
+
+UNDECLARED DEVIATIONS
+- None found beyond those already declared and recorded by earlier gates. The cat-page consent pointer is the developer's declared response to the round-1 ARCH MEDIUM. It still falls short of §11.6 (M-2).
+
+SCOPE CHECK
+- files in allowed scope: 141/141 (138 literal §13; nav/areas/consultation.ts and emr-helpers.ts by precedent pending §1 Amended; docs/backlog/EMR.md by the owner's gate rule)
+- files outside allowed scope: none unaccounted for

@@ -42,6 +42,7 @@ public static class CatProfilesModule
         services.AddHostedService<PublicSiteStartupGuardHostedService>();
 
         // ── Command handlers (all 13, C1-C13) + validators (all 13, as IValidator<T>) ──────────
+        services.AddScoped<CatEcommerce.Domain.DomainServices.ICatRecordClock, CatEcommerce.Infrastructure.Persistence.CatRecordClock>();
         services.AddScoped<ICommandHandlerAsync<RegisterCatCommand>, RegisterCatCommandHandler>();
         services.AddScoped<IValidator<RegisterCatCommand>, RegisterCatCommandValidator>();
 

@@ -5,6 +5,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { BuyBox } from '@/components/product/BuyBox';
 import { ProductGallery } from '@/components/product/ProductGallery';
 import { VariantSelector } from '@/components/product/VariantSelector';
+import { AddToCartButton } from '@/components/cart/AddToCartButton';
 import { PrescriptionGate } from '@/components/prescription/PrescriptionGate';
 import { StockAlertButton } from '@/components/wishlist/StockAlertButton';
 import { WishlistButton } from '@/components/wishlist/WishlistButton';
@@ -29,7 +30,7 @@ export interface ProductPurchaseProps {
   lang: string;
   /** The server-rendered heading block, laid out beside the gallery. */
   heading: React.ReactNode;
-  /** HO-ORD-002 fills this with *Add to cart* (§11.3); empty in this slice. */
+  /** An override for the buy box action slot; by default HO-ORD-002's *Add to cart* (§3.3). */
   actions?: React.ReactNode;
 }
 
@@ -121,7 +122,25 @@ export function ProductPurchase({
         <BuyBox
           sku={sku}
           pricesIncludeTax={detail.pricesIncludeTax}
-          actions={actions}
+          actions={
+            actions ?? (
+              <AddToCartButton
+                key={sku.skuId}
+                skuId={sku.skuId}
+                productName={detail.name}
+                requiresPrescription={detail.prescriptionRequired}
+                disabled={outOfStock || !sku.price}
+                disabledReason={outOfStock ? 'This variant is out of stock.' : 'This variant has no price yet.'}
+                signedIn={sessionKnown ? signedIn : undefined}
+                eligibleCatIds={
+                  purchasability.data?.skus
+                    .find((s) => s.skuId === sku.skuId)
+                    ?.eligibleCats.map((cat) => cat.catId) ?? []
+                }
+                signInHref={signInHref}
+              />
+            )
+          }
           gate={
             detail.prescriptionRequired && sessionKnown ? (
               <PrescriptionGate

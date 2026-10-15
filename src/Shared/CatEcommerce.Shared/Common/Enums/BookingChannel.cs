@@ -8,4 +8,5 @@ public sealed class BookingChannel(int value, string displayName) : Enumeration(
     public static readonly BookingChannel Reception = new(2, nameof(Reception));
     public static readonly BookingChannel WalkIn = new(3, nameof(WalkIn));
     public static readonly BookingChannel Waitlist = new(4, nameof(Waitlist));
+    public static readonly BookingChannel Surgery = new(5, nameof(Surgery));
 }

@@ -6,6 +6,7 @@ using CatEcommerce.Domain.Aggregates.Administration;
 using CatEcommerce.Domain.DomainServices;
 using CatEcommerce.Domain.Models;
 using CatEcommerce.Domain.ValueObjects;
+using CatEcommerce.Shared.Common.Constants;
 using CatEcommerce.Shared.Common.Enums;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
@@ -51,7 +52,7 @@ public abstract class ShopIntegrationTestBase(ShopApiFactory factory) : CatEcomm
     protected async Task<SeededProduct> CreateProductAsync(
         HttpClient staff, string brand, string name, string category = "HealthAndGrooming", decimal price = 1000m,
         string? countryCode = null, string? lifeStage = null, bool prescription = false, string? ingredientList = null,
-        string[]? healthFocus = null, string? proteinSource = null, bool publish = true, string? tag = null, string? subcategory = null)
+        string[]? healthFocus = null, string? proteinSource = null, bool publish = true, string? tag = null, string? subcategory = null, decimal stock = 100m)
     {
         var taxClassId = await SeedActiveTaxClassAsync(UniqueCode("TAX"));
         var slug = UniqueSlug("p");
@@ -91,6 +92,7 @@ public abstract class ShopIntegrationTestBase(ShopApiFactory factory) : CatEcomm
         var skuId = (await addSku.Content.ReadFromJsonAsync<JsonElement>(Json)).GetProperty("skuId").GetGuid();
 
         await SchedulePriceAsync(staff, skuId, price);
+        if (stock > 0) await StockSkuAsync(skuId, stock, expiryTracked: isFood);
 
         if (publish) await PublishAsync(staff, productId);
 
@@ -141,16 +143,147 @@ public abstract class ShopIntegrationTestBase(ShopApiFactory factory) : CatEcomm
         return new SeededProduct(productId, slug, skuId, skuCode);
     }
 
-    /// <summary>
-    /// Test-only availability fixture (HO-SHP-001 §1 Amended, 2026-10-04). HO-IMP-001's
-    /// <c>inventory.v_sellable_stock</c> / <c>IStockLedger</c> do not exist in this worktree, so
-    /// the only availability state Shop reads today is "an Active SKU with a price effective now"
-    /// (§1 Amended, 2026-09-28). This moves every price of the SKU into the future (= nothing
-    /// sellable) and <see cref="SetSkuInStockAsync"/> reverses it -- the stand-in for "Inventory
-    /// holds no / holds stock". No production code path and no Testing-only endpoint sets stock
-    /// (§16.1 rule 3); when HO-IMP-001 lands these two helpers are replaced by ledger fixtures.
-    /// </summary>
+    // ── Stock, seeded exactly as Inventory holds it (HO-SHP-001 16.1 rule 3, HO-SHP-001-FU2) ───────────────────────────
+    // Shop has no command, route or Testing-only endpoint that sets stock. A test stocks a SKU the way a storeroom
+    // does -- a posted goods receipt (Inventory's own endpoint) at a ShopFloor location -- and lets
+    // inventory.v_sellable_stock derive the figure. "Out of stock" is a quarantined batch (the view only counts
+    // Available batches); "back in stock" releases it.
+
+    private sealed record StockHome(Guid BranchId, Guid LocationId);
+
+    private HttpClient? _stockClient;
+    private readonly Dictionary<Guid, List<Guid>> _batchesBySku = [];
+
+    /// <summary>The seeded main branch -- the storefront branch unless configured otherwise (owner decision 2026-10-07) -- and its seeded
+    /// ShopFloor location. Nothing is created, so the seeded-locations facts of Inventory's own tests are undisturbed.</summary>
+    private static Task<StockHome> StockHomeAsync() =>
+        Task.FromResult(new StockHome(AdministrationSeed.MainBranchId, InventorySeed.ShopLocationId));
+
+    private async Task AssignToBranchAsync(Guid staffId, Guid branchId)
+    {
+        await using var scope = Factory.Services.CreateAsyncScope();
+        var assignments = scope.ServiceProvider.GetRequiredService<IAggregateRootRepository<StaffBranchAssignmentAggregate>>();
+        var assignment = new StaffBranchAssignmentAggregate(staffId);
+        assignment.Assign(new StaffBranchAssignDto([branchId], branchId, new UserContext(Guid.NewGuid(), Guid.NewGuid()), Guid.NewGuid()));
+        await assignments.SaveAsync(assignment, EventPublishOption.InMemoryPublishOnly);
+    }
+
+    private async Task<HttpClient> StockClientAsync()
+    {
+        if (_stockClient is not null) return _stockClient;
+
+        var home = await StockHomeAsync();
+
+        // A staff account of its own per test (one account cannot hold concurrent sessions across the parallel test classes),
+        // assigned to the stock branch straight through the repository.
+        var (staffId, mobile, password) = await SeedStaffAsync(StaffRoles.Administrator);
+        await AssignToBranchAsync(staffId, home.BranchId);
+
+        var client = await SignInStaffAsync(mobile, password);
+        client.DefaultRequestHeaders.Add(CatEcommerce.Api.Branches.HttpContextActiveBranchAccessor.BranchHeaderName, home.BranchId.ToString());
+        return _stockClient = client;
+    }
+
+    /// <summary>Receives <paramref name="quantity"/> of the SKU into a new batch at the test process's ShopFloor location. Food
+    /// is always expiry-tracked (HO-IMP-001 D-2), so a food SKU needs an expiry; it defaults to a year out, far outside the
+    /// 60-day expiry-notice window.</summary>
+    protected async Task<Guid> StockSkuAsync(Guid skuId, decimal quantity = 100m, DateOnly? expiresOn = null, bool expiryTracked = false)
+    {
+        var home = await StockHomeAsync();
+        var client = await StockClientAsync();
+        DateOnly? expiry = expiresOn ?? (expiryTracked ? DateOnly.FromDateTime(DateTime.UtcNow).AddDays(365) : null);
+        var line = new
+        {
+            skuId, locationId = home.LocationId, lotNumber = "LOT-" + Guid.NewGuid().ToString("N")[..10], expiresOn = expiry,
+            quantityAccepted = quantity, quantityRejected = 0m, rejectionReason = (string?)null, purchaseOrderLineId = (Guid?)null,
+            unitCostAmount = 5m, unitCostCurrency = "BDT", holdForInspection = false, exchangeRateToBase = (decimal?)null
+        };
+
+        var response = await client.PostAsJsonAsync("/api/staff/inventory/goods-receipts",
+            new { purchaseOrderId = (Guid?)null, consignmentId = (Guid?)null, supplierId = (Guid?)null, lines = new[] { line } }, Json);
+        var body = await JsonOkAsync(response);
+        var batchId = Assert.Single(body.GetProperty("batchIds").EnumerateArray()).GetGuid();
+
+        if (!_batchesBySku.TryGetValue(skuId, out var batches)) _batchesBySku[skuId] = batches = [];
+        batches.Add(batchId);
+        return batchId;
+    }
+
+    /// <summary>One goods receipt of up to <c>InventoryRules.MaxReceiptLines</c> SKUs, one batch each -- the bulk path for the
+    /// 20,000-SKU performance fixture. Only a SKU that tracks expiry (food, HO-IMP-001 D-2) carries an expiry date, a year out.</summary>
+    protected async Task StockSkusAsync(IReadOnlyCollection<(Guid SkuId, bool ExpiryTracked)> skus, decimal quantity = 100m)
+    {
+        var home = await StockHomeAsync();
+        var client = await StockClientAsync();
+        var expiry = DateOnly.FromDateTime(DateTime.UtcNow).AddDays(365);
+        var lines = skus.Select(sku => new
+        {
+            skuId = sku.SkuId, locationId = home.LocationId, lotNumber = "LOT-" + Guid.NewGuid().ToString("N")[..10],
+            expiresOn = sku.ExpiryTracked ? expiry : (DateOnly?)null,
+            quantityAccepted = quantity, quantityRejected = 0m, rejectionReason = (string?)null, purchaseOrderLineId = (Guid?)null,
+            unitCostAmount = 5m, unitCostCurrency = "BDT", holdForInspection = false, exchangeRateToBase = (decimal?)null
+        }).ToArray();
+
+        var response = await client.PostAsJsonAsync("/api/staff/inventory/goods-receipts",
+            new { purchaseOrderId = (Guid?)null, consignmentId = (Guid?)null, supplierId = (Guid?)null, lines }, Json);
+        await JsonOkAsync(response);
+    }
+
+    /// <summary>The batches this test received for the SKU (through <see cref="StockSkuAsync"/> or <c>CreateProductAsync</c>).</summary>
+    protected IReadOnlyList<Guid> StockedBatchIds(Guid skuId) => _batchesBySku.TryGetValue(skuId, out var batches) ? batches : [];
+
+    /// <summary>The branch whose ShopFloor location <see cref="StockSkuAsync"/> receives into.</summary>
+    protected async Task<Guid> StockBranchIdAsync() => (await StockHomeAsync()).BranchId;
+
+    /// <summary>A small stock adjustment through Inventory's own endpoint (under the approval threshold, so it posts at once):
+    /// moves the batch's on-hand by <paramref name="delta"/> while the batch stays Available, so the view keeps its row.</summary>
+    protected async Task AdjustBatchAsync(Guid skuId, Guid batchId, decimal delta)
+    {
+        var home = await StockHomeAsync();
+        var client = await StockClientAsync();
+        var response = await client.PostAsJsonAsync("/api/staff/inventory/adjustments", new
+        {
+            locationId = home.LocationId, reason = delta > 0 ? "Found" : "Damage", note = "Shop availability test.",
+            lines = new[] { new { skuId, batchId, quantityDelta = delta } }
+        }, Json);
+        var body = await JsonOkAsync(response);
+        Assert.Equal("Posted", body.GetProperty("status").GetString());
+    }
+
+    /// <summary>Takes every batch this test stocked for the SKU out of the sellable figure (quarantine) -- Inventory's own
+    /// status change. A SKU this test never stocked is already out of stock.</summary>
     protected async Task SetSkuOutOfStockAsync(Guid skuId)
+    {
+        if (!_batchesBySku.TryGetValue(skuId, out var batches)) return;
+
+        var client = await StockClientAsync();
+        foreach (var batchId in batches)
+        {
+            var response = await client.PostAsJsonAsync($"/api/staff/inventory/batches/{batchId}/quarantine", new { reason = "Shop availability test" }, Json);
+            Assert.True(response.StatusCode == HttpStatusCode.NoContent, $"{(int)response.StatusCode}: {await response.Content.ReadAsStringAsync()}");
+        }
+    }
+
+    /// <summary>The reverse: releases the SKU's quarantined batches, or stocks it afresh when this test never did.</summary>
+    protected async Task SetSkuInStockAsync(Guid skuId)
+    {
+        if (!_batchesBySku.TryGetValue(skuId, out var batches))
+        {
+            await StockSkuAsync(skuId);
+            return;
+        }
+
+        var client = await StockClientAsync();
+        foreach (var batchId in batches)
+        {
+            var response = await client.PostAsync($"/api/staff/inventory/batches/{batchId}/release", null);
+            Assert.True(response.StatusCode == HttpStatusCode.NoContent, $"{(int)response.StatusCode}: {await response.Content.ReadAsStringAsync()}");
+        }
+    }
+
+    /// <summary>Shop's own price rule, not Inventory's: moves every price of the SKU into the future so it has no price effective
+    /// now (and therefore is not sellable whatever Inventory holds); <see cref="MakeSkuPricedNowAsync"/> reverses it.</summary>
+    protected async Task MakeSkuUnpricedAsync(Guid skuId)
     {
         await using var scope = Factory.Services.CreateAsyncScope();
         var db = scope.ServiceProvider.GetRequiredService<CatEcommerce.Infrastructure.Persistence.CatEcommerceDbContext>();
@@ -158,7 +291,19 @@ public abstract class ShopIntegrationTestBase(ShopApiFactory factory) : CatEcomm
             $"UPDATE product.sku_price SET effective_from = now() + interval '1 day' + (random() * interval '1 hour') WHERE sku_id = {skuId}");
     }
 
-    protected async Task SetSkuInStockAsync(Guid skuId)
+    /// <summary>Backdates the SKU's prices by a day. <c>WithDaytimeClock</c> freezes the app's clock when the factory is built, but
+    /// <see cref="CreateProductAsync"/> schedules the price at the real wall-clock time a moment later -- so by the frozen
+    /// clock the price is still in the future and the SKU is unpriced (not sellable) for any pass that reads the frozen clock
+    /// (the daytime window of the day). A test on a frozen clock calls this after creating its product.</summary>
+    protected async Task BackdatePricesForFrozenClockAsync(Guid skuId)
+    {
+        await using var scope = Factory.Services.CreateAsyncScope();
+        var db = scope.ServiceProvider.GetRequiredService<CatEcommerce.Infrastructure.Persistence.CatEcommerceDbContext>();
+        await db.Database.ExecuteSqlInterpolatedAsync(
+            $"UPDATE product.sku_price SET effective_from = now() - interval '1 day' WHERE sku_id = {skuId}");
+    }
+
+    protected async Task MakeSkuPricedNowAsync(Guid skuId)
     {
         await using var scope = Factory.Services.CreateAsyncScope();
         var db = scope.ServiceProvider.GetRequiredService<CatEcommerce.Infrastructure.Persistence.CatEcommerceDbContext>();

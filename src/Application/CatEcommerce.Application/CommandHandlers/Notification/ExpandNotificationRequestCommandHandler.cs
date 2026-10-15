@@ -183,7 +183,7 @@ public sealed class ExpandNotificationRequestCommandHandler(
             request.RecipientKind, request.RecipientId, request.SubjectKind, request.SubjectId, request.SubjectRef, request.SubjectDueOn,
             request.BranchId, channel, destination, rendered.Subject, rendered.Title, rendered.TextBody, rendered.HtmlBody, rendered.LinkPath,
             request.NotAfter, now, notBefore, deferred, unsubscribeTokenHash, unsubscribeLink, FallbackFromId: null, ResendOfId: null, ResentBy: null,
-            SubjectStamp: request.SubjectStamp));
+            SubjectStamp: request.SubjectStamp, AttachmentKind: request.AttachmentKind, AttachmentId: request.AttachmentId));
 
         return notification;
     }
@@ -203,7 +203,7 @@ public sealed class ExpandNotificationRequestCommandHandler(
             request.RecipientKind, request.RecipientId, request.SubjectKind, request.SubjectId, request.SubjectRef, request.SubjectDueOn,
             request.BranchId, NotificationChannel.InApp, null, rendered.Subject, rendered.Title, rendered.TextBody, rendered.HtmlBody, rendered.LinkPath,
             request.NotAfter, now, null, false, null, null, FallbackFromId: null, ResendOfId: null, ResentBy: null,
-            SubjectStamp: request.SubjectStamp));
+            SubjectStamp: request.SubjectStamp, AttachmentKind: request.AttachmentKind, AttachmentId: request.AttachmentId));
 
         return notification;
     }

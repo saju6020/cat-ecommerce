@@ -2009,6 +2009,2984 @@ namespace CatEcommerce.Infrastructure.Persistence.Migrations
                     b.ToTable("audit_entry", "audit");
                 });
 
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Billing.AccountingExportRunAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("AllocationCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("allocation_count");
+
+                    b.Property<Guid?>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("CreditNoteCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("credit_note_count");
+
+                    b.Property<DateOnly>("From")
+                        .HasColumnType("date")
+                        .HasColumnName("range_from");
+
+                    b.Property<int>("InvoiceCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("invoice_count");
+
+                    b.Property<int>("InvoiceLineCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("invoice_line_count");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("PaymentCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("payment_count");
+
+                    b.Property<int>("RefundCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("refund_count");
+
+                    b.Property<Guid>("RunBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("run_by");
+
+                    b.Property<DateTimeOffset>("RunOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("run_on");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Sha256")
+                        .IsRequired()
+                        .HasColumnType("char(64)")
+                        .HasColumnName("sha256");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateOnly>("To")
+                        .HasColumnType("date")
+                        .HasColumnName("range_to");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RunOn")
+                        .HasDatabaseName("ix_accounting_export_run_run_on");
+
+                    b.ToTable("accounting_export_run", "billing");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Billing.BankMatchAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("MatchedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("matched_by");
+
+                    b.Property<DateTimeOffset>("MatchedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("matched_on");
+
+                    b.Property<int>("Method")
+                        .HasColumnType("integer")
+                        .HasColumnName("method");
+
+                    b.Property<Guid>("PaymentId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("payment_id");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("StatementId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("statement_id");
+
+                    b.Property<Guid>("StatementLineId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("statement_line_id");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("UnmatchReason")
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("unmatch_reason");
+
+                    b.Property<Guid?>("UnmatchedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("unmatched_by");
+
+                    b.Property<DateTimeOffset?>("UnmatchedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("unmatched_on");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PaymentId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_bank_match_payment")
+                        .HasFilter("unmatched_on IS NULL");
+
+                    b.HasIndex("StatementId")
+                        .HasDatabaseName("ix_bank_match_statement");
+
+                    b.HasIndex("StatementLineId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_bank_match_line")
+                        .HasFilter("unmatched_on IS NULL");
+
+                    b.ToTable("bank_match", "billing");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Billing.BankStatementAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("BankAccountLabel")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("bank_account_label");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("ImportedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("imported_by");
+
+                    b.Property<DateTimeOffset>("ImportedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("imported_on");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateOnly>("PeriodFrom")
+                        .HasColumnType("date")
+                        .HasColumnName("period_from");
+
+                    b.Property<DateOnly>("PeriodTo")
+                        .HasColumnType("date")
+                        .HasColumnName("period_to");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SourceFileName")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("source_file_name");
+
+                    b.Property<string>("SourceSha256")
+                        .IsRequired()
+                        .HasColumnType("char(64)")
+                        .HasColumnName("source_sha256");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BankAccountLabel", "SourceSha256")
+                        .IsUnique()
+                        .HasDatabaseName("ix_bank_statement_source");
+
+                    b.HasIndex("BranchId", "ImportedOn")
+                        .HasDatabaseName("ix_bank_statement_branch_imported_on");
+
+                    b.ToTable("bank_statement", "billing");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Billing.BillingProfileAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.PrimitiveCollection<string[]>("AddressLines")
+                        .IsRequired()
+                        .HasColumnType("text[]")
+                        .HasColumnName("address_lines");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("email");
+
+                    b.Property<string>("InvoiceFooter")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("invoice_footer");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LegalName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("legal_name");
+
+                    b.Property<string>("Phone")
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("phone");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<string>("TaxRegistrationNumber")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("tax_registration_number");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("billing_profile", "billing");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Billing.CashUpAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<DateOnly>("BusinessDate")
+                        .HasColumnType("date")
+                        .HasColumnName("business_date");
+
+                    b.Property<Guid?>("ClosedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("closed_by");
+
+                    b.Property<DateTimeOffset?>("ClosedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("closed_on");
+
+                    b.Property<Guid?>("CountedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("counted_by");
+
+                    b.Property<decimal?>("CountedCash")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("counted_cash");
+
+                    b.Property<DateTimeOffset?>("CountedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("counted_on");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Explanation")
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("explanation");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal?>("Variance")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("variance");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BranchId", "BusinessDate")
+                        .IsUnique()
+                        .HasDatabaseName("ix_cash_up_branch_date");
+
+                    b.ToTable("cash_up", "billing");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Billing.ChargeAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("BillingGroupId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("billing_group_id");
+
+                    b.Property<int?>("BillingGroupKind")
+                        .HasColumnType("integer")
+                        .HasColumnName("billing_group_kind");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<int>("BusinessLine")
+                        .HasColumnType("integer")
+                        .HasColumnName("business_line");
+
+                    b.Property<Guid?>("CatId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("cat_id");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CurrencyCode")
+                        .IsRequired()
+                        .HasColumnType("char(3)")
+                        .HasColumnName("currency_code");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("customer_id");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)")
+                        .HasColumnName("description");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("ItemKind")
+                        .HasColumnType("integer")
+                        .HasColumnName("item_kind");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<decimal>("LineDiscountAmount")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("line_discount_amount");
+
+                    b.Property<decimal>("Quantity")
+                        .HasColumnType("numeric(10,3)")
+                        .HasColumnName("quantity");
+
+                    b.Property<Guid>("RecordedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("recorded_by");
+
+                    b.Property<DateTimeOffset>("RecordedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("recorded_on");
+
+                    b.Property<string>("ReportingTag")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("reporting_tag");
+
+                    b.Property<DateOnly>("ServiceDate")
+                        .HasColumnType("date")
+                        .HasColumnName("service_date");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("SourceId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("source_id");
+
+                    b.Property<int>("SourceKind")
+                        .HasColumnType("integer")
+                        .HasColumnName("source_kind");
+
+                    b.Property<string>("SourceLineRef")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("source_line_ref");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TaxClassId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tax_class_id");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("UnitPriceAmount")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("unit_price_amount");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("VoidReason")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("void_reason");
+
+                    b.Property<Guid?>("VoidedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("voided_by");
+
+                    b.Property<DateTimeOffset?>("VoidedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("voided_on");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BranchId", "ServiceDate")
+                        .HasDatabaseName("ix_charge_branch_service_date");
+
+                    b.HasIndex("CustomerId", "Status")
+                        .HasDatabaseName("ix_charge_customer_status");
+
+                    b.HasIndex("BillingGroupKind", "BillingGroupId", "ServiceDate")
+                        .HasDatabaseName("ix_charge_billing_group");
+
+                    b.HasIndex("SourceKind", "SourceId", "SourceLineRef")
+                        .IsUnique()
+                        .HasDatabaseName("ix_charge_source");
+
+                    b.ToTable("charge", "billing");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Billing.CodRemittanceAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("amount");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<string>("CourierCode")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("courier_code");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CurrencyCode")
+                        .IsRequired()
+                        .HasColumnType("char(3)")
+                        .HasColumnName("currency_code");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Method")
+                        .HasColumnType("integer")
+                        .HasColumnName("method");
+
+                    b.Property<DateOnly>("ReceivedOn")
+                        .HasColumnType("date")
+                        .HasColumnName("received_on");
+
+                    b.Property<Guid>("RecordedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("recorded_by");
+
+                    b.Property<DateTimeOffset>("RecordedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("recorded_on");
+
+                    b.Property<string>("Reference")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("reference");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BranchId", "CourierCode", "ReceivedOn")
+                        .HasDatabaseName("ix_cod_remittance_branch_courier");
+
+                    b.ToTable("cod_remittance", "billing");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Billing.CreditNoteAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CurrencyCode")
+                        .IsRequired()
+                        .HasColumnType("char(3)")
+                        .HasColumnName("currency_code");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("customer_id");
+
+                    b.Property<string>("FinancialYear")
+                        .IsRequired()
+                        .HasMaxLength(9)
+                        .HasColumnType("character varying(9)")
+                        .HasColumnName("financial_year");
+
+                    b.Property<string>("IdempotencyKey")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("idempotency_key");
+
+                    b.Property<Guid>("InvoiceId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("invoice_id");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateOnly>("IssueDate")
+                        .HasColumnType("date")
+                        .HasColumnName("issue_date");
+
+                    b.Property<Guid>("IssuedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("issued_by");
+
+                    b.Property<DateTimeOffset>("IssuedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("issued_on");
+
+                    b.Property<int>("Kind")
+                        .HasColumnType("integer")
+                        .HasColumnName("kind");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<decimal>("NetTotal")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("net_total");
+
+                    b.Property<string>("Number")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("character varying(40)")
+                        .HasColumnName("number");
+
+                    b.Property<string>("Reason")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("reason");
+
+                    b.Property<decimal>("ReleasedToCustomerCredit")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("released_to_customer_credit");
+
+                    b.Property<long>("SequenceNumber")
+                        .HasColumnType("bigint")
+                        .HasColumnName("sequence_number");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<decimal>("TaxTotal")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("tax_total");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Total")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("total");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvoiceId")
+                        .HasDatabaseName("ix_credit_note_invoice");
+
+                    b.HasIndex("Number")
+                        .IsUnique()
+                        .HasDatabaseName("ix_credit_note_number");
+
+                    b.HasIndex("CustomerId", "IssuedOn")
+                        .HasDatabaseName("ix_credit_note_customer_issued_on");
+
+                    b.HasIndex("IssuedBy", "IdempotencyKey")
+                        .IsUnique()
+                        .HasDatabaseName("ix_credit_note_idempotency")
+                        .HasFilter("idempotency_key IS NOT NULL");
+
+                    b.HasIndex("BranchId", "FinancialYear", "SequenceNumber")
+                        .IsUnique()
+                        .HasDatabaseName("ix_credit_note_sequence");
+
+                    b.ToTable("credit_note", "billing");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Billing.DocumentNumberSeriesAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("DocumentKind")
+                        .HasColumnType("integer")
+                        .HasColumnName("document_kind");
+
+                    b.Property<string>("FinancialYear")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)")
+                        .HasColumnName("financial_year");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long>("NextSequence")
+                        .HasColumnType("bigint")
+                        .HasColumnName("next_sequence");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BranchId", "FinancialYear", "DocumentKind")
+                        .IsUnique()
+                        .HasDatabaseName("ix_document_number_series");
+
+                    b.ToTable("document_number_series", "billing");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Billing.InvoiceAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<Guid?>("CorrectsCreditNoteId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("corrects_credit_note_id");
+
+                    b.Property<Guid?>("CorrectsInvoiceId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("corrects_invoice_id");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<decimal>("CreditedTotal")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("credited_total");
+
+                    b.Property<string>("CurrencyCode")
+                        .IsRequired()
+                        .HasColumnType("char(3)")
+                        .HasColumnName("currency_code");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("customer_id");
+
+                    b.Property<decimal>("DiscountTotal")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("discount_total");
+
+                    b.Property<Guid>("DraftedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("drafted_by");
+
+                    b.Property<DateOnly?>("DueOn")
+                        .HasColumnType("date")
+                        .HasColumnName("due_on");
+
+                    b.Property<string>("FinancialYear")
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)")
+                        .HasColumnName("financial_year");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateOnly?>("IssueDate")
+                        .HasColumnType("date")
+                        .HasColumnName("issue_date");
+
+                    b.Property<string>("IssueIdempotencyKey")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("issue_idempotency_key");
+
+                    b.Property<Guid?>("IssuedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("issued_by");
+
+                    b.Property<DateTimeOffset?>("IssuedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("issued_on");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<decimal>("NetTotal")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("net_total");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("notes");
+
+                    b.Property<string>("Number")
+                        .HasMaxLength(40)
+                        .HasColumnType("character varying(40)")
+                        .HasColumnName("number");
+
+                    b.Property<decimal>("PaidTotal")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("paid_total");
+
+                    b.Property<long?>("SequenceNumber")
+                        .HasColumnType("bigint")
+                        .HasColumnName("sequence_number");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<decimal>("TaxTotal")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("tax_total");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Total")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("total");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CorrectsInvoiceId")
+                        .HasDatabaseName("ix_invoice_corrects_invoice");
+
+                    b.HasIndex("Number")
+                        .IsUnique()
+                        .HasDatabaseName("ix_invoice_number")
+                        .HasFilter("number IS NOT NULL");
+
+                    b.HasIndex("BranchId", "IssueDate")
+                        .HasDatabaseName("ix_invoice_branch_issue_date");
+
+                    b.HasIndex("CustomerId", "Status")
+                        .HasDatabaseName("ix_invoice_customer_status");
+
+                    b.HasIndex("IssuedBy", "IssueIdempotencyKey")
+                        .IsUnique()
+                        .HasDatabaseName("ix_invoice_idempotency")
+                        .HasFilter("issue_idempotency_key IS NOT NULL");
+
+                    b.HasIndex("Status", "DueOn")
+                        .HasDatabaseName("ix_invoice_status_due_on");
+
+                    b.HasIndex("BranchId", "FinancialYear", "SequenceNumber")
+                        .IsUnique()
+                        .HasDatabaseName("ix_invoice_sequence")
+                        .HasFilter("sequence_number IS NOT NULL");
+
+                    b.ToTable("invoice", "billing");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Billing.LoyaltyAccountAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Balance")
+                        .HasColumnType("integer")
+                        .HasColumnName("balance");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("loyalty_account", "billing");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Billing.LoyaltyEntryAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("CreditNoteId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("credit_note_id");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("customer_id");
+
+                    b.Property<bool>("IdempotentSource")
+                        .HasColumnType("boolean")
+                        .HasColumnName("idempotent_source");
+
+                    b.Property<Guid?>("InvoiceId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("invoice_id");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("Kind")
+                        .HasColumnType("integer")
+                        .HasColumnName("kind");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTimeOffset>("OccurredOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("occurred_on");
+
+                    b.Property<int>("Points")
+                        .HasColumnType("integer")
+                        .HasColumnName("points");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Shortfall")
+                        .HasColumnType("integer")
+                        .HasColumnName("shortfall");
+
+                    b.Property<Guid?>("SourceCustomerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("source_customer_id");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId", "OccurredOn")
+                        .HasDatabaseName("ix_loyalty_entry_customer_occurred_on");
+
+                    b.HasIndex("Kind", "CreditNoteId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_loyalty_entry_kind_credit_note")
+                        .HasFilter("idempotent_source AND credit_note_id IS NOT NULL");
+
+                    b.HasIndex("Kind", "InvoiceId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_loyalty_entry_kind_invoice")
+                        .HasFilter("idempotent_source AND invoice_id IS NOT NULL");
+
+                    b.HasIndex("Kind", "SourceCustomerId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_loyalty_entry_kind_source_customer")
+                        .HasFilter("idempotent_source AND source_customer_id IS NOT NULL");
+
+                    b.ToTable("loyalty_entry", "billing");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Billing.PaymentAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset?>("AcceptedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("accepted_on");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("amount");
+
+                    b.Property<string>("ApprovalWaiverReason")
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("approval_waiver_reason");
+
+                    b.Property<Guid?>("ApprovedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("approved_by");
+
+                    b.Property<DateTimeOffset?>("ApprovedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("approved_on");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<DateOnly?>("BusinessDate")
+                        .HasColumnType("date")
+                        .HasColumnName("business_date");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CurrencyCode")
+                        .IsRequired()
+                        .HasColumnType("char(3)")
+                        .HasColumnName("currency_code");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("customer_id");
+
+                    b.Property<string>("ExternalReference")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("external_reference");
+
+                    b.Property<string>("IdempotencyKey")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("idempotency_key");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Method")
+                        .HasColumnType("integer")
+                        .HasColumnName("method");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("notes");
+
+                    b.Property<long?>("ReceiptNumber")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("receipt_number")
+                        .HasDefaultValueSql("nextval('billing.receipt_number_seq')");
+
+                    b.Property<DateOnly>("ReceivedOn")
+                        .HasColumnType("date")
+                        .HasColumnName("received_on");
+
+                    b.Property<Guid>("RecordedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("recorded_by");
+
+                    b.Property<DateTimeOffset>("RecordedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("recorded_on");
+
+                    b.Property<decimal>("RefundedTotal")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("refunded_total");
+
+                    b.Property<Guid?>("RejectedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("rejected_by");
+
+                    b.Property<DateTimeOffset?>("RejectedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("rejected_on");
+
+                    b.Property<string>("RejectionReason")
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("rejection_reason");
+
+                    b.Property<DateOnly?>("ReversalBusinessDate")
+                        .HasColumnType("date")
+                        .HasColumnName("reversal_business_date");
+
+                    b.Property<string>("ReversalReason")
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("reversal_reason");
+
+                    b.Property<Guid?>("ReversedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("reversed_by");
+
+                    b.Property<DateTimeOffset?>("ReversedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("reversed_on");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BranchId", "BusinessDate")
+                        .HasDatabaseName("ix_payment_branch_business_date");
+
+                    b.HasIndex("CustomerId", "Status")
+                        .HasDatabaseName("ix_payment_customer_status");
+
+                    b.HasIndex("RecordedBy", "IdempotencyKey")
+                        .IsUnique()
+                        .HasDatabaseName("ix_payment_idempotency")
+                        .HasFilter("idempotency_key IS NOT NULL");
+
+                    b.HasIndex("Status", "RecordedOn")
+                        .HasDatabaseName("ix_payment_status_recorded_on");
+
+                    b.HasIndex("Method", "Status", "ReceivedOn")
+                        .HasDatabaseName("ix_payment_method_status_received_on");
+
+                    b.ToTable("payment", "billing");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Billing.RefundAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("amount");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<DateOnly>("BusinessDate")
+                        .HasColumnType("date")
+                        .HasColumnName("business_date");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("CreditNoteId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("credit_note_id");
+
+                    b.Property<string>("CurrencyCode")
+                        .IsRequired()
+                        .HasColumnType("char(3)")
+                        .HasColumnName("currency_code");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("customer_id");
+
+                    b.Property<string>("IdempotencyKey")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("idempotency_key");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("IssuedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("issued_by");
+
+                    b.Property<DateTimeOffset>("IssuedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("issued_on");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Method")
+                        .HasColumnType("integer")
+                        .HasColumnName("method");
+
+                    b.Property<Guid>("PaymentId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("payment_id");
+
+                    b.Property<string>("Reason")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("reason");
+
+                    b.Property<string>("Reference")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("reference");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId")
+                        .HasDatabaseName("ix_refund_customer");
+
+                    b.HasIndex("PaymentId")
+                        .HasDatabaseName("ix_refund_payment");
+
+                    b.HasIndex("BranchId", "BusinessDate")
+                        .HasDatabaseName("ix_refund_branch_business_date");
+
+                    b.HasIndex("IssuedBy", "IdempotencyKey")
+                        .IsUnique()
+                        .HasDatabaseName("ix_refund_idempotency")
+                        .HasFilter("idempotency_key IS NOT NULL");
+
+                    b.ToTable("refund", "billing");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Boarding.BoardingCareRoutineAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("care_routine", "boarding");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Boarding.BoardingIncidentAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<int?>("AcknowledgedVia")
+                        .HasColumnType("integer")
+                        .HasColumnName("acknowledged_via");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<Guid>("CatId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("cat_id");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)")
+                        .HasColumnName("description");
+
+                    b.Property<DateTimeOffset?>("EscalatedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("escalated_on");
+
+                    b.Property<string>("ImmediateAction")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)")
+                        .HasColumnName("immediate_action");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("Kind")
+                        .HasColumnType("integer")
+                        .HasColumnName("kind");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTimeOffset>("OccurredOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("occurred_on");
+
+                    b.Property<DateTimeOffset?>("OwnerAcknowledgedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("owner_acknowledged_on");
+
+                    b.Property<bool>("OwnerNotified")
+                        .HasColumnType("boolean")
+                        .HasColumnName("owner_notified");
+
+                    b.Property<Guid?>("PhoneCallBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("phone_call_by");
+
+                    b.Property<DateTimeOffset?>("PhoneCallOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("phone_call_on");
+
+                    b.Property<string>("PhoneCallOutcome")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("phone_call_outcome");
+
+                    b.Property<Guid>("ReportedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("reported_by");
+
+                    b.Property<DateTimeOffset>("ReportedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("reported_on");
+
+                    b.Property<string>("Resolution")
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("resolution");
+
+                    b.Property<Guid?>("ResolvedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("resolved_by");
+
+                    b.Property<DateTimeOffset?>("ResolvedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("resolved_on");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Severity")
+                        .HasColumnType("integer")
+                        .HasColumnName("severity");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.Property<Guid>("StayId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("stay_id");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BranchId", "Status")
+                        .HasDatabaseName("ix_incident_branch_status");
+
+                    b.HasIndex("StayId", "ReportedOn")
+                        .HasDatabaseName("ix_incident_stay_reported");
+
+                    b.HasIndex("Severity", "OwnerAcknowledgedOn", "EscalatedOn")
+                        .HasDatabaseName("ix_incident_escalation")
+                        .HasFilter("status = 1");
+
+                    b.ToTable("incident", "boarding");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Boarding.BoardingRateCardAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("AdditionalCatNightlyRate")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("additional_cat_nightly_rate");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CurrencyCode")
+                        .IsRequired()
+                        .HasColumnType("char(3)")
+                        .HasColumnName("currency_code");
+
+                    b.Property<DateTimeOffset>("EffectiveFrom")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("effective_from");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<decimal>("MonthlyRate")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("monthly_rate");
+
+                    b.Property<decimal>("NightlyRate")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("nightly_rate");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("SetBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("set_by");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TaxClassId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tax_class_id");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("UnitType")
+                        .HasColumnType("integer")
+                        .HasColumnName("unit_type");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("WeeklyRate")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("weekly_rate");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BranchId", "UnitType", "EffectiveFrom")
+                        .IsUnique()
+                        .HasDatabaseName("ix_boarding_rate_card_type_effective");
+
+                    b.ToTable("rate_card", "boarding");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Boarding.BoardingStayAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateOnly>("ArrivalOn")
+                        .HasColumnType("date")
+                        .HasColumnName("arrival_on");
+
+                    b.Property<Guid?>("AttentionClearedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("attention_cleared_by");
+
+                    b.Property<string>("AttentionClearedNote")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("attention_cleared_note");
+
+                    b.Property<DateTimeOffset?>("AttentionClearedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("attention_cleared_on");
+
+                    b.Property<int?>("AttentionReason")
+                        .HasColumnType("integer")
+                        .HasColumnName("attention_reason");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<string>("CancellationNote")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("cancellation_note");
+
+                    b.Property<int?>("CancellationReason")
+                        .HasColumnType("integer")
+                        .HasColumnName("cancellation_reason");
+
+                    b.Property<Guid?>("CancelledBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("cancelled_by");
+
+                    b.Property<DateTimeOffset?>("CancelledOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("cancelled_on");
+
+                    b.Property<int>("Channel")
+                        .HasColumnType("integer")
+                        .HasColumnName("channel");
+
+                    b.Property<int>("ChargeRevision")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0)
+                        .HasColumnName("charge_revision");
+
+                    b.Property<DateTimeOffset?>("CheckedInOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("checked_in_on");
+
+                    b.Property<DateTimeOffset?>("CheckedOutOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("checked_out_on");
+
+                    b.Property<Guid?>("ConfirmedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("confirmed_by");
+
+                    b.Property<DateTimeOffset?>("ConfirmedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("confirmed_on");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<decimal>("CreditDue")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("numeric(12,2)")
+                        .HasDefaultValue(0m)
+                        .HasColumnName("credit_due");
+
+                    b.Property<string>("CurrencyCode")
+                        .IsRequired()
+                        .HasColumnType("char(3)")
+                        .HasColumnName("currency_code");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("customer_id");
+
+                    b.Property<DateOnly>("DepartureOn")
+                        .HasColumnType("date")
+                        .HasColumnName("departure_on");
+
+                    b.Property<DateTimeOffset?>("DepositDueBy")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("deposit_due_by");
+
+                    b.Property<bool>("DepositForfeited")
+                        .HasColumnType("boolean")
+                        .HasColumnName("deposit_forfeited");
+
+                    b.Property<decimal>("DepositRequired")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("deposit_required");
+
+                    b.Property<int>("DepositState")
+                        .HasColumnType("integer")
+                        .HasColumnName("deposit_state");
+
+                    b.Property<decimal>("DiscountTotal")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("discount_total");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("NeedsAttention")
+                        .HasColumnType("boolean")
+                        .HasColumnName("needs_attention");
+
+                    b.Property<Guid?>("NoShowRecordedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("no_show_recorded_by");
+
+                    b.Property<DateTimeOffset?>("NoShowRecordedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("no_show_recorded_on");
+
+                    b.Property<DateTimeOffset>("OccupiedFrom")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("occupied_from");
+
+                    b.Property<DateTimeOffset>("OccupiedTo")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("occupied_to");
+
+                    b.Property<decimal>("QuoteTotal")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("quote_total");
+
+                    b.Property<int?>("RateBasis")
+                        .HasColumnType("integer")
+                        .HasColumnName("rate_basis");
+
+                    b.Property<int>("RequestedUnitType")
+                        .HasColumnType("integer")
+                        .HasColumnName("requested_unit_type");
+
+                    b.Property<bool>("RequiresIsolation")
+                        .HasColumnType("boolean")
+                        .HasColumnName("requires_isolation");
+
+                    b.Property<DateTimeOffset?>("ReservedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("reserved_on");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BranchId", "ArrivalOn")
+                        .HasDatabaseName("ix_stay_branch_arrival");
+
+                    b.HasIndex("BranchId", "DepartureOn")
+                        .HasDatabaseName("ix_stay_branch_departure");
+
+                    b.HasIndex("BranchId", "Status")
+                        .HasDatabaseName("ix_stay_branch_status");
+
+                    b.HasIndex("CustomerId", "ArrivalOn")
+                        .HasDatabaseName("ix_stay_customer_arrival");
+
+                    b.HasIndex("Status", "DepositDueBy")
+                        .HasDatabaseName("ix_stay_reserved_deposit_due")
+                        .HasFilter("status = 2");
+
+                    b.ToTable("stay", "boarding");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Boarding.BoardingUnitAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Block")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("block");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<int>("CapacityCats")
+                        .HasColumnType("integer")
+                        .HasColumnName("capacity_cats");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
+                        .HasColumnName("code");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_active");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("name");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("integer")
+                        .HasColumnName("sort_order");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer")
+                        .HasColumnName("unit_type");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BranchId", "Code")
+                        .IsUnique()
+                        .HasDatabaseName("ix_boarding_unit_branch_code");
+
+                    b.HasIndex("BranchId", "Type", "IsActive")
+                        .HasDatabaseName("ix_boarding_unit_branch_type");
+
+                    b.ToTable("unit", "boarding");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Boarding.BoardingWaitlistEntryAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateOnly>("ArrivalOn")
+                        .HasColumnType("date")
+                        .HasColumnName("arrival_on");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<int>("CatCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("cat_count");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("customer_id");
+
+                    b.Property<DateOnly>("DepartureOn")
+                        .HasColumnType("date")
+                        .HasColumnName("departure_on");
+
+                    b.Property<DateTimeOffset?>("EndedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("ended_on");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTimeOffset>("JoinedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("joined_on");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTimeOffset?>("NotifiedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("notified_on");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int?>("UnitType")
+                        .HasColumnType("integer")
+                        .HasColumnName("unit_type");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId", "ArrivalOn", "DepartureOn")
+                        .IsUnique()
+                        .HasDatabaseName("ix_boarding_waitlist_active")
+                        .HasFilter("status IN (1, 2)");
+
+                    b.HasIndex("BranchId", "ArrivalOn", "Status", "JoinedOn")
+                        .HasDatabaseName("ix_waitlist_entry_pass");
+
+                    b.ToTable("waitlist_entry", "boarding");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Boarding.CareObservationAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<Guid>("CatId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("cat_id");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("LitterOutput")
+                        .HasColumnType("integer")
+                        .HasColumnName("litter_output");
+
+                    b.Property<DateOnly>("LocalDate")
+                        .HasColumnType("date")
+                        .HasColumnName("local_date");
+
+                    b.Property<int>("Mood")
+                        .HasColumnType("integer")
+                        .HasColumnName("mood");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("notes");
+
+                    b.Property<int>("PortionEaten")
+                        .HasColumnType("integer")
+                        .HasColumnName("portion_eaten");
+
+                    b.Property<Guid>("RecordedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("recorded_by");
+
+                    b.Property<DateTimeOffset>("RecordedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("recorded_on");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("StayId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("stay_id");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("WaterIntake")
+                        .HasColumnType("integer")
+                        .HasColumnName("water_intake");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StayId", "CatId", "RecordedOn")
+                        .HasDatabaseName("ix_care_observation_stay_cat_recorded");
+
+                    b.ToTable("care_observation", "boarding");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Boarding.CareTaskAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("AssignedCaretakerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("assigned_caretaker_id");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<Guid>("CatId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("cat_id");
+
+                    b.Property<Guid?>("CompletedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("completed_by");
+
+                    b.Property<DateTimeOffset?>("CompletedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("completed_on");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<TimeOnly>("DueLocalTime")
+                        .HasColumnType("time")
+                        .HasColumnName("due_local_time");
+
+                    b.Property<DateTimeOffset>("DueOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("due_on");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("Kind")
+                        .HasColumnType("integer")
+                        .HasColumnName("kind");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateOnly>("LocalDate")
+                        .HasColumnType("date")
+                        .HasColumnName("local_date");
+
+                    b.Property<string>("Note")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("note");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SkipReason")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("skip_reason");
+
+                    b.Property<string>("SourceKey")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("source_key");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.Property<Guid>("StayId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("stay_id");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("title");
+
+                    b.Property<Guid>("UnitId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("unit_id");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AssignedCaretakerId", "LocalDate")
+                        .HasDatabaseName("ix_care_task_caretaker_date");
+
+                    b.HasIndex("BranchId", "LocalDate", "Status")
+                        .HasDatabaseName("ix_care_task_branch_date_status");
+
+                    b.HasIndex("StayId", "CatId", "LocalDate", "SourceKey")
+                        .IsUnique()
+                        .HasDatabaseName("ix_care_task_generation");
+
+                    b.ToTable("care_task", "boarding");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Boarding.DaycareRateCardAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CurrencyCode")
+                        .IsRequired()
+                        .HasColumnType("char(3)")
+                        .HasColumnName("currency_code");
+
+                    b.Property<decimal>("DayRate")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("day_rate");
+
+                    b.Property<DateTimeOffset>("EffectiveFrom")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("effective_from");
+
+                    b.Property<decimal>("HourlyRate")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("hourly_rate");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("SetBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("set_by");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TaxClassId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tax_class_id");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BranchId", "EffectiveFrom")
+                        .IsUnique()
+                        .HasDatabaseName("ix_daycare_rate_card_effective");
+
+                    b.ToTable("daycare_rate_card", "boarding");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Boarding.DaycareVisitAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Basis")
+                        .HasColumnType("integer")
+                        .HasColumnName("basis");
+
+                    b.Property<DateTimeOffset>("BookedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("booked_on");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<Guid>("CatId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("cat_id");
+
+                    b.Property<string>("CatName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("cat_name");
+
+                    b.Property<decimal?>("ChargeAmount")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("charge_amount");
+
+                    b.Property<DateTimeOffset?>("CheckedInOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("checked_in_on");
+
+                    b.Property<DateTimeOffset?>("CheckedOutOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("checked_out_on");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CurrencyCode")
+                        .IsRequired()
+                        .HasColumnType("char(3)")
+                        .HasColumnName("currency_code");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("customer_id");
+
+                    b.Property<decimal>("DayRate")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("day_rate");
+
+                    b.Property<int?>("ExpectedHours")
+                        .HasColumnType("integer")
+                        .HasColumnName("expected_hours");
+
+                    b.Property<decimal>("HourlyRate")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("hourly_rate");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateOnly>("LocalDate")
+                        .HasColumnType("date")
+                        .HasColumnName("local_date");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<int>("SlotNumber")
+                        .HasColumnType("integer")
+                        .HasColumnName("slot_number");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TaxClassId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tax_class_id");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CatId", "LocalDate")
+                        .HasDatabaseName("ix_daycare_visit_cat_date");
+
+                    b.HasIndex("CustomerId", "LocalDate")
+                        .HasDatabaseName("ix_daycare_visit_customer_date");
+
+                    b.HasIndex("BranchId", "LocalDate", "SlotNumber")
+                        .IsUnique()
+                        .HasDatabaseName("ix_daycare_slot")
+                        .HasFilter("status <> 4");
+
+                    b.ToTable("daycare_visit", "boarding");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Boarding.IsolationEntryAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTimeOffset>("EnteredOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("entered_on");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTimeOffset?>("LeftOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("left_on");
+
+                    b.Property<string>("Purpose")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("purpose");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("StaffAccountId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("staff_account_id");
+
+                    b.Property<Guid>("StayId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("stay_id");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("UnitId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("unit_id");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StayId", "EnteredOn")
+                        .HasDatabaseName("ix_isolation_entry_stay_entered");
+
+                    b.ToTable("isolation_entry", "boarding");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Boarding.StayMediaAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<string>("Caption")
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)")
+                        .HasColumnName("caption");
+
+                    b.Property<DateOnly>("CapturedOnLocalDate")
+                        .HasColumnType("date")
+                        .HasColumnName("captured_on_local_date");
+
+                    b.Property<Guid?>("CatId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("cat_id");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("FileId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("file_id");
+
+                    b.Property<string>("HiddenReason")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("hidden_reason");
+
+                    b.Property<Guid?>("IncidentId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("incident_id");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.Property<Guid>("StayId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("stay_id");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("UploadedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("uploaded_by");
+
+                    b.Property<DateTimeOffset>("UploadedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("uploaded_on");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FileId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_stay_media_file_id");
+
+                    b.HasIndex("UploadedOn")
+                        .HasDatabaseName("ix_stay_media_purge")
+                        .HasFilter("status <> 3 AND incident_id IS NULL");
+
+                    b.HasIndex("StayId", "CapturedOnLocalDate")
+                        .HasDatabaseName("ix_stay_media_stay_date");
+
+                    b.ToTable("stay_media", "boarding");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Boarding.UnitMaintenanceBlockAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateOnly>("EndsOn")
+                        .HasColumnType("date")
+                        .HasColumnName("ends_on");
+
+                    b.Property<bool>("IsCancelled")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_cancelled");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTimeOffset>("OccupiedFrom")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("occupied_from");
+
+                    b.Property<DateTimeOffset>("OccupiedTo")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("occupied_to");
+
+                    b.Property<string>("Reason")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("reason");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<DateOnly>("StartsOn")
+                        .HasColumnType("date")
+                        .HasColumnName("starts_on");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("UnitId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("unit_id");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BranchId", "StartsOn")
+                        .HasDatabaseName("ix_unit_maintenance_block_branch_starts_on");
+
+                    b.HasIndex("UnitId", "OccupiedFrom")
+                        .HasDatabaseName("ix_unit_maintenance_block_unit_from");
+
+                    b.ToTable("unit_maintenance_block", "boarding");
+                });
+
             modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Cat.CatAggregate", b =>
                 {
                     b.Property<Guid>("Id")
@@ -2198,6 +5176,10 @@ namespace CatEcommerce.Infrastructure.Persistence.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("AssistantId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("assistant_id");
+
                     b.Property<Guid>("BranchId")
                         .HasColumnType("uuid")
                         .HasColumnName("branch_id");
@@ -2335,6 +5317,10 @@ namespace CatEcommerce.Infrastructure.Persistence.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("status");
 
+                    b.Property<Guid?>("SurgeryId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("surgery_id");
+
                     b.PrimitiveCollection<string[]>("Tags")
                         .HasColumnType("text[]");
 
@@ -2362,6 +5348,10 @@ namespace CatEcommerce.Infrastructure.Persistence.Migrations
                         .HasColumnName("xmin");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("SurgeryId")
+                        .HasDatabaseName("ix_appointment_surgery_id")
+                        .HasFilter("surgery_id IS NOT NULL");
 
                     b.HasIndex("BranchId", "StartsOn")
                         .HasDatabaseName("ix_appointment_branch_starts_on");
@@ -2488,6 +5478,1706 @@ namespace CatEcommerce.Infrastructure.Persistence.Migrations
                     b.ToTable("waitlist_entry", "clinic");
                 });
 
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Inventory.BatchAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<Guid?>("ConsignmentId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("consignment_id");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)")
+                        .HasColumnName("display_name");
+
+                    b.Property<DateOnly?>("ExpiresOn")
+                        .HasColumnType("date")
+                        .HasColumnName("expires_on");
+
+                    b.Property<Guid>("GoodsReceiptId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("goods_receipt_id");
+
+                    b.Property<Guid>("GoodsReceiptLineId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("goods_receipt_line_id");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LotNumber")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("character varying(60)")
+                        .HasColumnName("lot_number");
+
+                    b.Property<DateOnly?>("ManufacturedOn")
+                        .HasColumnType("date")
+                        .HasColumnName("manufactured_on");
+
+                    b.Property<string>("OriginCountryCode")
+                        .HasMaxLength(2)
+                        .HasColumnType("character(2)")
+                        .HasColumnName("origin_country_code")
+                        .IsFixedLength();
+
+                    b.Property<decimal>("PurchaseUnitCostAmount")
+                        .HasPrecision(14, 4)
+                        .HasColumnType("numeric(14,4)")
+                        .HasColumnName("purchase_unit_cost_amount");
+
+                    b.Property<decimal>("PurchaseUnitCostBase")
+                        .HasPrecision(14, 4)
+                        .HasColumnType("numeric(14,4)")
+                        .HasColumnName("purchase_unit_cost_base");
+
+                    b.Property<string>("PurchaseUnitCostCurrency")
+                        .IsRequired()
+                        .HasMaxLength(3)
+                        .HasColumnType("character(3)")
+                        .HasColumnName("purchase_unit_cost_currency")
+                        .IsFixedLength();
+
+                    b.Property<DateTimeOffset>("ReceivedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("received_on");
+
+                    b.Property<decimal>("ReceivedQuantity")
+                        .HasPrecision(12, 3)
+                        .HasColumnType("numeric(12,3)")
+                        .HasColumnName("received_quantity");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SkuCode")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("character varying(60)")
+                        .HasColumnName("sku_code");
+
+                    b.Property<Guid>("SkuId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("sku_id");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.Property<Guid>("StatusChangedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("status_changed_by");
+
+                    b.Property<DateTimeOffset>("StatusChangedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("status_changed_on");
+
+                    b.Property<string>("StatusReason")
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("status_reason");
+
+                    b.Property<int>("StockClass")
+                        .HasColumnType("integer")
+                        .HasColumnName("stock_class");
+
+                    b.Property<string>("StockUnit")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
+                        .HasColumnName("stock_unit");
+
+                    b.Property<Guid?>("SupplierId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("supplier_id");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ConsignmentId")
+                        .HasDatabaseName("ix_batch_consignment");
+
+                    b.HasIndex("LotNumber")
+                        .HasDatabaseName("ix_batch_lot_number");
+
+                    b.HasIndex("BranchId", "Status")
+                        .HasDatabaseName("ix_batch_branch_status");
+
+                    b.HasIndex("SkuId", "Status", "ExpiresOn")
+                        .HasDatabaseName("ix_batch_sku_status_expires_on");
+
+                    b.HasIndex("GoodsReceiptId", "SkuId", "LotNumber", "ExpiresOn")
+                        .IsUnique()
+                        .HasDatabaseName("ix_batch_receipt_lot");
+
+                    NpgsqlIndexBuilderExtensions.AreNullsDistinct(b.HasIndex("GoodsReceiptId", "SkuId", "LotNumber", "ExpiresOn"), false);
+
+                    b.ToTable("batch", "inventory");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Inventory.ConsignmentAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("AllocatedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("allocated_by");
+
+                    b.Property<DateTimeOffset?>("AllocatedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("allocated_on");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<string>("CancellationReason")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("cancellation_reason");
+
+                    b.Property<DateOnly?>("ClearedOn")
+                        .HasColumnType("date")
+                        .HasColumnName("cleared_on");
+
+                    b.Property<bool>("CostsChangedSinceAllocation")
+                        .HasColumnType("boolean")
+                        .HasColumnName("costs_changed_since_allocation");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CustomsDeclarationNumber")
+                        .HasMaxLength(60)
+                        .HasColumnType("character varying(60)")
+                        .HasColumnName("customs_declaration_number");
+
+                    b.Property<DateOnly?>("ExpectedArrivalOn")
+                        .HasColumnType("date")
+                        .HasColumnName("expected_arrival_on");
+
+                    b.Property<string>("HealthCertificateNumber")
+                        .HasMaxLength(60)
+                        .HasColumnType("character varying(60)")
+                        .HasColumnName("health_certificate_number");
+
+                    b.Property<string>("ImportPermitNumber")
+                        .HasMaxLength(60)
+                        .HasColumnType("character varying(60)")
+                        .HasColumnName("import_permit_number");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("OriginCountryCode")
+                        .IsRequired()
+                        .HasMaxLength(2)
+                        .HasColumnType("character(2)")
+                        .HasColumnName("origin_country_code")
+                        .IsFixedLength();
+
+                    b.Property<Guid[]>("PurchaseOrderIds")
+                        .IsRequired()
+                        .HasColumnType("uuid[]")
+                        .HasColumnName("purchase_order_ids");
+
+                    b.Property<string>("Reference")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("reference");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ShipmentReference")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("character varying(60)")
+                        .HasColumnName("shipment_reference");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Reference")
+                        .IsUnique()
+                        .HasDatabaseName("ix_consignment_reference");
+
+                    b.HasIndex("BranchId", "Status")
+                        .HasDatabaseName("ix_consignment_branch_status");
+
+                    b.ToTable("consignment", "inventory");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Inventory.GoodsReceiptAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<Guid?>("ConsignmentId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("consignment_id");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DeliveryReference")
+                        .HasMaxLength(60)
+                        .HasColumnType("character varying(60)")
+                        .HasColumnName("delivery_reference");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Number")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("number");
+
+                    b.Property<Guid?>("PurchaseOrderId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("purchase_order_id");
+
+                    b.Property<Guid>("ReceivedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("received_by");
+
+                    b.Property<DateTimeOffset>("ReceivedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("received_on");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("SupplierId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("supplier_id");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ConsignmentId")
+                        .HasDatabaseName("ix_goods_receipt_consignment");
+
+                    b.HasIndex("Number")
+                        .IsUnique()
+                        .HasDatabaseName("ix_goods_receipt_number");
+
+                    b.HasIndex("PurchaseOrderId")
+                        .HasDatabaseName("ix_goods_receipt_purchase_order");
+
+                    b.HasIndex("BranchId", "ReceivedOn")
+                        .HasDatabaseName("ix_goods_receipt_branch_received_on");
+
+                    b.ToTable("goods_receipt", "inventory");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Inventory.InventoryAlertAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("AcknowledgedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("acknowledged_by");
+
+                    b.Property<DateTimeOffset?>("AcknowledgedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("acknowledged_on");
+
+                    b.Property<Guid?>("BatchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("batch_id");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DedupKey")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("dedup_key");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("Kind")
+                        .HasColumnType("integer")
+                        .HasColumnName("kind");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("LocationId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("location_id");
+
+                    b.Property<decimal?>("QuantityAtRaise")
+                        .HasPrecision(12, 3)
+                        .HasColumnType("numeric(12,3)")
+                        .HasColumnName("quantity_at_raise");
+
+                    b.Property<DateTimeOffset>("RaisedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("raised_on");
+
+                    b.Property<Guid?>("ReferenceId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("reference_id");
+
+                    b.Property<int?>("ReferenceKind")
+                        .HasColumnType("integer")
+                        .HasColumnName("reference_kind");
+
+                    b.Property<string>("ResolutionNote")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("resolution_note");
+
+                    b.Property<DateTimeOffset?>("ResolvedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("resolved_on");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("SkuId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("sku_id");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int?>("ThresholdDays")
+                        .HasColumnType("integer")
+                        .HasColumnName("threshold_days");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DedupKey")
+                        .IsUnique()
+                        .HasDatabaseName("ix_stock_alert_dedup_key")
+                        .HasFilter("dedup_key IS NOT NULL");
+
+                    b.HasIndex("BranchId", "Status", "Kind")
+                        .HasDatabaseName("ix_stock_alert_branch_status_kind");
+
+                    b.HasIndex("Kind", "SkuId", "LocationId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_stock_alert_one_live_per_pair")
+                        .HasFilter("status <> 3 AND kind IN (3, 6)");
+
+                    b.ToTable("stock_alert", "inventory");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Inventory.ProductStorageProfileAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Condition")
+                        .HasColumnType("integer")
+                        .HasColumnName("condition");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("HandlingNotes")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("handling_notes");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<decimal?>("MaxTemperatureC")
+                        .HasPrecision(4, 1)
+                        .HasColumnType("numeric(4,1)")
+                        .HasColumnName("max_temperature_c");
+
+                    b.Property<decimal?>("MinTemperatureC")
+                        .HasPrecision(4, 1)
+                        .HasColumnType("numeric(4,1)")
+                        .HasColumnName("min_temperature_c");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("product_storage_profile", "inventory");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Inventory.PurchaseOrderAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CurrencyCode")
+                        .IsRequired()
+                        .HasMaxLength(3)
+                        .HasColumnType("character(3)")
+                        .HasColumnName("currency_code")
+                        .IsFixedLength();
+
+                    b.Property<Guid>("DeliverToLocationId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("deliver_to_location_id");
+
+                    b.Property<DateOnly>("ExpectedDeliveryOn")
+                        .HasColumnType("date")
+                        .HasColumnName("expected_delivery_on");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTimeOffset?>("IssuedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("issued_on");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("notes");
+
+                    b.Property<string>("Number")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("number");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.Property<string>("StatusReason")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("status_reason");
+
+                    b.Property<Guid>("SupplierId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("supplier_id");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Number")
+                        .IsUnique()
+                        .HasDatabaseName("ix_purchase_order_number");
+
+                    b.HasIndex("SupplierId")
+                        .HasDatabaseName("ix_purchase_order_supplier");
+
+                    b.HasIndex("BranchId", "Status")
+                        .HasDatabaseName("ix_purchase_order_branch_status");
+
+                    b.ToTable("purchase_order", "inventory");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Inventory.ReorderPolicyAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("LocationId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("location_id");
+
+                    b.Property<Guid?>("PreferredSupplierId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("preferred_supplier_id");
+
+                    b.Property<decimal>("ReorderPoint")
+                        .HasPrecision(12, 3)
+                        .HasColumnType("numeric(12,3)")
+                        .HasColumnName("reorder_point");
+
+                    b.Property<decimal?>("ReorderQuantity")
+                        .HasPrecision(12, 3)
+                        .HasColumnType("numeric(12,3)")
+                        .HasColumnName("reorder_quantity");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("SkuId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("sku_id");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LocationId")
+                        .HasDatabaseName("ix_reorder_policy_location");
+
+                    b.HasIndex("SkuId", "LocationId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_reorder_policy_sku_location");
+
+                    b.ToTable("reorder_policy", "inventory");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Inventory.StockAdjustmentAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CurrencyCode")
+                        .IsRequired()
+                        .HasMaxLength(3)
+                        .HasColumnType("character(3)")
+                        .HasColumnName("currency_code")
+                        .IsFixedLength();
+
+                    b.Property<Guid?>("DecidedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("decided_by");
+
+                    b.Property<DateTimeOffset?>("DecidedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("decided_on");
+
+                    b.Property<string>("DecisionNote")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("decision_note");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("LocationId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("location_id");
+
+                    b.Property<string>("Note")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("note");
+
+                    b.Property<string>("Number")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("number");
+
+                    b.Property<int>("Reason")
+                        .HasColumnType("integer")
+                        .HasColumnName("reason");
+
+                    b.Property<Guid>("RequestedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("requested_by");
+
+                    b.Property<DateTimeOffset>("RequestedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("requested_on");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("ValueBase")
+                        .HasPrecision(12, 2)
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("value_base");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Number")
+                        .IsUnique()
+                        .HasDatabaseName("ix_stock_adjustment_number");
+
+                    b.HasIndex("BranchId", "Status")
+                        .HasDatabaseName("ix_stock_adjustment_branch_status");
+
+                    b.ToTable("stock_adjustment", "inventory");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Inventory.StockCountAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<Guid?>("CommitRequestedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("commit_requested_by");
+
+                    b.Property<DateTimeOffset?>("CommittedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("committed_on");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CurrencyCode")
+                        .HasMaxLength(3)
+                        .HasColumnType("character(3)")
+                        .HasColumnName("currency_code")
+                        .IsFixedLength();
+
+                    b.Property<Guid?>("DecidedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("decided_by");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("LocationId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("location_id");
+
+                    b.Property<string>("Number")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("number");
+
+                    b.Property<Guid>("OpenedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("opened_by");
+
+                    b.Property<DateTimeOffset>("OpenedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("opened_on");
+
+                    b.Property<int>("Scope")
+                        .HasColumnType("integer")
+                        .HasColumnName("scope");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<Guid[]>("SkuIds")
+                        .IsRequired()
+                        .HasColumnType("uuid[]")
+                        .HasColumnName("sku_ids");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.Property<Guid?>("SubmittedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("submitted_by");
+
+                    b.Property<DateTimeOffset?>("SubmittedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("submitted_on");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal?>("VarianceValueBase")
+                        .HasPrecision(12, 2)
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("variance_value_base");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LocationId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_stock_count_one_active")
+                        .HasFilter("status IN (1, 2, 3)");
+
+                    b.HasIndex("Number")
+                        .IsUnique()
+                        .HasDatabaseName("ix_stock_count_number");
+
+                    b.HasIndex("BranchId", "Status")
+                        .HasDatabaseName("ix_stock_count_branch_status");
+
+                    b.ToTable("stock_count", "inventory");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Inventory.StockLedgerEntryAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BatchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("batch_id");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<Guid?>("CatId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("cat_id");
+
+                    b.Property<bool>("ConsumesReservation")
+                        .HasColumnType("boolean")
+                        .HasColumnName("consumes_reservation");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("CustomerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("customer_id");
+
+                    b.Property<bool>("FefoOverridden")
+                        .HasColumnType("boolean")
+                        .HasColumnName("fefo_overridden");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("Kind")
+                        .HasColumnType("integer")
+                        .HasColumnName("kind");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("LocationId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("location_id");
+
+                    b.Property<string>("Note")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("note");
+
+                    b.Property<DateTimeOffset>("OccurredOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("occurred_on");
+
+                    b.Property<string>("OverrideReason")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("override_reason");
+
+                    b.Property<Guid>("PerformedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("performed_by");
+
+                    b.Property<decimal>("QuantityDelta")
+                        .HasPrecision(12, 3)
+                        .HasColumnType("numeric(12,3)")
+                        .HasColumnName("quantity_delta");
+
+                    b.Property<Guid>("ReferenceId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("reference_id");
+
+                    b.Property<int>("ReferenceKind")
+                        .HasColumnType("integer")
+                        .HasColumnName("reference_kind");
+
+                    b.Property<string>("ReferenceLabel")
+                        .HasMaxLength(60)
+                        .HasColumnType("character varying(60)")
+                        .HasColumnName("reference_label");
+
+                    b.Property<Guid?>("ReferenceLineId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("reference_line_id");
+
+                    b.Property<long>("Sequence")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("sequence");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityAlwaysColumn(b.Property<long>("Sequence"));
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("SkuId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("sku_id");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CatId")
+                        .HasDatabaseName("ix_stock_ledger_entry_cat")
+                        .HasFilter("cat_id IS NOT NULL");
+
+                    b.HasIndex("CustomerId")
+                        .HasDatabaseName("ix_stock_ledger_entry_customer")
+                        .HasFilter("customer_id IS NOT NULL");
+
+                    b.HasIndex("LocationId");
+
+                    b.HasIndex("OccurredOn")
+                        .HasDatabaseName("ix_stock_ledger_entry_occurred_on");
+
+                    b.HasIndex("BatchId", "Sequence")
+                        .HasDatabaseName("ix_stock_ledger_entry_batch_sequence");
+
+                    b.HasIndex("ReferenceKind", "ReferenceId")
+                        .HasDatabaseName("ix_stock_ledger_entry_reference");
+
+                    b.HasIndex("BranchId", "Kind", "OccurredOn")
+                        .HasDatabaseName("ix_stock_ledger_entry_branch_kind_occurred_on");
+
+                    b.HasIndex("SkuId", "LocationId", "OccurredOn")
+                        .HasDatabaseName("ix_stock_ledger_entry_sku_location_occurred_on");
+
+                    b.ToTable("stock_ledger_entry", "inventory");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Inventory.StockLocationAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
+                        .HasColumnName("code");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_active");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("Kind")
+                        .HasColumnType("integer")
+                        .HasColumnName("kind");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("name");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BranchId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_stock_location_one_quarantine")
+                        .HasFilter("kind = 5 AND is_active");
+
+                    b.HasIndex("BranchId", "Code")
+                        .IsUnique()
+                        .HasDatabaseName("ix_stock_location_branch_code");
+
+                    b.ToTable("stock_location", "inventory");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Inventory.StockReservationEntryAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BatchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("batch_id");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<Guid?>("CatId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("cat_id");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("CustomerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("customer_id");
+
+                    b.Property<bool>("FefoOverridden")
+                        .HasColumnType("boolean")
+                        .HasColumnName("fefo_overridden");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("Kind")
+                        .HasColumnType("integer")
+                        .HasColumnName("kind");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("LocationId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("location_id");
+
+                    b.Property<DateTimeOffset>("OccurredOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("occurred_on");
+
+                    b.Property<string>("OverrideReason")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("override_reason");
+
+                    b.Property<Guid>("PerformedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("performed_by");
+
+                    b.Property<decimal>("QuantityDelta")
+                        .HasPrecision(12, 3)
+                        .HasColumnType("numeric(12,3)")
+                        .HasColumnName("quantity_delta");
+
+                    b.Property<Guid>("ReferenceId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("reference_id");
+
+                    b.Property<int>("ReferenceKind")
+                        .HasColumnType("integer")
+                        .HasColumnName("reference_kind");
+
+                    b.Property<Guid>("ReferenceLineId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("reference_line_id");
+
+                    b.Property<long>("Sequence")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("sequence");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityAlwaysColumn(b.Property<long>("Sequence"));
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("SkuId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("sku_id");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BatchId")
+                        .HasDatabaseName("ix_stock_reservation_entry_batch");
+
+                    b.HasIndex("LocationId");
+
+                    b.HasIndex("ReferenceKind", "ReferenceId", "ReferenceLineId")
+                        .HasDatabaseName("ix_stock_reservation_entry_reference");
+
+                    b.ToTable("stock_reservation_entry", "inventory");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Inventory.StockTransferAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("FromLocationId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("from_location_id");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Number")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("number");
+
+                    b.Property<string>("Reason")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("reason");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ToLocationId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("to_location_id");
+
+                    b.Property<Guid>("TransferredBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("transferred_by");
+
+                    b.Property<DateTimeOffset>("TransferredOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("transferred_on");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Number")
+                        .IsUnique()
+                        .HasDatabaseName("ix_stock_transfer_number");
+
+                    b.HasIndex("BranchId", "TransferredOn")
+                        .HasDatabaseName("ix_stock_transfer_branch_transferred_on");
+
+                    b.ToTable("stock_transfer", "inventory");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Inventory.StorageBreachReportAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid[]>("AffectedBatchIds")
+                        .IsRequired()
+                        .HasColumnType("uuid[]")
+                        .HasColumnName("affected_batch_ids");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<Guid?>("ClosedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("closed_by");
+
+                    b.Property<DateTimeOffset?>("ClosedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("closed_on");
+
+                    b.Property<string>("ClosingNote")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("closing_note");
+
+                    b.Property<string>("Condition")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("condition");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("DurationMinutes")
+                        .HasColumnType("integer")
+                        .HasColumnName("duration_minutes");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("LocationId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("location_id");
+
+                    b.Property<DateTimeOffset>("ObservedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("observed_on");
+
+                    b.Property<Guid?>("QuarantinedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("quarantined_by");
+
+                    b.Property<DateTimeOffset?>("QuarantinedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("quarantined_on");
+
+                    b.Property<Guid>("ReportedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("reported_by");
+
+                    b.Property<DateTimeOffset>("ReportedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("reported_on");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<decimal?>("TemperatureC")
+                        .HasPrecision(5, 1)
+                        .HasColumnType("numeric(5,1)")
+                        .HasColumnName("temperature_c");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LocationId")
+                        .HasDatabaseName("ix_storage_breach_report_location");
+
+                    b.HasIndex("BranchId", "Status")
+                        .HasDatabaseName("ix_storage_breach_report_branch_status");
+
+                    b.ToTable("storage_breach_report", "inventory");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Inventory.SupplierAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
+                        .HasColumnName("code");
+
+                    b.Property<string>("CountryCode")
+                        .IsRequired()
+                        .HasMaxLength(2)
+                        .HasColumnType("character(2)")
+                        .HasColumnName("country_code")
+                        .IsFixedLength();
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CurrencyCode")
+                        .IsRequired()
+                        .HasMaxLength(3)
+                        .HasColumnType("character(3)")
+                        .HasColumnName("currency_code")
+                        .IsFixedLength();
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_active");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("LeadTimeDays")
+                        .HasColumnType("integer")
+                        .HasColumnName("lead_time_days");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("name");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("notes");
+
+                    b.Property<int?>("PaymentTermDays")
+                        .HasColumnType("integer")
+                        .HasColumnName("payment_term_days");
+
+                    b.Property<string>("PaymentTerms")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("payment_terms");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique()
+                        .HasDatabaseName("ix_supplier_code");
+
+                    b.ToTable("supplier", "inventory");
+                });
+
             modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Notification.NotificationAggregate", b =>
                 {
                     b.Property<Guid>("Id")
@@ -2496,6 +7186,14 @@ namespace CatEcommerce.Infrastructure.Persistence.Migrations
                     b.Property<DateTimeOffset?>("AnonymisedOn")
                         .HasColumnType("timestamptz")
                         .HasColumnName("anonymised_on");
+
+                    b.Property<Guid?>("AttachmentId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("attachment_id");
+
+                    b.Property<int?>("AttachmentKind")
+                        .HasColumnType("integer")
+                        .HasColumnName("attachment_kind");
 
                     b.Property<int>("AttemptCount")
                         .HasColumnType("integer")
@@ -2770,6 +7468,14 @@ namespace CatEcommerce.Infrastructure.Persistence.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("AttachmentId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("attachment_id");
+
+                    b.Property<int?>("AttachmentKind")
+                        .HasColumnType("integer")
+                        .HasColumnName("attachment_kind");
+
                     b.Property<int>("AttemptCount")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
@@ -3000,6 +7706,2189 @@ namespace CatEcommerce.Infrastructure.Persistence.Migrations
                         .HasDatabaseName("ix_notification_template_key");
 
                     b.ToTable("notification_template", "notify");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Operations.ErasureRequestAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset?>("CompletedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("completed_on");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTimeOffset>("RequestedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("requested_on");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Source")
+                        .HasColumnType("integer")
+                        .HasColumnName("source");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id")
+                        .HasName("pk_erasure_request");
+
+                    b.HasIndex("Status", "RequestedOn")
+                        .HasDatabaseName("ix_erasure_request_status_requested_on");
+
+                    b.ToTable("erasure_request", "ops");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Operations.RestoreTestRecordAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("AchievedRpoMinutes")
+                        .HasColumnType("numeric(8,2)")
+                        .HasColumnName("achieved_rpo_minutes");
+
+                    b.Property<decimal>("AchievedRtoMinutes")
+                        .HasColumnType("numeric(8,2)")
+                        .HasColumnName("achieved_rto_minutes");
+
+                    b.Property<string>("BackupSetLabel")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("backup_set_label");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DrillOutput")
+                        .IsRequired()
+                        .HasMaxLength(20000)
+                        .HasColumnType("character varying(20000)")
+                        .HasColumnName("drill_output");
+
+                    b.Property<string>("Environment")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("environment");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)")
+                        .HasColumnName("notes");
+
+                    b.Property<int>("Outcome")
+                        .HasColumnType("integer")
+                        .HasColumnName("outcome");
+
+                    b.Property<Guid>("PerformedByStaffId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("performed_by_staff_id");
+
+                    b.Property<DateOnly>("PerformedOn")
+                        .HasColumnType("date")
+                        .HasColumnName("performed_on");
+
+                    b.Property<DateTimeOffset>("RecoveredTo")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("recovered_to");
+
+                    b.Property<DateTimeOffset>("RestoreCompletedAt")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("restore_completed_at");
+
+                    b.Property<DateTimeOffset>("RestoreStartedAt")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("restore_started_at");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("SimulatedFailureAt")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("simulated_failure_at");
+
+                    b.Property<Guid?>("SupersedesId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("supersedes_id");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PerformedOn")
+                        .HasDatabaseName("ix_restore_test_record_performed_on");
+
+                    b.HasIndex("Outcome", "PerformedOn")
+                        .HasDatabaseName("ix_restore_test_record_outcome_performed_on");
+
+                    b.ToTable("restore_test_record", "ops");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Operations.RetentionRunAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTimeOffset?>("FinishedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("finished_on");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("RequestedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("requested_by");
+
+                    b.Property<DateTimeOffset>("RequestedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("requested_on");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset?>("StartedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("started_on");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Trigger")
+                        .HasColumnType("integer")
+                        .HasColumnName("trigger");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RequestedOn")
+                        .HasDatabaseName("ix_retention_run_requested_on");
+
+                    b.HasIndex("Status")
+                        .HasDatabaseName("ix_retention_run_status");
+
+                    b.ToTable("retention_run", "ops");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Operations.WebVitalBatchAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("BuildId")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)")
+                        .HasColumnName("build_id");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTimeOffset>("ReceivedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("received_on");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReceivedOn")
+                        .HasDatabaseName("ix_web_vital_batch_received_on");
+
+                    b.ToTable("web_vital_batch", "ops");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Order.BankTransferAccountAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("AccountName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("account_name");
+
+                    b.Property<string>("AccountNumber")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("account_number");
+
+                    b.Property<string>("BankName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("bank_name");
+
+                    b.Property<string>("BranchName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("branch_name");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_active");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("RoutingNumber")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("routing_number");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("bank_transfer_account", "ordering");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Order.CartAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("CustomerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("customer_id");
+
+                    b.Property<string>("GuestTokenHash")
+                        .HasColumnType("char(64)")
+                        .HasColumnName("guest_token_hash");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("LastActivityOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("last_activity_on");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("MergedIntoCartId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("merged_into_cart_id");
+
+                    b.Property<int>("OwnerKind")
+                        .HasColumnType("integer")
+                        .HasColumnName("owner_kind");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_cart_active_customer")
+                        .HasFilter("status = 1 AND customer_id IS NOT NULL");
+
+                    b.HasIndex("GuestTokenHash")
+                        .IsUnique()
+                        .HasDatabaseName("ix_cart_guest_token")
+                        .HasFilter("guest_token_hash IS NOT NULL");
+
+                    b.HasIndex("OwnerKind", "Status", "LastActivityOn")
+                        .HasDatabaseName("ix_cart_guest_purge");
+
+                    b.ToTable("cart", "ordering");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Order.CourierAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_active");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("name");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("SupportsCod")
+                        .HasColumnType("boolean")
+                        .HasColumnName("supports_cod");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("TrackingUrlTemplate")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("tracking_url_template");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasDatabaseName("ix_courier_name");
+
+                    b.ToTable("courier", "ordering");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Order.DeliveryZoneAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<bool>("CodEnabled")
+                        .HasColumnType("boolean")
+                        .HasColumnName("cod_enabled");
+
+                    b.Property<decimal?>("CodMaxOrderValue")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("cod_max_order_value");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CurrencyCode")
+                        .IsRequired()
+                        .HasColumnType("char(3)")
+                        .HasColumnName("currency_code");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_active");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("name");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("integer")
+                        .HasColumnName("priority");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasDatabaseName("ix_delivery_zone_name");
+
+                    b.HasIndex("BranchId", "IsActive")
+                        .HasDatabaseName("ix_delivery_zone_branch_active");
+
+                    b.ToTable("delivery_zone", "ordering");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Order.DiscountCodeAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal?>("Amount")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("amount");
+
+                    b.Property<string>("CategoryIds")
+                        .IsRequired()
+                        .HasColumnType("jsonb")
+                        .HasColumnName("category_ids");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("code");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CurrencyCode")
+                        .IsRequired()
+                        .HasColumnType("char(3)")
+                        .HasColumnName("currency_code");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("description");
+
+                    b.Property<bool>("FirstOrderOnly")
+                        .HasColumnType("boolean")
+                        .HasColumnName("first_order_only");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_active");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("Kind")
+                        .HasColumnType("integer")
+                        .HasColumnName("kind");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<decimal?>("MinimumSpend")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("minimum_spend");
+
+                    b.Property<int?>("PerCustomerLimit")
+                        .HasColumnType("integer")
+                        .HasColumnName("per_customer_limit");
+
+                    b.Property<decimal?>("Percent")
+                        .HasColumnType("numeric(5,2)")
+                        .HasColumnName("percent");
+
+                    b.Property<string>("ProductIds")
+                        .IsRequired()
+                        .HasColumnType("jsonb")
+                        .HasColumnName("product_ids");
+
+                    b.Property<int>("Scope")
+                        .HasColumnType("integer")
+                        .HasColumnName("scope");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("TimesRedeemed")
+                        .HasColumnType("integer")
+                        .HasColumnName("times_redeemed");
+
+                    b.Property<int?>("UsageLimit")
+                        .HasColumnType("integer")
+                        .HasColumnName("usage_limit");
+
+                    b.Property<DateTimeOffset?>("ValidFrom")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("valid_from");
+
+                    b.Property<DateTimeOffset?>("ValidTo")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("valid_to");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique()
+                        .HasDatabaseName("ix_discount_code_code");
+
+                    b.ToTable("discount_code", "ordering");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Order.OrderAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("AmountPaid")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("amount_paid");
+
+                    b.Property<decimal>("AmountRefunded")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("amount_refunded");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<string>("CancellationNote")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("cancellation_note");
+
+                    b.Property<int?>("CancellationReason")
+                        .HasColumnType("integer")
+                        .HasColumnName("cancellation_reason");
+
+                    b.Property<Guid?>("CancelledBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("cancelled_by");
+
+                    b.Property<bool>("CancelledByCustomer")
+                        .HasColumnType("boolean")
+                        .HasColumnName("cancelled_by_customer");
+
+                    b.Property<DateTimeOffset?>("CancelledOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("cancelled_on");
+
+                    b.Property<decimal>("ChangeGiven")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("change_given");
+
+                    b.Property<int>("Channel")
+                        .HasColumnType("integer")
+                        .HasColumnName("channel");
+
+                    b.Property<DateOnly?>("CollectByDate")
+                        .HasColumnType("date")
+                        .HasColumnName("collect_by_date");
+
+                    b.Property<DateTimeOffset?>("ConfirmedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("confirmed_on");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreditNoteIds")
+                        .IsRequired()
+                        .HasColumnType("jsonb")
+                        .HasColumnName("credit_note_ids");
+
+                    b.Property<string>("CurrencyCode")
+                        .IsRequired()
+                        .HasColumnType("char(3)")
+                        .HasColumnName("currency_code");
+
+                    b.Property<bool>("CustomerAnonymised")
+                        .HasColumnType("boolean")
+                        .HasColumnName("customer_anonymised");
+
+                    b.Property<Guid?>("CustomerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("customer_id");
+
+                    b.Property<string>("CustomerTransferReference")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("customer_transfer_reference");
+
+                    b.Property<DateTimeOffset?>("DeliveredOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("delivered_on");
+
+                    b.Property<int?>("DeliveryFailureReason")
+                        .HasColumnType("integer")
+                        .HasColumnName("delivery_failure_reason");
+
+                    b.Property<Guid?>("DeliveryRecordedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("delivery_recorded_by");
+
+                    b.Property<decimal>("DeliveryTaxAmount")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("delivery_tax_amount");
+
+                    b.Property<Guid?>("DiscountCodeId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("discount_code_id");
+
+                    b.Property<string>("DiscountCodeText")
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("discount_code_text");
+
+                    b.Property<bool>("DiscountReleased")
+                        .HasColumnType("boolean")
+                        .HasColumnName("discount_released");
+
+                    b.Property<int>("FulfilmentMethod")
+                        .HasColumnType("integer")
+                        .HasColumnName("fulfilment_method");
+
+                    b.Property<Guid?>("IdempotencyKey")
+                        .HasColumnType("uuid")
+                        .HasColumnName("idempotency_key");
+
+                    b.Property<Guid?>("InvoiceId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("invoice_id");
+
+                    b.Property<string>("InvoiceNumber")
+                        .HasMaxLength(40)
+                        .HasColumnType("character varying(40)")
+                        .HasColumnName("invoice_number");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("OrderNumber")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
+                        .HasColumnName("order_number");
+
+                    b.Property<DateTimeOffset?>("PackingStartedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("packing_started_on");
+
+                    b.Property<DateTimeOffset?>("PaymentDueBy")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("payment_due_by");
+
+                    b.Property<int>("PaymentMethod")
+                        .HasColumnType("integer")
+                        .HasColumnName("payment_method");
+
+                    b.Property<DateTimeOffset>("PlacedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("placed_on");
+
+                    b.Property<string>("QuoteFingerprint")
+                        .IsRequired()
+                        .HasColumnType("char(64)")
+                        .HasColumnName("quote_fingerprint");
+
+                    b.Property<DateTimeOffset?>("ReadyForCollectionOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("ready_for_collection_on");
+
+                    b.Property<decimal>("RefundDue")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("refund_due");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset?>("TransferReportedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("transfer_reported_on");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderNumber")
+                        .IsUnique()
+                        .HasDatabaseName("ix_sales_order_number");
+
+                    b.HasIndex("CustomerId", "IdempotencyKey")
+                        .IsUnique()
+                        .HasDatabaseName("ix_sales_order_customer_idempotency")
+                        .HasFilter("idempotency_key IS NOT NULL");
+
+                    b.HasIndex("CustomerId", "PlacedOn")
+                        .HasDatabaseName("ix_sales_order_customer_placed");
+
+                    b.HasIndex("DiscountCodeId", "CustomerId")
+                        .HasDatabaseName("ix_sales_order_discount_customer")
+                        .HasFilter("discount_code_id IS NOT NULL");
+
+                    b.HasIndex("BranchId", "Status", "PlacedOn")
+                        .HasDatabaseName("ix_sales_order_queue");
+
+                    b.HasIndex("Status", "PaymentMethod", "PaymentDueBy")
+                        .HasDatabaseName("ix_sales_order_expiry");
+
+                    b.ToTable("sales_order", "ordering");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Order.OrderReconciliationIssueAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("amount");
+
+                    b.Property<Guid?>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<Guid>("CorrelationId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("correlation_id");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CurrencyCode")
+                        .IsRequired()
+                        .HasColumnType("char(3)")
+                        .HasColumnName("currency_code");
+
+                    b.Property<string>("ErrorSummary")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("error_summary");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("Kind")
+                        .HasColumnType("integer")
+                        .HasColumnName("kind");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("OrderId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("order_id");
+
+                    b.Property<string>("PaymentMethod")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("payment_method");
+
+                    b.Property<DateTimeOffset?>("PaymentReceivedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("payment_received_on");
+
+                    b.Property<string>("PaymentReference")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("payment_reference");
+
+                    b.Property<Guid>("RaisedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("raised_by");
+
+                    b.Property<DateTimeOffset>("RaisedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("raised_on");
+
+                    b.Property<string>("ResolutionNote")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("resolution_note");
+
+                    b.Property<Guid?>("ResolvedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("resolved_by");
+
+                    b.Property<DateTimeOffset?>("ResolvedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("resolved_on");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId")
+                        .HasDatabaseName("ix_reconciliation_issue_order");
+
+                    b.HasIndex("Status", "RaisedOn")
+                        .HasDatabaseName("ix_reconciliation_issue_status_raised");
+
+                    b.HasIndex("BranchId", "Status", "RaisedOn")
+                        .HasDatabaseName("ix_reconciliation_issue_branch_status_raised");
+
+                    b.ToTable("reconciliation_issue", "ordering");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Order.OrderRefundAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("amount");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("CreditNoteId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("credit_note_id");
+
+                    b.Property<string>("CurrencyCode")
+                        .IsRequired()
+                        .HasColumnType("char(3)")
+                        .HasColumnName("currency_code");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("IssuedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("issued_by");
+
+                    b.Property<DateTimeOffset>("IssuedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("issued_on");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Method")
+                        .HasColumnType("integer")
+                        .HasColumnName("method");
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("order_id");
+
+                    b.Property<string>("Reason")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("reason");
+
+                    b.Property<string>("Reference")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("reference");
+
+                    b.Property<Guid?>("ReturnRequestId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("return_request_id");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId")
+                        .HasDatabaseName("ix_order_refund_order");
+
+                    b.ToTable("order_refund", "ordering");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Order.ReturnRequestAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset?>("ClosedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("closed_on");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("CustomerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("customer_id");
+
+                    b.Property<Guid?>("DecidedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("decided_by");
+
+                    b.Property<DateTimeOffset?>("DecidedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("decided_on");
+
+                    b.Property<string>("DecisionNote")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("decision_note");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("Kind")
+                        .HasColumnType("integer")
+                        .HasColumnName("kind");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("order_id");
+
+                    b.Property<Guid?>("ReceivedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("received_by");
+
+                    b.Property<DateTimeOffset?>("ReceivedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("received_on");
+
+                    b.Property<Guid>("RequestedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("requested_by");
+
+                    b.Property<DateTimeOffset>("RequestedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("requested_on");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId")
+                        .HasDatabaseName("ix_return_request_customer");
+
+                    b.HasIndex("OrderId")
+                        .HasDatabaseName("ix_return_request_order");
+
+                    b.HasIndex("Status", "RequestedOn")
+                        .HasDatabaseName("ix_return_request_status_requested");
+
+                    b.ToTable("return_request", "ordering");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Prescription.ControlledDrugRegisterEntryAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ActorId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("actor_id");
+
+                    b.Property<DateOnly?>("BatchExpiresOn")
+                        .HasColumnType("date")
+                        .HasColumnName("batch_expires_on");
+
+                    b.Property<Guid?>("BatchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("batch_id");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<Guid?>("CatId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("cat_id");
+
+                    b.Property<string>("CorrectionReason")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("correction_reason");
+
+                    b.Property<Guid?>("CorrectsEntryId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("corrects_entry_id");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("CustomerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("customer_id");
+
+                    b.Property<string>("DoseText")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("dose_text");
+
+                    b.Property<long>("EntryNumber")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("entry_number")
+                        .HasDefaultValueSql("nextval('pharmacy.cd_register_entry_number_seq')");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("Kind")
+                        .HasColumnType("integer")
+                        .HasColumnName("kind");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LotNumber")
+                        .HasMaxLength(60)
+                        .HasColumnType("character varying(60)")
+                        .HasColumnName("lot_number");
+
+                    b.Property<string>("MedicineControlledSchedule")
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("medicine_controlled_schedule");
+
+                    b.Property<int>("MedicineDispensingUnit")
+                        .HasColumnType("integer")
+                        .HasColumnName("medicine_dispensing_unit");
+
+                    b.Property<int>("MedicineForm")
+                        .HasColumnType("integer")
+                        .HasColumnName("medicine_form");
+
+                    b.Property<Guid>("MedicineId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("medicine_id");
+
+                    b.Property<string>("MedicineName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("medicine_name");
+
+                    b.Property<string>("MedicineStrengthText")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("medicine_strength_text");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("notes");
+
+                    b.Property<DateTimeOffset>("OccurredOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("occurred_on");
+
+                    b.Property<decimal>("QuantityDelta")
+                        .HasColumnType("numeric(10,2)")
+                        .HasColumnName("quantity_delta");
+
+                    b.Property<DateTimeOffset>("RecordedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("recorded_on");
+
+                    b.Property<Guid?>("ReturnedEntryId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("returned_entry_id");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("SkuId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("sku_id");
+
+                    b.Property<Guid>("SourceId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("source_id");
+
+                    b.Property<int>("SourceType")
+                        .HasColumnType("integer")
+                        .HasColumnName("source_type");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal?>("WastageQuantity")
+                        .HasColumnType("numeric(10,2)")
+                        .HasColumnName("wastage_quantity");
+
+                    b.Property<Guid?>("WitnessId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("witness_id");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CorrectsEntryId")
+                        .HasDatabaseName("ix_cd_register_entry_corrects")
+                        .HasFilter("corrects_entry_id IS NOT NULL");
+
+                    b.HasIndex("EntryNumber")
+                        .IsUnique()
+                        .HasDatabaseName("ix_cd_register_entry_number");
+
+                    b.HasIndex("BranchId", "BatchId")
+                        .HasDatabaseName("ix_cd_register_entry_branch_batch");
+
+                    b.HasIndex("BranchId", "RecordedOn")
+                        .HasDatabaseName("ix_cd_register_entry_branch_recorded_on");
+
+                    b.HasIndex("SourceType", "SourceId")
+                        .HasDatabaseName("ix_cd_register_entry_source");
+
+                    b.HasIndex("BranchId", "MedicineId", "EntryNumber")
+                        .HasDatabaseName("ix_cd_register_entry_branch_medicine");
+
+                    b.ToTable("cd_register_entry", "pharmacy");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Prescription.ControlledDrugRegisterSealAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<long>("ChainPosition")
+                        .HasColumnType("bigint")
+                        .HasColumnName("chain_position");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("EntryHash")
+                        .IsRequired()
+                        .HasColumnType("char(64)")
+                        .HasColumnName("entry_hash");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("PreviousHash")
+                        .IsRequired()
+                        .HasColumnType("char(64)")
+                        .HasColumnName("previous_hash");
+
+                    b.Property<DateTimeOffset>("SealedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("sealed_on");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BranchId", "ChainPosition")
+                        .IsUnique()
+                        .HasDatabaseName("ix_cd_register_seal_chain");
+
+                    b.ToTable("cd_register_seal", "pharmacy");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Prescription.DietAuthorisationAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("AuthorisedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("authorised_by");
+
+                    b.Property<Guid>("CatId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("cat_id");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("customer_id");
+
+                    b.Property<DateOnly?>("ExpiredOn")
+                        .HasColumnType("date")
+                        .HasColumnName("expired_on");
+
+                    b.Property<int>("ExtensionCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("extension_count");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("notes");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("product_id");
+
+                    b.Property<string>("ProductNameSnapshot")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("product_name_snapshot");
+
+                    b.Property<string>("RevocationReason")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("revocation_reason");
+
+                    b.Property<Guid?>("RevokedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("revoked_by");
+
+                    b.Property<DateTimeOffset?>("RevokedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("revoked_on");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateOnly>("ValidFrom")
+                        .HasColumnType("date")
+                        .HasColumnName("valid_from");
+
+                    b.Property<DateOnly>("ValidTo")
+                        .HasColumnType("date")
+                        .HasColumnName("valid_to");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("VisitId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("visit_id");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId")
+                        .HasDatabaseName("ix_diet_authorisation_customer");
+
+                    b.HasIndex("VisitId")
+                        .HasDatabaseName("ix_diet_authorisation_visit");
+
+                    b.HasIndex("CatId", "ProductId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_diet_authorisation_active")
+                        .HasFilter("status = 1");
+
+                    b.HasIndex("Status", "ValidTo")
+                        .HasDatabaseName("ix_diet_authorisation_status_valid_to");
+
+                    b.ToTable("diet_authorisation", "pharmacy");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Prescription.DispensingAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<Guid>("CatId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("cat_id");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("customer_id");
+
+                    b.Property<Guid>("DispensedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("dispensed_by");
+
+                    b.Property<DateTimeOffset>("DispensedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("dispensed_on");
+
+                    b.Property<DateOnly>("DispensedOnLocal")
+                        .HasColumnType("date")
+                        .HasColumnName("dispensed_on_local");
+
+                    b.Property<string>("FefoOverrideReason")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("fefo_override_reason");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsRepeat")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_repeat");
+
+                    b.Property<int>("LabelPrintCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("label_print_count");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("PrescriptionId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("prescription_id");
+
+                    b.Property<string>("PrescriptionNumber")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
+                        .HasColumnName("prescription_number");
+
+                    b.Property<Guid?>("RepeatRequestId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("repeat_request_id");
+
+                    b.Property<string>("ReversalReason")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("reversal_reason");
+
+                    b.Property<Guid?>("ReversedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("reversed_by");
+
+                    b.Property<DateTimeOffset?>("ReversedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("reversed_on");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.Property<int>("SupplyNumber")
+                        .HasColumnType("integer")
+                        .HasColumnName("supply_number");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("VisitId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("visit_id");
+
+                    b.Property<Guid?>("WitnessId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("witness_id");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CatId")
+                        .HasDatabaseName("ix_dispensing_cat");
+
+                    b.HasIndex("CustomerId")
+                        .HasDatabaseName("ix_dispensing_customer");
+
+                    b.HasIndex("BranchId", "DispensedOn")
+                        .HasDatabaseName("ix_dispensing_branch_dispensed_on");
+
+                    b.HasIndex("PrescriptionId", "SupplyNumber")
+                        .IsUnique()
+                        .HasDatabaseName("ix_dispensing_supply")
+                        .HasFilter("status = 1");
+
+                    b.ToTable("dispensing", "pharmacy");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Prescription.FormularyMedicineAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.PrimitiveCollection<string[]>("ActiveIngredients")
+                        .IsRequired()
+                        .HasColumnType("text[]")
+                        .HasColumnName("active_ingredients");
+
+                    b.PrimitiveCollection<int[]>("AllowedRouteValues")
+                        .IsRequired()
+                        .HasColumnType("integer[]")
+                        .HasColumnName("allowed_routes");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("code");
+
+                    b.Property<string>("Contraindications")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)")
+                        .HasColumnName("contraindications");
+
+                    b.Property<string>("ControlledChangeReason")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("controlled_change_reason");
+
+                    b.Property<string>("ControlledSchedule")
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("controlled_schedule");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("DefaultRoute")
+                        .HasColumnType("integer")
+                        .HasColumnName("default_route");
+
+                    b.Property<int>("DispensingUnit")
+                        .HasColumnType("integer")
+                        .HasColumnName("dispensing_unit");
+
+                    b.Property<int>("DosingBasis")
+                        .HasColumnType("integer")
+                        .HasColumnName("dosing_basis");
+
+                    b.PrimitiveCollection<string[]>("DrugClasses")
+                        .IsRequired()
+                        .HasColumnType("text[]")
+                        .HasColumnName("drug_classes");
+
+                    b.Property<int>("Form")
+                        .HasColumnType("integer")
+                        .HasColumnName("form");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_active");
+
+                    b.Property<bool>("IsControlled")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_controlled");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("name");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique()
+                        .HasDatabaseName("ix_formulary_medicine_code");
+
+                    b.HasIndex("IsActive", "Name")
+                        .HasDatabaseName("ix_formulary_medicine_active_name");
+
+                    b.ToTable("formulary_medicine", "pharmacy");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Prescription.PrescriptionAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<string>("CancellationReason")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("cancellation_reason");
+
+                    b.Property<Guid?>("CancelledBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("cancelled_by");
+
+                    b.Property<DateTimeOffset?>("CancelledOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("cancelled_on");
+
+                    b.Property<Guid>("CatId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("cat_id");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("customer_id");
+
+                    b.Property<int>("DurationDays")
+                        .HasColumnType("integer")
+                        .HasColumnName("duration_days");
+
+                    b.Property<int>("Frequency")
+                        .HasColumnType("integer")
+                        .HasColumnName("frequency");
+
+                    b.Property<string>("Instructions")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("instructions");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsRemoteRenewal")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_remote_renewal");
+
+                    b.Property<bool>("IsRepeatable")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_repeatable");
+
+                    b.Property<DateTimeOffset>("IssuedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("issued_on");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<DateOnly?>("LastDispensedOn")
+                        .HasColumnType("date")
+                        .HasColumnName("last_dispensed_on");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("MedicineId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("medicine_id");
+
+                    b.Property<Guid>("PrescriberId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("prescriber_id");
+
+                    b.Property<string>("PrescriptionNumber")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
+                        .HasColumnName("prescription_number");
+
+                    b.Property<decimal>("Quantity")
+                        .HasColumnType("numeric(10,2)")
+                        .HasColumnName("quantity");
+
+                    b.Property<Guid?>("RenewedByPrescriptionId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("renewed_by_prescription_id");
+
+                    b.Property<Guid?>("RenewedFromPrescriptionId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("renewed_from_prescription_id");
+
+                    b.Property<int>("RepeatsAuthorised")
+                        .HasColumnType("integer")
+                        .HasColumnName("repeats_authorised");
+
+                    b.Property<int>("Route")
+                        .HasColumnType("integer")
+                        .HasColumnName("route");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<DateOnly>("StartsOn")
+                        .HasColumnType("date")
+                        .HasColumnName("starts_on");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.Property<int>("SuppliesDispensed")
+                        .HasColumnType("integer")
+                        .HasColumnName("supplies_dispensed");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateOnly>("ValidUntil")
+                        .HasColumnType("date")
+                        .HasColumnName("valid_until");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("VisitId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("visit_id");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId")
+                        .HasDatabaseName("ix_prescription_customer");
+
+                    b.HasIndex("PrescriptionNumber")
+                        .IsUnique()
+                        .HasDatabaseName("ix_prescription_number");
+
+                    b.HasIndex("VisitId")
+                        .HasDatabaseName("ix_prescription_visit");
+
+                    b.HasIndex("CatId", "Status")
+                        .HasDatabaseName("ix_prescription_cat_status");
+
+                    b.HasIndex("Status", "ValidUntil")
+                        .HasDatabaseName("ix_prescription_status_valid_until");
+
+                    b.HasIndex("BranchId", "Status", "IssuedOn")
+                        .HasDatabaseName("ix_prescription_branch_status_issued_on");
+
+                    b.ToTable("prescription", "pharmacy");
                 });
 
             modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Product.ProductAggregate", b =>
@@ -3585,6 +10474,271 @@ namespace CatEcommerce.Infrastructure.Persistence.Migrations
                     b.ToTable("wishlist", "product");
                 });
 
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Reporting.ReportScheduleAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("DayOfMonth")
+                        .HasColumnType("integer")
+                        .HasColumnName("day_of_month");
+
+                    b.Property<int?>("DayOfWeek")
+                        .HasColumnType("integer")
+                        .HasColumnName("day_of_week");
+
+                    b.Property<int>("Format")
+                        .HasColumnType("integer")
+                        .HasColumnName("format");
+
+                    b.Property<int>("Frequency")
+                        .HasColumnType("integer")
+                        .HasColumnName("frequency");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("LastDayOfMonth")
+                        .HasColumnType("boolean")
+                        .HasColumnName("last_day_of_month");
+
+                    b.Property<DateTimeOffset?>("LastRunDueOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("last_run_due_on");
+
+                    b.Property<DateTimeOffset?>("LastRunOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("last_run_on");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("name");
+
+                    b.Property<DateTimeOffset?>("NextRunOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("next_run_on");
+
+                    b.Property<string>("Parameters")
+                        .IsRequired()
+                        .HasColumnType("jsonb")
+                        .HasColumnName("parameters");
+
+                    b.Property<int>("Period")
+                        .HasColumnType("integer")
+                        .HasColumnName("period");
+
+                    b.PrimitiveCollection<Guid[]>("RecipientIds")
+                        .IsRequired()
+                        .HasColumnType("uuid[]")
+                        .HasColumnName("recipient_ids");
+
+                    b.Property<string>("ReportKey")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("character varying(60)")
+                        .HasColumnName("report_key");
+
+                    b.Property<TimeOnly>("SendAtLocal")
+                        .HasColumnType("time without time zone")
+                        .HasColumnName("send_at_local");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Status", "NextRunOn")
+                        .HasDatabaseName("ix_report_schedule_status_next_run_on");
+
+                    b.ToTable("report_schedule", "report");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Reporting.ScheduledReportRunAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("AttachmentOmitted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("attachment_omitted");
+
+                    b.PrimitiveCollection<string[]>("ColumnsIncluded")
+                        .IsRequired()
+                        .HasColumnType("text[]")
+                        .HasColumnName("columns_included");
+
+                    b.Property<long>("ContentLength")
+                        .HasColumnType("bigint")
+                        .HasColumnName("content_length");
+
+                    b.Property<string>("ContentSha256")
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)")
+                        .HasColumnName("content_sha256");
+
+                    b.Property<string>("ContentType")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("content_type");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTimeOffset>("DueOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("due_on");
+
+                    b.Property<string>("FailureCode")
+                        .HasMaxLength(60)
+                        .HasColumnType("character varying(60)")
+                        .HasColumnName("failure_code");
+
+                    b.Property<Guid?>("FileId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("file_id");
+
+                    b.Property<string>("FileName")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("file_name");
+
+                    b.Property<int>("Format")
+                        .HasColumnType("integer")
+                        .HasColumnName("format");
+
+                    b.Property<DateTimeOffset>("GeneratedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("generated_on");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateOnly>("PeriodFrom")
+                        .HasColumnType("date")
+                        .HasColumnName("period_from");
+
+                    b.Property<DateOnly>("PeriodTo")
+                        .HasColumnType("date")
+                        .HasColumnName("period_to");
+
+                    b.Property<DateTimeOffset?>("PurgedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("purged_on");
+
+                    b.Property<int>("RowCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("row_count");
+
+                    b.Property<Guid>("ScheduleId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("schedule_id");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("TimeZoneId")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)")
+                        .HasColumnName("time_zone_id");
+
+                    b.Property<int>("Trigger")
+                        .HasColumnType("integer")
+                        .HasColumnName("trigger");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ScheduleId", "DueOn")
+                        .IsUnique()
+                        .HasDatabaseName("ix_scheduled_report_run_slot")
+                        .HasFilter("\"trigger\" = 1 AND status IN (1, 3)");
+
+                    b.HasIndex("ScheduleId", "GeneratedOn")
+                        .HasDatabaseName("ix_scheduled_report_run_schedule_generated_on");
+
+                    b.HasIndex("Status", "GeneratedOn")
+                        .HasDatabaseName("ix_scheduled_report_run_status_generated_on");
+
+                    b.ToTable("scheduled_report_run", "report");
+                });
+
             modelBuilder.Entity("CatEcommerce.Domain.Aggregates.StoredFile.StoredFileAggregate", b =>
                 {
                     b.Property<Guid>("Id")
@@ -3683,6 +10837,697 @@ namespace CatEcommerce.Infrastructure.Persistence.Migrations
                     b.ToTable("stored_file", "files");
                 });
 
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Surgery.AnaesthesiaLogEntryAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("AdministeredById")
+                        .HasColumnType("uuid")
+                        .HasColumnName("administered_by");
+
+                    b.Property<Guid?>("BatchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("batch_id");
+
+                    b.Property<string>("BatchNumber")
+                        .HasMaxLength(60)
+                        .HasColumnType("character varying(60)")
+                        .HasColumnName("batch_number");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<Guid>("CatId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("cat_id");
+
+                    b.Property<int?>("CorrectedKind")
+                        .HasColumnType("integer")
+                        .HasColumnName("corrected_kind");
+
+                    b.Property<string>("CorrectionReason")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("correction_reason");
+
+                    b.Property<Guid?>("CorrectsEntryId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("corrects_entry_id");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<decimal?>("DoseAmount")
+                        .HasColumnType("numeric(10,3)")
+                        .HasColumnName("dose_amount");
+
+                    b.Property<int?>("DoseUnit")
+                        .HasColumnType("integer")
+                        .HasColumnName("dose_unit");
+
+                    b.Property<int?>("EtCo2MmHg")
+                        .HasColumnType("integer")
+                        .HasColumnName("etco2_mmhg");
+
+                    b.Property<int?>("HeartRateBpm")
+                        .HasColumnType("integer")
+                        .HasColumnName("heart_rate_bpm");
+
+                    b.Property<bool>("ImplausibleConfirmed")
+                        .HasColumnType("boolean")
+                        .HasColumnName("implausible_confirmed");
+
+                    b.Property<bool>("IsControlled")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_controlled");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("Kind")
+                        .HasColumnType("integer")
+                        .HasColumnName("kind");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("LocationId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("location_id");
+
+                    b.Property<Guid>("LoggedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("logged_by");
+
+                    b.Property<DateTimeOffset>("LoggedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("logged_on");
+
+                    b.Property<int?>("MeanArterialMmHg")
+                        .HasColumnType("integer")
+                        .HasColumnName("mean_arterial_mmhg");
+
+                    b.Property<Guid?>("MedicineId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("medicine_id");
+
+                    b.Property<string>("MedicineName")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("medicine_name");
+
+                    b.Property<int?>("Milestone")
+                        .HasColumnType("integer")
+                        .HasColumnName("milestone");
+
+                    b.Property<string>("Note")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("note");
+
+                    b.Property<DateTimeOffset>("OccurredOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("occurred_on");
+
+                    b.Property<decimal?>("QuantityDrawn")
+                        .HasColumnType("numeric(12,3)")
+                        .HasColumnName("quantity_drawn");
+
+                    b.Property<decimal?>("QuantityWasted")
+                        .HasColumnType("numeric(12,3)")
+                        .HasColumnName("quantity_wasted");
+
+                    b.Property<Guid?>("RegisterEntryId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("register_entry_id");
+
+                    b.Property<int?>("RespiratoryRatePerMin")
+                        .HasColumnType("integer")
+                        .HasColumnName("respiratory_rate_per_min");
+
+                    b.Property<int?>("Route")
+                        .HasColumnType("integer")
+                        .HasColumnName("route");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("SkuId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("sku_id");
+
+                    b.Property<int?>("SpO2Percent")
+                        .HasColumnType("integer")
+                        .HasColumnName("spo2_percent");
+
+                    b.Property<bool>("StockShortfall")
+                        .HasColumnType("boolean")
+                        .HasColumnName("stock_shortfall");
+
+                    b.Property<string>("StockUnit")
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("stock_unit");
+
+                    b.Property<Guid>("SurgeryId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("surgery_id");
+
+                    b.Property<int?>("SystolicMmHg")
+                        .HasColumnType("integer")
+                        .HasColumnName("systolic_mmhg");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<decimal?>("TemperatureCelsius")
+                        .HasColumnType("numeric(4,1)")
+                        .HasColumnName("temperature_celsius");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("WitnessId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("witness_id");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CorrectsEntryId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_anaesthesia_log_entry_corrects")
+                        .HasFilter("corrects_entry_id IS NOT NULL");
+
+                    b.HasIndex("SurgeryId", "OccurredOn", "LoggedOn")
+                        .HasDatabaseName("ix_anaesthesia_log_entry_timeline");
+
+                    b.ToTable("anaesthesia_log_entry", "clinic");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Surgery.SurgeryAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("AdmitBy")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("admit_by");
+
+                    b.Property<DateTimeOffset?>("AdmittedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("admitted_on");
+
+                    b.Property<Guid>("AppointmentId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("appointment_id");
+
+                    b.Property<int?>("AsaGrade")
+                        .HasColumnType("integer")
+                        .HasColumnName("asa_grade");
+
+                    b.Property<bool>("AsaIsEmergency")
+                        .HasColumnType("boolean")
+                        .HasColumnName("asa_is_emergency");
+
+                    b.Property<Guid>("AssistantId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("assistant_id");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<string>("CancellationReason")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("cancellation_reason");
+
+                    b.Property<Guid?>("CancelledBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("cancelled_by");
+
+                    b.Property<DateTimeOffset?>("CancelledOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("cancelled_on");
+
+                    b.Property<Guid>("CatId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("cat_id");
+
+                    b.Property<bool>("CatWasDeceasedAtDischarge")
+                        .HasColumnType("boolean")
+                        .HasColumnName("cat_was_deceased_at_discharge");
+
+                    b.Property<Guid>("ClinicServiceId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("service_id");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("customer_id");
+
+                    b.Property<DateTimeOffset?>("DischargedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("discharged_on");
+
+                    b.Property<DateTimeOffset>("EndsOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("ends_on");
+
+                    b.Property<string>("FastingInstructions")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)")
+                        .HasColumnName("fasting_instructions");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("Outcome")
+                        .HasColumnType("integer")
+                        .HasColumnName("outcome");
+
+                    b.Property<Guid?>("OwnerAtDischargeId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("owner_at_discharge_id");
+
+                    b.Property<string>("PostOpInstructions")
+                        .HasMaxLength(4000)
+                        .HasColumnType("character varying(4000)")
+                        .HasColumnName("post_op_instructions");
+
+                    b.Property<DateOnly?>("ProcedureEndedLocalDate")
+                        .HasColumnType("date")
+                        .HasColumnName("procedure_ended_local_date");
+
+                    b.Property<DateTimeOffset?>("ProcedureEndedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("procedure_ended_on");
+
+                    b.Property<DateTimeOffset?>("ProcedureStartedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("procedure_started_on");
+
+                    b.Property<int?>("RecoveryStatus")
+                        .HasColumnType("integer")
+                        .HasColumnName("recovery_status");
+
+                    b.Property<string>("ScheduleStamp")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)")
+                        .HasColumnName("schedule_stamp");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("StartsOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("starts_on");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.Property<Guid>("SurgeonId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("surgeon_id");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("TheatreId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("theatre_id");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("VisitId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("visit_id");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppointmentId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_surgery_appointment_id");
+
+                    b.HasIndex("CustomerId")
+                        .HasDatabaseName("ix_surgery_customer");
+
+                    b.HasIndex("BranchId", "StartsOn")
+                        .HasDatabaseName("ix_surgery_branch_starts_on");
+
+                    b.HasIndex("CatId", "StartsOn")
+                        .HasDatabaseName("ix_surgery_cat_starts_on");
+
+                    b.HasIndex("Status", "BranchId")
+                        .HasDatabaseName("ix_surgery_status_branch");
+
+                    b.ToTable("surgery", "clinic");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Surgery.SurgeryCampaignAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.PrimitiveCollection<Guid[]>("BranchIds")
+                        .IsRequired()
+                        .HasColumnType("uuid[]")
+                        .HasColumnName("branch_ids");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("code");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)")
+                        .HasColumnName("description");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_active");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("MaxCases")
+                        .HasColumnType("integer")
+                        .HasColumnName("max_cases");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("name");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateOnly>("ValidFrom")
+                        .HasColumnType("date")
+                        .HasColumnName("valid_from");
+
+                    b.Property<DateOnly>("ValidTo")
+                        .HasColumnType("date")
+                        .HasColumnName("valid_to");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique()
+                        .HasDatabaseName("ix_surgery_campaign_code");
+
+                    b.ToTable("surgery_campaign", "clinic");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Surgery.SurgeryProtocolAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("FastingHours")
+                        .HasColumnType("integer")
+                        .HasColumnName("fasting_hours");
+
+                    b.Property<string>("FastingInstructions")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)")
+                        .HasColumnName("fasting_instructions");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("PostOpInstructions")
+                        .IsRequired()
+                        .HasMaxLength(4000)
+                        .HasColumnType("character varying(4000)")
+                        .HasColumnName("post_op_instructions");
+
+                    b.Property<Guid>("ProtocolServiceId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("service_id");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("updated_by");
+
+                    b.Property<DateTimeOffset>("UpdatedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("updated_on");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProtocolServiceId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_surgery_protocol_service_id");
+
+                    b.ToTable("surgery_protocol", "clinic");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Surgery.SurgicalReportAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("AssistantId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("assistant_id");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<Guid>("CatId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("cat_id");
+
+                    b.Property<string>("Complications")
+                        .HasMaxLength(4000)
+                        .HasColumnType("character varying(4000)")
+                        .HasColumnName("complications");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("FinalisedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("finalised_by");
+
+                    b.Property<DateTimeOffset?>("FinalisedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("finalised_on");
+
+                    b.Property<string>("Findings")
+                        .IsRequired()
+                        .HasMaxLength(4000)
+                        .HasColumnType("character varying(4000)")
+                        .HasColumnName("findings");
+
+                    b.Property<bool>("HadComplications")
+                        .HasColumnType("boolean")
+                        .HasColumnName("had_complications");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ProcedurePerformed")
+                        .IsRequired()
+                        .HasMaxLength(4000)
+                        .HasColumnType("character varying(4000)")
+                        .HasColumnName("procedure_performed");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("SurgeonId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("surgeon_id");
+
+                    b.Property<Guid>("SurgeryId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("surgery_id");
+
+                    b.Property<string>("SutureMaterial")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("suture_material");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<string>("Technique")
+                        .IsRequired()
+                        .HasMaxLength(4000)
+                        .HasColumnType("character varying(4000)")
+                        .HasColumnName("technique");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("VisitId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("visit_id");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CatId")
+                        .HasDatabaseName("ix_surgical_report_cat");
+
+                    b.ToTable("surgical_report", "clinic");
+                });
+
             modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Vaccination.VaccineAggregate", b =>
                 {
                     b.Property<Guid>("Id")
@@ -3760,6 +11605,2535 @@ namespace CatEcommerce.Infrastructure.Persistence.Migrations
                     b.ToTable("vaccine", "clinic");
                 });
 
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Visit.ConsentRecordAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("AppointmentId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("appointment_id");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<Guid>("CapturedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("captured_by");
+
+                    b.Property<Guid>("CatId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("cat_id");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("FileId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("file_id");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("Kind")
+                        .HasColumnType("integer")
+                        .HasColumnName("kind");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Method")
+                        .HasColumnType("integer")
+                        .HasColumnName("method");
+
+                    b.Property<string>("PolicyKey")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("character varying(80)")
+                        .HasColumnName("policy_key");
+
+                    b.Property<int>("PolicyVersionNumber")
+                        .HasColumnType("integer")
+                        .HasColumnName("policy_version_number");
+
+                    b.Property<string>("ProcedureDescription")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("procedure_description");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Signature")
+                        .HasColumnType("jsonb")
+                        .HasColumnName("signature");
+
+                    b.Property<Guid?>("SignedByCustomerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("signed_by_customer_id");
+
+                    b.Property<string>("SignedByName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("signed_by_name");
+
+                    b.Property<DateTimeOffset>("SignedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("signed_on");
+
+                    b.Property<int>("SignerRelationship")
+                        .HasColumnType("integer")
+                        .HasColumnName("signer_relationship");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("WithdrawalReason")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("withdrawal_reason");
+
+                    b.Property<Guid?>("WithdrawnBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("withdrawn_by");
+
+                    b.Property<DateTimeOffset?>("WithdrawnOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("withdrawn_on");
+
+                    b.Property<Guid?>("WitnessStaffId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("witness_staff_id");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FileId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_consent_record_file_id")
+                        .HasFilter("file_id IS NOT NULL");
+
+                    b.HasIndex("CatId", "AppointmentId", "Kind", "Status")
+                        .HasDatabaseName("ix_consent_record_cat_appointment_kind_status");
+
+                    b.ToTable("consent_record", "clinic");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Visit.ConsultationDraftAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Assessment")
+                        .IsRequired()
+                        .HasMaxLength(20000)
+                        .HasColumnType("character varying(20000)")
+                        .HasColumnName("assessment");
+
+                    b.Property<Guid>("AuthorStaffId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("author_staff_id");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DischargeInstructions")
+                        .IsRequired()
+                        .HasMaxLength(10000)
+                        .HasColumnType("character varying(10000)")
+                        .HasColumnName("discharge_instructions");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Objective")
+                        .IsRequired()
+                        .HasMaxLength(20000)
+                        .HasColumnType("character varying(20000)")
+                        .HasColumnName("objective");
+
+                    b.Property<string>("Plan")
+                        .IsRequired()
+                        .HasMaxLength(20000)
+                        .HasColumnType("character varying(20000)")
+                        .HasColumnName("plan");
+
+                    b.Property<string>("ProblemCodeIds")
+                        .IsRequired()
+                        .HasColumnType("jsonb")
+                        .HasColumnName("problem_code_ids");
+
+                    b.Property<DateTimeOffset>("SavedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("saved_on");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Subjective")
+                        .IsRequired()
+                        .HasMaxLength(20000)
+                        .HasColumnType("character varying(20000)")
+                        .HasColumnName("subjective");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("VisitId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("visit_id");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VisitId", "AuthorStaffId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_consultation_draft_visit_author");
+
+                    b.ToTable("consultation_draft", "clinic");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Visit.DiagnosisCodeAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Category")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("category");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("code");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ExternalCode")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("external_code");
+
+                    b.Property<string>("ExternalSystem")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("external_system");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_active");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("name");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique()
+                        .HasDatabaseName("ix_diagnosis_code_code");
+
+                    b.ToTable("diagnosis_code", "clinic");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Visit.DiagnosticOrderAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<Guid?>("CancelledBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("cancelled_by");
+
+                    b.Property<DateTimeOffset?>("CancelledOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("cancelled_on");
+
+                    b.Property<string>("CancelledReason")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("cancelled_reason");
+
+                    b.Property<Guid>("CatId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("cat_id");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("description");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("Kind")
+                        .HasColumnType("integer")
+                        .HasColumnName("kind");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("OrderedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("ordered_by");
+
+                    b.Property<DateTimeOffset>("OrderedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("ordered_on");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid?>("TaxClassId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tax_class_id");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal?>("UnitPriceAmount")
+                        .HasColumnType("numeric(12,2)")
+                        .HasColumnName("unit_price_amount");
+
+                    b.Property<string>("UnitPriceCurrency")
+                        .HasColumnType("char(3)")
+                        .HasColumnName("unit_price_currency_code");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("VisitId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("visit_id");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VisitId")
+                        .HasDatabaseName("ix_diagnostic_order_visit_id");
+
+                    b.HasIndex("BranchId", "Status")
+                        .HasDatabaseName("ix_diagnostic_order_branch_status");
+
+                    b.HasIndex("CatId", "OrderedOn")
+                        .IsDescending(false, true)
+                        .HasDatabaseName("ix_diagnostic_order_cat_ordered_on");
+
+                    b.ToTable("diagnostic_order", "clinic");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Visit.LabAnalyteAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("code");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("DiagnosticKind")
+                        .HasColumnType("integer")
+                        .HasColumnName("diagnostic_kind");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_active");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("name");
+
+                    b.Property<string>("NormalText")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("normal_text");
+
+                    b.Property<decimal?>("ReferenceHigh")
+                        .HasColumnType("numeric(14,4)")
+                        .HasColumnName("reference_high");
+
+                    b.Property<decimal?>("ReferenceLow")
+                        .HasColumnType("numeric(14,4)")
+                        .HasColumnName("reference_low");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Unit")
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("unit");
+
+                    b.Property<int>("ValueKind")
+                        .HasColumnType("integer")
+                        .HasColumnName("value_kind");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique()
+                        .HasDatabaseName("ix_lab_analyte_code");
+
+                    b.ToTable("lab_analyte", "clinic");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Visit.NoteTemplateAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Assessment")
+                        .IsRequired()
+                        .HasMaxLength(20000)
+                        .HasColumnType("character varying(20000)")
+                        .HasColumnName("assessment");
+
+                    b.Property<Guid>("ClinicServiceId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("clinic_service_id");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DischargeInstructions")
+                        .IsRequired()
+                        .HasMaxLength(10000)
+                        .HasColumnType("character varying(10000)")
+                        .HasColumnName("discharge_instructions");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_active");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("name");
+
+                    b.Property<string>("Objective")
+                        .IsRequired()
+                        .HasMaxLength(20000)
+                        .HasColumnType("character varying(20000)")
+                        .HasColumnName("objective");
+
+                    b.Property<string>("Plan")
+                        .IsRequired()
+                        .HasMaxLength(20000)
+                        .HasColumnType("character varying(20000)")
+                        .HasColumnName("plan");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Subjective")
+                        .IsRequired()
+                        .HasMaxLength(20000)
+                        .HasColumnType("character varying(20000)")
+                        .HasColumnName("subjective");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<int>("TemplateVersion")
+                        .HasColumnType("integer")
+                        .HasColumnName("template_version");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClinicServiceId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_note_template_service_active")
+                        .HasFilter("is_active");
+
+                    b.ToTable("note_template", "clinic");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Visit.VisitAddendumAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("AddedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("added_on");
+
+                    b.Property<Guid>("AuthorStaffId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("author_staff_id");
+
+                    b.Property<Guid>("CatId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("cat_id");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Reason")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("reason");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(4000)
+                        .HasColumnType("character varying(4000)")
+                        .HasColumnName("text");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("VisitId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("visit_id");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VisitId", "AddedOn")
+                        .HasDatabaseName("ix_visit_addendum_visit_added_on");
+
+                    b.ToTable("visit_addendum", "clinic");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Visit.VisitAggregate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("AppointmentId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("appointment_id");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<Guid>("CatId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("cat_id");
+
+                    b.Property<Guid>("ClinicServiceId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("clinic_service_id");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("CustomerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("customer_id");
+
+                    b.Property<Guid?>("FinalisedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("finalised_by");
+
+                    b.Property<DateTimeOffset?>("FinalisedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("finalised_on");
+
+                    b.Property<bool>("IsMarkedToDelete")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("LastUpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("OpenedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("opened_by");
+
+                    b.Property<DateTimeOffset>("OpenedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("opened_on");
+
+                    b.Property<int>("Origin")
+                        .HasColumnType("integer")
+                        .HasColumnName("origin");
+
+                    b.Property<int>("ServiceCategory")
+                        .HasColumnType("integer")
+                        .HasColumnName("service_category");
+
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ServiceName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("service_name");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("VerticalId")
+                        .HasColumnType("uuid");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppointmentId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_visit_appointment");
+
+                    b.HasIndex("CatId", "OpenedOn")
+                        .IsDescending(false, true)
+                        .HasDatabaseName("ix_visit_cat_opened_on");
+
+                    b.HasIndex("BranchId", "Status", "OpenedOn")
+                        .HasDatabaseName("ix_visit_branch_status_opened_on");
+
+                    b.ToTable("visit", "clinic");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Entities.IdempotencyRecord", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<DateTimeOffset?>("CompletedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("completed_on");
+
+                    b.Property<DateTimeOffset>("CreatedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("created_on");
+
+                    b.Property<Guid>("Key")
+                        .HasColumnType("uuid")
+                        .HasColumnName("key");
+
+                    b.Property<string>("RequestHash")
+                        .IsRequired()
+                        .HasColumnType("char(64)")
+                        .HasColumnName("request_hash");
+
+                    b.Property<byte[]>("ResponseBody")
+                        .HasColumnType("bytea")
+                        .HasColumnName("response_body");
+
+                    b.Property<string>("ResponseContentType")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("response_content_type");
+
+                    b.Property<int?>("ResponseStatus")
+                        .HasColumnType("integer")
+                        .HasColumnName("response_status");
+
+                    b.Property<string>("Scope")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)")
+                        .HasColumnName("scope");
+
+                    b.Property<int>("State")
+                        .HasColumnType("integer")
+                        .HasColumnName("state");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedOn")
+                        .HasDatabaseName("ix_idempotency_record_created_on");
+
+                    b.HasIndex("Scope", "Key")
+                        .IsUnique()
+                        .HasDatabaseName("ix_idempotency_record_scope_key");
+
+                    b.ToTable("idempotency_record", "ops");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Entities.InboundWebhookReceipt", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("EventId")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("event_id");
+
+                    b.Property<string>("Provider")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("provider");
+
+                    b.Property<DateTimeOffset>("ReceivedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("received_on");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Provider", "EventId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_inbound_webhook_receipt_provider_event");
+
+                    b.ToTable("inbound_webhook_receipt", "ops");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Infrastructure.Operations.BackupRunReadModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("BackupLabel")
+                        .HasColumnType("text")
+                        .HasColumnName("backup_label");
+
+                    b.Property<string>("ErrorSummary")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("error_summary");
+
+                    b.Property<DateTimeOffset>("FinishedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("finished_on");
+
+                    b.Property<string>("Kind")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("kind");
+
+                    b.Property<string>("Repository")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("repository");
+
+                    b.Property<long?>("SizeBytes")
+                        .HasColumnType("bigint")
+                        .HasColumnName("size_bytes");
+
+                    b.Property<DateTimeOffset>("StartedOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("started_on");
+
+                    b.Property<bool>("Succeeded")
+                        .HasColumnType("boolean")
+                        .HasColumnName("succeeded");
+
+                    b.Property<DateTimeOffset?>("WalArchivedUntil")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("wal_archived_until");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Kind", "FinishedOn")
+                        .HasDatabaseName("ix_backup_run_kind_finished_on");
+
+                    b.ToTable("backup_run", "ops");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Infrastructure.Persistence.ReportingViews.RvBatchRow", b =>
+                {
+                    b.Property<Guid>("BatchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("batch_id");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<Guid?>("ConsignmentId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("consignment_id");
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("display_name");
+
+                    b.Property<DateOnly?>("ExpiryOn")
+                        .HasColumnType("date")
+                        .HasColumnName("expiry_on");
+
+                    b.Property<decimal?>("LandedUnitCost")
+                        .HasColumnType("numeric")
+                        .HasColumnName("landed_unit_cost");
+
+                    b.Property<string>("LotNumber")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("lot_number");
+
+                    b.Property<DateTimeOffset>("ReceivedOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("received_on");
+
+                    b.Property<string>("SkuCode")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("sku_code");
+
+                    b.Property<Guid>("SkuId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("sku_id");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("rv_batch", "report");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Infrastructure.Persistence.ReportingViews.RvBranchRow", b =>
+                {
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("code");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_active");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.Property<string>("TimeZoneId")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("time_zone_id");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("rv_branch", "report");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Infrastructure.Persistence.ReportingViews.RvCareReminderSentRow", b =>
+                {
+                    b.Property<DateTimeOffset>("SentOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("sent_on");
+
+                    b.Property<DateOnly?>("SubjectDueOn")
+                        .HasColumnType("date")
+                        .HasColumnName("subject_due_on");
+
+                    b.Property<Guid?>("SubjectId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("subject_id");
+
+                    b.Property<int>("SubjectKind")
+                        .HasColumnType("integer")
+                        .HasColumnName("subject_kind");
+
+                    b.Property<Guid?>("SubjectRef")
+                        .HasColumnType("uuid")
+                        .HasColumnName("subject_ref");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("rv_care_reminder_sent", "report");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Infrastructure.Persistence.ReportingViews.RvCashUpRow", b =>
+                {
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<DateOnly>("BusinessDate")
+                        .HasColumnType("date")
+                        .HasColumnName("business_date");
+
+                    b.Property<decimal?>("CardRecorded")
+                        .HasColumnType("numeric")
+                        .HasColumnName("card_recorded");
+
+                    b.Property<decimal?>("CashRecorded")
+                        .HasColumnType("numeric")
+                        .HasColumnName("cash_recorded");
+
+                    b.Property<Guid>("CashUpId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("cash_up_id");
+
+                    b.Property<Guid?>("ClosedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("closed_by");
+
+                    b.Property<DateTimeOffset?>("ClosedOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("closed_on");
+
+                    b.Property<decimal?>("CountedCash")
+                        .HasColumnType("numeric")
+                        .HasColumnName("counted_cash");
+
+                    b.Property<decimal?>("ExpectedCash")
+                        .HasColumnType("numeric")
+                        .HasColumnName("expected_cash");
+
+                    b.Property<string>("Explanation")
+                        .HasColumnType("text")
+                        .HasColumnName("explanation");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.Property<decimal?>("TransferRecorded")
+                        .HasColumnType("numeric")
+                        .HasColumnName("transfer_recorded");
+
+                    b.Property<decimal?>("Variance")
+                        .HasColumnType("numeric")
+                        .HasColumnName("variance");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("rv_cash_up", "report");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Infrastructure.Persistence.ReportingViews.RvCatLastBranchRow", b =>
+                {
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<Guid>("CatId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("cat_id");
+
+                    b.Property<DateTimeOffset?>("LastAppointmentOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("last_appointment_on");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("rv_cat_last_branch", "report");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Infrastructure.Persistence.ReportingViews.RvCatParasiteTreatmentRow", b =>
+                {
+                    b.Property<Guid>("CatId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("cat_id");
+
+                    b.Property<int>("CatLifeStatus")
+                        .HasColumnType("integer")
+                        .HasColumnName("cat_life_status");
+
+                    b.Property<string>("CatName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("cat_name");
+
+                    b.Property<DateOnly>("GivenOn")
+                        .HasColumnType("date")
+                        .HasColumnName("given_on");
+
+                    b.Property<DateOnly>("NextDueOn")
+                        .HasColumnType("date")
+                        .HasColumnName("next_due_on");
+
+                    b.Property<string>("OwnerEmail")
+                        .HasColumnType("text")
+                        .HasColumnName("owner_email");
+
+                    b.Property<Guid>("OwnerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("owner_id");
+
+                    b.Property<string>("OwnerMobile")
+                        .HasColumnType("text")
+                        .HasColumnName("owner_mobile");
+
+                    b.Property<string>("OwnerName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("owner_name");
+
+                    b.Property<int>("OwnerStatus")
+                        .HasColumnType("integer")
+                        .HasColumnName("owner_status");
+
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("product_name");
+
+                    b.Property<int>("TreatmentType")
+                        .HasColumnType("integer")
+                        .HasColumnName("treatment_type");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("rv_cat_parasite_treatment", "report");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Infrastructure.Persistence.ReportingViews.RvCatVaccinationRow", b =>
+                {
+                    b.Property<DateOnly>("AdministeredOn")
+                        .HasColumnType("date")
+                        .HasColumnName("administered_on");
+
+                    b.Property<Guid>("CatId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("cat_id");
+
+                    b.Property<int>("CatLifeStatus")
+                        .HasColumnType("integer")
+                        .HasColumnName("cat_life_status");
+
+                    b.Property<string>("CatName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("cat_name");
+
+                    b.Property<DateOnly>("NextDueOn")
+                        .HasColumnType("date")
+                        .HasColumnName("next_due_on");
+
+                    b.Property<string>("OwnerEmail")
+                        .HasColumnType("text")
+                        .HasColumnName("owner_email");
+
+                    b.Property<Guid>("OwnerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("owner_id");
+
+                    b.Property<string>("OwnerMobile")
+                        .HasColumnType("text")
+                        .HasColumnName("owner_mobile");
+
+                    b.Property<string>("OwnerName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("owner_name");
+
+                    b.Property<int>("OwnerStatus")
+                        .HasColumnType("integer")
+                        .HasColumnName("owner_status");
+
+                    b.Property<bool>("VaccineActive")
+                        .HasColumnType("boolean")
+                        .HasColumnName("vaccine_active");
+
+                    b.Property<Guid>("VaccineId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("vaccine_id");
+
+                    b.Property<string>("VaccineName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("vaccine_name");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("rv_cat_vaccination", "report");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Infrastructure.Persistence.ReportingViews.RvClinicAppointmentRow", b =>
+                {
+                    b.Property<Guid>("AppointmentId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("appointment_id");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<DateTimeOffset?>("CancelledOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("cancelled_on");
+
+                    b.Property<Guid>("CatId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("cat_id");
+
+                    b.Property<string>("CatName")
+                        .HasColumnType("text")
+                        .HasColumnName("cat_name");
+
+                    b.Property<int>("Channel")
+                        .HasColumnType("integer")
+                        .HasColumnName("channel");
+
+                    b.Property<DateTimeOffset?>("CheckedInOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("checked_in_on");
+
+                    b.Property<DateTimeOffset?>("CompletedOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("completed_on");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("customer_id");
+
+                    b.Property<string>("CustomerName")
+                        .HasColumnType("text")
+                        .HasColumnName("customer_name");
+
+                    b.Property<DateTimeOffset?>("EndsOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("ends_on");
+
+                    b.Property<bool>("IsWalkIn")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_walk_in");
+
+                    b.Property<DateOnly?>("LocalDate")
+                        .HasColumnType("date")
+                        .HasColumnName("local_date");
+
+                    b.Property<DateTimeOffset?>("NoShowRecordedOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("no_show_recorded_on");
+
+                    b.Property<Guid?>("PerformerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("performer_id");
+
+                    b.Property<string>("PerformerName")
+                        .HasColumnType("text")
+                        .HasColumnName("performer_name");
+
+                    b.Property<string>("RoomName")
+                        .HasColumnType("text")
+                        .HasColumnName("room_name");
+
+                    b.Property<int>("ServiceCategory")
+                        .HasColumnType("integer")
+                        .HasColumnName("service_category");
+
+                    b.Property<string>("ServiceName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("service_name");
+
+                    b.Property<DateTimeOffset?>("StartedOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("started_on");
+
+                    b.Property<DateTimeOffset?>("StartsOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("starts_on");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.Property<int>("TriagePriority")
+                        .HasColumnType("integer")
+                        .HasColumnName("triage_priority");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("rv_clinic_appointment", "report");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Infrastructure.Persistence.ReportingViews.RvConsignmentRow", b =>
+                {
+                    b.Property<int>("BatchesReceived")
+                        .HasColumnType("integer")
+                        .HasColumnName("batches_received");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<int>("ClearanceStatus")
+                        .HasColumnType("integer")
+                        .HasColumnName("clearance_status");
+
+                    b.Property<DateOnly?>("ClearedOn")
+                        .HasColumnType("date")
+                        .HasColumnName("cleared_on");
+
+                    b.Property<Guid>("ConsignmentId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("consignment_id");
+
+                    b.Property<DateTimeOffset>("CreatedOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_on");
+
+                    b.Property<bool>("HasCustomsDeclaration")
+                        .HasColumnType("boolean")
+                        .HasColumnName("has_customs_declaration");
+
+                    b.Property<bool>("HasHealthCertificate")
+                        .HasColumnType("boolean")
+                        .HasColumnName("has_health_certificate");
+
+                    b.Property<bool>("HasPermit")
+                        .HasColumnType("boolean")
+                        .HasColumnName("has_permit");
+
+                    b.Property<decimal?>("LandedCostTotal")
+                        .HasColumnType("numeric")
+                        .HasColumnName("landed_cost_total");
+
+                    b.Property<string>("OriginCountry")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("origin_country");
+
+                    b.Property<int>("PoCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("po_count");
+
+                    b.Property<string>("Reference")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("reference");
+
+                    b.Property<string>("ShipmentReference")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("shipment_reference");
+
+                    b.Property<string>("SupplierName")
+                        .HasColumnType("text")
+                        .HasColumnName("supplier_name");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("rv_consignment", "report");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Infrastructure.Persistence.ReportingViews.RvCreditNoteLineRow", b =>
+                {
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<int>("BusinessLine")
+                        .HasColumnType("integer")
+                        .HasColumnName("business_line");
+
+                    b.Property<Guid>("CreditNoteId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("credit_note_id");
+
+                    b.Property<int>("CreditNoteKind")
+                        .HasColumnType("integer")
+                        .HasColumnName("credit_note_kind");
+
+                    b.Property<Guid>("CreditNoteLineId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("credit_note_line_id");
+
+                    b.Property<string>("CreditNoteNumber")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("credit_note_number");
+
+                    b.Property<string>("CurrencyCode")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("currency_code");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("customer_id");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("description");
+
+                    b.Property<Guid>("InvoiceId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("invoice_id");
+
+                    b.Property<Guid>("InvoiceLineId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("invoice_line_id");
+
+                    b.Property<DateTimeOffset>("IssuedOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("issued_on");
+
+                    b.Property<int>("ItemKind")
+                        .HasColumnType("integer")
+                        .HasColumnName("item_kind");
+
+                    b.Property<decimal>("NetAmount")
+                        .HasColumnType("numeric")
+                        .HasColumnName("net_amount");
+
+                    b.Property<Guid?>("ProductId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("product_id");
+
+                    b.Property<string>("Reason")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("reason");
+
+                    b.Property<int?>("ServiceCategory")
+                        .HasColumnType("integer")
+                        .HasColumnName("service_category");
+
+                    b.Property<Guid?>("SkuId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("sku_id");
+
+                    b.Property<int>("SourceKind")
+                        .HasColumnType("integer")
+                        .HasColumnName("source_kind");
+
+                    b.Property<Guid?>("SourceLineId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("source_line_id");
+
+                    b.Property<decimal>("TaxAmount")
+                        .HasColumnType("numeric")
+                        .HasColumnName("tax_amount");
+
+                    b.Property<string>("TaxClassCode")
+                        .HasColumnType("text")
+                        .HasColumnName("tax_class_code");
+
+                    b.Property<decimal>("TaxRatePercent")
+                        .HasColumnType("numeric")
+                        .HasColumnName("tax_rate_percent");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("rv_credit_note_line", "report");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Infrastructure.Persistence.ReportingViews.RvCreditNoteRow", b =>
+                {
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<Guid>("CreditNoteId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("credit_note_id");
+
+                    b.Property<int>("CreditNoteKind")
+                        .HasColumnType("integer")
+                        .HasColumnName("credit_note_kind");
+
+                    b.Property<string>("CreditNoteNumber")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("credit_note_number");
+
+                    b.Property<string>("CurrencyCode")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("currency_code");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("customer_id");
+
+                    b.Property<DateTimeOffset>("IssuedOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("issued_on");
+
+                    b.Property<decimal>("NetTotal")
+                        .HasColumnType("numeric")
+                        .HasColumnName("net_total");
+
+                    b.Property<string>("Reason")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("reason");
+
+                    b.Property<decimal>("ReleasedToCustomerCredit")
+                        .HasColumnType("numeric")
+                        .HasColumnName("released_to_customer_credit");
+
+                    b.Property<decimal>("TaxTotal")
+                        .HasColumnType("numeric")
+                        .HasColumnName("tax_total");
+
+                    b.Property<decimal>("Total")
+                        .HasColumnType("numeric")
+                        .HasColumnName("total");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("rv_credit_note", "report");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Infrastructure.Persistence.ReportingViews.RvCustomerActivityRow", b =>
+                {
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<int>("BusinessLine")
+                        .HasColumnType("integer")
+                        .HasColumnName("business_line");
+
+                    b.Property<string>("CurrencyCode")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("currency_code");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("customer_id");
+
+                    b.Property<int>("Kind")
+                        .HasColumnType("integer")
+                        .HasColumnName("kind");
+
+                    b.Property<decimal>("NetAmount")
+                        .HasColumnType("numeric")
+                        .HasColumnName("net_amount");
+
+                    b.Property<DateTimeOffset>("OccurredOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("occurred_on");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("rv_customer_activity", "report");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Infrastructure.Persistence.ReportingViews.RvCustomerRow", b =>
+                {
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("customer_id");
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("display_name");
+
+                    b.Property<Guid?>("MergedIntoCustomerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("merged_into_customer_id");
+
+                    b.Property<DateTimeOffset>("RegisteredOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("registered_on");
+
+                    b.Property<int>("RegistrationChannel")
+                        .HasColumnType("integer")
+                        .HasColumnName("registration_channel");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("rv_customer", "report");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Infrastructure.Persistence.ReportingViews.RvInvoiceBalanceRow", b =>
+                {
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<decimal>("CreditedTotal")
+                        .HasColumnType("numeric")
+                        .HasColumnName("credited_total");
+
+                    b.Property<string>("CurrencyCode")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("currency_code");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("customer_id");
+
+                    b.Property<DateOnly?>("DueOn")
+                        .HasColumnType("date")
+                        .HasColumnName("due_on");
+
+                    b.Property<Guid>("InvoiceId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("invoice_id");
+
+                    b.Property<string>("InvoiceNumber")
+                        .HasColumnType("text")
+                        .HasColumnName("invoice_number");
+
+                    b.Property<DateOnly?>("IssueDate")
+                        .HasColumnType("date")
+                        .HasColumnName("issue_date");
+
+                    b.Property<DateTimeOffset?>("IssuedOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("issued_on");
+
+                    b.Property<decimal>("OutstandingAmount")
+                        .HasColumnType("numeric")
+                        .HasColumnName("outstanding_amount");
+
+                    b.Property<decimal>("PaidTotal")
+                        .HasColumnType("numeric")
+                        .HasColumnName("paid_total");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.Property<decimal>("Total")
+                        .HasColumnType("numeric")
+                        .HasColumnName("total");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("rv_invoice_balance", "report");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Infrastructure.Persistence.ReportingViews.RvInvoiceLineRow", b =>
+                {
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<int>("BusinessLine")
+                        .HasColumnType("integer")
+                        .HasColumnName("business_line");
+
+                    b.Property<string>("CurrencyCode")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("currency_code");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("customer_id");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("description");
+
+                    b.Property<decimal>("InvoiceDiscountShare")
+                        .HasColumnType("numeric")
+                        .HasColumnName("invoice_discount_share");
+
+                    b.Property<Guid>("InvoiceId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("invoice_id");
+
+                    b.Property<Guid>("InvoiceLineId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("invoice_line_id");
+
+                    b.Property<string>("InvoiceNumber")
+                        .HasColumnType("text")
+                        .HasColumnName("invoice_number");
+
+                    b.Property<int>("InvoiceStatus")
+                        .HasColumnType("integer")
+                        .HasColumnName("invoice_status");
+
+                    b.Property<DateOnly?>("IssueDate")
+                        .HasColumnType("date")
+                        .HasColumnName("issue_date");
+
+                    b.Property<DateTimeOffset?>("IssuedOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("issued_on");
+
+                    b.Property<int>("ItemKind")
+                        .HasColumnType("integer")
+                        .HasColumnName("item_kind");
+
+                    b.Property<decimal>("LineDiscount")
+                        .HasColumnType("numeric")
+                        .HasColumnName("line_discount");
+
+                    b.Property<decimal>("NetAmount")
+                        .HasColumnType("numeric")
+                        .HasColumnName("net_amount");
+
+                    b.Property<Guid?>("ProductId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("product_id");
+
+                    b.Property<decimal>("Quantity")
+                        .HasColumnType("numeric")
+                        .HasColumnName("quantity");
+
+                    b.Property<int?>("ServiceCategory")
+                        .HasColumnType("integer")
+                        .HasColumnName("service_category");
+
+                    b.Property<Guid?>("SkuId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("sku_id");
+
+                    b.Property<Guid>("SourceId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("source_id");
+
+                    b.Property<int>("SourceKind")
+                        .HasColumnType("integer")
+                        .HasColumnName("source_kind");
+
+                    b.Property<Guid?>("SourceLineId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("source_line_id");
+
+                    b.Property<decimal>("TaxAmount")
+                        .HasColumnType("numeric")
+                        .HasColumnName("tax_amount");
+
+                    b.Property<string>("TaxClassCode")
+                        .HasColumnType("text")
+                        .HasColumnName("tax_class_code");
+
+                    b.Property<Guid>("TaxClassId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tax_class_id");
+
+                    b.Property<decimal>("TaxRatePercent")
+                        .HasColumnType("numeric")
+                        .HasColumnName("tax_rate_percent");
+
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("numeric")
+                        .HasColumnName("unit_price");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("rv_invoice_line", "report");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Infrastructure.Persistence.ReportingViews.RvOnOrderRow", b =>
+                {
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<Guid>("LocationId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("location_id");
+
+                    b.Property<decimal>("Outstanding")
+                        .HasColumnType("numeric")
+                        .HasColumnName("outstanding");
+
+                    b.Property<Guid>("SkuId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("sku_id");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("rv_on_order", "report");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Infrastructure.Persistence.ReportingViews.RvOrderReturnRow", b =>
+                {
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("order_id");
+
+                    b.Property<DateTimeOffset?>("ReceivedOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("received_on");
+
+                    b.Property<DateTimeOffset>("RequestedOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("requested_on");
+
+                    b.Property<Guid>("ReturnId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("return_id");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("rv_order_return", "report");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Infrastructure.Persistence.ReportingViews.RvOrderRow", b =>
+                {
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<DateTimeOffset?>("CancelledOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("cancelled_on");
+
+                    b.Property<int>("Channel")
+                        .HasColumnType("integer")
+                        .HasColumnName("channel");
+
+                    b.Property<DateTimeOffset?>("ConfirmedOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("confirmed_on");
+
+                    b.Property<string>("CurrencyCode")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("currency_code");
+
+                    b.Property<Guid?>("CustomerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("customer_id");
+
+                    b.Property<DateTimeOffset?>("DeliveredOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("delivered_on");
+
+                    b.Property<DateTimeOffset?>("DispatchedOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("dispatched_on");
+
+                    b.Property<decimal>("GrandTotal")
+                        .HasColumnType("numeric")
+                        .HasColumnName("grand_total");
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("order_id");
+
+                    b.Property<string>("OrderNumber")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("order_number");
+
+                    b.Property<DateTimeOffset?>("PackedOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("packed_on");
+
+                    b.Property<int>("PaymentMethod")
+                        .HasColumnType("integer")
+                        .HasColumnName("payment_method");
+
+                    b.Property<DateTimeOffset>("PlacedOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("placed_on");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("rv_order", "report");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Infrastructure.Persistence.ReportingViews.RvPaymentRow", b =>
+                {
+                    b.Property<DateTimeOffset?>("AcceptedOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("accepted_on");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("numeric")
+                        .HasColumnName("amount");
+
+                    b.Property<bool>("BankMatched")
+                        .HasColumnType("boolean")
+                        .HasColumnName("bank_matched");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<DateOnly?>("BusinessDate")
+                        .HasColumnType("date")
+                        .HasColumnName("business_date");
+
+                    b.Property<int?>("CollectorKind")
+                        .HasColumnType("integer")
+                        .HasColumnName("collector_kind");
+
+                    b.Property<string>("CourierCode")
+                        .HasColumnType("text")
+                        .HasColumnName("courier_code");
+
+                    b.Property<string>("CurrencyCode")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("currency_code");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("customer_id");
+
+                    b.Property<int>("Method")
+                        .HasColumnType("integer")
+                        .HasColumnName("method");
+
+                    b.Property<Guid>("PaymentId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("payment_id");
+
+                    b.Property<DateOnly>("ReceivedOn")
+                        .HasColumnType("date")
+                        .HasColumnName("received_on");
+
+                    b.Property<Guid>("RecordedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("recorded_by");
+
+                    b.Property<DateTimeOffset>("RecordedOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("recorded_on");
+
+                    b.Property<decimal>("RemittedAmount")
+                        .HasColumnType("numeric")
+                        .HasColumnName("remitted_amount");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("rv_payment", "report");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Infrastructure.Persistence.ReportingViews.RvRefundRow", b =>
+                {
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("numeric")
+                        .HasColumnName("amount");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<DateOnly>("BusinessDate")
+                        .HasColumnType("date")
+                        .HasColumnName("business_date");
+
+                    b.Property<Guid?>("CreditNoteId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("credit_note_id");
+
+                    b.Property<string>("CurrencyCode")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("currency_code");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("customer_id");
+
+                    b.Property<DateTimeOffset>("IssuedOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("issued_on");
+
+                    b.Property<int>("Method")
+                        .HasColumnType("integer")
+                        .HasColumnName("method");
+
+                    b.Property<Guid>("PaymentId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("payment_id");
+
+                    b.Property<string>("Reason")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("reason");
+
+                    b.Property<Guid>("RefundId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("refund_id");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("rv_refund", "report");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Infrastructure.Persistence.ReportingViews.RvReorderPolicyRow", b =>
+                {
+                    b.Property<int?>("LeadTimeDays")
+                        .HasColumnType("integer")
+                        .HasColumnName("lead_time_days");
+
+                    b.Property<Guid>("LocationId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("location_id");
+
+                    b.Property<decimal>("ReorderPoint")
+                        .HasColumnType("numeric")
+                        .HasColumnName("reorder_point");
+
+                    b.Property<decimal?>("ReorderQuantity")
+                        .HasColumnType("numeric")
+                        .HasColumnName("reorder_quantity");
+
+                    b.Property<Guid>("SkuId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("sku_id");
+
+                    b.Property<Guid?>("SupplierId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("supplier_id");
+
+                    b.Property<string>("SupplierName")
+                        .HasColumnType("text")
+                        .HasColumnName("supplier_name");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("rv_reorder_policy", "report");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Infrastructure.Persistence.ReportingViews.RvSkuRow", b =>
+                {
+                    b.Property<string>("Brand")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("brand");
+
+                    b.Property<int>("Category")
+                        .HasColumnType("integer")
+                        .HasColumnName("category");
+
+                    b.Property<string>("CountryOfOrigin")
+                        .HasColumnType("text")
+                        .HasColumnName("country_of_origin");
+
+                    b.Property<string>("CurrencyCode")
+                        .HasColumnType("text")
+                        .HasColumnName("currency_code");
+
+                    b.Property<decimal?>("CurrentPrice")
+                        .HasColumnType("numeric")
+                        .HasColumnName("current_price");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("product_id");
+
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("product_name");
+
+                    b.Property<bool>("RequiresVetAuthorisation")
+                        .HasColumnType("boolean")
+                        .HasColumnName("requires_vet_authorisation");
+
+                    b.Property<string>("SkuCode")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("sku_code");
+
+                    b.Property<Guid>("SkuId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("sku_id");
+
+                    b.Property<int?>("SubCategory")
+                        .HasColumnType("integer")
+                        .HasColumnName("sub_category");
+
+                    b.Property<string>("VariantLabel")
+                        .HasColumnType("text")
+                        .HasColumnName("variant_label");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("rv_sku", "report");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Infrastructure.Persistence.ReportingViews.RvStaffBranchRow", b =>
+                {
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<bool>("IsPrimary")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_primary");
+
+                    b.Property<Guid>("StaffAccountId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("staff_account_id");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("rv_staff_branch", "report");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Infrastructure.Persistence.ReportingViews.RvStaffRow", b =>
+                {
+                    b.Property<bool>("EmailPresent")
+                        .HasColumnType("boolean")
+                        .HasColumnName("email_present");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("full_name");
+
+                    b.PrimitiveCollection<string[]>("RoleIds")
+                        .IsRequired()
+                        .HasColumnType("text[]")
+                        .HasColumnName("role_ids");
+
+                    b.Property<Guid>("StaffAccountId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("staff_account_id");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("rv_staff", "report");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Infrastructure.Persistence.ReportingViews.RvStockLedgerRow", b =>
+                {
+                    b.Property<Guid>("BatchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("batch_id");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<Guid>("EntryId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("entry_id");
+
+                    b.Property<Guid>("LocationId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("location_id");
+
+                    b.Property<int>("MovementKind")
+                        .HasColumnType("integer")
+                        .HasColumnName("movement_kind");
+
+                    b.Property<DateTimeOffset>("OccurredOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("occurred_on");
+
+                    b.Property<decimal>("QuantityDelta")
+                        .HasColumnType("numeric")
+                        .HasColumnName("quantity_delta");
+
+                    b.Property<Guid>("SkuId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("sku_id");
+
+                    b.Property<Guid>("SourceId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("source_id");
+
+                    b.Property<Guid?>("SourceLineId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("source_line_id");
+
+                    b.Property<int>("SourceType")
+                        .HasColumnType("integer")
+                        .HasColumnName("source_type");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("rv_stock_ledger", "report");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Infrastructure.Persistence.ReportingViews.RvStockLocationRow", b =>
+                {
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("code");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_active");
+
+                    b.Property<int>("Kind")
+                        .HasColumnType("integer")
+                        .HasColumnName("kind");
+
+                    b.Property<Guid>("LocationId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("location_id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("rv_stock_location", "report");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Infrastructure.Persistence.ReportingViews.RvStockPositionRow", b =>
+                {
+                    b.Property<Guid>("BatchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("batch_id");
+
+                    b.Property<int>("BatchStatus")
+                        .HasColumnType("integer")
+                        .HasColumnName("batch_status");
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("display_name");
+
+                    b.Property<DateOnly?>("ExpiryOn")
+                        .HasColumnType("date")
+                        .HasColumnName("expiry_on");
+
+                    b.Property<Guid>("LocationId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("location_id");
+
+                    b.Property<decimal>("OnHand")
+                        .HasColumnType("numeric")
+                        .HasColumnName("on_hand");
+
+                    b.Property<decimal>("Reserved")
+                        .HasColumnType("numeric")
+                        .HasColumnName("reserved");
+
+                    b.Property<string>("SkuCode")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("sku_code");
+
+                    b.Property<Guid>("SkuId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("sku_id");
+
+                    b.Property<string>("StockUnit")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("stock_unit");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("rv_stock_position", "report");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Infrastructure.Persistence.ReportingViews.RvSurgeryRow", b =>
+                {
+                    b.Property<int?>("AsaGrade")
+                        .HasColumnType("integer")
+                        .HasColumnName("asa_grade");
+
+                    b.Property<string>("AssistantName")
+                        .HasColumnType("text")
+                        .HasColumnName("assistant_name");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<Guid>("CatId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("cat_id");
+
+                    b.Property<string>("CatName")
+                        .HasColumnType("text")
+                        .HasColumnName("cat_name");
+
+                    b.Property<string>("ComplicationsSummary")
+                        .HasColumnType("text")
+                        .HasColumnName("complications_summary");
+
+                    b.Property<bool>("ConsentOverride")
+                        .HasColumnType("boolean")
+                        .HasColumnName("consent_override");
+
+                    b.Property<int>("ControlledDrugEntries")
+                        .HasColumnType("integer")
+                        .HasColumnName("controlled_drug_entries");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("customer_id");
+
+                    b.Property<string>("CustomerName")
+                        .HasColumnType("text")
+                        .HasColumnName("customer_name");
+
+                    b.Property<bool>("HasComplications")
+                        .HasColumnType("boolean")
+                        .HasColumnName("has_complications");
+
+                    b.Property<bool>("IsSterilisation")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_sterilisation");
+
+                    b.Property<DateOnly>("LocalDate")
+                        .HasColumnType("date")
+                        .HasColumnName("local_date");
+
+                    b.Property<DateTimeOffset>("OccurredOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("occurred_on");
+
+                    b.Property<int?>("Outcome")
+                        .HasColumnType("integer")
+                        .HasColumnName("outcome");
+
+                    b.Property<int>("ProcedureCategory")
+                        .HasColumnType("integer")
+                        .HasColumnName("procedure_category");
+
+                    b.Property<string>("ProcedureName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("procedure_name");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.Property<Guid>("SurgeonId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("surgeon_id");
+
+                    b.Property<string>("SurgeonName")
+                        .HasColumnType("text")
+                        .HasColumnName("surgeon_name");
+
+                    b.Property<Guid>("SurgeryId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("surgery_id");
+
+                    b.Property<string>("TheatreName")
+                        .HasColumnType("text")
+                        .HasColumnName("theatre_name");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("rv_surgery", "report");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Infrastructure.Persistence.ReportingViews.RvVisitOpenRow", b =>
+                {
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<DateTimeOffset?>("CompletedOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("completed_on");
+
+                    b.Property<DateTimeOffset?>("FinalisedOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("finalised_on");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.Property<Guid>("VetId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("vet_id");
+
+                    b.Property<Guid>("VisitId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("visit_id");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("rv_visit_open", "report");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Infrastructure.Persistence.Views.BatchUnitCostEntry", b =>
+                {
+                    b.Property<Guid>("BatchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("batch_id");
+
+                    b.Property<string>("CostBasis")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("cost_basis");
+
+                    b.Property<decimal>("UnitCostBase")
+                        .HasPrecision(14, 4)
+                        .HasColumnType("numeric(14,4)")
+                        .HasColumnName("unit_cost_base");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("v_batch_unit_cost", "inventory");
+                });
+
             modelBuilder.Entity("CatEcommerce.Infrastructure.Persistence.Views.CatalogueTermRow", b =>
                 {
                     b.Property<string>("Term")
@@ -3791,6 +14165,92 @@ namespace CatEcommerce.Infrastructure.Persistence.Migrations
                     b.ToView("product_rating_summary", "product");
                 });
 
+            modelBuilder.Entity("CatEcommerce.Infrastructure.Persistence.Views.SellableStockEntry", b =>
+                {
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<DateOnly?>("NextExpiresOn")
+                        .HasColumnType("date")
+                        .HasColumnName("next_expires_on");
+
+                    b.Property<decimal>("SellableQuantity")
+                        .HasPrecision(14, 3)
+                        .HasColumnType("numeric(14,3)")
+                        .HasColumnName("sellable_quantity");
+
+                    b.Property<Guid>("SkuId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("sku_id");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("v_sellable_stock", "inventory");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Infrastructure.Persistence.Views.SkuSellableEntry", b =>
+                {
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("branch_id");
+
+                    b.Property<DateOnly?>("ExpiresOn")
+                        .HasColumnType("date")
+                        .HasColumnName("expires_on");
+
+                    b.Property<DateTimeOffset>("LastChangedOn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("last_changed_on");
+
+                    b.Property<decimal>("SellableQuantity")
+                        .HasPrecision(14, 3)
+                        .HasColumnType("numeric(14,3)")
+                        .HasColumnName("sellable_quantity");
+
+                    b.Property<Guid>("SkuId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("sku_id");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("v_sku_sellable", "inventory");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Infrastructure.Persistence.Views.StockPositionEntry", b =>
+                {
+                    b.Property<Guid>("BatchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("batch_id");
+
+                    b.Property<DateTimeOffset>("LastMovementOn")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("last_movement_on");
+
+                    b.Property<Guid>("LocationId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("location_id");
+
+                    b.Property<decimal>("OnHand")
+                        .HasPrecision(12, 3)
+                        .HasColumnType("numeric(12,3)")
+                        .HasColumnName("on_hand");
+
+                    b.Property<decimal>("Reserved")
+                        .HasPrecision(12, 3)
+                        .HasColumnType("numeric(12,3)")
+                        .HasColumnName("reserved");
+
+                    b.Property<Guid>("SkuId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("sku_id");
+
+                    b.ToTable("stock_position", "inventory", t =>
+                        {
+                            t.ExcludeFromMigrations();
+                        });
+                });
+
             modelBuilder.Entity("CatEcommerce.Infrastructure.Persistence.Views.StorefrontCatalogueEntry", b =>
                 {
                     b.Property<string>("Brand")
@@ -3814,9 +14274,9 @@ namespace CatEcommerce.Infrastructure.Persistence.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("first_published_on");
 
-                    b.Property<bool>("InStock")
+                    b.Property<bool>("IsOnSale")
                         .HasColumnType("boolean")
-                        .HasColumnName("in_stock");
+                        .HasColumnName("is_on_sale");
 
                     b.Property<int>("Kind")
                         .HasColumnType("integer")
@@ -4390,6 +14850,1493 @@ namespace CatEcommerce.Infrastructure.Persistence.Migrations
                     b.Navigation("NextPattern");
                 });
 
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Billing.BankStatementAggregate", b =>
+                {
+                    b.OwnsMany("CatEcommerce.Domain.Entities.BankStatementLine", "Lines", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
+
+                            b1.Property<decimal>("Amount")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("amount");
+
+                            b1.Property<string>("BankTransactionId")
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)")
+                                .HasColumnName("bank_transaction_id");
+
+                            b1.Property<string>("Description")
+                                .HasMaxLength(500)
+                                .HasColumnType("character varying(500)")
+                                .HasColumnName("description");
+
+                            b1.Property<int>("Direction")
+                                .HasColumnType("integer")
+                                .HasColumnName("direction");
+
+                            b1.Property<int>("LineNumber")
+                                .HasColumnType("integer")
+                                .HasColumnName("line_number");
+
+                            b1.Property<string>("Reference")
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)")
+                                .HasColumnName("reference");
+
+                            b1.Property<DateOnly>("TransactionDate")
+                                .HasColumnType("date")
+                                .HasColumnName("transaction_date");
+
+                            b1.Property<Guid>("statement_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("TransactionDate")
+                                .HasDatabaseName("ix_bank_statement_line_date");
+
+                            b1.HasIndex("statement_id");
+
+                            b1.ToTable("bank_statement_line", "billing");
+
+                            b1.WithOwner()
+                                .HasForeignKey("statement_id");
+                        });
+
+                    b.Navigation("Lines");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Billing.BillingProfileAggregate", b =>
+                {
+                    b.OwnsMany("CatEcommerce.Domain.Entities.BillingBankAccount", "BankAccounts", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
+
+                            b1.Property<string>("AccountName")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)")
+                                .HasColumnName("account_name");
+
+                            b1.Property<string>("AccountNumber")
+                                .IsRequired()
+                                .HasMaxLength(50)
+                                .HasColumnType("character varying(50)")
+                                .HasColumnName("account_number");
+
+                            b1.Property<string>("BankName")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)")
+                                .HasColumnName("bank_name");
+
+                            b1.Property<string>("BranchName")
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)")
+                                .HasColumnName("branch_name");
+
+                            b1.Property<string>("RoutingNumber")
+                                .HasMaxLength(30)
+                                .HasColumnType("character varying(30)")
+                                .HasColumnName("routing_number");
+
+                            b1.Property<int>("SortOrder")
+                                .HasColumnType("integer")
+                                .HasColumnName("sort_order");
+
+                            b1.Property<Guid>("billing_profile_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("billing_profile_id");
+
+                            b1.ToTable("billing_profile_bank_account", "billing");
+
+                            b1.WithOwner()
+                                .HasForeignKey("billing_profile_id");
+                        });
+
+                    b.Navigation("BankAccounts");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Billing.CashUpAggregate", b =>
+                {
+                    b.OwnsOne("CatEcommerce.Domain.ValueObjects.CashUpSnapshot", "ExpectedSnapshot", b1 =>
+                        {
+                            b1.Property<Guid>("CashUpAggregateId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<int>("CardCount")
+                                .HasColumnType("integer")
+                                .HasColumnName("expected_card_count");
+
+                            b1.Property<decimal>("CardTotal")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("expected_card_total");
+
+                            b1.Property<decimal>("CarriedIn")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("expected_carried_in");
+
+                            b1.Property<int>("CashCount")
+                                .HasColumnType("integer")
+                                .HasColumnName("expected_cash_count");
+
+                            b1.Property<decimal>("CashRefunds")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("expected_cash_refunds");
+
+                            b1.Property<decimal>("CashReversals")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("expected_cash_reversals");
+
+                            b1.Property<decimal>("CashTotal")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("expected_cash_total");
+
+                            b1.Property<decimal>("ExpectedCash")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("expected_cash");
+
+                            b1.Property<int>("TransferCount")
+                                .HasColumnType("integer")
+                                .HasColumnName("expected_transfer_count");
+
+                            b1.Property<decimal>("TransferTotal")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("expected_transfer_total");
+
+                            b1.HasKey("CashUpAggregateId");
+
+                            b1.ToTable("cash_up", "billing");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CashUpAggregateId");
+                        });
+
+                    b.Navigation("ExpectedSnapshot");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Billing.CodRemittanceAggregate", b =>
+                {
+                    b.OwnsMany("CatEcommerce.Domain.Entities.RemittanceLine", "Lines", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
+
+                            b1.Property<decimal>("AmountRemitted")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("amount_remitted");
+
+                            b1.Property<Guid>("PaymentId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("payment_id");
+
+                            b1.Property<Guid>("remittance_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("PaymentId")
+                                .HasDatabaseName("ix_cod_remittance_line_payment");
+
+                            b1.HasIndex("remittance_id");
+
+                            b1.ToTable("cod_remittance_line", "billing");
+
+                            b1.WithOwner()
+                                .HasForeignKey("remittance_id");
+                        });
+
+                    b.Navigation("Lines");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Billing.CreditNoteAggregate", b =>
+                {
+                    b.OwnsMany("CatEcommerce.Domain.Entities.CreditNoteLine", "Lines", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
+
+                            b1.Property<string>("Description")
+                                .IsRequired()
+                                .HasMaxLength(300)
+                                .HasColumnType("character varying(300)")
+                                .HasColumnName("description");
+
+                            b1.Property<decimal>("GrossAmount")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("gross_amount");
+
+                            b1.Property<Guid>("InvoiceLineId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("invoice_line_id");
+
+                            b1.Property<decimal>("NetAmount")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("net_amount");
+
+                            b1.Property<decimal?>("Quantity")
+                                .HasColumnType("numeric(10,3)")
+                                .HasColumnName("quantity");
+
+                            b1.Property<decimal?>("RequestedAmount")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("requested_amount");
+
+                            b1.Property<int>("SortOrder")
+                                .HasColumnType("integer")
+                                .HasColumnName("sort_order");
+
+                            b1.Property<decimal>("TaxAmount")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("tax_amount");
+
+                            b1.Property<decimal>("TaxRatePercent")
+                                .HasColumnType("numeric(5,2)")
+                                .HasColumnName("tax_rate_percent");
+
+                            b1.Property<Guid>("credit_note_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("InvoiceLineId")
+                                .HasDatabaseName("ix_credit_note_line_invoice_line");
+
+                            b1.HasIndex("credit_note_id");
+
+                            b1.ToTable("credit_note_line", "billing");
+
+                            b1.WithOwner()
+                                .HasForeignKey("credit_note_id");
+                        });
+
+                    b.Navigation("Lines");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Billing.InvoiceAggregate", b =>
+                {
+                    b.OwnsOne("CatEcommerce.Domain.ValueObjects.BillToSnapshot", "BillTo", b1 =>
+                        {
+                            b1.Property<Guid>("InvoiceAggregateId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("AddressText")
+                                .HasMaxLength(600)
+                                .HasColumnType("character varying(600)")
+                                .HasColumnName("bill_to_address_text");
+
+                            b1.Property<string>("Email")
+                                .HasMaxLength(200)
+                                .HasColumnType("character varying(200)")
+                                .HasColumnName("bill_to_email");
+
+                            b1.Property<string>("FullName")
+                                .IsRequired()
+                                .HasMaxLength(200)
+                                .HasColumnType("character varying(200)")
+                                .HasColumnName("bill_to_full_name");
+
+                            b1.Property<string>("Mobile")
+                                .HasMaxLength(30)
+                                .HasColumnType("character varying(30)")
+                                .HasColumnName("bill_to_mobile");
+
+                            b1.HasKey("InvoiceAggregateId");
+
+                            b1.ToTable("invoice", "billing");
+
+                            b1.WithOwner()
+                                .HasForeignKey("InvoiceAggregateId");
+                        });
+
+                    b.OwnsOne("CatEcommerce.Domain.ValueObjects.LoyaltyRedemption", "LoyaltyRedemption", b1 =>
+                        {
+                            b1.Property<Guid>("InvoiceAggregateId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<Guid>("LoyaltyEntryId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("loyalty_entry_id");
+
+                            b1.Property<int>("Points")
+                                .HasColumnType("integer")
+                                .HasColumnName("loyalty_points");
+
+                            b1.Property<decimal>("Value")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("loyalty_value");
+
+                            b1.HasKey("InvoiceAggregateId");
+
+                            b1.ToTable("invoice", "billing");
+
+                            b1.WithOwner()
+                                .HasForeignKey("InvoiceAggregateId");
+                        });
+
+                    b.OwnsOne("CatEcommerce.Domain.ValueObjects.SellerSnapshot", "Seller", b1 =>
+                        {
+                            b1.Property<Guid>("InvoiceAggregateId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("AddressText")
+                                .IsRequired()
+                                .HasMaxLength(1100)
+                                .HasColumnType("character varying(1100)")
+                                .HasColumnName("seller_address_text");
+
+                            b1.Property<string>("BankAccountsJson")
+                                .IsRequired()
+                                .HasColumnType("text")
+                                .HasColumnName("seller_bank_accounts_json");
+
+                            b1.Property<string>("Email")
+                                .HasMaxLength(200)
+                                .HasColumnType("character varying(200)")
+                                .HasColumnName("seller_email");
+
+                            b1.Property<string>("InvoiceFooter")
+                                .HasMaxLength(500)
+                                .HasColumnType("character varying(500)")
+                                .HasColumnName("seller_invoice_footer");
+
+                            b1.Property<string>("LegalName")
+                                .IsRequired()
+                                .HasMaxLength(200)
+                                .HasColumnType("character varying(200)")
+                                .HasColumnName("seller_legal_name");
+
+                            b1.Property<string>("Phone")
+                                .HasMaxLength(30)
+                                .HasColumnType("character varying(30)")
+                                .HasColumnName("seller_phone");
+
+                            b1.Property<string>("TaxRegistrationNumber")
+                                .IsRequired()
+                                .HasMaxLength(50)
+                                .HasColumnType("character varying(50)")
+                                .HasColumnName("seller_tax_registration_number");
+
+                            b1.HasKey("InvoiceAggregateId");
+
+                            b1.ToTable("invoice", "billing");
+
+                            b1.WithOwner()
+                                .HasForeignKey("InvoiceAggregateId");
+                        });
+
+                    b.OwnsMany("CatEcommerce.Domain.Entities.InvoiceLine", "Lines", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
+
+                            b1.Property<Guid?>("BillingGroupId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("billing_group_id");
+
+                            b1.Property<int?>("BillingGroupKind")
+                                .HasColumnType("integer")
+                                .HasColumnName("billing_group_kind");
+
+                            b1.Property<int>("BusinessLine")
+                                .HasColumnType("integer")
+                                .HasColumnName("business_line");
+
+                            b1.Property<Guid?>("CatId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("cat_id");
+
+                            b1.Property<Guid?>("ChargeId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("charge_id");
+
+                            b1.Property<Guid?>("CorrectsInvoiceLineId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("corrects_invoice_line_id");
+
+                            b1.Property<string>("Description")
+                                .IsRequired()
+                                .HasMaxLength(300)
+                                .HasColumnType("character varying(300)")
+                                .HasColumnName("description");
+
+                            b1.Property<decimal>("GrossAmount")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("gross_amount");
+
+                            b1.Property<bool>("InvoiceDiscarded")
+                                .HasColumnType("boolean")
+                                .HasColumnName("invoice_discarded");
+
+                            b1.Property<decimal>("InvoiceDiscountShare")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("invoice_discount_share");
+
+                            b1.Property<bool>("IsFrozen")
+                                .HasColumnType("boolean")
+                                .HasColumnName("is_frozen");
+
+                            b1.Property<int>("ItemKind")
+                                .HasColumnType("integer")
+                                .HasColumnName("item_kind");
+
+                            b1.Property<decimal>("LineDiscount")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("line_discount");
+
+                            b1.Property<decimal>("NetAmount")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("net_amount");
+
+                            b1.Property<decimal>("Quantity")
+                                .HasColumnType("numeric(10,3)")
+                                .HasColumnName("quantity");
+
+                            b1.Property<int>("SortOrder")
+                                .HasColumnType("integer")
+                                .HasColumnName("sort_order");
+
+                            b1.Property<Guid>("SourceId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("source_id");
+
+                            b1.Property<int>("SourceKind")
+                                .HasColumnType("integer")
+                                .HasColumnName("source_kind");
+
+                            b1.Property<decimal>("TaxAmount")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("tax_amount");
+
+                            b1.Property<string>("TaxClassCode")
+                                .HasMaxLength(30)
+                                .HasColumnType("character varying(30)")
+                                .HasColumnName("tax_class_code");
+
+                            b1.Property<Guid>("TaxClassId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("tax_class_id");
+
+                            b1.Property<decimal>("TaxRatePercent")
+                                .HasColumnType("numeric(5,2)")
+                                .HasColumnName("tax_rate_percent");
+
+                            b1.Property<decimal>("UnitPrice")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("unit_price");
+
+                            b1.Property<Guid>("invoice_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("ChargeId")
+                                .IsUnique()
+                                .HasDatabaseName("ix_invoice_line_charge")
+                                .HasFilter("charge_id IS NOT NULL AND NOT invoice_discarded");
+
+                            b1.HasIndex("invoice_id");
+
+                            b1.ToTable("invoice_line", "billing");
+
+                            b1.WithOwner()
+                                .HasForeignKey("invoice_id");
+                        });
+
+                    b.Navigation("BillTo");
+
+                    b.Navigation("Lines");
+
+                    b.Navigation("LoyaltyRedemption");
+
+                    b.Navigation("Seller");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Billing.PaymentAggregate", b =>
+                {
+                    b.OwnsOne("CatEcommerce.Domain.ValueObjects.PaymentCollector", "Collector", b1 =>
+                        {
+                            b1.Property<Guid>("PaymentAggregateId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("CourierCode")
+                                .HasMaxLength(30)
+                                .HasColumnType("character varying(30)")
+                                .HasColumnName("collector_courier_code");
+
+                            b1.Property<string>("CourierName")
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)")
+                                .HasColumnName("collector_courier_name");
+
+                            b1.Property<int>("Kind")
+                                .HasColumnType("integer")
+                                .HasColumnName("collector_kind");
+
+                            b1.Property<Guid?>("StaffAccountId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("collector_staff_account_id");
+
+                            b1.HasKey("PaymentAggregateId");
+
+                            b1.ToTable("payment", "billing");
+
+                            b1.WithOwner()
+                                .HasForeignKey("PaymentAggregateId");
+                        });
+
+                    b.OwnsOne("CatEcommerce.Domain.ValueObjects.PaymentEarmark", "Earmark", b1 =>
+                        {
+                            b1.Property<Guid>("PaymentAggregateId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<int>("Kind")
+                                .HasColumnType("integer")
+                                .HasColumnName("earmark_kind");
+
+                            b1.Property<string>("Label")
+                                .IsRequired()
+                                .HasMaxLength(200)
+                                .HasColumnType("character varying(200)")
+                                .HasColumnName("earmark_label");
+
+                            b1.Property<string>("ReleaseReason")
+                                .HasMaxLength(1000)
+                                .HasColumnType("character varying(1000)")
+                                .HasColumnName("earmark_release_reason");
+
+                            b1.Property<Guid?>("ReleasedBy")
+                                .HasColumnType("uuid")
+                                .HasColumnName("earmark_released_by");
+
+                            b1.Property<DateTimeOffset?>("ReleasedOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("earmark_released_on");
+
+                            b1.Property<Guid>("SourceId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("earmark_source_id");
+
+                            b1.HasKey("PaymentAggregateId");
+
+                            b1.HasIndex("Kind", "SourceId")
+                                .HasDatabaseName("ix_payment_earmark");
+
+                            b1.ToTable("payment", "billing");
+
+                            b1.WithOwner()
+                                .HasForeignKey("PaymentAggregateId");
+                        });
+
+                    b.OwnsMany("CatEcommerce.Domain.Entities.AllocationEntry", "Entries", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
+
+                            b1.Property<decimal>("Amount")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("amount");
+
+                            b1.Property<Guid>("By")
+                                .HasColumnType("uuid")
+                                .HasColumnName("performed_by");
+
+                            b1.Property<Guid>("InvoiceId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("invoice_id");
+
+                            b1.Property<int>("Kind")
+                                .HasColumnType("integer")
+                                .HasColumnName("kind");
+
+                            b1.Property<DateTimeOffset>("OccurredOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("occurred_on");
+
+                            b1.Property<int?>("ReleaseReason")
+                                .HasColumnType("integer")
+                                .HasColumnName("release_reason");
+
+                            b1.Property<Guid>("payment_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("InvoiceId")
+                                .HasDatabaseName("ix_payment_allocation_entry_invoice");
+
+                            b1.HasIndex("payment_id");
+
+                            b1.ToTable("payment_allocation_entry", "billing");
+
+                            b1.WithOwner()
+                                .HasForeignKey("payment_id");
+                        });
+
+                    b.OwnsMany("CatEcommerce.Domain.Entities.RequestedAllocation", "RequestedAllocations", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
+
+                            b1.Property<decimal>("Amount")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("amount");
+
+                            b1.Property<Guid>("InvoiceId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("invoice_id");
+
+                            b1.Property<Guid>("payment_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("payment_id");
+
+                            b1.ToTable("payment_requested_allocation", "billing");
+
+                            b1.WithOwner()
+                                .HasForeignKey("payment_id");
+                        });
+
+                    b.Navigation("Collector");
+
+                    b.Navigation("Earmark");
+
+                    b.Navigation("Entries");
+
+                    b.Navigation("RequestedAllocations");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Boarding.BoardingCareRoutineAggregate", b =>
+                {
+                    b.OwnsMany("CatEcommerce.Domain.Entities.RoutineTime", "Times", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
+
+                            b1.Property<int>("Kind")
+                                .HasColumnType("integer")
+                                .HasColumnName("kind");
+
+                            b1.Property<TimeOnly>("LocalTime")
+                                .HasColumnType("time")
+                                .HasColumnName("local_time");
+
+                            b1.Property<Guid>("routine_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("routine_id")
+                                .HasDatabaseName("ix_care_routine_time_routine");
+
+                            b1.ToTable("care_routine_time", "boarding");
+
+                            b1.WithOwner()
+                                .HasForeignKey("routine_id");
+                        });
+
+                    b.Navigation("Times");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Boarding.BoardingStayAggregate", b =>
+                {
+                    b.OwnsOne("CatEcommerce.Domain.ValueObjects.PricingSnapshot", "PricingSnapshot", b1 =>
+                        {
+                            b1.Property<Guid>("BoardingStayAggregateId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<int>("EarlyCheckoutChargedNights")
+                                .HasColumnType("integer")
+                                .HasColumnName("pricing_early_checkout_charged_nights");
+
+                            b1.Property<bool>("EarlyCheckoutRefundAsCredit")
+                                .HasColumnType("boolean")
+                                .HasColumnName("pricing_early_checkout_refund_as_credit");
+
+                            b1.Property<decimal>("LongStayDiscountPercent")
+                                .HasColumnType("numeric(5,2)")
+                                .HasColumnName("pricing_long_stay_discount_percent");
+
+                            b1.Property<int>("LongStayThresholdNights")
+                                .HasColumnType("integer")
+                                .HasColumnName("pricing_long_stay_threshold_nights");
+
+                            b1.HasKey("BoardingStayAggregateId");
+
+                            b1.ToTable("stay", "boarding");
+
+                            b1.WithOwner()
+                                .HasForeignKey("BoardingStayAggregateId");
+                        });
+
+                    b.OwnsOne("CatEcommerce.Domain.ValueObjects.RateCardSnapshot", "RateCardSnapshot", b1 =>
+                        {
+                            b1.Property<Guid>("BoardingStayAggregateId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<decimal>("AdditionalCatNightlyRate")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("rate_card_additional_cat");
+
+                            b1.Property<Guid>("CardId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("rate_card_id");
+
+                            b1.Property<string>("CurrencyCode")
+                                .IsRequired()
+                                .HasColumnType("char(3)")
+                                .HasColumnName("rate_card_currency_code");
+
+                            b1.Property<decimal>("MonthlyRate")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("rate_card_monthly");
+
+                            b1.Property<decimal>("NightlyRate")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("rate_card_nightly");
+
+                            b1.Property<Guid>("TaxClassId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("rate_card_tax_class_id");
+
+                            b1.Property<int>("UnitType")
+                                .HasColumnType("integer")
+                                .HasColumnName("rate_card_unit_type");
+
+                            b1.Property<decimal>("WeeklyRate")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("rate_card_weekly");
+
+                            b1.HasKey("BoardingStayAggregateId");
+
+                            b1.ToTable("stay", "boarding");
+
+                            b1.WithOwner()
+                                .HasForeignKey("BoardingStayAggregateId");
+                        });
+
+                    b.OwnsMany("CatEcommerce.Domain.Entities.QuotedRateUnit", "RateUnits", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
+
+                            b1.Property<decimal>("Amount")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("amount");
+
+                            b1.Property<string>("Description")
+                                .IsRequired()
+                                .HasMaxLength(300)
+                                .HasColumnType("character varying(300)")
+                                .HasColumnName("description");
+
+                            b1.Property<decimal>("Discount")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("discount");
+
+                            b1.Property<int>("FromNight")
+                                .HasColumnType("integer")
+                                .HasColumnName("from_night");
+
+                            b1.Property<int>("Kind")
+                                .HasColumnType("integer")
+                                .HasColumnName("kind");
+
+                            b1.Property<int>("Sequence")
+                                .HasColumnType("integer")
+                                .HasColumnName("sequence");
+
+                            b1.Property<int>("ToNight")
+                                .HasColumnType("integer")
+                                .HasColumnName("to_night");
+
+                            b1.Property<Guid>("stay_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("stay_id")
+                                .HasDatabaseName("ix_stay_rate_unit_stay");
+
+                            b1.ToTable("stay_rate_unit", "boarding");
+
+                            b1.WithOwner()
+                                .HasForeignKey("stay_id");
+                        });
+
+                    b.OwnsMany("CatEcommerce.Domain.Entities.StayCat", "Cats", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
+
+                            b1.Property<string>("CareNotes")
+                                .HasMaxLength(1000)
+                                .HasColumnType("character varying(1000)")
+                                .HasColumnName("care_notes");
+
+                            b1.Property<Guid>("CatId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("cat_id");
+
+                            b1.Property<string>("CatName")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)")
+                                .HasColumnName("cat_name");
+
+                            b1.Property<string>("CheckInHealthObservation")
+                                .HasMaxLength(1000)
+                                .HasColumnType("character varying(1000)")
+                                .HasColumnName("check_in_health_observation");
+
+                            b1.Property<bool>("CheckInIdentityConfirmed")
+                                .HasColumnType("boolean")
+                                .HasColumnName("check_in_identity_confirmed");
+
+                            b1.Property<int?>("CheckInSignatureMethod")
+                                .HasColumnType("integer")
+                                .HasColumnName("check_in_signature_method");
+
+                            b1.Property<string>("CheckInSignatureStrokes")
+                                .HasColumnType("jsonb")
+                                .HasColumnName("check_in_signature_strokes");
+
+                            b1.Property<DateTimeOffset?>("CheckInSignedOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("check_in_signed_on");
+
+                            b1.Property<string>("CheckInSignerName")
+                                .HasMaxLength(200)
+                                .HasColumnType("character varying(200)")
+                                .HasColumnName("check_in_signer_name");
+
+                            b1.Property<bool>("CheckInVaccinationProofVerified")
+                                .HasColumnType("boolean")
+                                .HasColumnName("check_in_vaccination_proof_verified");
+
+                            b1.Property<decimal?>("CheckInWeightKg")
+                                .HasColumnType("numeric(5,2)")
+                                .HasColumnName("check_in_weight_kg");
+
+                            b1.Property<int?>("CheckOutSignatureMethod")
+                                .HasColumnType("integer")
+                                .HasColumnName("check_out_signature_method");
+
+                            b1.Property<string>("CheckOutSignatureStrokes")
+                                .HasColumnType("jsonb")
+                                .HasColumnName("check_out_signature_strokes");
+
+                            b1.Property<DateTimeOffset?>("CheckOutSignedOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("check_out_signed_on");
+
+                            b1.Property<string>("CheckOutSignerName")
+                                .HasMaxLength(200)
+                                .HasColumnType("character varying(200)")
+                                .HasColumnName("check_out_signer_name");
+
+                            b1.Property<decimal?>("CheckOutWeightKg")
+                                .HasColumnType("numeric(5,2)")
+                                .HasColumnName("check_out_weight_kg");
+
+                            b1.Property<DateTimeOffset?>("CheckedInOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("checked_in_on");
+
+                            b1.Property<DateTimeOffset?>("CheckedOutOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("checked_out_on");
+
+                            b1.Property<string>("EmergencyContactName")
+                                .HasMaxLength(200)
+                                .HasColumnType("character varying(200)")
+                                .HasColumnName("emergency_contact_name");
+
+                            b1.Property<string>("EmergencyContactPhone")
+                                .HasMaxLength(30)
+                                .HasColumnType("character varying(30)")
+                                .HasColumnName("emergency_contact_phone");
+
+                            b1.Property<string>("EmergencyContactRelationship")
+                                .HasMaxLength(50)
+                                .HasColumnType("character varying(50)")
+                                .HasColumnName("emergency_contact_relationship");
+
+                            b1.Property<DateOnly?>("GateEvaluatedOn")
+                                .HasColumnType("date")
+                                .HasColumnName("gate_evaluated_on");
+
+                            b1.Property<Guid?>("GateOverriddenBy")
+                                .HasColumnType("uuid")
+                                .HasColumnName("gate_overridden_by");
+
+                            b1.Property<DateTimeOffset?>("GateOverriddenOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("gate_overridden_on");
+
+                            b1.Property<string>("GateOverrideReason")
+                                .HasMaxLength(500)
+                                .HasColumnType("character varying(500)")
+                                .HasColumnName("gate_override_reason");
+
+                            b1.Property<string>("GateReasons")
+                                .IsRequired()
+                                .HasColumnType("jsonb")
+                                .HasColumnName("gate_reasons");
+
+                            b1.Property<int>("GateStatus")
+                                .HasColumnType("integer")
+                                .HasColumnName("gate_status");
+
+                            b1.Property<bool>("HasCareProfile")
+                                .HasColumnType("boolean")
+                                .HasColumnName("has_care_profile");
+
+                            b1.Property<Guid?>("InfectiousFlaggedBy")
+                                .HasColumnType("uuid")
+                                .HasColumnName("infectious_flagged_by");
+
+                            b1.Property<DateTimeOffset?>("InfectiousFlaggedOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("infectious_flagged_on");
+
+                            b1.Property<string>("InfectiousNote")
+                                .HasMaxLength(500)
+                                .HasColumnType("character varying(500)")
+                                .HasColumnName("infectious_note");
+
+                            b1.Property<bool>("IsActive")
+                                .HasColumnType("boolean")
+                                .HasColumnName("is_active");
+
+                            b1.Property<int?>("Litter")
+                                .HasColumnType("integer")
+                                .HasColumnName("litter_type");
+
+                            b1.Property<string>("LitterNote")
+                                .HasMaxLength(200)
+                                .HasColumnType("character varying(200)")
+                                .HasColumnName("litter_note");
+
+                            b1.Property<bool>("NoBelongings")
+                                .HasColumnType("boolean")
+                                .HasColumnName("no_belongings");
+
+                            b1.Property<DateTimeOffset>("OccupiedFrom")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("occupied_from");
+
+                            b1.Property<DateTimeOffset>("OccupiedTo")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("occupied_to");
+
+                            b1.Property<bool>("SuspectedInfectious")
+                                .HasColumnType("boolean")
+                                .HasColumnName("suspected_infectious");
+
+                            b1.Property<string>("VetAuthorityChangeReason")
+                                .HasMaxLength(500)
+                                .HasColumnType("character varying(500)")
+                                .HasColumnName("vet_authority_change_reason");
+
+                            b1.Property<decimal>("VetSpendingLimit")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("vet_spending_limit");
+
+                            b1.Property<bool>("VetVisitAuthorised")
+                                .HasColumnType("boolean")
+                                .HasColumnName("vet_visit_authorised");
+
+                            b1.Property<Guid>("stay_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("CatId")
+                                .HasDatabaseName("ix_stay_cat_cat");
+
+                            b1.HasIndex("stay_id")
+                                .HasDatabaseName("ix_stay_cat_stay");
+
+                            b1.ToTable("stay_cat", "boarding");
+
+                            b1.WithOwner()
+                                .HasForeignKey("stay_id");
+
+                            b1.OwnsMany("CatEcommerce.Domain.Entities.StayCatBelonging", "Belongings", b2 =>
+                                {
+                                    b2.Property<Guid>("Id")
+                                        .HasColumnType("uuid")
+                                        .HasColumnName("id");
+
+                                    b2.Property<string>("Description")
+                                        .IsRequired()
+                                        .HasMaxLength(200)
+                                        .HasColumnType("character varying(200)")
+                                        .HasColumnName("description");
+
+                                    b2.PrimitiveCollection<Guid[]>("FileIds")
+                                        .IsRequired()
+                                        .HasColumnType("uuid[]")
+                                        .HasColumnName("file_ids");
+
+                                    b2.Property<int>("Kind")
+                                        .HasColumnType("integer")
+                                        .HasColumnName("kind");
+
+                                    b2.Property<string>("ReturnNote")
+                                        .HasMaxLength(500)
+                                        .HasColumnType("character varying(500)")
+                                        .HasColumnName("return_note");
+
+                                    b2.Property<bool?>("Returned")
+                                        .HasColumnType("boolean")
+                                        .HasColumnName("returned");
+
+                                    b2.Property<Guid>("stay_cat_id")
+                                        .HasColumnType("uuid");
+
+                                    b2.HasKey("Id");
+
+                                    b2.HasIndex("stay_cat_id")
+                                        .HasDatabaseName("ix_stay_cat_belonging_stay_cat");
+
+                                    b2.ToTable("stay_cat_belonging", "boarding");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("stay_cat_id");
+                                });
+
+                            b1.OwnsMany("CatEcommerce.Domain.Entities.StayCatFeeding", "Feedings", b2 =>
+                                {
+                                    b2.Property<Guid>("Id")
+                                        .HasColumnType("uuid")
+                                        .HasColumnName("id");
+
+                                    b2.Property<string>("FoodDescription")
+                                        .IsRequired()
+                                        .HasMaxLength(200)
+                                        .HasColumnType("character varying(200)")
+                                        .HasColumnName("food_description");
+
+                                    b2.Property<int>("FoodSource")
+                                        .HasColumnType("integer")
+                                        .HasColumnName("food_source");
+
+                                    b2.Property<Guid?>("HouseFoodSkuId")
+                                        .HasColumnType("uuid")
+                                        .HasColumnName("house_food_sku_id");
+
+                                    b2.Property<string>("Portion")
+                                        .IsRequired()
+                                        .HasMaxLength(100)
+                                        .HasColumnType("character varying(100)")
+                                        .HasColumnName("portion");
+
+                                    b2.Property<TimeOnly>("Time")
+                                        .HasColumnType("time")
+                                        .HasColumnName("local_time");
+
+                                    b2.Property<Guid>("stay_cat_id")
+                                        .HasColumnType("uuid");
+
+                                    b2.HasKey("Id");
+
+                                    b2.HasIndex("stay_cat_id")
+                                        .HasDatabaseName("ix_stay_cat_feeding_stay_cat");
+
+                                    b2.ToTable("stay_cat_feeding", "boarding");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("stay_cat_id");
+                                });
+
+                            b1.OwnsMany("CatEcommerce.Domain.Entities.StayCatMedication", "Medications", b2 =>
+                                {
+                                    b2.Property<Guid>("Id")
+                                        .HasColumnType("uuid")
+                                        .HasColumnName("id");
+
+                                    b2.Property<string>("Dose")
+                                        .IsRequired()
+                                        .HasMaxLength(100)
+                                        .HasColumnType("character varying(100)")
+                                        .HasColumnName("dose");
+
+                                    b2.Property<DateOnly?>("FromOn")
+                                        .HasColumnType("date")
+                                        .HasColumnName("from_on");
+
+                                    b2.Property<string>("Instructions")
+                                        .HasMaxLength(500)
+                                        .HasColumnType("character varying(500)")
+                                        .HasColumnName("instructions");
+
+                                    b2.Property<string>("Name")
+                                        .IsRequired()
+                                        .HasMaxLength(100)
+                                        .HasColumnType("character varying(100)")
+                                        .HasColumnName("name");
+
+                                    b2.Property<string>("Route")
+                                        .IsRequired()
+                                        .HasMaxLength(50)
+                                        .HasColumnType("character varying(50)")
+                                        .HasColumnName("route");
+
+                                    b2.PrimitiveCollection<TimeOnly[]>("Times")
+                                        .IsRequired()
+                                        .HasColumnType("time[]")
+                                        .HasColumnName("times");
+
+                                    b2.Property<DateOnly?>("ToOn")
+                                        .HasColumnType("date")
+                                        .HasColumnName("to_on");
+
+                                    b2.Property<Guid>("stay_cat_id")
+                                        .HasColumnType("uuid");
+
+                                    b2.HasKey("Id");
+
+                                    b2.HasIndex("stay_cat_id")
+                                        .HasDatabaseName("ix_stay_cat_medication_stay_cat");
+
+                                    b2.ToTable("stay_cat_medication", "boarding");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("stay_cat_id");
+                                });
+
+                            b1.Navigation("Belongings");
+
+                            b1.Navigation("Feedings");
+
+                            b1.Navigation("Medications");
+                        });
+
+                    b.OwnsMany("CatEcommerce.Domain.Entities.StayStatusChange", "StatusHistory", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
+
+                            b1.Property<Guid>("ChangedBy")
+                                .HasColumnType("uuid")
+                                .HasColumnName("changed_by");
+
+                            b1.Property<DateTimeOffset>("ChangedOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("changed_on");
+
+                            b1.Property<int>("From")
+                                .HasColumnType("integer")
+                                .HasColumnName("from_status");
+
+                            b1.Property<int>("Sequence")
+                                .HasColumnType("integer")
+                                .HasColumnName("sequence");
+
+                            b1.Property<int>("To")
+                                .HasColumnType("integer")
+                                .HasColumnName("to_status");
+
+                            b1.Property<Guid>("stay_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("stay_id")
+                                .HasDatabaseName("ix_stay_status_change_stay");
+
+                            b1.ToTable("stay_status_change", "boarding");
+
+                            b1.WithOwner()
+                                .HasForeignKey("stay_id");
+                        });
+
+                    b.OwnsMany("CatEcommerce.Domain.Entities.StaySurgery", "Surgeries", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
+
+                            b1.Property<Guid>("CatId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("cat_id");
+
+                            b1.Property<DateTimeOffset?>("DischargedOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("discharged_on");
+
+                            b1.Property<DateTimeOffset>("StartsOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("starts_on");
+
+                            b1.Property<Guid>("stay_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("stay_id")
+                                .HasDatabaseName("ix_stay_surgery_stay");
+
+                            b1.ToTable("stay_surgery", "boarding");
+
+                            b1.WithOwner()
+                                .HasForeignKey("stay_id");
+                        });
+
+                    b.OwnsMany("CatEcommerce.Domain.Entities.UnitAllocation", "Allocations", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
+
+                            b1.Property<Guid>("CreatedBy")
+                                .HasColumnType("uuid")
+                                .HasColumnName("created_by");
+
+                            b1.Property<DateTimeOffset>("CreatedOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("created_on");
+
+                            b1.Property<bool>("IsActive")
+                                .HasColumnType("boolean")
+                                .HasColumnName("is_active");
+
+                            b1.Property<DateTimeOffset>("OccupiedFrom")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("occupied_from");
+
+                            b1.Property<DateTimeOffset>("OccupiedTo")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("occupied_to");
+
+                            b1.Property<string>("Reason")
+                                .HasMaxLength(500)
+                                .HasColumnType("character varying(500)")
+                                .HasColumnName("reason");
+
+                            b1.Property<Guid>("UnitId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("unit_id");
+
+                            b1.Property<int>("UnitType")
+                                .HasColumnType("integer")
+                                .HasColumnName("unit_type");
+
+                            b1.Property<Guid>("stay_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("stay_id")
+                                .HasDatabaseName("ix_stay_unit_allocation_stay");
+
+                            b1.HasIndex("UnitId", "OccupiedFrom")
+                                .HasDatabaseName("ix_stay_unit_allocation_unit_from");
+
+                            b1.ToTable("stay_unit_allocation", "boarding");
+
+                            b1.WithOwner()
+                                .HasForeignKey("stay_id");
+                        });
+
+                    b.OwnsMany("CatEcommerce.Domain.Entities.VetChargeApproval", "Approvals", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
+
+                            b1.Property<decimal>("Amount")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("amount");
+
+                            b1.Property<Guid>("CatId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("cat_id");
+
+                            b1.Property<Guid?>("DecidedBy")
+                                .HasColumnType("uuid")
+                                .HasColumnName("decided_by");
+
+                            b1.Property<DateTimeOffset?>("DecidedOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("decided_on");
+
+                            b1.Property<int?>("DecidedVia")
+                                .HasColumnType("integer")
+                                .HasColumnName("decided_via");
+
+                            b1.Property<string>("DecisionNote")
+                                .HasMaxLength(500)
+                                .HasColumnType("character varying(500)")
+                                .HasColumnName("decision_note");
+
+                            b1.Property<string>("Description")
+                                .IsRequired()
+                                .HasMaxLength(200)
+                                .HasColumnType("character varying(200)")
+                                .HasColumnName("description");
+
+                            b1.Property<Guid?>("ReferralId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("referral_id");
+
+                            b1.Property<Guid>("RequestedBy")
+                                .HasColumnType("uuid")
+                                .HasColumnName("requested_by");
+
+                            b1.Property<DateTimeOffset>("RequestedOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("requested_on");
+
+                            b1.Property<int>("Status")
+                                .HasColumnType("integer")
+                                .HasColumnName("status");
+
+                            b1.Property<Guid>("stay_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("stay_id")
+                                .HasDatabaseName("ix_stay_vet_approval_stay");
+
+                            b1.ToTable("stay_vet_approval", "boarding");
+
+                            b1.WithOwner()
+                                .HasForeignKey("stay_id");
+                        });
+
+                    b.OwnsMany("CatEcommerce.Domain.Entities.VetChargeCommitment", "Commitments", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
+
+                            b1.Property<decimal>("Amount")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("amount");
+
+                            b1.Property<Guid>("CatId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("cat_id");
+
+                            b1.Property<Guid>("ChargeId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("charge_id");
+
+                            b1.Property<DateTimeOffset>("RecordedOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("recorded_on");
+
+                            b1.Property<Guid>("stay_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("ChargeId")
+                                .IsUnique()
+                                .HasDatabaseName("ix_stay_vet_commitment_charge");
+
+                            b1.HasIndex("stay_id")
+                                .HasDatabaseName("ix_stay_vet_commitment_stay");
+
+                            b1.ToTable("stay_vet_commitment", "boarding");
+
+                            b1.WithOwner()
+                                .HasForeignKey("stay_id");
+                        });
+
+                    b.OwnsMany("CatEcommerce.Domain.Entities.VetReferral", "Referrals", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
+
+                            b1.Property<Guid>("CatId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("cat_id");
+
+                            b1.Property<string>("Reason")
+                                .IsRequired()
+                                .HasMaxLength(500)
+                                .HasColumnType("character varying(500)")
+                                .HasColumnName("reason");
+
+                            b1.Property<Guid>("ReferredBy")
+                                .HasColumnType("uuid")
+                                .HasColumnName("referred_by");
+
+                            b1.Property<DateTimeOffset>("ReferredOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("referred_on");
+
+                            b1.Property<DateTimeOffset?>("ReturnedOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("returned_on");
+
+                            b1.Property<int>("Urgency")
+                                .HasColumnType("integer")
+                                .HasColumnName("urgency");
+
+                            b1.Property<Guid?>("VisitId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("visit_id");
+
+                            b1.Property<Guid>("stay_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("stay_id")
+                                .HasDatabaseName("ix_stay_referral_stay");
+
+                            b1.ToTable("stay_referral", "boarding");
+
+                            b1.WithOwner()
+                                .HasForeignKey("stay_id");
+                        });
+
+                    b.Navigation("Allocations");
+
+                    b.Navigation("Approvals");
+
+                    b.Navigation("Cats");
+
+                    b.Navigation("Commitments");
+
+                    b.Navigation("PricingSnapshot");
+
+                    b.Navigation("RateCardSnapshot");
+
+                    b.Navigation("RateUnits");
+
+                    b.Navigation("Referrals");
+
+                    b.Navigation("StatusHistory");
+
+                    b.Navigation("Surgeries");
+                });
+
             modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Cat.CatAggregate", b =>
                 {
                     b.OwnsMany("CatEcommerce.Domain.Entities.CatAllergy", "Allergies", b1 =>
@@ -4717,6 +16664,49 @@ namespace CatEcommerce.Infrastructure.Persistence.Migrations
                                 .IsRequired();
                         });
 
+                    b.OwnsMany("CatEcommerce.Domain.Entities.AppointmentStaffTime", "StaffTime", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
+
+                            b1.Property<DateTimeOffset>("EndsOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("ends_on");
+
+                            b1.Property<bool>("Occupies")
+                                .HasColumnType("boolean")
+                                .HasColumnName("occupies");
+
+                            b1.Property<int>("Role")
+                                .HasColumnType("integer")
+                                .HasColumnName("role");
+
+                            b1.Property<Guid>("StaffAccountId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("staff_account_id");
+
+                            b1.Property<DateTimeOffset>("StartsOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("starts_on");
+
+                            b1.Property<Guid>("appointment_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("appointment_id")
+                                .HasDatabaseName("ix_appointment_staff_time_appointment");
+
+                            b1.HasIndex("StaffAccountId", "StartsOn")
+                                .HasDatabaseName("ix_appointment_staff_time_staff_starts_on");
+
+                            b1.ToTable("appointment_staff_time", "clinic");
+
+                            b1.WithOwner()
+                                .HasForeignKey("appointment_id");
+                        });
+
                     b.OwnsMany("CatEcommerce.Domain.Entities.AppointmentStatusChange", "StatusHistory", b1 =>
                         {
                             b1.Property<Guid>("Id")
@@ -4761,7 +16751,795 @@ namespace CatEcommerce.Infrastructure.Persistence.Migrations
                     b.Navigation("ServiceSnapshot")
                         .IsRequired();
 
+                    b.Navigation("StaffTime");
+
                     b.Navigation("StatusHistory");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Inventory.BatchAggregate", b =>
+                {
+                    b.HasOne("CatEcommerce.Domain.Aggregates.Inventory.GoodsReceiptAggregate", null)
+                        .WithMany()
+                        .HasForeignKey("GoodsReceiptId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.OwnsOne("CatEcommerce.Domain.Entities.BatchRecall", "CurrentRecall", b1 =>
+                        {
+                            b1.Property<Guid>("BatchAggregateId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<DateTimeOffset?>("ClosedOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("recall_closed_on");
+
+                            b1.Property<string>("ClosingNote")
+                                .HasMaxLength(1000)
+                                .HasColumnType("character varying(1000)")
+                                .HasColumnName("recall_closing_note");
+
+                            b1.Property<string>("CustomerAdvice")
+                                .IsRequired()
+                                .HasMaxLength(500)
+                                .HasColumnType("character varying(500)")
+                                .HasColumnName("recall_customer_advice");
+
+                            b1.Property<Guid>("DeclaredBy")
+                                .HasColumnType("uuid")
+                                .HasColumnName("recall_declared_by");
+
+                            b1.Property<DateTimeOffset>("DeclaredOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("recall_declared_on");
+
+                            b1.Property<int>("NotificationRuns")
+                                .HasColumnType("integer")
+                                .HasColumnName("recall_notification_runs");
+
+                            b1.Property<Guid?>("NotifiedBy")
+                                .HasColumnType("uuid")
+                                .HasColumnName("recall_notified_by");
+
+                            b1.Property<DateTimeOffset?>("NotifiedOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("recall_notified_on");
+
+                            b1.Property<int>("NotifiedRecipientCount")
+                                .HasColumnType("integer")
+                                .HasColumnName("recall_notified_recipient_count");
+
+                            b1.Property<string>("Reason")
+                                .IsRequired()
+                                .HasMaxLength(1000)
+                                .HasColumnType("character varying(1000)")
+                                .HasColumnName("recall_reason");
+
+                            b1.Property<string>("RecallNumber")
+                                .IsRequired()
+                                .HasMaxLength(30)
+                                .HasColumnType("character varying(30)")
+                                .HasColumnName("recall_number");
+
+                            b1.HasKey("BatchAggregateId");
+
+                            b1.HasIndex("RecallNumber")
+                                .IsUnique()
+                                .HasDatabaseName("ix_batch_recall_number")
+                                .HasFilter("recall_number IS NOT NULL");
+
+                            b1.ToTable("batch", "inventory");
+
+                            b1.WithOwner()
+                                .HasForeignKey("BatchAggregateId");
+                        });
+
+                    b.OwnsMany("CatEcommerce.Domain.Entities.BatchStatusChange", "StatusHistory", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid");
+
+                            b1.Property<Guid>("ChangedBy")
+                                .HasColumnType("uuid")
+                                .HasColumnName("changed_by");
+
+                            b1.Property<DateTimeOffset>("ChangedOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("changed_on");
+
+                            b1.Property<int>("From")
+                                .HasColumnType("integer")
+                                .HasColumnName("from_status");
+
+                            b1.Property<string>("Reason")
+                                .HasMaxLength(1000)
+                                .HasColumnType("character varying(1000)")
+                                .HasColumnName("reason");
+
+                            b1.Property<int>("Sequence")
+                                .HasColumnType("integer")
+                                .HasColumnName("sequence");
+
+                            b1.Property<int>("To")
+                                .HasColumnType("integer")
+                                .HasColumnName("to_status");
+
+                            b1.Property<Guid>("batch_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("batch_id");
+
+                            b1.ToTable("batch_status_change", "inventory");
+
+                            b1.WithOwner()
+                                .HasForeignKey("batch_id");
+                        });
+
+                    b.Navigation("CurrentRecall");
+
+                    b.Navigation("StatusHistory");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Inventory.ConsignmentAggregate", b =>
+                {
+                    b.OwnsMany("CatEcommerce.Domain.Entities.ConsignmentCostComponent", "CostComponents", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid");
+
+                            b1.Property<decimal>("Amount")
+                                .HasPrecision(12, 2)
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("amount");
+
+                            b1.Property<string>("CurrencyCode")
+                                .IsRequired()
+                                .HasMaxLength(3)
+                                .HasColumnType("character(3)")
+                                .HasColumnName("currency_code")
+                                .IsFixedLength();
+
+                            b1.Property<int>("Kind")
+                                .HasColumnType("integer")
+                                .HasColumnName("kind");
+
+                            b1.Property<string>("Note")
+                                .HasMaxLength(200)
+                                .HasColumnType("character varying(200)")
+                                .HasColumnName("note");
+
+                            b1.Property<Guid>("consignment_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("consignment_id");
+
+                            b1.ToTable("consignment_cost", "inventory");
+
+                            b1.WithOwner()
+                                .HasForeignKey("consignment_id");
+                        });
+
+                    b.OwnsMany("CatEcommerce.Domain.Entities.ConsignmentDocument", "Documents", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("ContentType")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)")
+                                .HasColumnName("content_type");
+
+                            b1.Property<string>("DocumentNumber")
+                                .HasMaxLength(60)
+                                .HasColumnType("character varying(60)")
+                                .HasColumnName("document_number");
+
+                            b1.Property<string>("FileName")
+                                .IsRequired()
+                                .HasMaxLength(255)
+                                .HasColumnType("character varying(255)")
+                                .HasColumnName("file_name");
+
+                            b1.Property<DateOnly?>("IssuedOn")
+                                .HasColumnType("date")
+                                .HasColumnName("issued_on");
+
+                            b1.Property<int>("Kind")
+                                .HasColumnType("integer")
+                                .HasColumnName("kind");
+
+                            b1.Property<long>("SizeInBytes")
+                                .HasColumnType("bigint")
+                                .HasColumnName("size_in_bytes");
+
+                            b1.Property<string>("StorageKey")
+                                .IsRequired()
+                                .HasMaxLength(500)
+                                .HasColumnType("character varying(500)")
+                                .HasColumnName("storage_key");
+
+                            b1.Property<Guid?>("SupersededBy")
+                                .HasColumnType("uuid")
+                                .HasColumnName("superseded_by");
+
+                            b1.Property<DateTimeOffset?>("SupersededOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("superseded_on");
+
+                            b1.Property<Guid>("UploadedBy")
+                                .HasColumnType("uuid")
+                                .HasColumnName("uploaded_by");
+
+                            b1.Property<DateTimeOffset>("UploadedOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("uploaded_on");
+
+                            b1.Property<Guid>("consignment_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("consignment_id");
+
+                            b1.ToTable("consignment_document", "inventory");
+
+                            b1.WithOwner()
+                                .HasForeignKey("consignment_id");
+                        });
+
+                    b.OwnsMany("CatEcommerce.Domain.Entities.ConsignmentExchangeRate", "ExchangeRates", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("CurrencyCode")
+                                .IsRequired()
+                                .HasMaxLength(3)
+                                .HasColumnType("character(3)")
+                                .HasColumnName("currency_code")
+                                .IsFixedLength();
+
+                            b1.Property<decimal>("RateToBase")
+                                .HasPrecision(18, 6)
+                                .HasColumnType("numeric(18,6)")
+                                .HasColumnName("rate_to_base");
+
+                            b1.Property<DateOnly>("RecordedOn")
+                                .HasColumnType("date")
+                                .HasColumnName("recorded_on");
+
+                            b1.Property<Guid>("consignment_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("consignment_id", "CurrencyCode")
+                                .IsUnique()
+                                .HasDatabaseName("ix_consignment_exchange_rate_currency");
+
+                            b1.ToTable("consignment_exchange_rate", "inventory");
+
+                            b1.WithOwner()
+                                .HasForeignKey("consignment_id");
+                        });
+
+                    b.OwnsMany("CatEcommerce.Domain.Entities.ConsignmentHsCode", "HsCodes", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("Code")
+                                .IsRequired()
+                                .HasMaxLength(12)
+                                .HasColumnType("character varying(12)")
+                                .HasColumnName("code");
+
+                            b1.Property<string>("Description")
+                                .HasMaxLength(200)
+                                .HasColumnType("character varying(200)")
+                                .HasColumnName("description");
+
+                            b1.Property<Guid>("consignment_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("consignment_id");
+
+                            b1.ToTable("consignment_hs_code", "inventory");
+
+                            b1.WithOwner()
+                                .HasForeignKey("consignment_id");
+                        });
+
+                    b.OwnsMany("CatEcommerce.Domain.Entities.ConsignmentStatusChange", "StatusHistory", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid");
+
+                            b1.Property<Guid>("ChangedBy")
+                                .HasColumnType("uuid")
+                                .HasColumnName("changed_by");
+
+                            b1.Property<DateTimeOffset>("ChangedOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("changed_on");
+
+                            b1.Property<DateOnly?>("EffectiveOn")
+                                .HasColumnType("date")
+                                .HasColumnName("effective_on");
+
+                            b1.Property<int>("From")
+                                .HasColumnType("integer")
+                                .HasColumnName("from_status");
+
+                            b1.Property<int>("Sequence")
+                                .HasColumnType("integer")
+                                .HasColumnName("sequence");
+
+                            b1.Property<int>("To")
+                                .HasColumnType("integer")
+                                .HasColumnName("to_status");
+
+                            b1.Property<Guid>("consignment_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("consignment_id");
+
+                            b1.ToTable("consignment_status_change", "inventory");
+
+                            b1.WithOwner()
+                                .HasForeignKey("consignment_id");
+                        });
+
+                    b.OwnsMany("CatEcommerce.Domain.Entities.LandedCostLine", "LandedCost", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid");
+
+                            b1.Property<decimal>("AllocatedCostBase")
+                                .HasPrecision(14, 2)
+                                .HasColumnType("numeric(14,2)")
+                                .HasColumnName("allocated_cost_base");
+
+                            b1.Property<Guid>("BatchId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("batch_id");
+
+                            b1.Property<decimal>("LandedUnitCostBase")
+                                .HasPrecision(14, 4)
+                                .HasColumnType("numeric(14,4)")
+                                .HasColumnName("landed_unit_cost_base");
+
+                            b1.Property<decimal>("PurchaseCostBase")
+                                .HasPrecision(14, 2)
+                                .HasColumnType("numeric(14,2)")
+                                .HasColumnName("purchase_cost_base");
+
+                            b1.Property<decimal>("Quantity")
+                                .HasPrecision(12, 3)
+                                .HasColumnType("numeric(12,3)")
+                                .HasColumnName("quantity");
+
+                            b1.Property<Guid>("consignment_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("BatchId")
+                                .HasDatabaseName("ix_consignment_landed_cost_line_batch");
+
+                            b1.HasIndex("consignment_id");
+
+                            b1.ToTable("consignment_landed_cost_line", "inventory");
+
+                            b1.WithOwner()
+                                .HasForeignKey("consignment_id");
+                        });
+
+                    b.Navigation("CostComponents");
+
+                    b.Navigation("Documents");
+
+                    b.Navigation("ExchangeRates");
+
+                    b.Navigation("HsCodes");
+
+                    b.Navigation("LandedCost");
+
+                    b.Navigation("StatusHistory");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Inventory.GoodsReceiptAggregate", b =>
+                {
+                    b.OwnsMany("CatEcommerce.Domain.Entities.GoodsReceiptLine", "Lines", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid");
+
+                            b1.Property<Guid?>("BatchId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("batch_id");
+
+                            b1.Property<string>("DisplayName")
+                                .IsRequired()
+                                .HasMaxLength(300)
+                                .HasColumnType("character varying(300)")
+                                .HasColumnName("display_name");
+
+                            b1.Property<decimal?>("ExchangeRateToBase")
+                                .HasPrecision(18, 6)
+                                .HasColumnType("numeric(18,6)")
+                                .HasColumnName("exchange_rate_to_base");
+
+                            b1.Property<DateOnly?>("ExpiresOn")
+                                .HasColumnType("date")
+                                .HasColumnName("expires_on");
+
+                            b1.Property<bool>("HoldForInspection")
+                                .HasColumnType("boolean")
+                                .HasColumnName("hold_for_inspection");
+
+                            b1.Property<Guid>("LocationId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("location_id");
+
+                            b1.Property<string>("LotNumber")
+                                .IsRequired()
+                                .HasMaxLength(60)
+                                .HasColumnType("character varying(60)")
+                                .HasColumnName("lot_number");
+
+                            b1.Property<DateOnly?>("ManufacturedOn")
+                                .HasColumnType("date")
+                                .HasColumnName("manufactured_on");
+
+                            b1.Property<Guid?>("PurchaseOrderLineId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("purchase_order_line_id");
+
+                            b1.Property<decimal>("QuantityAccepted")
+                                .HasPrecision(12, 3)
+                                .HasColumnType("numeric(12,3)")
+                                .HasColumnName("quantity_accepted");
+
+                            b1.Property<decimal>("QuantityRejected")
+                                .HasPrecision(12, 3)
+                                .HasColumnType("numeric(12,3)")
+                                .HasColumnName("quantity_rejected");
+
+                            b1.Property<string>("RejectionNote")
+                                .HasMaxLength(500)
+                                .HasColumnType("character varying(500)")
+                                .HasColumnName("rejection_note");
+
+                            b1.Property<int?>("RejectionReason")
+                                .HasColumnType("integer")
+                                .HasColumnName("rejection_reason");
+
+                            b1.Property<string>("SkuCode")
+                                .IsRequired()
+                                .HasMaxLength(60)
+                                .HasColumnType("character varying(60)")
+                                .HasColumnName("sku_code");
+
+                            b1.Property<Guid>("SkuId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("sku_id");
+
+                            b1.Property<string>("StockUnit")
+                                .IsRequired()
+                                .HasMaxLength(20)
+                                .HasColumnType("character varying(20)")
+                                .HasColumnName("stock_unit");
+
+                            b1.Property<decimal?>("UnitCostAmount")
+                                .HasPrecision(14, 4)
+                                .HasColumnType("numeric(14,4)")
+                                .HasColumnName("unit_cost_amount");
+
+                            b1.Property<string>("UnitCostCurrency")
+                                .HasMaxLength(3)
+                                .HasColumnType("character(3)")
+                                .HasColumnName("unit_cost_currency")
+                                .IsFixedLength();
+
+                            b1.Property<Guid>("goods_receipt_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("BatchId")
+                                .HasDatabaseName("ix_goods_receipt_line_batch");
+
+                            b1.HasIndex("PurchaseOrderLineId")
+                                .HasDatabaseName("ix_goods_receipt_line_purchase_order_line");
+
+                            b1.HasIndex("goods_receipt_id");
+
+                            b1.ToTable("goods_receipt_line", "inventory");
+
+                            b1.WithOwner()
+                                .HasForeignKey("goods_receipt_id");
+                        });
+
+                    b.Navigation("Lines");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Inventory.PurchaseOrderAggregate", b =>
+                {
+                    b.OwnsMany("CatEcommerce.Domain.Entities.PurchaseOrderLine", "Lines", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("DisplayName")
+                                .IsRequired()
+                                .HasMaxLength(300)
+                                .HasColumnType("character varying(300)")
+                                .HasColumnName("display_name");
+
+                            b1.Property<decimal>("OrderedQuantity")
+                                .HasPrecision(12, 3)
+                                .HasColumnType("numeric(12,3)")
+                                .HasColumnName("ordered_quantity");
+
+                            b1.Property<string>("SkuCode")
+                                .IsRequired()
+                                .HasMaxLength(60)
+                                .HasColumnType("character varying(60)")
+                                .HasColumnName("sku_code");
+
+                            b1.Property<Guid>("SkuId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("sku_id");
+
+                            b1.Property<string>("StockUnit")
+                                .IsRequired()
+                                .HasMaxLength(20)
+                                .HasColumnType("character varying(20)")
+                                .HasColumnName("stock_unit");
+
+                            b1.Property<decimal>("UnitCostAmount")
+                                .HasPrecision(14, 4)
+                                .HasColumnType("numeric(14,4)")
+                                .HasColumnName("unit_cost_amount");
+
+                            b1.Property<Guid>("purchase_order_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("purchase_order_id", "SkuId")
+                                .IsUnique()
+                                .HasDatabaseName("ix_purchase_order_line_order_sku");
+
+                            b1.ToTable("purchase_order_line", "inventory");
+
+                            b1.WithOwner()
+                                .HasForeignKey("purchase_order_id");
+                        });
+
+                    b.Navigation("Lines");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Inventory.StockAdjustmentAggregate", b =>
+                {
+                    b.OwnsMany("CatEcommerce.Domain.Entities.StockAdjustmentLine", "Lines", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid");
+
+                            b1.Property<Guid>("BatchId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("batch_id");
+
+                            b1.Property<decimal>("QuantityDelta")
+                                .HasPrecision(12, 3)
+                                .HasColumnType("numeric(12,3)")
+                                .HasColumnName("quantity_delta");
+
+                            b1.Property<Guid>("SkuId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("sku_id");
+
+                            b1.Property<decimal>("UnitCostBase")
+                                .HasPrecision(14, 4)
+                                .HasColumnType("numeric(14,4)")
+                                .HasColumnName("unit_cost_base");
+
+                            b1.Property<Guid>("stock_adjustment_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("BatchId")
+                                .HasDatabaseName("ix_stock_adjustment_line_batch");
+
+                            b1.HasIndex("stock_adjustment_id");
+
+                            b1.ToTable("stock_adjustment_line", "inventory");
+
+                            b1.WithOwner()
+                                .HasForeignKey("stock_adjustment_id");
+                        });
+
+                    b.Navigation("Lines");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Inventory.StockCountAggregate", b =>
+                {
+                    b.OwnsMany("CatEcommerce.Domain.Entities.StockCountLine", "Lines", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid");
+
+                            b1.Property<Guid>("BatchId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("batch_id");
+
+                            b1.Property<decimal?>("BookQuantity")
+                                .HasPrecision(12, 3)
+                                .HasColumnType("numeric(12,3)")
+                                .HasColumnName("book_quantity");
+
+                            b1.Property<Guid>("CountedBy")
+                                .HasColumnType("uuid")
+                                .HasColumnName("counted_by");
+
+                            b1.Property<DateTimeOffset>("CountedOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("counted_on");
+
+                            b1.Property<decimal>("CountedQuantity")
+                                .HasPrecision(12, 3)
+                                .HasColumnType("numeric(12,3)")
+                                .HasColumnName("counted_quantity");
+
+                            b1.Property<Guid>("SkuId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("sku_id");
+
+                            b1.Property<decimal>("UnitCostBase")
+                                .HasPrecision(14, 4)
+                                .HasColumnType("numeric(14,4)")
+                                .HasColumnName("unit_cost_base");
+
+                            b1.Property<decimal?>("Variance")
+                                .HasPrecision(12, 3)
+                                .HasColumnType("numeric(12,3)")
+                                .HasColumnName("variance");
+
+                            b1.Property<Guid>("stock_count_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("stock_count_id", "SkuId", "BatchId")
+                                .IsUnique()
+                                .HasDatabaseName("ix_stock_count_line_count_sku_batch");
+
+                            b1.ToTable("stock_count_line", "inventory");
+
+                            b1.WithOwner()
+                                .HasForeignKey("stock_count_id");
+                        });
+
+                    b.Navigation("Lines");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Inventory.StockLedgerEntryAggregate", b =>
+                {
+                    b.HasOne("CatEcommerce.Domain.Aggregates.Inventory.BatchAggregate", null)
+                        .WithMany()
+                        .HasForeignKey("BatchId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CatEcommerce.Domain.Aggregates.Inventory.StockLocationAggregate", null)
+                        .WithMany()
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Inventory.StockReservationEntryAggregate", b =>
+                {
+                    b.HasOne("CatEcommerce.Domain.Aggregates.Inventory.BatchAggregate", null)
+                        .WithMany()
+                        .HasForeignKey("BatchId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CatEcommerce.Domain.Aggregates.Inventory.StockLocationAggregate", null)
+                        .WithMany()
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Inventory.StockTransferAggregate", b =>
+                {
+                    b.OwnsMany("CatEcommerce.Domain.Entities.StockTransferLine", "Lines", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid");
+
+                            b1.Property<Guid>("BatchId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("batch_id");
+
+                            b1.Property<decimal>("Quantity")
+                                .HasPrecision(12, 3)
+                                .HasColumnType("numeric(12,3)")
+                                .HasColumnName("quantity");
+
+                            b1.Property<Guid>("SkuId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("sku_id");
+
+                            b1.Property<Guid>("stock_transfer_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("BatchId")
+                                .HasDatabaseName("ix_stock_transfer_line_batch");
+
+                            b1.HasIndex("stock_transfer_id");
+
+                            b1.ToTable("stock_transfer_line", "inventory");
+
+                            b1.WithOwner()
+                                .HasForeignKey("stock_transfer_id");
+                        });
+
+                    b.Navigation("Lines");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Inventory.SupplierAggregate", b =>
+                {
+                    b.OwnsOne("CatEcommerce.Domain.ValueObjects.SupplierContact", "Contact", b1 =>
+                        {
+                            b1.Property<Guid>("SupplierAggregateId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("Address")
+                                .HasMaxLength(500)
+                                .HasColumnType("character varying(500)")
+                                .HasColumnName("contact_address");
+
+                            b1.Property<string>("ContactName")
+                                .HasMaxLength(200)
+                                .HasColumnType("character varying(200)")
+                                .HasColumnName("contact_name");
+
+                            b1.Property<string>("Email")
+                                .HasMaxLength(256)
+                                .HasColumnType("character varying(256)")
+                                .HasColumnName("contact_email");
+
+                            b1.Property<string>("Phone")
+                                .HasMaxLength(30)
+                                .HasColumnType("character varying(30)")
+                                .HasColumnName("contact_phone");
+
+                            b1.HasKey("SupplierAggregateId");
+
+                            b1.ToTable("supplier", "inventory");
+
+                            b1.WithOwner()
+                                .HasForeignKey("SupplierAggregateId");
+                        });
+
+                    b.Navigation("Contact")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Notification.NotificationAggregate", b =>
@@ -4859,6 +17637,1509 @@ namespace CatEcommerce.Infrastructure.Persistence.Migrations
                         });
 
                     b.Navigation("Contents");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Operations.ErasureRequestAggregate", b =>
+                {
+                    b.OwnsMany("CatEcommerce.Domain.Entities.ErasureScope", "Scopes", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid");
+
+                            b1.Property<int>("Attempts")
+                                .HasColumnType("integer")
+                                .HasColumnName("attempts");
+
+                            b1.Property<DateTimeOffset?>("CompletedOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("completed_on");
+
+                            b1.Property<string>("ContextKey")
+                                .IsRequired()
+                                .HasMaxLength(50)
+                                .HasColumnType("character varying(50)")
+                                .HasColumnName("context_key");
+
+                            b1.Property<string>("HeldBasis")
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)")
+                                .HasColumnName("held_basis");
+
+                            b1.Property<DateOnly?>("HeldUntil")
+                                .HasColumnType("date")
+                                .HasColumnName("held_until");
+
+                            b1.Property<DateTimeOffset?>("LastAttemptOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("last_attempt_on");
+
+                            b1.Property<string>("LastErrorCode")
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)")
+                                .HasColumnName("last_error_code");
+
+                            b1.Property<int>("Status")
+                                .HasColumnType("integer")
+                                .HasColumnName("status");
+
+                            b1.Property<Guid>("erasure_request_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("Status", "HeldUntil")
+                                .HasDatabaseName("ix_erasure_scope_status_held_until");
+
+                            b1.HasIndex("erasure_request_id", "ContextKey")
+                                .IsUnique()
+                                .HasDatabaseName("ix_erasure_scope_request_context");
+
+                            b1.ToTable("erasure_scope", "ops");
+
+                            b1.WithOwner()
+                                .HasForeignKey("erasure_request_id");
+                        });
+
+                    b.Navigation("Scopes");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Operations.RestoreTestRecordAggregate", b =>
+                {
+                    b.OwnsMany("CatEcommerce.Domain.Entities.RestoreCheckResult", "Checks", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("Detail")
+                                .HasMaxLength(500)
+                                .HasColumnType("character varying(500)")
+                                .HasColumnName("detail");
+
+                            b1.Property<string>("Name")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)")
+                                .HasColumnName("name");
+
+                            b1.Property<bool>("Passed")
+                                .HasColumnType("boolean")
+                                .HasColumnName("passed");
+
+                            b1.Property<Guid>("restore_test_record_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("restore_test_record_id");
+
+                            b1.ToTable("restore_check_result", "ops");
+
+                            b1.WithOwner()
+                                .HasForeignKey("restore_test_record_id");
+                        });
+
+                    b.Navigation("Checks");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Operations.RetentionRunAggregate", b =>
+                {
+                    b.OwnsMany("CatEcommerce.Domain.Entities.RetentionPassResult", "Passes", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid");
+
+                            b1.Property<int>("Affected")
+                                .HasColumnType("integer")
+                                .HasColumnName("affected");
+
+                            b1.Property<DateTimeOffset?>("Cutoff")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("cutoff");
+
+                            b1.Property<int>("DurationMs")
+                                .HasColumnType("integer")
+                                .HasColumnName("duration_ms");
+
+                            b1.PrimitiveCollection<string[]>("ErrorCodes")
+                                .IsRequired()
+                                .HasColumnType("text[]")
+                                .HasColumnName("error_codes");
+
+                            b1.Property<int>("Examined")
+                                .HasColumnType("integer")
+                                .HasColumnName("examined");
+
+                            b1.Property<int>("Failed")
+                                .HasColumnType("integer")
+                                .HasColumnName("failed");
+
+                            b1.Property<int>("Held")
+                                .HasColumnType("integer")
+                                .HasColumnName("held");
+
+                            b1.Property<int>("Kind")
+                                .HasColumnType("integer")
+                                .HasColumnName("kind");
+
+                            b1.Property<Guid>("retention_run_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("retention_run_id");
+
+                            b1.ToTable("retention_pass_result", "ops");
+
+                            b1.WithOwner()
+                                .HasForeignKey("retention_run_id");
+                        });
+
+                    b.Navigation("Passes");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Operations.WebVitalBatchAggregate", b =>
+                {
+                    b.OwnsMany("CatEcommerce.Domain.Entities.WebVitalSample", "Samples", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("EffectiveConnectionType")
+                                .HasMaxLength(10)
+                                .HasColumnType("character varying(10)")
+                                .HasColumnName("effective_connection_type");
+
+                            b1.Property<int>("Metric")
+                                .HasColumnType("integer")
+                                .HasColumnName("metric");
+
+                            b1.Property<string>("NavigationType")
+                                .IsRequired()
+                                .HasMaxLength(20)
+                                .HasColumnType("character varying(20)")
+                                .HasColumnName("navigation_type");
+
+                            b1.Property<string>("RouteTemplate")
+                                .IsRequired()
+                                .HasMaxLength(200)
+                                .HasColumnType("character varying(200)")
+                                .HasColumnName("route_template");
+
+                            b1.Property<decimal>("Value")
+                                .HasColumnType("numeric(12,4)")
+                                .HasColumnName("value");
+
+                            b1.Property<int>("ViewportClass")
+                                .HasColumnType("integer")
+                                .HasColumnName("viewport_class");
+
+                            b1.Property<Guid>("web_vital_batch_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("web_vital_batch_id");
+
+                            b1.HasIndex("RouteTemplate", "Metric", "ViewportClass")
+                                .HasDatabaseName("ix_web_vital_sample_route_metric_viewport");
+
+                            b1.ToTable("web_vital_sample", "ops");
+
+                            b1.WithOwner()
+                                .HasForeignKey("web_vital_batch_id");
+                        });
+
+                    b.Navigation("Samples");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Order.CartAggregate", b =>
+                {
+                    b.OwnsMany("CatEcommerce.Domain.Entities.CartLine", "Lines", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
+
+                            b1.Property<DateTimeOffset>("AddedOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("added_on");
+
+                            b1.Property<Guid?>("CatId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("cat_id");
+
+                            b1.Property<string>("CurrencyCode")
+                                .IsRequired()
+                                .HasColumnType("char(3)")
+                                .HasColumnName("currency_code");
+
+                            b1.Property<decimal>("PriceWhenAdded")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("price_when_added");
+
+                            b1.Property<int>("Quantity")
+                                .HasColumnType("integer")
+                                .HasColumnName("quantity");
+
+                            b1.Property<Guid>("SkuId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("sku_id");
+
+                            b1.Property<DateTimeOffset>("UpdatedOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("updated_on");
+
+                            b1.Property<Guid>("cart_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("cart_id")
+                                .HasDatabaseName("ix_cart_line_cart");
+
+                            b1.ToTable("cart_line", "ordering");
+
+                            b1.WithOwner()
+                                .HasForeignKey("cart_id");
+                        });
+
+                    b.Navigation("Lines");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Order.DeliveryZoneAggregate", b =>
+                {
+                    b.OwnsMany("CatEcommerce.Domain.Entities.ZoneCoverage", "Coverage", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
+
+                            b1.Property<string>("District")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)")
+                                .HasColumnName("district");
+
+                            b1.Property<string>("PostalCodes")
+                                .IsRequired()
+                                .HasColumnType("jsonb")
+                                .HasColumnName("postal_codes");
+
+                            b1.Property<Guid>("delivery_zone_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("delivery_zone_id")
+                                .HasDatabaseName("ix_delivery_zone_coverage_zone");
+
+                            b1.ToTable("delivery_zone_coverage", "ordering");
+
+                            b1.WithOwner()
+                                .HasForeignKey("delivery_zone_id");
+                        });
+
+                    b.OwnsMany("CatEcommerce.Domain.Entities.ZoneServiceLevel", "Services", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
+
+                            b1.Property<decimal>("BaseCharge")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("base_charge");
+
+                            b1.Property<decimal?>("FreeOverOrderValue")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("free_over_order_value");
+
+                            b1.Property<bool>("IsActive")
+                                .HasColumnType("boolean")
+                                .HasColumnName("is_active");
+
+                            b1.Property<int>("LeadTimeDays")
+                                .HasColumnType("integer")
+                                .HasColumnName("lead_time_days");
+
+                            b1.Property<int>("ServiceLevel")
+                                .HasColumnType("integer")
+                                .HasColumnName("service_level");
+
+                            b1.Property<string>("SlotWindows")
+                                .IsRequired()
+                                .HasColumnType("jsonb")
+                                .HasColumnName("slot_windows");
+
+                            b1.Property<string>("WeightBands")
+                                .IsRequired()
+                                .HasColumnType("jsonb")
+                                .HasColumnName("weight_bands");
+
+                            b1.Property<Guid>("delivery_zone_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("delivery_zone_id", "ServiceLevel")
+                                .IsUnique()
+                                .HasDatabaseName("ix_delivery_zone_service_level");
+
+                            b1.ToTable("delivery_zone_service", "ordering");
+
+                            b1.WithOwner()
+                                .HasForeignKey("delivery_zone_id");
+                        });
+
+                    b.Navigation("Coverage");
+
+                    b.Navigation("Services");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Order.OrderAggregate", b =>
+                {
+                    b.OwnsOne("CatEcommerce.Domain.ValueObjects.CodCollection", "CodCollection", b1 =>
+                        {
+                            b1.Property<Guid>("OrderAggregateId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<decimal>("Amount")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("cod_amount");
+
+                            b1.Property<DateTimeOffset>("CollectedOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("cod_collected_on");
+
+                            b1.Property<int>("CollectorKind")
+                                .HasColumnType("integer")
+                                .HasColumnName("cod_collector_kind");
+
+                            b1.Property<string>("CollectorName")
+                                .IsRequired()
+                                .HasMaxLength(200)
+                                .HasColumnType("character varying(200)")
+                                .HasColumnName("cod_collector_name");
+
+                            b1.Property<Guid?>("CollectorStaffId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("cod_collector_staff_id");
+
+                            b1.Property<Guid>("RecordedBy")
+                                .HasColumnType("uuid")
+                                .HasColumnName("cod_recorded_by");
+
+                            b1.HasKey("OrderAggregateId");
+
+                            b1.ToTable("sales_order", "ordering");
+
+                            b1.WithOwner()
+                                .HasForeignKey("OrderAggregateId");
+                        });
+
+                    b.OwnsOne("CatEcommerce.Domain.ValueObjects.FulfilmentDetails", "Fulfilment", b1 =>
+                        {
+                            b1.Property<Guid>("OrderAggregateId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("City")
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)")
+                                .HasColumnName("address_city");
+
+                            b1.Property<string>("DeliveryInstructions")
+                                .HasMaxLength(500)
+                                .HasColumnType("character varying(500)")
+                                .HasColumnName("delivery_instructions");
+
+                            b1.Property<Guid?>("DeliveryZoneId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("delivery_zone_id");
+
+                            b1.Property<string>("District")
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)")
+                                .HasColumnName("address_district");
+
+                            b1.Property<string>("Line1")
+                                .HasMaxLength(200)
+                                .HasColumnType("character varying(200)")
+                                .HasColumnName("address_line1");
+
+                            b1.Property<string>("Line2")
+                                .HasMaxLength(200)
+                                .HasColumnType("character varying(200)")
+                                .HasColumnName("address_line2");
+
+                            b1.Property<Guid?>("PickupBranchId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("pickup_branch_id");
+
+                            b1.Property<string>("PostalCode")
+                                .HasMaxLength(20)
+                                .HasColumnType("character varying(20)")
+                                .HasColumnName("address_postal_code");
+
+                            b1.Property<string>("RecipientName")
+                                .IsRequired()
+                                .HasMaxLength(200)
+                                .HasColumnType("character varying(200)")
+                                .HasColumnName("recipient_name");
+
+                            b1.Property<string>("RecipientPhone")
+                                .HasMaxLength(30)
+                                .HasColumnType("character varying(30)")
+                                .HasColumnName("recipient_phone");
+
+                            b1.Property<int?>("ServiceLevel")
+                                .HasColumnType("integer")
+                                .HasColumnName("service_level");
+
+                            b1.Property<DateOnly?>("SlotDate")
+                                .HasColumnType("date")
+                                .HasColumnName("slot_date");
+
+                            b1.Property<TimeOnly?>("SlotWindowEnd")
+                                .HasColumnType("time")
+                                .HasColumnName("slot_window_end");
+
+                            b1.Property<string>("SlotWindowLabel")
+                                .HasMaxLength(30)
+                                .HasColumnType("character varying(30)")
+                                .HasColumnName("slot_window_label");
+
+                            b1.Property<TimeOnly?>("SlotWindowStart")
+                                .HasColumnType("time")
+                                .HasColumnName("slot_window_start");
+
+                            b1.Property<string>("ZoneName")
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)")
+                                .HasColumnName("zone_name");
+
+                            b1.HasKey("OrderAggregateId");
+
+                            b1.ToTable("sales_order", "ordering");
+
+                            b1.WithOwner()
+                                .HasForeignKey("OrderAggregateId");
+                        });
+
+                    b.OwnsOne("CatEcommerce.Domain.ValueObjects.HeldPaymentConfirmation", "HeldPayment", b1 =>
+                        {
+                            b1.Property<Guid>("OrderAggregateId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<decimal>("Amount")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("held_amount");
+
+                            b1.Property<Guid?>("PaymentId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("held_payment_id");
+
+                            b1.Property<DateTimeOffset>("ReceivedOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("held_received_on");
+
+                            b1.Property<Guid>("RecordedBy")
+                                .HasColumnType("uuid")
+                                .HasColumnName("held_recorded_by");
+
+                            b1.Property<DateTimeOffset>("RecordedOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("held_recorded_on");
+
+                            b1.Property<string>("Reference")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)")
+                                .HasColumnName("held_reference");
+
+                            b1.HasKey("OrderAggregateId");
+
+                            b1.ToTable("sales_order", "ordering");
+
+                            b1.WithOwner()
+                                .HasForeignKey("OrderAggregateId");
+                        });
+
+                    b.OwnsOne("CatEcommerce.Domain.ValueObjects.OrderTotals", "Totals", b1 =>
+                        {
+                            b1.Property<Guid>("OrderAggregateId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<decimal>("DeliveryCharge")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("delivery_charge");
+
+                            b1.Property<decimal>("GrandTotal")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("grand_total");
+
+                            b1.Property<decimal>("LineDiscountTotal")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("line_discount_total");
+
+                            b1.Property<decimal>("OrderDiscount")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("order_discount");
+
+                            b1.Property<decimal>("Subtotal")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("subtotal");
+
+                            b1.Property<decimal>("TaxTotal")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("tax_total");
+
+                            b1.HasKey("OrderAggregateId");
+
+                            b1.ToTable("sales_order", "ordering");
+
+                            b1.WithOwner()
+                                .HasForeignKey("OrderAggregateId");
+                        });
+
+                    b.OwnsOne("CatEcommerce.Domain.ValueObjects.Shipment", "Shipment", b1 =>
+                        {
+                            b1.Property<Guid>("OrderAggregateId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<Guid>("CourierId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("shipment_courier_id");
+
+                            b1.Property<string>("CourierName")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)")
+                                .HasColumnName("shipment_courier_name");
+
+                            b1.Property<Guid>("DispatchedBy")
+                                .HasColumnType("uuid")
+                                .HasColumnName("shipment_dispatched_by");
+
+                            b1.Property<DateTimeOffset>("DispatchedOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("shipment_dispatched_on");
+
+                            b1.Property<DateTimeOffset?>("LastTrackingEventOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("shipment_last_event_on");
+
+                            b1.Property<string>("LastTrackingStatus")
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)")
+                                .HasColumnName("shipment_last_status");
+
+                            b1.Property<string>("TrackingNumber")
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)")
+                                .HasColumnName("shipment_tracking_number");
+
+                            b1.Property<string>("TrackingUrl")
+                                .HasMaxLength(700)
+                                .HasColumnType("character varying(700)")
+                                .HasColumnName("shipment_tracking_url");
+
+                            b1.HasKey("OrderAggregateId");
+
+                            b1.HasIndex("TrackingNumber")
+                                .HasDatabaseName("ix_sales_order_tracking")
+                                .HasFilter("shipment_tracking_number IS NOT NULL");
+
+                            b1.ToTable("sales_order", "ordering");
+
+                            b1.WithOwner()
+                                .HasForeignKey("OrderAggregateId");
+                        });
+
+                    b.OwnsMany("CatEcommerce.Domain.Entities.OrderLine", "Lines", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
+
+                            b1.Property<string>("Barcode")
+                                .HasMaxLength(32)
+                                .HasColumnType("character varying(32)")
+                                .HasColumnName("barcode");
+
+                            b1.Property<Guid?>("CatId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("cat_id");
+
+                            b1.Property<string>("Components")
+                                .IsRequired()
+                                .HasColumnType("jsonb")
+                                .HasColumnName("components");
+
+                            b1.Property<bool>("IsBundle")
+                                .HasColumnType("boolean")
+                                .HasColumnName("is_bundle");
+
+                            b1.Property<decimal>("LineDiscount")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("line_discount");
+
+                            b1.Property<int>("LineNumber")
+                                .HasColumnType("integer")
+                                .HasColumnName("line_number");
+
+                            b1.Property<decimal>("LineSubtotal")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("line_subtotal");
+
+                            b1.Property<decimal>("LineTotal")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("line_total");
+
+                            b1.Property<decimal>("OrderDiscountShare")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("order_discount_share");
+
+                            b1.Property<Guid>("ProductId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("product_id");
+
+                            b1.Property<string>("ProductName")
+                                .IsRequired()
+                                .HasMaxLength(200)
+                                .HasColumnType("character varying(200)")
+                                .HasColumnName("product_name");
+
+                            b1.Property<int>("Quantity")
+                                .HasColumnType("integer")
+                                .HasColumnName("quantity");
+
+                            b1.Property<int>("QuantityReturned")
+                                .HasColumnType("integer")
+                                .HasColumnName("quantity_returned");
+
+                            b1.Property<int>("ReturnClass")
+                                .HasColumnType("integer")
+                                .HasColumnName("return_class");
+
+                            b1.Property<Guid>("SkuId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("sku_id");
+
+                            b1.Property<decimal>("TaxAmount")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("tax_amount");
+
+                            b1.Property<Guid>("TaxClassId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("tax_class_id");
+
+                            b1.Property<decimal>("TaxRatePercent")
+                                .HasColumnType("numeric(5,2)")
+                                .HasColumnName("tax_rate_percent");
+
+                            b1.Property<decimal>("UnitPrice")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("unit_price");
+
+                            b1.Property<string>("VariantLabel")
+                                .IsRequired()
+                                .HasMaxLength(200)
+                                .HasColumnType("character varying(200)")
+                                .HasColumnName("variant_label");
+
+                            b1.Property<Guid>("order_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("order_id")
+                                .HasDatabaseName("ix_order_line_order");
+
+                            b1.ToTable("order_line", "ordering");
+
+                            b1.WithOwner()
+                                .HasForeignKey("order_id");
+
+                            b1.OwnsMany("CatEcommerce.Domain.Entities.OrderLineAllocation", "Allocations", b2 =>
+                                {
+                                    b2.Property<Guid>("Id")
+                                        .HasColumnType("uuid")
+                                        .HasColumnName("id");
+
+                                    b2.Property<DateOnly?>("BatchExpiresOn")
+                                        .HasColumnType("date")
+                                        .HasColumnName("batch_expires_on");
+
+                                    b2.Property<Guid>("BatchId")
+                                        .HasColumnType("uuid")
+                                        .HasColumnName("batch_id");
+
+                                    b2.Property<Guid>("LocationId")
+                                        .HasColumnType("uuid")
+                                        .HasColumnName("location_id");
+
+                                    b2.Property<string>("LotNumber")
+                                        .IsRequired()
+                                        .HasMaxLength(60)
+                                        .HasColumnType("character varying(60)")
+                                        .HasColumnName("lot_number");
+
+                                    b2.Property<decimal>("Quantity")
+                                        .HasColumnType("numeric(14,3)")
+                                        .HasColumnName("quantity");
+
+                                    b2.Property<Guid>("SkuId")
+                                        .HasColumnType("uuid")
+                                        .HasColumnName("sku_id");
+
+                                    b2.Property<Guid>("order_line_id")
+                                        .HasColumnType("uuid");
+
+                                    b2.HasKey("Id");
+
+                                    b2.HasIndex("BatchId")
+                                        .HasDatabaseName("ix_order_line_allocation_batch");
+
+                                    b2.HasIndex("order_line_id");
+
+                                    b2.ToTable("order_line_allocation", "ordering");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("order_line_id");
+                                });
+
+                            b1.Navigation("Allocations");
+                        });
+
+                    b.OwnsMany("CatEcommerce.Domain.Entities.OrderPaymentRef", "Payments", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
+
+                            b1.Property<decimal>("Amount")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("amount");
+
+                            b1.Property<string>("Method")
+                                .IsRequired()
+                                .HasMaxLength(30)
+                                .HasColumnType("character varying(30)")
+                                .HasColumnName("method");
+
+                            b1.Property<Guid>("PaymentId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("payment_id");
+
+                            b1.Property<DateTimeOffset>("RecordedOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("recorded_on");
+
+                            b1.Property<Guid>("order_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("order_id")
+                                .HasDatabaseName("ix_order_payment_ref_order");
+
+                            b1.ToTable("order_payment_ref", "ordering");
+
+                            b1.WithOwner()
+                                .HasForeignKey("order_id");
+                        });
+
+                    b.OwnsMany("CatEcommerce.Domain.Entities.OrderStatusChange", "StatusHistory", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
+
+                            b1.Property<Guid>("ChangedBy")
+                                .HasColumnType("uuid")
+                                .HasColumnName("changed_by");
+
+                            b1.Property<DateTimeOffset>("ChangedOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("changed_on");
+
+                            b1.Property<int?>("From")
+                                .HasColumnType("integer")
+                                .HasColumnName("from_status");
+
+                            b1.Property<string>("Note")
+                                .HasMaxLength(200)
+                                .HasColumnType("character varying(200)")
+                                .HasColumnName("note");
+
+                            b1.Property<int>("To")
+                                .HasColumnType("integer")
+                                .HasColumnName("to_status");
+
+                            b1.Property<Guid>("order_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("order_id")
+                                .HasDatabaseName("ix_order_status_change_order");
+
+                            b1.ToTable("order_status_change", "ordering");
+
+                            b1.WithOwner()
+                                .HasForeignKey("order_id");
+                        });
+
+                    b.Navigation("CodCollection");
+
+                    b.Navigation("Fulfilment")
+                        .IsRequired();
+
+                    b.Navigation("HeldPayment");
+
+                    b.Navigation("Lines");
+
+                    b.Navigation("Payments");
+
+                    b.Navigation("Shipment");
+
+                    b.Navigation("StatusHistory");
+
+                    b.Navigation("Totals")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Order.ReturnRequestAggregate", b =>
+                {
+                    b.OwnsMany("CatEcommerce.Domain.Entities.ReturnLine", "Lines", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
+
+                            b1.Property<int>("Condition")
+                                .HasColumnType("integer")
+                                .HasColumnName("condition");
+
+                            b1.Property<string>("CustomerNote")
+                                .HasMaxLength(500)
+                                .HasColumnType("character varying(500)")
+                                .HasColumnName("customer_note");
+
+                            b1.Property<bool>("DefectConfirmed")
+                                .HasColumnType("boolean")
+                                .HasColumnName("defect_confirmed");
+
+                            b1.Property<string>("DefectNote")
+                                .HasMaxLength(500)
+                                .HasColumnType("character varying(500)")
+                                .HasColumnName("defect_note");
+
+                            b1.Property<Guid>("OrderLineId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("order_line_id");
+
+                            b1.Property<int>("Quantity")
+                                .HasColumnType("integer")
+                                .HasColumnName("quantity");
+
+                            b1.Property<int>("QuantityReceived")
+                                .HasColumnType("integer")
+                                .HasColumnName("quantity_received");
+
+                            b1.Property<int>("ReasonCode")
+                                .HasColumnType("integer")
+                                .HasColumnName("reason_code");
+
+                            b1.Property<string>("Receipts")
+                                .IsRequired()
+                                .HasColumnType("jsonb")
+                                .HasColumnName("receipts");
+
+                            b1.Property<bool>("RequiresDefectConfirmation")
+                                .HasColumnType("boolean")
+                                .HasColumnName("requires_defect_confirmation");
+
+                            b1.Property<Guid>("return_request_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("return_request_id")
+                                .HasDatabaseName("ix_return_line_return");
+
+                            b1.ToTable("return_line", "ordering");
+
+                            b1.WithOwner()
+                                .HasForeignKey("return_request_id");
+                        });
+
+                    b.Navigation("Lines");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Prescription.DispensingAggregate", b =>
+                {
+                    b.OwnsOne("CatEcommerce.Domain.ValueObjects.MedicineLabelSnapshot", "Label", b1 =>
+                        {
+                            b1.Property<Guid>("DispensingAggregateId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("CatName")
+                                .IsRequired()
+                                .HasMaxLength(200)
+                                .HasColumnType("character varying(200)")
+                                .HasColumnName("label_cat_name");
+
+                            b1.Property<string>("ClinicAddress")
+                                .HasMaxLength(500)
+                                .HasColumnType("character varying(500)")
+                                .HasColumnName("label_clinic_address");
+
+                            b1.Property<string>("ClinicName")
+                                .IsRequired()
+                                .HasMaxLength(200)
+                                .HasColumnType("character varying(200)")
+                                .HasColumnName("label_clinic_name");
+
+                            b1.Property<string>("ClinicPhone")
+                                .IsRequired()
+                                .HasMaxLength(50)
+                                .HasColumnType("character varying(50)")
+                                .HasColumnName("label_clinic_phone");
+
+                            b1.Property<string>("ControlledNotice")
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)")
+                                .HasColumnName("label_controlled_notice");
+
+                            b1.Property<DateOnly>("DispensedOnLocal")
+                                .HasColumnType("date")
+                                .HasColumnName("label_dispensed_on");
+
+                            b1.Property<string>("DoseLine")
+                                .IsRequired()
+                                .HasMaxLength(400)
+                                .HasColumnType("character varying(400)")
+                                .HasColumnName("label_dose_line");
+
+                            b1.Property<DateOnly?>("ExpiresOn")
+                                .HasColumnType("date")
+                                .HasColumnName("label_expires_on");
+
+                            b1.Property<string>("Instructions")
+                                .IsRequired()
+                                .HasMaxLength(1000)
+                                .HasColumnType("character varying(1000)")
+                                .HasColumnName("label_instructions");
+
+                            b1.Property<string>("MedicineLine")
+                                .IsRequired()
+                                .HasMaxLength(400)
+                                .HasColumnType("character varying(400)")
+                                .HasColumnName("label_medicine_line");
+
+                            b1.Property<string>("OwnerName")
+                                .IsRequired()
+                                .HasMaxLength(200)
+                                .HasColumnType("character varying(200)")
+                                .HasColumnName("label_owner_name");
+
+                            b1.Property<string>("PrescriberName")
+                                .IsRequired()
+                                .HasMaxLength(200)
+                                .HasColumnType("character varying(200)")
+                                .HasColumnName("label_prescriber_name");
+
+                            b1.Property<string>("PrescriptionNumber")
+                                .IsRequired()
+                                .HasMaxLength(20)
+                                .HasColumnType("character varying(20)")
+                                .HasColumnName("label_prescription_number");
+
+                            b1.Property<string>("QuantityLine")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)")
+                                .HasColumnName("label_quantity_line");
+
+                            b1.Property<string>("StandardWarnings")
+                                .IsRequired()
+                                .HasMaxLength(500)
+                                .HasColumnType("character varying(500)")
+                                .HasColumnName("label_standard_warnings");
+
+                            b1.HasKey("DispensingAggregateId");
+
+                            b1.ToTable("dispensing", "pharmacy");
+
+                            b1.WithOwner()
+                                .HasForeignKey("DispensingAggregateId");
+                        });
+
+                    b.OwnsMany("CatEcommerce.Domain.Entities.DispensingLine", "Lines", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid");
+
+                            b1.Property<Guid>("BatchId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("batch_id");
+
+                            b1.Property<DateOnly?>("ExpiresOn")
+                                .HasColumnType("date")
+                                .HasColumnName("expires_on");
+
+                            b1.Property<string>("LotNumber")
+                                .IsRequired()
+                                .HasMaxLength(60)
+                                .HasColumnType("character varying(60)")
+                                .HasColumnName("lot_number");
+
+                            b1.Property<decimal>("Quantity")
+                                .HasColumnType("numeric(10,2)")
+                                .HasColumnName("quantity");
+
+                            b1.Property<Guid?>("RegisterEntryId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("register_entry_id");
+
+                            b1.Property<Guid>("SkuId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("sku_id");
+
+                            b1.Property<Guid>("dispensing_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("BatchId")
+                                .HasDatabaseName("ix_dispensing_line_batch");
+
+                            b1.HasIndex("dispensing_id")
+                                .HasDatabaseName("ix_dispensing_line_dispensing");
+
+                            b1.ToTable("dispensing_line", "pharmacy");
+
+                            b1.WithOwner()
+                                .HasForeignKey("dispensing_id");
+
+                            b1.OwnsOne("CatEcommerce.Domain.ValueObjects.PriceSnapshot", "PriceSnapshot", b2 =>
+                                {
+                                    b2.Property<Guid>("DispensingLineId")
+                                        .HasColumnType("uuid");
+
+                                    b2.Property<string>("CurrencyCode")
+                                        .IsRequired()
+                                        .HasColumnType("char(3)")
+                                        .HasColumnName("currency_code");
+
+                                    b2.Property<decimal>("LineTotal")
+                                        .HasColumnType("numeric(12,2)")
+                                        .HasColumnName("line_total");
+
+                                    b2.Property<decimal>("UnitPrice")
+                                        .HasColumnType("numeric(12,2)")
+                                        .HasColumnName("unit_price");
+
+                                    b2.HasKey("DispensingLineId");
+
+                                    b2.ToTable("dispensing_line", "pharmacy");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("DispensingLineId");
+                                });
+
+                            b1.Navigation("PriceSnapshot");
+                        });
+
+                    b.Navigation("Label")
+                        .IsRequired();
+
+                    b.Navigation("Lines");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Prescription.FormularyMedicineAggregate", b =>
+                {
+                    b.OwnsOne("CatEcommerce.Domain.ValueObjects.DoseRange", "DoseRange", b1 =>
+                        {
+                            b1.Property<Guid>("FormularyMedicineAggregateId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<decimal>("MaxMgPerKg")
+                                .HasColumnType("numeric(12,4)")
+                                .HasColumnName("dose_max_mg_per_kg");
+
+                            b1.Property<decimal>("MinMgPerKg")
+                                .HasColumnType("numeric(12,4)")
+                                .HasColumnName("dose_min_mg_per_kg");
+
+                            b1.HasKey("FormularyMedicineAggregateId");
+
+                            b1.ToTable("formulary_medicine", "pharmacy");
+
+                            b1.WithOwner()
+                                .HasForeignKey("FormularyMedicineAggregateId");
+                        });
+
+                    b.OwnsOne("CatEcommerce.Domain.ValueObjects.Strength", "Strength", b1 =>
+                        {
+                            b1.Property<Guid>("FormularyMedicineAggregateId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<decimal>("Amount")
+                                .HasColumnType("numeric(12,4)")
+                                .HasColumnName("strength_amount");
+
+                            b1.Property<decimal>("PerQuantity")
+                                .HasColumnType("numeric(12,4)")
+                                .HasColumnName("strength_per_quantity");
+
+                            b1.Property<int>("PerUnit")
+                                .HasColumnType("integer")
+                                .HasColumnName("strength_per_unit");
+
+                            b1.Property<int>("Unit")
+                                .HasColumnType("integer")
+                                .HasColumnName("strength_unit");
+
+                            b1.HasKey("FormularyMedicineAggregateId");
+
+                            b1.ToTable("formulary_medicine", "pharmacy");
+
+                            b1.WithOwner()
+                                .HasForeignKey("FormularyMedicineAggregateId");
+                        });
+
+                    b.OwnsMany("CatEcommerce.Domain.Entities.FormularyInteraction", "Interactions", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid");
+
+                            b1.Property<Guid?>("InteractsWithMedicineId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("interacts_with_medicine_id");
+
+                            b1.Property<string>("InteractsWithTerm")
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)")
+                                .HasColumnName("interacts_with_term");
+
+                            b1.Property<string>("Note")
+                                .IsRequired()
+                                .HasMaxLength(500)
+                                .HasColumnType("character varying(500)")
+                                .HasColumnName("note");
+
+                            b1.Property<int>("Severity")
+                                .HasColumnType("integer")
+                                .HasColumnName("severity");
+
+                            b1.Property<Guid>("formulary_medicine_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("formulary_medicine_id")
+                                .HasDatabaseName("ix_formulary_interaction_medicine");
+
+                            b1.ToTable("formulary_interaction", "pharmacy");
+
+                            b1.WithOwner()
+                                .HasForeignKey("formulary_medicine_id");
+                        });
+
+                    b.OwnsMany("CatEcommerce.Domain.Entities.LinkedSku", "LinkedSkus", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid");
+
+                            b1.Property<Guid>("SkuId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("sku_id");
+
+                            b1.Property<Guid>("formulary_medicine_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("SkuId")
+                                .IsUnique()
+                                .HasDatabaseName("ix_formulary_medicine_sku");
+
+                            b1.HasIndex("formulary_medicine_id")
+                                .HasDatabaseName("ix_formulary_medicine_sku_medicine");
+
+                            b1.ToTable("formulary_medicine_sku", "pharmacy");
+
+                            b1.WithOwner()
+                                .HasForeignKey("formulary_medicine_id");
+                        });
+
+                    b.Navigation("DoseRange");
+
+                    b.Navigation("Interactions");
+
+                    b.Navigation("LinkedSkus");
+
+                    b.Navigation("Strength")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Prescription.PrescriptionAggregate", b =>
+                {
+                    b.OwnsOne("CatEcommerce.Domain.ValueObjects.Dose", "Dose", b1 =>
+                        {
+                            b1.Property<Guid>("PrescriptionAggregateId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<decimal>("Amount")
+                                .HasColumnType("numeric(12,4)")
+                                .HasColumnName("dose_amount");
+
+                            b1.Property<int>("Unit")
+                                .HasColumnType("integer")
+                                .HasColumnName("dose_unit");
+
+                            b1.HasKey("PrescriptionAggregateId");
+
+                            b1.ToTable("prescription", "pharmacy");
+
+                            b1.WithOwner()
+                                .HasForeignKey("PrescriptionAggregateId");
+                        });
+
+                    b.OwnsOne("CatEcommerce.Domain.ValueObjects.MedicineSnapshot", "MedicineSnapshot", b1 =>
+                        {
+                            b1.Property<Guid>("PrescriptionAggregateId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("Code")
+                                .IsRequired()
+                                .HasMaxLength(30)
+                                .HasColumnType("character varying(30)")
+                                .HasColumnName("medicine_code");
+
+                            b1.Property<string>("ControlledSchedule")
+                                .HasMaxLength(30)
+                                .HasColumnType("character varying(30)")
+                                .HasColumnName("medicine_controlled_schedule");
+
+                            b1.Property<int>("DispensingUnit")
+                                .HasColumnType("integer")
+                                .HasColumnName("medicine_dispensing_unit");
+
+                            b1.Property<int>("Form")
+                                .HasColumnType("integer")
+                                .HasColumnName("medicine_form");
+
+                            b1.Property<bool>("IsControlled")
+                                .HasColumnType("boolean")
+                                .HasColumnName("medicine_is_controlled");
+
+                            b1.PrimitiveCollection<Guid[]>("LinkedSkuIds")
+                                .IsRequired()
+                                .HasColumnType("uuid[]")
+                                .HasColumnName("medicine_linked_sku_ids");
+
+                            b1.Property<string>("Name")
+                                .IsRequired()
+                                .HasMaxLength(200)
+                                .HasColumnType("character varying(200)")
+                                .HasColumnName("medicine_name");
+
+                            b1.Property<string>("StrengthText")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)")
+                                .HasColumnName("medicine_strength_text");
+
+                            b1.HasKey("PrescriptionAggregateId");
+
+                            b1.ToTable("prescription", "pharmacy");
+
+                            b1.WithOwner()
+                                .HasForeignKey("PrescriptionAggregateId");
+                        });
+
+                    b.OwnsOne("CatEcommerce.Domain.ValueObjects.SafetyRecord", "SafetyRecord", b1 =>
+                        {
+                            b1.Property<Guid>("PrescriptionAggregateId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<Guid?>("AcknowledgedBy")
+                                .HasColumnType("uuid")
+                                .HasColumnName("safety_acknowledged_by");
+
+                            b1.Property<DateTimeOffset?>("AcknowledgedOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("safety_acknowledged_on");
+
+                            b1.Property<string>("AllergyAcknowledgementReason")
+                                .HasMaxLength(500)
+                                .HasColumnType("character varying(500)")
+                                .HasColumnName("safety_allergy_ack_reason");
+
+                            b1.Property<string>("DoseAcknowledgementNote")
+                                .HasMaxLength(500)
+                                .HasColumnType("character varying(500)")
+                                .HasColumnName("safety_dose_ack_note");
+
+                            b1.Property<int>("DoseCheckOutcome")
+                                .HasColumnType("integer")
+                                .HasColumnName("safety_dose_check_outcome");
+
+                            b1.Property<decimal?>("DoseMgPerKg")
+                                .HasColumnType("numeric(12,4)")
+                                .HasColumnName("safety_dose_mg_per_kg");
+
+                            b1.Property<decimal?>("ExpectedMaxMgPerKg")
+                                .HasColumnType("numeric(12,4)")
+                                .HasColumnName("safety_expected_max_mg_per_kg");
+
+                            b1.Property<decimal?>("ExpectedMinMgPerKg")
+                                .HasColumnType("numeric(12,4)")
+                                .HasColumnName("safety_expected_min_mg_per_kg");
+
+                            b1.Property<string>("WarningsFingerprint")
+                                .IsRequired()
+                                .HasMaxLength(64)
+                                .HasColumnType("character varying(64)")
+                                .HasColumnName("safety_warnings_fingerprint");
+
+                            b1.Property<decimal?>("WeightKg")
+                                .HasColumnType("numeric(6,2)")
+                                .HasColumnName("safety_weight_kg");
+
+                            b1.Property<DateOnly?>("WeightRecordedOn")
+                                .HasColumnType("date")
+                                .HasColumnName("safety_weight_recorded_on");
+
+                            b1.HasKey("PrescriptionAggregateId");
+
+                            b1.ToTable("prescription", "pharmacy");
+
+                            b1.WithOwner()
+                                .HasForeignKey("PrescriptionAggregateId");
+                        });
+
+                    b.OwnsMany("CatEcommerce.Domain.Entities.PrescriptionWarning", "Warnings", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid");
+
+                            b1.Property<bool>("Blocking")
+                                .HasColumnType("boolean")
+                                .HasColumnName("blocking");
+
+                            b1.Property<string>("Detail")
+                                .IsRequired()
+                                .HasMaxLength(500)
+                                .HasColumnType("character varying(500)")
+                                .HasColumnName("detail");
+
+                            b1.Property<int>("Kind")
+                                .HasColumnType("integer")
+                                .HasColumnName("kind");
+
+                            b1.Property<bool>("RequiresAcknowledgement")
+                                .HasColumnType("boolean")
+                                .HasColumnName("requires_acknowledgement");
+
+                            b1.Property<int?>("Severity")
+                                .HasColumnType("integer")
+                                .HasColumnName("severity");
+
+                            b1.Property<string>("Subject")
+                                .IsRequired()
+                                .HasMaxLength(200)
+                                .HasColumnType("character varying(200)")
+                                .HasColumnName("subject");
+
+                            b1.Property<Guid>("prescription_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("prescription_id")
+                                .HasDatabaseName("ix_prescription_warning_prescription");
+
+                            b1.ToTable("prescription_warning", "pharmacy");
+
+                            b1.WithOwner()
+                                .HasForeignKey("prescription_id");
+                        });
+
+                    b.OwnsMany("CatEcommerce.Domain.Entities.RepeatRequest", "RepeatRequests", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid");
+
+                            b1.Property<Guid?>("DecidedBy")
+                                .HasColumnType("uuid")
+                                .HasColumnName("decided_by");
+
+                            b1.Property<DateTimeOffset?>("DecidedOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("decided_on");
+
+                            b1.Property<string>("DeclineReason")
+                                .HasMaxLength(500)
+                                .HasColumnType("character varying(500)")
+                                .HasColumnName("decline_reason");
+
+                            b1.Property<Guid?>("DispensingId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("dispensing_id");
+
+                            b1.Property<string>("Note")
+                                .HasMaxLength(500)
+                                .HasColumnType("character varying(500)")
+                                .HasColumnName("note");
+
+                            b1.Property<Guid>("PreferredBranchId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("preferred_branch_id");
+
+                            b1.Property<Guid>("RequestedBy")
+                                .HasColumnType("uuid")
+                                .HasColumnName("requested_by");
+
+                            b1.Property<DateTimeOffset>("RequestedOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("requested_on");
+
+                            b1.Property<int>("Status")
+                                .HasColumnType("integer")
+                                .HasColumnName("status");
+
+                            b1.Property<Guid>("prescription_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("prescription_id")
+                                .HasDatabaseName("ix_repeat_request_prescription");
+
+                            b1.HasIndex("Status", "PreferredBranchId")
+                                .HasDatabaseName("ix_repeat_request_status_branch");
+
+                            b1.ToTable("repeat_request", "pharmacy");
+
+                            b1.WithOwner()
+                                .HasForeignKey("prescription_id");
+                        });
+
+                    b.Navigation("Dose")
+                        .IsRequired();
+
+                    b.Navigation("MedicineSnapshot")
+                        .IsRequired();
+
+                    b.Navigation("RepeatRequests");
+
+                    b.Navigation("SafetyRecord")
+                        .IsRequired();
+
+                    b.Navigation("Warnings");
                 });
 
             modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Product.ProductAggregate", b =>
@@ -5101,6 +19382,10 @@ namespace CatEcommerce.Infrastructure.Persistence.Migrations
                                 .HasColumnType("integer")
                                 .HasColumnName("pack_quantity");
 
+                            b1.Property<int?>("ShippingWeightGrams")
+                                .HasColumnType("integer")
+                                .HasColumnName("shipping_weight_grams");
+
                             b1.Property<string>("SizeOrWeight")
                                 .HasMaxLength(50)
                                 .HasColumnType("character varying(50)")
@@ -5186,7 +19471,6 @@ namespace CatEcommerce.Infrastructure.Persistence.Migrations
                                 .HasColumnType("uuid");
 
                             b1.Property<Guid>("SkuId")
-                                .ValueGeneratedOnAdd()
                                 .HasColumnType("uuid")
                                 .HasColumnName("sku_id");
 
@@ -5210,6 +19494,1078 @@ namespace CatEcommerce.Infrastructure.Persistence.Migrations
                         });
 
                     b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Surgery.SurgeryAggregate", b =>
+                {
+                    b.OwnsOne("CatEcommerce.Domain.ValueObjects.ConsentOverride", "ConsentOverride", b1 =>
+                        {
+                            b1.Property<Guid>("SurgeryAggregateId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<Guid>("OverriddenBy")
+                                .HasColumnType("uuid")
+                                .HasColumnName("consent_override_by");
+
+                            b1.Property<DateTimeOffset>("OverriddenOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("consent_override_on");
+
+                            b1.Property<string>("Reason")
+                                .IsRequired()
+                                .HasMaxLength(1000)
+                                .HasColumnType("character varying(1000)")
+                                .HasColumnName("consent_override_reason");
+
+                            b1.HasKey("SurgeryAggregateId");
+
+                            b1.ToTable("surgery", "clinic");
+
+                            b1.WithOwner()
+                                .HasForeignKey("SurgeryAggregateId");
+                        });
+
+                    b.OwnsOne("CatEcommerce.Domain.ValueObjects.ProcedureSnapshot", "Procedure", b1 =>
+                        {
+                            b1.Property<Guid>("SurgeryAggregateId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<int>("Category")
+                                .HasColumnType("integer")
+                                .HasColumnName("procedure_category");
+
+                            b1.Property<int>("DurationMinutes")
+                                .HasColumnType("integer")
+                                .HasColumnName("procedure_duration_minutes");
+
+                            b1.Property<bool>("IsSterilisation")
+                                .HasColumnType("boolean")
+                                .HasColumnName("procedure_is_sterilisation");
+
+                            b1.Property<string>("ServiceName")
+                                .IsRequired()
+                                .HasMaxLength(200)
+                                .HasColumnType("character varying(200)")
+                                .HasColumnName("procedure_name");
+
+                            b1.HasKey("SurgeryAggregateId");
+
+                            b1.ToTable("surgery", "clinic");
+
+                            b1.WithOwner()
+                                .HasForeignKey("SurgeryAggregateId");
+                        });
+
+                    b.OwnsOne("CatEcommerce.Domain.ValueObjects.SurgeryPriceSnapshot", "PriceSnapshot", b1 =>
+                        {
+                            b1.Property<Guid>("SurgeryAggregateId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<int>("Basis")
+                                .HasColumnType("integer")
+                                .HasColumnName("price_basis");
+
+                            b1.Property<string>("CampaignEligibilityNote")
+                                .HasMaxLength(500)
+                                .HasColumnType("character varying(500)")
+                                .HasColumnName("campaign_eligibility_note");
+
+                            b1.Property<Guid?>("CampaignId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("campaign_id");
+
+                            b1.HasKey("SurgeryAggregateId");
+
+                            b1.ToTable("surgery", "clinic");
+
+                            b1.WithOwner()
+                                .HasForeignKey("SurgeryAggregateId");
+
+                            b1.OwnsOne("CatEcommerce.Domain.ValueObjects.Money", "Amount", b2 =>
+                                {
+                                    b2.Property<Guid>("SurgeryPriceSnapshotSurgeryAggregateId")
+                                        .HasColumnType("uuid");
+
+                                    b2.Property<decimal>("Amount")
+                                        .HasColumnType("numeric(12,2)")
+                                        .HasColumnName("price_amount");
+
+                                    b2.Property<string>("CurrencyCode")
+                                        .IsRequired()
+                                        .HasColumnType("char(3)")
+                                        .HasColumnName("price_currency_code");
+
+                                    b2.HasKey("SurgeryPriceSnapshotSurgeryAggregateId");
+
+                                    b2.ToTable("surgery", "clinic");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("SurgeryPriceSnapshotSurgeryAggregateId");
+                                });
+
+                            b1.Navigation("Amount")
+                                .IsRequired();
+                        });
+
+                    b.OwnsMany("CatEcommerce.Domain.Entities.PreOpChecklistItem", "Checklist", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
+
+                            b1.Property<Guid?>("CompletedBy")
+                                .HasColumnType("uuid")
+                                .HasColumnName("completed_by");
+
+                            b1.Property<DateTimeOffset?>("CompletedOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("completed_on");
+
+                            b1.Property<int>("Kind")
+                                .HasColumnType("integer")
+                                .HasColumnName("kind");
+
+                            b1.Property<string>("Note")
+                                .HasMaxLength(500)
+                                .HasColumnType("character varying(500)")
+                                .HasColumnName("note");
+
+                            b1.Property<DateOnly?>("ReferenceDate")
+                                .HasColumnType("date")
+                                .HasColumnName("reference_date");
+
+                            b1.Property<Guid?>("ReferenceId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("reference_id");
+
+                            b1.Property<int>("Status")
+                                .HasColumnType("integer")
+                                .HasColumnName("status");
+
+                            b1.Property<string>("WaiverReason")
+                                .HasMaxLength(500)
+                                .HasColumnType("character varying(500)")
+                                .HasColumnName("waiver_reason");
+
+                            b1.Property<Guid>("surgery_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("surgery_id")
+                                .HasDatabaseName("ix_surgery_checklist_item_surgery");
+
+                            b1.ToTable("surgery_checklist_item", "clinic");
+
+                            b1.WithOwner()
+                                .HasForeignKey("surgery_id");
+                        });
+
+                    b.OwnsMany("CatEcommerce.Domain.Entities.RecoveryStatusChange", "RecoveryHistory", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
+
+                            b1.Property<Guid>("ChangedBy")
+                                .HasColumnType("uuid")
+                                .HasColumnName("changed_by");
+
+                            b1.Property<DateTimeOffset>("ChangedOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("changed_on");
+
+                            b1.Property<int?>("From")
+                                .HasColumnType("integer")
+                                .HasColumnName("from_status");
+
+                            b1.Property<string>("Note")
+                                .HasMaxLength(500)
+                                .HasColumnType("character varying(500)")
+                                .HasColumnName("note");
+
+                            b1.Property<int>("Sequence")
+                                .HasColumnType("integer")
+                                .HasColumnName("sequence");
+
+                            b1.Property<int>("To")
+                                .HasColumnType("integer")
+                                .HasColumnName("to_status");
+
+                            b1.Property<Guid>("surgery_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("surgery_id")
+                                .HasDatabaseName("ix_surgery_recovery_change_surgery");
+
+                            b1.ToTable("surgery_recovery_change", "clinic");
+
+                            b1.WithOwner()
+                                .HasForeignKey("surgery_id");
+                        });
+
+                    b.OwnsMany("CatEcommerce.Domain.Entities.SurgeryFollowUp", "FollowUps", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
+
+                            b1.Property<string>("CancellationReason")
+                                .HasMaxLength(500)
+                                .HasColumnType("character varying(500)")
+                                .HasColumnName("cancellation_reason");
+
+                            b1.Property<Guid?>("ClosedBy")
+                                .HasColumnType("uuid")
+                                .HasColumnName("closed_by");
+
+                            b1.Property<DateTimeOffset?>("ClosedOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("closed_on");
+
+                            b1.Property<DateOnly>("DueOn")
+                                .HasColumnType("date")
+                                .HasColumnName("due_on");
+
+                            b1.Property<int>("Kind")
+                                .HasColumnType("integer")
+                                .HasColumnName("kind");
+
+                            b1.Property<int>("Status")
+                                .HasColumnType("integer")
+                                .HasColumnName("status");
+
+                            b1.Property<DateOnly>("WindowFrom")
+                                .HasColumnType("date")
+                                .HasColumnName("window_from");
+
+                            b1.Property<DateOnly>("WindowTo")
+                                .HasColumnType("date")
+                                .HasColumnName("window_to");
+
+                            b1.Property<Guid>("surgery_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("surgery_id")
+                                .HasDatabaseName("ix_surgery_follow_up_surgery");
+
+                            b1.ToTable("surgery_follow_up", "clinic");
+
+                            b1.WithOwner()
+                                .HasForeignKey("surgery_id");
+                        });
+
+                    b.OwnsMany("CatEcommerce.Domain.Entities.SurgeryStatusChange", "StatusHistory", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
+
+                            b1.Property<Guid>("ChangedBy")
+                                .HasColumnType("uuid")
+                                .HasColumnName("changed_by");
+
+                            b1.Property<DateTimeOffset>("ChangedOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("changed_on");
+
+                            b1.Property<int?>("From")
+                                .HasColumnType("integer")
+                                .HasColumnName("from_status");
+
+                            b1.Property<int>("Sequence")
+                                .HasColumnType("integer")
+                                .HasColumnName("sequence");
+
+                            b1.Property<int>("To")
+                                .HasColumnType("integer")
+                                .HasColumnName("to_status");
+
+                            b1.Property<Guid>("surgery_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("surgery_id")
+                                .HasDatabaseName("ix_surgery_status_change_surgery");
+
+                            b1.ToTable("surgery_status_change", "clinic");
+
+                            b1.WithOwner()
+                                .HasForeignKey("surgery_id");
+                        });
+
+                    b.Navigation("Checklist");
+
+                    b.Navigation("ConsentOverride");
+
+                    b.Navigation("FollowUps");
+
+                    b.Navigation("PriceSnapshot")
+                        .IsRequired();
+
+                    b.Navigation("Procedure")
+                        .IsRequired();
+
+                    b.Navigation("RecoveryHistory");
+
+                    b.Navigation("StatusHistory");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Surgery.SurgeryCampaignAggregate", b =>
+                {
+                    b.OwnsMany("CatEcommerce.Domain.Entities.CampaignServicePrice", "Prices", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
+
+                            b1.Property<Guid>("ServiceId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("service_id");
+
+                            b1.Property<Guid>("campaign_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("campaign_id", "ServiceId")
+                                .IsUnique()
+                                .HasDatabaseName("ix_surgery_campaign_price_campaign_service");
+
+                            b1.ToTable("surgery_campaign_price", "clinic");
+
+                            b1.WithOwner()
+                                .HasForeignKey("campaign_id");
+
+                            b1.OwnsOne("CatEcommerce.Domain.ValueObjects.Money", "Price", b2 =>
+                                {
+                                    b2.Property<Guid>("CampaignServicePriceId")
+                                        .HasColumnType("uuid");
+
+                                    b2.Property<decimal>("Amount")
+                                        .HasColumnType("numeric(12,2)")
+                                        .HasColumnName("price_amount");
+
+                                    b2.Property<string>("CurrencyCode")
+                                        .IsRequired()
+                                        .HasColumnType("char(3)")
+                                        .HasColumnName("price_currency_code");
+
+                                    b2.HasKey("CampaignServicePriceId");
+
+                                    b2.ToTable("surgery_campaign_price", "clinic");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("CampaignServicePriceId");
+                                });
+
+                            b1.Navigation("Price")
+                                .IsRequired();
+                        });
+
+                    b.Navigation("Prices");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Surgery.SurgeryProtocolAggregate", b =>
+                {
+                    b.OwnsMany("CatEcommerce.Domain.Entities.SurgeryProtocolFollowUp", "FollowUps", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
+
+                            b1.Property<int>("DayOffset")
+                                .HasColumnType("integer")
+                                .HasColumnName("day_offset");
+
+                            b1.Property<int>("Kind")
+                                .HasColumnType("integer")
+                                .HasColumnName("kind");
+
+                            b1.Property<int>("WindowFromDay")
+                                .HasColumnType("integer")
+                                .HasColumnName("window_from_day");
+
+                            b1.Property<int>("WindowToDay")
+                                .HasColumnType("integer")
+                                .HasColumnName("window_to_day");
+
+                            b1.Property<Guid>("protocol_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("protocol_id");
+
+                            b1.ToTable("surgery_protocol_follow_up", "clinic");
+
+                            b1.WithOwner()
+                                .HasForeignKey("protocol_id");
+                        });
+
+                    b.Navigation("FollowUps");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Surgery.SurgicalReportAggregate", b =>
+                {
+                    b.OwnsMany("CatEcommerce.Domain.Entities.SurgicalReportAddendum", "Addenda", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
+
+                            b1.Property<Guid>("AddedBy")
+                                .HasColumnType("uuid")
+                                .HasColumnName("added_by");
+
+                            b1.Property<DateTimeOffset>("AddedOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("added_on");
+
+                            b1.Property<string>("Text")
+                                .IsRequired()
+                                .HasMaxLength(4000)
+                                .HasColumnType("character varying(4000)")
+                                .HasColumnName("text");
+
+                            b1.Property<Guid>("report_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("report_id")
+                                .HasDatabaseName("ix_surgical_report_addendum_report");
+
+                            b1.ToTable("surgical_report_addendum", "clinic");
+
+                            b1.WithOwner()
+                                .HasForeignKey("report_id");
+                        });
+
+                    b.Navigation("Addenda");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Visit.DiagnosticOrderAggregate", b =>
+                {
+                    b.OwnsMany("CatEcommerce.Domain.Entities.DiagnosticAttachment", "Attachments", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid");
+
+                            b1.Property<Guid>("AttachedBy")
+                                .HasColumnType("uuid")
+                                .HasColumnName("attached_by");
+
+                            b1.Property<DateTimeOffset>("AttachedOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("attached_on");
+
+                            b1.Property<Guid>("FileId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("file_id");
+
+                            b1.Property<string>("Note")
+                                .HasMaxLength(500)
+                                .HasColumnType("character varying(500)")
+                                .HasColumnName("note");
+
+                            b1.Property<DateOnly>("ResultDate")
+                                .HasColumnType("date")
+                                .HasColumnName("result_date");
+
+                            b1.Property<Guid>("diagnostic_order_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("FileId")
+                                .IsUnique()
+                                .HasDatabaseName("ix_diagnostic_attachment_file_id");
+
+                            b1.HasIndex("diagnostic_order_id")
+                                .HasDatabaseName("ix_diagnostic_attachment_order_id");
+
+                            b1.ToTable("diagnostic_attachment", "clinic");
+
+                            b1.WithOwner()
+                                .HasForeignKey("diagnostic_order_id");
+                        });
+
+                    b.OwnsMany("CatEcommerce.Domain.Entities.DiagnosticRequestedAnalyte", "RequestedAnalytes", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid");
+
+                            b1.Property<Guid>("AnalyteId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("analyte_id");
+
+                            b1.Property<string>("Code")
+                                .IsRequired()
+                                .HasMaxLength(30)
+                                .HasColumnType("character varying(30)")
+                                .HasColumnName("code");
+
+                            b1.Property<string>("Name")
+                                .IsRequired()
+                                .HasMaxLength(200)
+                                .HasColumnType("character varying(200)")
+                                .HasColumnName("name");
+
+                            b1.Property<Guid>("diagnostic_order_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("diagnostic_order_id")
+                                .HasDatabaseName("ix_diagnostic_requested_analyte_order_id");
+
+                            b1.ToTable("diagnostic_requested_analyte", "clinic");
+
+                            b1.WithOwner()
+                                .HasForeignKey("diagnostic_order_id");
+                        });
+
+                    b.OwnsMany("CatEcommerce.Domain.Entities.DiagnosticResultSet", "ResultSets", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("Note")
+                                .HasMaxLength(500)
+                                .HasColumnType("character varying(500)")
+                                .HasColumnName("note");
+
+                            b1.Property<Guid>("RecordedBy")
+                                .HasColumnType("uuid")
+                                .HasColumnName("recorded_by");
+
+                            b1.Property<DateTimeOffset>("RecordedOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("recorded_on");
+
+                            b1.Property<DateOnly>("ReportedOn")
+                                .HasColumnType("date")
+                                .HasColumnName("reported_on");
+
+                            b1.Property<Guid?>("SupersedesResultSetId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("supersedes_result_set_id");
+
+                            b1.Property<Guid>("diagnostic_order_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("diagnostic_order_id")
+                                .HasDatabaseName("ix_diagnostic_result_set_order_id");
+
+                            b1.ToTable("diagnostic_result_set", "clinic");
+
+                            b1.WithOwner()
+                                .HasForeignKey("diagnostic_order_id");
+
+                            b1.OwnsMany("CatEcommerce.Domain.Entities.DiagnosticResultValue", "Values", b2 =>
+                                {
+                                    b2.Property<Guid>("Id")
+                                        .HasColumnType("uuid");
+
+                                    b2.Property<Guid?>("AnalyteId")
+                                        .HasColumnType("uuid")
+                                        .HasColumnName("analyte_id");
+
+                                    b2.Property<int>("Flag")
+                                        .HasColumnType("integer")
+                                        .HasColumnName("flag");
+
+                                    b2.Property<string>("Name")
+                                        .IsRequired()
+                                        .HasMaxLength(100)
+                                        .HasColumnType("character varying(100)")
+                                        .HasColumnName("name");
+
+                                    b2.Property<string>("NormalText")
+                                        .HasMaxLength(50)
+                                        .HasColumnType("character varying(50)")
+                                        .HasColumnName("normal_text");
+
+                                    b2.Property<decimal?>("NumericValue")
+                                        .HasColumnType("numeric(14,4)")
+                                        .HasColumnName("numeric_value");
+
+                                    b2.Property<int>("Position")
+                                        .HasColumnType("integer")
+                                        .HasColumnName("position");
+
+                                    b2.Property<decimal?>("ReferenceHigh")
+                                        .HasColumnType("numeric(14,4)")
+                                        .HasColumnName("reference_high");
+
+                                    b2.Property<decimal?>("ReferenceLow")
+                                        .HasColumnType("numeric(14,4)")
+                                        .HasColumnName("reference_low");
+
+                                    b2.Property<string>("TextValue")
+                                        .HasMaxLength(100)
+                                        .HasColumnType("character varying(100)")
+                                        .HasColumnName("text_value");
+
+                                    b2.Property<string>("Unit")
+                                        .HasMaxLength(30)
+                                        .HasColumnType("character varying(30)")
+                                        .HasColumnName("unit");
+
+                                    b2.Property<int>("ValueKind")
+                                        .HasColumnType("integer")
+                                        .HasColumnName("value_kind");
+
+                                    b2.Property<Guid>("result_set_id")
+                                        .HasColumnType("uuid");
+
+                                    b2.HasKey("Id");
+
+                                    b2.HasIndex("result_set_id")
+                                        .HasDatabaseName("ix_diagnostic_result_value_result_set_id");
+
+                                    b2.ToTable("diagnostic_result_value", "clinic");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("result_set_id");
+                                });
+
+                            b1.Navigation("Values");
+                        });
+
+                    b.Navigation("Attachments");
+
+                    b.Navigation("RequestedAnalytes");
+
+                    b.Navigation("ResultSets");
+                });
+
+            modelBuilder.Entity("CatEcommerce.Domain.Aggregates.Visit.VisitAggregate", b =>
+                {
+                    b.OwnsOne("CatEcommerce.Domain.ValueObjects.FollowUp", "FollowUp", b1 =>
+                        {
+                            b1.Property<Guid>("VisitAggregateId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<Guid?>("AppointmentId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("follow_up_appointment_id");
+
+                            b1.Property<DateOnly>("DueOn")
+                                .HasColumnType("date")
+                                .HasColumnName("follow_up_due_on");
+
+                            b1.Property<int>("Kind")
+                                .HasColumnType("integer")
+                                .HasColumnName("follow_up_kind");
+
+                            b1.Property<Guid>("SetBy")
+                                .HasColumnType("uuid")
+                                .HasColumnName("follow_up_set_by");
+
+                            b1.Property<DateTimeOffset>("SetOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("follow_up_set_on");
+
+                            b1.Property<string>("Stamp")
+                                .IsRequired()
+                                .HasMaxLength(64)
+                                .HasColumnType("character varying(64)")
+                                .HasColumnName("follow_up_stamp");
+
+                            b1.HasKey("VisitAggregateId");
+
+                            b1.ToTable("visit", "clinic");
+
+                            b1.WithOwner()
+                                .HasForeignKey("VisitAggregateId");
+                        });
+
+                    b.OwnsOne("CatEcommerce.Domain.ValueObjects.SoapNote", "Note", b1 =>
+                        {
+                            b1.Property<Guid>("VisitAggregateId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<Guid?>("AppliedTemplateId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("applied_template_id");
+
+                            b1.Property<int?>("AppliedTemplateVersion")
+                                .HasColumnType("integer")
+                                .HasColumnName("applied_template_version");
+
+                            b1.Property<string>("Assessment")
+                                .IsRequired()
+                                .HasMaxLength(20000)
+                                .HasColumnType("character varying(20000)")
+                                .HasColumnName("assessment");
+
+                            b1.Property<string>("DischargeInstructions")
+                                .IsRequired()
+                                .HasMaxLength(10000)
+                                .HasColumnType("character varying(10000)")
+                                .HasColumnName("discharge_instructions");
+
+                            b1.Property<Guid?>("NoteSavedBy")
+                                .HasColumnType("uuid")
+                                .HasColumnName("note_saved_by");
+
+                            b1.Property<DateTimeOffset?>("NoteSavedOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("note_saved_on");
+
+                            b1.Property<string>("Objective")
+                                .IsRequired()
+                                .HasMaxLength(20000)
+                                .HasColumnType("character varying(20000)")
+                                .HasColumnName("objective");
+
+                            b1.Property<string>("Plan")
+                                .IsRequired()
+                                .HasMaxLength(20000)
+                                .HasColumnType("character varying(20000)")
+                                .HasColumnName("plan");
+
+                            b1.Property<string>("Subjective")
+                                .IsRequired()
+                                .HasMaxLength(20000)
+                                .HasColumnType("character varying(20000)")
+                                .HasColumnName("subjective");
+
+                            b1.HasKey("VisitAggregateId");
+
+                            b1.ToTable("visit", "clinic");
+
+                            b1.WithOwner()
+                                .HasForeignKey("VisitAggregateId");
+                        });
+
+                    b.OwnsMany("CatEcommerce.Domain.Entities.ClinicalPhoto", "Photos", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid");
+
+                            b1.Property<Guid>("AddedBy")
+                                .HasColumnType("uuid")
+                                .HasColumnName("added_by");
+
+                            b1.Property<DateTimeOffset>("AddedOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("added_on");
+
+                            b1.Property<Guid>("FileId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("file_id");
+
+                            b1.Property<string>("Note")
+                                .HasMaxLength(500)
+                                .HasColumnType("character varying(500)")
+                                .HasColumnName("note");
+
+                            b1.Property<DateOnly>("TakenOn")
+                                .HasColumnType("date")
+                                .HasColumnName("taken_on");
+
+                            b1.Property<Guid>("visit_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("FileId")
+                                .IsUnique()
+                                .HasDatabaseName("ix_visit_photo_file_id");
+
+                            b1.HasIndex("visit_id")
+                                .HasDatabaseName("ix_visit_photo_visit_id");
+
+                            b1.ToTable("visit_photo", "clinic");
+
+                            b1.WithOwner()
+                                .HasForeignKey("visit_id");
+                        });
+
+                    b.OwnsMany("CatEcommerce.Domain.Entities.TreatmentLine", "Treatments", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid");
+
+                            b1.Property<DateOnly?>("BatchExpiresOn")
+                                .HasColumnType("date")
+                                .HasColumnName("batch_expires_on");
+
+                            b1.Property<Guid?>("BatchId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("batch_id");
+
+                            b1.Property<string>("BatchOverrideReason")
+                                .HasMaxLength(300)
+                                .HasColumnType("character varying(300)")
+                                .HasColumnName("batch_override_reason");
+
+                            b1.Property<Guid?>("ClinicServiceId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("clinic_service_id");
+
+                            b1.Property<decimal>("DeductedQuantity")
+                                .HasColumnType("numeric(12,3)")
+                                .HasColumnName("deducted_quantity");
+
+                            b1.Property<string>("Description")
+                                .IsRequired()
+                                .HasMaxLength(300)
+                                .HasColumnType("character varying(300)")
+                                .HasColumnName("description");
+
+                            b1.Property<string>("Dose")
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)")
+                                .HasColumnName("dose");
+
+                            b1.Property<bool>("IsBillable")
+                                .HasColumnType("boolean")
+                                .HasColumnName("is_billable");
+
+                            b1.Property<int>("Kind")
+                                .HasColumnType("integer")
+                                .HasColumnName("kind");
+
+                            b1.Property<Guid?>("LocationId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("location_id");
+
+                            b1.Property<string>("LotNumber")
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)")
+                                .HasColumnName("lot_number");
+
+                            b1.Property<int>("Position")
+                                .HasColumnType("integer")
+                                .HasColumnName("position");
+
+                            b1.Property<decimal>("Quantity")
+                                .HasColumnType("numeric(12,3)")
+                                .HasColumnName("quantity");
+
+                            b1.Property<Guid>("RecordedBy")
+                                .HasColumnType("uuid")
+                                .HasColumnName("recorded_by");
+
+                            b1.Property<DateTimeOffset>("RecordedOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("recorded_on");
+
+                            b1.Property<string>("ReversalReason")
+                                .HasMaxLength(300)
+                                .HasColumnType("character varying(300)")
+                                .HasColumnName("reversal_reason");
+
+                            b1.Property<Guid?>("ReversedBy")
+                                .HasColumnType("uuid")
+                                .HasColumnName("reversed_by");
+
+                            b1.Property<DateTimeOffset?>("ReversedOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("reversed_on");
+
+                            b1.Property<string>("Route")
+                                .HasMaxLength(50)
+                                .HasColumnType("character varying(50)")
+                                .HasColumnName("route");
+
+                            b1.Property<decimal>("ShortfallQuantity")
+                                .HasColumnType("numeric(12,3)")
+                                .HasColumnName("shortfall_quantity");
+
+                            b1.Property<Guid?>("SkuId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("sku_id");
+
+                            b1.Property<string>("SkuName")
+                                .HasMaxLength(300)
+                                .HasColumnType("character varying(300)")
+                                .HasColumnName("sku_name");
+
+                            b1.Property<int>("Status")
+                                .HasColumnType("integer")
+                                .HasColumnName("status");
+
+                            b1.Property<string>("StockUnit")
+                                .HasMaxLength(30)
+                                .HasColumnType("character varying(30)")
+                                .HasColumnName("stock_unit");
+
+                            b1.Property<Guid?>("TaxClassId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("tax_class_id");
+
+                            b1.Property<decimal?>("UnitPriceAmount")
+                                .HasColumnType("numeric(12,2)")
+                                .HasColumnName("unit_price_amount");
+
+                            b1.Property<string>("UnitPriceCurrency")
+                                .HasColumnType("char(3)")
+                                .HasColumnName("unit_price_currency_code");
+
+                            b1.Property<Guid>("visit_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("BatchId")
+                                .HasDatabaseName("ix_visit_treatment_batch_id");
+
+                            b1.HasIndex("SkuId")
+                                .HasDatabaseName("ix_visit_treatment_sku_id");
+
+                            b1.HasIndex("visit_id")
+                                .HasDatabaseName("ix_visit_treatment_visit_id");
+
+                            b1.ToTable("visit_treatment", "clinic");
+
+                            b1.WithOwner()
+                                .HasForeignKey("visit_id");
+                        });
+
+                    b.OwnsMany("CatEcommerce.Domain.Entities.VisitProblem", "Problems", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid");
+
+                            b1.Property<DateTimeOffset>("AddedOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("added_on");
+
+                            b1.Property<int>("Certainty")
+                                .HasColumnType("integer")
+                                .HasColumnName("certainty");
+
+                            b1.Property<string>("Code")
+                                .IsRequired()
+                                .HasMaxLength(30)
+                                .HasColumnType("character varying(30)")
+                                .HasColumnName("code");
+
+                            b1.Property<Guid>("DiagnosisCodeId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("diagnosis_code_id");
+
+                            b1.Property<string>("Name")
+                                .IsRequired()
+                                .HasMaxLength(200)
+                                .HasColumnType("character varying(200)")
+                                .HasColumnName("name");
+
+                            b1.Property<string>("Note")
+                                .HasMaxLength(500)
+                                .HasColumnType("character varying(500)")
+                                .HasColumnName("note");
+
+                            b1.Property<DateTimeOffset?>("WithdrawnOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("withdrawn_on");
+
+                            b1.Property<Guid>("visit_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("DiagnosisCodeId")
+                                .HasDatabaseName("ix_visit_problem_diagnosis_code_id");
+
+                            b1.HasIndex("visit_id")
+                                .HasDatabaseName("ix_visit_problem_visit_id");
+
+                            b1.ToTable("visit_problem", "clinic");
+
+                            b1.WithOwner()
+                                .HasForeignKey("visit_id");
+                        });
+
+                    b.OwnsMany("CatEcommerce.Domain.Entities.VitalsEntry", "Vitals", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid");
+
+                            b1.Property<int?>("BodyConditionScore")
+                                .HasColumnType("integer")
+                                .HasColumnName("body_condition_score");
+
+                            b1.PrimitiveCollection<int[]>("ConfirmedOutOfRange")
+                                .IsRequired()
+                                .HasColumnType("integer[]")
+                                .HasColumnName("confirmed_out_of_range");
+
+                            b1.Property<int?>("HeartRateBpm")
+                                .HasColumnType("integer")
+                                .HasColumnName("heart_rate_bpm");
+
+                            b1.Property<DateTimeOffset>("MeasuredOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("measured_on");
+
+                            b1.Property<string>("Note")
+                                .HasMaxLength(500)
+                                .HasColumnType("character varying(500)")
+                                .HasColumnName("note");
+
+                            b1.Property<int?>("PainScore")
+                                .HasColumnType("integer")
+                                .HasColumnName("pain_score");
+
+                            b1.Property<Guid>("RecordedBy")
+                                .HasColumnType("uuid")
+                                .HasColumnName("recorded_by");
+
+                            b1.Property<DateTimeOffset>("RecordedOn")
+                                .HasColumnType("timestamptz")
+                                .HasColumnName("recorded_on");
+
+                            b1.Property<int?>("RespiratoryRatePerMin")
+                                .HasColumnType("integer")
+                                .HasColumnName("respiratory_rate_per_min");
+
+                            b1.Property<decimal?>("TemperatureC")
+                                .HasColumnType("numeric(4,1)")
+                                .HasColumnName("temperature_c");
+
+                            b1.Property<decimal?>("WeightKg")
+                                .HasColumnType("numeric(5,2)")
+                                .HasColumnName("weight_kg");
+
+                            b1.Property<Guid>("visit_id")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("visit_id")
+                                .HasDatabaseName("ix_visit_vitals_visit_id");
+
+                            b1.ToTable("visit_vitals", "clinic");
+
+                            b1.WithOwner()
+                                .HasForeignKey("visit_id");
+                        });
+
+                    b.Navigation("FollowUp");
+
+                    b.Navigation("Note")
+                        .IsRequired();
+
+                    b.Navigation("Photos");
+
+                    b.Navigation("Problems");
+
+                    b.Navigation("Treatments");
+
+                    b.Navigation("Vitals");
                 });
 #pragma warning restore 612, 618
         }

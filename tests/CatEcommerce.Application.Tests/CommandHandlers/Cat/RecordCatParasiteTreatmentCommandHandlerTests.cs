@@ -16,8 +16,6 @@ namespace CatEcommerce.Application.Tests.CommandHandlers.Cat;
 public sealed class RecordCatParasiteTreatmentCommandHandlerTests
 {
     private static readonly DateOnly Today = DateOnly.FromDateTime(DateTime.UtcNow);
-    private static readonly TimeProvider FixedTimeProvider =
-        new FakeTimeProvider(new DateTimeOffset(Today.ToDateTime(TimeOnly.MinValue), TimeSpan.Zero));
 
     private static CatAggregate SeededCat(FakeAggregateRootRepository<CatAggregate> repository)
     {
@@ -50,7 +48,7 @@ public sealed class RecordCatParasiteTreatmentCommandHandlerTests
         var staff = SeededStaff(staffAccountRepository);
 
         var handler = new RecordCatParasiteTreatmentCommandHandler(
-            NullLogger<RecordCatParasiteTreatmentCommandHandler>.Instance, catRepository, staffAccountRepository, FixedTimeProvider);
+            NullLogger<RecordCatParasiteTreatmentCommandHandler>.Instance, catRepository, staffAccountRepository, new FakeCatRecordClock(Today));
 
         var treatmentId = Guid.NewGuid();
         const int intervalDays = 90;
@@ -85,7 +83,7 @@ public sealed class RecordCatParasiteTreatmentCommandHandlerTests
         var staffAccountRepository = new FakeAggregateRootRepository<StaffAccountAggregate>();
 
         var handler = new RecordCatParasiteTreatmentCommandHandler(
-            NullLogger<RecordCatParasiteTreatmentCommandHandler>.Instance, catRepository, staffAccountRepository, FixedTimeProvider);
+            NullLogger<RecordCatParasiteTreatmentCommandHandler>.Instance, catRepository, staffAccountRepository, new FakeCatRecordClock(Today));
 
         var response = await handler.HandleAsync(new RecordCatParasiteTreatmentCommand
         {

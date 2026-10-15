@@ -3,10 +3,12 @@ using CatEcommerce.Domain.Aggregates.Account;
 using CatEcommerce.Domain.Aggregates.Administration;
 using CatEcommerce.Domain.Aggregates.Cat;
 using CatEcommerce.Domain.Aggregates.Clinic;
+using CatEcommerce.Domain.Aggregates.Visit;
 using CatEcommerce.Domain.DomainServices;
 using CatEcommerce.Domain.Exceptions;
 using CatEcommerce.Domain.Models;
 using CatEcommerce.Shared.Common.Constants;
+using CatEcommerce.Shared.Common.Enums;
 using Platform.Infrastructure.Core.Commands;
 using Platform.Infrastructure.Core.Domain;
 
@@ -34,6 +36,10 @@ public sealed class RescheduleAppointmentCommandHandler(
         var appointment = await appointmentRepository.GetByIdAsync(command.AppointmentId);
         if (appointment is null || !await IsCurrentOwnerAsync(catRepository, appointment, command.UserContext.UserId))
             return Violation(BusinessViolationCodes.AppointmentNotFound, nameof(command.AppointmentId), "Appointment not found.");
+
+        // HO-SRG-001 section 11.7 G1: a surgery appointment moves only with its surgery -- say so before the slot rules (which would answer with an unrelated code).
+        if (appointment.SurgeryId is not null)
+            return Violation(BusinessViolationCodes.AppointmentManagedBySurgery, nameof(command.AppointmentId), SurgeryMessages.AppointmentManagedBySurgery);
 
         var now = timeProvider.GetUtcNow();
         var outcome = await SlotClaim.ValidateAsync(
@@ -86,7 +92,8 @@ public sealed class CancelAppointmentCommandHandler(
     IBusinessSettings businessSettings,
     INotificationOutbox notificationOutbox,
     INotificationLinkBuilder linkBuilder,
-    TimeProvider timeProvider)
+    TimeProvider timeProvider,
+    IAggregateRootRepository<VisitAggregate> visitRepository)
     : ICommandHandlerAsync<CancelAppointmentCommand>
 {
     public async Task<CommandResponse> HandleAsync(CancelAppointmentCommand command)
@@ -101,6 +108,13 @@ public sealed class CancelAppointmentCommandHandler(
             || (isStaff && appointment.BranchId != command.BranchId)
             || (!isStaff && !await IsCurrentOwnerAsync(catRepository, appointment, command.UserContext.UserId)))
             return Violation(BusinessViolationCodes.AppointmentNotFound, nameof(command.AppointmentId), "Appointment not found.");
+
+        // HO-EMR-001 ADR-133 (guard line only): a staff cancel of a checked-in appointment is refused once a
+        // visit exists for it -- the consultation is under way and the record must be finalised, not orphaned.
+        if (isStaff && appointment.Status == AppointmentStatus.CheckedIn
+            && await visitRepository.ExistAsync(v => v.AppointmentId == appointment.Id))
+            return Violation(BusinessViolationCodes.VisitInProgress, nameof(command.AppointmentId),
+                "A visit is already open for this appointment. Finalise it instead of cancelling.");
 
         var now = timeProvider.GetUtcNow();
         var cutoffHours = isStaff ? (int?)null : businessSettings.GetInt(SettingKeys.BookingChangeCutoffHours, appointment.BranchId);

@@ -18,6 +18,7 @@ import type {
   StaffSku,
 } from '@/lib/api/staff-shop';
 import { AddSkuDialog, type AddSkuValues } from './AddSkuDialog';
+import { EditSkuDialog, type EditSkuValues } from './EditSkuDialog';
 
 export function skuLabel(sku: StaffSku): string {
   return [sku.code, sku.sizeOrWeight, sku.flavour, sku.colour].filter(Boolean).join(' · ');
@@ -62,6 +63,7 @@ function PriceRows({ title, entries }: { title: string; entries: PriceEntry[] })
 export interface VariantsTableProps {
   product: StaffProductDetail;
   onAddSku: (values: AddSkuValues) => Promise<unknown>;
+  onUpdateSku: (sku: StaffSku, values: EditSkuValues) => Promise<unknown>;
   onSetStatus: (sku: StaffSku, active: boolean) => Promise<unknown>;
   priceSkuId: string | null;
   onSelectPrices: (skuId: string | null) => void;
@@ -84,6 +86,7 @@ export interface VariantsTableProps {
 export function VariantsTable(props: VariantsTableProps) {
   const { product, priceSkuId } = props;
   const [adding, setAdding] = React.useState(false);
+  const [editing, setEditing] = React.useState<StaffSku | null>(null);
   const [status, setStatus] = React.useState<{ sku: StaffSku; active: boolean } | null>(null);
   const [scheduling, setScheduling] = React.useState(false);
   const [statusError, setStatusError] = React.useState<string | null>(null);
@@ -102,13 +105,14 @@ export function VariantsTable(props: VariantsTableProps) {
         </p>
       )}
       <div className="overflow-x-auto">
-        <table className="w-full min-w-[720px] border-collapse text-sm">
+        <table className="w-full min-w-[800px] border-collapse text-sm">
           <caption className="sr-only">SKUs</caption>
           <thead>
             <tr className="border-b border-border text-left text-xs text-ink-muted">
               {[
                 'SKU',
                 'Barcode',
+                'Shipping weight',
                 'Status',
                 'Current price',
                 'Scheduled price',
@@ -132,6 +136,9 @@ export function VariantsTable(props: VariantsTableProps) {
                 </th>
                 <td className="py-2 pr-3">{sku.barcode ?? '—'}</td>
                 <td className="py-2 pr-3">
+                  {sku.shippingWeightGrams == null ? '—' : `${sku.shippingWeightGrams} g`}
+                </td>
+                <td className="py-2 pr-3">
                   <Badge variant={sku.status === 'Active' ? 'success' : 'neutral'}>
                     {sku.status}
                   </Badge>
@@ -145,6 +152,14 @@ export function VariantsTable(props: VariantsTableProps) {
                 <td className="py-2 pr-3">{stockText(sku.stock)}</td>
                 <td className="py-2">
                   <div className="flex flex-wrap gap-2">
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      aria-label={`Edit ${sku.code}`}
+                      onClick={() => setEditing(sku)}
+                    >
+                      Edit
+                    </Button>
                     <Button
                       variant="secondary"
                       size="sm"
@@ -214,6 +229,14 @@ export function VariantsTable(props: VariantsTableProps) {
       )}
 
       <AddSkuDialog open={adding} onOpenChange={setAdding} onAdd={props.onAddSku} />
+      {editing && (
+        <EditSkuDialog
+          key={editing.skuId}
+          sku={editing}
+          onOpenChange={(open) => !open && setEditing(null)}
+          onSave={props.onUpdateSku}
+        />
+      )}
       <ConfirmDialog
         open={status !== null}
         onOpenChange={(open) => !open && setStatus(null)}
