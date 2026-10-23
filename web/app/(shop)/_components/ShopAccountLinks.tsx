@@ -18,30 +18,35 @@ export function ShopAccountLinks() {
   const query = searchParams.toString();
   const here = `${pathname}${query ? `?${query}` : ''}`;
 
-  if (isPending) return <span className="h-5 w-20" aria-hidden="true" />;
+  if (isPending) return <span className="h-11 w-20" aria-hidden="true" />;
   if (!session) {
     return (
       <Link
         href={`/sign-in?next=${encodeURIComponent(here)}`}
-        className="inline-flex items-center gap-1.5 text-sm font-semibold text-accent-ink no-underline"
+        className="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-accent-ink no-underline"
       >
-        <User size={16} aria-hidden="true" />
-        Sign in
+        <User size={18} aria-hidden="true" />
+        {/* Icon only on a phone (the pinned header stays one row); the name stays for screen readers. */}
+        <span className="max-sm:sr-only">Sign in</span>
       </Link>
     );
   }
   return (
-    <div className="flex items-center gap-4 text-sm font-semibold">
+    <div className="flex items-center gap-3 text-sm font-semibold sm:gap-4">
       <Link
         href="/portal/wishlist"
-        className="inline-flex items-center gap-1.5 text-ink no-underline"
+        className="inline-flex min-h-11 items-center gap-2 text-accent-ink no-underline"
       >
-        <Heart size={16} aria-hidden="true" />
-        Wishlist
+        <Heart size={18} aria-hidden="true" />
+        <span className="max-sm:sr-only">Wishlist</span>
       </Link>
-      <Link href="/portal/cats" className="inline-flex items-center gap-1.5 text-ink no-underline">
-        <User size={16} aria-hidden="true" />
-        {firstName(session.fullName) || 'Your account'}
+      {/* The account opens on My orders (owner, 2026-10-17). */}
+      <Link
+        href="/portal/orders"
+        className="inline-flex min-h-11 items-center gap-2 text-accent-ink no-underline"
+      >
+        <User size={18} aria-hidden="true" />
+        <span className="max-sm:sr-only">{firstName(session.fullName) || 'Your account'}</span>
       </Link>
     </div>
   );

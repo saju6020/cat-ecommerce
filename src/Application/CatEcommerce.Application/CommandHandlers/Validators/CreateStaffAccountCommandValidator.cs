@@ -21,5 +21,11 @@ public sealed class CreateStaffAccountCommandValidator : AbstractValidator<Creat
         RuleFor(x => x.EmailAddress).MaximumLength(EmailAddress.MaxLength);
 
         RuleFor(x => x.RoleIds).NotEmpty().WithErrorCode(BusinessViolationCodes.StaffRolesRequired);
+        When(x => x.InitialPassword is not null, () =>
+            RuleFor(x => x.InitialPassword)
+                .MinimumLength(PasswordRules.MinimumLength)
+                .WithErrorCode(BusinessViolationCodes.PasswordTooShort)
+                .WithMessage($"Password must be at least {PasswordRules.MinimumLength} characters.")
+                .MaximumLength(PasswordRules.MaximumLength));
     }
 }

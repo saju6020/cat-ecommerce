@@ -17,7 +17,7 @@ export function SearchBox() {
 /**
  * The form itself, with no dependency on the URL. `ShopHeader` uses it as the `Suspense` fallback
  * of `SearchBox` (S4), so a statically rendered page still ships a working search form in its HTML
- * without JavaScript.
+ * without JavaScript. Hearth: a 46px sunken pill with a teal pill Search button (ADR-FE-173).
  */
 export function SearchForm({ q = '', lang = '' }: { q?: string; lang?: string }) {
   return (
@@ -26,8 +26,9 @@ export function SearchForm({ q = '', lang = '' }: { q?: string; lang?: string })
       aria-label="Products"
       action="/shop/products"
       method="get"
-      className="flex w-full max-w-md items-center gap-2"
+      className="flex min-h-[46px] w-full items-center gap-2 rounded-pill bg-surface-sunken py-0.5 pl-[18px] pr-[5px] text-ink-muted md:max-w-xl"
     >
+      <Search size={18} aria-hidden="true" className="flex-none" />
       <label htmlFor="shop-search" className="sr-only">
         Search products
       </label>
@@ -38,12 +39,18 @@ export function SearchForm({ q = '', lang = '' }: { q?: string; lang?: string })
         name="q"
         defaultValue={q}
         maxLength={100}
-        placeholder="Search products"
-        className="min-w-0 flex-1 rounded-[var(--radius-sm)] border border-border-strong bg-surface px-3 py-2 text-sm text-ink"
+        placeholder="Search food, litter, brands, ingredients"
+        className="h-11 min-w-0 flex-1 bg-transparent text-[15px] text-ink placeholder:text-ink-muted focus-visible:outline-offset-4"
       />
       {lang && <input type="hidden" name="lang" value={lang} />}
-      <Button type="submit" variant="primary" aria-label="Search">
-        <Search size={16} aria-hidden="true" />
+      <Button
+        type="submit"
+        variant="pill"
+        size="pillMd"
+        className="min-h-9 px-4"
+        aria-label="Search"
+      >
+        Search
       </Button>
     </form>
   );

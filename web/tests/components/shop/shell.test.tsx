@@ -125,7 +125,7 @@ describe('OriginGrid — HO-SHP-002 §11.4, US-SHP-05 AC1', () => {
       <OriginGrid
         origins={[
           { code: 'TH', name: 'Thailand', sourcingNotes: notes, productCount: 9, isFeatured: true },
-          { code: 'JP', name: 'Japan', sourcingNotes: null, productCount: 1, isFeatured: false },
+          { code: 'BR', name: 'Brazil', sourcingNotes: null, productCount: 1, isFeatured: false },
         ]}
       />,
     );
@@ -137,7 +137,7 @@ describe('OriginGrid — HO-SHP-002 §11.4, US-SHP-05 AC1', () => {
     const excerpt = screen.getByText(/^Careful sourcing\./);
     expect(excerpt.textContent!.length).toBeLessThanOrEqual(161);
     expect(excerpt.innerHTML).not.toContain('**');
-    // Flags are decorative: alt="" for Thailand; Japan has no flag file, so it is the globe icon.
+    // Flags are decorative: alt="" for Thailand; Brazil has no flag file, so it is the globe icon.
     const flags = container.querySelectorAll('img');
     expect(flags).toHaveLength(1);
     expect(flags[0]).toHaveAttribute('alt', '');

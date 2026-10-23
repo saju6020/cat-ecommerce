@@ -33,7 +33,7 @@ export function FoodSuggestions({ data, lang }: { data: FoodRecommendations; lan
   return (
     <div className="flex flex-col gap-5">
       <header className="flex flex-col gap-1">
-        <h1 className="font-display text-2xl font-semibold text-ink">
+        <h1 className="m-0 font-display text-[clamp(1.75rem,3.5vw,2.5rem)] font-semibold text-ink">
           Food suggestions for {cat.name}
         </h1>
         {cat.lifeStage && (
@@ -45,7 +45,7 @@ export function FoodSuggestions({ data, lang }: { data: FoodRecommendations; lan
       </header>
 
       {data.hints.includes('AddDateOfBirth') && (
-        <p className="rounded-[var(--radius-sm)] bg-warm-soft p-3 text-sm text-warm-ink">
+        <p className="rounded-card bg-warm-soft p-4 text-sm text-warm-ink">
           Add {cat.name}&apos;s date of birth for suggestions that suit their age.{' '}
           <Link href={`/portal/cats/${cat.catId}`} className="font-semibold underline">
             Go to {cat.name}&apos;s profile
@@ -54,10 +54,7 @@ export function FoodSuggestions({ data, lang }: { data: FoodRecommendations; lan
       )}
 
       {data.excludedForAllergy.map((e) => (
-        <p
-          key={e.allergen}
-          className="rounded-[var(--radius-sm)] bg-surface-sunken p-3 text-sm text-ink"
-        >
+        <p key={e.allergen} className="rounded-card bg-surface-sunken p-4 text-sm text-ink">
           We left out {e.count} {e.count === 1 ? 'product' : 'products'} containing{' '}
           {e.allergen.toLowerCase()} (recorded allergy).
         </p>
@@ -70,7 +67,7 @@ export function FoodSuggestions({ data, lang }: { data: FoodRecommendations; lan
           description="Nothing in stock suits this cat at the moment. Try again later."
         />
       ) : (
-        <ul className="m-0 grid list-none grid-cols-1 gap-3 p-0 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="m-0 grid list-none grid-cols-1 gap-5 p-0 sm:grid-cols-2 lg:grid-cols-3">
           {data.items.map(({ item, reasons }) => (
             <li key={item.productId} className="flex flex-col gap-2">
               <ProductCard item={item} lang={lang} headingLevel="h2" />

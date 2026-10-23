@@ -8,8 +8,8 @@ import { cn } from '@/lib/utils';
  * second button.
  */
 const buttonVariants = cva(
-  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-[var(--radius-sm)] ' +
-    'text-sm font-semibold transition-colors disabled:pointer-events-none disabled:opacity-50 ' +
+  'inline-flex items-center justify-center gap-2 whitespace-nowrap ' +
+    'font-semibold transition-colors disabled:pointer-events-none disabled:opacity-50 ' +
     'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent',
   {
     variants: {
@@ -18,11 +18,18 @@ const buttonVariants = cva(
         secondary: 'border border-border-strong bg-surface text-ink hover:bg-surface-sunken',
         ghost: 'text-ink hover:bg-surface-sunken',
         destructive: 'bg-danger-ink text-white hover:opacity-90',
+        // Hearth customer pills (ADR-FE-173) - only meaningful inside [data-theme="customer"].
+        pill: 'bg-accent text-white hover:bg-accent-ink',
+        pillSecondary:
+          'border border-border-strong bg-surface text-accent-ink hover:bg-accent-tint',
       },
       size: {
-        sm: 'h-8 px-3',
-        md: 'h-10 px-4',
-        icon: 'h-8 w-8 p-0',
+        sm: 'h-8 rounded-[var(--radius-sm)] px-3 text-sm',
+        md: 'h-10 rounded-[var(--radius-sm)] px-4 text-sm',
+        icon: 'h-8 w-8 rounded-[var(--radius-sm)] p-0 text-sm',
+        // Customer pill sizes: 44px minimum; `pillLg` is the 54px main action.
+        pillMd: 'min-h-11 rounded-pill px-[22px] text-sm',
+        pillLg: 'min-h-[54px] rounded-pill px-8 text-base',
       },
     },
     defaultVariants: {

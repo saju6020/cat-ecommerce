@@ -10,7 +10,7 @@
 <helmet>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
 <style>
-:root{--surface-page:#fbf6ef;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:14px;--warm:#e8894a;--warm-ink:#8a3f14;--warm-soft:#fdeee2}
+:root{--surface-page:#fbf6ef;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:14px;--warm:#e8894a;--warm-ink:#8a3f14;--warm-soft:#fdeee2;--accent-tint:#e6f0ee;--radius-card:20px;--radius-band:32px;--radius-pill:999px}
 *{box-sizing:border-box}
 body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink);font-size:14px}
 a{color:var(--accent-ink)}
@@ -64,15 +64,127 @@ legend{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.0
 .pimg{aspect-ratio:4/3;border-radius:8px;display:flex;align-items:center;justify-content:center}
 .pimg svg{height:62%}
 .c1{background:#e6efe9;color:#2f6f5f}.c2{background:#f3e9dc;color:#a0622d}.c6{background:#ece6f2;color:#65498a}
+/* Hearth (owner-approved 2026-10-16) */
+a:hover{color:var(--accent)}
+.brand{display:inline-flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:600;font-size:24px;color:var(--accent-ink);text-decoration:none}
+.logo-disc{width:40px;height:40px;border-radius:var(--radius-pill);background:var(--warm-soft);color:var(--warm-ink);display:grid;place-items:center;flex:none}
+.h1{font-size:34px;line-height:1.1}
+
+.topnav{background:#fff;border-bottom:1px solid var(--border)}
+.topnav .bar{gap:24px;padding:16px 32px}
+.search{max-width:none;align-items:center;gap:8px;background:var(--surface-sunken);border-radius:var(--radius-pill);padding:0 5px 0 20px;min-height:46px}
+.search input{border:0;background:transparent;border-radius:var(--radius-pill);padding:0;height:44px;font-size:15px;color:var(--ink)}
+.search input:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+.search button{border:0;border-radius:var(--radius-pill);min-height:36px;padding:0 16px}
+.acct{gap:16px;font-size:14px}
+.acct a{min-height:44px}
+.acct a:has(.count){background:var(--warm-soft);color:var(--warm-ink);font-weight:700;padding:0 16px;border-radius:var(--radius-pill)}
+.count{min-width:22px;height:22px;padding:0 6px;display:inline-grid;place-items:center;font-size:12px;font-weight:700;background:var(--accent);color:#fff}
+.catnav{gap:10px;padding:0 32px 14px;border-top:0;flex-wrap:wrap}
+.catnav a{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border:1px solid var(--border);border-radius:var(--radius-pill);background:#fff;color:var(--ink);font-size:13.5px}
+.catnav a::before{content:"";width:8px;height:8px;border-radius:var(--radius-pill);background:var(--warm);flex:none}
+.catnav a.on{border:1px solid var(--accent);background:var(--accent-tint);color:var(--accent-ink)}
+.lang select{border-radius:var(--radius-pill);min-height:44px;padding:0 14px}
+
+.btn,.btn2,.btn-sm,.btn-danger{border-radius:var(--radius-pill);min-height:44px;padding-left:20px;padding-right:20px;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;cursor:pointer}
+.btn{background:var(--accent);color:#fff;border:0}
+.btn2,.btn-sm{background:#fff;border:1px solid var(--border-strong);color:var(--accent-ink)}
+
+.c1{background:var(--accent-tint);color:var(--accent)}
+.c2{background:var(--warm-soft);color:var(--warm)}
+.c3{background:var(--surface-sunken);color:var(--ink-faint)}
+.c4{background:var(--warm-soft);color:var(--warm-ink)}
+.c5{background:var(--surface-sunken);color:#a39a87}
+.c6{background:var(--accent-tint);color:var(--accent-ink)}
+
+.card{position:relative;border-radius:var(--radius-card);padding:0 0 18px;gap:6px;overflow:hidden}
+.card > :not(.pimg){margin-left:18px;margin-right:18px}
+.card .pimg{border-radius:0;margin-bottom:12px}
+.card h3{font-size:16px;font-weight:600;line-height:1.35;margin:0}
+.card .eyebrow{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-muted)}
+.price{font-size:20px;font-weight:700}
+.tax{white-space:nowrap}
+.avail.in,.avail{color:var(--accent)}
+.avail.out{color:var(--danger-ink)}
+.stars{color:var(--warm-ink)}
+.tag.kit{position:absolute;top:14px;left:14px;margin:0 !important;background:#fff;color:var(--warm-ink);padding:6px 12px;font-size:12px;font-weight:700}
+
+.filters{border-radius:var(--radius-card);padding:8px 20px}
+.opt{min-height:32px}
+.narrow,.pricebox input{border-radius:var(--radius-pill);min-height:44px;padding:0 14px}
+.btn-sm{margin-top:10px;font-size:13px}
+.sortsel select{border-radius:var(--radius-pill);min-height:44px;padding:0 14px}
+.chips{gap:10px}
+.chip{min-height:40px;padding:0 6px 0 16px;background:var(--accent-tint);border:1px solid rgba(21,96,90,.22);color:var(--accent-ink)}
+.chip button{width:32px;height:32px;border-radius:var(--radius-pill);display:inline-grid;place-items:center;background:#fff;color:var(--accent-ink)}
+.chip.lock{background:var(--surface-sunken);padding-right:16px}
+.pager a,.pager span{border-radius:var(--radius-pill);min-width:44px;min-height:44px;display:inline-flex;align-items:center;justify-content:center;padding:0 16px}
+.crumbs{font-size:13px}
+
+.wrap{padding:24px 32px 48px}
+.hero{background:var(--warm-soft);border:0;border-radius:var(--radius-band);padding:36px 44px;gap:28px;align-items:center}
+.hero h1{font-size:44px;line-height:1.05;margin:0 0 12px}
+.hero p{font-size:16px}
+.bigflag{width:96px;height:64px;border-radius:10px;box-shadow:0 0 0 6px #fff}
+.layout{gap:32px;margin-top:28px}
+.fixed{min-height:48px}
+.grid3{gap:18px}
+.pimg{overflow:hidden}
+/* Hearth layout (owner decision 2026-10-16): shop screens follow the approved Hearth preview layout */
+.topnav .bar{max-width:1224px;margin:0 auto;padding:16px 32px}
+.topnav > .catnav{max-width:1224px;margin:0 auto;padding:0 32px 14px}
+.acct a:has(.count){order:3}
+.acct a:has(.count) .ic{width:18px;height:18px}
+.wrap{max-width:1224px}
+.foot{padding:24px max(32px,calc((100% - 1160px) / 2))}
+.btn{font-weight:600}
+.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+/* product card, exactly as the preview */
+.card.pcard{align-items:stretch;position:relative;background:#fff;border:1px solid var(--border);border-radius:var(--radius-card);overflow:hidden;display:flex;flex-direction:column;padding:0;gap:0}
+.card.pcard > *{margin:0}
+.pcard .pimg{position:relative;width:auto;height:220px;aspect-ratio:auto;border-radius:0;margin:0;display:grid;place-items:center}
+.pcard .pimg > svg{width:120px;height:150px}
+.pcard .pimg.ph{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;font-size:13px;color:var(--ink-muted);background:var(--surface-sunken)}
+.pcard .pimg.ph > svg{width:48px;height:48px}
+.pcard .badge{position:absolute;top:14px;left:14px;display:inline-flex;align-items:center;gap:6px;background:#fff;color:var(--warm-ink);border-radius:var(--radius-pill);padding:6px 12px;font-size:12px;font-weight:700;max-width:calc(100% - 84px)}
+.pcard .badge.rx{color:var(--warning-ink)}
+.pcard .badge .ic{width:13px;height:13px}
+.wish{position:absolute;top:10px;right:10px;width:44px;height:44px;border-radius:var(--radius-pill);border:0;background:#fff;color:var(--warm-ink);display:grid;place-items:center;cursor:pointer;padding:0}
+.wish svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.wish[aria-pressed="true"] svg{fill:currentColor}
+.wish:focus-visible,.add:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.pcard .pbody{padding:18px 18px 20px;display:flex;flex-direction:column;gap:8px;flex:1}
+.pcard .eyebrow{display:flex;align-items:center;gap:6px;font:600 11px/1.2 var(--font-sans);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-muted)}
+.pcard .eyebrow .flag{width:16px;height:11px}
+.pcard .eyebrow .ic{width:13px;height:13px}
+.pcard h3{margin:0;font-size:16px;line-height:1.35;font-weight:600}
+.pcard h3 a{color:var(--ink);text-decoration:none}
+.pcard h3 a:hover{color:var(--accent);text-decoration:underline}
+.pcard .meta{font-size:13px;color:var(--ink-muted);display:flex;align-items:center;gap:6px}
+.pcard .avail{font-size:13px;font-weight:400;display:inline-flex;align-items:center;gap:6px}
+.pcard .avail .ic{width:14px;height:14px;stroke-width:2.4}
+.pcard .avail.in{color:var(--accent)}
+.pcard .avail.out{color:var(--danger-ink)}
+.pcard .avail.gone{color:var(--ink-muted)}
+.pcard .buy{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:6px}
+.pcard .price{width:auto;text-align:left;display:flex;flex-direction:column;gap:2px;font-size:20px;font-weight:700;line-height:1.15}
+.pcard .price small{font-size:13px;font-weight:600;color:var(--ink-muted)}
+.pcard .price .tax{font-size:12px;font-weight:400;color:var(--ink-muted)}
+.add{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:0 16px;border-radius:var(--radius-pill);border:0;background:var(--accent);color:#fff;font:600 14px/1 var(--font-sans);text-decoration:none;cursor:pointer;flex:none;white-space:nowrap}
+.add:hover{background:var(--accent-ink);color:#fff}
+.add.ghost{background:#fff;color:var(--accent-ink);border:1px solid var(--border-strong)}
+.add.ghost:hover{background:var(--accent-tint);color:var(--accent-ink)}
+/* end Hearth layout */
 </style>
 </helmet>
-<div style="width:1280px;height:1060px;background:var(--surface-page)">
+<div style="width:1280px;min-height:1350px;background:var(--surface-page)">
   <header class="topnav">
     <div class="bar">
-      <a class="brand" href="ShopHome.dc.html">PurrCare</a>
+      <a class="brand" href="ShopHome.dc.html"><span class="logo-disc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3l2.2 4.2M17 3l-2.2 4.2"/><path d="M5 13a7 6 0 0 0 14 0c0-3.3-3.1-6-7-6s-7 2.7-7 6z"/><path d="M9.5 12.5h.01M14.5 12.5h.01"/><path d="M10.8 15.2l1.2.8 1.2-.8"/></svg></span>PurrCare Shop</a>
       <form class="search" role="search" aria-label="Search products"><input aria-label="Search products" placeholder="Search food, litter, brands, ingredients"><button type="submit"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>Search</button></form>
       <div class="acct">
-        <a href="#"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/><path d="M2 3h3l2.5 12h12L22 7H6"/></svg>Cart <span class="count">0</span></a>
+        <a href="../orders/Cart.dc.html" aria-label="Cart, 0 items"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1.4 10.2a2 2 0 0 1-2 1.8H8.4a2 2 0 0 1-2-1.8L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>Cart <span class="count" aria-hidden="true">0</span></a>
         <a href="#"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg>Sign in</a>
       </div>
     </div>
@@ -144,32 +256,35 @@ legend{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.0
           <a href="#" style="font-size:12.5px;font-weight:600">Clear filters</a>
         </div>
         <div class="grid3">
-          <article class="card">
-            <div class="pimg c1"><svg viewBox="0 0 80 100" aria-hidden="true"><path d="M18 12h44l6 12v64a4 4 0 0 1-4 4H16a4 4 0 0 1-4-4V24Z" fill="currentColor"/><rect x="22" y="40" width="36" height="22" rx="3" fill="#fff" opacity=".85"/></svg></div>
-            <h3><a href="ProductPage.dc.html">Siam Harvest Kitten Salmon</a></h3>
-            <div class="meta">Siam Harvest</div>
-            <div class="meta"><svg class="flag" viewBox="0 0 9 6" aria-hidden="true"><rect width="9" height="6" fill="#A51931"/><rect y="1" width="9" height="4" fill="#F4F5F8"/><rect y="2" width="9" height="2" fill="#2D2A4A"/></svg>Thailand</div>
-            <div class="price">From ৳1,200.00 <span class="tax">+ VAT</span></div>
-            <div class="meta"><span class="stars" aria-hidden="true">★★★★½</span>4.5 out of 5 (23 reviews)</div>
-            <div class="avail"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>In stock</div>
+          <article class="card pcard">
+            <div class="pimg c1"><button class="wish" type="button" aria-pressed="false" aria-label="Save Siam Harvest Kitten Salmon to wishlist"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><svg viewBox="0 0 120 150" aria-hidden="true"><path d="M22 18 Q60 4 98 18 L104 136 Q60 148 16 136 Z" fill="currentColor"/><rect x="30" y="54" width="60" height="44" rx="8" fill="#fff" opacity=".92"/><path d="M42 76h36M42 86h22" stroke="currentColor" stroke-width="5" stroke-linecap="round"/></svg></div>
+            <div class="pbody">
+              <span class="eyebrow"><svg class="flag" viewBox="0 0 9 6" aria-hidden="true"><rect width="9" height="6" fill="#A51931"/><rect y="1" width="9" height="4" fill="#F4F5F8"/><rect y="2" width="9" height="2" fill="#2D2A4A"/></svg>Siam Harvest · Thailand</span>
+              <h3><a href="ProductPage.dc.html">Siam Harvest Kitten Salmon</a></h3>
+              <div class="meta"><span class="stars" aria-hidden="true">★★★★½</span>4.5 out of 5 (23 reviews)</div>
+              <span class="avail in"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>In stock</span>
+              <div class="buy"><div class="price"><span><small>From</small> ৳1,200.00</span><span class="tax">+ VAT</span></div><button class="add" type="button" aria-haspopup="dialog" aria-label="Add Siam Harvest Kitten Salmon: choose a size">Add</button></div>
+            </div>
           </article>
-          <article class="card">
-            <div class="pimg c2"><svg viewBox="0 0 80 100" aria-hidden="true"><rect x="8" y="30" width="64" height="52" rx="6" fill="currentColor"/><rect x="18" y="44" width="44" height="18" rx="3" fill="#fff" opacity=".85"/></svg></div>
-            <h3><a href="#">Siam Harvest Kitten Tuna Mousse, 12 × 70 g</a></h3>
-            <div class="meta">Siam Harvest</div>
-            <div class="meta"><svg class="flag" viewBox="0 0 9 6" aria-hidden="true"><rect width="9" height="6" fill="#A51931"/><rect y="1" width="9" height="4" fill="#F4F5F8"/><rect y="2" width="9" height="2" fill="#2D2A4A"/></svg>Thailand</div>
-            <div class="price">৳1,320.00 <span class="tax">+ VAT</span></div>
-            <div class="meta"><span class="stars" aria-hidden="true">★★★★</span>4.2 out of 5 (6 reviews)</div>
-            <div class="avail"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>In stock</div>
+          <article class="card pcard">
+            <div class="pimg c2"><button class="wish" type="button" aria-pressed="false" aria-label="Save Siam Harvest Kitten Tuna Mousse, 12 × 70 g to wishlist"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><svg viewBox="0 0 80 100" aria-hidden="true"><rect x="8" y="30" width="64" height="52" rx="6" fill="currentColor"/><rect x="18" y="44" width="44" height="18" rx="3" fill="#fff" opacity=".85"/></svg></div>
+            <div class="pbody">
+              <span class="eyebrow"><svg class="flag" viewBox="0 0 9 6" aria-hidden="true"><rect width="9" height="6" fill="#A51931"/><rect y="1" width="9" height="4" fill="#F4F5F8"/><rect y="2" width="9" height="2" fill="#2D2A4A"/></svg>Siam Harvest · Thailand</span>
+              <h3><a href="#">Siam Harvest Kitten Tuna Mousse, 12 × 70 g</a></h3>
+              <div class="meta"><span class="stars" aria-hidden="true">★★★★</span>4.2 out of 5 (6 reviews)</div>
+              <span class="avail in"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>In stock</span>
+              <div class="buy"><div class="price"><span>৳1,320.00</span><span class="tax">+ VAT</span></div><button class="add" type="button" aria-label="Add Siam Harvest Kitten Tuna Mousse, 12 × 70 g to cart">Add</button></div>
+            </div>
           </article>
-          <article class="card">
-            <div class="pimg c6"><svg viewBox="0 0 80 100" aria-hidden="true"><path d="M18 12h44l6 12v64a4 4 0 0 1-4 4H16a4 4 0 0 1-4-4V24Z" fill="currentColor"/><rect x="22" y="40" width="36" height="22" rx="3" fill="#fff" opacity=".85"/></svg></div>
-            <h3><a href="#">Lotus Bay All Life Stages Tuna</a></h3>
-            <div class="meta">Lotus Bay</div>
-            <div class="meta"><svg class="flag" viewBox="0 0 9 6" aria-hidden="true"><rect width="9" height="6" fill="#A51931"/><rect y="1" width="9" height="4" fill="#F4F5F8"/><rect y="2" width="9" height="2" fill="#2D2A4A"/></svg>Thailand</div>
-            <div class="price">৳980.00 <span class="tax">+ VAT</span></div>
-            <div class="meta">No reviews yet</div>
-            <div class="avail"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>In stock</div>
+          <article class="card pcard">
+            <div class="pimg c6"><button class="wish" type="button" aria-pressed="false" aria-label="Save Lotus Bay All Life Stages Tuna to wishlist"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><svg viewBox="0 0 120 150" aria-hidden="true"><path d="M22 18 Q60 4 98 18 L104 136 Q60 148 16 136 Z" fill="currentColor"/><rect x="30" y="54" width="60" height="44" rx="8" fill="#fff" opacity=".92"/><path d="M42 76h36M42 86h22" stroke="currentColor" stroke-width="5" stroke-linecap="round"/></svg></div>
+            <div class="pbody">
+              <span class="eyebrow"><svg class="flag" viewBox="0 0 9 6" aria-hidden="true"><rect width="9" height="6" fill="#A51931"/><rect y="1" width="9" height="4" fill="#F4F5F8"/><rect y="2" width="9" height="2" fill="#2D2A4A"/></svg>Lotus Bay · Thailand</span>
+              <h3><a href="#">Lotus Bay All Life Stages Tuna</a></h3>
+              <div class="meta">No reviews yet</div>
+              <span class="avail in"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>In stock</span>
+              <div class="buy"><div class="price"><span>৳980.00</span><span class="tax">+ VAT</span></div><button class="add" type="button" aria-label="Add Lotus Bay All Life Stages Tuna to cart">Add</button></div>
+            </div>
           </article>
         </div>
         <p style="font-size:12px;color:var(--ink-faint);margin-top:14px">An “All life stages” food matches the Kitten filter — the server decides, the page only renders what comes back.</p>
@@ -178,7 +293,7 @@ legend{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.0
   </main>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1060}}'>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1350}}'>
 class Component extends DCLogic { renderVals(){ return {}; } }
 </script>
 </body>

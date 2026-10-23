@@ -1,13 +1,18 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { TriangleAlert } from 'lucide-react';
+import { IconTile } from '@/components/hearth/IconTile';
 import type { CheckoutChange, CheckoutChangeKind } from '@/lib/api/checkout';
 
 const GROUPS: Array<{ kinds: CheckoutChangeKind[]; heading: string }> = [
   { kinds: ['PriceIncreased', 'PriceDecreased'], heading: 'Price changes' },
   { kinds: ['QuantityReduced'], heading: 'Quantity changes' },
   { kinds: ['NowUnavailable'], heading: 'No longer available' },
-  { kinds: ['PrescriptionAuthorisationExpired', 'PrescriptionCatRequired'], heading: 'Prescription food' },
+  {
+    kinds: ['PrescriptionAuthorisationExpired', 'PrescriptionCatRequired'],
+    heading: 'Prescription food',
+  },
 ];
 
 /**
@@ -47,56 +52,73 @@ export function ChangesPanel({
     }
   }, [fingerprint, acknowledgedFingerprint, onAcknowledge]);
 
-  if (changes.length === 0) return <p role="status" aria-live="polite" className="sr-only">{announcement}</p>;
+  if (changes.length === 0)
+    return (
+      <p role="status" aria-live="polite" className="sr-only">
+        {announcement}
+      </p>
+    );
 
   const acknowledged = acknowledgedFingerprint === fingerprint;
   return (
     <section
       role="region"
       aria-labelledby="changes-heading"
-      className="flex flex-col gap-3 rounded-[var(--radius-md)] border border-warning-ink/30 bg-warning-bg p-4 text-warning-ink"
+      className="flex gap-3.5 rounded-card border border-warning-ink/40 bg-surface p-5 ring-1 ring-warning-ink/15 sm:px-6"
     >
-      <h3 id="changes-heading" className="font-display text-base font-semibold">
-        What changed since you added these items
-      </h3>
-      <p role="status" aria-live="polite" className="text-sm font-semibold">
-        {announcement}
-      </p>
-      {GROUPS.map((group) => {
-        const inGroup = changes.filter((change) => group.kinds.includes(change.kind));
-        if (inGroup.length === 0) return null;
-        return (
-          <div key={group.heading}>
-            <h4 className="text-sm font-bold">{group.heading}</h4>
-            <ol className="m-0 mt-1 list-decimal pl-5 text-sm">
-              {inGroup.map((change) => (
-                <li key={`${change.kind}-${change.lineRef}`} className="[overflow-wrap:anywhere]">
-                  {change.message}
-                  {(change.kind === 'PrescriptionAuthorisationExpired') && (
-                    <>
-                      {' '}
-                      <a href={bookHref} className="font-semibold underline">
-                        Book a consultation
-                      </a>
-                    </>
-                  )}
-                </li>
-              ))}
-            </ol>
-          </div>
-        );
-      })}
-      <label className="flex items-center gap-2 text-sm font-semibold">
-        <input
-          type="checkbox"
-          className="h-4 w-4 accent-[var(--accent)]"
-          checked={acknowledged}
-          disabled={settling}
-          onChange={(event) => onAcknowledge(event.target.checked ? fingerprint : null)}
-        />
-        I&rsquo;ve reviewed these changes.
-        {settling && <span className="font-normal"> (updating…)</span>}
-      </label>
+      <IconTile shape="tile" size="md" className="bg-warning-bg text-warning-ink">
+        <TriangleAlert size={20} aria-hidden="true" />
+      </IconTile>
+      <div className="flex min-w-0 flex-1 flex-col gap-2">
+        <h3 id="changes-heading" className="m-0 mt-2.5 text-base font-bold text-ink">
+          What changed since you added these items
+        </h3>
+        <p role="status" aria-live="polite" className="m-0 text-sm font-semibold text-warning-ink">
+          {announcement}
+        </p>
+        {GROUPS.map((group) => {
+          const inGroup = changes.filter((change) => group.kinds.includes(change.kind));
+          if (inGroup.length === 0) return null;
+          return (
+            <div key={group.heading}>
+              <h4 className="m-0 mb-1 text-[11px] font-bold uppercase tracking-[0.06em] text-ink-muted">
+                {group.heading}
+              </h4>
+              <ul className="m-0 list-disc pl-5 text-sm text-ink">
+                {inGroup.map((change) => (
+                  <li
+                    key={`${change.kind}-${change.lineRef}`}
+                    className="mb-1.5 [overflow-wrap:anywhere]"
+                  >
+                    {change.message}
+                    {change.kind === 'PrescriptionAuthorisationExpired' && (
+                      <>
+                        {' '}
+                        <a href={bookHref} className="font-semibold text-accent-ink underline">
+                          Book a consultation
+                        </a>
+                      </>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })}
+        <label className="mt-1 flex min-h-12 cursor-pointer items-center gap-3 rounded-2xl border border-border-strong bg-surface px-4 py-2.5 text-sm font-semibold">
+          <input
+            type="checkbox"
+            className="size-5 flex-none accent-[var(--accent)]"
+            checked={acknowledged}
+            disabled={settling}
+            onChange={(event) => onAcknowledge(event.target.checked ? fingerprint : null)}
+          />
+          <span>
+            I&rsquo;ve reviewed these changes.
+            {settling && <span className="font-normal"> (updating…)</span>}
+          </span>
+        </label>
+      </div>
     </section>
   );
 }

@@ -54,11 +54,16 @@ export interface CatalogueItem {
   availability: Availability;
   rating: RatingSummary;
   primaryImage: ProductImageRef | null;
+  /** One card per size (owner, 2026-10-18): the size this card is, and its label ("400 g"). */
+  skuId?: string | null;
+  sizeLabel?: string | null;
 }
 
 export interface CatalogueResult extends PagedResult<CatalogueItem> {
   appliedFilters: Record<string, string | null>;
   suggestions: { didYouMean: string[]; popular: CatalogueItem[] } | null;
+  /** How many cards (sizes) the filtered list has; `totalCount` stays the product count paging uses. */
+  totalItemCount?: number | null;
 }
 
 export interface CatalogueFilters {
@@ -230,8 +235,11 @@ export async function getProductDetailServer(slug: string, lang?: string): Promi
       validLang = undefined;
     }
   }
+  // Not cached: the detail carries signed photo URLs that expire (files.signedUrlMinutes, 5 by default),
+  // and a cached copy is served stale once after it expires — the photo then failed on that first visit.
   return getPublic<ProductDetail>(
     withQuery(`/api/shop/products/${encodeURIComponent(slug)}`, langQuery(validLang)),
+    NOT_CACHED,
   );
 }
 

@@ -10,5 +10,7 @@ export function ProductRecommendations({ slug, lang }: { slug: string; lang: str
   const { data, isPending } = useRecommendations(slug, lang);
   if (isPending) return <LoadingState rows={2} label="Loading suggestions…" />;
   if (!data) return null;
-  return <RecommendationBlocks recommendations={data} lang={lang || undefined} />;
+  return (
+    <RecommendationBlocks recommendations={data} lang={lang || undefined} hideFrequentlyBought />
+  );
 }

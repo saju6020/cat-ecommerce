@@ -310,6 +310,10 @@ export function computeQuote(lines: QuoteLineInput[], choices: QuoteChoicesInput
           .map((s) => ({
             level: s.serviceLevel,
             charge: money(deliveryChargeFor(zone!, s.serviceLevel, goodsValue)),
+            // The server's free-delivery threshold and what is still needed (never below zero); null with no threshold.
+            freeOver: s.freeOverCents === null ? null : money(s.freeOverCents),
+            amountToFreeDelivery:
+              s.freeOverCents === null ? null : money(Math.max(0, s.freeOverCents - goodsValue)),
             leadTimeDays: s.leadTimeDays,
             slots: slotsFor(zone!, s.serviceLevel),
           }));

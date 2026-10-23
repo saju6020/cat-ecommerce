@@ -33,11 +33,7 @@ test.describe('Online booking — US-CLN-02, 03', () => {
     await expect(page.getByAltText(/security check/i)).toBeVisible();
     await page.getByLabel(/security check/i).fill('ABCDE');
     await page.getByRole('button', { name: 'Create account' }).click();
-    await expect(page.getByRole('heading', { name: 'Your account is ready' })).toBeVisible();
-    await page.getByRole('link', { name: 'Sign in' }).click();
-    await page.getByLabel(/mobile number or email/i).fill('01755500111');
-    await page.getByLabel(/^password/i).fill('a-genuinely-long-password');
-    await page.getByRole('button', { name: 'Sign in', exact: true }).click();
+    // Owner, 2026-10-19: a new customer is signed in straight after registering (no second sign-in).
     await expect(page).toHaveURL(/\/portal\//);
 
     // A vaccination reminder link: /book?category=Vaccination.

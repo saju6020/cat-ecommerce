@@ -28,7 +28,9 @@ async function addFromProduct(page: import('@playwright/test').Page, path: strin
 async function startCheckoutDelivery(page: import('@playwright/test').Page) {
   await addAddress(page);
   await page.goto('/checkout');
-  await expect(page.getByRole('heading', { level: 1, name: 'Checkout' })).toBeVisible();
+  await expect(
+    page.getByRole('heading', { level: 1, name: /How should we get it to you/ }),
+  ).toBeVisible();
 }
 
 test.describe('cart (US-ORD-01)', () => {
@@ -42,17 +44,23 @@ test.describe('cart (US-ORD-01)', () => {
     await signInAsCustomer(page);
     await page.goto('/cart');
     await expect(page.getByRole('heading', { level: 1, name: 'Your cart' })).toBeVisible();
-    await expect(page.getByText(/We.ve added the items from your cart before you signed in./)).toBeVisible();
+    await expect(
+      page.getByText(/We.ve added the items from your cart before you signed in./),
+    ).toBeVisible();
     const items = page.getByRole('region', { name: 'Items in your cart' }).getByRole('listitem');
     await expect(items).toHaveCount(2);
 
     // Adding the same item again raises its quantity; it does not create a second line.
     await page.goto(kitten);
     await page.getByRole('button', { name: 'Add to cart' }).click();
-    await expect(page.getByRole('status').filter({ hasText: /Added 1 × Royal Canin Kitten/ })).toBeVisible();
+    await expect(
+      page.getByRole('status').filter({ hasText: /Added 1 × Royal Canin Kitten/ }),
+    ).toBeVisible();
     await page.goto('/cart');
     await expect(items).toHaveCount(2);
-    await expect(page.getByRole('spinbutton', { name: /Quantity of Royal Canin Kitten/ })).toHaveValue('2');
+    await expect(
+      page.getByRole('spinbutton', { name: /Quantity of Royal Canin Kitten/ }),
+    ).toHaveValue('2');
   });
 
   test('cart: remove offers an Undo, and Checkout while signed out goes to sign-in with ?next', async ({
@@ -61,11 +69,18 @@ test.describe('cart (US-ORD-01)', () => {
     await resetMock(page);
     await addFromProduct(page, kitten, /Added 1 × Royal Canin Kitten/);
     await page.goto('/cart');
-    await page.getByRole('button', { name: /Remove Royal Canin Kitten/ }).first().click();
-    await expect(page.getByText(/Removed Royal Canin Kitten .* from your cart./).first()).toBeVisible();
+    await page
+      .getByRole('button', { name: /Remove Royal Canin Kitten/ })
+      .first()
+      .click();
+    await expect(
+      page.getByText(/Removed Royal Canin Kitten .* from your cart./).first(),
+    ).toBeVisible();
     await page.getByRole('button', { name: 'Undo' }).click();
-    await expect(page.getByRole('spinbutton', { name: /Quantity of Royal Canin Kitten/ })).toHaveValue('1');
-    await page.getByRole('link', { name: 'Checkout' }).click();
+    await expect(
+      page.getByRole('spinbutton', { name: /Quantity of Royal Canin Kitten/ }),
+    ).toHaveValue('1');
+    await page.getByRole('link', { name: /Sign in to check out/ }).click();
     await expect(page).toHaveURL(/\/sign-in\?next=%2Fcheckout/);
   });
 });
@@ -91,11 +106,18 @@ test.describe('checkout (US-ORD-02 to US-ORD-08)', () => {
     await page.getByRole('button', { name: 'Continue' }).click();
     // Step 4: review — the six rows, then place with a double click.
     const summary = page.getByRole('region', { name: 'Order summary' });
-    for (const row of ['Items subtotal', 'Item discounts', 'Order discount', 'Delivery (Standard)', 'Tax', 'Total']) {
+    for (const row of [
+      'Items subtotal',
+      'Item discounts',
+      'Order discount',
+      'Delivery (Standard)',
+      'Tax',
+      'Total',
+    ]) {
       await expect(summary.getByText(row, { exact: true })).toBeVisible();
     }
     await page.getByRole('button', { name: 'Place order' }).dblclick();
-    await expect(page.getByRole('heading', { level: 1, name: /Thank you — order ORD-2026-/ })).toBeVisible();
+    await expect(page.getByRole('heading', { level: 1, name: /^Thank you/ })).toBeVisible();
     await expect(page.getByText('Pay the courier in cash when your order arrives.')).toBeVisible();
 
     await page.goto('/portal/orders');
@@ -104,7 +126,9 @@ test.describe('checkout (US-ORD-02 to US-ORD-08)', () => {
     await expect(page.getByRole('link', { name: /ORD-2026-000201/ })).toHaveCount(0);
   });
 
-  test('E-B2: a price change is listed and must be acknowledged before placing', async ({ page }) => {
+  test('E-B2: a price change is listed and must be acknowledged before placing', async ({
+    page,
+  }) => {
     await resetMock(page);
     await signInAsCustomer(page);
     await addFromProduct(page, kitten, /Added 1 × Royal Canin Kitten/);
@@ -123,7 +147,7 @@ test.describe('checkout (US-ORD-02 to US-ORD-08)', () => {
     await panel.getByLabel(/I.ve reviewed these changes./).click();
     await expect(place).toBeEnabled();
     await place.click();
-    await expect(page.getByRole('heading', { level: 1, name: /Thank you — order/ })).toBeVisible();
+    await expect(page.getByRole('heading', { level: 1, name: /^Thank you/ })).toBeVisible();
   });
 
   test('E-B3: an address outside every zone offers collection instead, and pickup completes', async ({
@@ -134,7 +158,9 @@ test.describe('checkout (US-ORD-02 to US-ORD-08)', () => {
     await addFromProduct(page, kitten, /Added 1 × Royal Canin Kitten/);
     await addAddress(page, { label: 'Gazipur home', district: 'Gazipur', postalCode: '1700' });
     await page.goto('/checkout');
-    await expect(page.getByText(/We don.t deliver to Gazipur yet. You can collect your order instead./)).toBeVisible();
+    await expect(
+      page.getByText(/We don.t deliver to Gazipur yet. You can collect your order instead./),
+    ).toBeVisible();
     await expect(page.getByRole('radio', { name: /Collect from a branch/ })).toBeChecked();
     await expect(page.getByRole('radio', { name: /PurrCare Dhanmondi/ })).toBeChecked();
     await page.getByRole('button', { name: 'Continue' }).click();
@@ -143,7 +169,7 @@ test.describe('checkout (US-ORD-02 to US-ORD-08)', () => {
     await expect(page.getByRole('radio', { name: /Cash on delivery/ })).toBeDisabled();
     await page.getByRole('button', { name: 'Continue' }).click();
     await page.getByRole('button', { name: 'Place order' }).click();
-    await expect(page.getByRole('heading', { level: 1, name: /Thank you — order/ })).toBeVisible();
+    await expect(page.getByRole('heading', { level: 1, name: /^Thank you/ })).toBeVisible();
     await expect(page.getByText(/Collect and pay at PurrCare Dhanmondi\./)).toBeVisible();
   });
 
@@ -163,7 +189,9 @@ test.describe('checkout (US-ORD-02 to US-ORD-08)', () => {
     await page.getByRole('button', { name: 'Continue' }).click();
     const cod = page.getByRole('radio', { name: /Cash on delivery/ });
     await expect(cod).toBeDisabled();
-    await expect(page.getByText(/Cash on delivery is available for orders up to BDT 5,000\.00/)).toBeVisible();
+    await expect(
+      page.getByText(/Cash on delivery is available for orders up to BDT 5,000\.00/),
+    ).toBeVisible();
     await page.getByRole('radio', { name: /Bank transfer/ }).click();
     await page.getByRole('button', { name: 'Continue' }).click();
     await page.getByRole('button', { name: 'Place order' }).click();
@@ -229,7 +257,7 @@ test.describe('checkout (US-ORD-02 to US-ORD-08)', () => {
     await page.getByRole('button', { name: 'Continue' }).click();
     await expect(page.getByText('For Whiskers').first()).toBeVisible();
     await page.getByRole('button', { name: 'Place order' }).click();
-    await expect(page.getByRole('heading', { level: 1, name: /Thank you — order/ })).toBeVisible();
+    await expect(page.getByRole('heading', { level: 1, name: /^Thank you/ })).toBeVisible();
 
     // The authorisation lapses: the next attempt leaves the line out and says why.
     await control(page, 'lapseAuthorisation', ids.catAllergy);
@@ -261,12 +289,16 @@ test.describe('bank transfer expiry and cancel (US-ORD-12, US-ORD-19)', () => {
     await page.waitForTimeout(3500);
     await page.getByRole('link', { name: 'View your order' }).click();
     await expect(page.getByRole('heading', { name: 'This order has expired' })).toBeVisible();
-    await expect(page.getByText(/We couldn.t confirm your transfer in time, so the items were released./)).toBeVisible();
+    await expect(
+      page.getByText(/We couldn.t confirm your transfer in time, so the items were released./),
+    ).toBeVisible();
     await page.getByRole('button', { name: 'Order again' }).click();
     await expect(page.getByText(/1 item was added to your cart\./)).toBeVisible();
     await page.getByRole('link', { name: 'Go to your cart' }).click();
     await expect(page.getByRole('heading', { level: 1, name: 'Your cart' })).toBeVisible();
-    await expect(page.getByRole('spinbutton', { name: /Quantity of Royal Canin Kitten/ })).toBeVisible();
+    await expect(
+      page.getByRole('spinbutton', { name: /Quantity of Royal Canin Kitten/ }),
+    ).toBeVisible();
   });
 
   test('E-D1: cancel before packing asks to confirm; a packed order offers the contact card instead', async ({
@@ -284,7 +316,8 @@ test.describe('bank transfer expiry and cancel (US-ORD-12, US-ORD-19)', () => {
 
     await page.goto('/portal/orders');
     await page.getByRole('link', { name: /ORD-2026-000106/ }).click();
-    await expect(page.getByRole('button', { name: 'Cancel order' })).toHaveCount(0);
+    // Cancel stays on the page, disabled, with the reason and the branch contact beside it.
+    await expect(page.getByRole('button', { name: 'Cancel order' })).toBeDisabled();
     await expect(page.getByRole('heading', { name: 'Contact the shop' })).toBeVisible();
     await expect(page.getByRole('link', { name: 'Track on the courier’s site' })).toBeVisible();
     await expect(page.getByText('PC-88213004').first()).toBeVisible();

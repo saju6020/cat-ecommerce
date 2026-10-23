@@ -3,6 +3,7 @@ using CatEcommerce.Api.Contracts.Administration;
 using CatEcommerce.Application.Commands.Administration;
 using CatEcommerce.Domain.DomainServices;
 using CatEcommerce.Infrastructure.Hosting;
+using CatEcommerce.Read.Queries.Account;
 using CatEcommerce.Read.Queries.Administration;
 using CatEcommerce.Shared.Common.Constants;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +24,14 @@ public sealed class StaffBranchesController(
     public async Task<IActionResult> GetAssignment(Guid staffAccountId)
     {
         var response = await dispatcher.GetResultAsync(new GetStaffBranchAssignmentQuery { StaffAccountId = staffAccountId, UserContext = userContextProvider.GetUserContext(), CorrelationId = Guid.NewGuid() });
-        return response.Result is null ? NotFound() : Ok(response.Result);
+        if (response.Result is not null) return Ok(response.Result);
+
+        // Owner, 2026-10-21: a staff member not yet assigned to any branch gets an empty assignment (what the web
+        // panel and its mock expect), so the administrator can pick their branches; 404 only for an unknown account.
+        var staff = await dispatcher.GetResultAsync(new GetStaffAccountQuery { StaffAccountId = staffAccountId, UserContext = userContextProvider.GetUserContext(), CorrelationId = Guid.NewGuid() });
+        return staff.Result is null
+            ? NotFound()
+            : Ok(new { staffAccountId, branchIds = Array.Empty<Guid>(), primaryBranchId = (Guid?)null });
     }
 
     [HttpPut("api/admin/staff/{staffAccountId:guid}/branches")]
@@ -59,7 +67,12 @@ public sealed class StaffBranchesController(
     {
         var caller = HttpContext.Items[ResolvedCaller.HttpContextItemsKey] as ResolvedCaller ?? ResolvedCaller.Anonymous;
 
-        var response = await dispatcher.GetResultAsync(new GetMyBranchesQuery { StaffAccountId = caller.AccountId, UserContext = userContextProvider.GetUserContext(), CorrelationId = Guid.NewGuid() });
+        var response = await dispatcher.GetResultAsync(new GetMyBranchesQuery
+        {
+            StaffAccountId = caller.AccountId,
+            // Owner, 2026-10-21: an Administrator works in any active branch.
+            IncludeAllActiveBranches = caller.RoleIds.Contains(StaffRoles.Administrator, StringComparer.Ordinal),
+            UserContext = userContextProvider.GetUserContext(), CorrelationId = Guid.NewGuid() });
         var active = activeBranchAccessor.GetActiveBranchId();
 
         return response.Result is null

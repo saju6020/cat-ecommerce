@@ -62,6 +62,8 @@ if (process.env.E2E_REAL_API === '1') {
 
 export default defineConfig({
   testDir: './tests/e2e',
+  // Issues.md #2: refuses port 3000 and any real API on catecommerce_dev before a single test runs.
+  globalSetup: './tests/e2e/global-setup.ts',
   fullyParallel: true,
   retries: process.env.CI ? 1 : 0,
   reporter: [['html', { open: 'never' }]],

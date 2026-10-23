@@ -27,13 +27,7 @@ test.describe('Registration — US-ACC-01', () => {
     await page.getByLabel(/security check/i).fill('ABCDE');
     await page.getByRole('button', { name: 'Create account' }).click();
 
-    await expect(page.getByRole('heading', { name: 'Your account is ready' })).toBeVisible();
-    await page.getByRole('link', { name: 'Sign in' }).click();
-    await expect(page).toHaveURL(/\/sign-in/);
-
-    await page.getByLabel(/mobile number or email/i).fill('01755512345');
-    await page.getByLabel(/^password/i).fill('a-genuinely-long-password');
-    await page.getByRole('button', { name: 'Sign in', exact: true }).click();
+    // Owner, 2026-10-19: a new customer is signed in straight after registering (no second sign-in).
     await expect(page).toHaveURL(/\/portal(\/|$)/);
   });
 
@@ -56,7 +50,8 @@ test.describe('Registration — US-ACC-01', () => {
     await page.getByLabel(/^password/i).fill('a-genuinely-long-password');
     await page.getByLabel(/security check/i).fill('ABCDE');
     await page.getByRole('button', { name: 'Create account' }).click();
-    await expect(page.getByRole('heading', { name: 'Your account is ready' })).toBeVisible();
+    // Owner, 2026-10-19: a new customer is signed in straight after registering (no second sign-in).
+    await expect(page).toHaveURL(/\/portal(\/|$)/);
   });
 });
 
@@ -91,7 +86,9 @@ test.describe('Sign-in — US-ACC-04', () => {
   test('E-C3: sign out, then Back does not reveal cached portal data', async ({ page }) => {
     await page.goto('/portal/account/profile');
     await expect(page.getByLabel('Full name')).toBeVisible();
-    await page.getByRole('button', { name: 'Sign out' }).click();
+    // Sign out is in the menu under the customer's name (2026-10-17).
+    await page.getByRole('button', { name: /^Account menu for / }).click();
+    await page.getByRole('button', { name: 'Sign out' }).first().click();
     await expect(page).toHaveURL(/\/sign-in/);
 
     await page.goBack();

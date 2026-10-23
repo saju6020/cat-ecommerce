@@ -110,4 +110,47 @@ describe('SignInForm — US-ACC-04/14, ADR-FE-007', () => {
     renderWithClient(<CustomerSignInFormWithHooks onSuccess={vi.fn()} />);
     expect(document.querySelector('form')).toHaveAttribute('method', 'post');
   });
+
+  it('2026-10-16: shows a spinner while signing in, and stays busy after success while the next page loads', async () => {
+    let release: () => void = () => {};
+    const onSuccess = vi.fn();
+    renderWithClient(
+      <SignInForm
+        audience="customer"
+        onSignIn={() =>
+          new Promise((resolve) => {
+            release = () => resolve({} as never);
+          })
+        }
+        isPending={false}
+        error={null}
+        onSuccess={onSuccess}
+      />,
+    );
+    const user = userEvent.setup();
+    await user.type(screen.getByLabelText(/mobile number or email/i), 'a@example.com');
+    await user.type(screen.getByLabelText(/^password/i), 'whatever12345');
+    await user.click(screen.getByRole('button', { name: /^sign in$/i }));
+
+    const busy = await screen.findByRole('button', { name: /signing in/i });
+    expect(busy).toBeDisabled();
+    expect(busy).toHaveAttribute('aria-busy', 'true');
+    expect(busy.querySelector('svg.animate-spin')).not.toBeNull();
+
+    release();
+    await waitFor(() => expect(onSuccess).toHaveBeenCalled());
+    // Navigation is the caller's job and is still under way: the button must not go back to "Sign in".
+    expect(screen.getByRole('button', { name: /signing in/i })).toBeDisabled();
+    expect(screen.queryByRole('button', { name: /^sign in$/i })).toBeNull();
+  });
+
+  it('after a failed sign-in the button is usable again', async () => {
+    const user = userEvent.setup();
+    renderWithClient(<CustomerSignInFormWithHooks onSuccess={vi.fn()} />);
+    await user.type(screen.getByLabelText(/mobile number or email/i), 'nobody@example.com');
+    await user.type(screen.getByLabelText(/^password/i), 'whatever12345');
+    await user.click(screen.getByRole('button', { name: /^sign in$/i }));
+    await screen.findByRole('alert');
+    expect(screen.getByRole('button', { name: /^sign in$/i })).toBeEnabled();
+  });
 });

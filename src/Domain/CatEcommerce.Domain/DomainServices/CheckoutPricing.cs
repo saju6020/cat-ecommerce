@@ -189,9 +189,15 @@ public static class CheckoutPricing
             return (new QuoteDelivery(false, BusinessViolationCodes.AddressOutsideServedZones, null, null, null, []), null, MinorUnits.Zero);
         }
 
-        var levels = zone.Services.Where(s => s.IsActive).OrderBy(s => s.Level.Value).Select(s => new QuoteServiceLevel(
-            s.Level, DeliveryChargeCalculator.Calculate(s.Charge, goodsValue, totalWeightGrams), s.LeadTimeDays,
-            DeliverySlotCalculator.Slots(s.SlotWindows, s.LeadTimeDays, i.TodayLocal, i.OpenDates.Contains))).ToList();
+        var levels = zone.Services.Where(s => s.IsActive).OrderBy(s => s.Level.Value).Select(s =>
+        {
+            // The same goods value DeliveryChargeCalculator compares against the threshold.
+            MinorUnits? freeOver = s.Charge.FreeOverOrderValue is { } f ? MinorUnits.FromAmount(f) : null;
+            MinorUnits? toFree = freeOver is { } threshold ? MinorUnits.Max(MinorUnits.Zero, threshold - goodsValue) : null;
+            return new QuoteServiceLevel(
+                s.Level, DeliveryChargeCalculator.Calculate(s.Charge, goodsValue, totalWeightGrams), s.LeadTimeDays,
+                DeliverySlotCalculator.Slots(s.SlotWindows, s.LeadTimeDays, i.TodayLocal, i.OpenDates.Contains), freeOver, toFree);
+        }).ToList();
 
         var delivery = new QuoteDelivery(true, null, zone.ZoneId, zone.Name, zone.BranchId, levels);
         if (!isDelivery) return (delivery, null, MinorUnits.Zero);

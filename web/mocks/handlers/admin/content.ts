@@ -249,7 +249,11 @@ export const adminContentHandlers: HttpHandler[] = [
     return noContent();
   }),
 
-  http.get('*/api/admin/policies', () => HttpResponse.json([...policies.values()])),
+  // The real list rows carry an `id` (contract check). It also omits each version's `body`; the mock keeps it because
+  // PolicyDetail renders it - see the KNOWN_DRIFT note in tests/contract/mock-vs-real.contract.test.ts.
+  http.get('*/api/admin/policies', () =>
+    HttpResponse.json([...policies.values()].map((p) => ({ id: `policy-${p.key}`, ...p }))),
+  ),
 
   http.post('*/api/admin/policies', async ({ request }) => {
     const body = (await request.json()) as {
@@ -317,12 +321,16 @@ export const adminContentHandlers: HttpHandler[] = [
     let list = [...content.values()].filter((c) => c.kind === 'Banner' && c.status === 'Published');
     if (placement) list = list.filter((c) => c.placement === placement);
     return HttpResponse.json(
+      // The real API sends the whole published-content row for banners and FAQs alike (contract check).
       list.map((c) => ({
+        kind: c.kind,
         slug: c.slug,
         title: c.title,
         body: c.publishedBody,
-        placement: c.placement,
-        linkUrl: c.linkUrl,
+        publishedOn: c.publishedOn,
+        placement: c.placement ?? null,
+        linkUrl: c.linkUrl ?? null,
+        sortOrder: c.sortOrder ?? null,
       })),
     );
   }),
@@ -333,9 +341,13 @@ export const adminContentHandlers: HttpHandler[] = [
       .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));
     return HttpResponse.json(
       list.map((c) => ({
+        kind: c.kind,
         slug: c.slug,
         title: c.title,
         body: c.publishedBody,
+        publishedOn: c.publishedOn,
+        placement: c.placement ?? null,
+        linkUrl: c.linkUrl ?? null,
         sortOrder: c.sortOrder ?? 0,
       })),
     );

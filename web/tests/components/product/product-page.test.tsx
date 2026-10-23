@@ -70,7 +70,7 @@ describe('ProductPurchase — HO-SHP-002 §11.3', () => {
     const buyBox = within(screen.getByRole('region', { name: 'Price and availability' }));
     expect(buyBox.getByText('Out of stock')).toBeInTheDocument();
     // Guests are sent to sign in to ask for the alert.
-    expect(await buyBox.findByRole('link', { name: /Tell me when it.s back/ })).toBeInTheDocument();
+    expect(await screen.findByRole('link', { name: /Tell me when it.s back/ })).toBeInTheDocument();
     // The other variants are still in stock in the selector, in text.
     expect(selector.getByRole('radio', { name: /400 g/ })).toHaveAccessibleName(/In stock/);
     expect(selector.getByRole('radio', { name: /2 kg/ })).toHaveAccessibleName(/In stock/);

@@ -56,6 +56,16 @@ export default function BranchRosterPage({ params }: { params: Promise<{ branchI
     staffFullName: nameById.get(r.staffAccountId) ?? r.staffAccountId,
   }));
   const selectedRoster = (rosters.data ?? []).find((r) => r.staffAccountId === selectedStaffId);
+  // Owner, 2026-10-22: anyone can be given a FIRST pattern here -- the list used to offer only staff who already had a
+  // roster, so with none yet nobody could be rostered and online booking had no times. The API refuses a staff
+  // member not assigned to this branch, and the editor shows that message.
+  const rosteredIds = new Set(rows.map((r) => r.staffAccountId));
+  const patternOptions = [
+    ...rows,
+    ...(staffAccounts.data?.items ?? [])
+      .filter((s) => !rosteredIds.has(s.id))
+      .map((s) => ({ staffAccountId: s.id, staffFullName: `${s.fullName} (no shifts yet)` })),
+  ];
 
   function cellFor(staffAccountId: string, date: string): RosterDayCell {
     const zone = branch?.timeZoneId ?? 'UTC';
@@ -123,7 +133,7 @@ export default function BranchRosterPage({ params }: { params: Promise<{ branchI
             className="w-fit rounded-[var(--radius-sm)] border border-border-strong bg-surface px-3 py-2 text-sm text-ink"
           >
             <option value="">Choose…</option>
-            {rows.map((r) => (
+            {patternOptions.map((r) => (
               <option key={r.staffAccountId} value={r.staffAccountId}>
                 {r.staffFullName}
               </option>
@@ -131,15 +141,14 @@ export default function BranchRosterPage({ params }: { params: Promise<{ branchI
           </select>
         </div>
 
-        {selectedRoster && (
+        {selectedStaffId && (
           <RosterPatternEditor
-            staffFullName={
-              nameById.get(selectedRoster.staffAccountId) ?? selectedRoster.staffAccountId
-            }
+            key={selectedStaffId}
+            staffFullName={nameById.get(selectedStaffId) ?? selectedStaffId}
             timeZoneId={branch.timeZoneId}
-            currentPattern={selectedRoster.currentPattern}
-            nextPattern={selectedRoster.nextPattern}
-            nextPatternEffectiveFrom={selectedRoster.nextPatternEffectiveFrom}
+            currentPattern={selectedRoster?.currentPattern ?? []}
+            nextPattern={selectedRoster?.nextPattern ?? null}
+            nextPatternEffectiveFrom={selectedRoster?.nextPatternEffectiveFrom ?? null}
             rooms={rooms.data ?? []}
             isPending={setPatternMutation.isPending || cancelPatternMutation.isPending}
             onSetPattern={(slots, effectiveFrom) =>

@@ -8,11 +8,19 @@ namespace CatEcommerce.Infrastructure.Security.Captcha;
 /// cosmetic (line/dot placement) -- the answer itself is generated with
 /// <see cref="System.Security.Cryptography.RandomNumberGenerator"/> by <see cref="MemoryCacheCaptchaService"/>,
 /// never <see cref="System.Random"/>.
+/// The glyphs use the embedded Noto Sans Bold, never a system font: in production (Linux container, SkiaSharp
+/// "NoDependencies" assets, no fontconfig, no fonts) <c>SKTypeface.Default</c> is empty and the image had no characters.
 /// </summary>
 public sealed class SkiaCaptchaImageRenderer : ICaptchaImageRenderer
 {
     private const int Width = 200;
     private const int Height = 70;
+    private const string GlyphFontResourceName = "CatEcommerce.Infrastructure.Security.Captcha.Fonts.NotoSans-Bold.ttf";
+
+    private static readonly Lazy<SKTypeface> GlyphTypeface = new(LoadGlyphTypeface);
+
+    /// <summary>The family the glyphs are drawn in: "Noto Sans" on every machine, whatever fonts it has.</summary>
+    public static string GlyphFontFamily => GlyphTypeface.Value.FamilyName;
 
     public byte[] Render(string answer)
     {
@@ -35,7 +43,7 @@ public sealed class SkiaCaptchaImageRenderer : ICaptchaImageRenderer
                 canvas.DrawLine(random.Next(Width), random.Next(Height), random.Next(Width), random.Next(Height), linePaint);
         }
 
-        using var font = new SKFont(SKTypeface.Default, 42);
+        using var font = new SKFont(GlyphTypeface.Value, 42);
         using var textPaint = new SKPaint { Color = new SKColor(20, 20, 20), IsAntialias = true };
 
         var glyphWidth = Width / Math.Max(answer.Length, 1);
@@ -54,5 +62,16 @@ public sealed class SkiaCaptchaImageRenderer : ICaptchaImageRenderer
         using var image = SKImage.FromBitmap(bitmap);
         using var data = image.Encode(SKEncodedImageFormat.Png, 100);
         return data.ToArray();
+    }
+
+    private static SKTypeface LoadGlyphTypeface()
+    {
+        using var stream = typeof(SkiaCaptchaImageRenderer).Assembly.GetManifestResourceStream(GlyphFontResourceName)
+            ?? throw new InvalidOperationException($"The captcha font resource {GlyphFontResourceName} is missing from the build.");
+        using var copy = new MemoryStream();
+        stream.CopyTo(copy);
+        using var data = SKData.CreateCopy(copy.ToArray());
+        return SKTypeface.FromData(data)
+            ?? throw new InvalidOperationException($"The captcha font resource {GlyphFontResourceName} could not be read.");
     }
 }

@@ -38,9 +38,9 @@ test.describe('root redirect by session (SECURITY gate item 7)', () => {
     await expect(page).toHaveURL(/\/staff$/);
   });
 
-  test('signed in as a customer lands on /portal (owner, 2026-10-13)', async ({ page }) => {
+  test('signed in as a customer lands on My orders (owner, 2026-10-17)', async ({ page }) => {
     await signInAsCustomer(page);
     await page.goto('/');
-    await expect(page).toHaveURL(/\/portal$/);
+    await expect(page).toHaveURL(/\/portal\/orders$/);
   });
 });

@@ -4,8 +4,11 @@ import { Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
+import { CalendarDays, Check, Truck } from 'lucide-react';
 import { AuthCard } from '@/components/auth/AuthCard';
 import { SignInForm } from '@/components/auth/SignInForm';
+import { HearthAuthShell } from '@/components/hearth/HearthAuthShell';
+import { buttonVariants } from '@/components/ui/button';
 import { useSignInCustomer } from '@/lib/hooks/useAuthMutations';
 import { sanitizeNextPath } from '@/lib/validation/nextPath';
 import {
@@ -14,17 +17,37 @@ import {
   withCustomerNext,
 } from '@/lib/routing/portal-links';
 
+const REASONS = [
+  { text: 'Track shop orders to your door', tone: 'warm' as const, Icon: Truck },
+  { text: 'Book a clinic visit in a few taps', tone: 'teal' as const, Icon: CalendarDays },
+  { text: 'Every vaccination and visit in one place', tone: 'teal' as const, Icon: Check },
+];
+
 // US-ACC-04. `data-theme="customer"` — a customer-facing (auth) screen (see the handover's
 // warm-customer-layer rule); staff sign-in (`(auth)/staff/sign-in`) does not set this.
+// Hearth "Welcome home" (owner-approved 2026-10-16, docs/design/accounts-identity/SignIn.dc.html) via HearthAuthShell.
 export default function SignInPage() {
   return (
-    <div data-theme="customer" className="w-full">
-      <AuthCard title="Sign in">
+    <HearthAuthShell
+      panelLabel="Why sign in"
+      eyebrow="Clinic · Boarding · Shop"
+      headline="Welcome"
+      highlight="home"
+      intro="One account for your cats’ visits, vaccinations, boarding stays and shop orders."
+      reasons={REASONS}
+    >
+      <AuthCard
+        bare
+        title="Sign in"
+        titleClassName="text-[30px] md:text-[40px]"
+        description="Use the mobile number or email you registered with."
+        className="max-w-[420px] gap-5"
+      >
         <Suspense fallback={null}>
           <SignInPageContent />
         </Suspense>
       </AuthCard>
-    </div>
+    </HearthAuthShell>
   );
 }
 
@@ -38,6 +61,7 @@ function SignInPageContent() {
     <>
       <SignInForm
         audience="customer"
+        appearance="hearth"
         onSignIn={(values) => signInMutation.mutateAsync(values)}
         isPending={signInMutation.isPending}
         error={signInMutation.error}
@@ -65,15 +89,21 @@ function SignInPageContent() {
         }}
       />
       {/* Issues.md #5 — a new customer sent here by Checkout can create an account (with the CAPTCHA) and come back. */}
-      <p className="text-sm text-ink-muted">
-        New to PurrCare?{' '}
-        <Link
-          href={withCustomerNext('/register', searchParams.get('next'))}
-          className="font-semibold text-accent-ink no-underline hover:underline"
-        >
-          Create an account
-        </Link>
-      </p>
+      <div className="flex items-center gap-3 text-[13px] text-ink-muted">
+        <span aria-hidden="true" className="h-px flex-1 bg-border" />
+        New to PurrCare?
+        <span aria-hidden="true" className="h-px flex-1 bg-border" />
+      </div>
+      <Link
+        href={withCustomerNext('/register', searchParams.get('next'))}
+        className={buttonVariants({
+          variant: 'pillSecondary',
+          size: 'pillMd',
+          className: 'w-full font-bold no-underline',
+        })}
+      >
+        Create an account
+      </Link>
     </>
   );
 }

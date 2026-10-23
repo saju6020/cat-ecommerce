@@ -141,6 +141,10 @@ public static class AccountsModule
         services.AddScoped<IValidator<CreateStaffAccountCommand>, CreateStaffAccountCommandValidator>();
 
         services.AddScoped<ICommandHandlerAsync<ChangeStaffRolesCommand>, ChangeStaffRolesCommandHandler>();
+        services.AddScoped<ICommandHandlerAsync<SetStaffPasswordCommand>, SetStaffPasswordCommandHandler>();
+        services.AddScoped<IValidator<SetStaffPasswordCommand>, SetStaffPasswordCommandValidator>();
+        services.AddScoped<ICommandHandlerAsync<UpdateStaffAccountDetailsCommand>, UpdateStaffAccountDetailsCommandHandler>();
+        services.AddScoped<IValidator<UpdateStaffAccountDetailsCommand>, UpdateStaffAccountDetailsCommandValidator>();
         services.AddScoped<IValidator<ChangeStaffRolesCommand>, ChangeStaffRolesCommandValidator>();
 
         services.AddScoped<ICommandHandlerAsync<RecordAuthorizationDenialCommand>, RecordAuthorizationDenialCommandHandler>();
@@ -200,6 +204,7 @@ public static class AccountsModule
         services.AddScoped<IEventHandlerAsync<PasswordResetRequestedEvent>, AuditPasswordResetRequestedHandler>();
         services.AddScoped<IEventHandlerAsync<CustomerPasswordSetEvent>, AuditCustomerPasswordSetHandler>();
         services.AddScoped<IEventHandlerAsync<StaffPasswordSetEvent>, AuditStaffPasswordSetHandler>();
+        services.AddScoped<IEventHandlerAsync<StaffAccountDetailsChangedEvent>, AuditStaffAccountDetailsChangedHandler>();
         services.AddScoped<IEventHandlerAsync<CustomerMergedEvent>, AuditCustomerMergedHandler>();
         services.AddScoped<IEventHandlerAsync<CustomerMergedEvent>, ReassignCatsOnCustomerMergedHandler>();
         services.AddScoped<IEventHandlerAsync<CatOwnerReassignedOnMergeEvent>, AuditCatOwnerReassignedOnMergeHandler>();

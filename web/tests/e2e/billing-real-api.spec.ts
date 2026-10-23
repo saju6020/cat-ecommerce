@@ -366,11 +366,7 @@ test('E-F1: a customer opens their invoice and downloads the PDF; another custom
   await expect(page.getByAltText(/security check/i)).toBeVisible({ timeout: 20_000 });
   await page.getByLabel(/security check/i).fill(process.env.E2E_CAPTCHA_ANSWER ?? 'TEST1');
   await page.getByRole('button', { name: 'Create account' }).click();
-  await expect(page.getByRole('heading', { name: 'Your account is ready' })).toBeVisible({ timeout: 20_000 });
-  await page.goto('/sign-in');
-  await page.getByLabel(/mobile number or email/i).fill(mobile);
-  await page.getByLabel(/^password/i).fill(password);
-  await page.getByRole('button', { name: 'Sign in', exact: true }).click();
+  // Owner, 2026-10-19: a new customer is signed in straight after registering (no second sign-in).
   await expect(page).toHaveURL(/\/portal\//, { timeout: 20_000 });
   const customerId = await page.evaluate(async () => {
     const base = (window as unknown as { __apiBaseUrl?: string }).__apiBaseUrl ?? '';

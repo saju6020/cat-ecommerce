@@ -1,13 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
 import { ShoppingBasket } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { describeOrderingError } from '@/lib/api/errors';
-import { useAddCartLine, useCartCats } from '@/lib/hooks/useCart';
+import { useAddToCart } from '@/lib/hooks/useAddToCart';
 
-import { PrescriptionCatDialog } from './PrescriptionCatDialog';
+import { AddToCartFeedback } from './AddToCartFeedback';
 
 /**
  * `components/cart/AddToCartButton.tsx` — HO-ORD-002 §3.3, the component HO-SHP-002's buy box mounts.
@@ -44,38 +42,24 @@ export function AddToCartButton({
   eligibleCatIds = [],
   signInHref = '/sign-in',
 }: AddToCartButtonProps) {
-  const add = useAddCartLine();
-  const [quantity, setQuantity] = useState(1);
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState<string | null>(null);
-  const cats = useCartCats(requiresPrescription && signedIn === true && dialogOpen);
+  const state = useAddToCart({
+    skuId,
+    productName,
+    requiresPrescription,
+    disabled,
+    disabledReason,
+    quantityMax,
+    signedIn,
+    eligibleCatIds,
+  });
 
-  function submit(catId?: string) {
-    setError(null);
-    setMessage('');
-    add.mutate(
-      { skuId, quantity, catId },
-      {
-        onSuccess: () => {
-          setDialogOpen(false);
-          setMessage(`Added ${quantity} × ${productName} to your cart.`);
-        },
-        onError: (failure) => setError(describeOrderingError(failure)),
-      },
-    );
-  }
-
-  if (requiresPrescription && signedIn === false) {
+  if (state.guestRx) {
     return (
       <Link href={signInHref} className="text-sm font-semibold text-accent-ink underline">
         Sign in to buy prescription food
       </Link>
     );
   }
-
-  const reasonId = `add-${skuId}-why`;
-  const isDisabled = disabled || add.isPending || (requiresPrescription && signedIn === undefined);
 
   return (
     <div className="flex flex-col gap-2" data-slot="add-to-cart">
@@ -90,64 +74,24 @@ export function AddToCartButton({
               type="number"
               min={1}
               max={quantityMax}
-              value={quantity}
+              value={state.quantity}
               disabled={disabled}
-              onChange={(event) => {
-                const next = event.target.valueAsNumber;
-                if (Number.isInteger(next) && next >= 1) setQuantity(Math.min(next, quantityMax));
-              }}
+              onChange={(event) => state.setQuantity(event.target.valueAsNumber)}
               className="h-10 w-20 rounded-[var(--radius-sm)] border border-border-strong bg-surface px-2 text-sm tabular-nums text-ink"
             />
           </div>
         )}
         <Button
-          disabled={isDisabled}
-          aria-busy={add.isPending}
-          aria-describedby={disabled && disabledReason ? reasonId : undefined}
-          onClick={() => (requiresPrescription ? setDialogOpen(true) : submit())}
+          disabled={state.isDisabled}
+          aria-busy={state.pending}
+          aria-describedby={state.describedBy}
+          onClick={state.onAdd}
         >
           <ShoppingBasket size={16} aria-hidden="true" />
-          {add.isPending ? 'Adding…' : 'Add to cart'}
+          {state.pending ? 'Adding…' : 'Add to cart'}
         </Button>
       </div>
-      {disabled && disabledReason && (
-        <p id={reasonId} className="text-sm text-ink-muted">
-          {disabledReason}
-        </p>
-      )}
-      <p role="status" aria-live="polite" className="text-sm font-semibold text-accent-ink">
-        {message}
-        {message && (
-          <>
-            {' '}
-            <Link href="/cart" className="underline">
-              View cart
-            </Link>
-          </>
-        )}
-      </p>
-      {error && !dialogOpen && (
-        <p role="alert" className="text-sm font-semibold text-danger-ink">
-          {error}
-        </p>
-      )}
-      {requiresPrescription && (
-        <PrescriptionCatDialog
-          open={dialogOpen}
-          onOpenChange={setDialogOpen}
-          productName={productName}
-          cats={(cats.data?.items ?? []).map((cat) => ({
-            id: cat.id,
-            name: cat.name,
-            authorised: eligibleCatIds.includes(cat.id),
-          }))}
-          isLoading={cats.isPending && cats.fetchStatus !== 'idle'}
-          isError={cats.isError}
-          pending={add.isPending}
-          error={dialogOpen ? error : null}
-          onChoose={(catId) => submit(catId)}
-        />
-      )}
+      <AddToCartFeedback state={state} requiresPrescription={requiresPrescription} />
     </div>
   );
 }

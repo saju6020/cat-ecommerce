@@ -89,7 +89,10 @@ public sealed record CheckoutChange(CheckoutChangeKind Kind, Guid LineRef, strin
 public sealed record QuoteTotals(
     MinorUnits Subtotal, MinorUnits LineDiscountTotal, MinorUnits OrderDiscount, MinorUnits DeliveryCharge, MinorUnits TaxTotal, MinorUnits GrandTotal);
 
-public sealed record QuoteServiceLevel(DeliveryServiceLevel Level, MinorUnits Charge, int LeadTimeDays, IReadOnlyList<DeliverySlot> Slots);
+/// <summary>2026-10-16 (Hearth checkout): <c>FreeOver</c> is the level's free-delivery threshold (null when it has none) and
+/// <c>AmountToFreeDelivery</c> how much more goods value reaches it (0 once reached), so the screen never works money out itself.</summary>
+public sealed record QuoteServiceLevel(
+    DeliveryServiceLevel Level, MinorUnits Charge, int LeadTimeDays, IReadOnlyList<DeliverySlot> Slots, MinorUnits? FreeOver = null, MinorUnits? AmountToFreeDelivery = null);
 
 /// <summary>The delivery half of the quote. <c>Available</c> is false outside every zone (<c>AddressOutsideServedZones</c>), and pickup is then offered.</summary>
 public sealed record QuoteDelivery(

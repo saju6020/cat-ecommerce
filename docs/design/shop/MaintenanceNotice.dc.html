@@ -10,7 +10,7 @@
 <helmet>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
 <style>
-:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px}
+:root{--surface-page:#faf9f6;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:10px;--accent-tint:#e6f0ee;--radius-card:20px;--radius-band:32px;--radius-pill:999px;--warm:#e8894a;--warm-ink:#8a3f14;--warm-soft:#fdeee2}
 *{box-sizing:border-box}
 body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink);font-size:14px}
 a{color:var(--accent-ink)}
@@ -31,12 +31,89 @@ p{line-height:1.55;font-size:15px;margin:0 0 20px}
 .btn{font:inherit;font-weight:600;font-size:14px;padding:10px 18px;border-radius:6px;background:var(--accent);color:#fff;text-decoration:none;display:inline-flex;gap:7px;align-items:center}
 .btn2{font:inherit;font-weight:600;font-size:14px;padding:9px 16px;border-radius:6px;border:1px solid var(--accent);color:var(--accent-ink);text-decoration:none;display:inline-flex;gap:7px;align-items:center;background:#fff}
 .note{max-width:640px;margin:-50px auto 0;font-size:12px;color:var(--ink-faint);line-height:1.5}
+/* Hearth (owner-approved 2026-10-16) */
+a:hover{color:var(--accent)}
+.brand{display:inline-flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:600;font-size:24px;color:var(--accent-ink);text-decoration:none}
+.logo-disc{width:40px;height:40px;border-radius:var(--radius-pill);background:var(--warm-soft);color:var(--warm-ink);display:grid;place-items:center;flex:none}
+.h1{font-size:34px;line-height:1.1}
+
+.topnav{background:#fff;border-bottom:1px solid var(--border)}
+.topnav .bar{gap:24px;padding:16px 32px}
+.search{max-width:none;align-items:center;gap:8px;background:var(--surface-sunken);border-radius:var(--radius-pill);padding:0 5px 0 20px;min-height:46px}
+.search input{border:0;background:transparent;border-radius:var(--radius-pill);padding:0;height:44px;font-size:15px;color:var(--ink)}
+.search input:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+.search button{border:0;border-radius:var(--radius-pill);min-height:36px;padding:0 16px}
+.acct{gap:16px;font-size:14px}
+.acct a{min-height:44px}
+.acct a:has(.count){background:var(--warm-soft);color:var(--warm-ink);font-weight:700;padding:0 16px;border-radius:var(--radius-pill)}
+.count{min-width:22px;height:22px;padding:0 6px;display:inline-grid;place-items:center;font-size:12px;font-weight:700;background:var(--accent);color:#fff}
+.catnav{gap:10px;padding:0 32px 14px;border-top:0;flex-wrap:wrap}
+.catnav a{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border:1px solid var(--border);border-radius:var(--radius-pill);background:#fff;color:var(--ink);font-size:13.5px}
+.catnav a::before{content:"";width:8px;height:8px;border-radius:var(--radius-pill);background:var(--warm);flex:none}
+.catnav a.on{border:1px solid var(--accent);background:var(--accent-tint);color:var(--accent-ink)}
+.lang select{border-radius:var(--radius-pill);min-height:44px;padding:0 14px}
+
+.btn,.btn2,.btn-sm,.btn-danger{border-radius:var(--radius-pill);min-height:44px;padding-left:20px;padding-right:20px;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;cursor:pointer}
+.btn{background:var(--accent);color:#fff;border:0}
+.btn2,.btn-sm{background:#fff;border:1px solid var(--border-strong);color:var(--accent-ink)}
+
+.acct{margin-left:auto}
+.notice{border-radius:24px;padding:40px 44px}
+.admin{border-radius:16px;padding:16px 18px}
+.btn,.btn2{min-height:48px}
+.note{color:var(--ink-muted)}
+/* Hearth layout (owner decision 2026-10-16): shop screens follow the approved Hearth preview layout */
+.topnav .bar{max-width:1224px;margin:0 auto;padding:16px 32px}
+.topnav > .catnav{max-width:1224px;margin:0 auto;padding:0 32px 14px}
+.acct a:has(.count){order:3}
+.acct a:has(.count) .ic{width:18px;height:18px}
+.wrap{max-width:1224px}
+.foot{padding:24px max(32px,calc((100% - 1160px) / 2))}
+.btn{font-weight:600}
+.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+/* product card, exactly as the preview */
+.card.pcard{align-items:stretch;position:relative;background:#fff;border:1px solid var(--border);border-radius:var(--radius-card);overflow:hidden;display:flex;flex-direction:column;padding:0;gap:0}
+.card.pcard > *{margin:0}
+.pcard .pimg{position:relative;width:auto;height:220px;aspect-ratio:auto;border-radius:0;margin:0;display:grid;place-items:center}
+.pcard .pimg > svg{width:120px;height:150px}
+.pcard .pimg.ph{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;font-size:13px;color:var(--ink-muted);background:var(--surface-sunken)}
+.pcard .pimg.ph > svg{width:48px;height:48px}
+.pcard .badge{position:absolute;top:14px;left:14px;display:inline-flex;align-items:center;gap:6px;background:#fff;color:var(--warm-ink);border-radius:var(--radius-pill);padding:6px 12px;font-size:12px;font-weight:700;max-width:calc(100% - 84px)}
+.pcard .badge.rx{color:var(--warning-ink)}
+.pcard .badge .ic{width:13px;height:13px}
+.wish{position:absolute;top:10px;right:10px;width:44px;height:44px;border-radius:var(--radius-pill);border:0;background:#fff;color:var(--warm-ink);display:grid;place-items:center;cursor:pointer;padding:0}
+.wish svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.wish[aria-pressed="true"] svg{fill:currentColor}
+.wish:focus-visible,.add:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.pcard .pbody{padding:18px 18px 20px;display:flex;flex-direction:column;gap:8px;flex:1}
+.pcard .eyebrow{display:flex;align-items:center;gap:6px;font:600 11px/1.2 var(--font-sans);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-muted)}
+.pcard .eyebrow .flag{width:16px;height:11px}
+.pcard .eyebrow .ic{width:13px;height:13px}
+.pcard h3{margin:0;font-size:16px;line-height:1.35;font-weight:600}
+.pcard h3 a{color:var(--ink);text-decoration:none}
+.pcard h3 a:hover{color:var(--accent);text-decoration:underline}
+.pcard .meta{font-size:13px;color:var(--ink-muted);display:flex;align-items:center;gap:6px}
+.pcard .avail{font-size:13px;font-weight:400;display:inline-flex;align-items:center;gap:6px}
+.pcard .avail .ic{width:14px;height:14px;stroke-width:2.4}
+.pcard .avail.in{color:var(--accent)}
+.pcard .avail.out{color:var(--danger-ink)}
+.pcard .avail.gone{color:var(--ink-muted)}
+.pcard .buy{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:6px}
+.pcard .price{width:auto;text-align:left;display:flex;flex-direction:column;gap:2px;font-size:20px;font-weight:700;line-height:1.15}
+.pcard .price small{font-size:13px;font-weight:600;color:var(--ink-muted)}
+.pcard .price .tax{font-size:12px;font-weight:400;color:var(--ink-muted)}
+.add{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:0 16px;border-radius:var(--radius-pill);border:0;background:var(--accent);color:#fff;font:600 14px/1 var(--font-sans);text-decoration:none;cursor:pointer;flex:none;white-space:nowrap}
+.add:hover{background:var(--accent-ink);color:#fff}
+.add.ghost{background:#fff;color:var(--accent-ink);border:1px solid var(--border-strong)}
+.add.ghost:hover{background:var(--accent-tint);color:var(--accent-ink)}
+/* end Hearth layout */
 </style>
 </helmet>
 <div style="width:1280px;height:820px;background:var(--surface-page)">
   <header class="topnav">
     <div class="bar">
-      <a class="brand" href="ShopHome.dc.html">PurrCare</a>
+      <a class="brand" href="ShopHome.dc.html"><span class="logo-disc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3l2.2 4.2M17 3l-2.2 4.2"/><path d="M5 13a7 6 0 0 0 14 0c0-3.3-3.1-6-7-6s-7 2.7-7 6z"/><path d="M9.5 12.5h.01M14.5 12.5h.01"/><path d="M10.8 15.2l1.2.8 1.2-.8"/></svg></span>PurrCare Shop</a>
       <div class="acct">
         <a href="#"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg>Farhana</a>
       </div>

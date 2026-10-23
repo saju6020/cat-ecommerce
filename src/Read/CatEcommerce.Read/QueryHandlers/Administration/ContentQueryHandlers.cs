@@ -134,7 +134,7 @@ public sealed class GetAdminPoliciesQueryHandler(CatEcommerceDbContext db) : IQu
                     .Where(v => v.PolicyKey == d.Key)
                     .OrderByDescending(v => v.VersionNumber)
                     .Take(AdministrationListCaps.MaxUnboundedListSize)
-                    .Select(v => new PolicyVersionSummaryViewModel(v.VersionNumber, v.PublishedOn, v.ChangeSummary))
+                    .Select(v => new PolicyVersionSummaryViewModel(v.VersionNumber, v.PublishedOn, v.ChangeSummary, v.Body))
                     .ToList()))
             .ToListAsync();
 

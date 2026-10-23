@@ -1,24 +1,19 @@
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
-import { Newsreader, Public_Sans } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import { Providers } from './providers';
 import { NavigationProgress } from '@/components/common/NavigationProgress';
 import { WebVitalsReporter } from '@/components/observability/WebVitalsReporter';
 import { ServiceWorkerCleanup } from '@/components/offline/ServiceWorkerCleanup';
 import './globals.css';
 
-// HO-CAT-002 design tokens: Newsreader (display, 600) and Public Sans (400/600/700). The
-// variable names feed app/globals.css's --font-display / --font-sans fallback chain.
-const newsreader = Newsreader({
+// Site font (owner, 2026-10-16, after the font preview): Inter for everything - headings, body,
+// tables and numbers - as the variable font (weights 100-900, real italic, optical size). It feeds
+// both app/globals.css tokens, --font-display and --font-sans. (Was Newsreader + Public Sans.)
+const inter = Inter({
   subsets: ['latin'],
-  weight: ['600'],
-  variable: '--font-display-loaded',
-  display: 'swap',
-});
-
-const publicSans = Public_Sans({
-  subsets: ['latin'],
-  weight: ['400', '600', '700'],
+  style: ['normal', 'italic'],
+  axes: ['opsz'],
   variable: '--font-sans-loaded',
   display: 'swap',
 });
@@ -30,7 +25,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${newsreader.variable} ${publicSans.variable}`}>
+    <html lang="en" className={inter.variable}>
       <body>
         {/* Issues.md #1/#6 — a top progress bar for every page change, in every area. */}
         <Suspense fallback={null}>

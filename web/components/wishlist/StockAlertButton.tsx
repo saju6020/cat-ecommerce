@@ -33,7 +33,10 @@ export function StockAlertButton({
 }: StockAlertButtonProps) {
   if (signInHref) {
     return (
-      <Link href={signInHref} className={buttonVariants({ variant: 'secondary' })}>
+      <Link
+        href={signInHref}
+        className={buttonVariants({ variant: 'pillSecondary', size: 'pillMd' })}
+      >
         <Bell size={16} aria-hidden="true" />
         {"Tell me when it's back"}
       </Link>
@@ -67,8 +70,8 @@ export function StockAlertButton({
             </p>
           )}
           <Button
-            variant="ghost"
-            size="sm"
+            variant="pillSecondary"
+            size="pillMd"
             className="self-start"
             disabled={pending}
             onClick={onCancel}
@@ -77,7 +80,7 @@ export function StockAlertButton({
           </Button>
         </div>
       ) : (
-        <Button variant="secondary" disabled={pending} onClick={onRequest}>
+        <Button variant="pillSecondary" size="pillMd" disabled={pending} onClick={onRequest}>
           <Bell size={16} aria-hidden="true" />
           {"Tell me when it's back"}
         </Button>

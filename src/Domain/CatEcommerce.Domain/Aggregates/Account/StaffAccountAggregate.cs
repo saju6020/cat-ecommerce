@@ -81,6 +81,41 @@ public sealed class StaffAccountAggregate : AggregateRoot
         UpdateVersion();
     }
 
+    /// <summary>Owner, 2026-10-20: an administrator corrects the name and sign-in identifiers. The security stamp is
+    /// not rotated -- open sessions stay, and the next sign-in uses the new identifier.</summary>
+    public void UpdateDetails(StaffAccountDetailsUpdateDto dto)
+    {
+        if (string.IsNullOrWhiteSpace(dto.FullName) || dto.FullName.Length > 200)
+            throw Violation(BusinessViolationCodes.NameRequired, "A name is required.", nameof(FullName));
+
+        if (dto.MobileNumber is null && dto.EmailAddress is null)
+            throw Violation(BusinessViolationCodes.IdentifierRequired, "At least one of a mobile number or email address is required.", nameof(MobileNumber));
+
+        if (FullName == dto.FullName && MobileNumber?.Value == dto.MobileNumber?.Value && EmailAddress?.Value == dto.EmailAddress?.Value)
+            return;
+
+        var changed = new StaffAccountDetailsChangedEvent
+        {
+            StaffAccountId = Id,
+            PreviousFullName = FullName,
+            PreviousMobileNumber = MobileNumber?.Value,
+            PreviousEmailAddress = EmailAddress?.Value,
+            NewFullName = dto.FullName,
+            NewMobileNumber = dto.MobileNumber?.Value,
+            NewEmailAddress = dto.EmailAddress?.Value,
+            CorrelationId = dto.CorrelationId,
+            UserContext = dto.UserContext
+        };
+
+        FullName = dto.FullName;
+        MobileNumber = dto.MobileNumber;
+        EmailAddress = dto.EmailAddress;
+
+        AddDomainEvent(changed);
+
+        UpdateVersion();
+    }
+
     public void RecordSuccessfulLogin(LoginSuccessDto dto)
     {
         EnsureCanSignIn(dto.AsOf);
@@ -128,6 +163,7 @@ public sealed class StaffAccountAggregate : AggregateRoot
         {
             StaffAccountId = Id,
             WasFirstPassword = wasFirstPassword,
+            SetByAdministratorId = dto.SetByAdministratorId,
             CorrelationId = dto.CorrelationId,
             UserContext = dto.UserContext
         });

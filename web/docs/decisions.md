@@ -773,6 +773,8 @@ mitigation for a screen that may show many of these at once (the boarding diary,
 
 **Status.** Built as specified.
 
+**Narrowed by ADR-370 (2026-10-18):** product photos now have resized WebP copies (480 px for cards, cart and orders; 1,200 px for the product page). The API returns their URLs, direct Cloud Storage signed URLs in production, so the storefront needs no change: `resolveFileUrl` passes absolute `https://` URLs through. Other purposes still have no thumbnails.
+
 ### ADR-FE-156 — The host owns the uploaded-file list state; the uploader is controlled
 
 **Decision.** `<FileUploader>` keeps no memory of a file once it finishes uploading — its
@@ -1876,3 +1878,13 @@ Appended; the entries above are left as written.
 **ADR-FE-105 (server-derived values) keeps its rule and loses two sentences.** The early check-out preview *is* shown before submit (`GET .../check-out-preview`, HO-BRD-001 1.1, with `isEarly`/`isLate`; the browser's clock no longer decides early or late). The built task list has **no** `minutesLate`, so the overdue chip says "Overdue" without minutes; the server's `isOverdue` still drives it. A value the backend does not send is shown as absent and never invented (no 0.00 balance, no assumed signature method, no default "referred by").
 
 **Status.** Built.
+
+## ADR-FE-173 — Hearth customer layer (foundation)
+
+### ADR-FE-173
+
+**Decision.** **The owner-approved "Hearth" look (2026-10-16) is a customer-only layer built on the existing `data-theme="customer"` tokens.** `globals.css` adds `--accent-tint`, `--radius-card` (20px), `--radius-band` (32px) and `--radius-pill` inside `[data-theme='customer']` only, with Tailwind aliases (`bg-accent-tint`, `rounded-card`, `rounded-band`, `rounded-pill`); they are undefined on staff layouts, so staff screens are unchanged. Shared pieces live in `components/hearth/` (`HearthLogo`, `HearthBand`, `LineArtCat`, `IconTile`, `PillSteps`, `OrderTracker`, `ProductPackArt`, `FreeDeliveryProgress`, `fields.ts` pill input classes). `Button` gains `pill`/`pillSecondary` variants and `pillMd` (44px) / `pillLg` (54px) sizes; the staff variants and sizes keep their look (the radius and text size moved from the base class into the sizes). `ShopHeader`, `SearchBox`, `CartBadge`, `LanguageSwitcher` and `PortalHeader` take the Hearth header. Warm `#e8894a` is a fill only, `warm-ink` is the warm text colour, and no emoji or paw prints are used
+
+**Why.** One look for every customer screen without forking components, and no risk to staff screens. Owner decisions of 2026-10-16 in `docs/design/shop/README.md` and `docs/design/orders/README.md`
+
+**Status.** Foundation built. `FreeDeliveryProgress` renders only when the server sends the amount still to go (the quote needs a threshold field; the browser never computes one, ADR-FE-105). `PillSteps` and `OrderTracker` take their statuses from the caller, never infer them. Shop and order pages are restyled on top of this in follow-up work.

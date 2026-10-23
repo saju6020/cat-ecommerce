@@ -13,6 +13,7 @@ import type {
   WishlistItem,
 } from '@/lib/api/shop-customer';
 import { makeItem } from '../catalogue/catalogue-fixtures';
+import { renderWithClient } from '../product/test-utils';
 
 vi.mock('next/navigation', () => ({
   useRouter: () => ({ push: vi.fn(), replace: vi.fn() }),
@@ -48,7 +49,7 @@ describe('FoodSuggestions — HO-SHP-002 §11.5, US-SHP-11', () => {
   };
 
   it('U-E1: each reason as text, the allergy exclusion sentence, and the date-of-birth hint link', () => {
-    render(<FoodSuggestions data={data} />);
+    renderWithClient(<FoodSuggestions data={data} />);
     expect(screen.getByText('Suits about adult cats')).toBeInTheDocument();
     expect(screen.getByText('For neutered cats')).toBeInTheDocument();
     expect(screen.getByText('Weight-management recipe — Mitu weighs 6.8 kg')).toBeInTheDocument();
@@ -66,7 +67,9 @@ describe('FoodSuggestions — HO-SHP-002 §11.5, US-SHP-11', () => {
   });
 
   it('says so when there is nothing to suggest', () => {
-    render(<FoodSuggestions data={{ ...data, items: [], excludedForAllergy: [], hints: [] }} />);
+    renderWithClient(
+      <FoodSuggestions data={{ ...data, items: [], excludedForAllergy: [], hints: [] }} />,
+    );
     expect(screen.getByText('No suggestions right now')).toBeInTheDocument();
   });
 });

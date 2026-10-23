@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Info } from 'lucide-react';
 import { LimitedMarkup } from '@/components/content/LimitedMarkup';
 import { isSafeLink } from '@/lib/shop/helpers';
 import type { StorefrontBanner } from '@/lib/api/shop-catalogue';
@@ -14,15 +15,18 @@ export function BannerStrip({ banners }: { banners: StorefrontBanner[] }) {
       {banners.map((banner) => (
         <div
           key={banner.slug}
-          className="rounded-[var(--radius-md)] border border-border bg-warm-soft px-4 py-3 text-warm-ink"
+          className="flex items-start gap-2.5 rounded-[28px] bg-warning-bg px-5 py-3 text-sm text-warning-ink"
         >
-          <LimitedMarkup body={banner.title} className="font-semibold" />
-          <LimitedMarkup body={banner.body} className="text-sm" />
-          {isSafeLink(banner.linkUrl) && (
-            <Link href={banner.linkUrl} className="text-sm font-semibold underline">
-              Find out more
-            </Link>
-          )}
+          <Info size={18} className="mt-0.5 flex-none" aria-hidden="true" />
+          <div className="min-w-0">
+            <LimitedMarkup body={banner.title} className="font-semibold" />
+            <LimitedMarkup body={banner.body} />
+            {isSafeLink(banner.linkUrl) && (
+              <Link href={banner.linkUrl} className="font-semibold text-warning-ink underline">
+                Find out more
+              </Link>
+            )}
+          </div>
         </div>
       ))}
     </section>

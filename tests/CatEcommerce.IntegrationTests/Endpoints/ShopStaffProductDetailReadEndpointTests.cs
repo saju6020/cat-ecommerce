@@ -9,11 +9,7 @@ namespace CatEcommerce.IntegrationTests.Endpoints;
 /// write: food labelling, images, health focus, SKU label. Tests FU1-T1, FU1-T1b and FU1-T2.</summary>
 public sealed class ShopStaffProductDetailReadEndpointTests(ShopApiFactory factory) : ShopIntegrationTestBase(factory)
 {
-    private static byte[] MinimalPng() =>
-    [
-        0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A, 0x00, 0x00, 0x00, 0x0D, 0x49, 0x48, 0x44, 0x52,
-        0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x08, 0x02, 0x00, 0x00, 0x00, 0x90, 0x77, 0x53, 0xDE
-    ];
+    private static byte[] MinimalPng() => TestImages.Png();
 
     private static async Task<Guid> UploadProductImageAsync(HttpClient staff)
     {

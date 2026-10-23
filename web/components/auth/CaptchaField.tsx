@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { LoadingState } from '@/components/common/LoadingState';
 
@@ -50,7 +51,8 @@ export function CaptchaField({
   }, [imageDataUrl]);
 
   return (
-    <div className="flex flex-col gap-1.5">
+    // Hearth register (owner-approved 2026-10-16): the check sits in a rounded white box; "New code" is a pill.
+    <div className="flex flex-col gap-2.5 rounded-card border border-border bg-surface p-4">
       <div className="flex items-center justify-between gap-2">
         <label htmlFor={id} className="text-sm font-semibold text-ink">
           Security check{' '}
@@ -61,8 +63,9 @@ export function CaptchaField({
         <button
           type="button"
           onClick={onRetry}
-          className="text-xs font-semibold text-accent-ink underline hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+          className="inline-flex min-h-11 items-center gap-1.5 rounded-pill border border-border-strong bg-surface px-4 text-[13px] font-semibold text-accent-ink hover:bg-surface-sunken focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
         >
+          <RefreshCw size={14} aria-hidden="true" />
           New code
         </button>
       </div>
@@ -72,11 +75,11 @@ export function CaptchaField({
       </div>
 
       {isLoading ? (
-        <div className="flex h-[70px] w-[200px] items-center justify-center rounded-[var(--radius-sm)] border border-border bg-surface-sunken">
+        <div className="flex h-[70px] w-[200px] items-center justify-center rounded-[14px] border border-border bg-surface-sunken">
           <LoadingState rows={1} variant="table" label="Loading security check…" className="w-24" />
         </div>
       ) : isError ? (
-        <div className="flex h-[70px] w-[200px] flex-col items-center justify-center gap-1 rounded-[var(--radius-sm)] border border-border bg-surface-sunken px-2 text-center">
+        <div className="flex h-[70px] w-[200px] flex-col items-center justify-center gap-1 rounded-[14px] border border-border bg-surface-sunken px-2 text-center">
           <p className="text-xs text-ink-muted">Couldn&rsquo;t load the security check.</p>
           <Button type="button" variant="ghost" size="sm" onClick={onRetry}>
             Try again
@@ -90,7 +93,7 @@ export function CaptchaField({
           alt="Security check: an image of 5 letters and numbers"
           width={200}
           height={70}
-          className="h-[70px] w-[200px] rounded-[var(--radius-sm)] border border-border"
+          className="h-[70px] w-[200px] rounded-[14px] border border-border-strong"
         />
       )}
 
@@ -103,7 +106,7 @@ export function CaptchaField({
         spellCheck={false}
         aria-invalid={!!error}
         aria-describedby={[helpId, errorId].filter(Boolean).join(' ')}
-        className="w-full max-w-[200px] rounded-[var(--radius-sm)] border border-border-strong bg-surface px-3 py-2 text-sm uppercase tracking-widest text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+        className="min-h-12 w-full rounded-pill border border-border-strong bg-surface px-5 text-[15px] uppercase tracking-widest text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
         {...inputProps}
       />
       <p id={helpId} className="text-xs text-ink-muted">

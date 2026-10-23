@@ -46,7 +46,8 @@ public sealed class PostStockTransferCommandHandler(
         if (!locations.TryGetValue(command.ToLocationId, out var to) || !to.IsActive)
             return InventoryResponses.Fail(BusinessViolationCodes.StockLocationNotFound, nameof(command.ToLocationId), "The destination location does not exist.");
 
-        if (to.BranchId != command.BranchId)
+        // Owner, 2026-10-21: an Administrator works in any branch.
+        if (to.BranchId != command.BranchId && command.UserContext?.Roles?.Contains(StaffRoles.Administrator) != true)
         {
             var assignment = await assignments.GetByIdAsync(command.UserContext!.UserId);
             if (assignment is null || !assignment.BranchIds.Contains(to.BranchId))

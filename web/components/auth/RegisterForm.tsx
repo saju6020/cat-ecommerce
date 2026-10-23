@@ -5,6 +5,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+import { pillInputClass } from '@/components/hearth/fields';
 import { PasswordField } from './PasswordField';
 import { CaptchaField } from './CaptchaField';
 import { RetryNotice } from './RetryNotice';
@@ -39,6 +41,12 @@ import type { RegisterCustomerRequest } from '@/lib/api/auth';
  * page (`app/(auth)/register/page.tsx`) wires those hooks and passes their results down, the same
  * pattern `components/cat/CatForm.tsx`'s own `onSubmit` prop already establishes.
  */
+// Hearth "Welcome home" register (owner-approved 2026-10-16): pill fields at least 48px high.
+const HEARTH_INPUT = cn(
+  pillInputClass,
+  'min-h-12 px-5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent',
+);
+
 export interface RegisterFormProps {
   captcha: Pick<
     { data: CaptchaChallenge | undefined; isLoading: boolean; isError: boolean },
@@ -125,16 +133,20 @@ export function RegisterForm({
       method="post"
       onSubmit={handleSubmit(onSubmit)}
       noValidate
-      className="flex flex-col gap-5"
+      className="flex flex-col gap-4"
     >
       {errors.root && (
-        <p role="alert" aria-live="polite" className="text-sm font-semibold text-danger-ink">
+        <p
+          role="alert"
+          aria-live="polite"
+          className="rounded-2xl bg-danger-bg px-4 py-3.5 text-sm text-danger-ink"
+        >
           {errors.root.message}
         </p>
       )}
       {rateLimitError && <RetryNotice retryAfterSeconds={rateLimitError.retryAfterSeconds} />}
 
-      <div className="flex flex-col gap-1.5">
+      <div className="flex flex-col gap-2">
         <label htmlFor="fullName" className="text-sm font-semibold text-ink">
           Full name{' '}
           <span aria-hidden="true" className="text-danger-ink">
@@ -147,7 +159,7 @@ export function RegisterForm({
           autoComplete="name"
           aria-invalid={!!errors.fullName}
           aria-describedby={errors.fullName ? 'fullName-error' : undefined}
-          className="rounded-[var(--radius-sm)] border border-border-strong bg-surface px-3 py-2 text-sm text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+          className={HEARTH_INPUT}
           {...register('fullName')}
         />
         {errors.fullName && (
@@ -170,6 +182,7 @@ export function RegisterForm({
         label="Password"
         purpose="new"
         required
+        appearance="hearth"
         error={errors.password?.message}
         {...register('password')}
       />
@@ -186,18 +199,18 @@ export function RegisterForm({
 
       <Button
         type="submit"
+        variant="pill"
+        size="pillLg"
+        className="w-full"
         disabled={isSubmitting || isPending}
         aria-busy={isSubmitting || isPending}
       >
         {isSubmitting || isPending ? 'Creating your account…' : 'Create account'}
       </Button>
 
-      <p className="text-sm text-ink-muted">
+      <p className="text-center text-[15px] text-ink-muted">
         Already have an account?{' '}
-        <Link
-          href={signInHref}
-          className="font-semibold text-accent-ink no-underline hover:underline"
-        >
+        <Link href={signInHref} className="font-bold text-accent-ink no-underline hover:underline">
           Sign in
         </Link>
       </p>

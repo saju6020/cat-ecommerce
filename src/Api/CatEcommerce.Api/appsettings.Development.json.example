@@ -12,7 +12,11 @@
     "AllowedOrigins": ["http://localhost:3000"]
   },
   "Notifications": {
-    "ApiBaseUrl": "http://localhost:5005"
+    "ApiBaseUrl": "http://localhost:5005",
+    "Channels": {
+      "Sms": { "Sender": "Development" },
+      "Email": { "Sender": "Development" }
+    }
   },
   "Captcha": {
     "TestAnswer": "TEST1"

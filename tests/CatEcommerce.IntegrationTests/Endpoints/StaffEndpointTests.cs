@@ -74,6 +74,136 @@ public sealed class StaffEndpointTests(AccountsApiFactory factory) : AccountsInt
         Assert.False(body.GetProperty("hasPassword").GetBoolean());
     }
 
+    // Owner, 2026-10-19: the administrator creates a staff member with a starting password and shares it.
+    [Fact]
+    public async Task Administrator_CreatesStaffWithAPassword_TheNewMemberSignsInWithIt()
+    {
+        var (mobile, password) = await SeedStaffAsync("Administrator");
+        using var client = CreateClient();
+        await SignInWithCsrfAsync(client, mobile, password);
+
+        var newMobile = NewMobile();
+        var response = await client.PostAsJsonAsync("/api/staff-accounts", new
+        {
+            fullName = "New Nurse", mobileNumber = newMobile, roleIds = new[] { "Nurse" }, password = "a-shared-starting-password"
+        }, Json);
+        Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+        var newStaffId = (await response.Content.ReadFromJsonAsync<System.Text.Json.JsonElement>(Json)).GetProperty("staffAccountId").GetGuid();
+
+        var body = await (await client.GetAsync($"/api/staff-accounts/{newStaffId}")).Content.ReadFromJsonAsync<System.Text.Json.JsonElement>(Json);
+        Assert.True(body.GetProperty("hasPassword").GetBoolean());
+
+        using var memberClient = CreateClient();
+        var signIn = await memberClient.PostAsJsonAsync("/api/staff/auth/sign-in", new { identifier = newMobile, password = "a-shared-starting-password" }, Json);
+        Assert.Equal(HttpStatusCode.OK, signIn.StatusCode);
+    }
+
+    // Owner, 2026-10-19: the administrator sets a new password; the member's open session ends and the new one works.
+    [Fact]
+    public async Task Administrator_SetsAStaffPassword_OldSessionEnds_NewPasswordSignsIn()
+    {
+        var (administratorId, (administratorMobile, administratorPassword)) = await SeedStaffWithIdAsync("Administrator");
+        var (memberId, (memberMobile, memberPassword)) = await SeedStaffWithIdAsync("Nurse");
+
+        using var memberClient = CreateClient();
+        Assert.Equal(HttpStatusCode.OK, (await memberClient.PostAsJsonAsync("/api/staff/auth/sign-in", new { identifier = memberMobile, password = memberPassword }, Json)).StatusCode);
+
+        using var adminClient = CreateClient();
+        await SignInWithCsrfAsync(adminClient, administratorMobile, administratorPassword);
+        var set = await adminClient.PutAsJsonAsync($"/api/staff-accounts/{memberId}/password", new { password = "a-brand-new-password" }, Json);
+        Assert.Equal(HttpStatusCode.NoContent, set.StatusCode);
+
+        Assert.Equal(HttpStatusCode.Unauthorized, (await memberClient.GetAsync("/api/staff/session")).StatusCode);
+        using var fresh = CreateClient();
+        Assert.Equal(HttpStatusCode.OK, (await fresh.PostAsJsonAsync("/api/staff/auth/sign-in", new { identifier = memberMobile, password = "a-brand-new-password" }, Json)).StatusCode);
+        using var old = CreateClient();
+        Assert.NotEqual(HttpStatusCode.OK, (await old.PostAsJsonAsync("/api/staff/auth/sign-in", new { identifier = memberMobile, password = memberPassword }, Json)).StatusCode);
+
+        // SECURITY gate HIGH: the audit row names the administrator who set it, not the staff member.
+        await using var scope = Factory.Services.CreateAsyncScope();
+        var db = scope.ServiceProvider.GetRequiredService<CatEcommerce.Infrastructure.Persistence.CatEcommerceDbContext>();
+        var audit = await Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.SingleAsync(
+            db.Set<CatEcommerce.Domain.Aggregates.Audit.AuditEntryAggregate>(),
+            e => e.EntityId == memberId && e.Action == "StaffPasswordSet" && e.Reason == "SetByAdministrator");
+        Assert.Equal(administratorId, audit.ActorUserId);
+    }
+
+    [Fact]
+    public async Task NonAdministrator_SettingAStaffPassword_Returns403()
+    {
+        var (receptionMobile, receptionPassword) = await SeedStaffAsync("Reception");
+        var (memberId, _) = await SeedStaffWithIdAsync("Nurse");
+        using var client = CreateClient();
+        await SignInWithCsrfAsync(client, receptionMobile, receptionPassword);
+
+        var set = await client.PutAsJsonAsync($"/api/staff-accounts/{memberId}/password", new { password = "a-brand-new-password" }, Json);
+        Assert.Equal(HttpStatusCode.Forbidden, set.StatusCode);
+    }
+
+    [Fact]
+    public async Task SettingAPasswordForAnUnknownStaffAccount_Returns404_AndAShortOne_Returns400()
+    {
+        var (mobile, password) = await SeedStaffAsync("Administrator");
+        var (memberId, _) = await SeedStaffWithIdAsync("Nurse");
+        using var client = CreateClient();
+        await SignInWithCsrfAsync(client, mobile, password);
+
+        Assert.Equal(HttpStatusCode.NotFound, (await client.PutAsJsonAsync($"/api/staff-accounts/{Guid.NewGuid()}/password", new { password = "a-brand-new-password" }, Json)).StatusCode);
+        Assert.Equal(HttpStatusCode.BadRequest, (await client.PutAsJsonAsync($"/api/staff-accounts/{memberId}/password", new { password = "short" }, Json)).StatusCode);
+    }
+
+    // Owner, 2026-10-20: the administrator edits a staff member's name and sign-in identifiers.
+    [Fact]
+    public async Task Administrator_UpdatesStaffDetails_NewEmailSignsIn_AndIsAudited()
+    {
+        var (administratorId, (administratorMobile, administratorPassword)) = await SeedStaffWithIdAsync("Administrator");
+        var (memberId, (memberMobile, memberPassword)) = await SeedStaffWithIdAsync("Nurse");
+        using var client = CreateClient();
+        await SignInWithCsrfAsync(client, administratorMobile, administratorPassword);
+
+        var email = NewEmail();
+        var update = await client.PutAsJsonAsync($"/api/staff-accounts/{memberId}", new { fullName = "Renamed Nurse", mobileNumber = memberMobile, emailAddress = email }, Json);
+        Assert.Equal(HttpStatusCode.NoContent, update.StatusCode);
+
+        var body = await (await client.GetAsync($"/api/staff-accounts/{memberId}")).Content.ReadFromJsonAsync<System.Text.Json.JsonElement>(Json);
+        Assert.Equal("Renamed Nurse", body.GetProperty("fullName").GetString());
+        Assert.Equal(email, body.GetProperty("emailAddress").GetString());
+
+        // Re-saving the same identifiers is not a duplicate of itself.
+        Assert.Equal(HttpStatusCode.NoContent, (await client.PutAsJsonAsync($"/api/staff-accounts/{memberId}", new { fullName = "Renamed Nurse", mobileNumber = memberMobile, emailAddress = email }, Json)).StatusCode);
+
+        using var memberClient = CreateClient();
+        Assert.Equal(HttpStatusCode.OK, (await memberClient.PostAsJsonAsync("/api/staff/auth/sign-in", new { identifier = email, password = memberPassword }, Json)).StatusCode);
+
+        await using var scope = Factory.Services.CreateAsyncScope();
+        var db = scope.ServiceProvider.GetRequiredService<CatEcommerce.Infrastructure.Persistence.CatEcommerceDbContext>();
+        var audit = await Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.SingleAsync(
+            db.Set<CatEcommerce.Domain.Aggregates.Audit.AuditEntryAggregate>(),
+            e => e.EntityId == memberId && e.Action == "StaffAccountDetailsChanged");
+        Assert.Equal(administratorId, audit.ActorUserId);
+    }
+
+    [Fact]
+    public async Task UpdatingStaffDetails_Duplicate400_Unknown404_NonAdministrator403()
+    {
+        var (adminMobile, adminPassword) = await SeedStaffAsync("Administrator");
+        var (memberId, _) = await SeedStaffWithIdAsync("Nurse");
+        var (_, (otherMobile, _)) = await SeedStaffWithIdAsync("Vet");
+        using var client = CreateClient();
+        await SignInWithCsrfAsync(client, adminMobile, adminPassword);
+
+        var duplicate = await client.PutAsJsonAsync($"/api/staff-accounts/{memberId}", new { fullName = "Nurse", mobileNumber = otherMobile }, Json);
+        Assert.Equal(HttpStatusCode.BadRequest, duplicate.StatusCode);
+        Assert.Contains("MobileNumberAlreadyRegistered", await duplicate.Content.ReadAsStringAsync());
+        Assert.Equal(HttpStatusCode.BadRequest, (await client.PutAsJsonAsync($"/api/staff-accounts/{memberId}", new { fullName = "Nurse" }, Json)).StatusCode);
+        Assert.Equal(HttpStatusCode.NotFound, (await client.PutAsJsonAsync($"/api/staff-accounts/{Guid.NewGuid()}", new { fullName = "Nobody", mobileNumber = NewMobile() }, Json)).StatusCode);
+
+        var (receptionMobile, receptionPassword) = await SeedStaffAsync("Reception");
+        using var reception = CreateClient();
+        await SignInWithCsrfAsync(reception, receptionMobile, receptionPassword);
+        Assert.Equal(HttpStatusCode.Forbidden, (await reception.PutAsJsonAsync($"/api/staff-accounts/{memberId}", new { fullName = "Nurse", mobileNumber = NewMobile() }, Json)).StatusCode);
+    }
+
     // I-F4
     [Fact]
     public async Task ChangeRoles_RotatesStamp_AffectedMembersExistingSessionIs401OnNextRequest()

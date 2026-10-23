@@ -39,4 +39,6 @@ public sealed class GetStaffBranchAssignmentQuery : Query<StaffBranchAssignmentV
 public sealed class GetMyBranchesQuery : Query<StaffBranchAssignmentViewModel?>
 {
     public required Guid StaffAccountId { get; init; }
+    /// <summary>Owner, 2026-10-21: an Administrator may work in any active branch, so their picker lists them all.</summary>
+    public bool IncludeAllActiveBranches { get; init; }
 }

@@ -12,7 +12,8 @@ public sealed record PolicyDocumentViewModel(
     Guid Id, string Key, string Title, bool RequiresAcceptance, int? CurrentVersionNumber,
     IReadOnlyList<PolicyVersionSummaryViewModel> Versions);
 
-public sealed record PolicyVersionSummaryViewModel(int VersionNumber, DateTimeOffset PublishedOn, string ChangeSummary);
+/// <summary>2026-10-15: <c>Body</c> added -- the staff policy detail page renders each version's text and crashed without it (journey-real-api 5e).</summary>
+public sealed record PolicyVersionSummaryViewModel(int VersionNumber, DateTimeOffset PublishedOn, string ChangeSummary, string Body);
 
 /// <summary>Issues.md #8: <c>Title</c> (the document's) added -- the acceptance prompt and the public policy page show it.</summary>
 public sealed record PolicyVersionViewModel(string PolicyKey, int VersionNumber, string Body, DateTimeOffset PublishedOn, string Title);

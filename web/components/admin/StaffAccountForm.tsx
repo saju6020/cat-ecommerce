@@ -5,11 +5,13 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
+import { PasswordField } from '@/components/auth/PasswordField';
 import { RoleAssignmentField } from './RoleAssignmentField';
 import { CapabilityMatrixPreview } from './CapabilityMatrixPreview';
 import { applyValidationErrors, describeUnexpectedError } from '@/lib/api/errors';
 import { ApiValidationError } from '@/lib/api/client';
 import type { StaffRoleCatalogue, CreateStaffAccountRequest } from '@/lib/api/staff-admin';
+import { PASSWORD_MIN_LENGTH } from '@/lib/validation/password';
 
 const schema = z
   .object({
@@ -17,6 +19,9 @@ const schema = z
     mobileNumber: z.string().trim().optional(),
     emailAddress: z.string().trim().optional(),
     roleIds: z.array(z.string()).min(1, 'Select at least one role.'),
+    password: z
+      .string()
+      .min(PASSWORD_MIN_LENGTH, `Use at least ${PASSWORD_MIN_LENGTH} characters.`),
   })
   .refine((data) => data.mobileNumber || data.emailAddress, {
     message: 'Give a mobile number, an email, or both.',
@@ -29,13 +34,14 @@ const FIELD_MAP = {
   MobileNumber: 'mobileNumber',
   EmailAddress: 'emailAddress',
   RoleIds: 'roleIds',
+  Password: 'password',
 } as const;
 const KNOWN_FIELDS = Object.values(FIELD_MAP);
 
 /**
- * `components/admin/StaffAccountForm.tsx` — ⭐ US-ACC-07, HO-ACC-002 §11.10. Success names the
- * new member and points to "Set or reset password" for their first password (no password is
- * collected here — the account is created with none, `hasPassword: false`).
+ * `components/admin/StaffAccountForm.tsx` — ⭐ US-ACC-07, HO-ACC-002 §11.10. Owner, 2026-10-19: the
+ * administrator sets the starting password here and shares it with the new member themselves (there is no
+ * email delivery in production for the self-service reset). Success names the member and says so.
  *
  * ARCH gate HIGH 3 (first pass) — takes `catalogue`/`onCreate`/`isPending` as props; the page
  * (`app/(staff)/staff/admin/staff-accounts/new/page.tsx`) wires
@@ -48,7 +54,11 @@ export interface StaffAccountFormProps {
 }
 
 export function StaffAccountForm({ catalogue, onCreate, isPending }: StaffAccountFormProps) {
-  const [createdName, setCreatedName] = useState<string | null>(null);
+  const [created, setCreated] = useState<{
+    name: string;
+    mobileNumber: string | null;
+    emailAddress: string | null;
+  } | null>(null);
 
   const {
     register,
@@ -59,7 +69,7 @@ export function StaffAccountForm({ catalogue, onCreate, isPending }: StaffAccoun
     formState: { errors, isSubmitting },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: { fullName: '', mobileNumber: '', emailAddress: '', roleIds: [] },
+    defaultValues: { fullName: '', mobileNumber: '', emailAddress: '', roleIds: [], password: '' },
   });
   const selectedRoleIds = watch('roleIds');
 
@@ -70,8 +80,13 @@ export function StaffAccountForm({ catalogue, onCreate, isPending }: StaffAccoun
         mobileNumber: values.mobileNumber || null,
         emailAddress: values.emailAddress || null,
         roleIds: values.roleIds,
+        password: values.password,
       });
-      setCreatedName(values.fullName);
+      setCreated({
+        name: values.fullName,
+        mobileNumber: values.mobileNumber || null,
+        emailAddress: values.emailAddress || null,
+      });
     } catch (error) {
       if (error instanceof ApiValidationError) {
         applyValidationErrors(error, setError, { fieldMap: FIELD_MAP, knownFields: KNOWN_FIELDS });
@@ -81,11 +96,13 @@ export function StaffAccountForm({ catalogue, onCreate, isPending }: StaffAccoun
     }
   }
 
-  if (createdName) {
+  if (created) {
+    // Owner, 2026-10-20: name the sign-in ID(s) the administrator shares along with the password.
+    const ids = [created.mobileNumber, created.emailAddress].filter(Boolean).join(' or ');
     return (
       <p role="status" aria-live="polite" className="text-sm text-ink">
-        Account created. Ask {createdName} to choose &ldquo;Set or reset password&rdquo; on the
-        staff sign-in page to set their password.
+        Account created. Share the password with {created.name}; they sign in on the staff sign-in
+        page with <span className="font-semibold">{ids}</span> and that password.
       </p>
     );
   }
@@ -154,6 +171,15 @@ export function StaffAccountForm({ catalogue, onCreate, isPending }: StaffAccoun
           {...register('emailAddress')}
         />
       </div>
+
+      <PasswordField
+        id="staffPassword"
+        label="Password"
+        purpose="new"
+        required
+        error={errors.password?.message}
+        {...register('password')}
+      />
 
       <Controller
         control={control}

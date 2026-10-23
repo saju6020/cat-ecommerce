@@ -1,4 +1,5 @@
 using CatEcommerce.Domain.Models;
+using CatEcommerce.Shared.Common.Constants;
 using CatEcommerce.Shared.Common.Helpers;
 
 namespace CatEcommerce.Domain.DomainServices;
@@ -19,5 +20,12 @@ public interface IFileStore
 
     Task<FileStoreResult<Stream>> OpenReadAsync(string storageKey, CancellationToken ct);
 
+    /// <summary>Removes the object and the copies stored beside it (<see cref="FileVariants.ForStorageKey"/>). Idempotent.</summary>
     Task<FileStoreResult<Unit>> DeleteAsync(string storageKey, CancellationToken ct);
+
+    /// <summary>ADR-370: stores a resized copy beside an existing object, at <see cref="FileVariant.KeyFor"/>.</summary>
+    Task<FileStoreResult<Unit>> PutVariantAsync(string storageKey, FileVariant variant, Stream content, CancellationToken ct);
+
+    /// <summary>ADR-370: whether an object (an original or a copy's key) exists; the backfill uses it to resume.</summary>
+    Task<bool> ExistsAsync(string storageKey, CancellationToken ct);
 }

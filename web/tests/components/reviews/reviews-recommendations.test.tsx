@@ -7,6 +7,14 @@ import { StockAlertButton } from '@/components/wishlist/StockAlertButton';
 import type { ProductReview, Recommendations } from '@/lib/api/shop-catalogue';
 import type { ReviewEligibility } from '@/lib/api/shop-customer';
 import { makeItem } from '../catalogue/catalogue-fixtures';
+import { renderWithClient } from '../product/test-utils';
+
+// The product cards are client components that navigate.
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({ replace: vi.fn(), push: vi.fn() }),
+  usePathname: () => '/shop/products/x',
+  useSearchParams: () => new URLSearchParams(),
+}));
 
 const REVIEW: ProductReview = {
   reviewId: 'r1',
@@ -123,14 +131,14 @@ describe('RecommendationBlocks — US-SHP-08', () => {
   });
 
   it('U-B9: an empty block is not rendered; the life-stage heading names the audience', () => {
-    render(<RecommendationBlocks recommendations={recs()} />);
+    renderWithClient(<RecommendationBlocks recommendations={recs()} />);
     expect(screen.getByRole('heading', { name: 'Frequently bought together' })).toBeInTheDocument();
     expect(screen.queryByRole('heading', { name: 'You might also like' })).not.toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'Recommended for kittens' })).toBeInTheDocument();
   });
 
   it('U-B9: the heading reads "for your cats" when basis is YourCats', () => {
-    render(
+    renderWithClient(
       <RecommendationBlocks
         recommendations={recs({
           lifeStage: {

@@ -11,7 +11,8 @@ public sealed record CustomerOrderSummaryViewModel(
 
 public sealed record OrderLineViewModel(
     Guid LineId, int LineNumber, Guid SkuId, string ProductName, string VariantLabel, CartCatViewModel? Cat, int Quantity, MoneyViewModel UnitPrice, MoneyViewModel LineSubtotal,
-    MoneyViewModel LineDiscount, MoneyViewModel OrderDiscountShare, decimal TaxRatePercent, MoneyViewModel TaxAmount, MoneyViewModel LineTotal);
+    MoneyViewModel LineDiscount, MoneyViewModel OrderDiscountShare, decimal TaxRatePercent, MoneyViewModel TaxAmount, MoneyViewModel LineTotal,
+    string? ImagePath = null);
 
 public sealed record OrderTotalsViewModel(
     MoneyViewModel Subtotal, MoneyViewModel LineDiscountTotal, MoneyViewModel OrderDiscount, MoneyViewModel DeliveryCharge, MoneyViewModel TaxTotal, MoneyViewModel GrandTotal);

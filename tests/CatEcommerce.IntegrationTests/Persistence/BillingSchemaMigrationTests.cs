@@ -18,8 +18,7 @@ public sealed class BillingSchemaMigrationTests : IAsyncLifetime
 
     private static NpgsqlConnectionStringBuilder Server()
     {
-        var configured = Environment.GetEnvironmentVariable("CATECOMMERCE_TEST_DB")
-            ?? "Host=localhost;Port=5432;Database=catecommerce_test;Username=postgres;Password=postgres";
+        var configured = TestDatabase.ConnectionString;
         return new NpgsqlConnectionStringBuilder(configured);
     }
 

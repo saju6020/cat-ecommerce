@@ -27,7 +27,7 @@ vi.mock('next/navigation', () => ({
 
 describe('portal-links (ADR-FE-121)', () => {
   it('U-L1: builders return the documented paths and the landing constant is /portal', () => {
-    expect(DEFAULT_CUSTOMER_LANDING).toBe('/portal');
+    expect(DEFAULT_CUSTOMER_LANDING).toBe('/portal/orders'); // owner, 2026-10-17
     expect(PORTAL_HOME).toBe('/portal');
     expect(portalCatHref('x')).toBe('/portal/cats/x');
     expect(portalCatVisitsHref('x')).toBe('/portal/cats/x/visits');

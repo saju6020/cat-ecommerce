@@ -1,22 +1,29 @@
 'use client';
 
 import Link from 'next/link';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
-import { EmptyState } from '@/components/common/EmptyState';
 import { ErrorState } from '@/components/common/ErrorState';
 import { LoadingState } from '@/components/common/LoadingState';
+import { GreetingHeader } from '@/components/hearth/GreetingHeader';
+import { HearthEmpty } from '@/components/hearth/HearthEmpty';
+import { PillSteps, type PillStep } from '@/components/hearth/PillSteps';
+import { summaryCardClass } from '@/components/hearth/card';
+import { OrderSummary } from '@/components/orders/OrderSummary';
 import { buttonVariants } from '@/components/ui/button';
 import type { CheckoutChoices, PlaceOrderRequest } from '@/lib/api/checkout';
+import { describeOrderingError, orderingViolationCodes } from '@/lib/api/errors';
 import {
-  describeOrderingError,
-  orderingViolationCodes,
-} from '@/lib/api/errors';
-import { formatDeliverySlot, paymentMethodLabel, serviceLevelLabel } from '@/lib/format/orders';
+  formatDeliverySlot,
+  paymentMethodExplanation,
+  paymentMethodLabel,
+  serviceLevelLabel,
+} from '@/lib/format/orders';
 import { useDeliveryAddresses, useCustomerProfile } from '@/lib/hooks/useAccount';
 import { useAddDeliveryAddress } from '@/lib/hooks/useAccountMutations';
 import { useCart, useCartCats, useUpdateCartLine } from '@/lib/hooks/useCart';
+import { firstNameOf, useCustomerFirstName } from '@/lib/hooks/useCustomerFirstName';
 import {
   CHECKOUT_STEPS,
   useCheckoutQuote,
@@ -28,14 +35,15 @@ import { useIdempotencyKey } from '@/lib/hooks/useIdempotencyKey';
 import { usePublicBranches } from '@/lib/hooks/useMyOrders';
 import { useAcceptPolicyVersion } from '@/lib/hooks/usePublicContent';
 import { ChangesPanel } from './ChangesPanel';
-import { CheckoutStepper, type StepDescriptor } from './CheckoutStepper';
 import { DiscountCodeField } from './DiscountCodeField';
 import { FulfilmentStep } from './FulfilmentStep';
 import { PaymentStep } from './PaymentStep';
 import { PendingPoliciesPanel } from './PendingPoliciesPanel';
 import { PrescriptionLinesPanel } from './PrescriptionLinesPanel';
+import { ReviewChoices } from './ReviewChoices';
 import { ReviewStep } from './ReviewStep';
 import { SlotStep, leadTimeText } from './SlotStep';
+import type { RenderSummary } from './StepLayout';
 
 /** Until the branches load (or if they cannot): the clinic's own zone. */
 const FALLBACK_ZONE = 'Asia/Dhaka';
@@ -47,6 +55,17 @@ const STEP_TITLES: Record<CheckoutStep, string> = {
   payment: 'Payment',
   review: 'Review and place your order',
 };
+
+type StepStatus = 'current' | 'done' | 'todo' | 'skipped';
+
+interface StepDescriptor {
+  id: CheckoutStep;
+  title: string;
+  status: StepStatus;
+  /** One line shown once the step has been passed (and for a skipped step, why). */
+  summary: string | null;
+  body: ReactNode;
+}
 
 /**
  * `components/checkout/CheckoutScreen.tsx` — ⭐ HO-ORD-002 §11.2, ADR-FE-090/091/097. One route, four
@@ -61,6 +80,11 @@ export function CheckoutScreen() {
   const queryClient = useQueryClient();
   const { state, update } = useCheckoutUrlState();
   const cart = useCart();
+  // The quote carries no images; the review shows each line's photo from the cart it was built from.
+  const imageBySku = useMemo(
+    () => new Map((cart.data?.lines ?? []).map((line) => [line.skuId, line.imagePath] as const)),
+    [cart.data],
+  );
   const addresses = useDeliveryAddresses();
   const profile = useCustomerProfile();
   const addAddress = useAddDeliveryAddress();
@@ -68,10 +92,13 @@ export function CheckoutScreen() {
   const acceptPolicy = useAcceptPolicyVersion();
   const updateLine = useUpdateCartLine();
   const place = usePlaceOrder();
+  const [placedOrderId, setPlacedOrderId] = useState<string | null>(null);
   const branches = usePublicBranches();
   // Delivery windows are the branch's: label them in its zone, not a hard-coded one.
   const zone = branches.data?.[0]?.timeZoneId ?? FALLBACK_ZONE;
   const idempotency = useIdempotencyKey();
+  const sessionFirstName = useCustomerFirstName();
+  const firstName = sessionFirstName ?? firstNameOf(profile.data?.fullName);
 
   const [recipient, setRecipient] = useState<{ name: string; phone: string } | null>(null);
   const [acknowledged, setAcknowledged] = useState<string | null>(null);
@@ -129,7 +156,12 @@ export function CheckoutScreen() {
 
   // Default pickup branch.
   useEffect(() => {
-    if (state.fulfilment === 'Pickup' && !state.pickupBranchId && quote && quote.pickupBranches.length > 0) {
+    if (
+      state.fulfilment === 'Pickup' &&
+      !state.pickupBranchId &&
+      quote &&
+      quote.pickupBranches.length > 0
+    ) {
       update({ pickupBranchId: quote.pickupBranches[0]!.id });
     }
   }, [state.fulfilment, state.pickupBranchId, quote, update]);
@@ -139,7 +171,12 @@ export function CheckoutScreen() {
     quote?.delivery.available === false &&
     quote.delivery.unavailableReason === 'AddressOutsideServedZones';
   useEffect(() => {
-    if (state.fulfilment === 'Delivery' && outsideZone && state.addressId && switchedFor.current !== state.addressId) {
+    if (
+      state.fulfilment === 'Delivery' &&
+      outsideZone &&
+      state.addressId &&
+      switchedFor.current !== state.addressId
+    ) {
       switchedFor.current = state.addressId;
       update({ fulfilment: 'Pickup', pickupBranchId: undefined, step: 'fulfilment' });
     }
@@ -149,17 +186,21 @@ export function CheckoutScreen() {
   const effectiveLevel = state.serviceLevel ?? quote?.selectedServiceLevel ?? null;
   const chosenLevel = levels.find((level) => level.level === effectiveLevel);
   const slotSkipped =
-    state.fulfilment === 'Pickup' ||
-    (levels.length <= 1 && (levels[0]?.slots.length ?? 0) === 0);
-  const deliveryTaxUnavailable = quote?.blockingReasons.includes('DeliveryTaxNotConfigured') ?? false;
-  const selectedPayment = quote?.paymentOptions.find((option) => option.method === state.paymentMethod);
+    state.fulfilment === 'Pickup' || (levels.length <= 1 && (levels[0]?.slots.length ?? 0) === 0);
+  const deliveryTaxUnavailable =
+    quote?.blockingReasons.includes('DeliveryTaxNotConfigured') ?? false;
+  const selectedPayment = quote?.paymentOptions.find(
+    (option) => option.method === state.paymentMethod,
+  );
 
   const fulfilmentIncomplete =
     state.fulfilment === 'Delivery'
       ? !state.addressId || !quote?.delivery.available || deliveryTaxUnavailable
       : !state.pickupBranchId;
   const slotIncomplete =
-    !slotSkipped && state.fulfilment === 'Delivery' && (!chosenLevel || (chosenLevel.slots.length > 0 && !state.slotDate));
+    !slotSkipped &&
+    state.fulfilment === 'Delivery' &&
+    (!chosenLevel || (chosenLevel.slots.length > 0 && !state.slotDate));
   const paymentIncomplete = !selectedPayment || !selectedPayment.available;
 
   const incompleteStep: CheckoutStep | null = fulfilmentIncomplete
@@ -197,11 +238,21 @@ export function CheckoutScreen() {
       setStepErrors((current) => ({ ...current, payment: message }));
       goTo('payment');
     } else if (
-      codes.some((c) => ['DeliveryTaxNotConfigured', 'AddressOutsideServedZones', 'DeliveryAddressNotFound', 'PickupBranchUnavailable', 'RecipientPhoneRequired'].includes(c))
+      codes.some((c) =>
+        [
+          'DeliveryTaxNotConfigured',
+          'AddressOutsideServedZones',
+          'DeliveryAddressNotFound',
+          'PickupBranchUnavailable',
+          'RecipientPhoneRequired',
+        ].includes(c),
+      )
     ) {
       setStepErrors((current) => ({ ...current, fulfilment: message }));
       goTo('fulfilment');
-    } else if (codes.some((c) => ['ServiceLevelUnavailable', 'DeliverySlotUnavailable'].includes(c))) {
+    } else if (
+      codes.some((c) => ['ServiceLevelUnavailable', 'DeliverySlotUnavailable'].includes(c))
+    ) {
       setStepErrors((current) => ({ ...current, slot: message }));
       goTo('slot');
     } else if (codes.includes('PolicyAcceptanceRequired')) {
@@ -225,7 +276,10 @@ export function CheckoutScreen() {
     setPlaceError(null);
     const request: PlaceOrderRequest = {
       ...choices,
-      serviceLevel: state.fulfilment === 'Delivery' ? (quote.selectedServiceLevel ?? choices.serviceLevel) : undefined,
+      serviceLevel:
+        state.fulfilment === 'Delivery'
+          ? (quote.selectedServiceLevel ?? choices.serviceLevel)
+          : undefined,
       discountCode: quote.discount?.applied ? quote.discount.code : undefined,
       recipientName: recipient?.name.trim() || undefined,
       recipientPhone: recipient?.phone.trim() || undefined,
@@ -237,7 +291,11 @@ export function CheckoutScreen() {
         idempotencyKey: idempotency.keyFor(JSON.stringify(request)),
       });
       idempotency.renew();
-      router.push(`/checkout/complete/${placed.orderId}`);
+      // Owner, 2026-10-19: straight to the order's details page (it shows the transfer instructions when the order
+      // waits for one). `placedOrderId` holds this screen on "Opening your order…" meanwhile: placing the order empties
+      // the cart, and the refetched cart would otherwise show "Your cart is empty" before the page changes.
+      setPlacedOrderId(placed.orderId);
+      router.push(`/portal/orders/${encodeURIComponent(placed.orderId)}?placed=1`);
     } catch (error) {
       handlePlaceError(error);
     } finally {
@@ -245,6 +303,7 @@ export function CheckoutScreen() {
     }
   }
 
+  if (placedOrderId) return <LoadingState rows={3} label="Opening your order…" />;
   if (cart.isPending) return <LoadingState rows={5} label="Loading your checkout…" />;
   if (cart.isError) {
     return (
@@ -258,11 +317,11 @@ export function CheckoutScreen() {
   }
   if (!hasLines) {
     return (
-      <EmptyState
+      <HearthEmpty
         title="Your cart is empty."
         description="Add something to your cart before checking out."
         action={
-          <Link href="/shop" className={buttonVariants({ variant: 'primary' })}>
+          <Link href="/shop" className={buttonVariants({ variant: 'pill', size: 'pillLg' })}>
             Browse the shop
           </Link>
         }
@@ -278,7 +337,9 @@ export function CheckoutScreen() {
         ? `Delivery to ${selectedAddress.label} — ${selectedAddress.line1}, ${selectedAddress.district}`
         : 'Delivery'
       : `Collect from ${pickupBranch?.name ?? 'a branch'}`;
-  const chosenSlot = chosenLevel?.slots.find((slot) => slot.date === state.slotDate && slot.windowStart === state.slotWindowStart);
+  const chosenSlot = chosenLevel?.slots.find(
+    (slot) => slot.date === state.slotDate && slot.windowStart === state.slotWindowStart,
+  );
   const slotSummary = slotSkipped
     ? state.fulfilment === 'Pickup'
       ? 'Not needed for collection.'
@@ -301,6 +362,32 @@ export function CheckoutScreen() {
   };
 
   const nextAfterFulfilment: CheckoutStep = slotSkipped ? 'payment' : 'slot';
+  const previousBeforePayment: CheckoutStep = slotSkipped ? 'fulfilment' : 'slot';
+
+  // Steps 1-3 sit beside the quote's neutral order summary, with the step's Continue block inside it.
+  const renderSummary: RenderSummary = (footer) =>
+    quote ? (
+      <OrderSummary
+        appearance="hearth"
+        totals={quote.totals}
+        discountCode={quote.discount?.applied ? quote.discount.code : null}
+        serviceLevel={quote.selectedServiceLevel}
+        fulfilment={state.fulfilment}
+        footer={footer}
+      />
+    ) : (
+      <section aria-label="Order summary" className={`${summaryCardClass} flex flex-col gap-4`}>
+        <h2 className="m-0 font-display text-2xl font-semibold text-ink">Order summary</h2>
+        {quoteQuery.isError ? (
+          <p role="alert" className="m-0 text-sm text-ink-muted">
+            We couldn&rsquo;t price your order just now.
+          </p>
+        ) : (
+          <LoadingState rows={4} label="Pricing your order…" />
+        )}
+        {footer}
+      </section>
+    );
   const rxLines = cart.data?.lines ?? [];
   const needsAcknowledgement = (quote?.changes.length ?? 0) > 0;
 
@@ -315,11 +402,24 @@ export function CheckoutScreen() {
           fulfilment={state.fulfilment}
           onFulfilment={(value) => {
             setStepErrors({});
-            update({ fulfilment: value, serviceLevel: undefined, slotDate: undefined, slotWindowStart: undefined, paymentMethod: undefined });
+            update({
+              fulfilment: value,
+              serviceLevel: undefined,
+              slotDate: undefined,
+              slotWindowStart: undefined,
+              paymentMethod: undefined,
+            });
           }}
           addresses={addressList}
           addressId={state.addressId}
-          onAddress={(id) => update({ addressId: id, slotDate: undefined, slotWindowStart: undefined, paymentMethod: undefined })}
+          onAddress={(id) =>
+            update({
+              addressId: id,
+              slotDate: undefined,
+              slotWindowStart: undefined,
+              paymentMethod: undefined,
+            })
+          }
           onAddAddress={(values) => addAddress.mutateAsync(values)}
           pickupBranches={quote?.pickupBranches ?? []}
           pickupBranchId={state.pickupBranchId}
@@ -336,6 +436,8 @@ export function CheckoutScreen() {
             }))
           }
           error={stepErrors.fulfilment ?? null}
+          renderSummary={renderSummary}
+          continueLabel={slotSkipped ? 'Continue to payment' : 'Continue to delivery time'}
           onContinue={() => goTo(nextAfterFulfilment)}
           continueDisabledReason={
             quoteQuery.isError
@@ -364,11 +466,16 @@ export function CheckoutScreen() {
         <SlotStep
           levels={levels}
           selectedLevel={effectiveLevel}
-          onLevel={(level) => update({ serviceLevel: level, slotDate: undefined, slotWindowStart: undefined })}
+          onLevel={(level) =>
+            update({ serviceLevel: level, slotDate: undefined, slotWindowStart: undefined })
+          }
           slotDate={state.slotDate}
           slotWindowStart={state.slotWindowStart}
           onSlot={(date, start) => update({ slotDate: date, slotWindowStart: start })}
           zone={zone}
+          renderSummary={renderSummary}
+          continueLabel="Continue to payment"
+          onBack={() => goTo('fulfilment')}
           onContinue={() => goTo('payment')}
           continueDisabledReason={slotIncomplete ? 'Choose a delivery time to continue.' : null}
         />
@@ -393,8 +500,13 @@ export function CheckoutScreen() {
               setStepErrors((current) => ({ ...current, payment: undefined }));
               update({ paymentMethod: method });
             }}
+            renderSummary={renderSummary}
+            continueLabel="Continue to review"
+            onBack={() => goTo(previousBeforePayment)}
             onContinue={() => goTo('review')}
-            continueDisabledReason={paymentIncomplete ? 'Choose how you will pay to continue.' : null}
+            continueDisabledReason={
+              paymentIncomplete ? 'Choose how you will pay to continue.' : null
+            }
           />
         </>
       ),
@@ -407,8 +519,25 @@ export function CheckoutScreen() {
       body: quote ? (
         <ReviewStep
           quote={quote}
+          imageBySku={imageBySku}
           fulfilment={state.fulfilment}
           settling={settling}
+          paymentMethod={state.paymentMethod}
+          choiceCards={
+            <ReviewChoices
+              fulfilment={state.fulfilment}
+              fulfilmentSummary={fulfilmentSummary}
+              slotSummary={state.fulfilment === 'Delivery' ? slotSummary : null}
+              paymentLabel={state.paymentMethod ? paymentMethodLabel(state.paymentMethod) : null}
+              paymentNote={
+                state.paymentMethod ? paymentMethodExplanation(state.paymentMethod) : null
+              }
+              paymentMethod={state.paymentMethod}
+              onChangeFulfilment={() => goTo('fulfilment')}
+              onChangeSlot={slotSkipped ? undefined : () => goTo('slot')}
+              onChangePayment={() => goTo('payment')}
+            />
+          }
           needsAcknowledgement={needsAcknowledgement}
           acknowledged={acknowledged === quote.fingerprint}
           placing={place.isPending}
@@ -490,10 +619,80 @@ export function CheckoutScreen() {
     },
   ];
 
+  const currentIndex = steps.findIndex((step) => step.status === 'current');
+  const currentDescriptor = steps[currentIndex] ?? steps[0]!;
+  const pillSteps: PillStep[] = steps.map((step, index) => {
+    const label =
+      step.id === 'fulfilment'
+        ? step.status === 'done'
+          ? state.fulfilment === 'Pickup'
+            ? 'Pickup'
+            : 'Delivery'
+          : 'Delivery or pickup'
+        : step.id === 'review'
+          ? 'Review'
+          : step.title;
+    let hint: string | undefined;
+    if (step.status === 'done' || step.status === 'skipped') hint = step.summary ?? undefined;
+    else if (step.status === 'todo')
+      hint =
+        step.id === 'review'
+          ? 'Then place your order'
+          : index === currentIndex + 1
+            ? 'Next'
+            : undefined;
+    return { label, status: step.status, hint };
+  });
+  // Earlier steps stay re-openable (the old "Change" buttons). The review step has its own Change links.
+  const reopenable =
+    currentDescriptor.id === 'review' ? [] : steps.filter((step) => step.status === 'done');
+
+  const GREETING: Record<CheckoutStep, { title: string; lead: string }> = {
+    fulfilment: {
+      title: firstName
+        ? `How should we get it to you, ${firstName}?`
+        : 'How should we get it to you?',
+      lead: 'Choose delivery or collect it from a branch. You can change this until you place the order.',
+    },
+    slot: {
+      title: firstName ? `When suits you, ${firstName}?` : 'When suits you?',
+      lead: `Pick a speed, then a day and a window. All times are ${zone}.`,
+    },
+    payment: {
+      title: 'How would you like to pay?',
+      lead: 'You pay a person later: the courier, our bank, or the counter. Nothing is charged on this website.',
+    },
+    review: {
+      title: firstName ? `Almost there, ${firstName}` : 'Almost there',
+      lead: `Check everything once, then place your order.${state.paymentMethod === 'BankTransfer' ? ' Our bank details appear straight after.' : ''}`,
+    },
+  };
+  const greeting = GREETING[currentDescriptor.id];
+
   return (
-    <div className="flex flex-col gap-5">
-      <h1 className="font-display text-2xl font-semibold text-ink">Checkout</h1>
-      <CheckoutStepper steps={steps} onOpen={goTo} />
+    <div className="flex flex-col gap-7">
+      <GreetingHeader title={greeting.title}>{greeting.lead}</GreetingHeader>
+      <PillSteps steps={pillSteps} />
+      {reopenable.length > 0 && (
+        <ul
+          aria-label="Change an earlier step"
+          className="-mb-4 -mt-5 flex list-none flex-wrap gap-x-5 p-0"
+        >
+          {reopenable.map((step) => (
+            <li key={step.id}>
+              <button
+                type="button"
+                onClick={() => goTo(step.id)}
+                aria-label={`Change ${step.title.toLowerCase()}`}
+                className="inline-flex min-h-11 items-center text-[13px] font-semibold text-accent-ink hover:text-accent"
+              >
+                {`Change ${step.id === 'fulfilment' ? 'delivery' : step.id === 'slot' ? 'delivery time' : 'payment'}`}
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+      <div>{currentDescriptor.body}</div>
     </div>
   );
 }

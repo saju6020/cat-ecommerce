@@ -39,3 +39,11 @@ Source: `docs/gates/HO-FIL-002-*.md`.
 | 25 | ~~HIGH~~ Resolved | **Resolved 2026-10-09 in ho/CAT-002-photos (c9e5e702).** Was — Server-signed file urls are API-relative (`/api/files/{id}/content?...`, HmacFileUrlSigner.cs:25) and only the CAT photos page anchors them on the API base. Broken against the real API (resolve to the web origin): FileThumb.tsx:161, MediaViewer.tsx:124/139/152/165, FileList.tsx:80, visit/PhotoThumb.tsx:17, visit/panels/AttachmentList.tsx:45/55, consent/ConsentDetail.tsx:154, and the upload-response url. Fix once with a shared `resolveFileUrl` (single leading `/` only, via getApiUrl) where API responses are mapped. | CODE_REVIEW (ho/CAT-002-photos) |
 | 26 | LOW | `resolveFileUrl` passes absolute `http:` through; on an https web origin an http file url is blocked as mixed content (fails closed, not a security hole). Consider https-only outside dev. | CODE_REVIEW recheck (ho/CAT-002-photos) |
 | 27 | LOW | Under full `vitest run` load, the two eslint-spawning lint-rule tests (`money-guard.test.ts`, `sandboxed-email-preview.test.tsx`) time out at 60s; both pass in isolation. Unrelated to this diff. | CODE_REVIEW recheck (ho/CAT-002-photos) |
+
+## ADR-370 review round (2026-10-18), non-blocking
+
+| # | Severity | Item | Source |
+|---|---|---|---|
+| ADR370-1 | MEDIUM | `ImageVariantBackfillWorker` reads `CatEcommerceDbContext` directly. List the storage keys through a Read query or an Infrastructure/Files helper, like the other workers. | ARCHITECTURE gate |
+| ADR370-2 | LOW | The startup guard does not try one direct signature. Today a missing IAM permission only falls back to app-served URLs, with a warning per file. Add a probe that logs one clear error at startup. | ARCHITECTURE gate |
+| ADR370-3 | LOW | The signing time (X-Goog-Date) uses the system clock; the windows use `TimeProvider`. The library offers no public clock hook. | CODE_REVIEW gate |

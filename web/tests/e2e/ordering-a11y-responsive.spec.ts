@@ -144,7 +144,7 @@ test.describe('flows that need set-up', () => {
     });
   });
 
-  test('/checkout/complete/{order}: a placed bank-transfer order with its instructions and countdown', async ({ page }) => {
+  test('/portal/orders/{order}?placed=1: checkout lands on the order, with the transfer instructions and countdown', async ({ page }) => {
     await page.goto('/sign-in');
     await control(page, 'reset');
     await signInAsCustomer(page);
@@ -154,8 +154,9 @@ test.describe('flows that need set-up', () => {
     await page.goto(REVIEW);
     await page.getByRole('button', { name: 'Place order' }).click();
     await expect(page.getByRole('heading', { name: 'Pay by bank transfer' })).toBeVisible();
+    await expect(page.getByRole('status').filter({ hasText: /your order .* is placed/i })).toBeVisible();
     const complete = new URL(page.url()).pathname;
-    expect(complete).toMatch(/^\/checkout\/complete\/[0-9a-f-]{36}$/);
+    expect(complete).toMatch(/^\/portal\/orders\/[0-9a-f-]{36}$/);
     await auditViewports(page, complete, async () => {
       await expect(page.getByRole('heading', { name: 'Pay by bank transfer' })).toBeVisible();
       await expect(page.getByRole('timer')).toBeVisible();

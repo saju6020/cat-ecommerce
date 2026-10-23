@@ -1,23 +1,26 @@
 'use client';
 
 import { useState } from 'react';
-import { Plus } from 'lucide-react';
+import { House, Plus, Store, Truck, TriangleAlert } from 'lucide-react';
 import { AddressForm } from '@/components/account/AddressForm';
+import { bannerWarnClass, cardClass } from '@/components/hearth/card';
+import { pillInputClass } from '@/components/hearth/fields';
+import { OptionCard } from '@/components/hearth/OptionCard';
 import { Button } from '@/components/ui/button';
 import type { DeliveryAddress, DeliveryAddressRequest } from '@/lib/api/account';
 import type { FulfilmentChoice, PickupBranch, QuoteDelivery } from '@/lib/api/checkout';
 import { describeBlockingReason } from '@/lib/api/errors';
+import { cn } from '@/lib/utils';
+import { StepFooter, StepLayout, type RenderSummary } from './StepLayout';
 
-const RADIO = 'h-4 w-4 flex-none accent-[var(--accent)]';
-const INPUT =
-  'w-full rounded-[var(--radius-sm)] border border-border-strong bg-surface px-3 py-2 text-sm text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent';
+const SECTION_HEADING = 'm-0 text-base font-bold text-ink';
 
 /**
  * `components/checkout/FulfilmentStep.tsx` — HO-ORD-002 §11.2 step 1, US-ORD-03/06. **Delivery** (saved
  * addresses from HO-ACC-002; *Add an address* opens its form inline and returns the id) or **Pickup**
- * (branches with address and phone). When the quote says the address is outside every zone, or the
- * shop's delivery tax is not configured, delivery is explained in words and pickup stays selectable —
- * everything shown here is the quote's.
+ * (branches with address and phone), as Hearth choice cards beside the order summary. When the quote
+ * says the address is outside every zone, or the shop's delivery tax is not configured, delivery is
+ * explained in words and pickup stays selectable — everything shown here is the quote's.
  */
 export function FulfilmentStep({
   fulfilment,
@@ -38,6 +41,8 @@ export function FulfilmentStep({
   error,
   onContinue,
   continueDisabledReason,
+  continueLabel,
+  renderSummary,
 }: {
   fulfilment: FulfilmentChoice;
   onFulfilment: (value: FulfilmentChoice) => void;
@@ -57,49 +62,59 @@ export function FulfilmentStep({
   error: string | null;
   onContinue: () => void;
   continueDisabledReason: string | null;
+  continueLabel?: string;
+  renderSummary?: RenderSummary;
 }) {
   const [adding, setAdding] = useState(false);
-  const outside = delivery?.available === false && delivery.unavailableReason === 'AddressOutsideServedZones';
+  const outside =
+    delivery?.available === false && delivery.unavailableReason === 'AddressOutsideServedZones';
 
   return (
-    <div className="flex flex-col gap-4">
-      <fieldset className="m-0 flex min-w-0 flex-col gap-2 border-0 p-0">
-        <legend className="mb-1 text-sm font-bold text-ink">How would you like to get your order?</legend>
-        <label className="flex items-start gap-3 rounded-[var(--radius-md)] border border-border-strong bg-surface p-3 text-sm">
-          <input
-            type="radio"
+    <StepLayout
+      renderSummary={renderSummary}
+      footer={
+        <StepFooter
+          id="fulfilment"
+          label={continueLabel}
+          onContinue={onContinue}
+          disabledReason={continueDisabledReason}
+          back={{ label: 'Back to cart', href: '/cart' }}
+        />
+      }
+    >
+      <fieldset className="m-0 flex min-w-0 flex-col gap-3.5 border-0 p-0">
+        <legend className="sr-only">How would you like to get your order?</legend>
+        <div className="grid gap-3.5 sm:grid-cols-2">
+          <OptionCard
             name="fulfilment"
-            className={`${RADIO} mt-0.5`}
             checked={fulfilment === 'Delivery'}
             onChange={() => onFulfilment('Delivery')}
-          />
-          <span>
-            <b className="block text-ink">Delivery</b>
-            <span className="text-ink-muted">We bring it to your door.</span>
-          </span>
-        </label>
-        <label className="flex items-start gap-3 rounded-[var(--radius-md)] border border-border-strong bg-surface p-3 text-sm">
-          <input
-            type="radio"
+            icon={<Truck size={20} aria-hidden="true" />}
+            title="Delivery"
+          >
+            We bring it to your door.
+          </OptionCard>
+          <OptionCard
             name="fulfilment"
-            className={`${RADIO} mt-0.5`}
             checked={fulfilment === 'Pickup'}
             onChange={() => onFulfilment('Pickup')}
-          />
-          <span>
-            <b className="block text-ink">Collect from a branch</b>
-            <span className="text-ink-muted">Pick it up when it is ready.</span>
-          </span>
-        </label>
+            icon={<Store size={22} aria-hidden="true" />}
+            title="Collect from a branch"
+          >
+            Pick it up when it is ready.
+          </OptionCard>
+        </div>
       </fieldset>
 
       {fulfilment === 'Delivery' && deliveryTaxUnavailable && (
-        <p role="status" className="rounded-[var(--radius-sm)] bg-warning-bg p-3 text-sm font-semibold text-warning-ink">
+        <p role="status" className={cn(bannerWarnClass, 'm-0 font-semibold')}>
+          <TriangleAlert size={15} aria-hidden="true" className="mt-0.5 flex-none" />
           {describeBlockingReason('DeliveryTaxNotConfigured')}
         </p>
       )}
       {outside && (
-        <p role="status" className="rounded-[var(--radius-sm)] bg-warning-bg p-3 text-sm font-semibold text-warning-ink">
+        <p role="status" className={cn(bannerWarnClass, 'm-0 font-semibold')}>
+          <TriangleAlert size={15} aria-hidden="true" className="mt-0.5 flex-none" />
           {districtName
             ? `We don't deliver to ${districtName} yet. You can collect your order instead.`
             : "We don't deliver to that address yet. You can collect your order instead."}
@@ -107,35 +122,27 @@ export function FulfilmentStep({
       )}
 
       {fulfilment === 'Delivery' ? (
-        <fieldset className="m-0 flex min-w-0 flex-col gap-2 border-0 p-0">
-          <legend className="mb-1 text-sm font-bold text-ink">Delivery address</legend>
+        <fieldset className="m-0 flex min-w-0 flex-col gap-3 border-0 p-0">
+          <legend className={cn(SECTION_HEADING, 'mb-3')}>Delivery address</legend>
           {addresses.length === 0 && (
-            <p className="text-sm text-ink-muted">You haven&rsquo;t saved an address yet.</p>
+            <p className="m-0 text-sm text-ink-muted">You haven&rsquo;t saved an address yet.</p>
           )}
           {addresses.map((address) => (
-            <label key={address.id} className="flex items-start gap-3 rounded-[var(--radius-md)] border border-border bg-surface p-3 text-sm">
-              <input
-                type="radio"
-                name="address"
-                className={`${RADIO} mt-0.5`}
-                checked={addressId === address.id}
-                onChange={() => onAddress(address.id)}
-              />
-              <span className="min-w-0 [overflow-wrap:anywhere]">
-                <b className="block text-ink">
-                  {address.label}
-                  {address.isDefault ? ' (default)' : ''}
-                </b>
-                <span className="text-ink-muted">
-                  {[address.line1, address.line2, address.city, address.district, address.postalCode]
-                    .filter(Boolean)
-                    .join(', ')}
-                </span>
-              </span>
-            </label>
+            <OptionCard
+              key={address.id}
+              name="address"
+              checked={addressId === address.id}
+              onChange={() => onAddress(address.id)}
+              icon={<House size={22} aria-hidden="true" />}
+              title={`${address.label}${address.isDefault ? ' (default)' : ''}`}
+            >
+              {[address.line1, address.line2, address.city, address.district, address.postalCode]
+                .filter(Boolean)
+                .join(', ')}
+            </OptionCard>
           ))}
           <div>
-            <Button variant="secondary" size="sm" onClick={() => setAdding(true)}>
+            <Button variant="pillSecondary" size="pillMd" onClick={() => setAdding(true)}>
               <Plus size={14} aria-hidden="true" />
               Add an address
             </Button>
@@ -151,74 +158,68 @@ export function FulfilmentStep({
           />
         </fieldset>
       ) : (
-        <fieldset className="m-0 flex min-w-0 flex-col gap-2 border-0 p-0">
-          <legend className="mb-1 text-sm font-bold text-ink">Collect from</legend>
+        <fieldset className="m-0 flex min-w-0 flex-col gap-3 border-0 p-0">
+          <legend className={cn(SECTION_HEADING, 'mb-3')}>Collect from</legend>
           {pickupBranches.length === 0 && (
-            <p className="text-sm text-ink-muted">Loading branches…</p>
+            <p className="m-0 text-sm text-ink-muted">Loading branches…</p>
           )}
           {pickupBranches.map((branch) => (
-            <label key={branch.id} className="flex items-start gap-3 rounded-[var(--radius-md)] border border-border bg-surface p-3 text-sm">
-              <input
-                type="radio"
-                name="pickup-branch"
-                className={`${RADIO} mt-0.5`}
-                checked={pickupBranchId === branch.id}
-                onChange={() => onPickupBranch(branch.id)}
-              />
-              <span className="min-w-0 [overflow-wrap:anywhere]">
-                <b className="block text-ink">{branch.name}</b>
-                <span className="text-ink-muted">
-                  {[branch.address, branch.phone].filter(Boolean).join(' · ')}
-                </span>
-              </span>
-            </label>
+            <OptionCard
+              key={branch.id}
+              name="pickup-branch"
+              checked={pickupBranchId === branch.id}
+              onChange={() => onPickupBranch(branch.id)}
+              icon={<Store size={22} aria-hidden="true" />}
+              title={branch.name}
+            >
+              {[branch.address, branch.phone].filter(Boolean).join(' · ')}
+            </OptionCard>
           ))}
         </fieldset>
       )}
 
-      <div className="grid gap-3 sm:grid-cols-2">
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="recipient-name" className="text-sm font-semibold text-ink">
-            Recipient name
-          </label>
-          <input
-            id="recipient-name"
-            className={INPUT}
-            value={recipientName}
-            autoComplete="name"
-            onChange={(event) => onRecipient({ name: event.target.value })}
-          />
+      <section aria-labelledby="recipient-heading" className={cn(cardClass, 'flex flex-col gap-3')}>
+        <h2 id="recipient-heading" className={SECTION_HEADING}>
+          {fulfilment === 'Pickup' ? "Who's collecting" : "Who's receiving"}
+        </h2>
+        <div className="grid gap-3.5 sm:grid-cols-2">
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="recipient-name" className="text-[13px] font-semibold text-ink">
+              Recipient name
+            </label>
+            <input
+              id="recipient-name"
+              className={pillInputClass}
+              value={recipientName}
+              autoComplete="name"
+              onChange={(event) => onRecipient({ name: event.target.value })}
+            />
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="recipient-phone" className="text-[13px] font-semibold text-ink">
+              Recipient phone
+            </label>
+            <input
+              id="recipient-phone"
+              className={pillInputClass}
+              value={recipientPhone}
+              inputMode="tel"
+              autoComplete="tel"
+              onChange={(event) => onRecipient({ phone: event.target.value })}
+            />
+          </div>
         </div>
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="recipient-phone" className="text-sm font-semibold text-ink">
-            Recipient phone
-          </label>
-          <input
-            id="recipient-phone"
-            className={INPUT}
-            value={recipientPhone}
-            inputMode="tel"
-            autoComplete="tel"
-            onChange={(event) => onRecipient({ phone: event.target.value })}
-          />
-        </div>
-      </div>
+        <p className="m-0 text-xs text-ink-muted">
+          Filled from your profile. Change them if someone else is{' '}
+          {fulfilment === 'Pickup' ? 'collecting' : 'receiving it'}.
+        </p>
+      </section>
 
       {error && (
-        <p role="alert" className="text-sm font-semibold text-danger-ink">
+        <p role="alert" className="m-0 text-sm font-semibold text-danger-ink">
           {error}
         </p>
       )}
-      <div className="flex flex-wrap items-center gap-3">
-        <Button disabled={continueDisabledReason !== null} aria-describedby={continueDisabledReason ? 'fulfilment-why' : undefined} onClick={onContinue}>
-          Continue
-        </Button>
-        {continueDisabledReason && (
-          <p id="fulfilment-why" className="text-sm text-ink-muted">
-            {continueDisabledReason}
-          </p>
-        )}
-      </div>
-    </div>
+    </StepLayout>
   );
 }

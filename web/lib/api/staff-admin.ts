@@ -83,6 +83,8 @@ export interface CreateStaffAccountRequest {
   mobileNumber?: string | null;
   emailAddress?: string | null;
   roleIds: string[];
+  /** Owner, 2026-10-19: the starting password the administrator shares with the staff member. */
+  password?: string | null;
 }
 
 export async function createStaffAccount(
@@ -91,6 +93,31 @@ export async function createStaffAccount(
   return apiFetch<{ staffAccountId: string }>('/api/staff-accounts', {
     method: 'POST',
     body: request,
+  });
+}
+
+export interface UpdateStaffAccountDetailsRequest {
+  fullName: string;
+  mobileNumber: string | null;
+  emailAddress: string | null;
+}
+
+/** Owner, 2026-10-20: an administrator edits a staff member's name, mobile number and email address. */
+export async function updateStaffAccountDetails(
+  staffAccountId: string,
+  request: UpdateStaffAccountDetailsRequest,
+): Promise<void> {
+  await apiFetch<void>(`/api/staff-accounts/${encodeURIComponent(staffAccountId)}`, {
+    method: 'PUT',
+    body: request,
+  });
+}
+
+/** Owner, 2026-10-19: an administrator sets a staff member's password (it also ends their open sessions). */
+export async function setStaffPassword(staffAccountId: string, password: string): Promise<void> {
+  await apiFetch<void>(`/api/staff-accounts/${encodeURIComponent(staffAccountId)}/password`, {
+    method: 'PUT',
+    body: { password },
   });
 }
 

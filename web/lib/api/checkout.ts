@@ -78,6 +78,13 @@ export interface DeliverySlot {
 export interface QuoteServiceLevel {
   level: ServiceLevel;
   charge: Money;
+  /**
+   * The order value above which this level is free in the zone, and what is still needed to get there
+   * (never below zero). Both `null` when the level has no free-delivery threshold. The browser never works
+   * these out (ADR-FE-105).
+   */
+  freeOver: Money | null;
+  amountToFreeDelivery: Money | null;
   leadTimeDays: number;
   slots: DeliverySlot[];
 }
@@ -191,7 +198,10 @@ export interface PlacedOrder {
 }
 
 /** `POST /api/customers/me/orders` — one `Idempotency-Key` per attempt (ADR-FE-097). No retry here. */
-export function placeOrder(request: PlaceOrderRequest, idempotencyKey: string): Promise<PlacedOrder> {
+export function placeOrder(
+  request: PlaceOrderRequest,
+  idempotencyKey: string,
+): Promise<PlacedOrder> {
   const body = {
     fulfilment: request.fulfilment,
     deliveryAddressId: request.fulfilment === 'Delivery' ? request.addressId : undefined,
@@ -205,5 +215,9 @@ export function placeOrder(request: PlaceOrderRequest, idempotencyKey: string): 
     recipientPhone: request.recipientPhone || undefined,
     quoteFingerprint: request.quoteFingerprint,
   };
-  return apiFetch<PlacedOrder>('/api/customers/me/orders', { method: 'POST', body, idempotencyKey });
+  return apiFetch<PlacedOrder>('/api/customers/me/orders', {
+    method: 'POST',
+    body,
+    idempotencyKey,
+  });
 }

@@ -63,7 +63,7 @@ function buildTabs(
             </div>
           )}
           {food.guaranteedAnalysis && (
-            <table className="w-full max-w-md border-collapse text-sm">
+            <table className="w-full max-w-md border-separate border-spacing-0 overflow-hidden rounded-card border border-border text-sm">
               <caption className="mb-1 text-left text-sm font-bold text-ink">
                 Guaranteed analysis
               </caption>
@@ -75,11 +75,14 @@ function buildTabs(
               </thead>
               <tbody>
                 {ANALYSIS_ROWS.map(([label, key]) => (
-                  <tr key={key} className="border-b border-border">
-                    <th scope="row" className="py-1.5 text-left font-normal text-ink-muted">
+                  <tr key={key} className="[&:last-child>*]:border-b-0">
+                    <th
+                      scope="row"
+                      className="border-b border-border px-3.5 py-2.5 text-left font-normal text-ink-muted"
+                    >
                       {label}
                     </th>
-                    <td className="py-1.5 text-right font-semibold text-ink">
+                    <td className="border-b border-border px-3.5 py-2.5 text-right font-semibold tabular-nums text-ink">
                       {food.guaranteedAnalysis![key]}%
                     </td>
                   </tr>
@@ -172,12 +175,11 @@ export function ProductDetailsTabs({ detail, originNotes, lang }: ProductDetails
   }
 
   return (
-    <section aria-label="Product details" className="flex flex-col gap-3">
-      <div
-        role="tablist"
-        aria-label="Product information"
-        className="flex flex-wrap gap-1 border-b border-border"
-      >
+    <section
+      aria-label="Product details"
+      className="flex min-w-0 flex-col gap-4 rounded-[24px] border border-border bg-surface p-5 sm:px-8 sm:py-7"
+    >
+      <div role="tablist" aria-label="Product information" className="flex flex-wrap gap-2">
         {tabs.map((tab, index) => (
           <button
             key={tab.id}
@@ -193,10 +195,10 @@ export function ProductDetailsTabs({ detail, originNotes, lang }: ProductDetails
             onClick={() => setActive(tab.id)}
             onKeyDown={(event) => onKeyDown(event, index)}
             className={cn(
-              '-mb-px border-b-2 px-3 py-2 text-sm font-semibold',
+              'inline-flex min-h-11 items-center rounded-pill border px-4 text-sm font-semibold',
               active === tab.id
-                ? 'border-accent text-accent-ink'
-                : 'border-transparent text-ink-muted hover:text-ink',
+                ? 'border-accent bg-accent text-white'
+                : 'border-border bg-surface text-ink hover:border-accent',
             )}
           >
             {tab.label}
@@ -211,7 +213,7 @@ export function ProductDetailsTabs({ detail, originNotes, lang }: ProductDetails
           aria-labelledby={`${baseId}-tab-${tab.id}`}
           hidden={active !== tab.id}
           tabIndex={0}
-          className="py-2"
+          className="py-1 text-[15px] leading-relaxed"
         >
           {tab.panel}
         </div>

@@ -1,9 +1,12 @@
 'use client';
 
 import { useState } from 'react';
+import { TriangleAlert } from 'lucide-react';
+import { pillInputClass } from '@/components/hearth/fields';
 import { Button } from '@/components/ui/button';
 import type { QuoteDiscount } from '@/lib/api/checkout';
 import { describeBlockingReason } from '@/lib/api/errors';
+import { cn } from '@/lib/utils';
 
 /**
  * `components/checkout/DiscountCodeField.tsx` — HO-ORD-002 §11.2, US-ORD-05. Apply or remove a code. A
@@ -30,18 +33,27 @@ export function DiscountCodeField({
     const rejected = discount && !discount.applied;
     return (
       <div className="flex flex-col gap-2">
-        <p className="text-sm font-semibold text-ink">Discount code</p>
+        <p className="m-0 text-[13px] font-semibold text-ink">Discount code</p>
         <div className="flex flex-wrap items-center gap-2 text-sm">
-          <span className="rounded-full border border-border-strong bg-surface px-3 py-1 font-semibold text-ink">
+          <span className="rounded-pill border border-border-strong bg-surface px-3.5 py-1.5 font-semibold text-ink">
             {appliedCode}
           </span>
           {discount?.applied && <span className="font-semibold text-accent-ink">Applied</span>}
-          <Button variant="ghost" size="sm" onClick={onRemove} aria-label={`Remove discount code ${appliedCode}`}>
+          <Button
+            variant="pillSecondary"
+            size="pillMd"
+            onClick={onRemove}
+            aria-label={`Remove discount code ${appliedCode}`}
+          >
             Remove
           </Button>
         </div>
         {rejected && (
-          <p role="alert" className="text-sm font-semibold text-danger-ink">
+          <p
+            role="alert"
+            className="m-0 flex items-start gap-1.5 text-[13px] font-semibold text-danger-ink"
+          >
+            <TriangleAlert size={15} aria-hidden="true" className="mt-0.5 flex-none" />
             {discount.message || describeBlockingReason(discount.reasonCode ?? '')}
           </p>
         )}
@@ -61,7 +73,7 @@ export function DiscountCodeField({
         }
       }}
     >
-      <label htmlFor="discount-code" className="text-sm font-semibold text-ink">
+      <label htmlFor="discount-code" className="text-[13px] font-semibold text-ink">
         Discount code
       </label>
       <div className="flex gap-2">
@@ -71,9 +83,14 @@ export function DiscountCodeField({
           onChange={(event) => setText(event.target.value.toUpperCase())}
           autoComplete="off"
           maxLength={40}
-          className="min-w-0 flex-1 rounded-[var(--radius-sm)] border border-border-strong bg-surface px-3 py-2 text-sm uppercase text-ink"
+          className={cn(pillInputClass, 'min-w-0 flex-1 uppercase')}
         />
-        <Button type="submit" variant="secondary" disabled={!text.trim() || checking}>
+        <Button
+          type="submit"
+          variant="pillSecondary"
+          size="pillMd"
+          disabled={!text.trim() || checking}
+        >
           Apply
         </Button>
       </div>

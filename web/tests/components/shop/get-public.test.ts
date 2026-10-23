@@ -82,6 +82,25 @@ describe('getPublic — S11 and S12', () => {
     expect(calls.map((c) => c.revalidate)).toEqual([0, 0, 60, 60]);
   });
 
+  it('the product detail is not cached: its signed photo URLs expire (2026-10-16)', async () => {
+    const calls: Array<{ url: string; revalidate: unknown }> = [];
+    const spy = vi.spyOn(globalThis, 'fetch').mockImplementation(async (input, init) => {
+      calls.push({
+        url: String(input),
+        revalidate: (init as { next?: { revalidate?: number } } | undefined)?.next?.revalidate,
+      });
+      return Response.json({});
+    });
+    try {
+      await getProductDetailServer('kitten');
+    } finally {
+      spy.mockRestore();
+    }
+    expect(calls).toEqual([
+      { url: expect.stringContaining('/api/shop/products/kitten'), revalidate: 0 },
+    ]);
+  });
+
   it('S12: a visitor-supplied lang reaches the API only if it is an enabled locale', async () => {
     const seen: string[] = [];
     server.use(

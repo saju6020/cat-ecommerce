@@ -4,6 +4,8 @@ using CatEcommerce.Infrastructure.Configuration;
 using CatEcommerce.Infrastructure.Persistence;
 using CatEcommerce.Infrastructure.Product;
 using CatEcommerce.Read.Queries.Order;
+using CatEcommerce.Read.QueryHandlers.Product;
+using CatEcommerce.Read.QueryHandlers.StoredFile;
 using CatEcommerce.Read.ViewModels;
 using CatEcommerce.Shared.Common.Constants;
 using CatEcommerce.Shared.Common.Enums;
@@ -26,7 +28,8 @@ public sealed class GetCartQueryHandler(
     IDietAuthorisationGate dietGate,
     IBusinessSettings settings,
     IOptions<ShopOptions> shopOptions,
-    TimeProvider timeProvider)
+    TimeProvider timeProvider,
+    IStoredFileSigningBatcher fileSigner)
     : IQueryHandlerAsync<GetCartQuery, CartViewModel>
 {
     public async Task<QueryResponse<CartViewModel>> HandleAsync(GetCartQuery query)
@@ -66,6 +69,8 @@ public sealed class GetCartQueryHandler(
             ? await db.Set<CatAggregate>().AsNoTracking().Where(c => catIds.Contains(c.Id) && c.OwnerId == owner).Select(c => new { c.Id, c.Name }).ToDictionaryAsync(c => c.Id, c => c.Name)
             : [];
 
+        var imageBySku = await ProductImageUrls.ForSkusAsync(db, fileSigner, skuIds);
+
         var lines = new List<CartLineViewModel>();
         var subtotal = MinorUnits.Zero;
         var itemCount = 0;
@@ -100,7 +105,7 @@ public sealed class GetCartQueryHandler(
 
             itemCount += line.Quantity;
             lines.Add(new CartLineViewModel(
-                line.Id, line.SkuId, sku?.ProductId ?? Guid.Empty, sku?.ProductName ?? "Unavailable item", sku?.VariantLabel ?? string.Empty, null, line.Quantity,
+                line.Id, line.SkuId, sku?.ProductId ?? Guid.Empty, sku?.ProductName ?? "Unavailable item", sku?.VariantLabel ?? string.Empty, imageBySku.GetValueOrDefault(line.SkuId), line.Quantity,
                 line.CatId is { } catId && catNames.TryGetValue(catId, out var name) ? new CartCatViewModel(catId, name) : null,
                 unit is { } p ? OrderMoney.Of(p, sku!.CurrencyCode!) : null, OrderMoney.Of(line.PriceWhenAdded, line.CurrencyCode),
                 unit is { } current && current != line.PriceWhenAdded, availability, available, sku?.RequiresPrescription ?? false, prescription, lineSubtotal));

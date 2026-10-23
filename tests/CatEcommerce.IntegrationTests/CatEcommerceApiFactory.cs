@@ -28,15 +28,12 @@ public abstract class CatEcommerceApiFactory : WebApplicationFactory<Program>
     /// <summary>
     /// The "Testing" environment loads appsettings.json + appsettings.Testing.json (which does not
     /// exist) -- it does NOT load appsettings.Development.json, so the real connection string must
-    /// be supplied here explicitly. Defaults to the shared catecommerce_test database on the local Postgres instance -- never
-    /// catecommerce_dev, whose rows the running app shows (Issues.md #2; local-only credentials). Read from
-    /// <c>CATECOMMERCE_TEST_DB</c> first so a wave-B (or later) area branch can point its whole
-    /// suite at its own database without editing this file -- see the README's "per-branch
-    /// database" section.
+    /// be supplied here explicitly. <see cref="TestDatabase"/> resolves it: <c>CATECOMMERCE_TEST_DB</c> first, so an area
+    /// branch can point its whole suite at its own database without editing this file (see the README's "per-branch
+    /// database" section), otherwise the shared catecommerce_test -- and catecommerce_dev is refused outright (Issues.md #2).
     /// </summary>
     protected static string TestConnectionString { get; } =
-        Environment.GetEnvironmentVariable("CATECOMMERCE_TEST_DB")
-        ?? "Host=localhost;Port=5432;Database=catecommerce_test;Username=postgres;Password=postgres";
+        TestDatabase.ConnectionString;
 
     protected sealed override void ConfigureWebHost(IWebHostBuilder builder)
     {

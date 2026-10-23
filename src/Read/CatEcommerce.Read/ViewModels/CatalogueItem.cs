@@ -22,7 +22,11 @@ public sealed record CatalogueItem(
     bool PriceVaries,
     string Availability,
     RatingSummary Rating,
-    ProductImageRef? PrimaryImage);
+    ProductImageRef? PrimaryImage,
+    // One card per size (owner, 2026-10-18), additive: the SKU this card is, and its size label
+    // ("400 g"). Absent on rows that are not a single size (recommendations, suggestions).
+    Guid? SkuId = null,
+    string? SizeLabel = null);
 
 public sealed record CatalogueResult(
     IReadOnlyList<CatalogueItem> Items,
@@ -30,6 +34,9 @@ public sealed record CatalogueResult(
     int PageSize,
     int TotalCount,
     IReadOnlyDictionary<string, string?> AppliedFilters,
-    CatalogueSuggestions? Suggestions);
+    CatalogueSuggestions? Suggestions,
+    // How many cards (sizes) the whole filtered list has; TotalCount stays the product count that
+    // paging is based on (owner, 2026-10-18).
+    int? TotalItemCount = null);
 
 public sealed record CatalogueSuggestions(IReadOnlyList<string> DidYouMean, IReadOnlyList<CatalogueItem> Popular);

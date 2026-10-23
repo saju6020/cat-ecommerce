@@ -16,9 +16,19 @@ export interface AuthCardProps {
   description?: React.ReactNode;
   children: React.ReactNode;
   className?: string;
+  /** No border/shadow/padding: the Hearth sign-in sets its form straight on the page (2026-10-16). */
+  bare?: boolean;
+  titleClassName?: string;
 }
 
-export function AuthCard({ title, description, children, className }: AuthCardProps) {
+export function AuthCard({
+  title,
+  description,
+  children,
+  className,
+  bare,
+  titleClassName,
+}: AuthCardProps) {
   const headingRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
@@ -28,7 +38,9 @@ export function AuthCard({ title, description, children, className }: AuthCardPr
   return (
     <div
       className={cn(
-        'mx-auto flex w-full max-w-md flex-col gap-6 rounded-[var(--radius-md)] border border-border bg-surface p-8 shadow-modal',
+        bare
+          ? 'mx-auto flex w-full max-w-md flex-col gap-6'
+          : 'mx-auto flex w-full max-w-md flex-col gap-6 rounded-[var(--radius-md)] border border-border bg-surface p-8 shadow-modal',
         className,
       )}
     >
@@ -36,11 +48,16 @@ export function AuthCard({ title, description, children, className }: AuthCardPr
         <h1
           ref={headingRef}
           tabIndex={-1}
-          className="font-display text-2xl font-semibold text-ink focus:outline-none"
+          className={cn(
+            'font-display text-2xl font-semibold text-ink focus:outline-none focus-visible:outline-none',
+            titleClassName,
+          )}
         >
           {title}
         </h1>
-        {description && <p className="text-sm text-ink-muted">{description}</p>}
+        {description && (
+          <p className={cn('text-ink-muted', bare ? 'text-[15px]' : 'text-sm')}>{description}</p>
+        )}
       </div>
       {children}
     </div>

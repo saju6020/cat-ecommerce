@@ -3,12 +3,57 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, ChevronLeft } from 'lucide-react';
+import {
+  Bed,
+  Boxes,
+  ChevronDown,
+  Building2,
+  Calendar,
+  CalendarDays,
+  CalendarOff,
+  CalendarPlus,
+  Cat,
+  ChartColumn,
+  ClipboardList,
+  Copy,
+  FlaskConical,
+  House,
+  Inbox,
+  LayoutDashboard,
+  ListChecks,
+  Mail,
+  Menu,
+  Package,
+  PanelLeftClose,
+  PawPrint,
+  Pill,
+  Receipt,
+  Scissors,
+  Settings,
+  Settings2,
+  Shield,
+  ShieldAlert,
+  ShoppingCart,
+  Stethoscope,
+  Store,
+  Syringe,
+  Truck,
+  Undo2,
+  UserPlus,
+  Users,
+  type LucideIcon,
+} from 'lucide-react';
 import { navRegistry } from '@/nav';
 import type { NavArea } from '@/nav/types';
+import {
+  activeStaffHref,
+  groupStaffNav,
+  type StaffNavSection,
+} from '@/components/common/staff-nav-groups';
 import { useStaffSession } from '@/lib/hooks/useSession';
 import { SignOutButton } from '@/components/auth/SignOutButton';
 import { Button } from '@/components/ui/button';
+import { HearthLogo } from '@/components/hearth/HearthLogo';
 import {
   Dialog,
   DialogContent,
@@ -19,7 +64,7 @@ import {
 } from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
 
-// Below `sm` (640px, Tailwind's default breakpoint), the fixed w-60 (240px) sidebar plus any real
+// Below `sm` (640px, Tailwind's default breakpoint), the fixed w-64 (256px) sidebar plus any real
 // content (a form, a DataTable's Previous/Next pager, …) doesn't fit UI-1's 360px floor — verified
 // by HO-CAT-002's E18. Below `sm`, the in-flow `<aside>` is therefore now ALWAYS the collapsed
 // w-16 (64px) rail — a pure CSS fact (`w-16` with no `sm:`-gated width class overriding it below
@@ -36,13 +81,16 @@ import { cn } from '@/lib/utils';
 // document from assistive tech all come from Radix itself (HO-CAT-002 §8.5), not from a second
 // hand-rolled implementation of each.
 //
-// At `sm` and up, nothing here changes: the in-flow sticky aside is w-60 expanded or w-16
+// At `sm` and up, nothing here changes: the in-flow sticky aside is w-64 expanded or w-16
 // collapsed, via its own always-mounted toggle. `collapsed` only ever affects `sm:`-prefixed
-// classes, so its initial value (`false`, matching the CSS default `sm:w-60`) produces identical
+// classes, so its initial value (`false`, matching the CSS default `sm:w-64`) produces identical
 // server and first-client-render markup — no hydration mismatch, and no JS-decided default below
 // `sm` either.
 /** An item with no `roles` is for everyone; otherwise the member of staff needs one of them. */
-export function canSeeNavItem(item: { roles?: readonly string[] }, roleIds: readonly string[]): boolean {
+export function canSeeNavItem(
+  item: { roles?: readonly string[] },
+  roleIds: readonly string[],
+): boolean {
   return !item.roles || item.roles.some((role) => roleIds.includes(role));
 }
 
@@ -85,6 +133,11 @@ export function StaffShell({ children }: { children: React.ReactNode }) {
     setSheetOpen(false);
   }, [pathname]);
 
+  // The current page's link stays in view in a long menu (e.g. Team & settings at the bottom).
+  useEffect(() => {
+    document.querySelector('aside [aria-current="page"]')?.scrollIntoView?.({ block: 'center' });
+  }, [pathname]);
+
   // Per-item `audience` (nav/types.ts, added by HO-CAT-002) overrides the area's own audience,
   // for an area like Cat Profiles whose single `audience: 'both'` mixes staff-only and
   // portal-only screens in one items array — falls back to the area's audience when an item
@@ -97,6 +150,30 @@ export function StaffShell({ children }: { children: React.ReactNode }) {
       ),
     }))
     .filter((area) => area.items.length > 0);
+  // Presented by daily job, not by build area (staff-nav-groups.ts, owner 2026-10-16).
+  const groups = groupStaffNav(sections);
+  const activeHref = activeStaffHref(groups, pathname ?? '');
+  const activeLabel =
+    groups.flatMap((g) => g.items).find((item) => item.href === activeHref)?.label ?? null;
+  // Groups open and close (owner, 2026-10-16): only the current page's group starts open, so the
+  // menu fits without a scrollbar; it appears only once the opened groups need it. Arriving at a
+  // page in a closed group opens that group; nothing is closed for the user.
+  const activeGroupKey =
+    groups.find((g) => g.items.some((item) => item.href === activeHref))?.key ?? null;
+  const [openGroups, setOpenGroups] = useState<ReadonlySet<string>>(
+    () => new Set(activeGroupKey ? [activeGroupKey] : []),
+  );
+  useEffect(() => {
+    if (!activeGroupKey) return;
+    setOpenGroups((prev) => (prev.has(activeGroupKey) ? prev : new Set(prev).add(activeGroupKey)));
+  }, [activeGroupKey]);
+  const toggleGroup = (key: string) =>
+    setOpenGroups((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
 
   return (
     <div className="flex min-h-screen bg-surface-page">
@@ -109,20 +186,22 @@ export function StaffShell({ children }: { children: React.ReactNode }) {
 
       <aside
         className={cn(
-          'sticky top-0 flex h-screen w-16 flex-shrink-0 flex-col gap-4 overflow-y-auto border-r border-border bg-surface-sunken p-3 transition-[width]',
-          !collapsed && 'sm:w-60',
+          'sticky top-0 flex h-screen w-16 flex-shrink-0 flex-col border-r border-border bg-surface transition-[width] duration-200',
+          !collapsed && 'sm:w-64',
         )}
       >
-        <div className="flex items-center justify-between gap-2">
-          <Link
-            href="/"
-            className={cn(
-              'sr-only flex min-w-0 items-center gap-2 font-display text-lg font-semibold text-ink no-underline',
-              !collapsed && 'sm:not-sr-only',
-            )}
-          >
-            PurrCare
-          </Link>
+        <div
+          className={cn(
+            'flex h-14 flex-shrink-0 items-center justify-center gap-2 border-b border-border px-3',
+            !collapsed && 'sm:justify-between sm:px-4',
+          )}
+        >
+          {/* Owner, 2026-10-19: the same PurrCare logo as everywhere else, sized to the sidebar. */}
+          <HearthLogo
+            variant="portal"
+            href="/staff"
+            className={cn('sr-only min-w-0 gap-2 text-base', !collapsed && 'sm:not-sr-only')}
+          />
 
           {/* Below sm: opens the nav sheet (a real modal Dialog — see above). At sm and up: the
               ordinary in-flow collapse/expand toggle. Both always mounted, one per viewport, so a
@@ -130,49 +209,70 @@ export function StaffShell({ children }: { children: React.ReactNode }) {
               (TEST gate, 2nd pass) — each is CSS-hidden at the other viewport, never unmounted. */}
           <Dialog open={sheetOpen} onOpenChange={setSheetOpen}>
             <DialogTrigger asChild>
-              <Button
-                variant="secondary"
-                size="icon"
-                className="sm:hidden"
-                aria-label="Expand menu"
-              >
-                <Menu size={14} aria-hidden="true" />
+              <Button variant="ghost" size="icon" className="sm:hidden" aria-label="Expand menu">
+                <Menu size={18} aria-hidden="true" />
               </Button>
             </DialogTrigger>
             <DialogContent variant="sheet-left">
-              <DialogHeader className="mb-4 flex-row items-center justify-between gap-2">
+              <DialogHeader className="mb-2 flex-row items-center justify-between gap-2">
                 <DialogTitle>Menu</DialogTitle>
               </DialogHeader>
               <DialogDescription className="sr-only">
                 PurrCare staff navigation, every area.
               </DialogDescription>
-              <NavSections sections={sections} mode="full" onNavigate={() => setSheetOpen(false)} />
+              <NavSections
+                sections={groups}
+                activeHref={activeHref}
+                openGroups={openGroups}
+                onToggleGroup={toggleGroup}
+                mode="full"
+                onNavigate={() => setSheetOpen(false)}
+              />
             </DialogContent>
           </Dialog>
 
           <Button
-            variant="secondary"
+            variant="ghost"
             size="icon"
-            className="hidden sm:inline-flex"
+            className="hidden text-ink-muted sm:inline-flex"
             aria-expanded={!collapsed}
             aria-label={collapsed ? 'Expand menu' : 'Collapse menu'}
             onClick={() => setCollapsed((current) => !current)}
           >
             {collapsed ? (
-              <Menu size={14} aria-hidden="true" />
+              <Menu size={18} aria-hidden="true" />
             ) : (
-              <ChevronLeft size={14} aria-hidden="true" />
+              <PanelLeftClose size={18} aria-hidden="true" />
             )}
           </Button>
         </div>
 
-        <NavSections sections={sections} mode="compact" collapsed={collapsed} />
+        <div className="min-h-0 flex-1 overflow-y-auto px-2.5 py-3">
+          <NavSections
+            sections={groups}
+            activeHref={activeHref}
+            openGroups={openGroups}
+            onToggleGroup={toggleGroup}
+            mode="compact"
+            collapsed={collapsed}
+          />
+        </div>
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="flex h-14 flex-shrink-0 items-center justify-between gap-4 border-b border-border bg-surface px-6">
           <nav aria-label="Breadcrumb" className="min-w-0 truncate text-sm text-ink-muted">
-            <span className="font-semibold text-ink">PurrCare staff</span>
+            <span className={cn(activeLabel ? 'hidden sm:inline' : 'font-semibold text-ink')}>
+              PurrCare staff
+            </span>
+            {activeLabel && (
+              <>
+                <span aria-hidden="true" className="mx-2 hidden text-ink-faint sm:inline">
+                  /
+                </span>
+                <span className="font-semibold text-ink">{activeLabel}</span>
+              </>
+            )}
           </nav>
           <div className="flex flex-shrink-0 items-center gap-3 text-sm text-ink-muted">
             {session && (
@@ -198,91 +298,180 @@ export function StaffShell({ children }: { children: React.ReactNode }) {
   );
 }
 
+/** Area files name their icons as lucide strings (nav/types.ts); the shell maps them here. */
+const NAV_ICONS: Record<string, LucideIcon> = {
+  'bar-chart': ChartColumn,
+  bed: Bed,
+  boxes: Boxes,
+  building: Building2,
+  calendar: Calendar,
+  'calendar-days': CalendarDays,
+  'calendar-off': CalendarOff,
+  'calendar-plus': CalendarPlus,
+  cat: Cat,
+  'chart-column': ChartColumn,
+  'clipboard-list': ClipboardList,
+  copy: Copy,
+  'flask-conical': FlaskConical,
+  home: House,
+  inbox: Inbox,
+  'layout-dashboard': LayoutDashboard,
+  'list-checks': ListChecks,
+  mail: Mail,
+  package: Package,
+  pill: Pill,
+  receipt: Receipt,
+  scissors: Scissors,
+  settings: Settings,
+  'settings-2': Settings2,
+  shield: Shield,
+  'shield-alert': ShieldAlert,
+  'shopping-cart': ShoppingCart,
+  stethoscope: Stethoscope,
+  store: Store,
+  syringe: Syringe,
+  truck: Truck,
+  undo: Undo2,
+  'user-plus': UserPlus,
+  users: Users,
+};
+
 /**
  * The one renderer for both the always-in-flow aside nav and the below-`sm` sheet's nav
- * (ARCHITECTURE gate LOW, HO-CAT-002 4th pass — `SheetNav` used to be a second render path with
- * its own locally redeclared section/item type instead of `NavArea`/`NavItem` from `@/nav/types`,
- * so a later shared-nav feature such as active-item highlighting or `NavItem.icon` would have had
- * to be built twice and kept in step).
+ * (ARCHITECTURE gate LOW, HO-CAT-002 4th pass): one link per item with its icon, the current page
+ * marked (`aria-current="page"`, a teal tint), grouped by daily job (staff-nav-groups.ts).
  *
- * `mode="compact"` is the aside: below `sm` it's always the `w-16` rail (single-letter links); at
- * `sm`+ it's full labels unless `collapsed`. `mode="full"` is the sheet: always full labels, no
- * collapse state (there's nothing to collapse inside a modal), and calls `onNavigate` on every
- * link click so the sheet closes itself.
+ * `mode="compact"` is the aside: below `sm` it is always the `w-16` rail (icons only, the label as
+ * the link's name and tooltip); at `sm`+ it shows labels unless `collapsed`. `mode="full"` is the
+ * sheet: always labels, and calls `onNavigate` on every link click so the sheet closes itself.
  */
 function NavSections({
   sections,
+  activeHref,
+  openGroups,
+  onToggleGroup,
   mode,
   collapsed = false,
   onNavigate,
 }: {
-  sections: NavArea[];
+  sections: StaffNavSection[];
+  activeHref: string | null;
+  openGroups: ReadonlySet<string>;
+  onToggleGroup: (key: string) => void;
   mode: 'compact' | 'full';
   collapsed?: boolean;
   onNavigate?: () => void;
 }) {
-  // Below sm, the aside is always the rail (headings/empty-state text have no room); the sheet
-  // (mode="full") always has room, so this only ever hides anything in compact mode.
-  const compactHidden = mode === 'compact' && cn('hidden', !collapsed && 'sm:block');
+  // Text that only the expanded aside (or the sheet) has room for.
+  const labelOnly = mode === 'compact' ? cn('hidden', !collapsed && 'sm:block') : undefined;
+  const labelOnlyFlex = mode === 'compact' ? cn('hidden', !collapsed && 'sm:flex') : 'flex';
+  // A closed group's links: gone from the sheet and the expanded aside, but the icon rail (below
+  // sm, or collapsed) keeps every icon — it has no headings to open.
+  // (The sheet uses the hidden attribute: those links are truly gone, for assistive tech too.)
+  const closedLinks = mode === 'full' || collapsed ? undefined : 'sm:hidden';
 
   if (sections.length === 0) {
     return (
-      <p className={cn('px-2 text-sm text-ink-muted', compactHidden)}>
+      <p className={cn('px-2 text-sm text-ink-muted', labelOnly)}>
         No areas registered yet — see web/README.md.
       </p>
     );
   }
 
   return (
-    <nav aria-label="Main" className="flex flex-col gap-4">
-      {sections.map((area) => (
-        <div key={area.key}>
-          <p
-            className={cn(
-              // text-ink-muted, not text-ink-faint (HO-CAT-002 E17/UI-6) — --ink-faint
-              // (#8c8578) on this sidebar's --surface-sunken (#f2efe7) is 3.18:1, short of
-              // WCAG AA's 4.5:1 for this 12px bold label; --ink-muted clears it at 6.23:1.
-              'px-2 pb-1 text-xs font-bold uppercase tracking-wide text-ink-muted',
-              compactHidden,
-            )}
+    <nav aria-label="Main" className="flex flex-col gap-1">
+      {sections.map((section) => {
+        const open = !section.label || openGroups.has(section.key);
+        const holdsCurrent = section.items.some((item) => item.href === activeHref);
+        const listId = `staff-nav-${mode}-${section.key}`;
+        return (
+          <div
+            key={section.key}
+            className={cn('flex flex-col gap-0.5', open && section.label && 'pb-2')}
           >
-            {area.label}
-          </p>
-          <div className="flex flex-col gap-0.5">
-            {area.items.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={onNavigate}
-                title={mode === 'compact' ? item.label : undefined}
-                // The accessible name is always the full label in compact mode, regardless of
-                // which of the two visual spans below is showing (full label at sm+ expanded, a
-                // single letter everywhere else) — nothing here can be momentarily wrong while
-                // CSS/React settle on a width. In full mode (the sheet), the link's own visible
-                // text already is the full label, so no override is needed.
-                aria-label={mode === 'compact' ? item.label : undefined}
-                className="rounded-[var(--radius-sm)] px-2 py-2 text-sm text-ink-muted no-underline hover:bg-accent-soft"
-              >
-                {mode === 'compact' ? (
-                  <>
-                    {/* Full label: sm and up, only while expanded. */}
-                    <span aria-hidden="true" className={cn('hidden', !collapsed && 'sm:inline')}>
+            {section.label && (
+              <>
+                {/* text-ink-muted, not text-ink-faint (HO-CAT-002 E17/UI-6): 4.5:1 on the surface. */}
+                <button
+                  type="button"
+                  aria-expanded={open}
+                  aria-controls={listId}
+                  onClick={() => onToggleGroup(section.key)}
+                  className={cn(
+                    'h-8 w-full items-center justify-between gap-2 rounded-[8px] px-2.5 text-left text-[11px] font-bold uppercase tracking-[0.09em] text-ink-muted transition-colors hover:bg-surface-sunken hover:text-ink',
+                    labelOnlyFlex,
+                  )}
+                >
+                  <span className="truncate">{section.label}</span>
+                  <span className="flex flex-none items-center gap-2">
+                    {!open && holdsCurrent && (
+                      <span aria-hidden="true" className="size-1.5 rounded-full bg-accent" />
+                    )}
+                    <ChevronDown
+                      size={15}
+                      aria-hidden="true"
+                      className={cn(
+                        'transition-transform duration-200 motion-reduce:transition-none',
+                        !open && '-rotate-90',
+                      )}
+                    />
+                  </span>
+                </button>
+                {mode === 'compact' && (
+                  <span
+                    aria-hidden="true"
+                    className={cn('mx-3 my-1 block h-px bg-border', !collapsed && 'sm:hidden')}
+                  />
+                )}
+              </>
+            )}
+            <div
+              id={listId}
+              hidden={mode === 'full' && !open}
+              className={cn('flex flex-col gap-0.5', !open && closedLinks)}
+            >
+              {section.items.map((item) => {
+                const Icon = (item.icon && NAV_ICONS[item.icon]) || PawPrint;
+                const active = item.href === activeHref;
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={onNavigate}
+                    title={mode === 'compact' ? item.label : undefined}
+                    aria-current={active ? 'page' : undefined}
+                    // The accessible name is always the full label, whichever width is showing.
+                    aria-label={mode === 'compact' ? item.label : undefined}
+                    className={cn(
+                      'group flex h-9 items-center gap-3 rounded-[10px] px-2.5 text-sm font-medium no-underline transition-colors',
+                      mode === 'compact' && cn('justify-center', !collapsed && 'sm:justify-start'),
+                      active
+                        ? 'bg-accent-soft text-accent-ink'
+                        : 'text-ink-muted hover:bg-surface-sunken hover:text-ink',
+                    )}
+                  >
+                    <Icon
+                      size={18}
+                      strokeWidth={active ? 2.2 : 1.8}
+                      aria-hidden="true"
+                      className={cn(
+                        'flex-none',
+                        active ? 'text-accent' : 'text-ink-faint group-hover:text-ink-muted',
+                      )}
+                    />
+                    <span
+                      aria-hidden={mode === 'compact' ? true : undefined}
+                      className={cn('truncate', labelOnly)}
+                    >
                       {item.label}
                     </span>
-                    {/* Single-letter abbreviation: always below sm (the aside is always the
-                        rail there), and at sm+ only while collapsed. */}
-                    <span aria-hidden="true" className={cn('inline', !collapsed && 'sm:hidden')}>
-                      {item.label.slice(0, 1)}
-                    </span>
-                  </>
-                ) : (
-                  item.label
-                )}
-              </Link>
-            ))}
+                  </Link>
+                );
+              })}
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </nav>
   );
 }

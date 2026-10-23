@@ -105,8 +105,7 @@ public sealed class BillingCashUpEndpointTests(BillingApiFactory factory) : Bill
         Assert.Contains("Ten taka short, change given twice", Assert.Single(audit).AfterValue);
 
         // The database too: a closed cash-up cannot be changed or deleted.
-        await using var connection = new NpgsqlConnection(Environment.GetEnvironmentVariable("CATECOMMERCE_TEST_DB")
-            ?? "Host=localhost;Port=5432;Database=catecommerce_test;Username=postgres;Password=postgres");
+        await using var connection = new NpgsqlConnection(TestDatabase.ConnectionString);
         await connection.OpenAsync();
         foreach (var sql in new[] { $"UPDATE billing.cash_up SET counted_cash = 1 WHERE \"Id\" = '{cashUpId}'", $"DELETE FROM billing.cash_up WHERE \"Id\" = '{cashUpId}'" })
         {

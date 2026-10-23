@@ -1,4 +1,5 @@
 using CatEcommerce.Read.ViewModels;
+using CatEcommerce.Shared.Common.Constants;
 
 namespace CatEcommerce.Read.QueryHandlers.StoredFile;
 
@@ -18,4 +19,11 @@ public interface IStoredFileSigningBatcher
     /// this helper does not guess.</summary>
     Task<IReadOnlyDictionary<Guid, StoredFileViewModel>> SignManyAsync(
         IReadOnlyCollection<Guid> fileIds, string requestedDisposition, CancellationToken ct = default);
+
+    /// <summary>
+    /// ADR-370: as above, asking for a resized copy. Where the file's purpose is served straight from the bucket and has
+    /// that copy (<see cref="FileVariants.For"/>), the URL points at the copy; otherwise it is the usual URL of the original.
+    /// </summary>
+    Task<IReadOnlyDictionary<Guid, StoredFileViewModel>> SignManyAsync(
+        IReadOnlyCollection<Guid> fileIds, string requestedDisposition, FileVariant? variant, CancellationToken ct = default);
 }

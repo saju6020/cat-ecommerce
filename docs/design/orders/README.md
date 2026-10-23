@@ -26,14 +26,14 @@ order history, and the staff queue, money screens, fulfilment, returns and the p
 | Row | File | Screen | Shows |
 |---|---|---|---|
 | Cart — US-ORD-01, 02 | `Cart.dc.html` | Cart | ⭐ merge notice with a dropped line; price change, "Only 2 left" at its maximum, an unavailable line that blocks checkout; the undo toast instead of a confirm |
-| | `CartStates.dc.html` | Cart states | Empty cart; `AddToCartButton` idle / pending / added (live region) / disabled with reason; `CartBadge` hidden at 0; checkout while signed out |
+| | `CartStates.dc.html` | Cart states (three phones) | Empty cart; `AddToCartButton` idle / pending / added (live region) / disabled with reason; `CartBadge` hidden at 0; checkout while signed out |
 | | `PrescriptionCatDialog.dc.html` | Prescription cat picker | Unauthorised cats disabled with "No current authorisation for this food" and **Book a consultation**; the signed-out version |
 | Checkout — US-ORD-02…07, 18 | `CheckoutFulfilment.dc.html` | 1 · Delivery or pickup | "We don't deliver to Gazipur yet" with pickup preselected (US-ORD-06 AC2) |
 | | `CheckoutSlot.dc.html` | 2 · Slot | Service levels with the server's charge; slot windows labelled Asia/Dhaka; the skipped-step case (OQ-3) |
 | | `CheckoutPayment.dc.html` | 3 · Payment | ⭐ unavailable methods disabled with the server's reason; the three COD reasons side by side; **no card option** |
 | | `CheckoutReview.dc.html` | 4 · Review | ⭐ `ChangesPanel` as sentences, grouped, with its acknowledgement; missing prescription cat; rejected discount code; pending policy; six-row `OrderSummary`; Place order disabled, with every reason listed |
 | | `CheckoutOutcomes.dc.html` | Placing the order | Ready; `409 CheckoutQuoteChanged` (tick cleared, announced); `409 RequestInProgress`; a `400` sent back to its step |
-| | `CheckoutMobile.dc.html` | Review at 360 px | Single column, Place order pinned to the bottom |
+| | `CheckoutMobile.dc.html` | Review at 360 px | Single column of preview cards, free-delivery card, Place order pinned to the bottom |
 | | `OrderPlaced.dc.html` | Order placed · bank transfer | ⭐ reference, copy buttons, countdown on the server clock, "I've made the transfer", and the confirmation that follows |
 | My orders — FR-ORD-13, US-ORD-12, 13, 19 | `MyOrders.dc.html` | My orders | Filter, pagination, empty state |
 | | `OrderDetail.dc.html` | Order detail · tracking | ⭐ Track your parcel; timeline with no staff names (OQ-6); contact card instead of Cancel; return disabled with reason |
@@ -83,12 +83,63 @@ areas. This area adds no new component, only new uses of existing ones:
   inside the staff shell with its sheet as a preview, because the page has actions (Start packing) that
   are not printed.
 
-**Customer layer** (added 25 Sep 2026). Customer screens add the warmer PurrCare customer tokens
+**Customer layer: Hearth (owner-approved 2026-10-16).** Customer screens add the warmer PurrCare customer tokens
 on top of the usual set: `--surface-page:#fbf6ef`, `--warm:#e8894a` (fill and decoration only,
 never text), `--warm-ink:#8a3f14` (7.5:1 on white), `--warm-soft:#fdeee2`, and `--radius-md` of
-14px. Teal stays the colour for actions, and staff screens are unchanged. Customer checkout and
-order screens take the tokens only. `PrescriptionCatDialog`, `PackingSlip` and `PosReceipt` keep
-the neutral tokens.
+14px. Hearth adds `--accent-tint:#e6f0ee`, `--radius-card:22px`, `--radius-band:32px` and
+`--radius-pill:999px`. Teal stays the colour for actions, and staff screens are unchanged.
+`PrescriptionCatDialog`, `PackingSlip` and `PosReceipt` keep the neutral tokens.
+
+**Owner decision 2026-10-16: order screens follow the approved Hearth preview layout.** After the first
+restyle the owner said the screens were "not the same" as the preview they had approved. The customer order
+screens now copy the preview's layout, not just its colours, and the approval overrides the earlier
+"look only, add nothing" rule. Each screen keeps every state it documented before. The page is a
+1160px column; checkout pages are a greeting headline, the pill steps, then two columns (1.6 : 1) with the
+choices on the left and the neutral summary on the right; order detail is hero → tracker → two columns.
+
+**Beyond the old spec: the app build must implement these.**
+
+1. **Free-delivery progress card** (cart, cart on a phone, review, review at 360 px): a warm-soft card
+   with "Add ৳X more for free delivery in Dhaka" and an apricot progress bar. **It needs the free-delivery
+   threshold (and the amount still to go) in the server's quote/cart response.** Today free delivery is only
+   a shop banner, so the API must add it. The screens use an illustrative ৳7,000 threshold. If the quote
+   has no threshold for the zone, the card is not shown, and the browser never works it out on its own.
+2. **Place order shows the amount** ("Place order · ৳7,167.50"), and Checkout in the cart shows the
+   items subtotal ("Checkout · ৳5,390"). When disabled, it is a muted pill with every reason listed
+   under it.
+3. **Order-detail status hero + tracker**: a status headline in words ("On its way to you"), an arrival
+   sentence that restates the amount to have ready, **Track parcel** and **Call the branch** pills, then a
+   five-node tracker (Placed → Confirmed → Packing → Dispatched → Delivered). `OrderPlaced` uses the same
+   hero ("Thank you, Farhana") with the tracker's first node current.
+4. **Greeting headlines on checkout steps** use the customer's first name ("Almost there, Farhana").
+
+- **Header**: a white bar with a line-art cat head in a 40px warm-soft disc. It reads "PurrCare Shop" on
+  shop and cart pages and "PurrCare" on portal pages, where the active nav item is warm-ink with an apricot
+  underline. The cart is a warm-soft pill with a teal count badge. Checkout shows a lock and "Secure checkout".
+- **Shapes**: buttons and inputs are pills, at least 44px tall. Place order, Checkout and Continue are
+  54px teal pills. Cards use radius 22, the hero band 32.
+- **Checkout stepper**: four pill steps. A done step has a teal 32px dot with ✓. The current step has a
+  warm-soft fill, a 1px warm border and a warm-ink numbered dot. A step not started is white with a border.
+  On the review step, delivery-with-slot and payment appear as two cards side by side, each with a
+  warm-soft icon tile and a **Change** link. Steps 1–3 show their choices as large selectable option cards
+  with icon tiles; a disabled option is sunken and states its reason.
+- **Line items**: rounded tinted tiles (warm-soft, accent-tint or sunken) with a simple pack shape, the
+  name, "Qty · each" and the line total. In the cart each line is its own card: tile, brand eyebrow, name,
+  availability, a pill quantity stepper and the price. My orders lists each order as a rounded card with a
+  tinted tile, status chip, total and a **View** pill.
+- **Order summary stays neutral**: a white card, a Newsreader title, dashed row rules and a bold 28px total.
+  It always has all six rows.
+- **Status hero** (`OrderPlaced`, `OrderDetail`): a warm-soft band (radius 32) with an eyebrow, a large
+  Newsreader headline and a white disc with a line-art illustration. Order detail adds a tracker of 54px
+  nodes joined by a 4px line: done nodes are teal, the current node is an apricot fill with a warm-soft
+  ring, and future nodes are white with a dashed border. The "What's happened" timeline uses small
+  coloured dots and shows no staff names.
+- **Warmth stops at money and problems.** Errors, the 409/400 outcomes, the expired transfer, the cancel
+  confirmation and the prescription cat dialog keep neutral and status colours. They have no warm band and
+  no cat, but they take the new shapes and header. Warm is never a status. There are no paw prints, puns or
+  emoji, and every icon is an inline stroke SVG.
+- **Free-delivery nudge: now wanted** (owner decision above). It replaces the earlier "no free-delivery
+  nudge" rule, and it depends on the threshold being added to the quote.
 
 ## Rules the design encodes
 

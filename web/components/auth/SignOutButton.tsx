@@ -13,7 +13,17 @@ import { useSignOutStaff } from '@/lib/hooks/useStaffAuthMutations';
  * for the next person at the same browser is a data leak), then routes to the matching sign-in
  * page.
  */
-export function SignOutButton({ audience }: { audience: 'customer' | 'staff' }) {
+export function SignOutButton({
+  audience,
+  className,
+  children,
+}: {
+  audience: 'customer' | 'staff';
+  /** Replaces the default secondary-button look (the customer account sidebar shows it as a row). */
+  className?: string;
+  /** Extra leading content, e.g. an icon. */
+  children?: React.ReactNode;
+}) {
   const queryClient = useQueryClient();
   const router = useRouter();
   const customerMutation = useSignOutCustomer();
@@ -31,7 +41,14 @@ export function SignOutButton({ audience }: { audience: 'customer' | 'staff' }) 
   }
 
   return (
-    <Button variant="secondary" size="sm" onClick={handleSignOut} disabled={mutation.isPending}>
+    <Button
+      variant={className ? 'ghost' : 'secondary'}
+      size="sm"
+      onClick={handleSignOut}
+      disabled={mutation.isPending}
+      className={className}
+    >
+      {children}
       {mutation.isPending ? 'Signing out…' : 'Sign out'}
     </Button>
   );

@@ -6,6 +6,7 @@ using CatEcommerce.Infrastructure.Configuration;
 using CatEcommerce.Infrastructure.Files;
 using CatEcommerce.Infrastructure.Persistence;
 using CatEcommerce.Shared.Common.Constants;
+using CatEcommerce.Shared.Common.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -42,6 +43,44 @@ public sealed class FilesEndpointTests(FilesApiFactory factory) : FilesIntegrati
 
         // The temp file is always cleaned up (§8.2 step 1).
         Assert.Empty(Directory.Exists(options.TempPath) ? Directory.GetFiles(options.TempPath, $"*{fileId:N}*") : []);
+    }
+
+    // ADR-370: a product photo is stored with its 480 px and 1,200 px WebP copies beside it.
+    [Fact]
+    public async Task Upload_a_ProductImage_stores_its_resized_copies_beside_the_original()
+    {
+        using var client = await SignedInStaffClientAsync(StaffRoles.Administrator);
+
+        using var form = BuildUpload(MinimalPng(), "cat.png", "image/png");
+        var response = await client.PostAsync("/api/staff/files?purpose=ProductImage", form);
+
+        Assert.True(response.StatusCode == HttpStatusCode.Created, await response.Content.ReadAsStringAsync());
+        var fileId = (await response.Content.ReadFromJsonAsync<JsonElement>(Json)).GetProperty("fileId").GetGuid();
+        await using var scope = Factory.Services.CreateAsyncScope();
+        var row = await scope.ServiceProvider.GetRequiredService<CatEcommerceDbContext>().StoredFiles.AsNoTracking().SingleAsync(f => f.Id == fileId);
+        var root = scope.ServiceProvider.GetRequiredService<IOptions<FileStorageOptions>>().Value.LocalStoreRoot;
+        foreach (var variant in FileVariants.For(FilePurpose.ProductImage))
+        {
+            var copy = await File.ReadAllBytesAsync(Path.Combine(root, variant.KeyFor(row.StorageKey)));
+            Assert.Equal("WEBP"u8.ToArray(), copy[8..12]);
+        }
+    }
+
+    // ADR-370: a "PNG" that is only the right header bytes passes the magic-byte check but is not an image.
+    [Fact]
+    public async Task Upload_a_ProductImage_that_cannot_be_decoded_is_refused_and_nothing_is_stored()
+    {
+        using var client = await SignedInStaffClientAsync(StaffRoles.Administrator);
+        byte[] headerOnly = [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A, 0x00, 0x00, 0x00, 0x0D, 0x49, 0x48, 0x44, 0x52];
+
+        using var form = BuildUpload(headerOnly, "broken.png", "image/png");
+        var response = await client.PostAsync("/api/staff/files?purpose=ProductImage", form);
+
+        Assert.True(response.StatusCode == HttpStatusCode.BadRequest, await response.Content.ReadAsStringAsync());
+        var body = await response.Content.ReadFromJsonAsync<JsonElement>(Json);
+        Assert.Equal(BusinessViolationCodes.FileRejected, body.GetProperty("errors")[0].GetProperty("errorCode").GetString());
+        await using var scope = Factory.Services.CreateAsyncScope();
+        Assert.False(await scope.ServiceProvider.GetRequiredService<CatEcommerceDbContext>().StoredFiles.AnyAsync(f => f.OriginalFileName == "broken.png"));
     }
 
     // I2

@@ -280,6 +280,9 @@ function customerSummary(o: DbOrder) {
     grandTotal: money(o.grandTotalCents),
     itemCount: o.lines.reduce((sum, l) => sum + l.quantity, 0),
     branchTimeZoneId: ids.timeZoneId,
+    // The real list rows also carry these two (contract check; HO-POR-001).
+    trackingNumber: null,
+    canReorder: REORDERABLE.has(o.status),
   };
 }
 

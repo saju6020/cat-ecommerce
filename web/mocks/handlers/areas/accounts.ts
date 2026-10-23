@@ -904,6 +904,8 @@ const ACTION_ROLES: Record<string, string[]> = {
   'StaffAccounts.View': ['Administrator'],
   'StaffAccounts.Create': ['Administrator'],
   'StaffAccounts.ChangeRoles': ['Administrator'],
+  'StaffAccounts.SetPassword': ['Administrator'],
+  'StaffAccounts.UpdateDetails': ['Administrator'],
   'Customers.View': ['Reception', 'Nurse', 'Vet', 'Administrator'],
   'Customers.RegisterWalkIn': ['Reception', 'Administrator'],
   'Customers.Merge': ['Administrator'],
@@ -1475,20 +1477,86 @@ export const accountsHandlers: HttpHandler[] = [
       mobileNumber?: string | null;
       emailAddress?: string | null;
       roleIds: string[];
+      password?: string | null;
     };
     if (body.roleIds.length === 0)
       return validationError('RoleIds', 'StaffRolesRequired', 'Select at least one role.');
+    if (body.password != null && body.password.length < 10)
+      return validationError(
+        'Password',
+        'PasswordTooShort',
+        'Password must be at least 10 characters.',
+      );
     const id = crypto.randomUUID();
     staffAccounts.set(id, {
       id,
       fullName: body.fullName,
       mobileNumber: body.mobileNumber ?? null,
       emailAddress: body.emailAddress ?? null,
-      password: null,
+      password: body.password ?? null,
       roleIds: body.roleIds,
     });
     persistMockState();
     return HttpResponse.json({ staffAccountId: id }, { status: 201 });
+  }),
+
+  // PUT /api/staff-accounts/{id} — owner, 2026-10-20: the administrator edits name, mobile and email.
+  http.put('*/api/staff-accounts/:staffAccountId', async ({ request, params }) => {
+    const resolved = requireAction(request, 'StaffAccounts.UpdateDetails');
+    if (resolved instanceof Response) return resolved;
+    const staff = staffAccounts.get(params.staffAccountId as string);
+    if (!staff) return new HttpResponse(null, { status: 404 });
+    const body = (await request.json()) as {
+      fullName: string;
+      mobileNumber?: string | null;
+      emailAddress?: string | null;
+    };
+    const mobile = body.mobileNumber?.trim() || null;
+    const email = body.emailAddress?.trim().toLowerCase() || null;
+    if (!body.fullName?.trim())
+      return validationError('FullName', 'NameRequired', 'A name is required.');
+    if (!mobile && !email)
+      return validationError(
+        'MobileNumber',
+        'IdentifierRequired',
+        'At least one of a mobile number or email address is required.',
+      );
+    const others = [...staffAccounts.values()].filter((s) => s.id !== staff.id);
+    if (mobile && others.some((s) => s.mobileNumber === mobile))
+      return validationError(
+        'MobileNumber',
+        'MobileNumberAlreadyRegistered',
+        'This mobile number is already registered to a staff account.',
+      );
+    if (email && others.some((s) => s.emailAddress?.toLowerCase() === email))
+      return validationError(
+        'EmailAddress',
+        'EmailAddressAlreadyRegistered',
+        'This email address is already registered to a staff account.',
+      );
+    staff.fullName = body.fullName.trim();
+    staff.mobileNumber = mobile;
+    staff.emailAddress = email;
+    persistMockState();
+    return new HttpResponse(null, { status: 204 });
+  }),
+
+  // PUT /api/staff-accounts/{id}/password — owner, 2026-10-19
+  http.put('*/api/staff-accounts/:staffAccountId/password', async ({ request, params }) => {
+    const resolved = requireAction(request, 'StaffAccounts.SetPassword');
+    if (resolved instanceof Response) return resolved;
+    const staff = staffAccounts.get(params.staffAccountId as string);
+    if (!staff) return new HttpResponse(null, { status: 404 });
+    const body = (await request.json()) as { password: string };
+    if (!body.password || body.password.length < 10)
+      return validationError(
+        'NewPassword',
+        'PasswordTooShort',
+        'Password must be at least 10 characters.',
+      );
+    staff.password = body.password;
+    persistMockState();
+    return new HttpResponse(null, { status: 204 });
   }),
 
   http.put('*/api/staff-accounts/:staffAccountId/roles', async ({ request, params }) => {

@@ -28,6 +28,9 @@ export interface Column<TRow> {
   sortValue?: (row: TRow) => string;
   /** The card heading on a phone (first column by default); it is the row link when `rowHref` is set. */
   primary?: boolean;
+  /** Keep the cell on one line (dates, ages, short codes). The primary and numeric columns always are,
+   *  so an identifier like ORD-2026-000003 never breaks; the table scrolls sideways instead (2026-10-16). */
+  nowrap?: boolean;
 }
 
 export interface Pager {
@@ -117,7 +120,9 @@ export function ResponsiveTable<TRow>({
           tabIndex={0}
           className="relative min-w-0 overflow-x-auto rounded-[var(--radius-md)] border border-border"
         >
-          <table className={cn('w-full border-collapse bg-surface', dense ? 'text-[13px]' : 'text-sm')}>
+          <table
+            className={cn('w-full border-collapse bg-surface', dense ? 'text-[13px]' : 'text-sm')}
+          >
             <caption className="sr-only">{caption}</caption>
             <thead>
               <tr className="border-b border-border bg-surface-sunken text-left">
@@ -175,6 +180,8 @@ export function ResponsiveTable<TRow>({
                           dense ? 'px-2 py-2' : 'px-3 py-2',
                           'align-top text-ink',
                           column.numeric && 'text-right tabular-nums',
+                          (column.nowrap || column.numeric || column.id === primary.id) &&
+                            'whitespace-nowrap',
                         )}
                       >
                         {href && column.id === primary.id ? (

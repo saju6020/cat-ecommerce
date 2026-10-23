@@ -47,12 +47,15 @@ describe('CatalogueControls — HO-SHP-002 §11.2', () => {
     const view = setup('pageNumber=3');
     const aside = () => within(screen.getByRole('complementary', { name: 'Filters' }));
 
+    // Only Category is open on arrival (owner, 2026-10-17): the shopper opens Country first.
+    await user.click(aside().getByRole('button', { name: 'Country of origin' }));
     await user.click(aside().getByRole('checkbox', { name: /Thailand/ }));
     expect(lastUrl()).toBe('/shop/products?origin=TH');
 
     // The next render of the page carries the previous change in the URL.
     search = 'origin=TH';
     view.rerender(controls());
+    await user.click(aside().getByRole('button', { name: 'Brand' }));
     await user.click(aside().getByRole('checkbox', { name: /Whiskas/ }));
     expect(lastUrl()).toBe('/shop/products?brand=Whiskas&origin=TH');
 
@@ -78,10 +81,37 @@ describe('CatalogueControls — HO-SHP-002 §11.2', () => {
     }
   });
 
+  it('2026-10-17: on arrival only Category is open; a group holding a choice starts open', async () => {
+    const user = userEvent.setup();
+    setup('availability=inStock');
+    const aside = within(screen.getByRole('complementary', { name: 'Filters' }));
+    for (const open of ['Category', 'Availability'])
+      expect(aside.getByRole('button', { name: open })).toHaveAttribute('aria-expanded', 'true');
+    for (const closed of [
+      'Country of origin',
+      'Brand',
+      'Price',
+      'Life stage',
+      'Protein source',
+      'Rating',
+    ])
+      expect(aside.getByRole('button', { name: closed })).toHaveAttribute('aria-expanded', 'false');
+    expect(aside.queryByRole('checkbox', { name: /Kitten/ })).not.toBeInTheDocument();
+
+    await user.click(aside.getByRole('button', { name: 'Life stage' }));
+    expect(aside.getByRole('checkbox', { name: /Kitten/ })).toBeVisible();
+    await user.click(aside.getByRole('button', { name: 'Category' }));
+    expect(aside.getByRole('button', { name: 'Category' })).toHaveAttribute(
+      'aria-expanded',
+      'false',
+    );
+  });
+
   it('U-A5: price min 500, max 200 shows an inline error and does not navigate', async () => {
     const user = userEvent.setup();
     setup();
     const aside = within(screen.getByRole('complementary', { name: 'Filters' }));
+    await user.click(aside.getByRole('button', { name: 'Price' }));
     await user.type(aside.getByLabelText(/Minimum/), '500');
     await user.type(aside.getByLabelText(/Maximum/), '200');
     await user.click(aside.getByRole('button', { name: 'Apply price' }));
@@ -93,6 +123,7 @@ describe('CatalogueControls — HO-SHP-002 §11.2', () => {
     const user = userEvent.setup();
     setup();
     const aside = within(screen.getByRole('complementary', { name: 'Filters' }));
+    await user.click(aside.getByRole('button', { name: 'Price' }));
     await user.type(aside.getByLabelText(/Minimum/), '200');
     await user.type(aside.getByLabelText(/Maximum/), '900');
     await user.click(aside.getByRole('button', { name: 'Apply price' }));
@@ -107,7 +138,10 @@ describe('CatalogueControls — HO-SHP-002 §11.2', () => {
     await user.click(button);
 
     const dialog = screen.getByRole('dialog', { name: 'Filters' });
+    // Availability and Life stage start closed (2026-10-16); the shopper opens them first.
+    await user.click(within(dialog).getByRole('button', { name: 'Availability' }));
     await user.click(within(dialog).getByRole('checkbox', { name: /In stock only/ }));
+    await user.click(within(dialog).getByRole('button', { name: 'Life stage' }));
     await user.click(within(dialog).getByRole('checkbox', { name: /Kitten/ }));
     expect(replace).not.toHaveBeenCalled();
 

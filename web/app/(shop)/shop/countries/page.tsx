@@ -23,9 +23,11 @@ export default async function CountriesPage({ searchParams }: { searchParams: Se
     return <ShopLoadError retryHref="/shop/countries" error={origins.error} />;
   }
   return (
-    <div className="flex flex-col gap-4">
-      <h1 className="font-display text-2xl font-semibold text-ink">Shop by country</h1>
-      <p className="max-w-prose text-sm text-ink-muted">
+    <div className="flex flex-col gap-5">
+      <h1 className="m-0 font-display text-[clamp(1.75rem,3.5vw,2.5rem)] font-semibold leading-tight text-ink">
+        Shop by country
+      </h1>
+      <p className="m-0 max-w-prose text-base text-ink-muted">
         We name the country of origin on every food we sell. Pick a country to see its products.
       </p>
       {origins.value.length === 0 ? (

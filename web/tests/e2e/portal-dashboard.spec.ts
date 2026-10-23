@@ -122,10 +122,11 @@ test.describe('Portal home — US-POR-01', () => {
     ).toHaveAttribute('href', '/portal/prescriptions');
   });
 
-  test('E-A5: the portal nav carries a Home entry', async ({ page }) => {
+  // Option A sidebar (owner, 2026-10-17): the account home is "Overview".
+  test('E-A5: the account nav carries an Overview entry', async ({ page }) => {
     await open(page);
     await expect(
-      page.getByRole('navigation', { name: 'Main' }).getByRole('link', { name: 'Home' }),
+      page.getByRole('navigation', { name: 'Main' }).getByRole('link', { name: 'Overview' }),
     ).toHaveAttribute('href', '/portal');
   });
 });
@@ -195,10 +196,11 @@ test.describe('Sign-in landing — owner decision 2026-10-13 ("Land on /portal")
     await page.getByRole('button', { name: 'Sign in', exact: true }).click();
   }
 
-  test('E-A1: signing in with no ?next= lands on /portal', async ({ page }) => {
+  // Owner, 2026-10-17 (account sidebar): the account opens on My orders.
+  test('E-A1: signing in with no ?next= lands on My orders', async ({ page }) => {
     await signInThroughTheForm(page, '/sign-in');
-    await expect(page).toHaveURL(/\/portal$/);
-    await expect(page.getByRole('heading', { level: 1, name: /Welcome back/ })).toBeVisible();
+    await expect(page).toHaveURL(/\/portal\/orders$/);
+    await expect(page.getByRole('heading', { level: 1, name: 'My orders' })).toBeVisible();
   });
 
   test('an explicit ?next= still wins', async ({ page }) => {

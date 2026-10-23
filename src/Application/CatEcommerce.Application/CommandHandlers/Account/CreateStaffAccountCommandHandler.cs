@@ -1,6 +1,8 @@
 using CatEcommerce.Application.Commands.Account;
 using CatEcommerce.Application.DataMappers;
 using CatEcommerce.Domain.Aggregates.Account;
+using CatEcommerce.Domain.DomainServices;
+using CatEcommerce.Domain.Models;
 using CatEcommerce.Domain.Exceptions;
 using CatEcommerce.Domain.ValueObjects;
 using CatEcommerce.Shared.Common.Constants;
@@ -15,10 +17,13 @@ namespace CatEcommerce.Application.CommandHandlers.Account;
 /// HO-ACC-001 §11.4 (C9) / US-ACC-07 / ADR-009. Carries the ADR-009 defence-in-depth guard: the
 /// handler re-checks <see cref="ActionRoles"/> against the caller's roles. `RequireActionFilter`
 /// is the control (U-F9); this is one line and one test, not a second control.
+/// Owner, 2026-10-19: an optional starting password, checked and hashed exactly as a customer's at registration.
 /// </summary>
 public sealed class CreateStaffAccountCommandHandler(
     ILogger<CreateStaffAccountCommandHandler> logger,
-    IAggregateRootRepository<StaffAccountAggregate> staffRepository)
+    IAggregateRootRepository<StaffAccountAggregate> staffRepository,
+    IPasswordHasher passwordHasher,
+    IBreachedPasswordChecker breachedPasswordChecker)
     : ICommandHandlerAsync<CreateStaffAccountCommand>
 {
     public async Task<CommandResponse> HandleAsync(CreateStaffAccountCommand command)
@@ -51,11 +56,17 @@ public sealed class CreateStaffAccountCommandHandler(
         if (email is not null && await staffRepository.ExistAsync(c => c.EmailAddress!.Value == email.Value))
             return Violation(BusinessViolationCodes.EmailAddressAlreadyRegistered, "EmailAddress", "This email address is already registered to a staff account.");
 
+        if (command.InitialPassword is not null && await breachedPasswordChecker.IsBreachedAsync(command.InitialPassword))
+            return Violation(BusinessViolationCodes.BreachedPassword, "Password", "This password has appeared in a known data breach. Choose a different one.");
+
         var staff = new StaffAccountAggregate(command.StaffAccountId);
 
         try
         {
             staff.Create(command.ToCreationDto(mobile, email));
+            if (command.InitialPassword is not null)
+                staff.SetPassword(new PasswordSetDto(passwordHasher.Hash(command.InitialPassword), command.UserContext, command.CorrelationId,
+                    SetByAdministratorId: command.UserContext.UserId));
         }
         catch (DomainRuleViolationException ex)
         {

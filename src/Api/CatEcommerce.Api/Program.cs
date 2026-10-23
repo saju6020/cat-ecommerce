@@ -205,6 +205,14 @@ app.UseRateLimiter();
 app.MapHealthChecks("/health");
 app.MapControllers();
 
+// Issues.md #2 (2026-10-15): Development only -- names the database this API uses, so the real-API browser tests can refuse
+// to run against catecommerce_dev (the app the developer looks at) instead of filling it with test rows.
+if (app.Environment.IsDevelopment())
+{
+    app.MapGet("/api/dev/database", (IConfiguration configuration) =>
+        Results.Ok(new { database = new Npgsql.NpgsqlConnectionStringBuilder(configuration.GetConnectionString("CatEcommerce")).Database }));
+}
+
 app.Run();
 
 // Needed for WebApplicationFactory<Program> in integration tests.

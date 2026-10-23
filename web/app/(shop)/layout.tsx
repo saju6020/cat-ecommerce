@@ -50,7 +50,10 @@ export default async function ShopLayout({ children }: { children: React.ReactNo
           ) : null
         }
       />
-      <main id="main-content" className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 md:px-8">
+      <main
+        id="main-content"
+        className="mx-auto w-full max-w-[1224px] flex-1 px-4 py-6 md:px-8 md:pb-16"
+      >
         <MaintenanceGate initial={initialStatus}>
           {banners.ok && banners.value.length > 0 && (
             <div className="mb-6">

@@ -74,24 +74,58 @@ describe('StaffAccountForm — US-ACC-07', () => {
     await waitFor(() => expect(screen.getByText('Full')).toBeInTheDocument());
   });
 
-  it('success names the new member and points to "Set or reset password"', async () => {
+  // Owner, 2026-10-19: the administrator sets the starting password and shares it with the new member.
+  it('sends the password the administrator typed, and success says to share it', async () => {
     stubCatalogue();
+    const posted: unknown[] = [];
     server.use(
-      http.post('*/api/staff-accounts', () =>
-        HttpResponse.json({ staffAccountId: 'new-id' }, { status: 201 }),
-      ),
+      http.post('*/api/staff-accounts', async ({ request }) => {
+        posted.push(await request.json());
+        return HttpResponse.json({ staffAccountId: 'new-id' }, { status: 201 });
+      }),
     );
     const user = userEvent.setup();
     renderWithClient(<StaffAccountFormWithHooks />);
 
     await user.type(screen.getByLabelText(/full name/i), 'New Person');
     await user.type(screen.getByLabelText(/mobile number/i), '01712345678');
+    await user.type(screen.getByLabelText(/^password/i), 'a-long-shared-password');
     await user.click(await screen.findByRole('checkbox', { name: 'Reception' }));
     await user.click(screen.getByRole('button', { name: /create account/i }));
 
-    expect(
-      await screen.findByText(/ask new person to choose .set or reset password./i),
-    ).toBeInTheDocument();
+    const status = await screen.findByRole('status');
+    expect(status).toHaveTextContent(/share the password with new person/i);
+    // Owner, 2026-10-20: the message names the sign-in ID to share.
+    expect(status).toHaveTextContent('01712345678');
+    expect(posted).toEqual([
+      expect.objectContaining({
+        fullName: 'New Person',
+        password: 'a-long-shared-password',
+        roleIds: ['Reception'],
+      }),
+    ]);
+  });
+
+  it('a password shorter than 10 characters is refused before sending', async () => {
+    stubCatalogue();
+    const posted: unknown[] = [];
+    server.use(
+      http.post('*/api/staff-accounts', async ({ request }) => {
+        posted.push(await request.json());
+        return HttpResponse.json({ staffAccountId: 'new-id' }, { status: 201 });
+      }),
+    );
+    const user = userEvent.setup();
+    renderWithClient(<StaffAccountFormWithHooks />);
+
+    await user.type(screen.getByLabelText(/full name/i), 'New Person');
+    await user.type(screen.getByLabelText(/mobile number/i), '01712345678');
+    await user.type(screen.getByLabelText(/^password/i), 'short');
+    await user.click(await screen.findByRole('checkbox', { name: 'Reception' }));
+    await user.click(screen.getByRole('button', { name: /create account/i }));
+
+    expect(await screen.findByText(/use at least 10 characters/i)).toBeInTheDocument();
+    expect(posted).toEqual([]);
   });
 
   it('SEC gate MEDIUM (first pass): method="post"', () => {

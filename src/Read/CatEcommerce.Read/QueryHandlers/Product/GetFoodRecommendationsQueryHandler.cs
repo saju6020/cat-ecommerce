@@ -1,3 +1,4 @@
+using CatEcommerce.Read.QueryHandlers.StoredFile;
 using CatEcommerce.Domain.DomainServices;
 using CatEcommerce.Infrastructure.Persistence;
 using CatEcommerce.Infrastructure.Product;
@@ -21,7 +22,7 @@ namespace CatEcommerce.Read.QueryHandlers.Product;
 /// </summary>
 public sealed class GetFoodRecommendationsQueryHandler(
     CatEcommerceDbContext db, IDietAuthorisationGate dietGate, IBusinessSettings businessSettings,
-    IContentLocaleSettings localeSettings, TimeProvider timeProvider, Microsoft.Extensions.Options.IOptions<CatEcommerce.Infrastructure.Configuration.ShopOptions> shopOptions)
+    IContentLocaleSettings localeSettings, TimeProvider timeProvider, Microsoft.Extensions.Options.IOptions<CatEcommerce.Infrastructure.Configuration.ShopOptions> shopOptions, IStoredFileSigningBatcher fileSigner)
     : IQueryHandlerAsync<GetFoodRecommendationsQuery, FoodRecommendationsViewModel?>
 {
     /// <summary>Row 20: the most popular in-stock foods for the cat's stage. The policy keeps twelve, so a
@@ -76,7 +77,8 @@ public sealed class GetFoodRecommendationsQueryHandler(
 
         var entriesById = entries.ToDictionary(e => e.ProductId);
         var items = result.Items.Select(r => (r, Item: GetCatalogueQueryHandler.ToCatalogueItem(entriesById[r.ProductId], inStock: true))).ToList();
-        var localised = await CatalogueItemLocaliser.ApplyAsync(db, localeSettings, items.Select(i => i.Item).ToList(), query.Locale);
+        var localised = await ProductImageUrls.WithPrimaryImageUrlsAsync(db, fileSigner,
+            await CatalogueItemLocaliser.ApplyAsync(db, localeSettings, items.Select(i => i.Item).ToList(), query.Locale));
 
         var viewItems = items.Select((i, index) => new FoodRecommendationItemViewModel(
             localised[index],

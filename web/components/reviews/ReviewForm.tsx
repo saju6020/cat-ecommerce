@@ -1,5 +1,6 @@
 'use client';
 
+import { pillInputClass, pillTextareaClass } from '@/components/hearth/fields';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -95,8 +96,9 @@ export function ReviewForm({
     }
   }
 
-  const input =
-    'w-full rounded-[var(--radius-sm)] border border-border-strong bg-surface px-3 py-2 text-sm text-ink aria-[invalid=true]:border-danger-ink';
+  const invalid = 'aria-[invalid=true]:border-danger-ink';
+  const input = `${pillInputClass} ${invalid}`;
+  const textarea = `${pillTextareaClass} ${invalid}`;
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate className="flex max-w-xl flex-col gap-4">
       <UnsavedChangesGuard when={isDirty && !isSubmitting && !isSubmitSuccessful} />
@@ -107,7 +109,7 @@ export function ReviewForm({
       {errors.root && (
         <p
           role="alert"
-          className="rounded-[var(--radius-sm)] bg-danger-bg p-3 text-sm font-semibold text-danger-ink"
+          className="rounded-card bg-danger-bg p-3 text-sm font-semibold text-danger-ink"
         >
           {errors.root.message}
         </p>
@@ -182,7 +184,7 @@ export function ReviewForm({
         <textarea
           id="review-body"
           rows={6}
-          className={input}
+          className={textarea}
           aria-invalid={!!errors.body}
           aria-describedby="review-count"
           {...register('body')}
@@ -201,7 +203,13 @@ export function ReviewForm({
       </div>
 
       <p className="text-sm text-ink-muted">Reviews are checked before they appear.</p>
-      <Button type="submit" disabled={isSubmitting} className="self-start">
+      <Button
+        type="submit"
+        variant="pill"
+        size="pillMd"
+        disabled={isSubmitting}
+        className="self-start"
+      >
         {isSubmitting ? 'Sending…' : isEdit ? 'Save changes' : 'Send review'}
       </Button>
     </form>

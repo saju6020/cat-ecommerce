@@ -69,8 +69,12 @@ export function useOverdueRestoreBanner(enabled: boolean) {
   });
   const dismissedQuery = useQuery<boolean>({
     queryKey: OVERDUE_DISMISSED_KEY,
+    // Never fetched (disabled, cache-only); the queryFn only stops React Query logging "No queryFn was passed" on
+    // every staff page (2026-10-15, journey-real-api).
+    queryFn: () => false,
     enabled: false,
     initialData: false,
+    staleTime: Infinity,
   });
   return {
     overdue: status.data?.isRestoreTestOverdue === true,

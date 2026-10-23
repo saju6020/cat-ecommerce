@@ -20,7 +20,14 @@ export function ShopLoadError({ retryHref, error }: { retryHref: string; error: 
         title="We couldn't load the shop just now."
         description="This does not mean the product is gone — please try again."
       />
-      <Link href={retryHref} className={buttonVariants({ variant: 'secondary' })}>
+      <Link
+        href={retryHref}
+        className={buttonVariants({
+          variant: 'pillSecondary',
+          size: 'pillMd',
+          className: 'self-start',
+        })}
+      >
         Try again
       </Link>
     </div>

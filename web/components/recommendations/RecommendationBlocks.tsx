@@ -11,9 +11,12 @@ import type { Recommendations } from '@/lib/api/shop-catalogue';
 export function RecommendationBlocks({
   recommendations,
   lang,
+  hideFrequentlyBought,
 }: {
   recommendations: Recommendations;
   lang?: string;
+  /** The product page draws that list itself, as the "Often bought together" card. */
+  hideFrequentlyBought?: boolean;
 }) {
   const { frequentlyBoughtTogether, upSell, lifeStage } = recommendations;
   const lifeStageHeading =
@@ -21,16 +24,23 @@ export function RecommendationBlocks({
       ? 'Recommended for your cats'
       : `Recommended for ${lifeStageAudience(lifeStage.lifeStages)}`;
   const blocks = [
-    { id: 'rec-fbt', heading: 'Frequently bought together', items: frequentlyBoughtTogether },
+    {
+      id: 'rec-fbt',
+      heading: 'Frequently bought together',
+      items: hideFrequentlyBought ? [] : frequentlyBoughtTogether,
+    },
     { id: 'rec-upsell', heading: 'You might also like', items: upSell },
     { id: 'rec-life', heading: lifeStageHeading, items: lifeStage.items },
   ].filter((block) => block.items.length > 0);
   if (blocks.length === 0) return null;
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-10">
       {blocks.map((block) => (
-        <section key={block.id} aria-labelledby={block.id} className="flex flex-col gap-3">
-          <h2 id={block.id} className="font-display text-xl font-semibold text-ink">
+        <section key={block.id} aria-labelledby={block.id} className="flex flex-col gap-5">
+          <h2
+            id={block.id}
+            className="m-0 font-display text-[clamp(1.5rem,3vw,2rem)] font-semibold text-ink"
+          >
             {block.heading}
           </h2>
           <ProductGrid items={block.items} lang={lang} headingLevel="h3" />

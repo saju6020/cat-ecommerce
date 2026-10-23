@@ -1,3 +1,4 @@
+using CatEcommerce.Read.QueryHandlers.StoredFile;
 using CatEcommerce.Domain.DomainServices;
 using CatEcommerce.Infrastructure.Persistence;
 using CatEcommerce.Infrastructure.Persistence.Views;
@@ -17,7 +18,7 @@ namespace CatEcommerce.Read.QueryHandlers.Product;
 /// Filtering, sorting and paging happen entirely in the database; nothing is filtered in memory
 /// after materialisation (ADR-083).
 /// </summary>
-public sealed class GetCatalogueQueryHandler(CatEcommerceDbContext db, IContentLocaleSettings localeSettings, Microsoft.Extensions.Options.IOptions<CatEcommerce.Infrastructure.Configuration.ShopOptions> shopOptions, TimeProvider timeProvider) : IQueryHandlerAsync<GetCatalogueQuery, CatalogueResult>
+public sealed class GetCatalogueQueryHandler(CatEcommerceDbContext db, IContentLocaleSettings localeSettings, Microsoft.Extensions.Options.IOptions<CatEcommerce.Infrastructure.Configuration.ShopOptions> shopOptions, TimeProvider timeProvider, IStoredFileSigningBatcher fileSigner, ISkuAvailabilityReader availabilityReader) : IQueryHandlerAsync<GetCatalogueQuery, CatalogueResult>
 {
     public async Task<QueryResponse<CatalogueResult>> HandleAsync(GetCatalogueQuery query)
     {
@@ -52,18 +53,25 @@ public sealed class GetCatalogueQueryHandler(CatEcommerceDbContext db, IContentL
         // US-SHP-14: the page's names in the requested language (per-field fallback); the
         // filtering, sorting and paging above never depended on it.
         var sellable = await StorefrontAvailability.SellableProductIdsAsync(db, rows.Select(r => r.ProductId).ToList(), timeProvider.GetUtcNow(), branchId);
-        var items = await CatalogueItemLocaliser.ApplyAsync(db, localeSettings, rows.Select(r => ToCatalogueItem(r, sellable.Contains(r.ProductId))).ToList(), query.Locale);
+        var productItems = await ProductImageUrls.WithPrimaryImageUrlsAsync(db, fileSigner,
+            await CatalogueItemLocaliser.ApplyAsync(db, localeSettings, rows.Select(r => ToCatalogueItem(r, sellable.Contains(r.ProductId))).ToList(), query.Locale));
+        // One card per size (owner, 2026-10-18): the page's products, each spread into its sizes.
+        var items = await CatalogueSizeExpansion.ExpandAsync(db, availabilityReader, fileSigner, productItems, timeProvider.GetUtcNow(),
+            dearestFirst: sort == CatalogueSort.PriceDescending, query.MinPrice, query.MaxPrice, inStockOnly: query.AvailabilityInStock == true);
+        var filteredIds = filtered.Select(e => e.ProductId);
+        var activeSkuCount = await db.SkuRows().CountAsync(s => s.SkuStatus == SkuStatus.Active && filteredIds.Contains(s.ProductId));
+        var totalItemCount = Math.Max(totalCount, activeSkuCount);
 
         CatalogueSuggestions? suggestions = null;
         if (hasQuery && totalCount == 0)
         {
             suggestions = await BuildSuggestionsAsync(normalisedQ, branchId);
-            suggestions = suggestions with { Popular = await CatalogueItemLocaliser.ApplyAsync(db, localeSettings, suggestions.Popular, query.Locale) };
+            suggestions = suggestions with { Popular = await ProductImageUrls.WithPrimaryImageUrlsAsync(db, fileSigner, await CatalogueItemLocaliser.ApplyAsync(db, localeSettings, suggestions.Popular, query.Locale)) };
         }
 
         var appliedFilters = BuildAppliedFilters(query, sort);
 
-        var result = new CatalogueResult(items, query.PageNumber, query.PageSize, totalCount, appliedFilters, suggestions);
+        var result = new CatalogueResult(items, query.PageNumber, query.PageSize, totalCount, appliedFilters, suggestions, totalItemCount);
         return new QueryResponse<CatalogueResult> { Result = result };
     }
 

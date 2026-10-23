@@ -37,22 +37,30 @@ export function PrescriptionLinesPanel({
 
   let assignedFocus = false;
   return (
-    <section aria-labelledby="rx-lines-heading" className="flex flex-col gap-3 rounded-[var(--radius-md)] border border-border bg-surface p-4">
-      <h3 id="rx-lines-heading" className="font-display text-base font-semibold text-ink">
+    <section
+      aria-labelledby="rx-lines-heading"
+      className="flex flex-col gap-3 rounded-card border border-border bg-surface p-5 sm:px-6"
+    >
+      <h3 id="rx-lines-heading" className="m-0 text-base font-bold text-ink">
         Prescription food
       </h3>
       {prescription.map((line) => {
         const missing = line.prescriptionStatus === 'CatRequired';
         return (
           <div key={line.lineId} className="text-sm">
-            <p className="font-semibold text-ink">{`${line.productName} ${line.variantLabel}`.trim()}</p>
+            <p className="m-0 font-semibold text-ink">
+              {`${line.productName} ${line.variantLabel}`.trim()}
+            </p>
             {missing ? (
               <fieldset className="m-0 mt-2 flex min-w-0 flex-col gap-2 border-0 p-0">
                 <legend className="mb-1 font-semibold text-ink">Which cat is this for?</legend>
                 {cats.length === 0 && (
                   <p className="text-ink-muted">
                     You haven&rsquo;t added a cat yet.{' '}
-                    <Link href="/portal/cats/new" className="font-semibold text-accent-ink underline">
+                    <Link
+                      href="/portal/cats/new"
+                      className="font-semibold text-accent-ink underline"
+                    >
                       Add your cat
                     </Link>
                   </p>
@@ -61,14 +69,19 @@ export function PrescriptionLinesPanel({
                   const attach = !assignedFocus;
                   assignedFocus = true;
                   return (
-                    <label key={cat.id} className="flex items-center gap-2">
+                    <label
+                      key={cat.id}
+                      className="flex min-h-11 cursor-pointer items-center gap-2.5 rounded-2xl border border-border-strong bg-surface px-3.5"
+                    >
                       <input
                         ref={attach ? firstPicker : undefined}
                         type="radio"
                         name={`rx-${line.lineId}`}
                         className="h-4 w-4 accent-[var(--accent)]"
                         checked={selection[line.lineId] === cat.id}
-                        onChange={() => setSelection((current) => ({ ...current, [line.lineId]: cat.id }))}
+                        onChange={() =>
+                          setSelection((current) => ({ ...current, [line.lineId]: cat.id }))
+                        }
                       />
                       {cat.name}
                     </label>
@@ -76,7 +89,8 @@ export function PrescriptionLinesPanel({
                 })}
                 <div>
                   <Button
-                    size="sm"
+                    variant="pill"
+                    size="pillMd"
                     disabled={!selection[line.lineId] || pendingLineId === line.lineId}
                     onClick={() => onChoose(line.lineId, selection[line.lineId]!)}
                   >

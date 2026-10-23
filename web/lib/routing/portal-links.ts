@@ -12,9 +12,9 @@
 import { sanitizeNextPath } from '@/lib/validation/nextPath';
 
 /** The page a signed-in customer lands on. Section 2: "default post-sign-in landing constant".
- *  Used by `app/(auth)/sign-in/page.tsx` and `app/page.tsx` (owner, 2026-10-13: "Land on /portal";
+ *  Used by `app/(auth)/sign-in/page.tsx` and `app/page.tsx` (owner, 2026-10-13: "Land on /portal"; changed to My orders by the owner 2026-10-17 with the account sidebar;
  *  HO-ACC-002 Amended row). An explicit `?next=` still wins. */
-export const DEFAULT_CUSTOMER_LANDING = '/portal';
+export const DEFAULT_CUSTOMER_LANDING = '/portal/orders';
 
 /** The `?next=` paths a customer may come back to after signing in (see the sign-in page for why
  *  each one is here). Shared with the register page so "Create an account" keeps the same return. */

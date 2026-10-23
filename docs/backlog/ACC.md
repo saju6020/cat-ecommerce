@@ -27,3 +27,12 @@ Fix in a later batch. Source: `docs/gates/HO-ACC-002-*.md`, `docs/test-cases/TC-
 | A-APT2 | LOW | `UnsavedChangesGuard` lacks `consequence`/`onConfirm` props, so HO-APT-002 copied it as `LeaveHoldGuard` (APT row W14). | HO-APT-002 ARCHITECTURE |
 | A-APT3 | LOW | Mirror in HO-ACC-002's §1 Amended the owner-approved edit HO-APT-002 made to `CustomerSessionGuard.tsx` (`?next=` carries the query string; owner decision 2026-10-04, HO-APT-002 b3377df). | HO-APT-002 ARCHITECTURE |
 | A-SHP1 | LOW | Mirror in HO-ACC-002's §1 Amended the owner-approved HO-SHP-002 edits to HO-ACC-002 files: `tests/e2e/home.spec.ts` (signed-out `/` → `/shop`) and `app/(auth)/sign-in/page.tsx` (`/shop` on the `?next=` allow-list) — owner decision 2026-10-04, HO-SHP-002 ac3f9b3. | HO-SHP-002 ARCHITECTURE |
+
+## Owner tuning 2026-10-19 (admin-set staff passwords), review round, non-blocking
+
+| # | Severity | Item | Source |
+|---|---|---|---|
+| T1019-1 | MEDIUM | Setting a staff password (create-with-password and `PUT /api/staff-accounts/{id}/password`) does not ask the acting administrator to re-enter their own password. A stolen or unattended admin session could lock out other administrators. Options: require the admin's current password on both, and/or send an admin's own password change to a change-own-password flow. Owner to decide. | SECURITY gate (docs/gates/HO-ACC-001-owner-tuning-1019-SECURITY.md) |
+| T1019-2 | LOW | An administrator setting their own password through the staff page is signed out on the next request (the stamp rotates). Safe, but the panel does not warn about it. | SECURITY gate |
+| T1019-3 | LOW | `.MaximumLength` on the new password validators has no error code or message of its own (same as registration). | SECURITY gate |
+| T1020-1 | LOW | Editing a staff member's mobile or email does not end their open sessions (owner, 2026-10-20: kept simple on purpose). If an identifier is ever changed because an account was compromised, set a new password too, which does end its sessions. Also, a staff reset token already sent to the old identifier stays usable for its 15 minutes; staff reset messages are not delivered in production. Option: cancel outstanding reset tokens when an identifier changes. | SECURITY gate (docs/gates/HO-ACC-001-staff-details-1020-SECURITY.md) |

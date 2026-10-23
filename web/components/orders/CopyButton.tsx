@@ -25,7 +25,13 @@ export function CopyButton({ value, label }: { value: string; label: string }) {
 
   return (
     <>
-      <Button variant="secondary" size="sm" onClick={() => void copy()} aria-label={`Copy ${label}`}>
+      <Button
+        variant="pillSecondary"
+        size="pillMd"
+        onClick={() => void copy()}
+        aria-label={`Copy ${label}`}
+        className="flex-none"
+      >
         {copied ? <Check size={14} aria-hidden="true" /> : <Copy size={14} aria-hidden="true" />}
         {copied ? 'Copied' : 'Copy'}
       </Button>

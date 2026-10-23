@@ -10,7 +10,7 @@
 <helmet>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
 <style>
-:root{--surface-page:#fbf6ef;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:14px;--warm:#e8894a;--warm-ink:#8a3f14;--warm-soft:#fdeee2}
+:root{--surface-page:#fbf6ef;--surface:#fff;--surface-sunken:#f2efe7;--ink:#1c1a17;--ink-muted:#5c574f;--ink-faint:#8c8578;--border:#e5e1d8;--border-strong:#cbc3b2;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--warning-bg:#fbf0dc;--warning-ink:#6e4700;--danger-bg:#fbe9e7;--danger-ink:#8f1d1d;--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-sm:6px;--radius-md:14px;--warm:#e8894a;--warm-ink:#8a3f14;--warm-soft:#fdeee2;--accent-tint:#e6f0ee;--radius-card:20px;--radius-band:32px;--radius-pill:999px}
 *{box-sizing:border-box}
 body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink);font-size:14px}
 a{color:var(--accent-ink)}
@@ -46,11 +46,44 @@ a{color:var(--accent-ink)}
 .foot{font-size:13px;color:var(--ink-muted);margin-top:18px;display:flex;gap:8px;align-items:center}
 .statelabel{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-faint);margin:26px 0 6px}
 .hintbox{display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:14px 16px;font-size:14px;max-width:720px;line-height:1.5}
+/* Hearth (owner-approved 2026-10-16) */
+a:hover{color:var(--accent)}
+.brand{display:inline-flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:600;font-size:24px;color:var(--accent-ink);text-decoration:none}
+.logo-disc{width:40px;height:40px;border-radius:var(--radius-pill);background:var(--warm-soft);color:var(--warm-ink);display:grid;place-items:center;flex:none}
+.h1{font-size:34px;line-height:1.1}
+
+.topnav{padding:14px 32px}
+.who{font-size:14px}
+.who a{min-height:44px;display:inline-flex;align-items:center}
+.avatar{width:40px;height:40px;font-size:13px}
+.tabnav{gap:10px;padding:12px 32px;border-bottom:1px solid var(--border);background:#fff}
+.tab{margin:0;padding:0 18px;min-height:44px;display:inline-flex;align-items:center;border:1px solid var(--border);border-radius:var(--radius-pill);background:#fff;color:var(--ink)}
+.tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
+
+.c1{background:var(--accent-tint);color:var(--accent)}
+.c2{background:var(--warm-soft);color:var(--warm)}
+.c3{background:var(--surface-sunken);color:var(--ink-faint)}
+.c4{background:var(--warm-soft);color:var(--warm-ink)}
+.c5{background:var(--surface-sunken);color:#a39a87}
+.c6{background:var(--accent-tint);color:var(--accent-ink)}
+
+.page{padding:28px 32px 48px}
+.crumbs{font-size:13px}
+.cathead{gap:18px}
+.catav{width:64px;height:64px;background:var(--warm-soft);color:var(--warm-ink);font-size:26px}
+.excl{border-radius:18px;padding:14px 18px}
+.grid{gap:18px}
+.card{border-radius:var(--radius-card);padding:18px;gap:10px}
+.pimg{width:64px;height:64px;border-radius:14px}
+.card h2{font-size:15px;font-weight:600}
+.price{font-size:16px}
+.reasons .ic{color:var(--accent)}
+.hintbox{border-radius:var(--radius-card);padding:16px 18px}
 </style>
 </helmet>
 <div style="width:1280px;height:1040px;background:var(--surface-page)">
   <div class="topnav">
-    <div class="brand">PurrCare</div>
+    <div class="brand"><span class="logo-disc" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3l2.2 4.2M17 3l-2.2 4.2"/><path d="M5 13a7 6 0 0 0 14 0c0-3.3-3.1-6-7-6s-7 2.7-7 6z"/><path d="M9.5 12.5h.01M14.5 12.5h.01"/><path d="M10.8 15.2l1.2.8 1.2-.8"/></svg></span>PurrCare</div>
     <div class="who"><div class="avatar">FY</div>Farhana Yasmin <a href="#" style="font-weight:600;margin-left:8px">Sign out</a></div>
   </div>
   <nav class="tabnav" aria-label="Your account">

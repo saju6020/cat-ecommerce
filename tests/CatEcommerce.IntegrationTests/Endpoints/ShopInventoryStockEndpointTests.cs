@@ -61,10 +61,14 @@ public sealed class ShopInventoryStockEndpointTests(ShopApiFactory factory) : Sh
         Assert.Equal("InStock", availabilityBySku[product.StockedSku]);
         Assert.Equal("OutOfStock", availabilityBySku[product.UnstockedSku]);
 
-        // The product is still listed (one variant out of stock does not unlist it) and counts as in stock.
+        // The product is still listed (one variant out of stock does not unlist it). One card per size (owner,
+        // 2026-10-18): each size is its own card with its own stock.
         var list = await JsonOkAsync(await CreateClient().GetAsync($"/api/shop/products?brand={Uri.EscapeDataString(brand)}"));
-        var item = Assert.Single(list.GetProperty("items").EnumerateArray());
-        Assert.Equal("InStock", item.GetProperty("availability").GetString());
+        var cardBySku = list.GetProperty("items").EnumerateArray()
+            .ToDictionary(i => i.GetProperty("skuId").GetGuid(), i => i.GetProperty("availability").GetString());
+        Assert.Equal(2, cardBySku.Count);
+        Assert.Equal("InStock", cardBySku[product.StockedSku]);
+        Assert.Equal("OutOfStock", cardBySku[product.UnstockedSku]);
 
         var purchasability = await JsonOkAsync(await customer.GetAsync($"/api/customers/me/shop/products/{product.Slug}/purchasability"));
         var purchasableBySku = purchasability.GetProperty("skus").EnumerateArray()

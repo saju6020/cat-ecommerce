@@ -144,8 +144,7 @@ public sealed class BillingAccountingExportEndpointTests(BillingApiFactory facto
         await DownloadAsync(accountant, Today, Today, context.BranchId);
 
         var runId = (await WithDbAsync(db => db.Set<AccountingExportRunAggregate>().AsNoTracking().Where(r => r.BranchId == context.BranchId).Select(r => r.Id).ToListAsync())).Single();
-        await using var connection = new NpgsqlConnection(Environment.GetEnvironmentVariable("CATECOMMERCE_TEST_DB")
-            ?? "Host=localhost;Port=5432;Database=catecommerce_test;Username=postgres;Password=postgres");
+        await using var connection = new NpgsqlConnection(TestDatabase.ConnectionString);
         await connection.OpenAsync();
         foreach (var sql in new[] { $"UPDATE billing.accounting_export_run SET sha256 = '{new string('0', 64)}' WHERE \"Id\" = '{runId}'", $"DELETE FROM billing.accounting_export_run WHERE \"Id\" = '{runId}'" })
         {

@@ -21,6 +21,28 @@ public sealed class SkiaCaptchaImageRendererTests
         Assert.False(Contains(bytes, answerBytes));
     }
 
+    // Production fix 2026-10-18: the Linux container has no fonts, so the system default face drew nothing.
+    [Fact]
+    public void Glyphs_UseTheEmbeddedFont_NotASystemFont()
+    {
+        Assert.Equal("Noto Sans", SkiaCaptchaImageRenderer.GlyphFontFamily);
+    }
+
+    [Fact]
+    public void Render_DrawsTheCharacters_NotOnlyTheNoise()
+    {
+        var bytes = new SkiaCaptchaImageRenderer().Render("AB12X");
+        using var bitmap = SkiaSharp.SKBitmap.Decode(bytes);
+
+        // Glyphs are near-black (20,20,20); the dots and lines are mid grey (190 and 140), so dark pixels are glyph ink.
+        var dark = 0;
+        for (var y = 0; y < bitmap.Height; y++)
+            for (var x = 0; x < bitmap.Width; x++)
+                if (bitmap.GetPixel(x, y).Red < 80) dark++;
+
+        Assert.True(dark > 400, $"only {dark} glyph pixels: the characters were not drawn");
+    }
+
     private static bool Contains(byte[] haystack, byte[] needle)
     {
         for (var i = 0; i <= haystack.Length - needle.Length; i++)

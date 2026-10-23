@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { Clock } from 'lucide-react';
 import {
   countdownMilestone,
   formatOrderWhen,
@@ -59,16 +60,22 @@ export function TransferCountdown({
 
   useEffect(() => {
     if (milestone && announced.current !== milestone) {
-      if (milestone !== openedAt.current || milestone === 'expired') setAnnouncement(milestoneAnnouncement(milestone));
+      if (milestone !== openedAt.current || milestone === 'expired')
+        setAnnouncement(milestoneAnnouncement(milestone));
       announced.current = milestone;
     }
   }, [milestone]);
 
   return (
-    <div>
-      <p className="font-semibold text-ink">{`Transfer by ${formatOrderWhen(dueBy, zone, true)}`}</p>
-      <p role="timer" className="text-sm text-ink-muted">
-        {remaining > 0 ? `Time left: ${formatTimeLeft(remaining)}` : 'The time to make the transfer has passed. We are checking the order…'}
+    <div className="flex flex-col gap-1 rounded-2xl bg-warning-bg px-[18px] py-3.5 text-warning-ink">
+      <p className="m-0 flex items-center gap-2.5">
+        <Clock size={18} aria-hidden="true" className="flex-none" />
+        <span className="font-semibold">{`Transfer by ${formatOrderWhen(dueBy, zone, true)}`}</span>
+      </p>
+      <p role="timer" className="m-0 pl-[28px] text-sm">
+        {remaining > 0
+          ? `Time left: ${formatTimeLeft(remaining)}`
+          : 'The time to make the transfer has passed. We are checking the order…'}
       </p>
       <p role="status" aria-live="polite" className="sr-only">
         {announcement}

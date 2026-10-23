@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import userEvent from '@testing-library/user-event';
 import { StaffShell } from '@/components/common/staff-shell';
@@ -161,5 +161,58 @@ describe('StaffShell — below-sm nav sheet (Radix Dialog)', () => {
     const spy = vi.spyOn(window, 'matchMedia');
     renderShell(<StaffShell>content</StaffShell>);
     expect(spy).not.toHaveBeenCalled();
+  });
+});
+
+// Owner, 2026-10-16: groups open and close; only the current page's group starts open, so the
+// menu needs no scrollbar at first. (pathname is /staff/cats here, so Clinic is the open group.)
+describe('StaffShell — expandable menu groups', () => {
+  function asideGroup(name: string) {
+    return within(document.querySelector('aside')!).getByRole('button', { name });
+  }
+
+  it("opens only the current page's group", () => {
+    renderShell(<StaffShell>content</StaffShell>);
+    expect(asideGroup('Clinic')).toHaveAttribute('aria-expanded', 'true');
+    for (const closed of ['Front desk', 'Pharmacy', 'Shop & orders', 'Team & settings'])
+      expect(asideGroup(closed)).toHaveAttribute('aria-expanded', 'false');
+    const current = document.querySelector('aside [aria-current="page"]');
+    expect(current).toHaveAttribute('aria-label', 'Cats');
+  });
+
+  it('a group heading opens and closes its links, and says which list it controls', async () => {
+    const user = userEvent.setup();
+    renderShell(<StaffShell>content</StaffShell>);
+    const pharmacy = asideGroup('Pharmacy');
+    const list = document.getElementById(pharmacy.getAttribute('aria-controls')!)!;
+    expect(list).toHaveClass('sm:hidden');
+
+    await user.click(pharmacy);
+    expect(pharmacy).toHaveAttribute('aria-expanded', 'true');
+    expect(list).not.toHaveClass('sm:hidden');
+
+    await user.click(pharmacy);
+    expect(pharmacy).toHaveAttribute('aria-expanded', 'false');
+  });
+
+  it('in the phone sheet a closed group hides its links and opening it shows them', async () => {
+    const user = userEvent.setup();
+    renderShell(<StaffShell>content</StaffShell>);
+    await user.click(mobileTrigger());
+    const sheet = screen.getByRole('dialog');
+    expect(within(sheet).queryByRole('link', { name: 'Orders' })).not.toBeInTheDocument();
+
+    await user.click(within(sheet).getByRole('button', { name: 'Shop & orders' }));
+    expect(within(sheet).getByRole('link', { name: 'Orders' })).toBeVisible();
+  });
+});
+
+// Owner, 2026-10-19: the staff area shows the same PurrCare logo as the shop (cat badge + "Shop" tag), linking to /staff.
+describe('StaffShell — the PurrCare logo', () => {
+  it('is the cat-badge logo, linking to the staff home', () => {
+    renderShell(<StaffShell>content</StaffShell>);
+    const logo = screen.getByRole('link', { name: 'PurrCare Shop' });
+    expect(logo).toHaveAttribute('href', '/staff');
+    expect(logo.querySelector('[aria-hidden="true"].bg-accent')).not.toBeNull();
   });
 });

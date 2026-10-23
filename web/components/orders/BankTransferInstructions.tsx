@@ -1,9 +1,12 @@
 'use client';
 
 import { useState } from 'react';
+import { Info, Landmark } from 'lucide-react';
 import { Amount } from '@/components/billing/Amount';
 import { FormRootError, TextField } from '@/components/billing/Fields';
 import { guardedText } from '@/components/billing/schemas';
+import { bannerInfoClass } from '@/components/hearth/card';
+import { IconTile } from '@/components/hearth/IconTile';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -17,6 +20,7 @@ import {
 import type { TransferInstructions } from '@/lib/api/checkout';
 import { describeOrderingError } from '@/lib/api/errors';
 import { CARD_NUMBER_MESSAGE, looksLikeCardNumber } from '@/lib/validation/cardNumberGuard';
+import { cn } from '@/lib/utils';
 import { CopyButton } from './CopyButton';
 import { TransferCountdown } from './TransferCountdown';
 
@@ -24,12 +28,12 @@ const MAX_REFERENCE = 100;
 
 function Row({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex flex-wrap items-center justify-between gap-2 border-b border-dashed border-border py-2 text-sm last:border-0">
-      <dt className="text-ink-muted">{label}</dt>
-      <dd className="m-0 flex items-center gap-2">
-        <span className="font-semibold text-ink [overflow-wrap:anywhere]">{value}</span>
-        <CopyButton value={value} label={label.toLowerCase()} />
-      </dd>
+    <div className="flex items-center justify-between gap-2.5 border-b border-dashed border-border py-2.5 last:border-0">
+      <div className="flex min-w-0 flex-col">
+        <dt className="text-xs text-ink-muted">{label}</dt>
+        <dd className="m-0 text-sm font-semibold text-ink [overflow-wrap:anywhere]">{value}</dd>
+      </div>
+      <CopyButton value={value} label={label.toLowerCase()} />
     </div>
   );
 }
@@ -73,7 +77,11 @@ export function BankTransferInstructions({
     const parsed = guardedText(MAX_REFERENCE).safeParse(text);
     if (!text) return setError('Enter the reference your bank gave the transfer.');
     if (!parsed.success) {
-      return setError(looksLikeCardNumber(text) ? CARD_NUMBER_MESSAGE : `Use at most ${MAX_REFERENCE} characters.`);
+      return setError(
+        looksLikeCardNumber(text)
+          ? CARD_NUMBER_MESSAGE
+          : `Use at most ${MAX_REFERENCE} characters.`,
+      );
     }
     setError(null);
     setPending(true);
@@ -91,58 +99,100 @@ export function BankTransferInstructions({
   return (
     <section
       aria-labelledby="transfer-heading"
-      className="flex flex-col gap-4 rounded-[var(--radius-md)] border border-border bg-surface p-4 sm:p-5"
+      className="flex flex-col gap-3.5 rounded-card border border-border bg-surface p-5 sm:px-7 sm:py-6"
     >
-      <h2 id="transfer-heading" className="font-display text-lg font-semibold text-ink">
-        Pay by bank transfer
-      </h2>
-      <div className="rounded-[var(--radius-sm)] border border-accent/30 bg-accent-soft p-3">
-        <p className="text-xs font-bold uppercase tracking-wide text-accent-ink">Payment reference</p>
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <p className="font-display text-2xl font-semibold text-accent-ink [overflow-wrap:anywhere]">
+      <div className="flex items-start gap-3.5">
+        <IconTile shape="tile" size="md">
+          <Landmark size={20} aria-hidden="true" />
+        </IconTile>
+        <div>
+          <h2 id="transfer-heading" className="m-0 font-display text-[22px] font-semibold text-ink">
+            Pay by bank transfer
+          </h2>
+          <p className="m-0 text-[13px] text-ink-muted">
+            Transfer from your own bank or mobile banking app. Use the payment reference so we can
+            match it to your order.
+          </p>
+        </div>
+      </div>
+      {paymentDueBy && <TransferCountdown dueBy={paymentDueBy} zone={zone} onExpired={onExpired} />}
+      <div>
+        <p className="m-0 text-[11px] font-bold uppercase tracking-[0.07em] text-ink-muted">
+          Payment reference
+        </p>
+        <div className="mt-1.5 flex flex-wrap items-center justify-between gap-2 rounded-[18px] bg-accent-tint py-2.5 pl-5 pr-2.5">
+          <p className="m-0 font-mono text-[22px] font-bold text-accent-ink [overflow-wrap:anywhere]">
             {instructions.paymentReference}
           </p>
           <CopyButton value={instructions.paymentReference} label="payment reference" />
         </div>
-        <p className="mt-1 text-sm text-ink-muted">
+        <p className="m-0 mt-1.5 text-[13px] text-ink-muted">
           Put this in the transfer&rsquo;s reference or note so we can match your payment.
         </p>
       </div>
-      <p className="text-sm">
-        Amount to transfer:{' '}
-        <b className="text-base text-ink">
-          <Amount money={instructions.amountDue} />
-        </b>
-      </p>
-      <dl className="m-0">
-        <Row label="Account name" value={instructions.accountName} />
-        <Row label="Account number" value={instructions.accountNumber} />
-        <Row label="Bank" value={instructions.bankName} />
-        <Row label="Branch" value={instructions.branchName} />
-        {instructions.routingNumber && <Row label="Routing number" value={instructions.routingNumber} />}
-      </dl>
-      {paymentDueBy && <TransferCountdown dueBy={paymentDueBy} zone={zone} onExpired={onExpired} />}
+      <div className="flex items-center justify-between gap-3">
+        <p className="m-0">
+          <span className="text-[11px] font-bold uppercase tracking-[0.07em] text-ink-muted">
+            Amount to transfer
+          </span>
+          <br />
+          <b className="text-[28px] text-ink">
+            <Amount money={instructions.amountDue} />
+          </b>
+        </p>
+        <CopyButton value={instructions.amountDue.amount} label="amount" />
+      </div>
+      <div>
+        <p className="m-0 text-[11px] font-bold uppercase tracking-[0.07em] text-ink-muted">
+          Our account
+        </p>
+        <dl className="m-0">
+          <Row label="Account name" value={instructions.accountName} />
+          <Row label="Account number" value={instructions.accountNumber} />
+          <Row label="Bank" value={instructions.bankName} />
+          <Row label="Branch" value={instructions.branchName} />
+          {instructions.routingNumber && (
+            <Row label="Routing number" value={instructions.routingNumber} />
+          )}
+        </dl>
+      </div>
       {reported ? (
-        <p role="status" className="rounded-[var(--radius-sm)] bg-accent-soft p-3 text-sm font-semibold text-accent-ink">
-          Thanks — we&rsquo;ll confirm within one working day.
-          {reportedReference ? ` Your reference: ${reportedReference}.` : ''}
+        <p role="status" className={cn(bannerInfoClass, 'm-0 font-semibold')}>
+          <Info size={18} aria-hidden="true" className="mt-px flex-none" />
+          <span>
+            Thanks — we&rsquo;ll confirm within one working day.
+            {reportedReference ? ` Your reference: ${reportedReference}.` : ''}
+          </span>
         </p>
       ) : null}
       <div>
-        <Button variant={reported ? 'secondary' : 'primary'} onClick={() => setOpen(true)}>
+        <Button
+          variant={reported ? 'pillSecondary' : 'pill'}
+          size="pillMd"
+          onClick={() => setOpen(true)}
+        >
           {reported ? 'Change my reference' : 'I’ve made the transfer'}
         </Button>
       </div>
       <Dialog open={open} onOpenChange={(next) => !pending && setOpen(next)}>
-        <DialogContent returnFocusRef={returnFocusRef}>
+        <DialogContent
+          data-theme="customer"
+          returnFocusRef={returnFocusRef}
+          className="rounded-3xl p-7"
+        >
           <DialogHeader>
-            <DialogTitle>Tell us about your transfer</DialogTitle>
+            <DialogTitle className="text-2xl">Tell us about your transfer</DialogTitle>
             <DialogDescription>
-              Enter the reference your bank gave the transfer, so we can find it quickly. Never enter a card
-              number.
+              Enter the reference your bank gave the transfer, so we can find it quickly. Never
+              enter a card number.
             </DialogDescription>
           </DialogHeader>
-          <form id="transfer-reference-form" onSubmit={(event) => void submit(event)} noValidate className="flex flex-col gap-3">
+          <form
+            id="transfer-reference-form"
+            onSubmit={(event) => void submit(event)}
+            noValidate
+            className="flex flex-col gap-3"
+          >
             <FormRootError message={error ?? undefined} />
             <TextField
               id="transfer-reference"
@@ -150,15 +200,29 @@ export function BankTransferInstructions({
               required
               maxLength={MAX_REFERENCE}
               autoComplete="off"
+              hint="Up to 100 characters. It helps us find your payment faster."
+              className="min-h-11 rounded-full px-4"
               value={reference}
               onChange={(event) => setReference(event.target.value)}
             />
           </form>
           <DialogFooter>
-            <Button variant="secondary" onClick={() => setOpen(false)} disabled={pending}>
+            <Button
+              variant="pillSecondary"
+              size="pillMd"
+              onClick={() => setOpen(false)}
+              disabled={pending}
+            >
               Cancel
             </Button>
-            <Button type="submit" form="transfer-reference-form" disabled={pending} aria-busy={pending}>
+            <Button
+              type="submit"
+              form="transfer-reference-form"
+              variant="pill"
+              size="pillMd"
+              disabled={pending}
+              aria-busy={pending}
+            >
               {pending ? 'Sending…' : 'Send reference'}
             </Button>
           </DialogFooter>

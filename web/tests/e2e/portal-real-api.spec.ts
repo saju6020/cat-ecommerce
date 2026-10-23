@@ -30,13 +30,7 @@ test('E-A1/E-A2 real: a new customer sees the no-cats invitation, then their cat
   await expect(page.getByAltText(/security check/i)).toBeVisible();
   await page.getByLabel(/security check/i).fill(CAPTCHA_ANSWER);
   await page.getByRole('button', { name: 'Create account' }).click();
-  await expect(page.getByRole('heading', { name: 'Your account is ready' })).toBeVisible({
-    timeout: 15_000,
-  });
-  await page.getByRole('link', { name: 'Sign in' }).click();
-  await page.getByLabel(/mobile number or email/i).fill(mobile);
-  await page.getByLabel(/^password/i).fill(password);
-  await page.getByRole('button', { name: 'Sign in', exact: true }).click();
+  // Owner, 2026-10-19: a new customer is signed in straight after registering (no second sign-in).
   await expect(page).toHaveURL(/\/portal\//, { timeout: 15_000 });
 
   // The wire: exactly the keys HO-POR-001 delivers; no stays, no subscriptions.
@@ -118,13 +112,7 @@ test('E-B real: Orders’ re-order answers 404 for an order that is not the call
   await page.getByLabel(/^password/i).fill(password);
   await page.getByLabel(/security check/i).fill(CAPTCHA_ANSWER);
   await page.getByRole('button', { name: 'Create account' }).click();
-  await expect(page.getByRole('heading', { name: 'Your account is ready' })).toBeVisible({
-    timeout: 15_000,
-  });
-  await page.getByRole('link', { name: 'Sign in' }).click();
-  await page.getByLabel(/mobile number or email/i).fill(mobile);
-  await page.getByLabel(/^password/i).fill(password);
-  await page.getByRole('button', { name: 'Sign in', exact: true }).click();
+  // Owner, 2026-10-19: a new customer is signed in straight after registering (no second sign-in).
   await expect(page).toHaveURL(/\/portal\//, { timeout: 15_000 });
 
   const unknown = '00000000-0000-0000-0000-0000000000aa';

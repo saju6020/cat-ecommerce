@@ -113,7 +113,7 @@ export function ActiveFilterChips({
             type="button"
             onClick={() => onChange(chip.patch)}
             aria-label={`Remove filter: ${chip.label}`}
-            className="inline-flex items-center gap-1.5 rounded-full border border-border-strong bg-surface px-3 py-1 text-sm text-ink hover:bg-surface-sunken"
+            className="inline-flex items-center gap-1.5 min-h-11 rounded-pill border border-accent bg-accent-tint px-4 text-sm font-semibold text-ink hover:bg-surface-sunken"
           >
             {chip.label}
             <X size={12} aria-hidden="true" />
@@ -121,7 +121,7 @@ export function ActiveFilterChips({
         </li>
       ))}
       <li>
-        <Button variant="ghost" size="sm" onClick={onClearAll}>
+        <Button variant="pillSecondary" size="pillMd" onClick={onClearAll}>
           Clear all
         </Button>
       </li>

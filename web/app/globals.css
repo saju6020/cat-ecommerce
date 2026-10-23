@@ -33,9 +33,9 @@
   --shadow-modal: 0 20px 60px rgba(20, 18, 10, 0.25);
 
   /* Font stacks. The actual font files are loaded by next/font in app/layout.tsx, which sets
-     --font-display-loaded / --font-sans-loaded on <html>; these fall back to system fonts when
+     --font-sans-loaded on <html> (Inter, for both roles since 2026-10-16); these fall back to system fonts when
      that isn't present (e.g. component tests rendered outside the root layout). */
-  --font-display: var(--font-display-loaded), Georgia, serif;
+  --font-display: var(--font-sans-loaded), system-ui, sans-serif;
   --font-sans: var(--font-sans-loaded), system-ui, sans-serif;
 }
 
@@ -51,6 +51,11 @@
   --warm: #e8894a;
   --warm-ink: #8a3f14;
   --warm-soft: #fdeee2;
+  /* Hearth (ADR-FE-173): teal-soft tiles and image tints, and the rounded shapes. */
+  --accent-tint: #e6f0ee;
+  --radius-card: 20px;
+  --radius-band: 32px;
+  --radius-pill: 999px;
 }
 
 @theme inline {
@@ -73,9 +78,14 @@
   --color-warm: var(--warm);
   --color-warm-ink: var(--warm-ink);
   --color-warm-soft: var(--warm-soft);
+  --color-accent-tint: var(--accent-tint);
 
   --radius-sm: var(--radius-sm);
   --radius-md: var(--radius-md);
+  /* Hearth shapes - customer layer only (undefined outside it). */
+  --radius-card: var(--radius-card);
+  --radius-band: var(--radius-band);
+  --radius-pill: var(--radius-pill);
   --shadow-modal: var(--shadow-modal);
 
   --font-display: var(--font-display);
@@ -92,10 +102,24 @@ body {
   font-family: var(--font-sans);
 }
 
+/* Inter (2026-10-16): headings set in the display role sit a touch tighter, as Inter is drawn for text
+   sizes. In the base layer, so any `tracking-*` utility on a heading still wins. */
+@layer base {
+  .font-display {
+    letter-spacing: -0.015em;
+  }
+}
+
 /* Visible focus, everywhere — UI-6. Never `outline: none` without a replacement (HO-CAT-002 §8.5). */
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
+}
+
+/* A page heading that only takes focus from script (tabindex="-1", so screen readers announce it first) is not a
+   control: no focus box on it. Every real control keeps the ring above. */
+:is(h1, h2)[tabindex='-1']:focus-visible {
+  outline: none;
 }
 
 /* Issues.md #1/#6 — components/common/NavigationProgress.tsx: the top bar slides while a page loads. */
@@ -105,5 +129,13 @@ body {
   }
   100% {
     transform: translateX(300%);
+  }
+}
+
+/* Phone sticky action bars (cart, checkout review): keep a focused control or the last line of content
+   from ending up behind the bar when the browser scrolls it into view (WCAG 2.4.11). */
+@media (max-width: 767px) {
+  html:has([data-sticky-bar]) {
+    scroll-padding-bottom: 9rem;
   }
 }

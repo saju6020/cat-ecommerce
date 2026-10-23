@@ -3,6 +3,8 @@
 import Link from 'next/link';
 import type { UseFormRegister } from 'react-hook-form';
 import type { RegisterFormValues } from './RegisterForm.schema';
+import { cn } from '@/lib/utils';
+import { pillInputClass } from '@/components/hearth/fields';
 
 /**
  * `components/auth/RegisterIdentifierFields.tsx` — MEDIUM/LOW gate item 18 (first pass): split out
@@ -35,6 +37,12 @@ function DuplicateIdentifierLinks() {
   );
 }
 
+// Hearth "Welcome home" register (owner-approved 2026-10-16): pill fields at least 48px high.
+const HEARTH_INPUT = cn(
+  pillInputClass,
+  'min-h-12 px-5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent',
+);
+
 export function RegisterIdentifierFields({
   register,
   mobileError,
@@ -50,55 +58,79 @@ export function RegisterIdentifierFields({
 }) {
   return (
     <>
-      <p className="text-xs text-ink-muted">
-        Give a mobile number, an email, or both — you&rsquo;ll use one to sign in.
-      </p>
+      {/* The "give a mobile number, an email, or both" line is now the page's description, under the heading. */}
+      <div className="grid gap-4 md:grid-cols-2 md:gap-3">
+        <div className="flex min-w-0 flex-col gap-2">
+          <label htmlFor="mobileNumber" className="text-sm font-semibold text-ink">
+            Mobile number <span className="font-normal text-ink-muted">(optional)</span>
+          </label>
+          <input
+            id="mobileNumber"
+            autoComplete="tel"
+            placeholder="01712 345678"
+            aria-invalid={!!mobileError}
+            aria-describedby={
+              sharedAtLeastOneMessage
+                ? 'identifiers-error'
+                : mobileError
+                  ? 'mobileNumber-error'
+                  : undefined
+            }
+            className={HEARTH_INPUT}
+            {...register('mobileNumber')}
+          />
+          {mobileError && !sharedAtLeastOneMessage && (
+            <p
+              id="mobileNumber-error"
+              role="alert"
+              className="text-xs font-semibold text-danger-ink"
+            >
+              {mobileError}
+            </p>
+          )}
+          {duplicateField === 'mobileNumber' && <DuplicateIdentifierLinks />}
+        </div>
 
-      <div className="flex flex-col gap-1.5">
-        <label htmlFor="mobileNumber" className="text-sm font-semibold text-ink">
-          Mobile number <span className="font-normal text-ink-muted">(optional)</span>
-        </label>
-        <input
-          id="mobileNumber"
-          autoComplete="tel"
-          placeholder="Bangladesh mobile, e.g. 01712 345678"
-          aria-invalid={!!mobileError}
-          aria-describedby={mobileError ? 'mobileNumber-error' : undefined}
-          className="rounded-[var(--radius-sm)] border border-border-strong bg-surface px-3 py-2 text-sm text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-          {...register('mobileNumber')}
-        />
-        {mobileError && (
-          <p id="mobileNumber-error" role="alert" className="text-xs font-semibold text-danger-ink">
-            {mobileError}
-          </p>
-        )}
-        {duplicateField === 'mobileNumber' && <DuplicateIdentifierLinks />}
-      </div>
-
-      <div className="flex flex-col gap-1.5">
-        <label htmlFor="emailAddress" className="text-sm font-semibold text-ink">
-          Email <span className="font-normal text-ink-muted">(optional)</span>
-        </label>
-        <input
-          id="emailAddress"
-          type="email"
-          autoComplete="email"
-          aria-invalid={!!emailErrorMessage}
-          aria-describedby={emailErrorMessage ? 'emailAddress-error' : undefined}
-          className="rounded-[var(--radius-sm)] border border-border-strong bg-surface px-3 py-2 text-sm text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-          {...register('emailAddress')}
-        />
-        {emailErrorMessage && emailErrorMessage !== sharedAtLeastOneMessage && (
-          <p id="emailAddress-error" role="alert" className="text-xs font-semibold text-danger-ink">
-            {emailErrorMessage}
-          </p>
-        )}
+        <div className="flex min-w-0 flex-col gap-2">
+          <label htmlFor="emailAddress" className="text-sm font-semibold text-ink">
+            Email <span className="font-normal text-ink-muted">(optional)</span>
+          </label>
+          <input
+            id="emailAddress"
+            type="email"
+            autoComplete="email"
+            aria-invalid={!!emailErrorMessage}
+            aria-describedby={
+              sharedAtLeastOneMessage
+                ? 'identifiers-error'
+                : emailErrorMessage
+                  ? 'emailAddress-error'
+                  : undefined
+            }
+            className={HEARTH_INPUT}
+            {...register('emailAddress')}
+          />
+          {emailErrorMessage && emailErrorMessage !== sharedAtLeastOneMessage && (
+            <p
+              id="emailAddress-error"
+              role="alert"
+              className="text-xs font-semibold text-danger-ink"
+            >
+              {emailErrorMessage}
+            </p>
+          )}
+          {duplicateField === 'emailAddress' && <DuplicateIdentifierLinks />}
+        </div>
+        {/* Side by side, the shared "give at least one" message shows once, under both fields, linked to each. */}
         {sharedAtLeastOneMessage && (
-          <p id="emailAddress-error" role="alert" className="text-xs font-semibold text-danger-ink">
+          <p
+            id="identifiers-error"
+            role="alert"
+            className="text-xs font-semibold text-danger-ink md:col-span-2"
+          >
             {sharedAtLeastOneMessage}
           </p>
         )}
-        {duplicateField === 'emailAddress' && <DuplicateIdentifierLinks />}
       </div>
     </>
   );

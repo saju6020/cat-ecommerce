@@ -1,3 +1,4 @@
+using CatEcommerce.Read.QueryHandlers.StoredFile;
 using CatEcommerce.Domain.DomainServices;
 using CatEcommerce.Domain.Entities;
 using CatEcommerce.Domain.ValueObjects;
@@ -5,6 +6,7 @@ using CatEcommerce.Infrastructure.Persistence;
 using CatEcommerce.Infrastructure.Product;
 using CatEcommerce.Read.Queries.Product;
 using CatEcommerce.Read.ViewModels;
+using CatEcommerce.Shared.Common.Constants;
 using CatEcommerce.Shared.Common.Enums;
 using Microsoft.EntityFrameworkCore;
 using Platform.Infrastructure.Core.Queries;
@@ -22,7 +24,8 @@ namespace CatEcommerce.Read.QueryHandlers.Product;
 /// </summary>
 public sealed class GetProductDetailQueryHandler(
     CatEcommerceDbContext db, TimeProvider timeProvider, IBusinessSettings businessSettings, IContentLocaleSettings localeSettings,
-    ISkuAvailabilityReader availabilityReader, Microsoft.Extensions.Options.IOptions<CatEcommerce.Infrastructure.Configuration.ShopOptions> shopOptions)
+    ISkuAvailabilityReader availabilityReader, Microsoft.Extensions.Options.IOptions<CatEcommerce.Infrastructure.Configuration.ShopOptions> shopOptions,
+    IStoredFileSigningBatcher fileSigner)
     : IQueryHandlerAsync<GetProductDetailQuery, ProductDetailViewModel?>
 {
     public async Task<QueryResponse<ProductDetailViewModel?>> HandleAsync(GetProductDetailQuery query)
@@ -42,7 +45,7 @@ public sealed class GetProductDetailQueryHandler(
                 FatPercent = p.FoodDetails == null ? null : p.FoodDetails.AnalysisFatPercent,
                 FibrePercent = p.FoodDetails == null ? null : p.FoodDetails.AnalysisFibrePercent,
                 MoisturePercent = p.FoodDetails == null ? null : p.FoodDetails.AnalysisMoisturePercent,
-                Images = p.Images.Select(i => new { i.SkuId, i.AltText, i.IsPrimary, i.SortOrder }).ToList(),
+                Images = p.Images.Select(i => new { i.SkuId, i.FileId, i.AltText, i.IsPrimary, i.SortOrder }).ToList(),
                 Translations = p.Translations.Select(t => new { t.Locale, t.Name, t.Description, t.IngredientList, t.FeedingGuide }).ToList()
             })
             .AsSplitQuery()
@@ -51,6 +54,7 @@ public sealed class GetProductDetailQueryHandler(
         if (product is null) return new QueryResponse<ProductDetailViewModel?> { Result = null };
 
         var now = timeProvider.GetUtcNow();
+        var imageUrls = await ProductImageUrls.SignAsync(fileSigner, product.Images.Select(i => i.FileId), FileVariants.Detail);
         var skus = await db.SkuRows().Where(s => s.ProductId == product.Id && s.SkuStatus == SkuStatus.Active).ToListAsync();
         var skuIds = skus.Select(s => s.SkuId).ToList();
         var prices = await db.PriceRows().Where(p => skuIds.Contains(p.SkuId) && p.EffectiveFrom <= now).ToListAsync();
@@ -65,7 +69,7 @@ public sealed class GetProductDetailQueryHandler(
             var current = SkuPricing.PriceAt(prices.Where(p => p.SkuId == s.SkuId), p => p.EffectiveFrom, now);
             var availability = availabilityBySku.GetValueOrDefault(s.SkuId, AvailabilityStatus.OutOfStock);
             var images = product.Images.Where(i => i.SkuId == s.SkuId)
-                .Select(i => new ProductImageRef(null, i.AltText, i.IsPrimary, s.SkuId)).ToList();
+                .Select(i => new ProductImageRef(imageUrls.GetValueOrDefault(i.FileId), i.AltText, i.IsPrimary, s.SkuId)).ToList();
 
             return new DetailSkuViewModel(
                 s.SkuId, s.SkuCode, s.Label, s.SizeOrWeight, s.Flavour, s.Colour, s.PackQuantity,
@@ -100,7 +104,7 @@ public sealed class GetProductDetailQueryHandler(
 
         var productImages = product.Images.Where(i => i.SkuId is null)
             .OrderBy(i => i.SortOrder)
-            .Select(i => new ProductImageRef(null, i.AltText, i.IsPrimary, null)).ToList();
+            .Select(i => new ProductImageRef(imageUrls.GetValueOrDefault(i.FileId), i.AltText, i.IsPrimary, null)).ToList();
 
         var country = product.CountryOfOriginCode is null ? null
             : new CountryRef(product.CountryOfOriginCode, CatEcommerce.Shared.Common.Constants.CountryCodes.FindName(product.CountryOfOriginCode) ?? product.CountryOfOriginCode);

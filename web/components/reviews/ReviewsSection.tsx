@@ -40,7 +40,7 @@ function ReviewActions({
     return (
       <Link
         href={`/portal/reviews/new?product=${encodeURIComponent(slug)}`}
-        className={buttonVariants({ variant: 'primary' })}
+        className={buttonVariants({ variant: 'pill', size: 'pillMd' })}
       >
         Write a review
       </Link>
@@ -50,7 +50,7 @@ function ReviewActions({
     return (
       <Link
         href={`/portal/reviews/new?product=${encodeURIComponent(slug)}${eligibility.existingReviewId ? `&reviewId=${eligibility.existingReviewId}` : ''}`}
-        className={buttonVariants({ variant: 'secondary' })}
+        className={buttonVariants({ variant: 'pillSecondary', size: 'pillMd' })}
       >
         Edit your review
       </Link>
@@ -73,11 +73,14 @@ export function ReviewsSection(props: ReviewsSectionProps) {
     <section
       id="reviews"
       aria-labelledby="reviews-heading"
-      className="flex scroll-mt-4 flex-col gap-4"
+      className="flex scroll-mt-4 flex-col gap-5"
     >
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex flex-col gap-1">
-          <h2 id="reviews-heading" className="font-display text-xl font-semibold text-ink">
+          <h2
+            id="reviews-heading"
+            className="m-0 font-display text-[clamp(1.5rem,3vw,2rem)] font-semibold text-ink"
+          >
             Reviews
           </h2>
           <RatingText rating={rating} />
@@ -96,7 +99,7 @@ export function ReviewsSection(props: ReviewsSectionProps) {
         <ul className="m-0 flex list-none flex-col gap-3 p-0">
           {reviews.items.map((review) => (
             <li key={review.reviewId}>
-              <article className="flex flex-col gap-1.5 rounded-[var(--radius-md)] border border-border bg-surface p-4">
+              <article className="flex flex-col gap-1.5 rounded-card border border-border bg-surface p-5">
                 <p className="text-sm font-semibold text-ink">
                   {review.rating} out of 5{review.title ? ` — ${review.title}` : ''}
                 </p>
@@ -114,8 +117,8 @@ export function ReviewsSection(props: ReviewsSectionProps) {
       {reviews && pageCount > 1 && (
         <nav aria-label="Review pages" className="flex items-center gap-3">
           <Button
-            variant="secondary"
-            size="sm"
+            variant="pillSecondary"
+            size="pillMd"
             disabled={reviews.pageNumber <= 1}
             onClick={() => onPage(reviews.pageNumber - 1)}
           >
@@ -125,8 +128,8 @@ export function ReviewsSection(props: ReviewsSectionProps) {
             Page {reviews.pageNumber} of {pageCount}
           </span>
           <Button
-            variant="secondary"
-            size="sm"
+            variant="pillSecondary"
+            size="pillMd"
             disabled={reviews.pageNumber >= pageCount}
             onClick={() => onPage(reviews.pageNumber + 1)}
           >

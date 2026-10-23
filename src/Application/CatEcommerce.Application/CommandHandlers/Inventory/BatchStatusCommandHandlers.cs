@@ -101,7 +101,8 @@ public sealed class WriteOffBatchCommandHandler(
         // transfer applies to its destination. Otherwise a manager could zero another branch's stock.
         var locations = await positions.GetLocationsAsync(held.Select(p => p.LocationId).Distinct().ToList(), CancellationToken.None);
         var heldBranches = held.Where(p => p.OnHand > 0m).Select(p => locations[p.LocationId].BranchId).Distinct().Where(b => b != command.BranchId).ToList();
-        if (heldBranches.Count > 0)
+        // Owner, 2026-10-21: an Administrator works in any branch.
+        if (heldBranches.Count > 0 && command.UserContext?.Roles?.Contains(StaffRoles.Administrator) != true)
         {
             var assignment = await assignments.GetByIdAsync(command.UserContext!.UserId);
             if (assignment is null || heldBranches.Any(b => !assignment.BranchIds.Contains(b)))

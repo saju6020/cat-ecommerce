@@ -60,10 +60,10 @@ export function StaffOrderQueue() {
 
   const columns: Array<Column<StaffOrderRow>> = [
     { id: 'number', header: 'Order', primary: true, sortValue: (o) => o.orderNumber, cell: (o) => o.orderNumber },
-    { id: 'placed', header: 'Placed', sortValue: (o) => o.placedOn, cell: (o) => formatOrderWhen(o.placedOn, o.branchTimeZoneId) },
-    { id: 'age', header: 'Age', sortValue: (o) => ageSortKey(o.ageMinutes), cell: (o) => formatAgeMinutes(o.ageMinutes) },
+    { id: 'placed', header: 'Placed', nowrap: true, sortValue: (o) => o.placedOn, cell: (o) => formatOrderWhen(o.placedOn, o.branchTimeZoneId) },
+    { id: 'age', header: 'Age', nowrap: true, sortValue: (o) => ageSortKey(o.ageMinutes), cell: (o) => formatAgeMinutes(o.ageMinutes) },
     { id: 'customer', header: 'Customer', sortValue: (o) => o.customerName, cell: (o) => o.customerName },
-    { id: 'status', header: 'Status', cell: (o) => <span className="inline-flex max-w-full [&>span]:whitespace-normal"><OrderStatusBadge status={o.status} /></span> },
+    { id: 'status', header: 'Status', nowrap: true, cell: (o) => <OrderStatusBadge status={o.status} /> },
     { id: 'fulfilment', header: 'Fulfilment', cell: (o) => fulfilmentLabel(o.fulfilmentMethod) },
     { id: 'payment', header: 'Payment', cell: (o) => paymentMethodLabel(o.paymentMethod) },
     { id: 'total', header: 'Total', numeric: true, cell: (o) => <AmountCell money={o.grandTotal} /> },

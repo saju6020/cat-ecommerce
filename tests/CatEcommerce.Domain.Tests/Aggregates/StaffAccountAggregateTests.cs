@@ -94,4 +94,50 @@ public sealed class StaffAccountAggregateTests
         var ex = Assert.Throws<DomainRuleViolationException>(() => staff.EnsureCanSignIn(DateTimeOffset.UtcNow));
         Assert.Equal(BusinessViolationCodes.InvalidCredentials, ex.ErrorCode);
     }
+    // Owner, 2026-10-20: an administrator edits the name and sign-in identifiers.
+    [Fact]
+    public void UpdateDetails_Changed_RaisesEventWithBeforeAndAfter_StampUnchanged()
+    {
+        var staff = Create("Vet");
+        staff.ClearEvents();
+        var stampBefore = staff.SecurityStamp;
+
+        staff.UpdateDetails(new StaffAccountDetailsUpdateDto(
+            "Vet Renamed", MobileNumber.Create("01712345678"), EmailAddress.Create("vet@example.test"), TestUserContext.Create(), Guid.NewGuid()));
+
+        Assert.Equal("Vet Renamed", staff.FullName);
+        Assert.Equal("vet@example.test", staff.EmailAddress?.Value);
+        Assert.Equal(stampBefore, staff.SecurityStamp);
+        var changed = Assert.IsType<CatEcommerce.Domain.Events.Account.StaffAccountDetailsChangedEvent>(Assert.Single(staff.Events));
+        Assert.Equal("Vet Person", changed.PreviousFullName);
+        Assert.Null(changed.PreviousEmailAddress);
+        Assert.Equal("vet@example.test", changed.NewEmailAddress);
+    }
+
+    [Fact]
+    public void UpdateDetails_NothingChanged_NoEventNoVersionBump()
+    {
+        var staff = Create("Vet");
+        staff.ClearEvents();
+        var versionBefore = staff.Version;
+
+        staff.UpdateDetails(new StaffAccountDetailsUpdateDto(
+            "Vet Person", MobileNumber.Create("01712345678"), null, TestUserContext.Create(), Guid.NewGuid()));
+
+        Assert.Empty(staff.Events);
+        Assert.Equal(versionBefore, staff.Version);
+    }
+
+    [Fact]
+    public void UpdateDetails_BlankNameOrNoIdentifier_Throws()
+    {
+        var staff = Create("Vet");
+        var blank = Assert.Throws<DomainRuleViolationException>(() => staff.UpdateDetails(new StaffAccountDetailsUpdateDto(
+            " ", MobileNumber.Create("01712345678"), null, TestUserContext.Create(), Guid.NewGuid())));
+        Assert.Equal(BusinessViolationCodes.NameRequired, blank.ErrorCode);
+
+        var none = Assert.Throws<DomainRuleViolationException>(() => staff.UpdateDetails(new StaffAccountDetailsUpdateDto(
+            "Vet Person", null, null, TestUserContext.Create(), Guid.NewGuid())));
+        Assert.Equal(BusinessViolationCodes.IdentifierRequired, none.ErrorCode);
+    }
 }

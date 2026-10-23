@@ -61,7 +61,7 @@ export async function CatalogueView({ params, basePath, fixed = {} }: CatalogueV
   }
   if (!facets.ok) return <ShopLoadError retryHref={retryHref} error={facets.error} />;
   const href = (next: CatalogueParams) => `${basePath}${toQueryString(next)}`;
-  const { items, totalCount, pageNumber, pageSize, suggestions } = result.value;
+  const { items, totalCount, totalItemCount, pageNumber, pageSize, suggestions } = result.value;
   const currencyCode = items.find((i) => i.fromPrice)?.fromPrice?.currencyCode ?? 'BDT';
 
   return (
@@ -70,7 +70,8 @@ export async function CatalogueView({ params, basePath, fixed = {} }: CatalogueV
       categories={categories.ok ? categories.value : []}
       currencyCode={currencyCode}
       fixed={fixed}
-      summary={<ResultSummary totalCount={totalCount} q={params.q} />}
+      // One card per size (owner, 2026-10-18): the count is of cards; paging below stays per product.
+      summary={<ResultSummary totalCount={totalItemCount ?? totalCount} q={params.q} />}
     >
       {items.length === 0 ? (
         <NoResults

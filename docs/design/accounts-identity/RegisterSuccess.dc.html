@@ -2,37 +2,48 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Registered — US-ACC-01</title>
+<title>Your account is ready — Welcome home</title>
 <script src="./support.js"></script>
 </head>
 <body>
 <x-dc>
 <helmet>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@600&family=Public+Sans:ital,wght@0,400;0,600;0,700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,600;1,400&amp;family=Public+Sans:wght@400;600;700&amp;display=swap">
 <style>
-:root{--surface-page:#faf9f6;--surface:#fff;--ink:#1c1a17;--ink-muted:#5c574f;--border:#e5e1d8;--accent:#15605a;--accent-ink:#0e4a45;--accent-soft:rgba(21,96,90,.08);--font-display:"Newsreader",Georgia,serif;--font-sans:"Public Sans",system-ui,sans-serif;--radius-md:10px}
-*{box-sizing:border-box}
-body{margin:0;font-family:var(--font-sans);background:var(--surface-page);color:var(--ink)}
-.h1{font-family:var(--font-display);font-weight:600;font-size:26px;margin:0}
-.muted{color:var(--ink-muted)}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md)}
-.btn{font-family:var(--font-sans);font-weight:600;font-size:14px;padding:11px 20px;border-radius:6px;border:none;background:var(--accent);color:#fff;cursor:pointer;min-height:40px}
-.check{width:56px;height:56px;border-radius:50%;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;color:var(--accent-ink);margin-bottom:18px}
+/* Hearth "Welcome home" (owner-approved 2026-10-16): same frame as SignIn.dc.html. */
+body{margin:0}
+a{color:#0e4a45}a:hover{color:#15605a}
 </style>
 </helmet>
-<div style="width:1280px;height:640px;background:var(--surface-page);display:flex;justify-content:center;align-items:center">
-  <div class="card" style="width:440px;padding:40px;text-align:center">
-    <div class="check" style="margin-left:auto;margin-right:auto">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+<div style="width: 1280px; height: 860px; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); font-family: 'Public Sans', system-ui, sans-serif; color: #1c1a17; background: #fbf6ef;">
+  <section aria-label="Welcome" style="background: #fdeee2; padding: 48px 64px; display: flex; flex-direction: column; gap: 28px; position: relative; overflow: hidden;">
+    <a href="SignIn.dc.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #0e4a45;">
+      <span style="width: 44px; height: 44px; border-radius: 999px; background: #ffffff; color: #8a3f14; display: grid; place-items: center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3l2.2 4.2M17 3l-2.2 4.2"/><path d="M5 13a7 6 0 0 0 14 0c0-3.3-3.1-6-7-6s-7 2.7-7 6z"/><path d="M9.5 12.5h.01M14.5 12.5h.01"/></svg></span>
+      <span style="font-family: 'Newsreader', Georgia, serif; font-size: 26px; font-weight: 600;">PurrCare</span>
+    </a>
+    <div style="display: flex; flex-direction: column; gap: 16px; max-width: 440px; margin-top: 24px;">
+      <span style="font: 600 12px/1.2 'Public Sans', sans-serif; letter-spacing: .08em; text-transform: uppercase; color: #8a3f14;">All set</span>
+      <p style="margin: 0; font-family: 'Newsreader', Georgia, serif; font-size: 56px; line-height: 1.02; font-weight: 600;">You're <em style="font-weight: 400; color: #8a3f14;">in</em>.</p>
+      <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #5c574f;">Welcome to PurrCare. Your cats are in good hands.</p>
     </div>
-    <h1 class="h1" tabindex="-1">Your account is ready</h1>
-    <p class="muted" style="margin:14px 0 26px;line-height:1.55">You can sign in and use it right away — add your cats, book a visit, or shop for supplies.</p>
-    <button type="button" class="btn" style="width:100%">Sign in</button>
-  </div>
+    <div aria-hidden="true" style="position: absolute; right: 60px; bottom: 60px; width: 360px; height: 360px; border-radius: 999px; background: #ffffff; display: grid; place-items: center; color: #8a3f14;">
+      <svg width="210" height="230" viewBox="0 0 120 132" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M34 30 L40 6 L54 24"/><path d="M86 30 L80 6 L66 24"/><path d="M30 44c0-14 13-22 30-22s30 8 30 22-13 24-30 24-30-10-30-24z"/><path d="M46 42q2-3 4 0M70 42q2-3 4 0"/><path d="M54 52q6 5 12 0"/><path d="M40 64c-10 10-14 26-12 44 1 12 10 18 32 18s31-6 32-18c2-18-2-34-12-44"/><path d="M92 108c10 0 16-6 14-14"/></svg>
+    </div>
+  </section>
+
+  <main style="display: flex; align-items: center; justify-content: center; padding: 48px;">
+    <div style="width: 100%; max-width: 420px; display: flex; flex-direction: column; gap: 20px;">
+      <span aria-hidden="true" style="width: 72px; height: 72px; border-radius: 999px; background: #e6f0ee; color: #15605a; display: grid; place-items: center;"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+      <h1 tabindex="-1" style="margin: 0; font-family: 'Newsreader', Georgia, serif; font-size: 40px; line-height: 1.08; font-weight: 600;">Your account is ready</h1>
+      <p style="margin: 0; font-size: 16px; line-height: 1.6; color: #5c574f;">You can use it right away — sign in with the mobile number or email you just gave, and your password.</p>
+      <a href="SignIn.dc.html" style="display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 54px; border-radius: 999px; background: #15605a; color: #fff; font-weight: 700; font-size: 16px; text-decoration: none;">Sign in <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <p style="margin: 0; font-size: 13px; color: #5c574f;">After signing in you can add your cats, book a visit or shop for supplies.</p>
+    </div>
+  </main>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":640}}'>
-class Component extends DCLogic { renderVals(){ return {}; } }
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":860}}'>
+class Component extends DCLogic { renderVals() { return {}; } }
 </script>
 </body>
 </html>

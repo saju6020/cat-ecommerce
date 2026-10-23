@@ -340,8 +340,7 @@ public sealed class BillingReconciliationEndpointTests(BillingApiFactory factory
         }, Json)))).GetProperty("remittanceId").GetGuid();
         var statementId = await ImportAsync(context.Admin, Csv(Row(Today, 1m, "C", "R-9")), "Main " + NewCode(), Today.AddDays(-1), Today);
 
-        await using var connection = new NpgsqlConnection(Environment.GetEnvironmentVariable("CATECOMMERCE_TEST_DB")
-            ?? "Host=localhost;Port=5432;Database=catecommerce_test;Username=postgres;Password=postgres");
+        await using var connection = new NpgsqlConnection(TestDatabase.ConnectionString);
         await connection.OpenAsync();
         foreach (var sql in new[]
         {

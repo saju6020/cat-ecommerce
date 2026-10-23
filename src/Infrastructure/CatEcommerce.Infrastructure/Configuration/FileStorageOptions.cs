@@ -30,6 +30,22 @@ public sealed class FileStorageOptions
     /// Development/Testing.</summary>
     public string? UrlSigningKey { get; set; }
 
+    /// <summary>ADR-370: the purposes whose files the browser fetches straight from the bucket (V4 signed URLs), comma
+    /// separated; <c>none</c> turns direct serving off. A deployment decision, not an administrator setting (it changes
+    /// who serves a file, like the bucket itself); every purpose not listed keeps the app-served URL. Only takes effect
+    /// where the store is Cloud Storage. A plain string, not an array: the configuration binder appends to a pre-filled
+    /// array, so an array default could never be switched off (ARCHITECTURE gate, LOW).</summary>
+    public string DirectServePurposes { get; set; } = "ProductImage";
+
+    /// <summary>ADR-370: a direct URL stays the same for this many minutes and is valid for one more window after
+    /// that, so a browser can cache the image (the copies are stored with <c>private, max-age=3600</c>). Clamped to
+    /// 5-30, so a URL never outlives an hour.</summary>
+    public int DirectUrlWindowMinutes { get; set; } = 30;
+
+    /// <summary>ADR-370: when true, a background job makes the missing resized copies of every product photo once
+    /// at startup (resumable; it skips copies that exist).</summary>
+    public bool BackfillVariants { get; set; }
+
     // Gate-fix 2026-09-27 (ARCHITECTURE MEDIUM): ScanTimeoutSeconds and SignedUrlMinutes moved to
     // the ADM settings registry (SettingKeys.FilesScanTimeoutSeconds/FilesSignedUrlMinutes,
     // read via IBusinessSettings) -- §10.3 reserves plain configuration for the bucket,

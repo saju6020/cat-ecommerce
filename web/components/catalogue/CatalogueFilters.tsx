@@ -2,6 +2,7 @@
 
 import { useId, useState } from 'react';
 import { Globe } from 'lucide-react';
+import { pillInputClass } from '@/components/hearth/fields';
 import { countryFlag } from '@/lib/format/shop';
 import { categoryLabel, lifeStageLabel, proteinLabel, subcategoryLabel } from '@/lib/shop/labels';
 import { toggleValue, type CatalogueParams } from '@/lib/shop/catalogueParams';
@@ -25,7 +26,9 @@ const RATINGS = [4, 3, 2] as const;
 const BRANDS_COLLAPSED = 8;
 
 /**
- * HO-SHP-002 §11.2 `CatalogueFilters` — every group is a real `<fieldset>`/`<legend>` (UI-6). The
+ * HO-SHP-002 §11.2 `CatalogueFilters` — every group is a real `<fieldset>`/`<legend>` (UI-6), opening
+ * and closing (2026-10-16). On arrival only Category is open (owner, 2026-10-17: no scrollbar on
+ * landing); every other group starts closed unless it already holds a choice. The
  * facet options and counts come from `GET /api/shop/filters`; nothing here counts or filters
  * (ADR-FE-031). The brand search box narrows the OPTION LIST only, never the results.
  */
@@ -51,8 +54,8 @@ export function CatalogueFilters({
   const selectedCategory = categories.find((c) => c.value === value.category);
 
   return (
-    <div className="flex flex-col gap-4">
-      <FilterGroup legend="Category">
+    <div className="flex flex-col gap-3">
+      <FilterGroup legend="Category" active={!!value.category}>
         <RadioOption
           id={`${uid}-cat-all`}
           name={`${uid}-category`}
@@ -90,7 +93,11 @@ export function CatalogueFilters({
       </FilterGroup>
 
       {!hideOrigin && facets.origins.length > 0 && (
-        <FilterGroup legend="Country of origin">
+        <FilterGroup
+          legend="Country of origin"
+          defaultOpen={false}
+          active={value.origin.length > 0}
+        >
           {facets.origins.map((origin) => {
             const flag = countryFlag(origin.code);
             return (
@@ -116,7 +123,7 @@ export function CatalogueFilters({
       )}
 
       {facets.brands.length > 0 && (
-        <FilterGroup legend="Brand">
+        <FilterGroup legend="Brand" defaultOpen={false} active={value.brand.length > 0}>
           {facets.brands.length > 8 && (
             <div>
               <label htmlFor={`${uid}-brand-search`} className="sr-only">
@@ -128,7 +135,7 @@ export function CatalogueFilters({
                 placeholder="Search brands"
                 value={brandSearch}
                 onChange={(event) => setBrandSearch(event.target.value)}
-                className="w-full rounded-[var(--radius-sm)] border border-border-strong bg-surface px-2 py-1.5 text-sm text-ink"
+                className={pillInputClass}
               />
             </div>
           )}
@@ -157,7 +164,7 @@ export function CatalogueFilters({
       )}
 
       {facets.lifeStages.length > 0 && (
-        <FilterGroup legend="Life stage">
+        <FilterGroup legend="Life stage" defaultOpen={false} active={value.lifeStage.length > 0}>
           {facets.lifeStages.map((stage) => (
             <CheckOption
               key={stage.value}
@@ -172,7 +179,7 @@ export function CatalogueFilters({
       )}
 
       {facets.proteinSources.length > 0 && (
-        <FilterGroup legend="Protein source">
+        <FilterGroup legend="Protein source" defaultOpen={false} active={value.protein.length > 0}>
           {facets.proteinSources.map((protein) => (
             <CheckOption
               key={protein.value}
@@ -194,7 +201,7 @@ export function CatalogueFilters({
         onApply={onChange}
       />
 
-      <FilterGroup legend="Availability">
+      <FilterGroup legend="Availability" defaultOpen={false} active={value.inStock}>
         <CheckOption
           id={`${uid}-instock`}
           label="In stock only"
@@ -203,7 +210,7 @@ export function CatalogueFilters({
         />
       </FilterGroup>
 
-      <FilterGroup legend="Rating">
+      <FilterGroup legend="Rating" defaultOpen={false} active={value.minRating !== null}>
         <RadioOption
           id={`${uid}-rating-any`}
           name={`${uid}-rating`}

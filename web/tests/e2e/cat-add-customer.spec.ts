@@ -33,10 +33,12 @@ test.describe('Add a cat — customer portal (C-APT1)', () => {
       .click();
     await expect(page.getByRole('link', { name: /Aaa Biscuit/ })).toBeVisible();
 
+    // Option A sidebar (2026-10-17): booking starts from the account Overview.
     await page
       .getByRole('navigation', { name: 'Main' })
-      .getByRole('link', { name: 'Book a visit' })
+      .getByRole('link', { name: 'Overview' })
       .click();
+    await page.getByRole('link', { name: 'Book an appointment' }).click();
     await page.getByRole('button', { name: /choose aaa biscuit/i }).click();
     await expect(page.getByRole('heading', { name: 'Choose a service' })).toBeVisible();
   });

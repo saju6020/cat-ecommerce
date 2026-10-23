@@ -14,7 +14,9 @@ import type { Cart, CartLine } from '@/lib/api/cart';
 vi.mock('next/navigation', () => import('../booking/nav-mock'));
 
 function renderWithClient(ui: ReactElement) {
-  const client = new QueryClient({ defaultOptions: { queries: { retry: false, staleTime: 0 }, mutations: { retry: false } } });
+  const client = new QueryClient({
+    defaultOptions: { queries: { retry: false, staleTime: 0 }, mutations: { retry: false } },
+  });
   return render(<QueryClientProvider client={client}>{ui}</QueryClientProvider>);
 }
 
@@ -58,17 +60,36 @@ function serveCart(lines: CartLine[], extra: Partial<Cart> = {}) {
 describe('CartScreen lines - HO-ORD-002 U-A1', () => {
   it('states a changed price, a limited line and an unavailable line as text; the unavailable one blocks Checkout and offers removal', async () => {
     serveCart([
-      line({ lineId: 'a', productName: 'Whiskas', variantLabel: '1 kg', priceChanged: true, unitPrice: money('800.00'), priceWhenAdded: money('780.00') }),
-      line({ lineId: 'b', productName: 'Meow Mix', variantLabel: '1 kg', availability: 'Limited', availableQuantity: 3 }),
-      line({ lineId: 'c', productName: 'Hills k/d', variantLabel: '1.5 kg', availability: 'Unavailable', lineSubtotal: null }),
+      line({
+        lineId: 'a',
+        productName: 'Whiskas',
+        variantLabel: '1 kg',
+        priceChanged: true,
+        unitPrice: money('800.00'),
+        priceWhenAdded: money('780.00'),
+      }),
+      line({
+        lineId: 'b',
+        productName: 'Meow Mix',
+        variantLabel: '1 kg',
+        availability: 'Limited',
+        availableQuantity: 3,
+      }),
+      line({
+        lineId: 'c',
+        productName: 'Hills k/d',
+        variantLabel: '1.5 kg',
+        availability: 'Unavailable',
+        lineSubtotal: null,
+      }),
     ]);
     renderWithClient(<CartScreen />);
     expect(await screen.findByText(/Price is now .*800\.00 \(was .*780\.00\)/)).toBeInTheDocument();
     expect(screen.getByText('Only 3 left')).toBeInTheDocument();
     expect(screen.getByText('Unavailable')).toBeInTheDocument();
     expect(screen.getByText(/This item can.t be ordered right now/)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Checkout' })).toBeDisabled();
-    expect(screen.queryByRole('link', { name: 'Checkout' })).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /check ?out/i })).toBeDisabled();
+    expect(screen.queryByRole('link', { name: /check ?out/i })).not.toBeInTheDocument();
     expect(screen.getByText('Disabled: Hills k/d is unavailable.')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Remove Hills k/d 1.5 kg from cart' })).toBeEnabled();
   });
@@ -76,7 +97,7 @@ describe('CartScreen lines - HO-ORD-002 U-A1', () => {
   it('offers Checkout as a link once nothing is unavailable', async () => {
     serveCart([line()]);
     renderWithClient(<CartScreen />);
-    const link = await screen.findByRole('link', { name: 'Checkout' });
+    const link = await screen.findByRole('link', { name: /check ?out/i });
     expect(link.getAttribute('href')).toMatch(/^\/(checkout|sign-in\?next=%2Fcheckout)$/);
   });
 
@@ -95,7 +116,9 @@ describe('CartScreen stepper - U-A2', () => {
   it('stops at the quantity in stock and says why', async () => {
     serveCart([line({ quantity: 3, availability: 'Limited', availableQuantity: 3 })]);
     renderWithClient(<CartScreen />);
-    const plus = await screen.findByRole('button', { name: 'Increase quantity of Royal Canin Kitten 2 kg' });
+    const plus = await screen.findByRole('button', {
+      name: 'Increase quantity of Royal Canin Kitten 2 kg',
+    });
     expect(plus).toBeDisabled();
     expect(screen.getByText("You can't add more — only 3 are in stock.")).toBeInTheDocument();
   });
@@ -111,7 +134,9 @@ describe('CartScreen stepper - U-A2', () => {
     serveCart([line({ quantity: 4 })], { maxQuantityPerLine: 5 });
     const user = userEvent.setup();
     renderWithClient(<CartScreen />);
-    const plus = await screen.findByRole('button', { name: 'Increase quantity of Royal Canin Kitten 2 kg' });
+    const plus = await screen.findByRole('button', {
+      name: 'Increase quantity of Royal Canin Kitten 2 kg',
+    });
     expect(plus).toBeEnabled();
     await user.click(plus);
     await waitFor(() => expect(body).toEqual({ quantity: 5 }));
@@ -120,18 +145,26 @@ describe('CartScreen stepper - U-A2', () => {
   it('at maxQuantityPerLine, + is disabled with its own message', async () => {
     serveCart([line({ quantity: 5 })], { maxQuantityPerLine: 5 });
     renderWithClient(<CartScreen />);
-    expect(await screen.findByText('You can buy at most 5 of an item at a time.')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Increase quantity of Royal Canin Kitten 2 kg' })).toBeDisabled();
+    expect(
+      await screen.findByText('You can buy at most 5 of an item at a time.'),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'Increase quantity of Royal Canin Kitten 2 kg' }),
+    ).toBeDisabled();
   });
 
   it('a refused change shows a sentence, never the error code', async () => {
     server.use(
-      http.put('*/api/cart/lines/l1', () => violation('quantity', 'QuantityOutOfRange', 'Choose between 1 and 20.')),
+      http.put('*/api/cart/lines/l1', () =>
+        violation('quantity', 'QuantityOutOfRange', 'Choose between 1 and 20.'),
+      ),
     );
     serveCart([line({ quantity: 2 })]);
     const user = userEvent.setup();
     renderWithClient(<CartScreen />);
-    await user.click(await screen.findByRole('button', { name: 'Increase quantity of Royal Canin Kitten 2 kg' }));
+    await user.click(
+      await screen.findByRole('button', { name: 'Increase quantity of Royal Canin Kitten 2 kg' }),
+    );
     const alert = await screen.findByRole('alert');
     expect(alert.textContent).not.toMatch(/QuantityOutOfRange/);
     expect((alert.textContent ?? '').length).toBeGreaterThan(5);
@@ -140,8 +173,13 @@ describe('CartScreen stepper - U-A2', () => {
 
 describe('Prescription add to cart - U-A4', () => {
   it('signed out: replaces the button with a sign-in link', () => {
-    renderWithClient(<AddToCartButton skuId="s" productName="Hills k/d" requiresPrescription signedIn={false} />);
-    expect(screen.getByRole('link', { name: 'Sign in to buy prescription food' })).toHaveAttribute('href', '/sign-in');
+    renderWithClient(
+      <AddToCartButton skuId="s" productName="Hills k/d" requiresPrescription signedIn={false} />,
+    );
+    expect(screen.getByRole('link', { name: 'Sign in to buy prescription food' })).toHaveAttribute(
+      'href',
+      '/sign-in',
+    );
     expect(screen.queryByRole('button', { name: 'Add to cart' })).not.toBeInTheDocument();
   });
 
@@ -190,9 +228,19 @@ describe('Prescription add to cart - U-A4', () => {
       }),
     );
     const user = userEvent.setup();
-    renderWithClient(<AddToCartButton skuId="s" productName="Hills k/d" requiresPrescription signedIn eligibleCatIds={[]} />);
+    renderWithClient(
+      <AddToCartButton
+        skuId="s"
+        productName="Hills k/d"
+        requiresPrescription
+        signedIn
+        eligibleCatIds={[]}
+      />,
+    );
     await user.click(screen.getByRole('button', { name: 'Add to cart' }));
-    expect(await screen.findByRole('dialog', { name: 'Which cat is this for?' })).toBeInTheDocument();
+    expect(
+      await screen.findByRole('dialog', { name: 'Which cat is this for?' }),
+    ).toBeInTheDocument();
     expect(posted).toBe(0);
   });
 });

@@ -1,9 +1,13 @@
 'use client';
 
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import Link from 'next/link';
+import { LoaderCircle, TriangleAlert } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { pillInputClass } from '@/components/hearth/fields';
 import { Button } from '@/components/ui/button';
 import { PasswordField } from './PasswordField';
 import { RetryNotice } from './RetryNotice';
@@ -45,6 +49,8 @@ export interface SignInFormProps {
   onSuccess: (result: CustomerSignInResult | StaffSignInResult) => void;
   submitLabel?: string;
   showForgotPasswordLink?: boolean;
+  /** `hearth` = the customer "Welcome home" sign-in look (owner, 2026-10-16). Staff keep `plain`. */
+  appearance?: 'plain' | 'hearth';
 }
 
 const SIGN_IN_FAILED_MESSAGE =
@@ -58,7 +64,11 @@ export function SignInForm({
   onSuccess,
   submitLabel = 'Sign in',
   showForgotPasswordLink = true,
+  appearance = 'plain',
 }: SignInFormProps) {
+  const hearth = appearance === 'hearth';
+  // Signed in, next page still loading: the button stays busy so it never looks idle (or re-clickable) meanwhile.
+  const [leaving, setLeaving] = useState(false);
   const {
     register,
     handleSubmit,
@@ -72,6 +82,7 @@ export function SignInForm({
   async function onSubmit(values: SignInFormValues) {
     try {
       const result = await onSignIn(values);
+      setLeaving(true);
       onSuccess(result);
     } catch {
       // Password is cleared on ANY failure — identifier survives (NFR-USA-5's one exception).
@@ -79,8 +90,28 @@ export function SignInForm({
     }
   }
 
+  const busy = isSubmitting || isPending || leaving;
+
   const forgotPasswordHref =
     audience === 'customer' ? '/forgot-password' : '/staff/forgot-password';
+  const forgotPasswordLink = showForgotPasswordLink && (
+    <Link
+      href={forgotPasswordHref}
+      className={cn(
+        'font-semibold text-accent-ink no-underline hover:underline',
+        hearth ? 'text-[13px]' : 'text-sm',
+      )}
+    >
+      {audience === 'staff' ? 'Set or reset password' : 'Forgot your password?'}
+    </Link>
+  );
+  // The Hearth look boxes the (unchanged) messages: a rounded danger-bg panel with a warning mark.
+  const alertClass = hearth
+    ? 'flex gap-2.5 rounded-2xl bg-danger-bg px-4 py-3.5 text-sm leading-snug text-danger-ink'
+    : 'text-sm font-semibold text-danger-ink';
+  const alertMark = hearth && (
+    <TriangleAlert size={18} aria-hidden="true" className="mt-px flex-none" />
+  );
 
   return (
     <form
@@ -93,19 +124,21 @@ export function SignInForm({
         <RetryNotice retryAfterSeconds={error.retryAfterSeconds} />
       )}
       {error instanceof ApiUnauthorizedError && (
-        <p role="alert" aria-live="polite" className="text-sm font-semibold text-danger-ink">
-          {SIGN_IN_FAILED_MESSAGE}
+        <p role="alert" aria-live="polite" className={alertClass}>
+          {alertMark}
+          <span>{SIGN_IN_FAILED_MESSAGE}</span>
         </p>
       )}
       {!!error &&
         !(error instanceof ApiRateLimitedError) &&
         !(error instanceof ApiUnauthorizedError) && (
-          <p role="alert" aria-live="polite" className="text-sm font-semibold text-danger-ink">
-            Something went wrong. Please try again.
+          <p role="alert" aria-live="polite" className={alertClass}>
+            {alertMark}
+            <span>Something went wrong. Please try again.</span>
           </p>
         )}
 
-      <div className="flex flex-col gap-1.5">
+      <div className={cn('flex flex-col', hearth ? 'gap-2' : 'gap-1.5')}>
         <label htmlFor={`${audience}-identifier`} className="text-sm font-semibold text-ink">
           Mobile number or email{' '}
           <span aria-hidden="true" className="text-danger-ink">
@@ -118,7 +151,12 @@ export function SignInForm({
           autoComplete="username"
           aria-invalid={!!errors.identifier}
           aria-describedby={errors.identifier ? `${audience}-identifier-error` : undefined}
-          className="rounded-[var(--radius-sm)] border border-border-strong bg-surface px-3 py-2 text-sm text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+          className={cn(
+            hearth
+              ? cn(pillInputClass, 'min-h-12 px-5')
+              : 'rounded-[var(--radius-sm)] border border-border-strong bg-surface px-3 py-2 text-sm text-ink',
+            'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent',
+          )}
           {...register('identifier')}
         />
         {errors.identifier && (
@@ -138,25 +176,34 @@ export function SignInForm({
         purpose="current"
         required
         error={errors.password?.message}
+        appearance={appearance}
+        labelAside={hearth ? forgotPasswordLink : undefined}
         {...register('password')}
       />
 
       <div className="flex flex-col gap-3">
         <Button
           type="submit"
-          disabled={isSubmitting || isPending}
-          aria-busy={isSubmitting || isPending}
+          disabled={busy}
+          aria-busy={busy}
+          {...(hearth
+            ? { variant: 'pill' as const, size: 'pillLg' as const, className: 'w-full' }
+            : {})}
         >
-          {isSubmitting || isPending ? 'Signing in…' : submitLabel}
+          {busy ? (
+            <>
+              <LoaderCircle
+                size={18}
+                aria-hidden="true"
+                className="animate-spin motion-reduce:animate-none"
+              />
+              Signing in…
+            </>
+          ) : (
+            submitLabel
+          )}
         </Button>
-        {showForgotPasswordLink && (
-          <Link
-            href={forgotPasswordHref}
-            className="text-sm font-semibold text-accent-ink no-underline hover:underline"
-          >
-            {audience === 'staff' ? 'Set or reset password' : 'Forgot your password?'}
-          </Link>
-        )}
+        {!hearth && forgotPasswordLink}
       </div>
     </form>
   );

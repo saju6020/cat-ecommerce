@@ -43,7 +43,26 @@ export function formatShortInstant(instant: string): string {
   return format(date, 'd MMM yyyy');
 }
 
-const FLAG_CODES = new Set(['de', 'th', 'tr', 'us', 'kr']);
+// 2026-10-16: the AmarPet import brought more origins; every featured origin now has a drawn flag.
+const FLAG_CODES = new Set([
+  'at',
+  'bd',
+  'be',
+  'cn',
+  'de',
+  'fr',
+  'id',
+  'in',
+  'it',
+  'jp',
+  'kr',
+  'my',
+  'nl',
+  'sg',
+  'th',
+  'tr',
+  'us',
+]);
 
 /** The in-repo SVG for the launch origins (OQ-2); `null` shows the globe icon. The country name is
  *  always shown as text and the flag image is decorative (`alt=""`). */

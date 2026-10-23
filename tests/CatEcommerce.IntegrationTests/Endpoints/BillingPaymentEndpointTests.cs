@@ -17,8 +17,7 @@ public sealed class BillingPaymentEndpointTests(BillingApiFactory factory) : Bil
 {
     private static NpgsqlConnection OpenRaw()
     {
-        var connection = new NpgsqlConnection(Environment.GetEnvironmentVariable("CATECOMMERCE_TEST_DB")
-            ?? "Host=localhost;Port=5432;Database=catecommerce_test;Username=postgres;Password=postgres");
+        var connection = new NpgsqlConnection(TestDatabase.ConnectionString);
         connection.Open();
         return connection;
     }

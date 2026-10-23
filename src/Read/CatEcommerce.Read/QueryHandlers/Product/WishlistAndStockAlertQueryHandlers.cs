@@ -1,3 +1,4 @@
+using CatEcommerce.Read.QueryHandlers.StoredFile;
 using CatEcommerce.Domain.DomainServices;
 using CatEcommerce.Domain.Models;
 using CatEcommerce.Domain.ValueObjects;
@@ -17,7 +18,7 @@ namespace CatEcommerce.Read.QueryHandlers.Product;
 /// <summary>HO-SHP-001 section 12.4 -- US-SHP-13. Items for an archived product or discontinued SKU
 /// stay and read back with <c>onSale: false</c>. Column projections only (the wishlist items, the
 /// SKU rows, the price rows and the primary images), never the aggregates.</summary>
-public sealed class GetWishlistQueryHandler(CatEcommerceDbContext db, TimeProvider timeProvider, ISkuAvailabilityReader availabilityReader)
+public sealed class GetWishlistQueryHandler(CatEcommerceDbContext db, TimeProvider timeProvider, ISkuAvailabilityReader availabilityReader, IStoredFileSigningBatcher fileSigner)
     : IQueryHandlerAsync<GetWishlistQuery, WishlistViewModel>
 {
     public async Task<QueryResponse<WishlistViewModel>> HandleAsync(GetWishlistQuery query)
@@ -41,8 +42,9 @@ public sealed class GetWishlistQueryHandler(CatEcommerceDbContext db, TimeProvid
         var productIds = skus.Select(s => s.ProductId).Distinct().ToList();
         var images = await db.Products.AsNoTracking()
             .Where(p => productIds.Contains(p.Id))
-            .SelectMany(p => p.Images.Where(i => i.SkuId == null && i.IsPrimary), (p, i) => new { p.Id, i.AltText })
+            .SelectMany(p => p.Images.Where(i => i.SkuId == null && i.IsPrimary), (p, i) => new { p.Id, i.FileId, i.AltText })
             .ToListAsync();
+        var imageUrls = await ProductImageUrls.SignAsync(fileSigner, images.Select(i => i.FileId));
 
         var items = new List<WishlistItemViewModel>();
         foreach (var item in wished)
@@ -55,7 +57,7 @@ public sealed class GetWishlistQueryHandler(CatEcommerceDbContext db, TimeProvid
             if (sku.ProductStatus == ProductStatus.Draft || !sku.ListedOnStorefront) continue;
 
             var price = SkuPricing.PriceAt(prices.Where(p => p.SkuId == item.SkuId), p => p.EffectiveFrom, now);
-            var image = images.Where(i => i.Id == sku.ProductId).Select(i => new ProductImageRef(null, i.AltText, true, null)).FirstOrDefault();
+            var image = images.Where(i => i.Id == sku.ProductId).Select(i => new ProductImageRef(imageUrls.GetValueOrDefault(i.FileId), i.AltText, true, null)).FirstOrDefault();
 
             items.Add(new WishlistItemViewModel(
                 item.SkuId, sku.ProductId, sku.ProductSlug, sku.ProductName, sku.Label,

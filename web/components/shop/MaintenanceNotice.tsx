@@ -10,11 +10,11 @@ export function MaintenanceNotice({ message }: { message?: string | null }) {
   return (
     <section
       aria-labelledby="maintenance-heading"
-      className="mx-auto flex max-w-xl flex-col items-start gap-4 rounded-[var(--radius-md)] border border-border bg-surface p-8"
+      className="mx-auto flex max-w-xl flex-col items-start gap-4 rounded-band border border-border bg-surface p-8 md:p-12"
     >
       <span
         aria-hidden="true"
-        className="flex h-12 w-12 items-center justify-center rounded-full bg-warm-soft text-warm-ink"
+        className="flex h-12 w-12 items-center justify-center rounded-full bg-surface-sunken text-ink-muted"
       >
         <Wrench size={22} />
       </span>
@@ -26,10 +26,13 @@ export function MaintenanceNotice({ message }: { message?: string | null }) {
         The shop is temporarily closed. Clinic bookings and your account are still available.
       </p>
       <div className="flex flex-wrap gap-3">
-        <Link href="/book" className={buttonVariants({ variant: 'primary' })}>
+        <Link href="/book" className={buttonVariants({ variant: 'pill', size: 'pillMd' })}>
           Book a clinic visit
         </Link>
-        <Link href="/portal" className={buttonVariants({ variant: 'secondary' })}>
+        <Link
+          href="/portal"
+          className={buttonVariants({ variant: 'pillSecondary', size: 'pillMd' })}
+        >
           Go to your account
         </Link>
       </div>

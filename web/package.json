@@ -21,7 +21,9 @@
     "perf:js": "node scripts/check-js-budget.mjs",
     "perf:lcp": "playwright test -c tests/perf/playwright.config.ts lcp.spec.ts",
     "sweep:viewport": "playwright test -c tests/perf/playwright.config.ts viewport-sweep.spec.ts",
-    "sweep:a11y": "playwright test -c tests/perf/playwright.config.ts app-sweep.spec.ts"
+    "sweep:a11y": "playwright test -c tests/perf/playwright.config.ts app-sweep.spec.ts",
+    "test:contract": "vitest run tests/contract",
+    "test:e2e:journey": "node scripts/run-journey-e2e.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "5.9.1",

@@ -78,6 +78,34 @@ public sealed class NotificationRendererTests
         Assert.Throws<InvalidOperationException>(() => NotificationRenderer.Render(content, Variables, values, NotificationChannel.Sms));
     }
 
+    [Theory]
+    [InlineData("http://localhost:3000/reset-password#token=abc")]
+    [InlineData("http://127.0.0.1:3000/reset-password#token=abc")]
+    public void UrlVariable_LocalDevelopmentHttpLink_IsAllowed(string link)
+    {
+        // Owner decision 2026-10-15: password reset must work on a developer's machine (http://localhost:3000).
+        var values = BaseValues();
+        values["bookingLink"] = link;
+
+        var content = new NotificationTemplateChannelDefault(NotificationChannel.Sms, null, null, "Link {{bookingLink}}", null);
+
+        Assert.Contains(link, NotificationRenderer.Render(content, Variables, values, NotificationChannel.Sms).TextBody);
+    }
+
+    [Theory]
+    [InlineData("http://localhost.evil.example/reset")]
+    [InlineData("http://user@localhost/reset")]
+    [InlineData("http://10.0.0.5/reset")]
+    public void UrlVariable_OtherHttpLinks_StillThrow(string link)
+    {
+        var values = BaseValues();
+        values["bookingLink"] = link;
+
+        var content = new NotificationTemplateChannelDefault(NotificationChannel.Sms, null, null, "Link {{bookingLink}}", null);
+
+        Assert.Throws<InvalidOperationException>(() => NotificationRenderer.Render(content, Variables, values, NotificationChannel.Sms));
+    }
+
     [Fact]
     public void EmailLink_WithPlaceholderTarget_RendersAnchorTag()
     {

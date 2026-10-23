@@ -23,25 +23,46 @@ export interface PasswordFieldProps extends Omit<
   purpose: 'new' | 'current';
   error?: string;
   required?: boolean;
+  /** `hearth` = the customer pill look (sign-in, 2026-10-16); staff keep the default `plain`. */
+  appearance?: 'plain' | 'hearth';
+  /** Shown on the label's line, right-aligned (the Hearth sign-in puts "Forgot your password?" there). */
+  labelAside?: React.ReactNode;
 }
 
 export const PasswordField = React.forwardRef<HTMLInputElement, PasswordFieldProps>(
-  ({ id, label, purpose, error, required, className, ...inputProps }, ref) => {
+  (
+    {
+      id,
+      label,
+      purpose,
+      error,
+      required,
+      className,
+      appearance = 'plain',
+      labelAside,
+      ...inputProps
+    },
+    ref,
+  ) => {
+    const hearth = appearance === 'hearth';
     const [visible, setVisible] = React.useState(false);
     const hintId = purpose === 'new' ? `${id}-hint` : undefined;
     const errorId = error ? `${id}-error` : undefined;
 
     return (
-      <div className={cn('flex flex-col gap-1.5', className)}>
-        <label htmlFor={id} className="text-sm font-semibold text-ink">
-          {label}
-          {required && (
-            <span aria-hidden="true" className="text-danger-ink">
-              {' '}
-              *
-            </span>
-          )}
-        </label>
+      <div className={cn('flex flex-col', hearth ? 'gap-2' : 'gap-1.5', className)}>
+        <div className="flex items-baseline justify-between gap-3">
+          <label htmlFor={id} className="text-sm font-semibold text-ink">
+            {label}
+            {required && (
+              <span aria-hidden="true" className="text-danger-ink">
+                {' '}
+                *
+              </span>
+            )}
+          </label>
+          {labelAside}
+        </div>
         <div className="relative">
           <input
             ref={ref}
@@ -52,7 +73,9 @@ export const PasswordField = React.forwardRef<HTMLInputElement, PasswordFieldPro
             aria-invalid={!!error}
             aria-describedby={[hintId, errorId].filter(Boolean).join(' ') || undefined}
             className={cn(
-              'w-full rounded-[var(--radius-sm)] border border-border-strong bg-surface py-2 pl-3 pr-11 text-sm text-ink',
+              hearth
+                ? 'min-h-12 w-full rounded-pill border border-border-strong bg-surface pl-5 pr-16 text-[15px] text-ink'
+                : 'w-full rounded-[var(--radius-sm)] border border-border-strong bg-surface py-2 pl-3 pr-11 text-sm text-ink',
               'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent',
               error && 'border-danger-ink',
             )}
@@ -62,7 +85,12 @@ export const PasswordField = React.forwardRef<HTMLInputElement, PasswordFieldPro
             type="button"
             onClick={() => setVisible((current) => !current)}
             aria-label={visible ? 'Hide password' : 'Show password'}
-            className="absolute inset-y-0 right-2 flex items-center rounded-[var(--radius-sm)] p-1.5 text-ink-muted hover:bg-surface-sunken focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+            className={cn(
+              'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent',
+              hearth
+                ? 'absolute right-1.5 top-1.5 grid h-9 w-11 place-items-center rounded-pill bg-surface-sunken text-ink hover:bg-border'
+                : 'absolute inset-y-0 right-2 flex items-center rounded-[var(--radius-sm)] p-1.5 text-ink-muted hover:bg-surface-sunken',
+            )}
           >
             {visible ? (
               <EyeOff size={16} aria-hidden="true" />

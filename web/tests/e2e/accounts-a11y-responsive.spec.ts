@@ -157,7 +157,9 @@ test('E-X3: after signing out, no pc_session cookie is readable and web storage 
 }) => {
   await signInAsCustomer(page);
   await page.goto('/portal/account/profile');
-  await page.getByRole('button', { name: 'Sign out' }).click();
+  // Sign out is in the menu under the customer's name (2026-10-17).
+  await page.getByRole('button', { name: /^Account menu for / }).click();
+  await page.getByRole('button', { name: 'Sign out' }).first().click();
   await expect(page).toHaveURL(/\/sign-in/);
 
   const cookies = await page.context().cookies();

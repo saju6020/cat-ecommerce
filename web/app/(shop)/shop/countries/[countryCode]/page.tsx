@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { LimitedMarkup } from '@/components/content/LimitedMarkup';
+import { HearthBand } from '@/components/hearth/HearthBand';
 import { MaintenanceNotice } from '@/components/shop/MaintenanceNotice';
 import { FlagOrGlobe } from '@/components/shop/OriginGrid';
 import { ApiNotFoundError } from '@/lib/api/client';
@@ -43,26 +44,33 @@ export default async function OriginPage({ params, searchParams }: Props) {
   }
   const query = parseCatalogueParams(await searchParams);
   return (
-    <div className="flex flex-col gap-5">
-      <nav aria-label="Breadcrumb" className="text-sm">
+    <div className="flex flex-col gap-6">
+      <nav aria-label="Breadcrumb" className="text-[13px]">
         <Link href="/shop/countries" className="text-accent-ink">
           Shop by country
         </Link>
       </nav>
-      <header className="flex flex-col gap-3">
-        <div className="flex items-center gap-3">
-          <FlagOrGlobe code={origin.value.code} size={36} />
-          <h1 className="font-display text-2xl font-semibold text-ink">{origin.value.name}</h1>
+      <HearthBand as="header" className="flex flex-col gap-4 md:p-10">
+        <div className="flex items-center gap-4">
+          <span
+            aria-hidden="true"
+            className="grid size-16 flex-none place-items-center rounded-pill bg-surface"
+          >
+            <FlagOrGlobe code={origin.value.code} size={36} />
+          </span>
+          <h1 className="m-0 font-display text-[clamp(1.75rem,3.5vw,2.5rem)] font-semibold leading-tight text-ink">
+            {origin.value.name}
+          </h1>
         </div>
         {origin.value.sourcingNotes ? (
           <LimitedMarkup
             body={origin.value.sourcingNotes}
-            className="max-w-prose text-sm text-ink"
+            className="max-w-prose text-[15px] leading-relaxed text-ink"
           />
         ) : (
-          <p className="text-sm text-ink-muted">No sourcing notes yet.</p>
+          <p className="m-0 text-sm text-ink-muted">No sourcing notes yet.</p>
         )}
-      </header>
+      </HearthBand>
       <CatalogueView
         params={query}
         basePath={`/shop/countries/${origin.value.code}`}

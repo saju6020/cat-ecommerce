@@ -40,7 +40,7 @@ export function PrescriptionGate({
   return (
     <section
       aria-labelledby="rx-gate-heading"
-      className="flex flex-col gap-2 rounded-[var(--radius-sm)] border border-warning-ink/30 bg-warning-bg p-3 text-warning-ink"
+      className="flex flex-col gap-2 rounded-card border border-warning-ink/30 bg-warning-bg p-3 text-warning-ink"
     >
       <h2 id="rx-gate-heading" className="flex items-center gap-2 text-sm font-bold">
         <ShieldAlert size={16} aria-hidden="true" />

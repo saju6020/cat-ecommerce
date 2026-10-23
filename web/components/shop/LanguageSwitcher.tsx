@@ -1,6 +1,7 @@
 'use client';
 
 import { useId } from 'react';
+import { Globe } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 const LANGUAGE_NAMES: Record<string, string> = { en: 'English', bn: 'বাংলা' };
@@ -33,15 +34,16 @@ export function LanguageSwitcher({ defaultLocale, locales }: LanguageSwitcherPro
   }
 
   return (
-    <div className="flex items-center gap-2">
-      <label htmlFor={id} className="text-sm font-semibold text-ink-muted">
+    <div className="flex items-center gap-1.5 text-ink-muted">
+      <Globe size={18} aria-hidden="true" />
+      <label htmlFor={id} className="sr-only">
         Product language
       </label>
       <select
         id={id}
         value={current}
         onChange={(event) => change(event.target.value)}
-        className="rounded-[var(--radius-sm)] border border-border-strong bg-surface px-2 py-1.5 text-sm text-ink"
+        className="min-h-11 rounded-pill border border-border bg-surface px-3 text-[13px] font-semibold text-ink"
       >
         {locales.map((locale) => (
           <option key={locale} value={locale} lang={locale}>

@@ -8,6 +8,8 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { RetryNotice } from './RetryNotice';
 import { ApiRateLimitedError } from '@/lib/api/client';
+import { cn } from '@/lib/utils';
+import { pillInputClass } from '@/components/hearth/fields';
 
 const schema = z.object({
   identifier: z.string().trim().min(1, 'Enter your mobile number or email.'),
@@ -29,6 +31,10 @@ export interface ForgotPasswordFormProps {
   onRequestReset: (identifier: string) => Promise<unknown>;
   isPending: boolean;
   error: unknown;
+  /** `hearth` = the customer "Welcome home" look (owner, 2026-10-16); staff keep `plain`. */
+  appearance?: 'plain' | 'hearth';
+  /** Hearth page: told when the request went through, so it can show its own "Check your messages" screen. */
+  onSent?: () => void;
 }
 
 export function ForgotPasswordForm({
@@ -36,7 +42,10 @@ export function ForgotPasswordForm({
   onRequestReset,
   isPending,
   error,
+  appearance = 'plain',
+  onSent,
 }: ForgotPasswordFormProps) {
+  const hearth = appearance === 'hearth';
   const [submitted, setSubmitted] = useState(false);
 
   const {
@@ -49,6 +58,7 @@ export function ForgotPasswordForm({
     try {
       await onRequestReset(values.identifier);
       setSubmitted(true);
+      onSent?.();
     } catch {
       // A 429 is the only failure this endpoint can report to the client (R3 — every other
       // outcome is folded into the same 200); rendered below via the `error` prop.
@@ -75,7 +85,7 @@ export function ForgotPasswordForm({
     >
       {rateLimitError && <RetryNotice retryAfterSeconds={rateLimitError.retryAfterSeconds} />}
 
-      <div className="flex flex-col gap-1.5">
+      <div className={cn('flex flex-col', hearth ? 'gap-2' : 'gap-1.5')}>
         <label htmlFor="identifier" className="text-sm font-semibold text-ink">
           Mobile number or email{' '}
           <span aria-hidden="true" className="text-danger-ink">
@@ -88,7 +98,12 @@ export function ForgotPasswordForm({
           autoComplete="username"
           aria-invalid={!!errors.identifier}
           aria-describedby={errors.identifier ? 'identifier-error' : undefined}
-          className="rounded-[var(--radius-sm)] border border-border-strong bg-surface px-3 py-2 text-sm text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+          className={cn(
+            hearth
+              ? cn(pillInputClass, 'min-h-12 px-5')
+              : 'rounded-[var(--radius-sm)] border border-border-strong bg-surface px-3 py-2 text-sm text-ink',
+            'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent',
+          )}
           {...register('identifier')}
         />
         {errors.identifier && (
@@ -102,16 +117,26 @@ export function ForgotPasswordForm({
         type="submit"
         disabled={isSubmitting || isPending}
         aria-busy={isSubmitting || isPending}
+        {...(hearth
+          ? { variant: 'pill' as const, size: 'pillLg' as const, className: 'w-full' }
+          : {})}
       >
         {isSubmitting || isPending ? 'Sending…' : 'Send reset link'}
       </Button>
 
-      <Link
-        href={audience === 'customer' ? '/sign-in' : '/staff/sign-in'}
-        className="text-sm font-semibold text-accent-ink no-underline hover:underline"
-      >
-        Back to sign in
-      </Link>
+      {hearth ? (
+        <p className="text-[13px] leading-relaxed text-ink-muted">
+          Can&rsquo;t get to your phone or email? Ask at the clinic reception and we&rsquo;ll help
+          you in person.
+        </p>
+      ) : (
+        <Link
+          href={audience === 'customer' ? '/sign-in' : '/staff/sign-in'}
+          className="text-sm font-semibold text-accent-ink no-underline hover:underline"
+        >
+          Back to sign in
+        </Link>
+      )}
     </form>
   );
 }

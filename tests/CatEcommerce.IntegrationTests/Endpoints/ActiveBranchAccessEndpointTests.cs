@@ -141,6 +141,44 @@ public sealed class ActiveBranchAccessEndpointTests(AdministrationApiFactory fac
         Assert.Equal("BranchAssignmentRequired", body.GetProperty("activeBranchRefusal").GetString());
     }
 
+    // Owner, 2026-10-21: an Administrator works in any active branch, assigned or not.
+    [Fact]
+    public async Task Administrator_WithNoAssignment_MayUseAnyActiveBranch_AndTheirPickerListsThemAll()
+    {
+        var admin = await SeedStaffAsync(StaffRoles.Administrator);
+        using var adminClient = await SignInStaffAsync(admin.Mobile, admin.Password);
+        var branchA = await CreateBranchAsync(adminClient);
+        var branchB = await CreateBranchAsync(adminClient);
+
+        var noHeader = await (await adminClient.GetAsync("/api/staff/branches/mine")).Content.ReadFromJsonAsync<JsonElement>(Json);
+        Assert.Equal(JsonValueKind.String, noHeader.GetProperty("activeBranchId").ValueKind);
+        var listed = noHeader.GetProperty("branchIds").EnumerateArray().Select(b => b.GetGuid()).ToList();
+        Assert.Contains(branchA, listed);
+        Assert.Contains(branchB, listed);
+
+        adminClient.DefaultRequestHeaders.Add(HttpContextActiveBranchAccessor.BranchHeaderName, branchB.ToString());
+        var withHeader = await (await adminClient.GetAsync("/api/staff/branches/mine")).Content.ReadFromJsonAsync<JsonElement>(Json);
+        Assert.Equal(branchB, withHeader.GetProperty("activeBranchId").GetGuid());
+
+        // A branch-scoped screen opens for the unassigned administrator.
+        Assert.Equal(HttpStatusCode.OK, (await adminClient.GetAsync("/api/staff/queue")).StatusCode);
+    }
+
+    [Fact]
+    public async Task NonAdministrator_HeaderNamesAnUnassignedBranch_IsStillRefused()
+    {
+        var admin = await SeedStaffAsync(StaffRoles.Administrator);
+        using var adminClient = await SignInStaffAsync(admin.Mobile, admin.Password);
+        var branchA = await CreateBranchAsync(adminClient);
+        await CreateBranchAsync(adminClient);
+        var vet = await SeedStaffAsync(StaffRoles.Vet); // never assigned; more than one active branch exists
+
+        using var vetClient = await SignInStaffAsync(vet.Mobile, vet.Password);
+        vetClient.DefaultRequestHeaders.Add(HttpContextActiveBranchAccessor.BranchHeaderName, branchA.ToString());
+        var body = await (await vetClient.GetAsync("/api/staff/branches/mine")).Content.ReadFromJsonAsync<JsonElement>(Json);
+        Assert.Equal("BranchNotAssigned", body.GetProperty("activeBranchRefusal").GetString());
+    }
+
     [Fact]
     public async Task Mine_CalledByCustomer_Returns403_NotTheOldHandRolled401()
     {

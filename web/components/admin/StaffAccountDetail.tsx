@@ -5,8 +5,13 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ConfirmDialog } from '@/components/common/ConfirmDialog';
 import { RoleAssignmentField } from './RoleAssignmentField';
+import { EditStaffDetailsPanel } from './EditStaffDetailsPanel';
 import { describeApiError } from '@/lib/api/errors';
-import type { StaffAccount, StaffRoleCatalogue } from '@/lib/api/staff-admin';
+import type {
+  StaffAccount,
+  StaffRoleCatalogue,
+  UpdateStaffAccountDetailsRequest,
+} from '@/lib/api/staff-admin';
 
 /**
  * `components/admin/StaffAccountDetail.tsx` — US-ACC-07, UI-3. Change roles sends the WHOLE set
@@ -22,6 +27,9 @@ export interface StaffAccountDetailProps {
   catalogue: { data: StaffRoleCatalogue | undefined; isLoading: boolean };
   onChangeRoles: (roleIds: string[]) => Promise<unknown>;
   isPending: boolean;
+  /** Owner, 2026-10-20: the administrator edits name, mobile number and email (`PUT /api/staff-accounts/{id}`). */
+  onUpdateDetails?: (request: UpdateStaffAccountDetailsRequest) => Promise<unknown>;
+  isUpdatingDetails?: boolean;
 }
 
 export function StaffAccountDetail({
@@ -29,7 +37,11 @@ export function StaffAccountDetail({
   catalogue,
   onChangeRoles,
   isPending,
+  onUpdateDetails,
+  isUpdatingDetails,
 }: StaffAccountDetailProps) {
+  const [editing, setEditing] = useState(false);
+  const [saved, setSaved] = useState(false);
   const [selectedRoleIds, setSelectedRoleIds] = useState<string[]>(account.roleIds);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -60,14 +72,49 @@ export function StaffAccountDetail({
 
   return (
     <div className="flex max-w-lg flex-col gap-5">
-      <div>
-        <h1 className="font-display text-xl font-semibold text-ink">{account.fullName}</h1>
-        <p className="text-sm text-ink-muted">
-          {account.mobileNumber ?? account.emailAddress ?? 'No identifier on file'}
-        </p>
-        <Badge variant={account.hasPassword ? 'success' : 'warning'} className="mt-2">
+      <div className="flex flex-col gap-3">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <h1 className="font-display text-xl font-semibold text-ink">{account.fullName}</h1>
+          {onUpdateDetails && !editing && (
+            <Button variant="secondary" size="sm" onClick={() => setEditing(true)}>
+              Edit details
+            </Button>
+          )}
+        </div>
+        {/* Owner, 2026-10-20: both sign-in identifiers, labelled, so the administrator can share them. */}
+        <div className="flex flex-col gap-1">
+          <p id="signs-in-with" className="m-0 text-sm font-semibold text-ink">
+            Signs in with
+          </p>
+          <dl
+            aria-labelledby="signs-in-with"
+            className="m-0 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-sm"
+          >
+            <dt className="text-ink-muted">Mobile number</dt>
+            <dd className="m-0 break-all text-ink">{account.mobileNumber ?? 'Not set'}</dd>
+            <dt className="text-ink-muted">Email</dt>
+            <dd className="m-0 break-all text-ink">{account.emailAddress ?? 'Not set'}</dd>
+          </dl>
+        </div>
+        <Badge variant={account.hasPassword ? 'success' : 'warning'} className="w-fit">
           Password {account.hasPassword ? 'set' : 'not set'}
         </Badge>
+        {saved && !editing && (
+          <p role="status" aria-live="polite" className="m-0 text-sm text-ink">
+            Details saved.
+          </p>
+        )}
+        {onUpdateDetails && editing && (
+          <EditStaffDetailsPanel
+            account={account}
+            onSave={async (request) => {
+              await onUpdateDetails(request);
+              setSaved(true);
+            }}
+            onDone={() => setEditing(false)}
+            isPending={isUpdatingDetails ?? false}
+          />
+        )}
       </div>
 
       {error && (

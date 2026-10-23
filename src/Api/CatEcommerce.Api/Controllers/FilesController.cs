@@ -38,6 +38,7 @@ public sealed class FilesController(
     IUserContextProvider userContextProvider,
     IFileStore fileStore,
     IMalwareScanner malwareScanner,
+    IImageVariantGenerator variantGenerator,
     IFileUrlSigner urlSigner,
     IFilePurposeAccessPolicy purposeAccessPolicy,
     IOptions<FileStorageOptions> fileStorageOptions,
@@ -383,6 +384,22 @@ public sealed class FilesController(
                         : "The malware scanner is currently unavailable. Try again shortly."));
             }
 
+            // ADR-370: the resized copies are made BEFORE anything is stored, so a photo that cannot be processed is refused
+            // like any other rejected file and a stored photo always has its copies (the direct URLs point at them).
+            var variants = FileVariants.For(purpose);
+            IReadOnlyList<GeneratedVariant> copies = [];
+            if (variants.Count > 0)
+            {
+                await using var imageStream = OpenTempForRead(tempPath);
+                var generated = variantGenerator.Generate(imageStream, variants);
+                if (generated is null)
+                {
+                    await RecordRejectionAsync(fileId, BusinessViolationCodes.FileRejected, purpose, scanResult.ScannerName, ct);
+                    return BadRequest(Violation(BusinessViolationCodes.FileRejected, "Content", "The image could not be processed."));
+                }
+                copies = generated;
+            }
+
             // Everything from here on may fail against a genuinely external system (the object
             // store, the database) -- these are infra failures, not "your file was rejected", and
             // are deliberately left to propagate as unhandled exceptions (SafeExceptionHandlerMiddleware
@@ -400,6 +417,29 @@ public sealed class FilesController(
                 return StatusCode(502, Violation(
                     putResult.ViolationCode ?? BusinessViolationCodes.FileRejected, "Content",
                     putResult.Message ?? "Failed to store the file."));
+            }
+
+            try
+            {
+                foreach (var copy in copies)
+                {
+                    using var copyStream = new MemoryStream(copy.Content, writable: false);
+                    var copyResult = await fileStore.PutVariantAsync(putResult.Value!, copy.Variant, copyStream, ct);
+                    if (!copyResult.IsSuccess)
+                    {
+                        // DeleteAsync removes the original and any copy already stored (ADR-370).
+                        await fileStore.DeleteAsync(putResult.Value!, CancellationToken.None);
+                        return StatusCode(502, Violation(
+                            copyResult.ViolationCode ?? BusinessViolationCodes.FileRejected, "Content",
+                            copyResult.Message ?? "Failed to store the file."));
+                    }
+                }
+            }
+            catch
+            {
+                // Same compensation as the registration below: no stored object may outlive a failed upload.
+                await fileStore.DeleteAsync(putResult.Value!, CancellationToken.None);
+                throw;
             }
 
             var command = new RegisterStoredFileCommand

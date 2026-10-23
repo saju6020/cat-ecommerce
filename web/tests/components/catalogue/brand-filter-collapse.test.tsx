@@ -27,9 +27,32 @@ function setup(brand: string[] = []) {
 const brandBoxes = () =>
   within(screen.getByRole('group', { name: 'Brand' })).getAllByRole('checkbox');
 
+// Only Category is open on arrival (owner, 2026-10-17); a ticked brand opens the group by itself.
+const openBrand = () => userEvent.click(screen.getByRole('button', { name: 'Brand' }));
+
 describe('CatalogueFilters brand list — Issues.md #3', () => {
+  it('Brand starts closed, and opens by itself when a brand is already ticked', () => {
+    const view = render(
+      <CatalogueFilters
+        value={EMPTY_CATALOGUE_PARAMS}
+        facets={{ ...FACETS, brands: MANY_BRANDS }}
+        categories={CATEGORIES}
+        currencyCode="BDT"
+        priceMode="button"
+        onChange={vi.fn()}
+      />,
+    );
+    expect(screen.getByRole('button', { name: 'Brand' })).toHaveAttribute('aria-expanded', 'false');
+    expect(screen.queryByRole('checkbox', { name: /Brand 1\b/ })).not.toBeInTheDocument();
+    view.unmount();
+
+    setup(['Brand 15']);
+    expect(screen.getByRole('button', { name: 'Brand' })).toHaveAttribute('aria-expanded', 'true');
+  });
+
   it('shows the top eight brands and a "Show all" button that expands and collapses', async () => {
     setup();
+    await openBrand();
     expect(brandBoxes()).toHaveLength(8);
     expect(screen.queryByLabelText(/Brand 9\b/)).not.toBeInTheDocument();
 
@@ -50,6 +73,7 @@ describe('CatalogueFilters brand list — Issues.md #3', () => {
 
   it('searching lists every match and hides the toggle', async () => {
     setup();
+    await openBrand();
     await userEvent.type(screen.getByLabelText('Search brands'), 'Brand 1');
     // Brand 1 and Brand 10..19
     expect(brandBoxes()).toHaveLength(11);

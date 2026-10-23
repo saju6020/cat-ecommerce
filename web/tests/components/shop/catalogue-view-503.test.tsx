@@ -1,6 +1,8 @@
 // @vitest-environment node
 import { describe, expect, it, vi } from 'vitest';
 import { renderToStaticMarkup } from 'react-dom/server';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { createElement } from 'react';
 import { http, HttpResponse } from 'msw';
 import { server } from '@/mocks/server';
 import { CatalogueView } from '@/app/(shop)/_components/CatalogueView';
@@ -23,8 +25,13 @@ describe('CatalogueView server rendering — HO-SHP-002 §8.2', () => {
   });
 
   it('renders real product links and pagination from the API (no client JS needed)', async () => {
+    // The product cards are client components (wishlist, Add); the app's Providers wrap them.
     const html = renderToStaticMarkup(
-      await CatalogueView({ params: EMPTY_CATALOGUE_PARAMS, basePath: '/shop/products' }),
+      createElement(
+        QueryClientProvider,
+        { client: new QueryClient() },
+        await CatalogueView({ params: EMPTY_CATALOGUE_PARAMS, basePath: '/shop/products' }),
+      ),
     );
     expect(html).toContain('href="/shop/products/royal-canin-kitten"');
     expect(html).toContain('aria-current="page"');

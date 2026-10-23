@@ -120,15 +120,53 @@ public sealed class GcsFileStore(
     {
         var bucket = options.Value.GcsBucketName!;
 
-        try
+        // ADR-370: the resized copies go with the original.
+        foreach (var key in FileVariants.ForStorageKey(storageKey).Select(v => v.KeyFor(storageKey)).Prepend(storageKey))
         {
-            await client.DeleteObjectAsync(bucket, storageKey, cancellationToken: ct);
-        }
-        catch (GoogleApiException ex) when (ex.HttpStatusCode == HttpStatusCode.NotFound)
-        {
-            // Idempotent -- a missing object is success (§8.4); the retention worker may retry.
+            try
+            {
+                await client.DeleteObjectAsync(bucket, key, cancellationToken: ct);
+            }
+            catch (GoogleApiException ex) when (ex.HttpStatusCode == HttpStatusCode.NotFound)
+            {
+                // Idempotent -- a missing object is success (§8.4); the retention worker may retry.
+            }
         }
 
         return FileStoreResult<Unit>.Success(Unit.Value);
     }
+
+    /// <summary>
+    /// ADR-370: the copy is served straight from the bucket through a V4 signed URL, so unlike the original it may be
+    /// cached by the browser for an hour (the URL itself changes every window, see GcsDirectFileUrlSigner).
+    /// </summary>
+    public async Task<FileStoreResult<Unit>> PutVariantAsync(string storageKey, FileVariant variant, Stream content, CancellationToken ct)
+    {
+        if (content.CanSeek) content.Position = 0;
+        var gcsObject = new Google.Apis.Storage.v1.Data.Object
+        {
+            Bucket = options.Value.GcsBucketName!,
+            Name = variant.KeyFor(storageKey),
+            ContentType = FileVariants.ContentType,
+            CacheControl = VariantCacheControl,
+            Metadata = new Dictionary<string, string> { ["variantOf"] = storageKey, ["variant"] = variant.Name }
+        };
+        await client.UploadObjectAsync(gcsObject, content, cancellationToken: ct);
+        return FileStoreResult<Unit>.Success(Unit.Value);
+    }
+
+    public async Task<bool> ExistsAsync(string storageKey, CancellationToken ct)
+    {
+        try
+        {
+            await client.GetObjectAsync(options.Value.GcsBucketName!, storageKey, cancellationToken: ct);
+            return true;
+        }
+        catch (GoogleApiException ex) when (ex.HttpStatusCode == HttpStatusCode.NotFound)
+        {
+            return false;
+        }
+    }
+
+    internal const string VariantCacheControl = "private, max-age=3600";
 }

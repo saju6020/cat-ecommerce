@@ -12,6 +12,7 @@ import {
   DialogTitle,
   useDialogReturnFocus,
 } from '@/components/ui/dialog';
+import { cn } from '@/lib/utils';
 
 export interface CatChoice {
   id: string;
@@ -25,6 +26,10 @@ export interface CatChoice {
  * customer's cats with their authorisation state from the server; a cat without one is disabled with
  * *"No current authorisation for this food"* and a **Book a consultation** link
  * (`/book?catId=…&category=Consultation`). The dialog decides nothing: the cart endpoint rechecks.
+ *
+ * Hearth shapes (docs/design/orders/PrescriptionCatDialog.dc.html) but neutral colours: this is a
+ * medical gate, so there is no warm band and no cat art. The dialog portals out of the page, so it
+ * carries `data-theme="customer"` itself to get the customer pill and card tokens.
  */
 export function PrescriptionCatDialog({
   open,
@@ -52,9 +57,15 @@ export function PrescriptionCatDialog({
 
   return (
     <Dialog open={open} onOpenChange={(next) => !pending && onOpenChange(next)}>
-      <DialogContent returnFocusRef={returnFocusRef} className="max-h-[90vh] overflow-y-auto">
+      <DialogContent
+        data-theme="customer"
+        returnFocusRef={returnFocusRef}
+        className="max-h-[90vh] max-w-[480px] overflow-y-auto rounded-3xl p-7"
+      >
         <DialogHeader>
-          <DialogTitle>Which cat is this for?</DialogTitle>
+          <DialogTitle className="font-display text-2xl font-semibold">
+            Which cat is this for?
+          </DialogTitle>
           <DialogDescription>
             {`${productName} is a prescription food. It can be bought only for a cat with a current vet authorisation.`}
           </DialogDescription>
@@ -78,39 +89,72 @@ export function PrescriptionCatDialog({
           </p>
         )}
         {cats.length > 0 && (
-          <fieldset className="m-0 flex min-w-0 flex-col gap-2 border-0 p-0">
+          <fieldset className="m-0 flex min-w-0 flex-col gap-2.5 border-0 p-0">
             <legend className="sr-only">Choose a cat</legend>
-            {cats.map((cat) => (
-              <div
-                key={cat.id}
-                className={`rounded-[var(--radius-md)] border p-3 ${cat.authorised ? 'border-border-strong bg-surface' : 'border-border bg-surface-sunken'}`}
-              >
-                <label className={`flex items-center gap-3 text-sm ${cat.authorised ? 'cursor-pointer' : 'cursor-not-allowed text-ink-muted'}`}>
-                  <input
-                    type="radio"
-                    name="rx-cat"
-                    value={cat.id}
-                    disabled={!cat.authorised}
-                    checked={selected === cat.id}
-                    onChange={() => setSelected(cat.id)}
-                    aria-describedby={cat.authorised ? undefined : `rx-${cat.id}-why`}
-                    className="h-4 w-4 accent-[var(--accent)]"
-                  />
-                  <span className="font-semibold text-ink">{cat.name}</span>
-                </label>
-                {!cat.authorised && (
-                  <p id={`rx-${cat.id}-why`} className="mt-1 pl-7 text-xs text-ink-muted">
-                    No current authorisation for this food.{' '}
-                    <Link
-                      href={`/book?catId=${encodeURIComponent(cat.id)}&category=Consultation`}
-                      className="font-semibold text-accent-ink underline"
+            {cats.map((cat) => {
+              const checked = selected === cat.id;
+              return (
+                <div
+                  key={cat.id}
+                  className={cn(
+                    'rounded-card border px-[18px] py-3.5',
+                    !cat.authorised
+                      ? 'border-border bg-surface-sunken'
+                      : checked
+                        ? 'border-accent bg-surface ring-1 ring-accent'
+                        : 'border-border bg-surface',
+                  )}
+                >
+                  <label
+                    className={cn(
+                      'relative flex items-center gap-3.5 text-sm has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-accent',
+                      cat.authorised ? 'cursor-pointer' : 'cursor-not-allowed text-ink-muted',
+                    )}
+                  >
+                    <input
+                      type="radio"
+                      name="rx-cat"
+                      value={cat.id}
+                      disabled={!cat.authorised}
+                      checked={checked}
+                      onChange={() => setSelected(cat.id)}
+                      aria-describedby={cat.authorised ? undefined : `rx-${cat.id}-why`}
+                      className="absolute inset-0 size-full cursor-pointer opacity-0 disabled:cursor-not-allowed"
+                    />
+                    <strong
+                      className={cn(
+                        'flex-1 text-base',
+                        cat.authorised ? 'text-ink' : 'text-ink-muted',
+                      )}
                     >
-                      Book a consultation
-                    </Link>
-                  </p>
-                )}
-              </div>
-            ))}
+                      {cat.name}
+                    </strong>
+                    <span
+                      aria-hidden="true"
+                      className={cn(
+                        'size-6 flex-none rounded-pill border-2 border-border-strong bg-surface',
+                        checked &&
+                          'border-accent bg-accent shadow-[inset_0_0_0_4px_var(--surface)]',
+                      )}
+                    />
+                  </label>
+                  {!cat.authorised && (
+                    <p
+                      id={`rx-${cat.id}-why`}
+                      className="m-0 mt-1 text-[13px] font-semibold text-warning-ink"
+                    >
+                      No current authorisation for this food.{' '}
+                      <Link
+                        href={`/book?catId=${encodeURIComponent(cat.id)}&category=Consultation`}
+                        className="font-semibold text-accent-ink underline"
+                      >
+                        Book a consultation
+                      </Link>
+                    </p>
+                  )}
+                </div>
+              );
+            })}
           </fieldset>
         )}
         {error && (
@@ -119,10 +163,21 @@ export function PrescriptionCatDialog({
           </p>
         )}
         <DialogFooter>
-          <Button variant="secondary" onClick={() => onOpenChange(false)} disabled={pending}>
+          <Button
+            variant="pillSecondary"
+            size="pillMd"
+            onClick={() => onOpenChange(false)}
+            disabled={pending}
+          >
             Cancel
           </Button>
-          <Button disabled={!selected || pending} aria-busy={pending} onClick={() => selected && onChoose(selected)}>
+          <Button
+            variant="pill"
+            size="pillMd"
+            disabled={!selected || pending}
+            aria-busy={pending}
+            onClick={() => selected && onChoose(selected)}
+          >
             {pending ? 'Adding…' : 'Add to cart'}
           </Button>
         </DialogFooter>

@@ -19,11 +19,16 @@ export function Pagination({ pageNumber, pageSize, totalCount, hrefFor }: Pagina
     if (p >= 1 && p <= pageCount) pages.add(p);
   const sorted = [...pages].sort((a, b) => a - b);
 
-  const linkClass = 'rounded-[var(--radius-sm)] px-3 py-1.5 text-sm font-semibold no-underline';
+  const linkClass =
+    'inline-flex min-h-11 min-w-11 items-center justify-center rounded-pill px-4 text-sm font-semibold no-underline';
   return (
-    <nav aria-label="Pagination" className="flex flex-wrap items-center justify-center gap-1">
+    <nav aria-label="Pagination" className="flex flex-wrap items-center justify-center gap-2 pt-4">
       {pageNumber > 1 && (
-        <Link href={hrefFor(pageNumber - 1)} rel="prev" className={cn(linkClass, 'text-ink-muted')}>
+        <Link
+          href={hrefFor(pageNumber - 1)}
+          rel="prev"
+          className={cn(linkClass, 'border border-border bg-surface text-ink hover:border-accent')}
+        >
           Previous
         </Link>
       )}
@@ -43,8 +48,8 @@ export function Pagination({ pageNumber, pageSize, totalCount, hrefFor }: Pagina
               className={cn(
                 linkClass,
                 page === pageNumber
-                  ? 'bg-accent-soft text-accent-ink'
-                  : 'text-ink-muted hover:bg-surface-sunken',
+                  ? 'bg-accent text-white'
+                  : 'border border-border bg-surface text-ink hover:border-accent',
               )}
             >
               {page}
@@ -53,7 +58,11 @@ export function Pagination({ pageNumber, pageSize, totalCount, hrefFor }: Pagina
         );
       })}
       {pageNumber < pageCount && (
-        <Link href={hrefFor(pageNumber + 1)} rel="next" className={cn(linkClass, 'text-ink-muted')}>
+        <Link
+          href={hrefFor(pageNumber + 1)}
+          rel="next"
+          className={cn(linkClass, 'border border-border bg-surface text-ink hover:border-accent')}
+        >
           Next
         </Link>
       )}

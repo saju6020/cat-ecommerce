@@ -46,7 +46,9 @@ public sealed class GetCheckoutQuoteQueryHandler(CatEcommerceDbContext db, IChec
                     s.Level.DisplayName, Money(s.Charge), s.LeadTimeDays,
                     s.Slots.Select(x => new DeliverySlotViewModel(
                         x.Date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture), x.WindowStart.ToString("HH:mm", CultureInfo.InvariantCulture),
-                        x.WindowEnd.ToString("HH:mm", CultureInfo.InvariantCulture), x.Label)).ToList())).ToList()),
+                        x.WindowEnd.ToString("HH:mm", CultureInfo.InvariantCulture), x.Label)).ToList(),
+                    s.FreeOver is { } freeOver ? Money(freeOver) : null,
+                    s.AmountToFreeDelivery is { } toFree ? Money(toFree) : null)).ToList()),
             quote.SelectedServiceLevel?.DisplayName,
             quote.PickupBranches.Select(b => new PickupBranchViewModel(b.BranchId, b.Name, b.Address, b.Phone)).ToList(),
             quote.PaymentOptions.Select(o => new PaymentOptionViewModel(o.Method.DisplayName, o.Available, o.UnavailableReason, o.Message)).ToList(),

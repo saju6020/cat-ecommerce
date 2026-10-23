@@ -143,8 +143,7 @@ public abstract class ConsultationIntegrationTestBase(ConsultationApiFactory fac
     // ── Direct database access (assertions and the raw-SQL immutability probes, I-C9) ────────────────
 
     protected static string ConnectionString =>
-        Environment.GetEnvironmentVariable("CATECOMMERCE_TEST_DB")
-        ?? "Host=localhost;Port=5432;Database=catecommerce_test;Username=postgres;Password=postgres";
+        TestDatabase.ConnectionString;
 
     protected static async Task<NpgsqlConnection> OpenConnectionAsync()
     {

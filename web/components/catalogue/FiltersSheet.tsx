@@ -38,12 +38,20 @@ export function FiltersSheet({ onShowResults, count, ...panel }: FiltersSheetPro
 
   return (
     <>
-      <Button ref={triggerRef} variant="secondary" className="md:hidden" onClick={openSheet}>
+      <Button
+        ref={triggerRef}
+        variant="pillSecondary"
+        size="pillMd"
+        className="md:hidden"
+        onClick={openSheet}
+      >
         <SlidersHorizontal size={16} aria-hidden="true" />
         Filters ({count ?? activeFilterCount(panel.value)})
       </Button>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent
+          // Radix portals this to <body>, outside the shop layout's customer theme.
+          data-theme="customer"
           onCloseAutoFocus={(event) => {
             event.preventDefault();
             triggerRef.current?.focus();
@@ -66,6 +74,8 @@ export function FiltersSheet({ onShowResults, count, ...panel }: FiltersSheetPro
           </div>
           <DialogFooter className="sticky bottom-0 mt-0 border-t border-border bg-surface pt-3">
             <Button
+              variant="pill"
+              size="pillMd"
               onClick={() => {
                 onShowResults({ ...draft, pageNumber: 1 });
                 setOpen(false);

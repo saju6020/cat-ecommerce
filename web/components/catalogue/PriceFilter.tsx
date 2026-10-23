@@ -3,6 +3,7 @@
 import { useEffect, useId, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { parseMoneyForCompare } from '@/lib/format/shop';
+import { pillInputClass } from '@/components/hearth/fields';
 import { FilterGroup } from './FilterGroup';
 
 export interface PriceFilterProps {
@@ -60,10 +61,9 @@ export function PriceFilter({ minPrice, maxPrice, currencyCode, mode, onApply }:
     }
   }
 
-  const inputClass =
-    'w-full rounded-[var(--radius-sm)] border border-border-strong bg-surface px-2 py-1.5 text-sm text-ink aria-[invalid=true]:border-danger-ink';
+  const inputClass = `${pillInputClass} aria-[invalid=true]:border-danger-ink`;
   return (
-    <FilterGroup legend="Price">
+    <FilterGroup legend="Price" defaultOpen={false} active={!!(minPrice || maxPrice)}>
       <div className="flex items-end gap-2">
         <div className="flex-1">
           <label htmlFor={`${id}-min`} className="text-xs font-semibold text-ink-muted">
@@ -101,8 +101,8 @@ export function PriceFilter({ minPrice, maxPrice, currencyCode, mode, onApply }:
       )}
       {mode === 'button' && (
         <Button
-          variant="secondary"
-          size="sm"
+          variant="pillSecondary"
+          size="pillMd"
           className="self-start"
           onClick={() => validate(min, max) && onApply({ minPrice: min, maxPrice: max })}
         >

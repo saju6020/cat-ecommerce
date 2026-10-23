@@ -75,7 +75,7 @@ public static partial class NotificationRenderer
     {
         if (kind == TemplateVariableKind.Url)
         {
-            return raw.StartsWith("https://", StringComparison.OrdinalIgnoreCase)
+            return raw.StartsWith("https://", StringComparison.OrdinalIgnoreCase) || IsLocalDevelopmentLink(raw)
                 ? raw
                 : throw new InvalidOperationException($"'{name}' is a Url variable and must be resolved to an absolute https URL before rendering.");
         }
@@ -85,6 +85,16 @@ public static partial class NotificationRenderer
 
         return raw;
     }
+
+    /// <summary>Owner decision 2026-10-15: a plain-http link to this machine (<c>http://localhost</c>, <c>http://127.0.0.1</c>)
+    /// is allowed so password reset works on a developer's machine. It is reachable only in Development/Testing: every link
+    /// is built from <c>PublicSite:WebBaseUrl</c>, which startup refuses unless it is https outside those environments
+    /// (CatProfilesModule). Any other http link is still refused.</summary>
+    private static bool IsLocalDevelopmentLink(string raw) =>
+        Uri.TryCreate(raw, UriKind.Absolute, out var uri)
+        && uri.Scheme == Uri.UriSchemeHttp
+        && string.IsNullOrEmpty(uri.UserInfo)
+        && (string.Equals(uri.Host, "localhost", StringComparison.OrdinalIgnoreCase) || uri.Host == "127.0.0.1");
 
     private static string Sentinel(int index) => $"{SentinelStart}{index}{SentinelEnd}";
 

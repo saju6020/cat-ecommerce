@@ -2,17 +2,23 @@ import { Check, Globe, ShieldAlert, Star, X } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { countryFlag, formatRating } from '@/lib/format/shop';
 import { availabilityText } from '@/lib/shop/labels';
+import { cn } from '@/lib/utils';
 import type { Availability, CountryRef, RatingSummary } from '@/lib/api/shop-catalogue';
 
 /** Availability: text plus an icon, never colour alone (UI-6). */
 export function AvailabilityText({ availability }: { availability: Availability }) {
   const inStock = availability === 'InStock';
   return (
-    <span className="inline-flex items-center gap-1 text-sm font-semibold text-ink">
+    <span
+      className={cn(
+        'inline-flex items-center gap-1.5 text-[13px] font-medium',
+        inStock ? 'text-accent-ink' : 'text-danger-ink',
+      )}
+    >
       {inStock ? (
-        <Check size={14} className="text-accent" aria-hidden="true" />
+        <Check size={14} strokeWidth={2.4} aria-hidden="true" />
       ) : (
-        <X size={14} className="text-danger-ink" aria-hidden="true" />
+        <X size={14} strokeWidth={2.4} aria-hidden="true" />
       )}
       {availabilityText(availability)}
     </span>
@@ -23,8 +29,8 @@ export function AvailabilityText({ availability }: { availability: Availability 
 export function RatingText({ rating }: { rating: RatingSummary }) {
   const average = rating.count > 0 ? (rating.average ?? 0) : 0;
   return (
-    <span className="inline-flex items-center gap-1 text-sm text-ink-muted">
-      <span aria-hidden="true" className="inline-flex text-warm">
+    <span className="inline-flex items-center gap-1.5 text-[13px] text-ink-muted">
+      <span aria-hidden="true" className="inline-flex text-warm-ink">
         {Array.from({ length: 5 }, (_, i) => (
           <Star
             key={i}

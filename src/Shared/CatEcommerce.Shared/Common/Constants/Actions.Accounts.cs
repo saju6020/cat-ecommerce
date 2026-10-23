@@ -13,6 +13,10 @@ public static partial class Actions
         public const string View = "StaffAccounts.View";
         public const string Create = "StaffAccounts.Create";
         public const string ChangeRoles = "StaffAccounts.ChangeRoles";
+        /// <summary>Owner, 2026-10-19: an administrator sets a staff member's password and shares it with them.</summary>
+        public const string SetPassword = "StaffAccounts.SetPassword";
+        /// <summary>Owner, 2026-10-20: an administrator edits a staff member's name, mobile number and email address.</summary>
+        public const string UpdateDetails = "StaffAccounts.UpdateDetails";
     }
 
     public static class Customers

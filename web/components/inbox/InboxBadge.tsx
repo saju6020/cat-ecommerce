@@ -1,7 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { Bell } from 'lucide-react';
+import { Bell, Mail } from 'lucide-react';
+import { cn } from '@/lib/utils';
 import { useUnreadCount } from '@/lib/hooks/useInbox';
 
 export const BADGE_CAP = 99; // OQ-1
@@ -29,19 +30,57 @@ export function inboxLiveText(count: number): string {
  * badge is a hint, and the inbox page has its own error state. A visually hidden polite live region
  * announces count changes, since the link's accessible name is not re-read when it changes (N15).
  */
-export function InboxBadge() {
+export function InboxBadge({
+  appearance = 'text',
+  className,
+}: {
+  /** `icon` (the customer account header, owner's design 2026-10-17): a round envelope button with an orange count. */
+  appearance?: 'text' | 'icon';
+  className?: string;
+} = {}) {
   const { data } = useUnreadCount();
   const count = data?.count ?? 0;
+  if (appearance === 'icon') {
+    return (
+      <>
+        <Link
+          href="/portal/inbox"
+          aria-label={inboxAccessibleName(count)}
+          className={cn(
+            'relative grid size-[46px] place-items-center rounded-full border border-border bg-surface text-ink no-underline hover:border-accent',
+            className,
+          )}
+        >
+          <Mail size={20} aria-hidden="true" />
+          {count > 0 && (
+            <span
+              aria-hidden="true"
+              data-testid="inbox-unread-count"
+              className="absolute -right-1.5 -top-1.5 grid h-[22px] min-w-[22px] place-items-center rounded-full bg-warm px-1.5 text-xs font-bold text-ink"
+            >
+              {count > BADGE_CAP ? `${BADGE_CAP}+` : count}
+            </span>
+          )}
+        </Link>
+        <span role="status" aria-live="polite" className="sr-only">
+          {inboxLiveText(count)}
+        </span>
+      </>
+    );
+  }
 
   return (
     <>
       <Link
         href="/portal/inbox"
         aria-label={inboxAccessibleName(count)}
-        className="relative inline-flex items-center gap-1.5 rounded-[var(--radius-sm)] px-2 py-1.5 text-sm font-semibold text-ink-muted no-underline hover:bg-surface-sunken"
+        className="relative inline-flex min-h-11 items-center gap-1.5 rounded-[var(--radius-sm)] px-2 py-1.5 text-sm font-semibold text-ink-muted no-underline hover:bg-surface-sunken"
       >
         <Bell size={16} aria-hidden="true" />
-        <span aria-hidden="true">Inbox</span>
+        {/* On a phone the bell and count are enough (the header has no room for the word). */}
+        <span aria-hidden="true" className="hidden sm:inline">
+          Inbox
+        </span>
         {count > 0 && (
           <span
             aria-hidden="true"

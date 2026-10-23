@@ -147,6 +147,23 @@ public sealed class AdminBranchEndpointTests(AdministrationApiFactory factory) :
         Assert.Equal(branchId, body.GetProperty("primaryBranchId").GetGuid());
     }
 
+    // Owner, 2026-10-21: a new staff member with no branch yet reads as an empty assignment, so the picker shows.
+    [Fact]
+    public async Task StaffAssignment_NotYetAssigned_ReadsAsEmpty_UnknownAccountIs404()
+    {
+        var admin = await SeedStaffAsync(StaffRoles.Administrator);
+        using var client = await SignInStaffAsync(admin.Mobile, admin.Password);
+        var staffMember = await SeedStaffAsync(StaffRoles.Vet);
+
+        var get = await client.GetAsync($"/api/admin/staff/{staffMember.StaffAccountId}/branches");
+        Assert.Equal(HttpStatusCode.OK, get.StatusCode);
+        var body = await get.Content.ReadFromJsonAsync<JsonElement>(Json);
+        Assert.Equal(0, body.GetProperty("branchIds").GetArrayLength());
+        Assert.Equal(JsonValueKind.Null, body.GetProperty("primaryBranchId").ValueKind);
+
+        Assert.Equal(HttpStatusCode.NotFound, (await client.GetAsync($"/api/admin/staff/{Guid.NewGuid()}/branches")).StatusCode);
+    }
+
     private async Task<Guid> CreateBranchAsync(HttpClient client)
     {
         var create = await client.PostAsJsonAsync("/api/admin/branches", new { code = NewCode(), name = "Test Branch", timeZoneId = "Asia/Dhaka" }, Json);

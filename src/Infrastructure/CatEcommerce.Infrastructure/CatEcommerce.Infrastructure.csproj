@@ -44,6 +44,13 @@
     -->
     <EmbeddedResource Include="Documents\Fonts\NotoSansBengali-Regular.ttf" />
     <None Include="Documents\Fonts\NotoSansBengali-OFL.txt" />
+    <!--
+      The captcha's glyph font (production fix, 2026-10-18). SkiaSharp's Linux "NoDependencies" assets have no fontconfig,
+      and the API container has no fonts, so SKTypeface.Default is empty there and the captcha drew no characters. The
+      renderer now loads this embedded face instead. Noto Sans Bold, SIL Open Font License 1.1 (NotoSans-OFL.txt).
+    -->
+    <EmbeddedResource Include="Security\Captcha\Fonts\NotoSans-Bold.ttf" />
+    <None Include="Security\Captcha\Fonts\NotoSans-OFL.txt" />
     <!-- HO-RPT-001 section 12.1 (ADR-278): the versioned report-view SQL, run by Reporting's migrations. -->
     <EmbeddedResource Include="Persistence\ReportingViews\Sql\*.sql" />
   </ItemGroup>

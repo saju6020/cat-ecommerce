@@ -5,7 +5,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { BuyBox } from '@/components/product/BuyBox';
 import { ProductGallery } from '@/components/product/ProductGallery';
 import { VariantSelector } from '@/components/product/VariantSelector';
-import { AddToCartButton } from '@/components/cart/AddToCartButton';
+import { PurchaseRow } from '@/components/product/PurchaseRow';
 import { PrescriptionGate } from '@/components/prescription/PrescriptionGate';
 import { StockAlertButton } from '@/components/wishlist/StockAlertButton';
 import { WishlistButton } from '@/components/wishlist/WishlistButton';
@@ -30,7 +30,7 @@ export interface ProductPurchaseProps {
   lang: string;
   /** The server-rendered heading block, laid out beside the gallery. */
   heading: React.ReactNode;
-  /** An override for the buy box action slot; by default HO-ORD-002's *Add to cart* (§3.3). */
+  /** An override for the buy box action slot; by default the quantity / *Add to cart* / wishlist row (§3.3). */
   actions?: React.ReactNode;
 }
 
@@ -109,28 +109,43 @@ export function ProductPurchase({
   const outOfStock = sku.availability === 'OutOfStock';
   const guest = sessionKnown && !signedIn;
 
+  const wishlistButton = sessionKnown ? (
+    <WishlistButton
+      saved={saved}
+      pending={setWishlist.isPending}
+      signInHref={guest ? signInHref : undefined}
+      error={setWishlist.isError ? messageFor(setWishlist.error) : undefined}
+      onToggle={() => setWishlist.mutate({ skuId: sku.skuId, saved: !saved })}
+    />
+  ) : null;
+
   return (
-    <div className="grid gap-6 md:grid-cols-2">
+    <div className="grid gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:items-start lg:gap-12">
       <ProductGallery
         key={sku.skuId}
         images={[...sku.images, ...detail.images]}
         productName={detail.name}
+        category={detail.category}
       />
-      <div className="flex min-w-0 flex-col gap-4">
+      <div className="flex min-w-0 flex-col gap-5">
         {heading}
-        <VariantSelector skus={detail.skus} selectedSkuId={sku.skuId} onSelect={select} />
         <BuyBox
           sku={sku}
           pricesIncludeTax={detail.pricesIncludeTax}
+          variants={
+            <VariantSelector skus={detail.skus} selectedSkuId={sku.skuId} onSelect={select} />
+          }
           actions={
             actions ?? (
-              <AddToCartButton
+              <PurchaseRow
                 key={sku.skuId}
                 skuId={sku.skuId}
                 productName={detail.name}
                 requiresPrescription={detail.prescriptionRequired}
                 disabled={outOfStock || !sku.price}
-                disabledReason={outOfStock ? 'This variant is out of stock.' : 'This variant has no price yet.'}
+                disabledReason={
+                  outOfStock ? 'This variant is out of stock.' : 'This variant has no price yet.'
+                }
                 signedIn={sessionKnown ? signedIn : undefined}
                 eligibleCatIds={
                   purchasability.data?.skus
@@ -138,9 +153,11 @@ export function ProductPurchase({
                     ?.eligibleCats.map((cat) => cat.catId) ?? []
                 }
                 signInHref={signInHref}
+                trailing={wishlistButton}
               />
             )
           }
+          wishlist={actions ? wishlistButton : null}
           gate={
             detail.prescriptionRequired && sessionKnown ? (
               <PrescriptionGate
@@ -150,17 +167,6 @@ export function ProductPurchase({
                 onRetry={() => void purchasability.refetch()}
                 purchasability={purchasability.data?.skus.find((s) => s.skuId === sku.skuId)}
                 signInHref={signInHref}
-              />
-            ) : null
-          }
-          wishlist={
-            sessionKnown ? (
-              <WishlistButton
-                saved={saved}
-                pending={setWishlist.isPending}
-                signInHref={guest ? signInHref : undefined}
-                error={setWishlist.isError ? messageFor(setWishlist.error) : undefined}
-                onToggle={() => setWishlist.mutate({ skuId: sku.skuId, saved: !saved })}
               />
             ) : null
           }

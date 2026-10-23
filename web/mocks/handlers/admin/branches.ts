@@ -233,7 +233,18 @@ export function getBranchClosures(branchId: string): Closure[] {
 }
 
 function branchSummary(b: Branch) {
-  return { id: b.id, code: b.code, name: b.name, timeZoneId: b.timeZoneId, isActive: b.isActive };
+  // The real BranchSummaryViewModel also carries the address, contact details and weekly hours (contract check).
+  return {
+    id: b.id,
+    code: b.code,
+    name: b.name,
+    timeZoneId: b.timeZoneId,
+    addressLine: b.addressLine,
+    phoneNumber: b.phoneNumber,
+    email: b.email,
+    isActive: b.isActive,
+    weeklyHours: b.weeklyHours,
+  };
 }
 
 export const adminBranchesHandlers: HttpHandler[] = [

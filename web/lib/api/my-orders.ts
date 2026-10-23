@@ -65,6 +65,8 @@ export interface OrderLine {
   taxRatePercent: number;
   taxAmount: Money;
   lineTotal: Money;
+  /** The product's current photo, a signed API-relative URL (customer views only; absent or null when none). */
+  imagePath?: string | null;
 }
 
 export interface OrderFulfilmentView {
@@ -194,12 +196,7 @@ export function reorderOrder(orderId: string, idempotencyKey: string): Promise<R
 }
 
 export type ReturnReason =
-  | 'WrongItem'
-  | 'Damaged'
-  | 'QualityDefect'
-  | 'ChangedMind'
-  | 'Recalled'
-  | 'Other';
+  'WrongItem' | 'Damaged' | 'QualityDefect' | 'ChangedMind' | 'Recalled' | 'Other';
 export type ItemCondition = 'Sealed' | 'Opened' | 'Used';
 
 export interface ReturnLineInput {

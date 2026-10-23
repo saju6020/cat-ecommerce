@@ -24,6 +24,8 @@ public static partial class ActionRoles
         (Actions.StaffAccounts.View, [StaffRoles.Administrator]),
         (Actions.StaffAccounts.Create, [StaffRoles.Administrator]),
         (Actions.StaffAccounts.ChangeRoles, [StaffRoles.Administrator]),
+        (Actions.StaffAccounts.SetPassword, [StaffRoles.Administrator]),
+        (Actions.StaffAccounts.UpdateDetails, [StaffRoles.Administrator]),
         (Actions.Customers.View, [StaffRoles.Reception, StaffRoles.Nurse, StaffRoles.Vet, StaffRoles.Administrator]),
         (Actions.Customers.RegisterWalkIn, [StaffRoles.Reception, StaffRoles.Administrator]),
         (Actions.Customers.Merge, [StaffRoles.Administrator]),

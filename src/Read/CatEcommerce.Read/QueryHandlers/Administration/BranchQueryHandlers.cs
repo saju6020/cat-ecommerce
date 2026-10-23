@@ -158,6 +158,15 @@ public sealed class GetMyBranchesQueryHandler(CatEcommerceDbContext db) : IQuery
             .Select(a => new StaffBranchAssignmentViewModel(a.Id, a.BranchIds, a.PrimaryBranchId))
             .FirstOrDefaultAsync();
 
+        if (query.IncludeAllActiveBranches)
+        {
+            var activeIds = await db.Set<BranchAggregate>().AsNoTracking()
+                .Where(b => b.IsActive).OrderBy(b => b.Name).Select(b => b.Id).ToListAsync();
+            var branchIds = (result?.BranchIds ?? []).Concat(activeIds).Distinct().ToList();
+            if (branchIds.Count > 0)
+                result = new StaffBranchAssignmentViewModel(query.StaffAccountId, branchIds, result?.PrimaryBranchId ?? branchIds[0]);
+        }
+
         return new QueryResponse<StaffBranchAssignmentViewModel?> { Result = result };
     }
 }

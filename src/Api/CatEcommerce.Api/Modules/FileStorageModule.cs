@@ -5,6 +5,7 @@
 // (§8.4/§8.5/§12). Moved out of Program.cs by ADR-341 so this area never needs to touch a file
 // another area also edits.
 
+using CatEcommerce.Api.Background;
 using CatEcommerce.Api.RateLimiting;
 using CatEcommerce.Application.CommandHandlers.StoredFile;
 using CatEcommerce.Application.CommandHandlers.Validators;
@@ -20,6 +21,7 @@ using CatEcommerce.Read.QueryHandlers.StoredFile;
 using CatEcommerce.Read.ViewModels;
 using CatEcommerce.Shared.Common.Enums;
 using FluentValidation;
+using Google.Apis.Auth.OAuth2;
 using Google.Cloud.Storage.V1;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -38,6 +40,10 @@ public static class FileStorageModule
 
         services.AddOptions<FileStorageOptions>()
             .Bind(configuration.GetSection(FileStorageOptions.SectionName))
+            // ADR-370, SECURITY gate (LOW): only public catalogue photos may ever be served straight from the bucket;
+            // listing a clinical or personal purpose here is refused at startup, not silently honoured.
+            .Validate(o => GcsDirectFileUrlSigner.ParsePurposes(o.DirectServePurposes).All(GcsDirectFileUrlSigner.MayBeServedDirectly),
+                "FileStorage:DirectServePurposes may list only ProductImage (or none).")
             .ValidateOnStart();
 
         services.TryAddTimeProvider();
@@ -80,6 +86,24 @@ public static class FileStorageModule
         // ── Serving (§8.6) ───────────────────────────────────────────────────────────────────────
         services.AddSingleton<HmacFileUrlSigner>();
         services.AddSingleton<IFileUrlSigner>(sp => sp.GetRequiredService<HmacFileUrlSigner>());
+
+        // ── ADR-370: direct-from-bucket URLs and resized copies ─────────────────────────────────────
+        // The signer uses the same ADC as StorageClient (the VM's service account, signed through IAM signBlob; no key
+        // file), created lazily so Development/Testing never touches it. Where the store is the local one, every file
+        // stays app-served.
+        services.AddMemoryCache();
+        services.AddSingleton(_ => UrlSigner.FromCredential(GoogleCredential.GetApplicationDefault()));
+        services.AddSingleton<GcsDirectFileUrlSigner>();
+        services.AddSingleton<NoDirectFileUrlSigner>();
+        services.AddSingleton<IDirectFileUrlSigner>(sp =>
+        {
+            var environment = sp.GetRequiredService<IHostEnvironment>();
+            return environment.IsDevelopment() || environment.EnvironmentName == "Testing"
+                ? sp.GetRequiredService<NoDirectFileUrlSigner>()
+                : sp.GetRequiredService<GcsDirectFileUrlSigner>();
+        });
+        services.AddSingleton<IImageVariantGenerator, SkiaImageVariantGenerator>();
+        services.AddHostedService<ImageVariantBackfillWorker>();
 
         // ── Purpose access (§9 OQ-7, gate-fix 2026-09-27 SECURITY MEDIUM: fails closed) ─────────
         services.AddScoped<IFilePurposeAccessPolicy, DefaultFilePurposeAccessPolicy>();

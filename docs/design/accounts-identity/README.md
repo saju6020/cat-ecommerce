@@ -105,3 +105,26 @@ Every text/background pair clears 4.5:1.
   HO-ACC-002 §11.10 requires the real API response; no backend exists yet to call.
 - **No design exists yet for what Cat Profiles' navigation gains** once accounts ships (a "Later"
   item becoming real) — that's Cat Profiles' own canvas to update, not this one's.
+
+## Customer sign-in: Hearth "Welcome home" (owner-approved 2026-10-16)
+
+`SignIn.dc.html` now follows option 1 of the sign-in preview: a split screen with a warm-soft welcome panel on the left
+(PurrCare logo, "Welcome *home*.", three reasons to sign in, the line-art cat on a white disc) and the form on the right
+(pill inputs, password show/hide, 54px teal "Sign in" pill, "Forgot your password?", "New to PurrCare?" divider and a
+"Create an account" pill). It is the page shown when a guest clicks **Sign in** or reaches **Checkout** signed out
+(`?next=` keeps the destination); the shop home and every other screen are unchanged. The US-ACC-04 rule stands: one
+non-disclosing error, identical for every failure, copy unchanged. On a phone the welcome panel becomes a rounded band
+above the form. Staff sign-in keeps the neutral staff look.
+
+## Register and forgot password: Hearth "Welcome home" (owner-approved 2026-10-16)
+
+`Register`, `RegisterMobile360`, `RegisterSuccess`, `ForgotPassword` and the new `ForgotPasswordSent` use the same
+frame as `SignIn` (warm-soft welcome panel + form; a rounded band on a phone):
+- Register — "Join the *family*.", three reasons; pill fields (mobile and email side by side on desktop), the password
+  rule hint and errors, the security check in a rounded box with a "New code" pill, the 54px "Create account" pill.
+  When neither mobile nor email is given, the shared message shows once under both fields and is linked to each.
+- Account ready — "You're *in*."; tick disc, "Your account is ready", the "Sign in →" pill (keeps `?next=`).
+- Forgot password — "It happens to *everyone*." with the three steps; "Back to sign in" above the heading; new line:
+  "Can't get to your phone or email? Ask at the clinic reception and we'll help you in person."
+- Check your messages — "Almost *there*."; the one non-disclosing message, unchanged, plus a "Nothing arrived?" box.
+Staff forgot-password, reset-password and staff sign-in keep the neutral staff look.

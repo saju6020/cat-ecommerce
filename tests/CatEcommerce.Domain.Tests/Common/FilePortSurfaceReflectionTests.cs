@@ -15,6 +15,8 @@ public sealed partial class FilePortSurfaceReflectionTests
         yield return [typeof(IFileStore)];
         yield return [typeof(IMalwareScanner)];
         yield return [typeof(IFileUrlSigner)];
+        yield return [typeof(IDirectFileUrlSigner)];
+        yield return [typeof(IImageVariantGenerator)];
         yield return [typeof(FilePutRequest)];
         yield return [typeof(FileStoreResult<>)];
         yield return [typeof(ScanResult)];

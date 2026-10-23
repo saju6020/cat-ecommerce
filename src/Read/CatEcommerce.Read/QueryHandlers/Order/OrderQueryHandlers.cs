@@ -5,6 +5,8 @@ using CatEcommerce.Domain.Aggregates.Order;
 using CatEcommerce.Domain.DomainServices;
 using CatEcommerce.Infrastructure.Persistence;
 using CatEcommerce.Read.Queries.Order;
+using CatEcommerce.Read.QueryHandlers.Product;
+using CatEcommerce.Read.QueryHandlers.StoredFile;
 using CatEcommerce.Read.ViewModels;
 using CatEcommerce.Shared.Common.Constants;
 using CatEcommerce.Shared.Common.Enums;
@@ -61,7 +63,7 @@ public sealed class GetCustomerOrdersQueryHandler(CatEcommerceDbContext db)
 /// enforce; <c>transferInstructions</c> (the shop's account, the reference, the amount) are shown only while a transfer order awaits payment; the status
 /// history shows when, never who. A null result is <c>404</c>.
 /// </summary>
-public sealed class GetCustomerOrderDetailQueryHandler(CatEcommerceDbContext db, IBusinessSettings settings, TimeProvider timeProvider)
+public sealed class GetCustomerOrderDetailQueryHandler(CatEcommerceDbContext db, IBusinessSettings settings, TimeProvider timeProvider, IStoredFileSigningBatcher fileSigner)
     : IQueryHandlerAsync<GetCustomerOrderDetailQuery, CustomerOrderDetailViewModel?>
 {
     public async Task<QueryResponse<CustomerOrderDetailViewModel?>> HandleAsync(GetCustomerOrderDetailQuery query)
@@ -143,11 +145,15 @@ public sealed class GetCustomerOrderDetailQueryHandler(CatEcommerceDbContext db,
 
         var refundRows = await db.OrderRefunds.AsNoTracking().Where(r => r.OrderId == head.Id).OrderBy(r => r.IssuedOn).Select(r => new { r.Method, r.Amount, r.IssuedOn }).ToListAsync();
 
+        // The product's current photo, for the customer's own order screens (2026-10-16); staff views carry none.
+        var imageBySku = await ProductImageUrls.ForSkusAsync(db, fileSigner, head.Lines.Select(l => l.SkuId).Distinct().ToList());
+
         var view = new CustomerOrderDetailViewModel(
             head.Id, head.OrderNumber, head.PlacedOn, head.Status.DisplayName, head.FulfilmentMethod.DisplayName, head.PaymentMethod.DisplayName, timeZoneId,
             head.Lines.Select(l => new OrderLineViewModel(
                 l.Id, l.LineNumber, l.SkuId, l.ProductName, l.VariantLabel, l.CatId is { } c && cats.TryGetValue(c, out var catName) ? new CartCatViewModel(c, catName) : null,
-                l.Quantity, Money(l.UnitPrice), Money(l.LineSubtotal), Money(l.LineDiscount), Money(l.OrderDiscountShare), l.TaxRatePercent, Money(l.TaxAmount), Money(l.LineTotal))).ToList(),
+                l.Quantity, Money(l.UnitPrice), Money(l.LineSubtotal), Money(l.LineDiscount), Money(l.OrderDiscountShare), l.TaxRatePercent, Money(l.TaxAmount), Money(l.LineTotal),
+                imageBySku.GetValueOrDefault(l.SkuId))).ToList(),
             new OrderTotalsViewModel(
                 Money(head.Totals.Subtotal), Money(head.Totals.LineDiscountTotal), Money(head.Totals.OrderDiscount), Money(head.Totals.DeliveryCharge), Money(head.Totals.TaxTotal), Money(head.Totals.GrandTotal)),
             new OrderFulfilmentViewModel(

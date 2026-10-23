@@ -199,5 +199,11 @@ public sealed class FilesApiFactory : CatEcommerceApiFactory
             ct.ThrowIfCancellationRequested();
             return inner.DeleteAsync(storageKey, ct);
         }
+
+        public Task<FileStoreResult<CatEcommerce.Shared.Common.Helpers.Unit>> PutVariantAsync(
+            string storageKey, CatEcommerce.Shared.Common.Constants.FileVariant variant, Stream content, CancellationToken ct) =>
+            inner.PutVariantAsync(storageKey, variant, content, ct);
+
+        public Task<bool> ExistsAsync(string storageKey, CancellationToken ct) => inner.ExistsAsync(storageKey, ct);
     }
 }

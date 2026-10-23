@@ -1,3 +1,4 @@
+using CatEcommerce.Read.QueryHandlers.StoredFile;
 using CatEcommerce.Domain.Aggregates.Cat;
 using CatEcommerce.Domain.DomainServices;
 using CatEcommerce.Infrastructure.Configuration;
@@ -24,7 +25,7 @@ namespace CatEcommerce.Read.QueryHandlers.Product;
 /// </summary>
 public sealed class GetProductRecommendationsQueryHandler(
     CatEcommerceDbContext db, IDietAuthorisationGate dietGate, IBusinessSettings businessSettings, IContentLocaleSettings localeSettings,
-    TimeProvider timeProvider, IOptions<ShopOptions> shopOptions)
+    TimeProvider timeProvider, IOptions<ShopOptions> shopOptions, IStoredFileSigningBatcher fileSigner)
     : IQueryHandlerAsync<GetProductRecommendationsQuery, RecommendationsViewModel?>
 {
     private const int MaxLifeStageItems = 8;
@@ -73,10 +74,10 @@ public sealed class GetProductRecommendationsQueryHandler(
 
         // US-SHP-14: names in the requested language, per-field fallback to the default.
         var result = new RecommendationsViewModel(
-            await CatalogueItemLocaliser.ApplyAsync(db, localeSettings, CuratedBlock(RelatedProductKind.FrequentlyBoughtTogether), query.Locale),
-            await CatalogueItemLocaliser.ApplyAsync(db, localeSettings, CuratedBlock(RelatedProductKind.UpSell), query.Locale),
+            await ProductImageUrls.WithPrimaryImageUrlsAsync(db, fileSigner, await CatalogueItemLocaliser.ApplyAsync(db, localeSettings, CuratedBlock(RelatedProductKind.FrequentlyBoughtTogether), query.Locale)),
+            await ProductImageUrls.WithPrimaryImageUrlsAsync(db, fileSigner, await CatalogueItemLocaliser.ApplyAsync(db, localeSettings, CuratedBlock(RelatedProductKind.UpSell), query.Locale)),
             new LifeStageRecommendations(lifeStages.Basis, lifeStages.Stages.Select(s => s.DisplayName).ToList(),
-                await CatalogueItemLocaliser.ApplyAsync(db, localeSettings, lifeStageItems, query.Locale)));
+                await ProductImageUrls.WithPrimaryImageUrlsAsync(db, fileSigner, await CatalogueItemLocaliser.ApplyAsync(db, localeSettings, lifeStageItems, query.Locale))));
 
         return new QueryResponse<RecommendationsViewModel?> { Result = result };
     }

@@ -78,6 +78,23 @@ public sealed class LocalFileStoreTests : IDisposable
         await Assert.ThrowsAsync<InvalidOperationException>(() => sut.OpenReadAsync(maliciousKey, CancellationToken.None));
     }
 
+    // ADR-370: the resized copies live beside the original and are deleted with it.
+    [Fact]
+    public async Task A_product_photo_copy_is_stored_beside_it_and_deleted_with_it()
+    {
+        var sut = CreateSut();
+        var put = await sut.PutAsync(new FilePutRequest(Guid.NewGuid(), FilePurpose.ProductImage, new MemoryStream("x"u8.ToArray()), "image/png", 1, "sha"), CancellationToken.None);
+        var card = CatEcommerce.Shared.Common.Constants.FileVariants.Card;
+
+        Assert.True((await sut.PutVariantAsync(put.Value!, card, new MemoryStream("webp"u8.ToArray()), CancellationToken.None)).IsSuccess);
+        Assert.True(await sut.ExistsAsync(card.KeyFor(put.Value!), CancellationToken.None));
+
+        await sut.DeleteAsync(put.Value!, CancellationToken.None);
+
+        Assert.False(await sut.ExistsAsync(put.Value!, CancellationToken.None));
+        Assert.False(await sut.ExistsAsync(card.KeyFor(put.Value!), CancellationToken.None));
+    }
+
     public void Dispose()
     {
         if (Directory.Exists(_root)) Directory.Delete(_root, recursive: true);

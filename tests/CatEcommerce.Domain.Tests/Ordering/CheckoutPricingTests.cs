@@ -42,6 +42,23 @@ public sealed class CheckoutPricingTests
     private static DiscountRuleSet Percent10Order() =>
         new(Guid.NewGuid(), "SAVE10", DiscountKind.Percentage, 1000, null, null, DiscountScope.Order, new HashSet<Guid>(), new HashSet<int>(), false, null, 0, null, null, null, true, "BDT");
 
+    // ── Hearth checkout (owner, 2026-10-16): each level says its free-delivery threshold and how far the order is from it ──
+    [Fact]
+    public void EachServiceLevel_CarriesItsFreeDeliveryThreshold_AndTheGoodsValueStillNeeded()
+    {
+        var below = CheckoutPricing.Quote(Inputs([Line(Sku("Food", 1900m), 1)], zone: Zone(freeOver: 2000m)));
+        var standard = below.Delivery.ServiceLevels.Single(l => l.Level == DeliveryServiceLevel.Standard);
+        Assert.Equal(200_000L, standard.FreeOver!.Value.Value);
+        Assert.Equal(10_000L, standard.AmountToFreeDelivery!.Value.Value);       // ৳100 more
+
+        var express = below.Delivery.ServiceLevels.Single(l => l.Level == DeliveryServiceLevel.Express);
+        Assert.Null(express.FreeOver);                                            // no threshold, nothing to show
+        Assert.Null(express.AmountToFreeDelivery);
+
+        var reached = CheckoutPricing.Quote(Inputs([Line(Sku("Food", 2500m), 1)], zone: Zone(freeOver: 2000m)));
+        Assert.Equal(0L, reached.Delivery.ServiceLevels.Single(l => l.Level == DeliveryServiceLevel.Standard).AmountToFreeDelivery!.Value.Value);
+    }
+
     // ── FU1 D3 (owner decision 2026-10-10): the delivery charge carries the configured delivery tax, default 0 % ──
     [Fact]
     public void TheDeliveryTax_DefaultsToZeroPercent_SoTheTotalsAreUnchanged()

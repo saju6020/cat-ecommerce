@@ -32,10 +32,13 @@ describe('lib/format/shop — HO-SHP-002 §8.5, ADR-FE-036', () => {
     expect(formatBestBefore('2026-01-01')).toBe('1 Jan 2026');
   });
 
-  it('finds flags only for the launch origins', () => {
+  it('finds flags only for the countries that have one drawn', () => {
     expect(countryFlag('TH')).toBe('/flags/th.svg');
     expect(countryFlag('de')).toBe('/flags/de.svg');
-    expect(countryFlag('JP')).toBeNull();
+    // 2026-10-16: every origin the AmarPet import brought has a flag (Turkey, China, India, ...).
+    for (const code of ['TR', 'CN', 'IN', 'BD', 'FR', 'AT', 'BE', 'MY', 'JP'])
+      expect(countryFlag(code)).toBe(`/flags/${code.toLowerCase()}.svg`);
+    expect(countryFlag('BR')).toBeNull();
   });
 
   it('compares decimals only for the price filter', () => {

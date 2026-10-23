@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { categoryLabel } from '@/lib/shop/labels';
+import { categoryLabel, subcategoryLabel } from '@/lib/shop/labels';
 import { parseCatalogueParams } from '@/lib/shop/catalogueParams';
 import { CatalogueView } from '../../_components/CatalogueView';
 
@@ -31,14 +31,21 @@ export async function generateMetadata({
  */
 export default async function CataloguePage({ searchParams }: { searchParams: SearchParams }) {
   const params = parseCatalogueParams(await searchParams);
+  // The title follows what is shown (2026-10-16): "Cat food · Wet", or a single chosen brand.
   const heading = params.q
     ? `Results for “${params.q}”`
     : params.category
-      ? categoryLabel(params.category)
-      : 'All products';
+      ? params.subcategory
+        ? `${categoryLabel(params.category)} · ${subcategoryLabel(params.subcategory)}`
+        : categoryLabel(params.category)
+      : params.brand.length === 1
+        ? params.brand[0]!
+        : 'All products';
   return (
-    <div className="flex flex-col gap-4">
-      <h1 className="font-display text-2xl font-semibold text-ink">{heading}</h1>
+    <div className="flex flex-col gap-6">
+      <h1 className="m-0 font-display text-[clamp(1.75rem,3.5vw,2.5rem)] font-bold leading-tight tracking-[-0.025em] text-ink">
+        {heading}
+      </h1>
       <CatalogueView params={params} basePath="/shop/products" />
     </div>
   );

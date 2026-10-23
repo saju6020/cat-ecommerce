@@ -50,11 +50,28 @@ public sealed class LocalFileStore(IOptions<FileStorageOptions> options, ILogger
 
     public Task<FileStoreResult<Unit>> DeleteAsync(string storageKey, CancellationToken ct)
     {
-        var path = ResolvePath(storageKey);
-        // A missing object is success -- idempotent, §8.4.
-        if (File.Exists(path)) File.Delete(path);
+        // A missing object is success -- idempotent, §8.4. ADR-370: the resized copies go with it.
+        foreach (var key in FileVariants.ForStorageKey(storageKey).Select(v => v.KeyFor(storageKey)).Prepend(storageKey))
+        {
+            var path = ResolvePath(key);
+            if (File.Exists(path)) File.Delete(path);
+        }
         return Task.FromResult(FileStoreResult<Unit>.Success(Unit.Value));
     }
+
+    public async Task<FileStoreResult<Unit>> PutVariantAsync(string storageKey, FileVariant variant, Stream content, CancellationToken ct)
+    {
+        var path = ResolvePath(variant.KeyFor(storageKey));
+        Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+        if (content.CanSeek) content.Position = 0;
+
+        await using var target = new FileStream(
+            path, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize: 81920, useAsync: true);
+        await content.CopyToAsync(target, ct);
+        return FileStoreResult<Unit>.Success(Unit.Value);
+    }
+
+    public Task<bool> ExistsAsync(string storageKey, CancellationToken ct) => Task.FromResult(File.Exists(ResolvePath(storageKey)));
 
     /// <summary>Confines every path to <see cref="FileStorageOptions.LocalStoreRoot"/> -- a
     /// storage key is always server-generated (<see cref="StorageKeyFactory"/>), but this is a

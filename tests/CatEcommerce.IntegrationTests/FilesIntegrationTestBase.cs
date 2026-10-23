@@ -135,14 +135,7 @@ public abstract class FilesIntegrationTestBase(FilesApiFactory factory)
     }
 
     // ── Well-known minimal-but-valid file bytes for each magic-byte check ──────────────────────
-    protected static byte[] MinimalPng() =>
-    [
-        0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A, // PNG signature
-        0x00, 0x00, 0x00, 0x0D, 0x49, 0x48, 0x44, 0x52, // IHDR chunk header (fake, enough for the magic-byte check)
-        0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01,
-        0x08, 0x02, 0x00, 0x00, 0x00, 0x90, 0x77, 0x53,
-        0xDE
-    ];
+    protected static byte[] MinimalPng() => TestImages.Png();
 
     protected static byte[] MinimalPdf() => "%PDF-1.4\n%%EOF"u8.ToArray();
 

@@ -66,6 +66,7 @@ public sealed class StaffAccountsController(IInMemoryDispatcher dispatcher, IUse
             MobileNumber = request.MobileNumber,
             EmailAddress = request.EmailAddress,
             RoleIds = request.RoleIds,
+            InitialPassword = request.Password,
             UserContext = userContextProvider.GetUserContext(),
             CorrelationId = Guid.NewGuid(),
             ValidateCommand = true
@@ -74,6 +75,50 @@ public sealed class StaffAccountsController(IInMemoryDispatcher dispatcher, IUse
         var response = await dispatcher.SendAsync(command);
 
         return response.IsSuccess ? StatusCode(201, new { staffAccountId }) : BadRequest(response.ValidationResult);
+    }
+
+    /// <summary>Owner, 2026-10-20: an administrator edits a staff member's name, mobile number and email address.</summary>
+    [HttpPut("{staffAccountId:guid}")]
+    [RequireAction(Actions.StaffAccounts.UpdateDetails)]
+    public async Task<IActionResult> UpdateDetails(Guid staffAccountId, [FromBody] UpdateStaffAccountDetailsRequest request)
+    {
+        var command = new UpdateStaffAccountDetailsCommand
+        {
+            StaffAccountId = staffAccountId,
+            FullName = request.FullName,
+            MobileNumber = request.MobileNumber,
+            EmailAddress = request.EmailAddress,
+            UserContext = userContextProvider.GetUserContext(),
+            CorrelationId = Guid.NewGuid(),
+            ValidateCommand = true
+        };
+
+        var response = await dispatcher.SendAsync(command);
+
+        if (response.IsSuccess) return NoContent();
+        var notFound = response.ValidationResult?.Errors?.Any(e => e.ErrorCode == BusinessViolationCodes.StaffAccountNotFound) == true;
+        return notFound ? NotFound() : BadRequest(response.ValidationResult);
+    }
+
+    /// <summary>Owner, 2026-10-19: an administrator sets a staff member's password and shares it with them.</summary>
+    [HttpPut("{staffAccountId:guid}/password")]
+    [RequireAction(Actions.StaffAccounts.SetPassword)]
+    public async Task<IActionResult> SetPassword(Guid staffAccountId, [FromBody] SetStaffPasswordRequest request)
+    {
+        var command = new SetStaffPasswordCommand
+        {
+            StaffAccountId = staffAccountId,
+            NewPassword = request.Password,
+            UserContext = userContextProvider.GetUserContext(),
+            CorrelationId = Guid.NewGuid(),
+            ValidateCommand = true
+        };
+
+        var response = await dispatcher.SendAsync(command);
+
+        if (response.IsSuccess) return NoContent();
+        var notFound = response.ValidationResult?.Errors?.Any(e => e.ErrorCode == BusinessViolationCodes.StaffAccountNotFound) == true;
+        return notFound ? NotFound() : BadRequest(response.ValidationResult);
     }
 
     [HttpPut("{staffAccountId:guid}/roles")]

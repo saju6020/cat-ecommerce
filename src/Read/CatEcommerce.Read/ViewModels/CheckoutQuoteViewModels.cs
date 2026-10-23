@@ -11,7 +11,9 @@ public sealed record CheckoutChangeViewModel(string Kind, Guid LineRef, string P
 
 public sealed record DeliverySlotViewModel(string Date, string WindowStart, string WindowEnd, string Label);
 
-public sealed record QuoteServiceLevelViewModel(string Level, MoneyViewModel Charge, int LeadTimeDays, IReadOnlyList<DeliverySlotViewModel> Slots);
+/// <summary>2026-10-16: <c>FreeOver</c> / <c>AmountToFreeDelivery</c> feed the Hearth free-delivery card; both null when the level has no threshold.</summary>
+public sealed record QuoteServiceLevelViewModel(
+    string Level, MoneyViewModel Charge, int LeadTimeDays, IReadOnlyList<DeliverySlotViewModel> Slots, MoneyViewModel? FreeOver, MoneyViewModel? AmountToFreeDelivery);
 
 /// <summary><c>Available</c> is false outside every zone (<c>UnavailableReason = AddressOutsideServedZones</c>); pickup is then offered through
 /// <c>PickupBranches</c>.</summary>

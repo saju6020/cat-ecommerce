@@ -4628,3 +4628,64 @@ The handover reserved ADR-217 ... ADR-236, which other areas had already taken o
 - **ADR-368 (old 235).** The waitlist notifies, never holds: the oldest waiting entry with a free unit, once; a unit is not announced twice. Quiet hours are the notification service's (a Normal message is deferred), not a worker check.
 - **ADR-369 (old 236).** Signatures are bounded vector data or a typed confirmation, never files.
 - **Owner-authorised addition (2026-10-14).** Early check-out "Show before": `GET /api/staff/boarding/stays/{id}/check-out-preview` runs `EarlyCheckout.Compute` and `BoardingChargePlanner.Plan` -- the same code as the check-out handler -- and changes nothing; pinned by I-G2b.
+
+---
+
+## ADR-370 — Product photos: resized WebP copies, served straight from the bucket
+
+**Date:** 2026-10-18 (owner request: product photos were slow; measured 15.1 MB of photos for one 24-card shop page)
+**Status:** Active. Amends ADR-318 ("Serving stays app-proxied") for the purposes listed below. ADR-318 itself named this
+as the later, per-purpose optimisation behind its own ADR, with product images first. Also narrows ADR-FE-155 (no
+thumbnails) for product images.
+
+**Decision:**
+1. **Copies.** Every product photo gets two resized WebP copies beside the original: `{storageKey}.w480.webp` for cards,
+   cart, checkout, orders and wishlist, and `{storageKey}.w1200.webp` for the product page.
+   - Quality 80, never enlarged, transparency kept.
+   - The EXIF orientation is applied, and no metadata is written (this closes HO-FIL-001 OQ-4 for the copies).
+   - The original is never changed; the stored-file aggregate stays immutable.
+   - The copies are made in the upload pipeline after the malware scan and **before** anything is stored. An image that
+     cannot be decoded is refused as `FileRejected` ("The image could not be processed"), so a stored product photo
+     always has its copies.
+   - `IFileStore.DeleteAsync` deletes the copies with the original, so retention, erasure and failed-upload compensation
+     need no change.
+   - Older photos are covered by `ImageVariantBackfillWorker`, which runs once at startup when
+     `FileStorage:BackfillVariants=true`. It is resumable and skips copies that exist.
+2. **Direct serving.** For the purposes in `FileStorage:DirectServePurposes` (default `["ProductImage"]`),
+   `StoredFileSigningBatcher` returns a Cloud Storage **V4 signed URL** to the object instead of the app-served HMAC URL.
+   - The URL forces `response-content-type` (the verified type) and `response-content-disposition`.
+   - Every other purpose (clinical, consent, boarding, reports, cat photos) stays app-proxied exactly as in ADR-318.
+   - **Access is unchanged.** Which files a caller may see is still decided by the endpoint that asks for the URL; the
+     batcher already did no access check of its own. Product images are public catalogue content (ADR-318: `Public`
+     purpose, no personal data).
+3. **Cacheable URLs.** Time is cut into windows of `FileStorage:DirectUrlWindowMinutes` (default 30).
+   - Within one window every request gets the same URL, cached in memory until the window ends.
+   - That URL is valid until the end of the next window, so it is always valid for at least one full window.
+   - The copies are stored with `Cache-Control: private, max-age=3600`, so a browser reuses a photo it already has
+     instead of downloading it again. Originals keep `private, no-store`.
+4. **Signing credentials.** Signing uses Application Default Credentials, so there is still no key file.
+   - On the VM these are its own service account, signing through the IAM `signBlob` API. This needs the IAM Service
+     Account Credentials API, and `roles/iam.serviceAccountTokenCreator` granted to the VM account on itself.
+   - The window cache keeps this to one IAM call per object per window.
+   - `Development`/`Testing` (local store) keep app-served URLs (`NoDirectFileUrlSigner`).
+
+**Reason:**
+- Measured on the live site (24 cards): 15.1 MB of photos, 3.7 s through the API, and nothing ever cached.
+- With the copies served directly: 0.38 MB on the first visit, and the second visit came entirely from the browser cache.
+- The API no longer streams every photo, which takes load off the one small VM.
+
+**Trade-off:**
+- A direct URL is a bearer link for up to two windows (at most 1 hour by default), against 5 minutes app-served. It is
+  acceptable for public catalogue photos and is why the default list is only `ProductImage`.
+- Bytes served from the bucket skip the app's `nosniff`, sandbox CSP and `Referrer-Policy` headers.
+  - They come from `storage.googleapis.com`, a different origin from the site.
+  - Their type is fixed by the signed `response-content-type`.
+  - The copies are WebP that we wrote ourselves.
+- Adding a purpose to the list later needs its own review against these points.
+
+**Revisions (2026-10-18, review gate round):**
+- **Ports.** ADR-318 said the port would not change; it now gains `IFileStore.PutVariantAsync` and `IFileStore.ExistsAsync`, plus the new ports `IDirectFileUrlSigner` and `IImageVariantGenerator`.
+- **Missing copy.** A copy is pointed at only once the store has it. The check is made once and remembered: 12 hours when present, 10 minutes when absent. A photo without copies (uploaded before ADR-370 and not yet backfilled, or not decodable by the backfill) is served from its original, so deploying before the backfill breaks nothing.
+- **Signing limits.** Direct signing runs at most 8 at a time. A failed signature (for example, the IAM permission missing on the VM) falls back to the app-served URL for that file instead of failing the response.
+- **Configuration.** `FileStorage:DirectServePurposes` is a comma-separated string; `none` turns direct serving off (an array default could not be removed through configuration). The window is clamped to 5–30 minutes, so a URL never outlives the copies' one-hour `max-age`.
+- **Image safety.** Images above 50 megapixels after scaled decode, and truncated images, are refused before any pixels are allocated or stored.

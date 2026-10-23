@@ -3,6 +3,7 @@ import { CustomerSessionGuard } from '@/components/portal/CustomerSessionGuard';
 import { PolicyAcceptancePrompt } from '@/components/content/PolicyAcceptancePrompt';
 import { InboxBadge } from '@/components/inbox/InboxBadge';
 import { CartBadge } from '@/components/cart/CartBadge';
+import { AccountFrame } from '@/components/portal/AccountSidebar';
 
 // Owner-facing shell for every /portal/** route (HO-CAT-002 §8.3). `data-theme="customer"`
 // applies the warm customer design-token layer (app/globals.css) — this is the ONLY *layout* it is
@@ -20,19 +21,21 @@ export default function PortalLayout({ children }: { children: React.ReactNode }
       <PortalHeader
         sessionActions={
           <>
-            <CartBadge />
-            <InboxBadge />
+            {/* Round buttons with orange counts (the approved design); on a phone Messages is in the name menu. */}
+            <CartBadge appearance="icon" />
+            <InboxBadge appearance="icon" className="max-sm:hidden" />
           </>
         }
       />
-      <main id="main-content" className="mx-auto max-w-5xl px-8 py-8">
+      {/* Option A "Account sidebar" (owner, 2026-10-17): the account pages beside every /portal page. */}
+      <AccountFrame>
         <CustomerSessionGuard>
           {/* HO-ADM-002 §11.6/§13 — the one scoped edit to this file: gates the whole portal
               behind any pending policy acceptance (US-ADM-07, OQ-3 — no dismiss). */}
           <PolicyAcceptancePrompt />
           {children}
         </CustomerSessionGuard>
-      </main>
+      </AccountFrame>
     </div>
   );
 }

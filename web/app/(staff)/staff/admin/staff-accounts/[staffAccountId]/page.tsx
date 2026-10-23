@@ -2,8 +2,13 @@
 
 import { use } from 'react';
 import { useStaffAccount, useStaffRoleCatalogue } from '@/lib/hooks/useStaffAdmin';
-import { useChangeStaffRoles } from '@/lib/hooks/useStaffAdminMutations';
+import {
+  useChangeStaffRoles,
+  useSetStaffPassword,
+  useUpdateStaffAccountDetails,
+} from '@/lib/hooks/useStaffAdminMutations';
 import { StaffAccountDetail } from '@/components/admin/StaffAccountDetail';
+import { SetStaffPasswordPanel } from '@/components/admin/SetStaffPasswordPanel';
 import { StaffBranchAssignmentPanel } from '@/components/branches/StaffBranchAssignmentPanel';
 import { PermissionDeniedState } from '@/components/admin/PermissionDeniedState';
 import { LoadingState } from '@/components/common/LoadingState';
@@ -29,6 +34,8 @@ export default function StaffAccountDetailPage({
   const { data: account, isLoading, isError, error, refetch } = useStaffAccount(staffAccountId);
   const catalogue = useStaffRoleCatalogue();
   const changeRolesMutation = useChangeStaffRoles(staffAccountId);
+  const setPasswordMutation = useSetStaffPassword(staffAccountId);
+  const updateDetailsMutation = useUpdateStaffAccountDetails(staffAccountId);
   const branches = useAdminBranches();
   const assignment = useStaffBranchAssignment(staffAccountId);
   const assignMutation = useAssignStaffBranches(staffAccountId);
@@ -65,6 +72,15 @@ export default function StaffAccountDetailPage({
         catalogue={catalogue}
         onChangeRoles={(roleIds) => changeRolesMutation.mutateAsync(roleIds)}
         isPending={changeRolesMutation.isPending}
+        onUpdateDetails={(request) => updateDetailsMutation.mutateAsync(request)}
+        isUpdatingDetails={updateDetailsMutation.isPending}
+      />
+      {/* Owner, 2026-10-19: the administrator sets the password and shares it (no email reset in production). */}
+      <SetStaffPasswordPanel
+        staffName={account.fullName}
+        hasPassword={account.hasPassword}
+        onSetPassword={(password) => setPasswordMutation.mutateAsync(password)}
+        isPending={setPasswordMutation.isPending}
       />
       {/* HO-ADM-002 §11.2/§13 — the one scoped edit to this HO-ACC-002 page: adds the branch
           assignment panel below the existing roles editor. */}
