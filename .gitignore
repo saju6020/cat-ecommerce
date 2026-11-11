@@ -45,3 +45,6 @@ web/seed*.json
 
 # Local Google Cloud service-account key (owner, 2026-10-18) - never commit
 gcp-key/
+
+# deploy/vm build output (publish-api.sh) - built per release, never committed
+deploy/vm/out/

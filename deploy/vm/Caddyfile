@@ -1,0 +1,25 @@
+# deploy/vm (owner, 2026-10-18) -- one address for the whole site. Caddy gets and renews the HTTPS certificate itself.
+# The API's routes all start with /api (and /health); the website has no /api routes of its own, so the two never clash.
+# Same origin for both means no cross-site cookies and no CORS in the browser.
+#
+# HTTP/1.1 and HTTP/2 only (owner, 2026-10-18). With HTTP/3 (QUIC over UDP through Docker's port mapping) some browser
+# requests stalled for 7-17 s, which froze page changes until the site's 15 s navigation timeout; with HTTP/3 off,
+# every navigation in the same test took 0.3-0.5 s.
+{
+	servers {
+		protocols h1 h2
+	}
+}
+
+{$SITE_HOST} {
+	encode zstd gzip
+
+	@api path /api/* /health
+	handle @api {
+		reverse_proxy api:5000
+	}
+
+	handle {
+		reverse_proxy web:3000
+	}
+}

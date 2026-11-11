@@ -1,0 +1,100 @@
+# deploy/vm (owner, 2026-10-18) -- PurrCare on one VM: PostgreSQL, ClamAV, the API, the website and Caddy (HTTPS).
+# The source sits at /opt/purrcare/src; every ${VAR} comes from /opt/purrcare/.env (mode 600, never in git). Always run it
+# through deploy/vm/scripts/compose.sh, which passes both.
+# Uploaded files live in a private Cloud Storage bucket; the API reaches it as the VM's own service account (no key file).
+name: purrcare
+
+networks:
+  purrcare:
+    ipam:
+      config:
+        - subnet: 172.30.0.0/24
+
+volumes:
+  pgdata:
+  clamav-data:
+  caddy-data:
+  caddy-config:
+
+services:
+  postgres:
+    image: postgres:17-bookworm
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: catecommerce
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_SUPERUSER_PASSWORD:?set in .env}
+      TZ: Asia/Dhaka
+    command: ["postgres", "-c", "shared_buffers=256MB", "-c", "max_connections=60", "-c", "timezone=UTC"]
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ../database/roles.sql:/opt/purrcare/roles.sql:ro
+    networks: [purrcare]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d catecommerce"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+  clamav:
+    image: clamav/clamav:1.4
+    restart: unless-stopped
+    volumes:
+      - clamav-data:/var/lib/clamav
+    networks: [purrcare]
+    healthcheck:
+      test: ["CMD", "clamdcheck.sh"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+      start_period: 300s
+
+  api:
+    image: purrcare-api:latest
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      ConnectionStrings__CatEcommerce: "Host=postgres;Port=5432;Database=catecommerce;Username=catecommerce_app;Password=${APP_DB_PASSWORD:?set in .env}"
+      FileStorage__GcsBucketName: ${GCS_BUCKET:?set in .env}
+      FileStorage__UrlSigningKey: ${FILE_URL_SIGNING_KEY:?set in .env}
+      FileStorage__ClamAvHost: clamav
+      # ADR-370: product photos are served straight from the bucket; at every start the API makes any resized copies a
+      # photo is missing (cheap when all exist; photos without copies are served from their original meanwhile).
+      FileStorage__DirectServePurposes: ${DIRECT_SERVE_PURPOSES:-ProductImage}
+      FileStorage__BackfillVariants: "true"
+      PublicSite__WebBaseUrl: https://${SITE_HOST}
+      Account__WebBaseUrl: https://${SITE_HOST}
+      Notifications__ApiBaseUrl: https://${SITE_HOST}
+      Cors__AllowedOrigins__0: https://${SITE_HOST}
+      # Caddy is the only proxy in front of the API; its fixed address makes X-Forwarded-For trusted from it alone.
+      RequestOrigin__TrustedProxies__0: 172.30.0.10
+    networks: [purrcare]
+
+  web:
+    image: purrcare-web:latest
+    restart: unless-stopped
+    depends_on: [api]
+    environment:
+      # Server Components call the API inside the VM network; the browser uses https://${SITE_HOST}.
+      API_ORIGIN: http://api:5000
+    networks: [purrcare]
+
+  caddy:
+    image: caddy:2.8
+    restart: unless-stopped
+    depends_on: [api, web]
+    ports:
+      - "80:80"
+      - "443:443"
+      # No 443/udp: HTTP/3 is switched off (see Caddyfile).
+    environment:
+      SITE_HOST: ${SITE_HOST:?set in .env}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    networks:
+      purrcare:
+        ipv4_address: 172.30.0.10

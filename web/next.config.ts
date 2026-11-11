@@ -2,6 +2,8 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  // deploy/vm (owner, 2026-10-18): a self-contained server bundle for the web container.
+  output: 'standalone',
   // HO-XCT-002 §12.2 — the offline service worker must always be revalidated so a new build's
   // worker replaces the old one. No `Service-Worker-Allowed` header: its scope stays `/staff/`
   // (ADR-FE-139). `/_next/static/*` keeps Next's own immutable caching.

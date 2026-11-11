@@ -1,0 +1,15 @@
+.git
+src
+tests
+docs
+instructions
+gcp-key
+deploy
+**/bin
+**/obj
+web/node_modules
+web/.next
+web/test-results
+web/playwright-report
+web/.env*
+!web/.env.local.example
